@@ -16,12 +16,8 @@
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.gef"/>
@@ -31,27 +27,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Network Editor"
-            extensions="net"
-            icon="icons/sample.gif"
-            contributorClass="seg.network.editors.NetworkEditorContributor"
             class="seg.network.editors.NetworkEditor"
-            id="seg.network.editors.NetworkEditor">
-      </editor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            name="Network Wizards"
-            id="seg.network">
-      </category>
-      <wizard
-            name="Network Editor file"
             icon="icons/sample.gif"
-            category="seg.network"
-            class="seg.network.wizards.NetworkNewWizard"
-            id="seg.network.wizards.NetworkNewWizard">
-      </wizard>
+            default="true"
+            name="Network Editor"
+            id="seg.network.editors.NetworkEditor"
+            extensions="net">
+      </editor>
    </extension>
 
 </plugin>

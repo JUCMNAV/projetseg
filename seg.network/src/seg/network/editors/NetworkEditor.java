@@ -1,36 +1,28 @@
 package seg.network.editors;
 
 
-import java.io.StringWriter;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
-
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FontDialog;
-import org.eclipse.ui.*;
-import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.ide.IDE;
+import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.ui.palette.PaletteViewer;
+import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
+import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.jface.util.TransferDropTargetListener;
+import org.eclipse.ui.IEditorInput;
+
+import seg.network.NetworkPaletteRoot;
+import seg.network.editparts.GraphicalEditPartFactory;
+import seg.network.model.network.Link;
+import seg.network.model.network.Network;
+import seg.network.model.network.NetworkFactory;
+import seg.network.model.network.Node;
 
 /**
  * An example showing how to create a multi-page editor.
@@ -41,199 +33,170 @@ import org.eclipse.ui.ide.IDE;
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
-public class NetworkEditor extends MultiPageEditorPart implements IResourceChangeListener{
+public class NetworkEditor extends GraphicalEditorWithFlyoutPalette {
+	
+	private PaletteRoot paletteRoot;
 
-	/** The text editor used in page 0. */
-	private TextEditor editor;
-
-	/** The font chosen in page 1. */
-	private Font font;
-
-	/** The text widget used in page 2. */
-	private StyledText text;
 	/**
-	 * Creates a multi-page editor example.
+	 * This is the root of the editor's model.
+	 * 
 	 */
+	private Network network;
+
+	/** Create a new ShapesEditor instance. This is called by the Workspace. */
 	public NetworkEditor() {
-		super();
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-	}
-	/**
-	 * Creates page 0 of the multi-page editor,
-	 * which contains a text editor.
-	 */
-	void createPage0() {
-		try {
-			editor = new TextEditor();
-			int index = addPage(editor, getEditorInput());
-			setPageText(index, editor.getTitle());
-		} catch (PartInitException e) {
-			ErrorDialog.openError(
-				getSite().getShell(),
-				"Error creating nested text editor",
-				null,
-				e.getStatus());
-		}
-	}
-	/**
-	 * Creates page 1 of the multi-page editor,
-	 * which allows you to change the font used in page 2.
-	 */
-	void createPage1() {
+		NetworkFactory factory = NetworkFactory.eINSTANCE;
 
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		GridLayout layout = new GridLayout();
-		composite.setLayout(layout);
-		layout.numColumns = 2;
+		network = factory.createNetwork();
+		setEditDomain(new DefaultEditDomain(this));
+	}
 
-		Button fontButton = new Button(composite, SWT.NONE);
-		GridData gd = new GridData(GridData.BEGINNING);
-		gd.horizontalSpan = 2;
-		fontButton.setLayoutData(gd);
-		fontButton.setText("Change Font...");
+	/**
+	 * Configure the graphical viewer before it receives contents.
+	 * <p>This is the place to choose an appropriate RootEditPart and EditPartFactory
+	 * for your editor. The RootEditPart determines the behavior of the editor's "work-area".
+	 * For example, GEF includes zoomable and scrollable root edit parts. The EditPartFactory
+	 * maps model elements to edit parts (controllers).</p>
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
+	 */
+	protected void configureGraphicalViewer() {
+		super.configureGraphicalViewer();
 		
-		fontButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				setFont();
-			}
-		});
+		GraphicalViewer viewer = getGraphicalViewer();
+		viewer.setRootEditPart(new ScalableRootEditPart());
+		viewer.setEditPartFactory(new GraphicalEditPartFactory());
+	}
 
-		int index = addPage(composite);
-		setPageText(index, "Properties");
-	}
-	/**
-	 * Creates page 2 of the multi-page editor,
-	 * which shows the sorted text.
-	 */
-	void createPage2() {
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		FillLayout layout = new FillLayout();
-		composite.setLayout(layout);
-		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
-		text.setEditable(false);
-
-		int index = addPage(composite);
-		setPageText(index, "Preview");
-	}
-	/**
-	 * Creates the pages of the multi-page editor.
-	 */
-	protected void createPages() {
-		createPage0();
-		createPage1();
-		createPage2();
-	}
-	/**
-	 * The <code>MultiPageEditorPart</code> implementation of this 
-	 * <code>IWorkbenchPart</code> method disposes all nested editors.
-	 * Subclasses may extend.
-	 */
-	public void dispose() {
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-		super.dispose();
-	}
-	/**
-	 * Saves the multi-page editor's document.
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		getEditor(0).doSave(monitor);
+		
 	}
-	/**
-	 * Saves the multi-page editor's document as another file.
-	 * Also updates the text for page 0's tab, and updates this multi-page editor's input
-	 * to correspond to the nested editor's.
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.ISaveablePart#doSaveAs()
 	 */
 	public void doSaveAs() {
-		IEditorPart editor = getEditor(0);
-		editor.doSaveAs();
-		setPageText(0, editor.getTitle());
-		setInput(editor.getEditorInput());
+		
 	}
+
 	/* (non-Javadoc)
-	 * Method declared on IEditorPart
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
-	public void gotoMarker(IMarker marker) {
-		setActivePage(0);
-		IDE.gotoMarker(getEditor(0), marker);
+	public Object getAdapter(Class type) {
+		return super.getAdapter(type);
 	}
+
+	private Network getModel() {
+		return network;
+	}
+
 	/**
-	 * The <code>MultiPageEditorExample</code> implementation of this method
-	 * checks that the input is an instance of <code>IFileEditorInput</code>.
+	 * Set up the editor's inital content (after creation).
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
-	public void init(IEditorSite site, IEditorInput editorInput)
-		throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput))
-			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
-		super.init(site, editorInput);
+	protected void initializeGraphicalViewer() {
+		GraphicalViewer graphicalViewer = getGraphicalViewer();
+		graphicalViewer.setContents(getModel()); // set the contents of this editor
+//		 listen for dropped parts
+		graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
 	}
+
 	/* (non-Javadoc)
-	 * Method declared on IEditorPart.
+	 * @see org.eclipse.ui.ISaveablePart#isDirty()
+	 */
+	public boolean isDirty() {
+		return getCommandStack().isDirty();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
 	 */
 	public boolean isSaveAsAllowed() {
-		return true;
+		return false;
 	}
+	
 	/**
-	 * Calculates the contents of page 2 when the it is activated.
-	 */
-	protected void pageChange(int newPageIndex) {
-		super.pageChange(newPageIndex);
-		if (newPageIndex == 2) {
-			sortWords();
-		}
-	}
-	/**
-	 * Closes all project files on project close.
-	 */
-	public void resourceChanged(final IResourceChangeEvent event){
-		if(event.getType() == IResourceChangeEvent.PRE_CLOSE){
-			Display.getDefault().asyncExec(new Runnable(){
-				public void run(){
-					IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
-					for (int i = 0; i<pages.length; i++){
-						if(((FileEditorInput)editor.getEditorInput()).getFile().getProject().equals(event.getResource())){
-							IEditorPart editorPart = pages[i].findEditor(editor.getEditorInput());
-							pages[i].closeEditor(editorPart,true);
-						}
-					}
-				}            
-			});
-		}
-	}
-	/**
-	 * Sets the font related data to be applied to the text in page 2.
-	 */
-	void setFont() {
-		FontDialog fontDialog = new FontDialog(getSite().getShell());
-		fontDialog.setFontList(text.getFont().getFontData());
-		FontData fontData = fontDialog.open();
-		if (fontData != null) {
-			if (font != null)
-				font.dispose();
-			font = new Font(text.getDisplay(), fontData);
-			text.setFont(font);
-		}
-	}
-	/**
-	 * Sorts the words in page 0, and shows them in page 2.
-	 */
-	void sortWords() {
+     * Returns the default <code>PaletteRoot</code> for this editor and all
+     * its pages.
+     * @return the default <code>PaletteRoot</code>
+     */
+    protected PaletteRoot getPaletteRoot()
+    {
+        if (null == paletteRoot)
+        {
+            // create root
+            paletteRoot = new NetworkPaletteRoot();
+        }
+        return paletteRoot;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+     */
+    protected PaletteViewerProvider createPaletteViewerProvider() {
+    	return new PaletteViewerProvider(getEditDomain()) {
+    		protected void configurePaletteViewer(PaletteViewer viewer) {
+    			super.configurePaletteViewer(viewer);
+    			// create a drag source listener for this palette viewer
+    			// together with an appropriate transfer drop target listener, this will enable
+    			// model element creation by dragging a CombinatedTemplateCreationEntries 
+    			// from the palette into the editor
+    			// @see ShapesEditor#createTransferDropTargetListener()
+    			viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+    		}
+    	};
+    }
+    
+    /**
+     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry
+     * tool in the palette, this will enable model element creation by dragging from the palette.
+     * @see #createPaletteViewerProvider()
+     */
+    private TransferDropTargetListener createTransferDropTargetListener() {
+    	return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
+    		protected CreationFactory getFactory(Object template) {
+    			return new SimpleFactory((Class) template);
+    		}
+    	};
+    }
 
-		String editorText =
-			editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
 
-		StringTokenizer tokenizer =
-			new StringTokenizer(editorText, " \t\n\r\f!@#\u0024%^&*()-_=+`~[]{};:'\",.<>/?|\\");
-		ArrayList editorWords = new ArrayList();
-		while (tokenizer.hasMoreTokens()) {
-			editorWords.add(tokenizer.nextToken());
-		}
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
+	 */
+	protected void setInput(IEditorInput input) {
+		super.setInput(input);
+		
+		NetworkFactory factory = NetworkFactory.eINSTANCE;
+		
+		network = factory.createNetwork();
+		
+		Node node1 = factory.createNode();
+		Node node2 = factory.createNode();
+		
+		Link link = factory.createLink();
+		
+		node1.setId("1");
+		node2.setId("2");
+		node2.setX(100);
 
-		Collections.sort(editorWords, Collator.getInstance());
-		StringWriter displayText = new StringWriter();
-		for (int i = 0; i < editorWords.size(); i++) {
-			displayText.write(((String) editorWords.get(i)));
-			displayText.write(System.getProperty("line.separator"));
-		}
-		text.setText(displayText.toString());
+		network.getNodes().add(node1);
+		network.getNodes().add(node2);
+		
+//		link.setNetwork(network);
+//		network.getLinks().add(link);
+//		node2.getUpstreamLinks().add(link);
+//		node1.getDownstreamLinks().add(link);
+		
+		setPartName("Network editor");
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
+	 */
+	protected FlyoutPreferences getPalettePreferences() {
+		return NetworkPaletteRoot.createPalettePreferences();
 	}
 }

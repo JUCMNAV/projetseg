@@ -6,13 +6,18 @@
  */
 package seg.network;
 
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
+import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.network.model.ModelCreationFactory;
 import seg.network.model.network.Link;
@@ -21,6 +26,16 @@ import seg.network.model.network.Node;
 
 public class NetworkPaletteRoot extends PaletteRoot
 {
+	
+	/** Default palette size. */
+	private static final int DEFAULT_PALETTE_SIZE = 125;
+
+	/** Preference ID used to persist the palette location. */
+	private static final String PALETTE_DOCK_LOCATION = "ShapesEditorPaletteFactory.Location";
+	/** Preference ID used to persist the palette size. */
+	private static final String PALETTE_SIZE = "ShapesEditorPaletteFactory.Size";
+	/** Preference ID used to persist the flyout palette's state. */
+	private static final String PALETTE_STATE = "ShapesEditorPaletteFactory.State";
 
     /**
      * Creates a new NetworkPaletteRoot instance.
@@ -47,15 +62,18 @@ public class NetworkPaletteRoot extends PaletteRoot
 
 
         CreationToolEntry entry;
+        
+        PaletteDrawer componentsDrawer = new PaletteDrawer("Network");
 
         entry =
-            new CreationToolEntry(
+            new CombinedTemplateCreationEntry(
                 "Node",
                 "Creates a node",
+                Node.class,
                 new ModelCreationFactory(Node.class),
-                null,
-                null);
-        add(entry);
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"));
+        componentsDrawer.add(entry);
  
         
 
@@ -64,8 +82,50 @@ public class NetworkPaletteRoot extends PaletteRoot
 				"Link",
 				"Creates a link",
 				new ModelCreationFactory(Link.class),
-				null,
-				null);
-		add(entry);
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"));
+		componentsDrawer.add(entry);
+		
+		add(componentsDrawer);
+    }
+    
+    /** 
+     * Returns the preference store for the ShapesPlugin.
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#getPreferenceStore() 
+     */
+    private static IPreferenceStore getPreferenceStore() {
+    	return NetworkPlugin.getDefault().getPreferenceStore();
+    }
+    
+    /**
+     * Return a FlyoutPreferences instance used to save/load the preferences of a flyout palette.
+     */
+    public static FlyoutPreferences createPalettePreferences() {
+    	// set default flyout palette preference values, in case the preference store
+    	// does not hold stored values for the given preferences
+        getPreferenceStore().setDefault(PALETTE_DOCK_LOCATION, -1);
+    	getPreferenceStore().setDefault(PALETTE_STATE, -1);
+    	getPreferenceStore().setDefault(PALETTE_SIZE, DEFAULT_PALETTE_SIZE);
+    	
+    	return new FlyoutPreferences() {
+    		public int getDockLocation() {
+    			return getPreferenceStore().getInt(PALETTE_DOCK_LOCATION);
+    		}
+    		public int getPaletteState() {
+    			return getPreferenceStore().getInt(PALETTE_STATE);
+    		}
+    		public int getPaletteWidth() {
+    			return getPreferenceStore().getInt(PALETTE_SIZE);
+    		}
+    		public void setDockLocation(int location) {
+    			getPreferenceStore().setValue(PALETTE_DOCK_LOCATION, location);
+    		}
+    		public void setPaletteState(int state) {
+    			getPreferenceStore().setValue(PALETTE_STATE, state);
+    		}
+    		public void setPaletteWidth(int width) {
+    			getPreferenceStore().setValue(PALETTE_SIZE, width);
+    		}
+    	};
     }
 }

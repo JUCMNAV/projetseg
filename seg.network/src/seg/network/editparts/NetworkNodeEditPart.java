@@ -186,6 +186,6 @@ public class NetworkNodeEditPart extends AbstractGraphicalEditPart implements Ad
 		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
 		// and will not draw it correctly.
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
-		super.refreshVisuals();
+		//super.refreshVisuals();
 	}
 }
