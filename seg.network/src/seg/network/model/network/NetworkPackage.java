@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * @see seg.network.model.network.NetworkFactory
  * @generated
  */
-public interface NetworkPackage extends EPackage {
+public interface NetworkPackage extends EPackage{
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -40,7 +40,7 @@ public interface NetworkPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.redbooks.ibm.com/sal330r/network";
+	String eNS_URI = "http:///network.ecore";
 
 	/**
 	 * The package namespace name.
@@ -48,7 +48,7 @@ public interface NetworkPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "Network";
+	String eNS_PREFIX = "network";
 
 	/**
 	 * The singleton instance of the package.
@@ -66,7 +66,45 @@ public interface NetworkPackage extends EPackage {
 	 * @see seg.network.model.network.impl.NetworkPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 0;
+	int NODE = 1;
+
+	/**
+	 * The meta object id for the '{@link seg.network.model.network.impl.NetworkImpl <em>Network</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.network.model.network.impl.NetworkImpl
+	 * @see seg.network.model.network.impl.NetworkPackageImpl#getNetwork()
+	 * @generated
+	 */
+	int NETWORK = 2;
+
+	/**
+	 * The meta object id for the '{@link seg.network.model.network.impl.LinkImpl <em>Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.network.model.network.impl.LinkImpl
+	 * @see seg.network.model.network.impl.NetworkPackageImpl#getLink()
+	 * @generated
+	 */
+	int LINK = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__SOURCE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__TARGET = 1;
 
 	/**
 	 * The feature id for the '<em><b>Network</b></em>' container reference.
@@ -75,7 +113,17 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NETWORK = 0;
+	int LINK__NETWORK = 2;
+
+	/**
+	 * The number of structural features of the the '<em>Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_FEATURE_COUNT = 3;
+
 
 	/**
 	 * The feature id for the '<em><b>Upstream Links</b></em>' reference list.
@@ -84,7 +132,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__UPSTREAM_LINKS = 1;
+	int NODE__UPSTREAM_LINKS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Downstream Links</b></em>' reference list.
@@ -93,7 +141,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__DOWNSTREAM_LINKS = 2;
+	int NODE__DOWNSTREAM_LINKS = 1;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -102,7 +150,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__X = 3;
+	int NODE__X = 2;
 
 	/**
 	 * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -111,7 +159,16 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__Y = 4;
+	int NODE__Y = 3;
+
+	/**
+	 * The feature id for the '<em><b>Network</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__NETWORK = 4;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -132,16 +189,6 @@ public interface NetworkPackage extends EPackage {
 	int NODE_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link seg.network.model.network.impl.NetworkImpl <em>Network</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see seg.network.model.network.impl.NetworkImpl
-	 * @see seg.network.model.network.impl.NetworkPackageImpl#getNetwork()
-	 * @generated
-	 */
-	int NETWORK = 1;
-
-	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,7 +207,7 @@ public interface NetworkPackage extends EPackage {
 	int NETWORK__LINKS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -178,35 +225,6 @@ public interface NetworkPackage extends EPackage {
 	int NETWORK_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link seg.network.model.network.impl.LinkImpl <em>Link</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see seg.network.model.network.impl.LinkImpl
-	 * @see seg.network.model.network.impl.NetworkPackageImpl#getLink()
-	 * @generated
-	 */
-	int LINK = 2;
-
-	/**
-	 * The feature id for the '<em><b>Network</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__NETWORK = 0;
-
-	/**
-	 * The number of structural features of the the '<em>Link</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK_FEATURE_COUNT = 1;
-
-
-	/**
 	 * Returns the meta object for class '{@link seg.network.model.network.Node <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -215,17 +233,6 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNode();
-
-	/**
-	 * Returns the meta object for the container reference '{@link seg.network.model.network.Node#getNetwork <em>Network</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Network</em>'.
-	 * @see seg.network.model.network.Node#getNetwork()
-	 * @see #getNode()
-	 * @generated
-	 */
-	EReference getNode_Network();
 
 	/**
 	 * Returns the meta object for the reference list '{@link seg.network.model.network.Node#getUpstreamLinks <em>Upstream Links</em>}'.
@@ -272,6 +279,17 @@ public interface NetworkPackage extends EPackage {
 	EAttribute getNode_Y();
 
 	/**
+	 * Returns the meta object for the container reference '{@link seg.network.model.network.Node#getNetwork <em>Network</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Network</em>'.
+	 * @see seg.network.model.network.Node#getNetwork()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_Network();
+
+	/**
 	 * Returns the meta object for the attribute '{@link seg.network.model.network.Node#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -315,15 +333,15 @@ public interface NetworkPackage extends EPackage {
 	EReference getNetwork_Links();
 
 	/**
-	 * Returns the meta object for the attribute '{@link seg.network.model.network.Network#getName <em>Name</em>}'.
+	 * Returns the meta object for the reference '{@link seg.network.model.network.Network#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @return the meta object for the reference '<em>Name</em>'.
 	 * @see seg.network.model.network.Network#getName()
 	 * @see #getNetwork()
 	 * @generated
 	 */
-	EAttribute getNetwork_Name();
+	EReference getNetwork_Name();
 
 	/**
 	 * Returns the meta object for class '{@link seg.network.model.network.Link <em>Link</em>}'.
@@ -334,6 +352,28 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.network.model.network.Link#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see seg.network.model.network.Link#getSource()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.network.model.network.Link#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see seg.network.model.network.Link#getTarget()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Target();
 
 	/**
 	 * Returns the meta object for the container reference '{@link seg.network.model.network.Link#getNetwork <em>Network</em>}'.

@@ -11,7 +11,7 @@ import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-import seg.network.edit.commands.ConnectionCommand;
+import seg.network.edit.commands.LinkCreateCommand;
 import seg.network.editparts.NetworkNodeEditPart;
 import seg.network.model.network.Link;
 import seg.network.model.network.Node;
@@ -37,7 +37,7 @@ public class NetworkNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	protected Command getConnectionCompleteCommand(
 			CreateConnectionRequest request) {
-		ConnectionCommand command = (ConnectionCommand)request.getStartCommand();
+		LinkCreateCommand command = (LinkCreateCommand)request.getStartCommand();
 		command.setTarget(getNetworkNode());
 		return command;
 	}
@@ -46,7 +46,7 @@ public class NetworkNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		ConnectionCommand command = new ConnectionCommand();
+		LinkCreateCommand command = new LinkCreateCommand();
 		command.setLink((Link)request.getNewObject());
 		command.setSource(getNetworkNode());
 		request.setStartCommand(command);

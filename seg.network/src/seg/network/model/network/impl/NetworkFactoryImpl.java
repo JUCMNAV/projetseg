@@ -37,9 +37,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 */
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case NetworkPackage.LINK: return createLink();
 			case NetworkPackage.NODE: return createNode();
 			case NetworkPackage.NETWORK: return createNetwork();
-			case NetworkPackage.LINK: return createLink();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

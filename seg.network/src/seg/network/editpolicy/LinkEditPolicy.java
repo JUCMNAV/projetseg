@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import seg.network.edit.commands.ConnectionCommand;
+import seg.network.edit.commands.LinkDeleteCommand;
 import seg.network.model.network.Link;
 
 /**
@@ -25,7 +25,7 @@ public class LinkEditPolicy extends ConnectionEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
 	protected Command getDeleteCommand(GroupRequest request) {
-		ConnectionCommand c = new ConnectionCommand();
+		LinkDeleteCommand c = new LinkDeleteCommand();
 		c.setLink((Link)getHost().getModel());
 		return c;
 	}

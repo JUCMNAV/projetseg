@@ -70,14 +70,14 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected NetworkSwitch modelSwitch =
 		new NetworkSwitch() {
+			public Object caseLink(Link object) {
+				return createLinkAdapter();
+			}
 			public Object caseNode(Node object) {
 				return createNodeAdapter();
 			}
 			public Object caseNetwork(Network object) {
 				return createNetworkAdapter();
-			}
-			public Object caseLink(Link object) {
-				return createLinkAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();

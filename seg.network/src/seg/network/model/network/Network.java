@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model 
  * @generated
  */
-public interface Network extends EObject {
+public interface Network extends EObject{
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
 	 * The list contents are of type {@link seg.network.model.network.Node}.
@@ -42,7 +42,7 @@ public interface Network extends EObject {
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see seg.network.model.network.NetworkPackage#getNetwork_Nodes()
 	 * @see seg.network.model.network.Node#getNetwork
-	 * @model type="seg.network.model.network.Node" opposite="network" containment="true"
+	 * @model type="seg.network.model.network.Node" opposite="Network" containment="true"
 	 * @generated
 	 */
 	EList getNodes();
@@ -60,35 +60,35 @@ public interface Network extends EObject {
 	 * @return the value of the '<em>Links</em>' containment reference list.
 	 * @see seg.network.model.network.NetworkPackage#getNetwork_Links()
 	 * @see seg.network.model.network.Link#getNetwork
-	 * @model type="seg.network.model.network.Link" opposite="network" containment="true"
+	 * @model type="seg.network.model.network.Link" opposite="Network" containment="true"
 	 * @generated
 	 */
 	EList getLinks();
 
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Name</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
+	 * @return the value of the '<em>Name</em>' reference.
+	 * @see #setName(EObject)
 	 * @see seg.network.model.network.NetworkPackage#getNetwork_Name()
-	 * @model 
+	 * @model required="true"
 	 * @generated
 	 */
-	String getName();
+	EObject getName();
 
 	/**
-	 * Sets the value of the '{@link seg.network.model.network.Network#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link seg.network.model.network.Network#getName <em>Name</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @param value the new value of the '<em>Name</em>' reference.
 	 * @see #getName()
 	 * @generated
 	 */
-	void setName(String value);
+	void setName(EObject value);
 
 } // Network

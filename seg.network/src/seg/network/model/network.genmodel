@@ -5,23 +5,25 @@
     editDirectory="/seg.network.edit/src" editorDirectory="/seg.network.editor/src"
     modelPluginID="seg.network" runtimeJar="true" modelName="Network" editPluginClass="network.provider.NetworkEditPlugin"
     editorPluginClass="network.presentation.NetworkEditorPlugin" runtimeCompatibility="false">
-  <foreignModel>../../../../../seg.graphModeling/src/model/NetworkModel.ecore</foreignModel>
-  <genPackages prefix="Network" basePackage="seg.network.model" ecorePackage="NetworkModel.ecore#/">
-    <genClasses ecoreClass="NetworkModel.ecore#//Node">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference NetworkModel.ecore#//Node/network"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference NetworkModel.ecore#//Node/upstreamLinks"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference NetworkModel.ecore#//Node/downstreamLinks"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute NetworkModel.ecore#//Node/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute NetworkModel.ecore#//Node/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute NetworkModel.ecore#//Node/id"/>
+  <foreignModel>file:/D:/My%20Documents/Network.ecore</foreignModel>
+  <genPackages prefix="Network" basePackage="seg.network.model" ecorePackage="Network.ecore#/">
+    <genClasses ecoreClass="Network.ecore#//Link">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Link/source"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Link/target"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Link/Network"/>
     </genClasses>
-    <genClasses ecoreClass="NetworkModel.ecore#//Network">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference NetworkModel.ecore#//Network/nodes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference NetworkModel.ecore#//Network/links"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute NetworkModel.ecore#//Network/name"/>
+    <genClasses ecoreClass="Network.ecore#//Node">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Node/upstreamLinks"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Node/downstreamLinks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Network.ecore#//Node/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Network.ecore#//Node/y"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Node/Network"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Network.ecore#//Node/id"/>
     </genClasses>
-    <genClasses ecoreClass="NetworkModel.ecore#//Link">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference NetworkModel.ecore#//Link/network"/>
+    <genClasses ecoreClass="Network.ecore#//Network">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Network.ecore#//Network/Nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Network.ecore#//Network/Links"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Network/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

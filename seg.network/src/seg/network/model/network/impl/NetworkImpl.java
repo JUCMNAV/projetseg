@@ -10,16 +10,13 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -65,24 +62,14 @@ public class NetworkImpl extends EObjectImpl implements Network {
 	protected EList links = null;
 
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The cached value of the '{@link #getName() <em>Name</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
+	protected EObject name = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,7 +118,15 @@ public class NetworkImpl extends EObjectImpl implements Network {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public EObject getName() {
+		if (name != null && name.eIsProxy()) {
+			EObject oldName = name;
+			name = (EObject)eResolveProxy((InternalEObject)name);
+			if (name != oldName) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.NETWORK__NAME, oldName, name));
+			}
+		}
 		return name;
 	}
 
@@ -140,8 +135,17 @@ public class NetworkImpl extends EObjectImpl implements Network {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		String oldName = name;
+	public EObject basicGetName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(EObject newName) {
+		EObject oldName = name;
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.NETWORK__NAME, oldName, name));
@@ -199,7 +203,8 @@ public class NetworkImpl extends EObjectImpl implements Network {
 			case NetworkPackage.NETWORK__LINKS:
 				return getLinks();
 			case NetworkPackage.NETWORK__NAME:
-				return getName();
+				if (resolve) return getName();
+				return basicGetName();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -220,7 +225,7 @@ public class NetworkImpl extends EObjectImpl implements Network {
 				getLinks().addAll((Collection)newValue);
 				return;
 			case NetworkPackage.NETWORK__NAME:
-				setName((String)newValue);
+				setName((EObject)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -240,7 +245,7 @@ public class NetworkImpl extends EObjectImpl implements Network {
 				getLinks().clear();
 				return;
 			case NetworkPackage.NETWORK__NAME:
-				setName(NAME_EDEFAULT);
+				setName((EObject)null);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -258,24 +263,9 @@ public class NetworkImpl extends EObjectImpl implements Network {
 			case NetworkPackage.NETWORK__LINKS:
 				return links != null && !links.isEmpty();
 			case NetworkPackage.NETWORK__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return name != null;
 		}
 		return eDynamicIsSet(eFeature);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
 	}
 
 } //NetworkImpl

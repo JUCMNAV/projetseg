@@ -13,6 +13,8 @@ public class NetworkPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
+	public static final String PLUGIN_ID = "seg.network";
+	
 	/**
 	 * The constructor.
 	 */

@@ -18,7 +18,7 @@ import seg.network.model.network.Node;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ConnectionCommand extends Command {
+public class LinkCreateCommand extends Command {
 	
 	private static final String ConnectionCommand_Label = "link";
 	private static final String ConnectionCommand_Description = "link connection command";

@@ -87,6 +87,12 @@ public class NetworkSwitch {
 	 */
 	protected Object doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case NetworkPackage.LINK: {
+				Link link = (Link)theEObject;
+				Object result = caseLink(link);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case NetworkPackage.NODE: {
 				Node node = (Node)theEObject;
 				Object result = caseNode(node);
@@ -96,12 +102,6 @@ public class NetworkSwitch {
 			case NetworkPackage.NETWORK: {
 				Network network = (Network)theEObject;
 				Object result = caseNetwork(network);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NetworkPackage.LINK: {
-				Link link = (Link)theEObject;
-				Object result = caseLink(link);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
