@@ -19,9 +19,11 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import seg.network.edit.commands.CreateNodeCommand;
 import seg.network.edit.commands.SetConstraintCommand;
+import seg.network.model.network.EndPoint;
 import seg.network.model.network.Network;
 import seg.network.model.network.Node;
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
+import seg.network.model.network.StartPoint;
 
 public class NetworkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -42,7 +44,10 @@ public class NetworkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		Object	newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
 		
-		if( newObjectType == Node.class || newObjectType == Responsability.class ) {
+		if( newObjectType == Node.class 
+			|| newObjectType == Responsibility.class 
+			|| newObjectType == StartPoint.class
+			|| newObjectType == EndPoint.class) {
 			CreateNodeCommand create = new CreateNodeCommand();
 			create.setParent((Network)getHost().getModel());
 			create.setLocation(request.getLocation());

@@ -8,10 +8,7 @@ package seg.network.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * @author Etienne Tremblay
@@ -23,36 +20,36 @@ public class NodeFigure extends Ellipse {
 	
 	protected EllipseAnchor incomingAnchor;
 	protected EllipseAnchor outgoingAnchor;
-	protected Label label;
-	protected XYLayout layout;
+//	protected Label label;
+//	protected XYLayout layout;
 
 	public NodeFigure(){
 		super();
-		layout = new XYLayout();
-		this.setLayoutManager(layout);
+//		layout = new XYLayout();
+//		this.setLayoutManager(layout);
 //		this.setBackgroundColor(new Color(null, 0, 0, 0));
 		
 		incomingAnchor = new EllipseAnchor(this);
 		outgoingAnchor = new EllipseAnchor(this);
-		label = new Label("");
+//		label = new Label("");
 //		label.setForegroundColor(new Color(null, 255, 255, 255));
-		add(label);
-		label.setVisible(false);
+//		add(label);
+//		label.setVisible(false);
 	}
 	
 	public void setId(String id){
-		label.setText(id);
+//		label.setText(id);
 	}
 	
-	public void validate(){
-		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
-		int width = diam - label.getSize().width;
-		width = width/2;
-		int height = diam - label.getSize().height;
-		height = height/2;
-		layout.setConstraint(label, new Rectangle(width,height,-1,-1));
-		super.validate();
-	}
+//	public void validate(){
+//		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
+//		int width = diam - label.getSize().width;
+//		width = width/2;
+//		int height = diam - label.getSize().height;
+//		height = height/2;
+//		layout.setConstraint(label, new Rectangle(width,height,-1,-1));
+//		super.validate();
+//	}
 	
 	public EllipseAnchor getSourceConnectionAnchor(){
 		return outgoingAnchor;
@@ -72,7 +69,7 @@ public class NodeFigure extends Ellipse {
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
-		return new Dimension(diam, diam);
+//		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
+		return new Dimension(12, 12);
 	}
 }

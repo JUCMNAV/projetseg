@@ -21,9 +21,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.network.NetworkPlugin;
 import seg.network.model.ModelCreationFactory;
+import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
 import seg.network.model.network.Node;
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
+import seg.network.model.network.StartPoint;
 
 
 public class NetworkPaletteRoot extends PaletteRoot
@@ -88,11 +90,31 @@ public class NetworkPaletteRoot extends PaletteRoot
         
         entry =
             new CombinedTemplateCreationEntry(
-                "Responsability",
-                "Creates a Responsability",
-                Responsability.class,
-                new ModelCreationFactory(Responsability.class),
+                "Responsibility",
+                "Creates a Responsibility",
+                Responsibility.class,
+                new ModelCreationFactory(Responsibility.class),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/x.GIF"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Start Point",
+                "Creates a Start Point",
+                StartPoint.class,
+                new ModelCreationFactory(StartPoint.class),
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/startPoint.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "End Point",
+                "Creates a End Point",
+                EndPoint.class,
+                new ModelCreationFactory(EndPoint.class),
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/endPoint.GIF"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
 		

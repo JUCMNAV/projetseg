@@ -19,8 +19,7 @@ import seg.network.model.network.Network;
 import seg.network.model.network.NetworkFactory;
 import seg.network.model.network.NetworkPackage;
 import seg.network.model.network.Node;
-
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
 import seg.network.model.network.StartPoint;
 
 /**
@@ -30,6 +29,13 @@ import seg.network.model.network.StartPoint;
  * @generated
  */
 public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass linkEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,14 +69,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass responsabilityEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass linkEClass = null;
+	private EClass responsibilityEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -138,6 +137,42 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		theNetworkPackage.freeze();
 
 		return theNetworkPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLink() {
+		return linkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Source() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Target() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Network() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -262,44 +297,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getResponsability() {
-		return responsabilityEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getLink() {
-		return linkEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLink_Source() {
-		return (EReference)linkEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLink_Target() {
-		return (EReference)linkEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLink_Network() {
-		return (EReference)linkEClass.getEStructuralFeatures().get(2);
+	public EClass getResponsibility() {
+		return responsibilityEClass;
 	}
 
 	/**
@@ -352,7 +351,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		endPointEClass = createEClass(END_POINT);
 
-		responsabilityEClass = createEClass(RESPONSABILITY);
+		responsibilityEClass = createEClass(RESPONSIBILITY);
 	}
 
 	/**
@@ -381,7 +380,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		// Add supertypes to classes
 		startPointEClass.getESuperTypes().add(this.getNode());
 		endPointEClass.getESuperTypes().add(this.getNode());
-		responsabilityEClass.getESuperTypes().add(this.getNode());
+		responsibilityEClass.getESuperTypes().add(this.getNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -406,7 +405,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(responsabilityEClass, Responsability.class, "Responsability", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(responsibilityEClass, Responsibility.class, "Responsibility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

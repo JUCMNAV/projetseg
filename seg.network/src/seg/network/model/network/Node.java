@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model 
  * @generated
  */
-public interface Node extends EObject{
+public interface Node extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Upstream Links</b></em>' reference list.
 	 * The list contents are of type {@link seg.network.model.network.Link}.
@@ -125,7 +125,7 @@ public interface Node extends EObject{
 	 * It is bidirectional and its opposite is '{@link seg.network.model.network.Network#getNodes <em>Nodes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Network</em>' reference isn't clear,
+	 * If the meaning of the '<em>Network</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

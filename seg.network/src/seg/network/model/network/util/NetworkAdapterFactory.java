@@ -85,8 +85,8 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 			public Object caseEndPoint(EndPoint object) {
 				return createEndPointAdapter();
 			}
-			public Object caseResponsability(Responsability object) {
-				return createResponsabilityAdapter();
+			public Object caseResponsibility(Responsibility object) {
+				return createResponsibilityAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -105,6 +105,20 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 		return (Adapter)modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Link <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see seg.network.model.network.Link
+	 * @generated
+	 */
+	public Adapter createLinkAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Node <em>Node</em>}'.
@@ -163,30 +177,16 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Responsability <em>Responsability</em>}'.
+	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Responsibility <em>Responsibility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see seg.network.model.network.Responsability
+	 * @see seg.network.model.network.Responsibility
 	 * @generated
 	 */
-	public Adapter createResponsabilityAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Link <em>Link</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see seg.network.model.network.Link
-	 * @generated
-	 */
-	public Adapter createLinkAdapter() {
+	public Adapter createResponsibilityAdapter() {
 		return null;
 	}
 

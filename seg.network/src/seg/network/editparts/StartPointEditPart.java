@@ -1,5 +1,5 @@
 /*
- * Created on 2005-02-14
+ * Created on 2005-02-15
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -12,42 +12,46 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 
-import seg.network.figures.ResponsibilityFigure;
+import seg.network.figures.StartPointFigure;
 import seg.network.model.network.Node;
-import seg.network.model.network.Responsibility;
+import seg.network.model.network.StartPoint;
 
 /**
- * Created 2005-02-14
+ * Created 2005-02-15
  * 
  * @author Etienne Tremblay
  */
-public class ResponsibilityEditPart extends NetworkNodeEditPart {
-	
-	public ResponsibilityEditPart(Node node){
+public class StartPointEditPart extends NetworkNodeEditPart {
+
+	/**
+	 * @param network
+	 */
+	public StartPointEditPart(Node node) {
 		super(node);
+		// TODO Auto-generated constructor stub
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure() {
-		ResponsibilityFigure figure = new ResponsibilityFigure();
+		StartPointFigure figure = new StartPointFigure();
 		return figure;
 	}
 	
-	private Responsibility getResponsability(){
-		return (Responsibility)getModel();
+	private StartPoint getStartPoint(){
+		return (StartPoint)getModel();
 	}
 	
-	private ResponsibilityFigure getResponsabilityFigure(){
-		return (ResponsibilityFigure)getFigure();
+	private StartPointFigure getStartPointFigure(){
+		return (StartPointFigure)getFigure();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
 	protected void refreshVisuals() {
-		Point location = new Point(getResponsability().getX(), getResponsability().getY());  // The position of the current figure
+		Point location = new Point(getStartPoint().getX(), getStartPoint().getY());  // The position of the current figure
 		Dimension size = new Dimension(-1, -1);
 		Rectangle bounds = new Rectangle(location, size);
 		figure.setBounds(bounds);

@@ -22,7 +22,7 @@ import seg.network.model.network.Node;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class NetworkNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class NodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	private Node getNetworkNode(){
 		return (Node)getHost().getModel();

@@ -9,10 +9,12 @@ package seg.network.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
+import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
 import seg.network.model.network.Network;
 import seg.network.model.network.Node;
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
+import seg.network.model.network.StartPoint;
 
 /**
  * @author Etienne Tremblay
@@ -30,8 +32,14 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof Network)
 			return new NetworkEditPart((Network)model);
-		else if(model instanceof Responsability){
-			return new ResponsibilityEditPart((Responsability)model);
+		else if(model instanceof StartPoint){
+			return new StartPointEditPart((StartPoint)model);
+		}
+		else if(model instanceof EndPoint){
+			return new EndPointEditPart((EndPoint)model);
+		}
+		else if(model instanceof Responsibility){
+			return new ResponsibilityEditPart((Responsibility)model);
 		}
 		else if(model instanceof Node) {
 			NetworkNodeEditPart tmp = new NetworkNodeEditPart((Node)model);

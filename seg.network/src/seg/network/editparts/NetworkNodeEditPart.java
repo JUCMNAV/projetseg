@@ -25,7 +25,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.network.editpolicy.NetworkComponentEditPolicy;
-import seg.network.editpolicy.NetworkNodeEditPolicy;
+import seg.network.editpolicy.NodeEditPolicy;
 import seg.network.figures.NodeFigure;
 import seg.network.model.EObjectPropertySource;
 import seg.network.model.network.NetworkPackage;
@@ -59,7 +59,7 @@ public class NetworkNodeEditPart extends AbstractGraphicalEditPart implements Ad
 	 */
 	protected void createEditPolicies() {
 		// install the edit policy to handle connection creation
-		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE, new NetworkNodeEditPolicy() );
+		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE, new NodeEditPolicy() );
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new NetworkComponentEditPolicy());
 	}
 	

@@ -11,11 +11,13 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.gef.requests.CreationFactory;
 
+import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
 import seg.network.model.network.NetworkFactory;
 import seg.network.model.network.NetworkPackage;
 import seg.network.model.network.Node;
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
+import seg.network.model.network.StartPoint;
 
 
 /**
@@ -49,8 +51,14 @@ public class ModelCreationFactory implements CreationFactory {
 		else if (targetClass.equals(Link.class)){
 			result = factory.createLink();
 		}
-		else if(targetClass.equals(Responsability.class)){
-			result = factory.createResponsability();
+		else if(targetClass.equals(Responsibility.class)){
+			result = factory.createResponsibility();
+		}
+		else if(targetClass.equals(StartPoint.class)){
+			result = factory.createStartPoint();
+		}
+		else if(targetClass.equals(EndPoint.class)){
+			result = factory.createEndPoint();
 		}
 		return result;
 	}

@@ -18,24 +18,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import seg.network.model.network.Network;
 import seg.network.model.network.NetworkPackage;
-import seg.network.model.network.Responsability;
+import seg.network.model.network.Responsibility;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Responsability</b></em>'.
+ * An implementation of the model object '<em><b>Responsibility</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class ResponsabilityImpl extends NodeImpl implements Responsability {
+public class ResponsibilityImpl extends NodeImpl implements Responsibility {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ResponsabilityImpl() {
+	protected ResponsibilityImpl() {
 		super();
 	}
 
@@ -45,7 +45,7 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	 * @generated
 	 */
 	protected EClass eStaticClass() {
-		return NetworkPackage.eINSTANCE.getResponsability();
+		return NetworkPackage.eINSTANCE.getResponsibility();
 	}
 
 	/**
@@ -56,14 +56,14 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+				case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 					return ((InternalEList)getUpstreamLinks()).basicAdd(otherEnd, msgs);
-				case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+				case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 					return ((InternalEList)getDownstreamLinks()).basicAdd(otherEnd, msgs);
-				case NetworkPackage.RESPONSABILITY__NETWORK:
+				case NetworkPackage.RESPONSIBILITY__NETWORK:
 					if (eContainer != null)
 						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, NetworkPackage.RESPONSABILITY__NETWORK, msgs);
+					return eBasicSetContainer(otherEnd, NetworkPackage.RESPONSIBILITY__NETWORK, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -81,12 +81,12 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+				case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 					return ((InternalEList)getUpstreamLinks()).basicRemove(otherEnd, msgs);
-				case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+				case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 					return ((InternalEList)getDownstreamLinks()).basicRemove(otherEnd, msgs);
-				case NetworkPackage.RESPONSABILITY__NETWORK:
-					return eBasicSetContainer(null, NetworkPackage.RESPONSABILITY__NETWORK, msgs);
+				case NetworkPackage.RESPONSIBILITY__NETWORK:
+					return eBasicSetContainer(null, NetworkPackage.RESPONSIBILITY__NETWORK, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -102,7 +102,7 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
 		if (eContainerFeatureID >= 0) {
 			switch (eContainerFeatureID) {
-				case NetworkPackage.RESPONSABILITY__NETWORK:
+				case NetworkPackage.RESPONSIBILITY__NETWORK:
 					return ((InternalEObject)eContainer).eInverseRemove(this, NetworkPackage.NETWORK__NODES, Network.class, msgs);
 				default:
 					return eDynamicBasicRemoveFromContainer(msgs);
@@ -118,17 +118,17 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 				return getUpstreamLinks();
-			case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 				return getDownstreamLinks();
-			case NetworkPackage.RESPONSABILITY__X:
+			case NetworkPackage.RESPONSIBILITY__X:
 				return new Integer(getX());
-			case NetworkPackage.RESPONSABILITY__Y:
+			case NetworkPackage.RESPONSIBILITY__Y:
 				return new Integer(getY());
-			case NetworkPackage.RESPONSABILITY__NETWORK:
+			case NetworkPackage.RESPONSIBILITY__NETWORK:
 				return getNetwork();
-			case NetworkPackage.RESPONSABILITY__ID:
+			case NetworkPackage.RESPONSIBILITY__ID:
 				return getId();
 		}
 		return eDynamicGet(eFeature, resolve);
@@ -141,24 +141,24 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 				getUpstreamLinks().clear();
 				getUpstreamLinks().addAll((Collection)newValue);
 				return;
-			case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 				getDownstreamLinks().clear();
 				getDownstreamLinks().addAll((Collection)newValue);
 				return;
-			case NetworkPackage.RESPONSABILITY__X:
+			case NetworkPackage.RESPONSIBILITY__X:
 				setX(((Integer)newValue).intValue());
 				return;
-			case NetworkPackage.RESPONSABILITY__Y:
+			case NetworkPackage.RESPONSIBILITY__Y:
 				setY(((Integer)newValue).intValue());
 				return;
-			case NetworkPackage.RESPONSABILITY__NETWORK:
+			case NetworkPackage.RESPONSIBILITY__NETWORK:
 				setNetwork((Network)newValue);
 				return;
-			case NetworkPackage.RESPONSABILITY__ID:
+			case NetworkPackage.RESPONSIBILITY__ID:
 				setId((String)newValue);
 				return;
 		}
@@ -172,22 +172,22 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 				getUpstreamLinks().clear();
 				return;
-			case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 				getDownstreamLinks().clear();
 				return;
-			case NetworkPackage.RESPONSABILITY__X:
+			case NetworkPackage.RESPONSIBILITY__X:
 				setX(X_EDEFAULT);
 				return;
-			case NetworkPackage.RESPONSABILITY__Y:
+			case NetworkPackage.RESPONSIBILITY__Y:
 				setY(Y_EDEFAULT);
 				return;
-			case NetworkPackage.RESPONSABILITY__NETWORK:
+			case NetworkPackage.RESPONSIBILITY__NETWORK:
 				setNetwork((Network)null);
 				return;
-			case NetworkPackage.RESPONSABILITY__ID:
+			case NetworkPackage.RESPONSIBILITY__ID:
 				setId(ID_EDEFAULT);
 				return;
 		}
@@ -201,20 +201,20 @@ public class ResponsabilityImpl extends NodeImpl implements Responsability {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case NetworkPackage.RESPONSABILITY__UPSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__UPSTREAM_LINKS:
 				return upstreamLinks != null && !upstreamLinks.isEmpty();
-			case NetworkPackage.RESPONSABILITY__DOWNSTREAM_LINKS:
+			case NetworkPackage.RESPONSIBILITY__DOWNSTREAM_LINKS:
 				return downstreamLinks != null && !downstreamLinks.isEmpty();
-			case NetworkPackage.RESPONSABILITY__X:
+			case NetworkPackage.RESPONSIBILITY__X:
 				return x != X_EDEFAULT;
-			case NetworkPackage.RESPONSABILITY__Y:
+			case NetworkPackage.RESPONSIBILITY__Y:
 				return y != Y_EDEFAULT;
-			case NetworkPackage.RESPONSABILITY__NETWORK:
+			case NetworkPackage.RESPONSIBILITY__NETWORK:
 				return getNetwork() != null;
-			case NetworkPackage.RESPONSABILITY__ID:
+			case NetworkPackage.RESPONSIBILITY__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return eDynamicIsSet(eFeature);
 	}
 
-} //ResponsabilityImpl
+} //ResponsibilityImpl

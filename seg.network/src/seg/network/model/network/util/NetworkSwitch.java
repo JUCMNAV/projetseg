@@ -119,15 +119,30 @@ public class NetworkSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.RESPONSABILITY: {
-				Responsability responsability = (Responsability)theEObject;
-				Object result = caseResponsability(responsability);
-				if (result == null) result = caseNode(responsability);
+			case NetworkPackage.RESPONSIBILITY: {
+				Responsibility responsibility = (Responsibility)theEObject;
+				Object result = caseResponsibility(responsibility);
+				if (result == null) result = caseNode(responsibility);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseLink(Link object) {
+		return null;
 	}
 
 	/**
@@ -191,32 +206,17 @@ public class NetworkSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Responsability</em>'.
+	 * Returns the result of interpretting the object as an instance of '<em>Responsibility</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Responsability</em>'.
+	 * @return the result of interpretting the object as an instance of '<em>Responsibility</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object caseResponsability(Responsability object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Link</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseLink(Link object) {
+	public Object caseResponsibility(Responsibility object) {
 		return null;
 	}
 

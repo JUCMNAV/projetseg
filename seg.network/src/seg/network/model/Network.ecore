@@ -32,5 +32,5 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StartPoint" eSuperTypes="#//Node"/>
   <eClassifiers xsi:type="ecore:EClass" name="EndPoint" eSuperTypes="#//Node"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Responsability" eSuperTypes="#//Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//Node"/>
 </ecore:EPackage>

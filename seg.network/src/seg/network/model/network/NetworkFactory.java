@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see seg.network.model.network.NetworkPackage
  * @generated
  */
-public interface NetworkFactory extends EFactory{
+public interface NetworkFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -24,6 +24,15 @@ public interface NetworkFactory extends EFactory{
 	 * @generated
 	 */
 	NetworkFactory eINSTANCE = new seg.network.model.network.impl.NetworkFactoryImpl();
+
+	/**
+	 * Returns a new object of class '<em>Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Link</em>'.
+	 * @generated
+	 */
+	Link createLink();
 
 	/**
 	 * Returns a new object of class '<em>Node</em>'.
@@ -62,22 +71,13 @@ public interface NetworkFactory extends EFactory{
 	EndPoint createEndPoint();
 
 	/**
-	 * Returns a new object of class '<em>Responsability</em>'.
+	 * Returns a new object of class '<em>Responsibility</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Responsability</em>'.
+	 * @return a new object of class '<em>Responsibility</em>'.
 	 * @generated
 	 */
-	Responsability createResponsability();
-
-	/**
-	 * Returns a new object of class '<em>Link</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Link</em>'.
-	 * @generated
-	 */
-	Link createLink();
+	Responsibility createResponsibility();
 
 	/**
 	 * Returns the package supported by this factory.

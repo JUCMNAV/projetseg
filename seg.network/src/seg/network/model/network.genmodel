@@ -27,6 +27,6 @@
     </genClasses>
     <genClasses ecoreClass="Network.ecore#//StartPoint"/>
     <genClasses ecoreClass="Network.ecore#//EndPoint"/>
-    <genClasses ecoreClass="Network.ecore#//Responsability"/>
+    <genClasses ecoreClass="Network.ecore#//Responsibility"/>
   </genPackages>
 </genmodel:GenModel>

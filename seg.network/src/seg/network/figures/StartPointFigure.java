@@ -1,5 +1,5 @@
 /*
- * Created on 2005-02-14
+ * Created on 2005-02-15
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -10,15 +10,19 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 /**
- * Created 2005-02-14
+ * Created 2005-02-15
  * 
  * @author Etienne Tremblay
  */
-public class ResponsibilityFigure extends NodeFigure {
+public class StartPointFigure extends NodeFigure {
 
-	public ResponsibilityFigure(){
+	/**
+	 * 
+	 */
+	public StartPointFigure() {
 		super();
 	}
 	
@@ -40,13 +44,11 @@ public class ResponsibilityFigure extends NodeFigure {
 	 */
 	public void paintFigure(Graphics g) {
 		Rectangle r = getBounds().getCopy();
-		g.setLineWidth(3);
 		Point c = r.getCenter();
-		// The lines for the X
-		g.drawLine(c.x - 5, c.y-5, c.x+5, c.y+5);
-		g.drawLine(c.x+5, c.y-5, c.x-5, c.y+5);
-		// The line in the center
-		g.setLineWidth(1);
-		g.drawLine(c.x-10, c.y, c.x+10, c.y);
+		g.setBackgroundColor(new Color(null, 0, 0, 0));
+		g.fillOval(r.x, c.y-7, 14, 14);
+		g.setLineWidth(2);
+		g.drawLine(c.x, c.y, c.x+10, c.y);
 	}
+
 }
