@@ -46,9 +46,7 @@ public class StartPointFigure extends NodeFigure {
 		Rectangle r = getBounds().getCopy();
 		Point c = r.getCenter();
 		g.setBackgroundColor(new Color(null, 0, 0, 0));
-		g.fillOval(r.x, c.y-7, 14, 14);
-		g.setLineWidth(2);
-		g.drawLine(c.x, c.y, c.x+10, c.y);
+		g.fillOval(r.x, r.y, 20, 20);
 	}
 
 }

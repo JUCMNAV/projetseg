@@ -76,6 +76,9 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 			public Object caseNode(Node object) {
 				return createNodeAdapter();
 			}
+			public Object caseModelElement(ModelElement object) {
+				return createModelElementAdapter();
+			}
 			public Object caseNetwork(Network object) {
 				return createNetworkAdapter();
 			}
@@ -87,6 +90,9 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 			}
 			public Object caseResponsibility(Responsibility object) {
 				return createResponsibilityAdapter();
+			}
+			public Object caseComponent(Component object) {
+				return createComponentAdapter();
 			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
@@ -131,6 +137,20 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link seg.network.model.network.ModelElement <em>Model Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see seg.network.model.network.ModelElement
+	 * @generated
+	 */
+	public Adapter createModelElementAdapter() {
 		return null;
 	}
 
@@ -187,6 +207,20 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResponsibilityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link seg.network.model.network.Component <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see seg.network.model.network.Component
+	 * @generated
+	 */
+	public Adapter createComponentAdapter() {
 		return null;
 	}
 

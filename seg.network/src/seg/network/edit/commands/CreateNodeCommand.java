@@ -6,11 +6,12 @@
  */
 package seg.network.edit.commands;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
+import seg.network.model.network.ModelElement;
 import seg.network.model.network.Network;
-import seg.network.model.network.Node;
 
 /**
  * @author Etienne Tremblay
@@ -21,9 +22,10 @@ import seg.network.model.network.Node;
 public class CreateNodeCommand extends Command {
 	
 	private static final String	CreateCommand_Label = "CreateNodeCommand";
-	private Node node;
+	private ModelElement node;
 	private Point location;
 	private Network parent;
+	private Dimension size;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
@@ -33,6 +35,10 @@ public class CreateNodeCommand extends Command {
 		if(location != null){
 			node.setX(location.x);
 			node.setY(location.y);
+		}
+		if(size != null){
+			node.setHeight(size.height);
+			node.setWidth(size.width);
 		}
 	}
 	/* (non-Javadoc)
@@ -63,13 +69,13 @@ public class CreateNodeCommand extends Command {
 	/**
 	 * @return Returns the node.
 	 */
-	public Node getNode() {
+	public ModelElement getNode() {
 		return node;
 	}
 	/**
 	 * @param node The node to set.
 	 */
-	public void setNode(Node node) {
+	public void setNode(ModelElement node) {
 		this.node = node;
 	}
 	/**
@@ -83,5 +89,17 @@ public class CreateNodeCommand extends Command {
 	 */
 	public void setParent(Network parent) {
 		this.parent = parent;
+	}
+	/**
+	 * @return Returns the size.
+	 */
+	public Dimension getSize() {
+		return size;
+	}
+	/**
+	 * @param size The size to set.
+	 */
+	public void setSize(Dimension size) {
+		this.size = size;
 	}
 }

@@ -6,10 +6,10 @@
  */
 package seg.network.edit.commands;
 
-import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
-import seg.network.model.network.Node;
+import seg.network.model.network.ModelElement;
 
 /**
  * @author Etienne Tremblay
@@ -21,35 +21,38 @@ public class SetConstraintCommand extends Command {
 	
 	private static final String Command_Label_Location = "change location command";
 	private static final String Command_Label_Resize = "resize command";
-	private Point newPos;
+	private Rectangle newBounds;
 	
-	private Point oldPos;
+	private Rectangle oldBounds;
 	
-	private Node node;
+	private ModelElement node;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		oldPos = new Point(node.getX(), node.getY());
-		node.setX(newPos.x);
-		node.setY(newPos.y);
+		oldBounds = new Rectangle(node.getX(), node.getY(), node.getWidth(), node.getHeight());
+		redo();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		node.setX(newPos.x);
-		node.setY(newPos.y);
+		node.setX(newBounds.x);
+		node.setY(newBounds.y);
+		node.setHeight(newBounds.height);
+		node.setWidth(newBounds.width);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		node.setX(oldPos.x);
-		node.setY(oldPos.y);
+		node.setX(oldBounds.x);
+		node.setY(oldBounds.y);
+		node.setHeight(oldBounds.height);
+		node.setWidth(oldBounds.width);
 	}
 	
 	/* (non-Javadoc)
@@ -58,18 +61,23 @@ public class SetConstraintCommand extends Command {
 	public String getLabel() {
 		return Command_Label_Resize;
 	}
-
-	/**
-	 * @param newPos The newPos to set.
-	 */
-	public void setNewPos(Point newPos) {
-		this.newPos = newPos;
-	}
 	
 	/**
 	 * @param node The node to set.
 	 */
-	public void setNode(Node node) {
+	public void setNode(ModelElement node) {
 		this.node = node;
+	}
+	/**
+	 * @return Returns the newBounds.
+	 */
+	public Rectangle getNewBounds() {
+		return newBounds;
+	}
+	/**
+	 * @param newBounds The newBounds to set.
+	 */
+	public void setNewBounds(Rectangle newBounds) {
+		this.newBounds = newBounds;
 	}
 }

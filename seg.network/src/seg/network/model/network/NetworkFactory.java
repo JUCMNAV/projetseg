@@ -44,6 +44,15 @@ public interface NetworkFactory extends EFactory {
 	Node createNode();
 
 	/**
+	 * Returns a new object of class '<em>Model Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model Element</em>'.
+	 * @generated
+	 */
+	ModelElement createModelElement();
+
+	/**
 	 * Returns a new object of class '<em>Network</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -78,6 +87,15 @@ public interface NetworkFactory extends EFactory {
 	 * @generated
 	 */
 	Responsibility createResponsibility();
+
+	/**
+	 * Returns a new object of class '<em>Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Component</em>'.
+	 * @generated
+	 */
+	Component createComponent();
 
 	/**
 	 * Returns the package supported by this factory.

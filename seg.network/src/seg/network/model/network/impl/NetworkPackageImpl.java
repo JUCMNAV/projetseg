@@ -13,8 +13,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import seg.network.model.network.Component;
 import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
+import seg.network.model.network.ModelElement;
 import seg.network.model.network.Network;
 import seg.network.model.network.NetworkFactory;
 import seg.network.model.network.NetworkPackage;
@@ -48,6 +50,13 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass modelElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass networkEClass = null;
 
 	/**
@@ -70,6 +79,13 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * @generated
 	 */
 	private EClass responsibilityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass componentEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -162,7 +178,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLink_Target() {
+	public EReference getLink_Network() {
 		return (EReference)linkEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -171,7 +187,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLink_Network() {
+	public EReference getLink_Target() {
 		return (EReference)linkEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -207,8 +223,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNode_X() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(2);
+	public EClass getModelElement() {
+		return modelElementEClass;
 	}
 
 	/**
@@ -216,8 +232,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNode_Y() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(3);
+	public EAttribute getModelElement_X() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -225,8 +241,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Network() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
+	public EAttribute getModelElement_Y() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -234,8 +250,35 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNode_Id() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(5);
+	public EAttribute getModelElement_Width() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElement_Height() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElement_Id() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelElement_Network() {
+		return (EReference)modelElementEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -306,6 +349,24 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getComponent() {
+		return componentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponent_Modelelements() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NetworkFactory getNetworkFactory() {
 		return (NetworkFactory)getEFactoryInstance();
 	}
@@ -331,16 +392,20 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		// Create classes and their features
 		linkEClass = createEClass(LINK);
 		createEReference(linkEClass, LINK__SOURCE);
-		createEReference(linkEClass, LINK__TARGET);
 		createEReference(linkEClass, LINK__NETWORK);
+		createEReference(linkEClass, LINK__TARGET);
 
 		nodeEClass = createEClass(NODE);
 		createEReference(nodeEClass, NODE__UPSTREAM_LINKS);
 		createEReference(nodeEClass, NODE__DOWNSTREAM_LINKS);
-		createEAttribute(nodeEClass, NODE__X);
-		createEAttribute(nodeEClass, NODE__Y);
-		createEReference(nodeEClass, NODE__NETWORK);
-		createEAttribute(nodeEClass, NODE__ID);
+
+		modelElementEClass = createEClass(MODEL_ELEMENT);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__X);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__Y);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__WIDTH);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__HEIGHT);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__ID);
+		createEReference(modelElementEClass, MODEL_ELEMENT__NETWORK);
 
 		networkEClass = createEClass(NETWORK);
 		createEReference(networkEClass, NETWORK__NODES);
@@ -352,6 +417,9 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		endPointEClass = createEClass(END_POINT);
 
 		responsibilityEClass = createEClass(RESPONSIBILITY);
+
+		componentEClass = createEClass(COMPONENT);
+		createEReference(componentEClass, COMPONENT__MODELELEMENTS);
 	}
 
 	/**
@@ -378,26 +446,32 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		setNsURI(eNS_URI);
 
 		// Add supertypes to classes
+		nodeEClass.getESuperTypes().add(this.getModelElement());
 		startPointEClass.getESuperTypes().add(this.getNode());
 		endPointEClass.getESuperTypes().add(this.getNode());
 		responsibilityEClass.getESuperTypes().add(this.getNode());
+		componentEClass.getESuperTypes().add(this.getModelElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLink_Source(), this.getNode(), this.getNode_DownstreamLinks(), "source", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLink_Target(), this.getNode(), this.getNode_UpstreamLinks(), "target", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLink_Network(), this.getNetwork(), this.getNetwork_Links(), "Network", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_Target(), this.getNode(), this.getNode_UpstreamLinks(), "target", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNode_UpstreamLinks(), this.getLink(), this.getLink_Target(), "upstreamLinks", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_DownstreamLinks(), this.getLink(), this.getLink_Source(), "downstreamLinks", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNode_X(), ecorePackage.getEInt(), "x", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNode_Y(), ecorePackage.getEInt(), "y", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_Network(), this.getNetwork(), this.getNetwork_Nodes(), "Network", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNode_Id(), ecorePackage.getEString(), "id", "", 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModelElement_X(), ecorePackage.getEInt(), "x", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElement_Y(), ecorePackage.getEInt(), "y", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElement_Width(), ecorePackage.getEInt(), "width", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElement_Height(), ecorePackage.getEInt(), "height", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElement_Id(), ecorePackage.getEString(), "id", "", 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModelElement_Network(), this.getNetwork(), this.getNetwork_Nodes(), "Network", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(networkEClass, Network.class, "Network", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNetwork_Nodes(), this.getNode(), this.getNode_Network(), "Nodes", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetwork_Nodes(), this.getModelElement(), this.getModelElement_Network(), "Nodes", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetwork_Links(), this.getLink(), this.getLink_Network(), "Links", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetwork_Name(), ecorePackage.getEObject(), null, "name", null, 1, 1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -406,6 +480,9 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(responsibilityEClass, Responsibility.class, "Responsibility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponent_Modelelements(), this.getModelElement(), null, "modelelements", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

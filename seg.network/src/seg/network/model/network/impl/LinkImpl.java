@@ -31,8 +31,8 @@ import seg.network.model.network.Node;
  * The following features are implemented:
  * <ul>
  *   <li>{@link seg.network.model.network.impl.LinkImpl#getSource <em>Source</em>}</li>
- *   <li>{@link seg.network.model.network.impl.LinkImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link seg.network.model.network.impl.LinkImpl#getNetwork <em>Network</em>}</li>
+ *   <li>{@link seg.network.model.network.impl.LinkImpl#getTarget <em>Target</em>}</li>
  * </ul>
  * </p>
  *
@@ -142,6 +142,37 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Network getNetwork() {
+		if (eContainerFeatureID != NetworkPackage.LINK__NETWORK) return null;
+		return (Network)eContainer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNetwork(Network newNetwork) {
+		if (newNetwork != eContainer || (eContainerFeatureID != NetworkPackage.LINK__NETWORK && newNetwork != null)) {
+			if (EcoreUtil.isAncestor(this, newNetwork))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eContainer != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newNetwork != null)
+				msgs = ((InternalEObject)newNetwork).eInverseAdd(this, NetworkPackage.NETWORK__LINKS, Network.class, msgs);
+			msgs = eBasicSetContainer((InternalEObject)newNetwork, NetworkPackage.LINK__NETWORK, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LINK__NETWORK, newNetwork, newNetwork));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Node getTarget() {
 		if (target != null && target.eIsProxy()) {
 			Node oldTarget = target;
@@ -202,37 +233,6 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Network getNetwork() {
-		if (eContainerFeatureID != NetworkPackage.LINK__NETWORK) return null;
-		return (Network)eContainer;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setNetwork(Network newNetwork) {
-		if (newNetwork != eContainer || (eContainerFeatureID != NetworkPackage.LINK__NETWORK && newNetwork != null)) {
-			if (EcoreUtil.isAncestor(this, newNetwork))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eContainer != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newNetwork != null)
-				msgs = ((InternalEObject)newNetwork).eInverseAdd(this, NetworkPackage.NETWORK__LINKS, Network.class, msgs);
-			msgs = eBasicSetContainer((InternalEObject)newNetwork, NetworkPackage.LINK__NETWORK, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LINK__NETWORK, newNetwork, newNetwork));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -240,14 +240,14 @@ public class LinkImpl extends EObjectImpl implements Link {
 					if (source != null)
 						msgs = ((InternalEObject)source).eInverseRemove(this, NetworkPackage.NODE__DOWNSTREAM_LINKS, Node.class, msgs);
 					return basicSetSource((Node)otherEnd, msgs);
-				case NetworkPackage.LINK__TARGET:
-					if (target != null)
-						msgs = ((InternalEObject)target).eInverseRemove(this, NetworkPackage.NODE__UPSTREAM_LINKS, Node.class, msgs);
-					return basicSetTarget((Node)otherEnd, msgs);
 				case NetworkPackage.LINK__NETWORK:
 					if (eContainer != null)
 						msgs = eBasicRemoveFromContainer(msgs);
 					return eBasicSetContainer(otherEnd, NetworkPackage.LINK__NETWORK, msgs);
+				case NetworkPackage.LINK__TARGET:
+					if (target != null)
+						msgs = ((InternalEObject)target).eInverseRemove(this, NetworkPackage.NODE__UPSTREAM_LINKS, Node.class, msgs);
+					return basicSetTarget((Node)otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -267,10 +267,10 @@ public class LinkImpl extends EObjectImpl implements Link {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case NetworkPackage.LINK__SOURCE:
 					return basicSetSource(null, msgs);
-				case NetworkPackage.LINK__TARGET:
-					return basicSetTarget(null, msgs);
 				case NetworkPackage.LINK__NETWORK:
 					return eBasicSetContainer(null, NetworkPackage.LINK__NETWORK, msgs);
+				case NetworkPackage.LINK__TARGET:
+					return basicSetTarget(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -305,11 +305,11 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case NetworkPackage.LINK__SOURCE:
 				if (resolve) return getSource();
 				return basicGetSource();
+			case NetworkPackage.LINK__NETWORK:
+				return getNetwork();
 			case NetworkPackage.LINK__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case NetworkPackage.LINK__NETWORK:
-				return getNetwork();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -324,11 +324,11 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case NetworkPackage.LINK__SOURCE:
 				setSource((Node)newValue);
 				return;
-			case NetworkPackage.LINK__TARGET:
-				setTarget((Node)newValue);
-				return;
 			case NetworkPackage.LINK__NETWORK:
 				setNetwork((Network)newValue);
+				return;
+			case NetworkPackage.LINK__TARGET:
+				setTarget((Node)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -344,11 +344,11 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case NetworkPackage.LINK__SOURCE:
 				setSource((Node)null);
 				return;
-			case NetworkPackage.LINK__TARGET:
-				setTarget((Node)null);
-				return;
 			case NetworkPackage.LINK__NETWORK:
 				setNetwork((Network)null);
+				return;
+			case NetworkPackage.LINK__TARGET:
+				setTarget((Node)null);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -363,10 +363,10 @@ public class LinkImpl extends EObjectImpl implements Link {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case NetworkPackage.LINK__SOURCE:
 				return source != null;
-			case NetworkPackage.LINK__TARGET:
-				return target != null;
 			case NetworkPackage.LINK__NETWORK:
 				return getNetwork() != null;
+			case NetworkPackage.LINK__TARGET:
+				return target != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

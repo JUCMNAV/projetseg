@@ -21,6 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.network.NetworkPlugin;
 import seg.network.model.ModelCreationFactory;
+import seg.network.model.network.Component;
 import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
 import seg.network.model.network.Node;
@@ -84,7 +85,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Creates a node",
                 Node.class,
                 new ModelCreationFactory(Node.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse16.gif"), 
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/node.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
@@ -115,6 +116,16 @@ public class NetworkPaletteRoot extends PaletteRoot
                 EndPoint.class,
                 new ModelCreationFactory(EndPoint.class),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/endPoint.GIF"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Component",
+                "Creates a Component",
+                Component.class,
+                new ModelCreationFactory(Component.class),
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/component.GIF"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
 		

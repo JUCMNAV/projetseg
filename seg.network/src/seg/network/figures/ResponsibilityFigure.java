@@ -45,8 +45,5 @@ public class ResponsibilityFigure extends NodeFigure {
 		// The lines for the X
 		g.drawLine(c.x - 5, c.y-5, c.x+5, c.y+5);
 		g.drawLine(c.x+5, c.y-5, c.x-5, c.y+5);
-		// The line in the center
-		g.setLineWidth(1);
-		g.drawLine(c.x-10, c.y, c.x+10, c.y);
 	}
 }

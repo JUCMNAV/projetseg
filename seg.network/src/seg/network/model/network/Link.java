@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link seg.network.model.network.Link#getSource <em>Source</em>}</li>
- *   <li>{@link seg.network.model.network.Link#getTarget <em>Target</em>}</li>
  *   <li>{@link seg.network.model.network.Link#getNetwork <em>Network</em>}</li>
+ *   <li>{@link seg.network.model.network.Link#getTarget <em>Target</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,34 +56,6 @@ public interface Link extends EObject {
 	void setSource(Node value);
 
 	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link seg.network.model.network.Node#getUpstreamLinks <em>Upstream Links</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
-	 * @see #setTarget(Node)
-	 * @see seg.network.model.network.NetworkPackage#getLink_Target()
-	 * @see seg.network.model.network.Node#getUpstreamLinks
-	 * @model opposite="upstreamLinks" required="true"
-	 * @generated
-	 */
-	Node getTarget();
-
-	/**
-	 * Sets the value of the '{@link seg.network.model.network.Link#getTarget <em>Target</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
-	 * @see #getTarget()
-	 * @generated
-	 */
-	void setTarget(Node value);
-
-	/**
 	 * Returns the value of the '<em><b>Network</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link seg.network.model.network.Network#getLinks <em>Links</em>}'.
 	 * <!-- begin-user-doc -->
@@ -110,5 +82,33 @@ public interface Link extends EObject {
 	 * @generated
 	 */
 	void setNetwork(Network value);
+
+	/**
+	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link seg.network.model.network.Node#getUpstreamLinks <em>Upstream Links</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target</em>' reference.
+	 * @see #setTarget(Node)
+	 * @see seg.network.model.network.NetworkPackage#getLink_Target()
+	 * @see seg.network.model.network.Node#getUpstreamLinks
+	 * @model opposite="upstreamLinks" required="true"
+	 * @generated
+	 */
+	Node getTarget();
+
+	/**
+	 * Sets the value of the '{@link seg.network.model.network.Link#getTarget <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target</em>' reference.
+	 * @see #getTarget()
+	 * @generated
+	 */
+	void setTarget(Node value);
 
 } // Link

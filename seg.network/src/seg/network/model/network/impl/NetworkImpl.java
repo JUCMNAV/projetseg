@@ -25,9 +25,9 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import seg.network.model.network.Link;
+import seg.network.model.network.ModelElement;
 import seg.network.model.network.Network;
 import seg.network.model.network.NetworkPackage;
-import seg.network.model.network.Node;
 
 /**
  * <!-- begin-user-doc -->
@@ -100,7 +100,7 @@ public class NetworkImpl extends EObjectImpl implements Network {
 	 */
 	public EList getNodes() {
 		if (nodes == null) {
-			nodes = new EObjectContainmentWithInverseEList(Node.class, this, NetworkPackage.NETWORK__NODES, NetworkPackage.NODE__NETWORK);
+			nodes = new EObjectContainmentWithInverseEList(ModelElement.class, this, NetworkPackage.NETWORK__NODES, NetworkPackage.MODEL_ELEMENT__NETWORK);
 		}
 		return nodes;
 	}

@@ -31,8 +31,8 @@ import org.eclipse.emf.ecore.EObject;
 public interface Network extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
-	 * The list contents are of type {@link seg.network.model.network.Node}.
-	 * It is bidirectional and its opposite is '{@link seg.network.model.network.Node#getNetwork <em>Network</em>}'.
+	 * The list contents are of type {@link seg.network.model.network.ModelElement}.
+	 * It is bidirectional and its opposite is '{@link seg.network.model.network.ModelElement#getNetwork <em>Network</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Nodes</em>' containment reference list isn't clear,
@@ -41,8 +41,8 @@ public interface Network extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see seg.network.model.network.NetworkPackage#getNetwork_Nodes()
-	 * @see seg.network.model.network.Node#getNetwork
-	 * @model type="seg.network.model.network.Node" opposite="Network" containment="true"
+	 * @see seg.network.model.network.ModelElement#getNetwork
+	 * @model type="seg.network.model.network.ModelElement" opposite="Network" containment="true"
 	 * @generated
 	 */
 	EList getNodes();

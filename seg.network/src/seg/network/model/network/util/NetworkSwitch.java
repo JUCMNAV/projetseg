@@ -96,6 +96,13 @@ public class NetworkSwitch {
 			case NetworkPackage.NODE: {
 				Node node = (Node)theEObject;
 				Object result = caseNode(node);
+				if (result == null) result = caseModelElement(node);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.MODEL_ELEMENT: {
+				ModelElement modelElement = (ModelElement)theEObject;
+				Object result = caseModelElement(modelElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,6 +116,7 @@ public class NetworkSwitch {
 				StartPoint startPoint = (StartPoint)theEObject;
 				Object result = caseStartPoint(startPoint);
 				if (result == null) result = caseNode(startPoint);
+				if (result == null) result = caseModelElement(startPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -116,6 +124,7 @@ public class NetworkSwitch {
 				EndPoint endPoint = (EndPoint)theEObject;
 				Object result = caseEndPoint(endPoint);
 				if (result == null) result = caseNode(endPoint);
+				if (result == null) result = caseModelElement(endPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -123,6 +132,14 @@ public class NetworkSwitch {
 				Responsibility responsibility = (Responsibility)theEObject;
 				Object result = caseResponsibility(responsibility);
 				if (result == null) result = caseNode(responsibility);
+				if (result == null) result = caseModelElement(responsibility);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.COMPONENT: {
+				Component component = (Component)theEObject;
+				Object result = caseComponent(component);
+				if (result == null) result = caseModelElement(component);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -157,6 +174,21 @@ public class NetworkSwitch {
 	 * @generated
 	 */
 	public Object caseNode(Node object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Model Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseModelElement(ModelElement object) {
 		return null;
 	}
 
@@ -217,6 +249,21 @@ public class NetworkSwitch {
 	 * @generated
 	 */
 	public Object caseResponsibility(Responsibility object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseComponent(Component object) {
 		return null;
 	}
 
