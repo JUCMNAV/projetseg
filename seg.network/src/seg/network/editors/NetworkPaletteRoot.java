@@ -68,9 +68,27 @@ public class NetworkPaletteRoot extends PaletteRoot
 
         CreationToolEntry entry;
         
-        PaletteDrawer componentsDrawer = new PaletteDrawer("Network");
+        PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
         
-        entry =
+        entry = new CombinedTemplateCreationEntry("Team", "Create a team", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Component16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Object", "Create an object", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Object16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Process", "Create a process", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Process16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("ISR", "Create an ISR", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ISR16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Pool", "Create a pool", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Pool16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Agent", "Create an agent", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Agent16.gif"), null);
+		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Other", "Create an other component", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Component16.gif"), null);
+		componentsDrawer.add(entry);
+		
+		add(componentsDrawer);
+		
+		componentsDrawer = new PaletteDrawer("Path");
+		entry =
 			new ConnectionCreationToolEntry(
 				"Link",
 				"Creates a link",
@@ -78,24 +96,14 @@ public class NetworkPaletteRoot extends PaletteRoot
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s24.gif"));
 		componentsDrawer.add(entry);
-
-        entry =
+		
+		entry =
             new CombinedTemplateCreationEntry(
                 "Node",
                 "Creates a node",
                 Node.class,
                 new ModelCreationFactory(Node.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/node.gif"), 
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
-        componentsDrawer.add(entry);
-        
-        entry =
-            new CombinedTemplateCreationEntry(
-                "Responsibility",
-                "Creates a Responsibility",
-                Responsibility.class,
-                new ModelCreationFactory(Responsibility.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/x.GIF"), 
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Node16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
@@ -105,7 +113,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Creates a Start Point",
                 StartPoint.class,
                 new ModelCreationFactory(StartPoint.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/startPoint.gif"), 
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Start16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
@@ -115,21 +123,139 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Creates a End Point",
                 EndPoint.class,
                 new ModelCreationFactory(EndPoint.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/endPoint.GIF"), 
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/End16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
         entry =
             new CombinedTemplateCreationEntry(
-                "Component",
-                "Creates a Component",
-                Component.class,
-                new ModelCreationFactory(Component.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/component.GIF"), 
+                "Responsibility",
+                "Creates a Responsibility",
+                Responsibility.class,
+                new ModelCreationFactory(Responsibility.class),
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Resp16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Stub",
+                "Creates a stub",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Stub16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Loop",
+                "Creates a loop",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Loop16.gif"), 
+				null);
+        componentsDrawer.add(entry);
 		
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Goal Tag",
+                "Creates a goal tag",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/GoalTag16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Failure Point",
+                "Creates a failure point",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/FailurePoint16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
 		add(componentsDrawer);
+        
+        componentsDrawer = new PaletteDrawer("Fork");
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Or Fork",
+                "Creates an or fork",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/OrFork16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "And Fork",
+                "Creates an and fork",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/AndFork16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Or Join",
+                "Creates an or join",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/OrJoin16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "And Join",
+                "Creates a and join",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/AndJoin16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        add(componentsDrawer);
+        
+        componentsDrawer = new PaletteDrawer("Timing");
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Timer",
+                "Creates a timer",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Timer16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Wait",
+                "Creates a wait",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Wait16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Timestamp",
+                "Creates a timestamp",
+                null,
+                null,
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/TimestampPoint16.gif"), 
+				null);
+        componentsDrawer.add(entry);
+        
+        add(componentsDrawer);
     }
     
     /** 

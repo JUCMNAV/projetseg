@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
-   id="seg.network"
+   id="seg.network.mockup"
    name="Network Plug-in"
    version="1.0.0"
    provider-name=""
@@ -44,5 +44,11 @@
             name="seg.network.NetworkNewWizard"
             id="seg.network.NetworkNewWizard"/>
    </extension>
+   <extension
+   		point="org.eclipse.ui.views">
+   		<view id="seg.network.views.description"
+   			name="Description"
+   			class="seg.network.views.Description"/>
+   	</extension>
 
 </plugin>
