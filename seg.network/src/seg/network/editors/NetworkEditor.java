@@ -63,17 +63,7 @@ public class NetworkEditor extends MultiPageEditorPart implements IResourceChang
 	 * which contains a text editor.
 	 */
 	void createPage0() {
-		try {
-			editor = new TextEditor();
-			int index = addPage(editor, getEditorInput());
-			setPageText(index, editor.getTitle());
-		} catch (PartInitException e) {
-			ErrorDialog.openError(
-				getSite().getShell(),
-				"Error creating nested text editor",
-				null,
-				e.getStatus());
-		}
+
 	}
 	/**
 	 * Creates page 1 of the multi-page editor,
