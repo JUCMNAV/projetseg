@@ -59,9 +59,9 @@ public class NetworkEditPart extends AbstractGraphicalEditPart implements
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new NetworkEditPolicy());
 		// This install the layout edit policy.  Wich commands are used for create/move/resize etc...
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new NetworkXYLayoutEditPolicy());
-		installEditPolicy(EditPolicy.NODE_ROLE, null);
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+//		installEditPolicy(EditPolicy.NODE_ROLE, null);
+//		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
+//		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 	}
 	

@@ -199,11 +199,12 @@ public class NetworkNodeEditPart extends AbstractGraphicalEditPart implements Ad
 		Point location = new Point(getNetworkNode().getX(), getNetworkNode().getY());  // The position of the current figure
 		Dimension size = new Dimension(-1, -1);
 		Rectangle bounds = new Rectangle(location, size);
+		figure.setBounds(bounds);
+		figure.validate(); // Make the label recenter itself.
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent container 
 		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
 		// and will not draw it correctly.
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
-		//super.refreshVisuals();
 	}
 }

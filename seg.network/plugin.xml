@@ -27,9 +27,10 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="seg.network.editors.NetworkEditor"
             icon="icons/sample.gif"
+            class="seg.network.editors.NetworkEditor"
             default="true"
+            contributorClass="seg.network.NetworkActionBarContributor"
             name="Network Editor"
             id="seg.network.editors.NetworkEditor"
             extensions="net">

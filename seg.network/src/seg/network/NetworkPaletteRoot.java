@@ -71,8 +71,8 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Creates a node",
                 Node.class,
                 new ModelCreationFactory(Node.class),
-                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"), 
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"));
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse16.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
  
         
@@ -82,8 +82,8 @@ public class NetworkPaletteRoot extends PaletteRoot
 				"Link",
 				"Creates a link",
 				new ModelCreationFactory(Link.class),
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"), 
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/sample.gif"));
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s16.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s24.gif"));
 		componentsDrawer.add(entry);
 		
 		add(componentsDrawer);

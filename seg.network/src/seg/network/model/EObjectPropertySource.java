@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -35,7 +36,8 @@ import seg.network.model.network.NetworkPackage;
  */
 public class EObjectPropertySource implements IPropertySource {
 	private EObject object;
-		private NetworkPackage networkPackage;
+	private NetworkPackage networkPackage;
+	
 	public EObjectPropertySource( EObject obj ) {
 		this.object = obj;
 
@@ -77,6 +79,23 @@ public class EObjectPropertySource implements IPropertySource {
 				descriptors.add( new CheckboxPropertyDescriptor( Integer.toString( attr.getFeatureID() ),
 																 attr.getName() ) );
 			}
+			else if(type.getInstanceClass() == int.class){
+				TextPropertyDescriptor desc = new TextPropertyDescriptor( Integer.toString( attr.getFeatureID() ),
+						 attr.getName() );
+				
+				((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
+					public String isValid(Object value) {
+						int intValue = -1;
+						try {
+							intValue = Integer.parseInt((String) value);
+						} catch (NumberFormatException exc) {
+							return "Not a number";
+						}
+						return (intValue >= 0) ? null : "Value must be >=  0";
+					}
+				});
+				descriptors.add(desc);
+			}
 		}
 		
 		return (IPropertyDescriptor[])descriptors.toArray( new IPropertyDescriptor[] {} );
@@ -89,6 +108,9 @@ public class EObjectPropertySource implements IPropertySource {
 		EStructuralFeature	feature = object.eClass().getEStructuralFeature( Integer.parseInt( (String)id ) );
 		
 		Object result = object.eGet( feature );
+		if(result instanceof Integer){
+			result = ((Integer)result).toString();
+		}
 		return result != null ? result : "";
 	}
 
@@ -113,7 +135,14 @@ public class EObjectPropertySource implements IPropertySource {
 	 */
 	public void setPropertyValue(Object id, Object value) {
 		EStructuralFeature	feature = object.eClass().getEStructuralFeature( Integer.parseInt( (String)id ) );
-		object.eSet( feature, value );
+		
+		Object result = object.eGet( feature );
+		if(result instanceof Integer){
+			result = new Integer(Integer.parseInt((String)value));
+			object.eSet( feature, result );
+		}
+		else
+			object.eSet( feature, value );
 	}
 
 }

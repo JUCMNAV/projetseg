@@ -20,6 +20,8 @@ import seg.network.model.network.Node;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GraphicalEditPartFactory implements EditPartFactory {
+	
+	private static int count=0;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
@@ -27,8 +29,11 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof Network)
 			return new NetworkEditPart((Network)model);
-		else if(model instanceof Node)
-			return new NetworkNodeEditPart((Node)model);
+		else if(model instanceof Node) {
+			NetworkNodeEditPart tmp = new NetworkNodeEditPart((Node)model);
+			((Node)model).setId(""+count++);
+			return tmp;
+		}
 		else if (model instanceof Link)
 			return new LinkEditPart((Link)model);
 		return null;

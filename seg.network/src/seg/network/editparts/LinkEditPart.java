@@ -14,6 +14,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 import seg.network.editpolicy.LinkEditPolicy;
+import seg.network.editpolicy.LinkSelectionHandlesEditPolicy;
 import seg.network.model.network.Link;
 
 /**
@@ -34,7 +35,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	 */
 	protected void createEditPolicies() {
 		installEditPolicy( EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy() );
-//		installEditPolicy( EditPolicy.CONNECTION_BENDPOINTS_ROLE, new LinkSelectionHandlesEditPolicy() );
+		installEditPolicy( EditPolicy.CONNECTION_BENDPOINTS_ROLE, new LinkSelectionHandlesEditPolicy() );
 		installEditPolicy( EditPolicy.CONNECTION_ROLE, new LinkEditPolicy());
 	}
 	
@@ -47,8 +48,8 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	 */
 	protected IFigure createFigure() {
 		PolylineConnection connection = (PolylineConnection) super.createFigure();
-		connection.setTargetDecoration(new PolygonDecoration()); // arrow at target endpoint
-//		connection.setLineStyle(2);  // line drawing style
+		PolygonDecoration p = new PolygonDecoration();
+		connection.setTargetDecoration(p); // arrow at target endpoint
 		return connection;
 	}
 }

@@ -12,6 +12,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * @author Etienne Tremblay
@@ -27,12 +28,15 @@ public class NodeFigure extends Ellipse {
 	protected XYLayout layout;
 
 	public NodeFigure(){
+		super();
 		layout = new XYLayout();
 		this.setLayoutManager(layout);
+		this.setBackgroundColor(new Color(null, 0, 0, 0));
 		
 		incomingAnchor = new EllipseAnchor(this);
 		outgoingAnchor = new EllipseAnchor(this);
-		label = new Label(" ");
+		label = new Label("");
+		label.setForegroundColor(new Color(null, 255, 255, 255));
 		add(label);
 	}
 	
@@ -41,8 +45,12 @@ public class NodeFigure extends Ellipse {
 	}
 	
 	public void validate(){
-		int loc = Math.max(label.getSize().width, label.getSize().height)/2 + 2;
-		layout.setConstraint(label, new Rectangle(loc,loc,-1,-1));
+		int diam = Math.max(label.getSize().width, label.getSize().height) + 10;
+		int width = diam - label.getSize().width;
+		width = width/2;
+		int height = diam - label.getSize().height;
+		height = height/2;
+		layout.setConstraint(label, new Rectangle(width,height,-1,-1));
 		super.validate();
 	}
 	
