@@ -12,6 +12,7 @@ import org.eclipse.gef.EditPartFactory;
 import seg.network.model.network.Link;
 import seg.network.model.network.Network;
 import seg.network.model.network.Node;
+import seg.network.model.network.Responsability;
 
 /**
  * @author Etienne Tremblay
@@ -21,7 +22,7 @@ import seg.network.model.network.Node;
  */
 public class GraphicalEditPartFactory implements EditPartFactory {
 	
-	private static int count=0;
+	private int count=0;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
@@ -29,6 +30,9 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof Network)
 			return new NetworkEditPart((Network)model);
+		else if(model instanceof Responsability){
+			return new ResponsibilityEditPart((Responsability)model);
+		}
 		else if(model instanceof Node) {
 			NetworkNodeEditPart tmp = new NetworkNodeEditPart((Node)model);
 			((Node)model).setId(""+count++);

@@ -21,6 +21,7 @@ import seg.network.edit.commands.CreateNodeCommand;
 import seg.network.edit.commands.SetConstraintCommand;
 import seg.network.model.network.Network;
 import seg.network.model.network.Node;
+import seg.network.model.network.Responsability;
 
 public class NetworkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -41,12 +42,12 @@ public class NetworkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		Object	newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
 		
-		if( newObjectType == Node.class ) {
+		if( newObjectType == Node.class || newObjectType == Responsability.class ) {
 			CreateNodeCommand create = new CreateNodeCommand();
-			create.setNode( (Node)request.getNewObject() );
 			create.setParent((Network)getHost().getModel());
 			create.setLocation(request.getLocation());
-			create.setLabel("create a node");
+			create.setNode( (Node)request.getNewObject() );
+			create.setLabel("Create a node");
 			createCommand = create;
 		}
 

@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package seg.network;
+package seg.network.editors;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
@@ -19,9 +19,11 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+import seg.network.NetworkPlugin;
 import seg.network.model.ModelCreationFactory;
 import seg.network.model.network.Link;
 import seg.network.model.network.Node;
+import seg.network.model.network.Responsability;
 
 
 public class NetworkPaletteRoot extends PaletteRoot
@@ -64,6 +66,15 @@ public class NetworkPaletteRoot extends PaletteRoot
         CreationToolEntry entry;
         
         PaletteDrawer componentsDrawer = new PaletteDrawer("Network");
+        
+        entry =
+			new ConnectionCreationToolEntry(
+				"Link",
+				"Creates a link",
+				new ModelCreationFactory(Link.class),
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s16.gif"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s24.gif"));
+		componentsDrawer.add(entry);
 
         entry =
             new CombinedTemplateCreationEntry(
@@ -74,17 +85,16 @@ public class NetworkPaletteRoot extends PaletteRoot
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse16.gif"), 
 				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
- 
         
-
-  		entry =
-			new ConnectionCreationToolEntry(
-				"Link",
-				"Creates a link",
-				new ModelCreationFactory(Link.class),
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s16.gif"), 
-				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/connection_s24.gif"));
-		componentsDrawer.add(entry);
+        entry =
+            new CombinedTemplateCreationEntry(
+                "Responsability",
+                "Creates a Responsability",
+                Responsability.class,
+                new ModelCreationFactory(Responsability.class),
+                ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/x.GIF"), 
+				ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ellipse24.gif"));
+        componentsDrawer.add(entry);
 		
 		add(componentsDrawer);
     }

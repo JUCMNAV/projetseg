@@ -225,6 +225,226 @@ public interface NetworkPackage extends EPackage{
 	int NETWORK_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link seg.network.model.network.impl.StartPointImpl <em>Start Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.network.model.network.impl.StartPointImpl
+	 * @see seg.network.model.network.impl.NetworkPackageImpl#getStartPoint()
+	 * @generated
+	 */
+	int START_POINT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Upstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__UPSTREAM_LINKS = NODE__UPSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Downstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__DOWNSTREAM_LINKS = NODE__DOWNSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__X = NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__Y = NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Network</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__NETWORK = NODE__NETWORK;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__ID = NODE__ID;
+
+	/**
+	 * The number of structural features of the the '<em>Start Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link seg.network.model.network.impl.EndPointImpl <em>End Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.network.model.network.impl.EndPointImpl
+	 * @see seg.network.model.network.impl.NetworkPackageImpl#getEndPoint()
+	 * @generated
+	 */
+	int END_POINT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Upstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__UPSTREAM_LINKS = NODE__UPSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Downstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__DOWNSTREAM_LINKS = NODE__DOWNSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__X = NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__Y = NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Network</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__NETWORK = NODE__NETWORK;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__ID = NODE__ID;
+
+	/**
+	 * The number of structural features of the the '<em>End Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link seg.network.model.network.impl.ResponsabilityImpl <em>Responsability</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.network.model.network.impl.ResponsabilityImpl
+	 * @see seg.network.model.network.impl.NetworkPackageImpl#getResponsability()
+	 * @generated
+	 */
+	int RESPONSABILITY = 5;
+
+	/**
+	 * The feature id for the '<em><b>Upstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__UPSTREAM_LINKS = NODE__UPSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Downstream Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__DOWNSTREAM_LINKS = NODE__DOWNSTREAM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>X</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__X = NODE__X;
+
+	/**
+	 * The feature id for the '<em><b>Y</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__Y = NODE__Y;
+
+	/**
+	 * The feature id for the '<em><b>Network</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__NETWORK = NODE__NETWORK;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY__ID = NODE__ID;
+
+	/**
+	 * The number of structural features of the the '<em>Responsability</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSABILITY_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link seg.network.model.network.Node <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -342,6 +562,36 @@ public interface NetworkPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getNetwork_Name();
+
+	/**
+	 * Returns the meta object for class '{@link seg.network.model.network.StartPoint <em>Start Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Start Point</em>'.
+	 * @see seg.network.model.network.StartPoint
+	 * @generated
+	 */
+	EClass getStartPoint();
+
+	/**
+	 * Returns the meta object for class '{@link seg.network.model.network.EndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>End Point</em>'.
+	 * @see seg.network.model.network.EndPoint
+	 * @generated
+	 */
+	EClass getEndPoint();
+
+	/**
+	 * Returns the meta object for class '{@link seg.network.model.network.Responsability <em>Responsability</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Responsability</em>'.
+	 * @see seg.network.model.network.Responsability
+	 * @generated
+	 */
+	EClass getResponsability();
 
 	/**
 	 * Returns the meta object for class '{@link seg.network.model.network.Link <em>Link</em>}'.

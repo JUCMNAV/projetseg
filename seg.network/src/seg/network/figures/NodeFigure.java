@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package seg.network;
+package seg.network.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
@@ -12,7 +12,6 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * @author Etienne Tremblay
@@ -31,13 +30,14 @@ public class NodeFigure extends Ellipse {
 		super();
 		layout = new XYLayout();
 		this.setLayoutManager(layout);
-		this.setBackgroundColor(new Color(null, 0, 0, 0));
+//		this.setBackgroundColor(new Color(null, 0, 0, 0));
 		
 		incomingAnchor = new EllipseAnchor(this);
 		outgoingAnchor = new EllipseAnchor(this);
 		label = new Label("");
-		label.setForegroundColor(new Color(null, 255, 255, 255));
+//		label.setForegroundColor(new Color(null, 255, 255, 255));
 		add(label);
+		label.setVisible(false);
 	}
 	
 	public void setId(String id){
@@ -45,7 +45,7 @@ public class NodeFigure extends Ellipse {
 	}
 	
 	public void validate(){
-		int diam = Math.max(label.getSize().width, label.getSize().height) + 10;
+		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
 		int width = diam - label.getSize().width;
 		width = width/2;
 		int height = diam - label.getSize().height;
@@ -72,7 +72,7 @@ public class NodeFigure extends Ellipse {
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		int diam = Math.max(label.getSize().width, label.getSize().height) + 10;
+		int diam = Math.max(label.getSize().width, label.getSize().height) + 2;
 		return new Dimension(diam, diam);
 	}
 }

@@ -105,6 +105,27 @@ public class NetworkSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case NetworkPackage.START_POINT: {
+				StartPoint startPoint = (StartPoint)theEObject;
+				Object result = caseStartPoint(startPoint);
+				if (result == null) result = caseNode(startPoint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.END_POINT: {
+				EndPoint endPoint = (EndPoint)theEObject;
+				Object result = caseEndPoint(endPoint);
+				if (result == null) result = caseNode(endPoint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.RESPONSABILITY: {
+				Responsability responsability = (Responsability)theEObject;
+				Object result = caseResponsability(responsability);
+				if (result == null) result = caseNode(responsability);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -136,6 +157,51 @@ public class NetworkSwitch {
 	 * @generated
 	 */
 	public Object caseNetwork(Network object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Start Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Start Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseStartPoint(StartPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>End Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>End Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseEndPoint(EndPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Responsability</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Responsability</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseResponsability(Responsability object) {
 		return null;
 	}
 

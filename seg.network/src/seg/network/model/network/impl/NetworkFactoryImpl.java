@@ -40,6 +40,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 			case NetworkPackage.LINK: return createLink();
 			case NetworkPackage.NODE: return createNode();
 			case NetworkPackage.NETWORK: return createNetwork();
+			case NetworkPackage.START_POINT: return createStartPoint();
+			case NetworkPackage.END_POINT: return createEndPoint();
+			case NetworkPackage.RESPONSABILITY: return createResponsability();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -63,6 +66,36 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	public Network createNetwork() {
 		NetworkImpl network = new NetworkImpl();
 		return network;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StartPoint createStartPoint() {
+		StartPointImpl startPoint = new StartPointImpl();
+		return startPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EndPoint createEndPoint() {
+		EndPointImpl endPoint = new EndPointImpl();
+		return endPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Responsability createResponsability() {
+		ResponsabilityImpl responsability = new ResponsabilityImpl();
+		return responsability;
 	}
 
 	/**

@@ -25,5 +25,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Network.ecore#//Network/Links"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Network.ecore#//Network/name"/>
     </genClasses>
+    <genClasses ecoreClass="Network.ecore#//StartPoint"/>
+    <genClasses ecoreClass="Network.ecore#//EndPoint"/>
+    <genClasses ecoreClass="Network.ecore#//Responsability"/>
   </genPackages>
 </genmodel:GenModel>

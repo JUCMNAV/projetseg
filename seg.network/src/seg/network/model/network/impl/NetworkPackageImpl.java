@@ -13,11 +13,15 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import seg.network.model.network.EndPoint;
 import seg.network.model.network.Link;
 import seg.network.model.network.Network;
 import seg.network.model.network.NetworkFactory;
 import seg.network.model.network.NetworkPackage;
 import seg.network.model.network.Node;
+
+import seg.network.model.network.Responsability;
+import seg.network.model.network.StartPoint;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,6 +43,27 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * @generated
 	 */
 	private EClass networkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass startPointEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass endPointEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass responsabilityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -219,6 +244,33 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStartPoint() {
+		return startPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEndPoint() {
+		return endPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getResponsability() {
+		return responsabilityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLink() {
 		return linkEClass;
 	}
@@ -295,6 +347,12 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEReference(networkEClass, NETWORK__NODES);
 		createEReference(networkEClass, NETWORK__LINKS);
 		createEReference(networkEClass, NETWORK__NAME);
+
+		startPointEClass = createEClass(START_POINT);
+
+		endPointEClass = createEClass(END_POINT);
+
+		responsabilityEClass = createEClass(RESPONSABILITY);
 	}
 
 	/**
@@ -321,6 +379,9 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		setNsURI(eNS_URI);
 
 		// Add supertypes to classes
+		startPointEClass.getESuperTypes().add(this.getNode());
+		endPointEClass.getESuperTypes().add(this.getNode());
+		responsabilityEClass.getESuperTypes().add(this.getNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -340,6 +401,12 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEReference(getNetwork_Nodes(), this.getNode(), this.getNode_Network(), "Nodes", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetwork_Links(), this.getLink(), this.getLink_Network(), "Links", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetwork_Name(), ecorePackage.getEObject(), null, "name", null, 1, 1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(responsabilityEClass, Responsability.class, "Responsability", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

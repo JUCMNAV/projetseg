@@ -31,7 +31,7 @@
             icon="icons/sample.gif"
             class="seg.network.editors.NetworkEditor"
             default="true"
-            contributorClass="seg.network.NetworkActionBarContributor"
+            contributorClass="seg.network.editors.NetworkActionBarContributor"
             name="Network Editor"
             id="seg.network.editors.NetworkEditor"
             extensions="net">

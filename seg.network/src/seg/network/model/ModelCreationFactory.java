@@ -15,6 +15,7 @@ import seg.network.model.network.Link;
 import seg.network.model.network.NetworkFactory;
 import seg.network.model.network.NetworkPackage;
 import seg.network.model.network.Node;
+import seg.network.model.network.Responsability;
 
 
 /**
@@ -47,6 +48,9 @@ public class ModelCreationFactory implements CreationFactory {
 		}
 		else if (targetClass.equals(Link.class)){
 			result = factory.createLink();
+		}
+		else if(targetClass.equals(Responsability.class)){
+			result = factory.createResponsability();
 		}
 		return result;
 	}

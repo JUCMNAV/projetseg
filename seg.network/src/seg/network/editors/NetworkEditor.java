@@ -49,7 +49,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
-import seg.network.NetworkPaletteRoot;
 import seg.network.NetworkPlugin;
 import seg.network.editparts.GraphicalEditPartFactory;
 import seg.network.model.NetworkModelManager;

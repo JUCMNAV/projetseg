@@ -24,9 +24,9 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.network.NodeFigure;
 import seg.network.editpolicy.NetworkComponentEditPolicy;
 import seg.network.editpolicy.NetworkNodeEditPolicy;
+import seg.network.figures.NodeFigure;
 import seg.network.model.EObjectPropertySource;
 import seg.network.model.network.NetworkPackage;
 import seg.network.model.network.Node;
