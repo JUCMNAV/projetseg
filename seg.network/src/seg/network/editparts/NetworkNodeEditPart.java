@@ -6,6 +6,8 @@
  */
 package seg.network.editparts;
 
+import java.util.List;
+
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -171,6 +173,22 @@ public class NetworkNodeEditPart extends AbstractGraphicalEditPart implements Ad
 	 */
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getNodeFigure().getTargetConnectionAnchor();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	 */
+	protected List getModelSourceConnections() {
+		return getNetworkNode().getDownstreamLinks();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	 */
+	protected List getModelTargetConnections() {
+		return getNetworkNode().getUpstreamLinks();
 	}
 
 	/* (non-Javadoc)
