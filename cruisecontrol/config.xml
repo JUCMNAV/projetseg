@@ -1,0 +1,48 @@
+<cruisecontrol>
+  <project name="seg.jUCMNav" buildafterfailed="true">
+    <listeners>
+      <currentbuildstatuslistener
+          file="logs/seg.jUCMNav/buildstatus.txt"/>
+    </listeners>
+
+    <!-- Bootstrappers are run every time the build runs, 
+        *before* the modification checks -->
+    <bootstrappers>
+    </bootstrappers>
+
+    <!-- Defines where cruise looks for changes, to decide
+         whether to run the build --> 
+    <modificationset quietperiod="10"> 
+      <cvs localworkingcopy="checkout/seg.jUCMNav"/> 
+    </modificationset>
+
+    <!-- Configures the actual build loop, how often and which
+         build file/target --> 
+    <schedule interval="1600">
+      <ant antscript="C:\ant\bin\ant.bat"
+           buildfile="build-seg.jUCMNav.xml"
+           target="build"
+           uselogger="true"
+           usedebug="false"/> 
+    </schedule>
+
+    <!-- directory to write build logs to --> 
+    <log dir="logs/seg.jUCMNav"/>
+
+    <!-- Publishers are run *after* a build completes --> 
+    <publishers>
+<htmlemail mailhost="relais.videotron.ca" 
+        returnaddress="cruisecontrol@softwareengineering.ca" 
+        buildresultsurl="http://jkealey.shade.ca:82/" 
+        skipusers="true" spamwhilebroken="true"
+        css="C:/PROGRA~1/cruisecontrol/reporting/jsp/webcontent/css/cruisecontrol.css"
+        xsldir="C:/PROGRA~1/cruisecontrol/reporting/jsp/webcontent/xsl" 
+        logdir="logs/seg.jUCMNav">
+    <always address="seg4910@softwareengineering.ca"/>
+</htmlemail>
+<artifactspublisher 
+    dir="checkout/seg.jUCMNav/build/"
+    dest="artifacts/seg.jUCMNav"/>
+    </publishers> 
+  </project> 
+</cruisecontrol>
