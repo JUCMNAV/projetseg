@@ -39,7 +39,9 @@ public class NetworkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
 	 */
 	protected Command getCreateCommand(CreateRequest request) {
-		Object	newObjectType = request.getNewObjectType();
+		Object	newObjectType = null;
+		if(request.getNewObject() != null)
+			newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
 		
 		if( newObjectType == Node.class 

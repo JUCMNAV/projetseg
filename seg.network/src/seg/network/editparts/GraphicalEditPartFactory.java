@@ -52,7 +52,9 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		}
 		else if (model instanceof Link)
 			return new LinkEditPart((Link)model);
-		return null;
+		else
+			return null;
+//		return null;
 	}
 
 }

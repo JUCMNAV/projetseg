@@ -72,15 +72,15 @@ public class NetworkPaletteRoot extends PaletteRoot
         
         entry = new CombinedTemplateCreationEntry("Team", "Create a team", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Component16.gif"), null);
 		componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry("Object", "Create an object", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Object16.gif"), null);
+        entry = new CombinedTemplateCreationEntry("Object", "Create an object", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Object16.gif"), null);
 		componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry("Process", "Create a process", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Process16.gif"), null);
+        entry = new CombinedTemplateCreationEntry("Process", "Create a process", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Process16.gif"), null);
 		componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry("ISR", "Create an ISR", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ISR16.gif"), null);
+        entry = new CombinedTemplateCreationEntry("ISR", "Create an ISR", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/ISR16.gif"), null);
 		componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry("Pool", "Create a pool", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Pool16.gif"), null);
+        entry = new CombinedTemplateCreationEntry("Pool", "Create a pool", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Pool16.gif"), null);
 		componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry("Agent", "Create an agent", null, null, ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Agent16.gif"), null);
+        entry = new CombinedTemplateCreationEntry("Agent", "Create an agent", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Agent16.gif"), null);
 		componentsDrawer.add(entry);
         entry = new CombinedTemplateCreationEntry("Other", "Create an other component", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Component16.gif"), null);
 		componentsDrawer.add(entry);
@@ -142,7 +142,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Stub",
                 "Creates a stub",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Stub16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -152,7 +152,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Loop",
                 "Creates a loop",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Loop16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -162,7 +162,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Goal Tag",
                 "Creates a goal tag",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/GoalTag16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -172,7 +172,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Failure Point",
                 "Creates a failure point",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/FailurePoint16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -186,7 +186,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Or Fork",
                 "Creates an or fork",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/OrFork16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -196,7 +196,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "And Fork",
                 "Creates an and fork",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/AndFork16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -206,7 +206,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Or Join",
                 "Creates an or join",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/OrJoin16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -216,7 +216,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "And Join",
                 "Creates a and join",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/AndJoin16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -230,7 +230,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Timer",
                 "Creates a timer",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Timer16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -240,7 +240,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Wait",
                 "Creates a wait",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/Wait16.gif"), 
 				null);
         componentsDrawer.add(entry);
@@ -250,7 +250,7 @@ public class NetworkPaletteRoot extends PaletteRoot
                 "Timestamp",
                 "Creates a timestamp",
                 null,
-                null,
+                new ModelCreationFactory(null),
                 ImageDescriptor.createFromFile(NetworkPlugin.class, "icons/TimestampPoint16.gif"), 
 				null);
         componentsDrawer.add(entry);

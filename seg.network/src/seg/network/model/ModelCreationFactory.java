@@ -45,24 +45,29 @@ public class ModelCreationFactory implements CreationFactory {
 		NetworkFactory factory = workflowPackage.getNetworkFactory();
 			
 		Object		result = null;
-			
-		if( targetClass.equals( Node.class ) ) {
-			result = factory.createNode();
-		}
-		else if (targetClass.equals(Link.class)){
-			result = factory.createLink();
-		}
-		else if(targetClass.equals(Responsibility.class)){
-			result = factory.createResponsibility();
-		}
-		else if(targetClass.equals(StartPoint.class)){
-			result = factory.createStartPoint();
-		}
-		else if(targetClass.equals(EndPoint.class)){
-			result = factory.createEndPoint();
-		}
-		else if(targetClass.equals(Component.class)){
-			result = factory.createComponent();
+		
+		if(targetClass != null){
+			if( targetClass.equals( Node.class ) ) {
+				result = factory.createNode();
+			}
+			else if (targetClass.equals(Link.class)){
+				result = factory.createLink();
+			}
+			else if(targetClass.equals(Responsibility.class)){
+				result = factory.createResponsibility();
+			}
+			else if(targetClass.equals(StartPoint.class)){
+				result = factory.createStartPoint();
+			}
+			else if(targetClass.equals(EndPoint.class)){
+				result = factory.createEndPoint();
+			}
+			else if(targetClass.equals(Component.class)){
+				result = factory.createComponent();
+			}
+			else{
+				result = factory.createModelElement();
+			}
 		}
 		return result;
 	}
