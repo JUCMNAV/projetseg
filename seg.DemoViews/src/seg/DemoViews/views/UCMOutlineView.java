@@ -46,7 +46,6 @@ public class UCMOutlineView extends ViewPart {
 		
 		// it don't work :(
 		//tiOutlineComponents.setImage(new Image(parent.getDisplay(),"icons/fldr_obj.gif"));
-		
 
 		TreeItem tiOutlineResponsibilities = new TreeItem(t,0);
 		tiOutlineResponsibilities.setText("Responsibilities");
