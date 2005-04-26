@@ -18,7 +18,7 @@
 
     <!-- Configures the actual build loop, how often and which
          build file/target --> 
-    <schedule interval="1800">
+    <schedule interval="1600">
       <ant antscript="C:\ant\bin\ant.bat"
            buildfile="build-seg.jUCMNav.xml"
            target="build"
@@ -27,7 +27,9 @@
     </schedule>
 
     <!-- directory to write build logs to --> 
-    <log dir="logs/seg.jUCMNav"/>
+    <log dir="logs/seg.jUCMNav">
+	<merge file="checkout/seg.jUCMNav/testresults.xml" />
+    </log>
 
     <!-- Publishers are run *after* a build completes --> 
     <publishers>
