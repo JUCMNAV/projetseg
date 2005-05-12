@@ -12,13 +12,13 @@
 
     <!-- Defines where cruise looks for changes, to decide
          whether to run the build --> 
-    <modificationset quietperiod="10"> 
+    <modificationset quietperiod="60"> 
       <cvs localworkingcopy="checkout/seg.jUCMNav"/> 
     </modificationset>
 
     <!-- Configures the actual build loop, how often and which
          build file/target --> 
-    <schedule interval="900">
+    <schedule interval="300">
       <ant antscript="C:\ant\bin\ant.bat"
            buildfile="build-seg.jUCMNav.xml"
            target="build"
