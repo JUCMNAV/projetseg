@@ -28,7 +28,8 @@
 
     <!-- directory to write build logs to --> 
     <log dir="logs/seg.jUCMNav">
-	<merge file="checkout/get/seg.jUCMNav/testresults.xml" />
+	<!-- <merge file="checkout/get/seg.jUCMNav/testresults.xml" /> -->
+	<merge file="eclipse-testing/results/xml/seg.jUCMNav_.xml" />
     </log>
 
     <!-- Publishers are run *after* a build completes --> 
