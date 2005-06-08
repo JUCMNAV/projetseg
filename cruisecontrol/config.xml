@@ -18,7 +18,7 @@
 
     <!-- Configures the actual build loop, how often and which
          build file/target --> 
-    <schedule interval="600">
+    <schedule interval="60">
       <ant antscript="C:\ant\bin\ant.bat"
            buildfile="build-seg.jUCMNav.xml"
            target="build"
