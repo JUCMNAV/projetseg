@@ -5,7 +5,7 @@
         basedir="checkout/get/seg.jUCMNav">
     <target name="build">
         <!-- Get the latest from CVS -->
-        <cvs command="up -d -P"/>
+        <cvs command="-q up -d -P"/>
         <!-- Call the target that does everything -->
         <ant antfile="build.xml" target="build.fullzip"/>
 		<copy file="build/seg.jUCMNav_1.0.0.zip" todir="../../../eclipse-testing/" />
