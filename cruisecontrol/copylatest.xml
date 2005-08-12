@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project name="CopyLatestBuild" default="cp" basedir=".">
+	<target name="cp">
+		<property name="copyFromDir" value="checkout\get\seg.jUCMNav\build\" />
+		<property name="copyToDir" value="artifacts\seg.jUCMNav\latest\" />
+		<copy todir="${copyToDir}" overwrite="true">
+			<fileset dir="${copyFromDir}"/>
+		</copy>
+	</target>
+</project>
+

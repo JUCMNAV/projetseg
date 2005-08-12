@@ -8,7 +8,11 @@
         <cvs command="-q up -d -P"/>
         <!-- Call the target that does everything -->
         <ant antfile="build.xml" target="build.fullzip"/>
-		<copy file="build/seg.jUCMNav_1.0.0.zip" todir="../../../eclipse-testing/" />
+		<copy todir="../../../eclipse-testing/">
+			<fileset dir="build/">
+				<include name="seg.jUCMNav_*.zip" />
+			</fileset>
+		</copy>
 		<exec dir="../../../eclipse-testing/" executable="../../../eclipse-testing/runtests.bat" resolveexecutable="true">
 			<arg line="-noclean jUCMNav" />
 		</exec>

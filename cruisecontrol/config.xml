@@ -46,6 +46,7 @@
 <artifactspublisher 
     dir="checkout/get/seg.jUCMNav/build/"
     dest="artifacts/seg.jUCMNav"/>
+<antpublisher buildfile="copylatest.xml" target="cp"/>
     </publishers> 
   </project> 
 </cruisecontrol>
