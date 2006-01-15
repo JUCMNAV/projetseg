@@ -4,8 +4,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
-
 /**
  * The main plugin class to be used in the desktop.
  */
