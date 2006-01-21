@@ -1,4 +1,4 @@
-package uCM2CSM;
+package one2one;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
