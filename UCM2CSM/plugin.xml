@@ -13,7 +13,7 @@
    </extension> <extension
          point="seg.jUCMNav.UseCaseMapExport">
       <exporter
-            class="uCM2CSM.Converter"
+            class="one2one.Convert"
             extension="csm"
             id="seg.jUCMNav.UCM2CSM "
             mode="model instance"
