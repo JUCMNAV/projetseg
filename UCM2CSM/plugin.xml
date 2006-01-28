@@ -3,10 +3,10 @@
 <plugin>
    <extension
          point="seg.jUCMNav.URNExport">
-      <exporter
+		<exporter
             class="one2one.Convert"
             extension="csm"
-            id="seg.jUCMNav.UCM2CSM "
+            id="seg.jUCMNav.UCM2CSM"           
             name="UCM to CSM conversion plugin"
             useStream="true"/>
    </extension>
@@ -17,7 +17,7 @@
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
    </extension> <extension
-         point="seg.jUCMNav.UseCaseMapExport">
+         point="seg.jUCMNav.UseCaseMapExport">   
    </extension>
 
 </plugin>

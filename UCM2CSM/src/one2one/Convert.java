@@ -28,10 +28,17 @@ public class Convert implements IURNExport {
     }
 
 	public void export(URNspec urn, FileOutputStream fos) throws InvocationTargetException {
-        PrintStream ps = new PrintStream(fos); 
-        // general CSM header and footer
-        String CSM_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";       
+        
+        PrintStream ps = new PrintStream(fos);
+        
+        // CSM header and footer 
+        String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";    
+        String CSM_header = "<CSM name=\"" + urn.getClass().getName() + "\" " +
+                            "description= \"" + urn.getDescription() + "\">";
         String CSM_footer = "</CSM>";
+        
+        // output to file
+        ps.println(XML_header);
         ps.println(CSM_header);
         
         // parsing SpecDiagram
@@ -42,11 +49,20 @@ public class Convert implements IURNExport {
 		        exportMap(map, ps);
 			}			
 		}
-       ps.println(CSM_footer);
-       ps.flush();       
+        ps.println(CSM_footer);
+        ps.flush(); 
 	}
 	
 	private void exportMap(UCMmap map, PrintStream ps) {
+        // map header and footer
+        String Open_scenario_tag = "<Scenario id=\"" + map.getId() + "\"" +
+                                    " " + "name=\"" + map.getName()+ "\"" +
+                                    " " + "description= \"" + map.getDescription()+ "\"" + ">";
+        String Close_scenario_tag = "</Scenario>";
+        
+        // output to file
+        ps.println("        " + Open_scenario_tag);
+        
 		// parsing the map 
 		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
 		    PathNode node = (PathNode) iter2.next();
@@ -60,7 +76,9 @@ public class Convert implements IURNExport {
 		       AndJoinConverter obj = new AndJoinConverter(node); 
 		       doConvert(obj,ps);
 		    }         
-		}
+		}        
+        ps.println("        " + Close_scenario_tag);
+        ps.flush();
 	}
 	
 	public void export(URNspec urn, String filename) throws InvocationTargetException {

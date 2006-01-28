@@ -22,15 +22,13 @@ public class OrJoinConverter extends OrJoinImpl implements AbstractConverter {
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
-        String Object_header = "<CSM name=\"merge\" description=\"\">";      
-        String Object_attributes = "<merge id=\"" + getId() + "\"/>";
-        String Open_scenario_tag = "<Scenario id=\"" + getId() + "\"" + " name=\""+ getName()+"\"description= \"" + getDescription()+ "/>";
-        String Close_scenario_tag = "</Scenario>";
+        
+        // object attributes
+        String Object_attributes = "<merge id=\"" + getId() + "\"" + " " +
+                                    "description=\"" + getDescription() +"\"/>";
+        
         // output to file
-        ps.println("    " + Object_header);
-        ps.println("        " + Open_scenario_tag);
-        ps.println("        " + Object_attributes);
-        ps.println("        " + Close_scenario_tag);
+        ps.println("            " + Object_attributes);
         ps.flush();                    
     }
 }
