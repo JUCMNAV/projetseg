@@ -7,9 +7,9 @@ import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.AndJoin;
+import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
-import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -77,6 +77,10 @@ public class Convert implements IURNExport {
 		       AndJoinConverter obj = new AndJoinConverter(node); 
 		       doConvert(obj,ps);
 		    }
+		    if(node instanceof OrFork){
+			       OrForkConverter obj = new OrForkConverter(node); 
+			       doConvert(obj,ps);
+			    }
 		   
 		}        
         ps.println("        " + Close_scenario_tag);
