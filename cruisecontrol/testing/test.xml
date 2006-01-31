@@ -350,10 +350,10 @@
 	<target name="jUCMNav" description="Runs the seg.jUCMNav test.xml">      
 		<delete dir="${install}/eclipse/plugins/seg.jUCMNav*" />
 		<exec dir="." executable="unzip">
-			<arg line="-o -qq -j seg.jUCMNav*.zip -d ${install}/eclipse/plugins/seg.jUCMNav_1.0.0"/>
+			<arg line="-o -qq -j seg.jUCMNav*.zip -d ${install}/eclipse/plugins/seg.jUCMNav_2.0.0"/>
 	    </exec>
 		<!-- can't manage to rename the friggen directory; flattening the hiearchy -->
-<!--		<move todir="${install}/eclipse/plugins/seg.jUCMNav_1.0.0">
+<!--		<move todir="${install}/eclipse/plugins/seg.jUCMNav_2.0.0">
 			<fileset dir="${install}/eclipse/plugins" includes="seg.jUCMNav*/**"/>
 			 <flattenmapper/>
 		</move>
@@ -361,7 +361,7 @@
 		
 		
 		<antcall target="runtests" >
-    	  	<param name="testPlugin" value="seg.jUCMNav_1.0.0" />
+    	  	<param name="testPlugin" value="seg.jUCMNav_2.0.0" />
 			<param name="report" value="seg.jUCMNav" />
     	</antcall>
 	</target>
