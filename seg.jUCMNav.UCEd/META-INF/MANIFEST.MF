@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UCEd Import plugin for jUCMNav
+Bundle-SymbolicName: seg.jUCMNav.UCEd; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: seg.jUCMNav.importexport.UCEdPlugin
+Bundle-Vendor: usecasemaps.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gef,
+ seg.jUCMNav,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common.ui
+Eclipse-AutoStart: true
