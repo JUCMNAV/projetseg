@@ -9,20 +9,22 @@
 		<exec dir="./" executable="svn" resolveexecutable="true">
 			<arg line="update" />
 		</exec>
-		
+
+	<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+
         <!-- Call the target that does everything -->
         <ant antfile="build.xml" target="build.fullzip"/>
 		<delete>
-		  <fileset dir="../../../eclipse-testing/">
+		  <fileset dir="../../../testing/">
 			<include name="seg.jUCMNav_*.zip" />
 		  </fileset>
 		</delete>		
-		<copy todir="../../../eclipse-testing/">
+		<copy todir="../../../testing/">
 			<fileset dir="build/">
 				<include name="seg.jUCMNav_*.zip" />
 			</fileset>
 		</copy>
-		<exec dir="../../../eclipse-testing/" executable="../../../eclipse-testing/runtests.bat" resolveexecutable="true">
+		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true">
 			<arg line="-noclean jUCMNav" />
 		</exec>
     </target>
