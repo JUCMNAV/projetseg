@@ -5,9 +5,18 @@
         basedir="checkout/get/seg.jUCMNav">
     <target name="build">
         <!-- Get the latest from CVS -->
-        <cvs command="-q up -d -P"/>
+        <!--<cvs command="-q up -d -P"/>-->
+		<exec dir="./" executable="svn" resolveexecutable="true">
+			<arg line="update" />
+		</exec>
+		
         <!-- Call the target that does everything -->
         <ant antfile="build.xml" target="build.fullzip"/>
+		<delete>
+		  <fileset dir="../../../eclipse-testing/">
+			<include name="seg.jUCMNav_*.zip" />
+		  </fileset>
+		</delete>		
 		<copy todir="../../../eclipse-testing/">
 			<fileset dir="build/">
 				<include name="seg.jUCMNav_*.zip" />

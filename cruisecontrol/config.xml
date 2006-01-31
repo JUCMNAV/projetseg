@@ -13,7 +13,7 @@
     <!-- Defines where cruise looks for changes, to decide
          whether to run the build --> 
     <modificationset quietperiod="60"> 
-      <cvs localworkingcopy="checkout/get/seg.jUCMNav"/> 
+      <svn localworkingcopy="checkout/get/seg.jUCMNav"/> 
     </modificationset>
 
     <!-- Configures the actual build loop, how often and which
@@ -41,7 +41,7 @@
         css="C:/PROGRA~1/cruisecontrol/reporting/jsp/webcontent/css/cruisecontrol.css"
         xsldir="C:/PROGRA~1/cruisecontrol/reporting/jsp/webcontent/xsl" 
         logdir="logs/seg.jUCMNav">
-    <always address="seg4910@softwareengineering.ca"/>
+    <always address="jucmnav-dev@softwareengineering.ca"/>
 </htmlemail>
 <artifactspublisher 
     dir="checkout/get/seg.jUCMNav/build/"

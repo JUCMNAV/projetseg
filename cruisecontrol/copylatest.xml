@@ -3,8 +3,11 @@
 	<target name="cp">
 		<property name="copyFromDir" value="checkout\get\seg.jUCMNav\build\" />
 		<property name="copyToDir" value="artifacts\seg.jUCMNav\latest\" />
+		<delete includeEmptyDirs="true">
+		  <fileset dir="${copyToDir}" includes="**/*" defaultexcludes="no"/>
+		</delete>		
 		<copy todir="${copyToDir}" overwrite="true">
-			<fileset dir="${copyFromDir}"/>
+			<fileset dir="${copyFromDir}" includes="**/*"/>
 		</copy>
 	</target>
 </project>
