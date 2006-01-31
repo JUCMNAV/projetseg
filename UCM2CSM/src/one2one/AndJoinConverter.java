@@ -3,9 +3,15 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.PathNode;
-import ucm.map.impl.OrJoinImpl;
-
-public class AndJoinConverter extends OrJoinImpl implements AbstractConverter {
+import ucm.map.impl.AndJoinImpl;
+/**
+ * <!-- begin-user-doc -->
+ * Creates the CSM representation(Join) of the AndJoin object
+ * <!-- end-user-doc -->
+ * @see one2one 
+ * @generated
+ */
+public class AndJoinConverter extends AndJoinImpl implements AbstractConverter {
     // constructors
     public AndJoinConverter(PathNode pn){
        this.description = pn.getDescription();
@@ -17,7 +23,7 @@ public class AndJoinConverter extends OrJoinImpl implements AbstractConverter {
     public void Convert(PrintStream ps){
        
        // object attributes 
-        String Object_attributes = "<join id=\"" + getId() + "\"" + " " +
+        String Object_attributes = "<Join id=\"" + "h" + getId() + "\"" + " " +
                                    "description=\"" + getDescription() +"\"/>";
        
        // output to file

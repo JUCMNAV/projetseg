@@ -24,7 +24,7 @@ public class OrJoinConverter extends OrJoinImpl implements AbstractConverter {
     public void Convert(PrintStream ps){
         
         // object attributes
-        String Object_attributes = "<merge id=\"" + getId() + "\"" + " " +
+        String Object_attributes = "<Merge id=\"" + "h" + getId() + "\"" + " " +
                                     "description=\"" + getDescription() +"\"/>";
         
         // output to file

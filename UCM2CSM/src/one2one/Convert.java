@@ -9,9 +9,10 @@ import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.AndJoin;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNspec;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 /**
  * <!-- begin-user-doc -->
  * Performs a 1-to-1 conversion on UCM components 
@@ -33,7 +34,7 @@ public class Convert implements IURNExport {
         
         // CSM header and footer 
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";    
-        String CSM_header = "<CSM name=\"" + urn.getClass().getName() + "\" " +
+        String CSM_header = "<CSM name=\"root\" " +
                             "description= \"" + urn.getDescription() + "\">";
         String CSM_footer = "</CSM>";
         
@@ -43,7 +44,7 @@ public class Convert implements IURNExport {
         
         // parsing SpecDiagram
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-			SpecificationDiagram diag = (SpecificationDiagram) iter.next();
+        	IURNDiagram diag = (IURNDiagram) iter.next();
 			if (diag instanceof UCMmap) {
 				UCMmap map = (UCMmap) diag;
 		        exportMap(map, ps);
@@ -55,9 +56,9 @@ public class Convert implements IURNExport {
 	
 	private void exportMap(UCMmap map, PrintStream ps) {
         // map header and footer
-        String Open_scenario_tag = "<Scenario id=\"" + map.getId() + "\"" +
+        String Open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
                                     " " + "name=\"" + map.getName()+ "\"" +
-                                    " " + "description= \"" + map.getDescription()+ "\"" + ">";
+                                    " " + "description=\"" + map.getDescription()+ "\"" + " " + ">";
         String Close_scenario_tag = "</Scenario>";
         
         // output to file
@@ -75,7 +76,8 @@ public class Convert implements IURNExport {
 		    if(node instanceof AndJoin){
 		       AndJoinConverter obj = new AndJoinConverter(node); 
 		       doConvert(obj,ps);
-		    }         
+		    }
+		   
 		}        
         ps.println("        " + Close_scenario_tag);
         ps.flush();
