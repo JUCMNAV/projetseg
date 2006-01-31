@@ -78,9 +78,9 @@ import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentKind;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 import urncore.Responsibility;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationNode;
 
 
 /**
@@ -168,10 +168,10 @@ public class ImportUCEd implements IURNImport {
         ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, getComponentKind(absblock));
 
         // get its definition
-        Component comp = (Component) cr.getCompDef();
+        Component comp = (Component) cr.getContDef();
 
         // get rid of references
-        comp.getCompRefs().clear();
+        comp.getContRefs().clear();
 
         // name it; will be unique.
         comp.setName(name);
@@ -219,15 +219,15 @@ public class ImportUCEd implements IURNImport {
             cr = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class);
             // avoid overlapping components that cause circular bindings in autolayout.
             cr.setX(-1000);
-            cr.setY(ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT * map.getCompRefs().size());
-            cr.setCompDef(comp);
-            map.getCompRefs().add(cr);
+            cr.setY(ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT * map.getContRefs().size());
+            cr.setContDef(comp);
+            map.getContRefs().add(cr);
 
             // remember that we already have one for this component.
             defToRef.put(comp, cr);
         }
 
-        assert cr.getCompDef() != null : "unable to find component";
+        assert cr.getContDef() != null : "unable to find component";
 
         // recurse on parent
         Block parent = absconcept.getParent();
@@ -404,7 +404,7 @@ public class ImportUCEd implements IURNImport {
                         branchingPoint = (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
                         DividePathCommand dpc = new DividePathCommand(branchingPoint, link, link.getSource().getX() + 25, link.getSource().getY() + 25);
                         cs.execute(dpc);
-                        branchingPoint.setCompRef(link.getSource().getCompRef());
+                        branchingPoint.setContRef(link.getSource().getContRef());
                         // first branch
                         link = (NodeConnection) branchingPoint.getSucc().get(0);
                         // second branch
@@ -540,28 +540,28 @@ public class ImportUCEd implements IURNImport {
      * 
      */
     private void cleanComponentRefBindings() {
-        SpecificationComponentRef ref;
+        IURNContainerRef ref;
 
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             UCMmap map = (UCMmap) iter.next();
             for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
                 PathNode pn = (PathNode) iterator.next();
                 if (pn instanceof StartPoint) {
-                    ref = ((NodeConnection) pn.getSucc().get(0)).getTarget().getCompRef();
+                    ref = ((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef();
                 } else if (pn instanceof EndPoint) {
-                    ref = ((NodeConnection) pn.getPred().get(0)).getSource().getCompRef();
+                    ref = ((NodeConnection) pn.getPred().get(0)).getSource().getContRef();
                 } else if (pn instanceof EmptyPoint || pn instanceof WaitingPlace || pn instanceof OrFork || pn instanceof OrJoin || pn instanceof Stub) {
-                    SpecificationComponentRef ref1 = ((NodeConnection) pn.getPred().get(0)).getSource().getCompRef();
-                    SpecificationComponentRef ref2 = ((NodeConnection) pn.getSucc().get(0)).getTarget().getCompRef();
+                    IURNContainerRef ref1 = ((NodeConnection) pn.getPred().get(0)).getSource().getContRef();
+                    IURNContainerRef ref2 = ((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef();
                     if (ref1 == ref2)
                         ref = ref1;
                     else {
                         ref = ParentFinder.getCommonParent(ref1, ref2);
                     }
                 } else {
-                    ref = pn.getCompRef();
+                    ref = pn.getContRef();
                 }
-                pn.setCompRef(ref);
+                pn.setContRef(ref);
 
             }
 
@@ -581,7 +581,7 @@ public class ImportUCEd implements IURNImport {
             Component def = (Component) iter.next();
             Vector v = new Vector();
             // add all component references for which no pathnodes are bound to v
-            for (Iterator iterator = def.getCompRefs().iterator(); iterator.hasNext();) {
+            for (Iterator iterator = def.getContRefs().iterator(); iterator.hasNext();) {
                 ComponentRef ref = (ComponentRef) iterator.next();
                 int count = 0;
                 for (Iterator it2 = ref.getNodes().iterator(); it2.hasNext();) {
@@ -594,7 +594,7 @@ public class ImportUCEd implements IURNImport {
                 if (ref.getNodes().size() == count)
                     v.add(ref);
 
-                RGB rgb = StringConverter.asRGB(ref.getCompDef().getFillColor());
+                RGB rgb = StringConverter.asRGB(ref.getContDef().getFillColor());
                 ref.setWidth(rgb.red + rgb.green + rgb.blue);
 
             }
@@ -702,7 +702,7 @@ public class ImportUCEd implements IURNImport {
         NodeConnection endLink = buildMainPath(map, steps, link, defToRef);
 
         if (endLink != null && endLink.getTarget().getSucc().size() > 0) {
-            SpecificationNode pn = (SpecificationNode) ((NodeConnection) endLink.getTarget().getSucc().get(0)).getTarget();
+        	IURNNode  pn = (IURNNode) ((NodeConnection) endLink.getTarget().getSucc().get(0)).getTarget();
             if (pn instanceof EndPoint) {
                 ep = (EndPoint) pn;
             }
@@ -753,7 +753,7 @@ public class ImportUCEd implements IURNImport {
 
             StartPoint start = cpcmd.getStart();
 
-            if (start != null && start.getSpecDiagram() != null) {
+            if (start != null && start.getDiagram() != null) {
                 if (uc.getDescription() instanceof NormalUseCaseDescription) {
                     NormalUseCaseDescription desc = (NormalUseCaseDescription) uc.getDescription();
                     uced.grammar.Condition pre = desc.getPrecondition();
@@ -772,7 +772,7 @@ public class ImportUCEd implements IURNImport {
             // convert all the steps, modifying the path starting at link.
             end = convertStepSequence(map, steps, link, defToRef);
 
-            if (end != null && end.getSpecDiagram() != null) {
+            if (end != null && end.getDiagram() != null) {
                 if (uc.getDescription() instanceof NormalUseCaseDescription) {
                     urncore.Condition tmp = link.getCondition();
                     NormalUseCaseDescription desc = (NormalUseCaseDescription) uc.getDescription();
@@ -840,7 +840,7 @@ public class ImportUCEd implements IURNImport {
         OrFork branchingPoint = (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
         DividePathCommand dpc = new DividePathCommand(branchingPoint, link, link.getSource().getX() + 25, link.getSource().getY() + 25);
         cs.execute(dpc);
-        branchingPoint.setCompRef(link.getSource().getCompRef());
+        branchingPoint.setContRef(link.getSource().getContRef());
         return branchingPoint;
     }
 
@@ -915,7 +915,7 @@ public class ImportUCEd implements IURNImport {
             timer.setName(wait);
             SplitLinkCommand slc = new SplitLinkCommand(map, timer, link, 40, 40);
             cs.execute(slc);
-            timer.setCompRef(link.getSource().getCompRef());
+            timer.setContRef(link.getSource().getContRef());
             link = (NodeConnection) timer.getSucc().get(0);
         }
         return link;
@@ -987,7 +987,7 @@ public class ImportUCEd implements IURNImport {
         cs.execute(slcmd);
 
         // bind to previous parent for lack of a better choice.
-        dynamicStub.setCompRef(link.getSource().getCompRef());
+        dynamicStub.setContRef(link.getSource().getContRef());
 
         // remember that this include is represented by this stub.
         hmUseCaseObjectToUseCaseMapObject.put(extension, dynamicStub);
@@ -1037,7 +1037,7 @@ public class ImportUCEd implements IURNImport {
         cs.execute(slcmd);
 
         // bind to previous parent for lack of a better choice.
-        staticStub.setCompRef(link.getSource().getCompRef());
+        staticStub.setContRef(link.getSource().getContRef());
 
         // remember that this include is represented by this stub.
         hmUseCaseObjectToUseCaseMapObject.put(inc, staticStub);
@@ -1109,7 +1109,7 @@ public class ImportUCEd implements IURNImport {
         cs.execute(msec);
 
         // bind to same parent as respref, for lack of a better choice.
-        target.setCompRef(resprefOrStub.getCompRef());
+        target.setContRef(resprefOrStub.getContRef());
         // if (guard==null || guard instanceof NullCondition)
         // return link;
         // else
@@ -1179,7 +1179,7 @@ public class ImportUCEd implements IURNImport {
 
         // bind it
         if (cr != null) {
-            slcmd.getNode().setCompRef(cr);
+            slcmd.getNode().setContRef(cr);
         }
         
         if (newLink!=null) {
