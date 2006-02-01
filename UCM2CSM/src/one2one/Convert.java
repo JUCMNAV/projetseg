@@ -10,6 +10,7 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -86,6 +87,7 @@ public class Convert implements IURNExport {
 			       AndForkConverter obj = new AndForkConverter(node); 
 			       doConvert(obj,ps);
 			    }
+		   
 		}        
         ps.println("        " + Close_scenario_tag);
         ps.flush();
