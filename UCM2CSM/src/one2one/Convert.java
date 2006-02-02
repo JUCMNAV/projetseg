@@ -8,10 +8,11 @@ import java.util.Iterator;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.EmptyPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.OutBinding;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -38,7 +39,7 @@ public class Convert implements IURNExport {
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";    
         String CSM_header = "<CSM name=\"root\" " +
                             "description= \"" + urn.getDescription() + "\">";
-        String CSM_footer = "</CSM>";
+        String CSM_footer = "</CSM>"; 
         
         // output to file
         ps.println(XML_header);
@@ -58,38 +59,44 @@ public class Convert implements IURNExport {
 	
 	private void exportMap(UCMmap map, PrintStream ps) {
         // map header and footer
-        String Open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
+        String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
                                     " " + "name=\"" + map.getName()+ "\"" +
                                     " " + "description=\"" + map.getDescription()+ "\"" + " " + ">";
-        String Close_scenario_tag = "</Scenario>";
+        String close_scenario_tag = "</Scenario>";
         
         // output to file
-        ps.println("        " + Open_scenario_tag);
+        ps.println("        " + open_scenario_tag);
         
 		// parsing the map 
 		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
 		    PathNode node = (PathNode) iter2.next();
-		    // if OrJoin UCM object is found, generate CSM representation
+		    //  if UCM object is found, generate CSM representation
 		    if(node instanceof OrJoin){
-		       OrJoinConverter obj = new OrJoinConverter(node); 
+		       OrJoinConverter obj = new OrJoinConverter((OrJoin)node); 
 		       doConvert(obj,ps);
-		    }
-		    // if AndJoin UCM object is found, generate CSM representation
+		    }		    
 		    if(node instanceof AndJoin){
-		       AndJoinConverter obj = new AndJoinConverter(node); 
+		       AndJoinConverter obj = new AndJoinConverter((AndJoin)node); 
 		       doConvert(obj,ps);
 		    }
 		    if(node instanceof OrFork){
-			       OrForkConverter obj = new OrForkConverter(node); 
+			       OrForkConverter obj = new OrForkConverter((OrFork)node); 
 			       doConvert(obj,ps);
 			    }
 		    if(node instanceof AndFork){
-			       AndForkConverter obj = new AndForkConverter(node); 
+			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
 			    }
-		   
+            if(node instanceof StartPoint){
+                   StartPointConverter obj = new StartPointConverter((StartPoint)node); 
+                   doConvert(obj,ps);
+            }
+		    if(node instanceof EmptyPoint){
+		 	   EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
+		 	   doConvert(obj,ps);
+		 	}
 		}        
-        ps.println("        " + Close_scenario_tag);
+        ps.println("        " + close_scenario_tag);
         ps.flush();
 	}
 	

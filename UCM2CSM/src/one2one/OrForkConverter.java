@@ -1,7 +1,7 @@
 package one2one;
 import java.io.PrintStream;
 
-import ucm.map.PathNode;
+import ucm.map.OrFork;
 import ucm.map.impl.OrForkImpl;
 
 
@@ -12,23 +12,22 @@ import ucm.map.impl.OrForkImpl;
  * @see one2one 
  * @generated
  */
-public class OrForkConverter extends OrForkImpl implements AbstractConverter{
+public class OrForkConverter implements AbstractConverter{
+    private OrFork of;
 	// constructors
-    public OrForkConverter(PathNode pn){
-       this.description = pn.getDescription();
-       this.id = pn.getId();
-       this.name = pn.getName();
+    public OrForkConverter(OrFork of){
+       this.of=of;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
         
         // object attributes
-        String Object_attributes = "<Branch id=\"" + "h" + getId() + "\"" + " " +
-                                    "description=\"" + getDescription() +"\"/>";
+        String object_attributes = "<Branch id=\"" + "h" + of.getId() + "\"" + " " +
+                                    "description=\"" + of.getDescription() +"\"/>";
         
         // output to file
-        ps.println("            " + Object_attributes);
+        ps.println("            " + object_attributes);
         ps.flush();                    
     }
 }

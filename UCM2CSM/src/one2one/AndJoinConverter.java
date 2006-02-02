@@ -2,7 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 
-import ucm.map.PathNode;
+import ucm.map.AndJoin;
 import ucm.map.impl.AndJoinImpl;
 /**
  * <!-- begin-user-doc -->
@@ -11,23 +11,22 @@ import ucm.map.impl.AndJoinImpl;
  * @see one2one 
  * @generated
  */
-public class AndJoinConverter extends AndJoinImpl implements AbstractConverter {
+public class AndJoinConverter implements AbstractConverter {
+    private AndJoin aj;
     // constructors
-    public AndJoinConverter(PathNode pn){
-       this.description = pn.getDescription();
-       this.id = pn.getId();
-       this.name = pn.getName();
+    public AndJoinConverter(AndJoin aj){
+       this.aj = aj;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
        
        // object attributes 
-        String Object_attributes = "<Join id=\"" + "h" + getId() + "\"" + " " +
-                                   "description=\"" + getDescription() +"\"/>";
+        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\"" + " " +
+                                   "description=\"" + aj.getDescription() +"\"/>";
        
        // output to file
-       ps.println("            " + Object_attributes);
+       ps.println("            " + object_attributes);
        ps.flush();                    
                         
     }

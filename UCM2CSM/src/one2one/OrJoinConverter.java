@@ -2,8 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 
-import ucm.map.PathNode;
-import ucm.map.impl.OrJoinImpl;
+import ucm.map.OrJoin;
 /**
  * <!-- begin-user-doc -->
  * Creates the CSM representation(Merge) of the OrJoin object
@@ -11,24 +10,22 @@ import ucm.map.impl.OrJoinImpl;
  * @see one2one 
  * @generated
  */
-public class OrJoinConverter extends OrJoinImpl implements AbstractConverter {
-	
+public class OrJoinConverter implements AbstractConverter {
+	private OrJoin oj;
 	// constructors
-    public OrJoinConverter(PathNode pn){
-       this.description = pn.getDescription();
-       this.id = pn.getId();
-       this.name = pn.getName();
+    public OrJoinConverter(OrJoin oj){
+      this.oj = oj;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
         
         // object attributes
-        String Object_attributes = "<Merge id=\"" + "h" + getId() + "\"" + " " +
-                                    "description=\"" + getDescription() +"\"/>";
+        String object_attributes = "<Merge id=\"" + "h" + oj.getId() + "\"" + " " +
+                                    "description=\"" + oj.getDescription() +"\"/>";
         
         // output to file
-        ps.println("            " + Object_attributes);
+        ps.println("            " + object_attributes);
         ps.flush();                    
     }
 }
