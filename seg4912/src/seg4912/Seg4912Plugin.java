@@ -5,7 +5,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.BundleContext;
 
 /**
- * seg4912
+ * 235njwet90sdf
  */
 public class Seg4912Plugin extends AbstractUIPlugin {
 
