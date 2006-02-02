@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seg4912 Plug-in
+Bundle-SymbolicName: seg4912; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: seg4912.Seg4912Plugin
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-AutoStart: true
