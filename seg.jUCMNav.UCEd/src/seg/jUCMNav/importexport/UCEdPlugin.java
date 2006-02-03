@@ -49,6 +49,6 @@ public class UCEdPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("seg.jUCMNav.UCEdImport", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("seg.jUCMNav.UCEdImport", path); //$NON-NLS-1$
 	}
 }

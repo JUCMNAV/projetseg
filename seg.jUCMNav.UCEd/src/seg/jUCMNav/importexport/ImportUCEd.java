@@ -147,7 +147,7 @@ public class ImportUCEd implements IURNImport {
             } else {
                 // I don't know if this every occurs.
                 // NullEntity, SimpleEntity or ActiveEntity
-                System.out.println("Not an AbstractEntityBlock: " + entity.getClass().toString());
+                System.out.println("Not an AbstractEntityBlock: " + entity.getClass().toString()); //$NON-NLS-1$
             }
         }
     }
@@ -227,7 +227,7 @@ public class ImportUCEd implements IURNImport {
             defToRef.put(comp, cr);
         }
 
-        assert cr.getContDef() != null : "unable to find component";
+        assert cr.getContDef() != null : "unable to find component"; //$NON-NLS-1$
 
         // recurse on parent
         Block parent = absconcept.getParent();
@@ -430,7 +430,7 @@ public class ImportUCEd implements IURNImport {
                 // handled in main
                 // System.out.println(block);
             } else {
-                System.out.println("Unhandled AbstractProcedureBlock subclass: " + block.getClass());
+                System.out.println("Unhandled AbstractProcedureBlock subclass: " + block.getClass()); //$NON-NLS-1$
             }
 
         }
@@ -482,7 +482,7 @@ public class ImportUCEd implements IURNImport {
                     // add the include stub.
                     link = handleInclude(map, link, inc);
                 } else {
-                    throw new InvocationTargetException(new Exception("Unknown IOperationInstance type."));
+                    throw new InvocationTargetException(new Exception("Unknown IOperationInstance type.")); //$NON-NLS-1$
                 }
             } else if (block instanceof ExtensionPoint) {
                 link = handleExtensionPoint(map, link, (ExtensionPoint) block);
@@ -494,7 +494,7 @@ public class ImportUCEd implements IURNImport {
                 link = handleRedirect(map, link, redir, null, null, null);
 
             } else
-                System.out.println("Unhandled AbstractProcedureBlock subclass: " + block.getClass());
+                System.out.println("Unhandled AbstractProcedureBlock subclass: " + block.getClass()); //$NON-NLS-1$
         }
 
         // the position of the next insertion; useful to help finding the main scenario's end point.
@@ -628,9 +628,9 @@ public class ImportUCEd implements IURNImport {
                         NodeConnection nc = (NodeConnection) it2.next();
                         // until we implement the logic expression library
                         Vector vFalse = new Vector();
-                        vFalse.add("false");
-                        vFalse.add("not true");
-                        vFalse.add("(not true)");
+                        vFalse.add("false"); //$NON-NLS-1$
+                        vFalse.add("not true"); //$NON-NLS-1$
+                        vFalse.add("(not true)"); //$NON-NLS-1$
                         if (vFalse.contains(nc.getCondition().getExpression().toLowerCase())) {
                             ncToRemove.add(nc);
                         }
@@ -764,7 +764,7 @@ public class ImportUCEd implements IURNImport {
                     }
                 } else {
 
-                    start.setName(((Part) obj).getExtensionPointName() + " start");
+                    start.setName(((Part) obj).getExtensionPointName() + Messages.getString("ImportUCEd.start")); //$NON-NLS-1$
                     // no pre-post in ExtendUseCaseDescription; inherit from parent
                     // System.out.println(uc.getDescription());
                 }
@@ -783,7 +783,7 @@ public class ImportUCEd implements IURNImport {
                         link.setCondition(tmp);
                     }
                 } else {
-                    end.setName(((Part) obj).getExtensionPointName() + " end");
+                    end.setName(((Part) obj).getExtensionPointName() + Messages.getString("ImportUCEd.end")); //$NON-NLS-1$
                     // no pre-post in ExtendUseCaseDescription; inherit from parent
                     // System.out.println(uc.getDescription());
                 }
@@ -810,9 +810,9 @@ public class ImportUCEd implements IURNImport {
             else if (absblock instanceof SystemConcept)
                 return ComponentKind.TEAM;
             else
-                throw new InvocationTargetException(new Exception("Unknown AbstractEntityBlock : " + absblock.getClass().toString()));
+                throw new InvocationTargetException(new Exception("Unknown AbstractEntityBlock : " + absblock.getClass().toString())); //$NON-NLS-1$
         } else if (absblock.getParent() == null) // make sure a parent exists
-            throw new InvocationTargetException(new Exception("No parent!"));
+            throw new InvocationTargetException(new Exception("No parent!")); //$NON-NLS-1$
         else
             // recurse; UCEd only has SystemConcepts at the topmost level.
             return getComponentKind(absblock.getParent());
@@ -859,31 +859,31 @@ public class ImportUCEd implements IURNImport {
         urncore.Condition urncond = (urncore.Condition) ModelCreationFactory.getNewObject(urn, urncore.Condition.class);
 
         if (cond == null)
-            cond = new SimpleCondition("true");
+            cond = new SimpleCondition("true"); //$NON-NLS-1$
 
         // add negation of cond to existing condition's conjuncts
         if (!overwrite) {
 
-            String prefix_lbl = "", prefix_expr = "";
+            String prefix_lbl = "", prefix_expr = ""; //$NON-NLS-1$ //$NON-NLS-2$
 
             // if true, don't need to add AND
-            if (link.getCondition() != null && !link.getCondition().getExpression().equalsIgnoreCase("true")) {
-                prefix_expr = link.getCondition().getExpression() + " AND ";
+            if (link.getCondition() != null && !link.getCondition().getExpression().equalsIgnoreCase("true")) { //$NON-NLS-1$
+                prefix_expr = link.getCondition().getExpression() + " AND "; //$NON-NLS-1$
             }
 
             // if empty, don't need to add AND
             if (link.getCondition() != null && link.getCondition().getLabel().length() > 0) {
-                prefix_lbl = link.getCondition().getLabel() + " AND ";
+                prefix_lbl = link.getCondition().getLabel() + " AND "; //$NON-NLS-1$
             }
 
             // add negation
-            urncond.setLabel(prefix_lbl + "(NOT " + cond.toString() + ")");
-            urncond.setExpression(prefix_expr + "(NOT " + cond.toString() + ")");
+            urncond.setLabel(prefix_lbl + "(NOT " + cond.toString() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+            urncond.setExpression(prefix_expr + "(NOT " + cond.toString() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 
         } else {
             // set directly.
-            urncond.setLabel("(" + cond.toString() + ")");
-            urncond.setExpression("(" + cond.toString() + ")");
+            urncond.setLabel("(" + cond.toString() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+            urncond.setExpression("(" + cond.toString() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // don't forget to save
@@ -891,11 +891,11 @@ public class ImportUCEd implements IURNImport {
     }
 
     private NodeConnection handleDelay(UCMmap map, NodeConnection link, uced.grammar.Condition beforeDelay, uced.grammar.Condition afterDelay) {
-        String wait = "";
+        String wait = ""; //$NON-NLS-1$
         if (afterDelay instanceof AfterDelay) {
             AfterDelay delay = (AfterDelay) afterDelay;
             if (delay.getDurationSec() > 0) {
-                wait = "AT LEAST " + delay.getValue().toString();
+                wait = Messages.getString("ImportUCEd.ATLEAST") + delay.getValue().toString(); //$NON-NLS-1$
             }
         }
 
@@ -903,14 +903,14 @@ public class ImportUCEd implements IURNImport {
             BeforeDelay delay = (BeforeDelay) beforeDelay;
             if (delay.getDurationSec() > 0) {
                 if (wait.length() == 0)
-                    wait = "AT MOST " + delay.getValue().toString();
+                    wait = Messages.getString("ImportUCEd.ATMOST") + delay.getValue().toString(); //$NON-NLS-1$
                 else
-                    wait += " AND AT MOST " + delay.getValue().toString();
+                    wait += Messages.getString("ImportUCEd.ANDATMOST") + delay.getValue().toString(); //$NON-NLS-1$
             }
         }
 
         if (wait.length() > 0) {
-            wait = "WAIT " + wait;
+            wait = Messages.getString("ImportUCEd.WAIT") + wait; //$NON-NLS-1$
             Timer timer = (Timer) ModelCreationFactory.getNewObject(urn, Timer.class);
             timer.setName(wait);
             SplitLinkCommand slc = new SplitLinkCommand(map, timer, link, 40, 40);
@@ -956,7 +956,7 @@ public class ImportUCEd implements IURNImport {
             if (original instanceof ObjectReference)
                 cr.setParent(null);
         } else {
-            throw new InvocationTargetException(new Exception("Unknown entity type. (This may be legal, but not sure; update code)"));
+            throw new InvocationTargetException(new Exception("Unknown entity type. (This may be legal, but not sure; update code)")); //$NON-NLS-1$
             // cr = null;
         }
         return cr;
@@ -1018,7 +1018,7 @@ public class ImportUCEd implements IURNImport {
         staticStub.setName(pluginName);
         UCMmap plugin = (UCMmap) URNElementFinder.findMapByName(urn, pluginName);
         if (plugin == null)
-            throw new InvocationTargetException(new Exception("unable to find plugin"));
+            throw new InvocationTargetException(new Exception("unable to find plugin")); //$NON-NLS-1$
 
         // create a binding with the plugin
         PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urn, PluginBinding.class);
@@ -1081,7 +1081,7 @@ public class ImportUCEd implements IURNImport {
             resprefOrStub = (PathNode) hmUseCaseObjectToUseCaseMapObject.get(((IncludeOperation) redir.redirectTo().getOperation()));
 
         if (resprefOrStub == null)
-            throw new InvocationTargetException(new Exception("Not yet implemented: goto a later step, in a main scenario"));
+            throw new InvocationTargetException(new Exception("Not yet implemented: goto a later step, in a main scenario")); //$NON-NLS-1$
         // get the link before it.
         NodeConnection targetLink = (NodeConnection) resprefOrStub.getPred().get(0);
 
@@ -1221,18 +1221,18 @@ public class ImportUCEd implements IURNImport {
         try {
             projectmodel = UCEd.getModel();
         } catch (Exception e) {
-            throw new InvocationTargetException(e, "Unable to load UCEd file.");
+            throw new InvocationTargetException(e, Messages.getString("ImportUCEd.LoadError")); //$NON-NLS-1$
         }
 
         // verify that it is valid.
         try {
             if (projectmodel == null) {
-                throw new InvocationTargetException(new Exception("Unable to load UCEd file."));
+                throw new InvocationTargetException(new Exception(Messages.getString("ImportUCEd.LoadError"))); //$NON-NLS-1$
             }
             projectmodel.validate();
 
         } catch (IncorrectElementException e) {
-            throw new InvocationTargetException(e, "The file that has been loaded doesn't pass UCEd's validation.");
+            throw new InvocationTargetException(e, Messages.getString("ImportUCEd.FileHasNotBeenValidated")); //$NON-NLS-1$
         }
     }
 

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: UCEd Import plugin for jUCMNav
+Bundle-Name: %pluginName
 Bundle-SymbolicName: seg.jUCMNav.UCEd; singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: seg.jUCMNav.importexport.UCEdPlugin

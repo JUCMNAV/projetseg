@@ -7,7 +7,7 @@
             class="seg.jUCMNav.importexport.ImportUCEd"
             extension="pr"
             id="seg.jUCMNav.importexport.UCEdImport"
-            name="Import UCEd Use Case"
+            name="%importuc"
             useStream="false"/>
    </extension>
 
