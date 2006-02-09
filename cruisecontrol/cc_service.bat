@@ -7,4 +7,5 @@ map_ccbuilds.vbs
 REM wait 2 seconds just in case the mapping takes a bit longer
 sleep 2
 
-cruisecontrol.bat
+cruisecontrol.bat >> logs/tmp.log
+

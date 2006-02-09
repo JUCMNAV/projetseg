@@ -4,6 +4,7 @@
 ' Version 1.3 - April 24th 2005
 ' ----------------------------------------------------------------------'
 Option Explicit
+On Error Resume Next
 Dim objNetwork
 Dim strDriveLetter, strRemotePath, strUser, strPassword, strProfile
 
