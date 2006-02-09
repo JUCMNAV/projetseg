@@ -8,12 +8,14 @@ import java.util.Iterator;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.map.impl.ComponentRefImpl;
+import ucm.map.impl.PathNodeImpl;
 import urn.URNspec;
 import urncore.IURNDiagram;
 /**
@@ -66,36 +68,65 @@ public class Convert implements IURNExport {
         
         // output to file
         ps.println("        " + open_scenario_tag);
-        
-		// parsing the map 
+       
+		// parsing the map for path nodes
+        int i=0;
 		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
-		    PathNode node = (PathNode) iter2.next();
+            i++;
+		    PathNodeImpl node = (PathNodeImpl) iter2.next();
+            System.out.println("Read Node " + i + ": " + node.getName());
 		    //  if UCM object is found, generate CSM representation
 		    if(node instanceof OrJoin){
 		       OrJoinConverter obj = new OrJoinConverter((OrJoin)node); 
 		       doConvert(obj,ps);
 		    }		    
-		    if(node instanceof AndJoin){
+            else if(node instanceof AndJoin){
 		       AndJoinConverter obj = new AndJoinConverter((AndJoin)node); 
 		       doConvert(obj,ps);
 		    }
-		    if(node instanceof OrFork){
+            else if(node instanceof OrFork){
 			       OrForkConverter obj = new OrForkConverter((OrFork)node); 
 			       doConvert(obj,ps);
-			    }
-		    if(node instanceof AndFork){
+			}
+            else if(node instanceof AndFork){
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
-			    }
-            if(node instanceof StartPoint){
+			}
+            else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
             }
-		    if(node instanceof EmptyPoint){
+            else if(node instanceof EmptyPoint){
 		 	   EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
 		 	   doConvert(obj,ps);
 		 	}
-		}        
+           
+            else{
+                System.out.println("Node not implemented.");
+            }
+		}
+        
+		// parsing the map for components
+        
+        int j=0;
+        for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
+            // for debug
+            j++;
+          
+            ComponentRef cref = (ComponentRef) iter3.next();
+         
+            //  if UCM object is found, generate CSM representation
+            if(cref instanceof ComponentRef){
+                System.out.println("inside ComponentRef");
+                ComponentConverter obj = new ComponentConverter(cref);
+                doConvert(obj,ps);
+            }
+            else{
+                System.out.println("Component not implemented.");
+            }
+
+        }
+
         ps.println("        " + close_scenario_tag);
         ps.flush();
 	}

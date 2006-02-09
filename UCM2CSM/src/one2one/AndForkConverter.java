@@ -23,8 +23,10 @@ public class AndForkConverter implements AbstractConverter{
 	    public void Convert(PrintStream ps){
 	        
 	        // object attributes
+            
 	        String object_attributes = "<Fork id=\"" + "h" + af.getId() + "\"" + " " +
-	                                    "description=\"" + af.getDescription() +"\"/>";	        
+	                                    "description=\"" + af.getDescription() +"\"/>";
+        
 	        // output to file
 	        ps.println("            " + object_attributes);
 	        ps.flush();                    
