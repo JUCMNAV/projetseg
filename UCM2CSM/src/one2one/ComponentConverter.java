@@ -1,5 +1,6 @@
 package one2one;
 
+import java.awt.List;
 import java.io.PrintStream;
 
 import ucm.map.ComponentRef;
@@ -13,20 +14,26 @@ import urncore.ComponentElement;
  * @generated
  */
 public class ComponentConverter implements AbstractConverter {
+    
+    // component references
 	private ComponentRef compRef;
+    private ComponentRef parentCompRef;
+    private ComponentRef childrenCompRef;
+    private List childrenList = new List();    
+    
+    // component definitions
 	private ComponentElement compDef;
-	private ComponentRef parentCompRef;
-	private boolean parent; 
 	private ComponentElement parentCompDef;
-	private ComponentRef childrenCompRef;
-	private ComponentElement childrenCompDef;
-	private boolean children;
-
+    private ComponentElement childrenCompDef;
+    
+    // other variables
+    private boolean hasParent; 	
+	private boolean hasChildren;
 	
 	// constructors
 	public ComponentConverter(ComponentRef compRef) {
-		parent = true;
-		children = true;
+		hasParent = true;
+		hasChildren = true;
 		this.compRef = compRef;
 		this.compDef = (ComponentElement) compRef.getContDef();
 		// initialize parent only if a reference to the parent component exists
@@ -36,20 +43,22 @@ public class ComponentConverter implements AbstractConverter {
 			this.parentCompDef = (ComponentElement) this.parentCompRef.getContDef();
 		}
 		else{
-			parent = false;
+			hasParent = false;
 		}							
-		// initialize parent only if a reference to the parent component exists 				
-		if (((ComponentRef) compRef.getChildren()) != null){
-			this.childrenCompRef = (ComponentRef) compRef.getChildren();			
+		// initialize children only if a reference to the child component exists
+        //this.childrenCompRef = (ComponentRef) compRef.getChildren();
+        // implement a LIST ??
+   /*     this.childrenList = (List) compRef.getChildren();      
+        System.out.println("In ComponentConverter about to retreive data ");
+	    // if (((ComponentRef) compRef.getChildren()!= null)){
+        if (!childrenCompRef.getChildren().isEmpty()){
 			// if (this.childrenCompRef != null)
 			this.childrenCompDef = (ComponentElement) this.childrenCompRef.getContDef();
 		}
-		else{
-			children = false;
+		else {
+			hasChildren = false;
 		}
-				
-		
-						
+     */ 												
 	}
 
 	// prints XML representation of object to output file
@@ -58,10 +67,11 @@ public class ComponentConverter implements AbstractConverter {
 		System.out.println("In ComponentConverter about to retreive data ");
 		System.out.println("Get id = " + compDef.getId());
 		System.out.println("Get name = " + compDef.getName());
-		if (parent)
+		if (hasParent)
 			System.out.println("Get parent = " + parentCompDef.getId());
-		if (children)
-			System.out.println("Get children = " + childrenCompDef.getId());
+//		if (hasChildren)
+//			System.out.println("Get children = " + childrenCompDef.getId());
+      
 
 		// object attributes
 /*			

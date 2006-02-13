@@ -14,7 +14,6 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
-import ucm.map.impl.ComponentRefImpl;
 import ucm.map.impl.PathNodeImpl;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -87,25 +86,26 @@ public class Convert implements IURNExport {
             else if(node instanceof OrFork){
 			       OrForkConverter obj = new OrForkConverter((OrFork)node); 
 			       doConvert(obj,ps);
-			}
+
+			    }
             else if(node instanceof AndFork){
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
 			}
-            else if(node instanceof StartPoint){
+ /*           else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
             }
+            */
             else if(node instanceof EmptyPoint){
 		 	   EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
 		 	   doConvert(obj,ps);
 		 	}
-           
             else{
                 System.out.println("Node not implemented.");
             }
 		}
-        
+                
 		// parsing the map for components
         
         int j=0;
@@ -126,7 +126,6 @@ public class Convert implements IURNExport {
             }
 
         }
-
         ps.println("        " + close_scenario_tag);
         ps.flush();
 	}
