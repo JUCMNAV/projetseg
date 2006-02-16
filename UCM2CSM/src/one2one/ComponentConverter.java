@@ -36,27 +36,20 @@ public class ComponentConverter implements AbstractConverter {
         
 		// initialize parent only if a reference to the parent component exists
 		if (((ComponentRef) compRef.getParent()) != null){
-			this.parentCompRef = (ComponentRef) compRef.getParent();			 
-			// if (this.parentCompRef != null)
+			this.parentCompRef = (ComponentRef) compRef.getParent();			 			
 			this.parentCompDef = (ComponentElement) this.parentCompRef.getContDef();
             parent += "c" + this.parentCompDef.getId();
 		}
 		else{
-            parent += " ";
-            System.out.println("Parent String: " + children);			
+            parent += " ";			
 		}
         
 		// retrieve children
-        int j = 0;   
-       
+
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {               
             this.childrenCompRef = (ComponentRef) iter.next(); 
             this.childrenCompDef = (ComponentElement) this.childrenCompRef.getContDef();                 
-            j++;
-            System.out.println("Child #" + j + ": " + this.childrenCompDef.getId());
-            children += "c" + this.childrenCompDef.getId() + " ";
-            System.out.println("Children String: " + children);
-            //hasChildren = true;              
+            children += "c" + this.childrenCompDef.getId() + " ";            
        }
       												
 	}
