@@ -4,29 +4,34 @@ import java.io.PrintStream;
 
 import ucm.map.OutBinding;
 
-
+/**
+ * <!-- begin-user-doc -->
+ * Creates the CSM representation(outbinding) of the Out-Connection object
+ * <!-- end-user-doc -->
+ * @see one2one 
+ * @generated
+ */
 
 public class OutBindingConverter implements AbstractConverter{
-	private OutBinding af;
+	private OutBinding out_bind;
+    
 	// constructors
-	public OutBindingConverter(OutBinding af){
-       this.af = af;
+	public OutBindingConverter(OutBinding out_bind){
+       this.out_bind = out_bind;
     }
-
-   
-	
-			
-		    // prints XML representation of object to output file
-		    public void Convert(PrintStream ps){
+		
+    // prints XML representation of object to output file
+    public void Convert(PrintStream ps){
+        
+      // object attributes
+      String Object_attributes = "<outbinding id=\"" + "so" + out_bind.getBinding() + "\"" + " " +
+                                 "end=\"" + "h" + out_bind.getEndPoint()  + "\"" + " " + 
+		                         "out=\"" + "h" + out_bind.getStubExit() +"\"/>";
 		        
-		        // object attributes
-		        String Object_attributes = "<inbinding id=\"" + "h" + "\"" + " " +
-		                                   "description=\"" +"\"/>";
-		        
-		        // output to file
-		        ps.println("            " + Object_attributes);
-		        ps.flush();                    
-		    }
+      // output to file
+      ps.println("            " + Object_attributes);
+      ps.flush();                    
+     }
 		    
 
 

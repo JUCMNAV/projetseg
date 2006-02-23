@@ -11,8 +11,10 @@ import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -113,7 +115,15 @@ public class Convert implements IURNExport {
             else if(node instanceof RespRef){
                 ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
                 doConvert(obj,ps);
-             }
+            }
+            else if(node instanceof OutBinding){
+                OutBindingConverter obj = new OutBindingConverter((OutBinding)node);
+                doConvert(obj,ps);
+            }
+            else if(node instanceof InBinding){
+                InBindingConverter obj = new InBindingConverter((InBinding)node);
+                doConvert(obj,ps);
+            }
             else{
                 System.out.println("Node not implemented.");
             }

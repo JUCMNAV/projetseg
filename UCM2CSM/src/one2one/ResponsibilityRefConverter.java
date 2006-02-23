@@ -6,6 +6,13 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 
+/**
+ * <!-- begin-user-doc -->
+ * Creates the CSM representation(Step) of the Responsibility object
+ * <!-- end-user-doc -->
+ * @see one2one 
+ * @generated
+ */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;
     PathNode successor;
