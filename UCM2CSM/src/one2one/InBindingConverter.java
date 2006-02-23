@@ -14,7 +14,7 @@ import ucm.map.InBinding;
 public class InBindingConverter implements AbstractConverter{
 	private InBinding in_bind;
 	// constructors
-    public InBindingConverter(InBinding af){
+    public InBindingConverter(InBinding in_bind){
        this.in_bind = in_bind;
     }
     
@@ -22,7 +22,7 @@ public class InBindingConverter implements AbstractConverter{
 	public void Convert(PrintStream ps){
 		        
 	    // object attributes
-	    String Object_attributes = "<inbinding id=\"" + "so" + in_bind.getBinding() + "\"" + " " +
+	    String Object_attributes = "<inbinding id=\"" + "si" + in_bind.getBinding() + "\"" + " " +
                                     "start=\"" + "h" + in_bind.getStartPoint()  + "\"" + " " + 
                                     "in=\"" + "h" + in_bind.getStubEntry() +"\"/>";
 		        

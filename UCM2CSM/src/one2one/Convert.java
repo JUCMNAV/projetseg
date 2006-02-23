@@ -15,6 +15,7 @@ import ucm.map.InBinding;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -122,6 +123,10 @@ public class Convert implements IURNExport {
             }
             else if(node instanceof InBinding){
                 InBindingConverter obj = new InBindingConverter((InBinding)node);
+                doConvert(obj,ps);
+            }
+            else if(node instanceof PluginBinding){
+                PluginBindingConverter obj = new PluginBindingConverter((PluginBinding)node);
                 doConvert(obj,ps);
             }
             else{
