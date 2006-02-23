@@ -3,6 +3,8 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.EndPoint;
+import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 import ucm.map.impl.EndPointImpl;
 
 /**
@@ -14,6 +16,8 @@ import ucm.map.impl.EndPointImpl;
  */
 public class EndPointConverter implements AbstractConverter {
     private EndPoint ep; 
+    private PathNode source;
+    
     // constructors
     public EndPointConverter(EndPoint ep){
        this.ep = ep;       
@@ -21,11 +25,14 @@ public class EndPointConverter implements AbstractConverter {
     
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
-       /********************** How can I obtain the source attribute? ***************/
+       
+       //retrieve target/source        
+       source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
+      
        // object attributes 
        String object_attributes = "<End id=\"h" + ep.getId() + "\"" + " " +
                                    "name =\"" + ep.getName() +"\"" + " " + 
-                                   "source= \"h" + " " +"\"/>";
+                                   "source= \"h" + source.getId() +"\"/>";
                          
        // output to file             
        ps.println("         " + object_attributes);                        

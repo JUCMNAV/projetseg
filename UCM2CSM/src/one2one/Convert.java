@@ -10,9 +10,12 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PathNodeImpl;
 import urn.URNspec;
@@ -86,35 +89,40 @@ public class Convert implements IURNExport {
             else if(node instanceof OrFork){
 			       OrForkConverter obj = new OrForkConverter((OrFork)node); 
 			       doConvert(obj,ps);
-
-			    }
+            }
             else if(node instanceof AndFork){
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
 			}
- /*           else if(node instanceof StartPoint){
+            else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
             }
-            */
+            else if(node instanceof EndPoint){
+                EndPointConverter obj = new EndPointConverter((EndPoint)node); 
+                doConvert(obj,ps);
+            } 
             else if(node instanceof EmptyPoint){
 		 	   EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
 		 	   doConvert(obj,ps);
 		 	}
+            else if(node instanceof Stub){
+               StubConverter obj = new StubConverter((Stub)node);
+               doConvert(obj,ps);
+            }
+            else if(node instanceof RespRef){
+                ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
+                doConvert(obj,ps);
+             }
             else{
                 System.out.println("Node not implemented.");
             }
 		}
                 
-		// parsing the map for components
-        
+		// parsing the map for components      
         int j=0;
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
-            // for debug
-            j++;
-          
-            ComponentRef cref = (ComponentRef) iter3.next();
-         
+            ComponentRef cref = (ComponentRef) iter3.next();         
             //  if UCM object is found, generate CSM representation
             if(cref instanceof ComponentRef){
                 System.out.println("inside ComponentRef");
