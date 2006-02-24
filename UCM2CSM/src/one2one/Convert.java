@@ -21,6 +21,7 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PathNodeImpl;
+import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.IURNDiagram;
 /**
@@ -128,6 +129,9 @@ public class Convert implements IURNExport {
             else if(node instanceof PluginBinding){
                 PluginBindingConverter obj = new PluginBindingConverter((PluginBinding)node);
                 doConvert(obj,ps);
+            }
+            else if(node instanceof ProcessingResource){ 
+            	ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
             }
             else{
                 System.out.println("Node not implemented.");
