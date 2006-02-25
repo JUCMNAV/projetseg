@@ -142,9 +142,11 @@ public class Convert implements IURNExport {
 		int k=0;
         for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {
         	k++;
-        	PluginBindingImpl binding = (PluginBindingImpl) iter4.next();
+        	PluginBinding binding = (PluginBinding) iter4.next();
         	System.out.println("Read Binding " + k + ": " + binding.getPlugin());
         	System.out.println("Read Binding Stub " + k + ": " + binding.getStub());
+        	System.out.println("In Binding " + k + ": " + binding.getIn());
+        	System.out.println("Out Binding " + k + ": " + binding.getOut());
         	
         	if(binding instanceof PluginBinding){
                 PluginBindingConverter obj = new PluginBindingConverter(binding);
