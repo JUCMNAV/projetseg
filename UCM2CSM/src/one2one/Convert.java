@@ -11,17 +11,14 @@ import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.InBinding;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
-import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PathNodeImpl;
-import ucm.performance.ProcessingResource;
+import ucm.map.impl.PluginBindingImpl;
 import urn.URNspec;
 import urncore.IURNDiagram;
 /**
@@ -98,10 +95,12 @@ public class Convert implements IURNExport {
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
 			}
+		    /*
             else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
             }
+            */
             else if(node instanceof EndPoint){
                 EndPointConverter obj = new EndPointConverter((EndPoint)node); 
                 doConvert(obj,ps);
@@ -118,6 +117,7 @@ public class Convert implements IURNExport {
                 ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
                 doConvert(obj,ps);
             }
+		    /*
             else if(node instanceof OutBinding){
                 OutBindingConverter obj = new OutBindingConverter((OutBinding)node);
                 doConvert(obj,ps);
@@ -133,11 +133,25 @@ public class Convert implements IURNExport {
             else if(node instanceof ProcessingResource){ 
             	ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
             }
+            */
             else{
                 System.out.println("Node not implemented.");
             }
 		}
-                
+         
+		int k=0;
+        for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {
+        	k++;
+        	PluginBindingImpl binding = (PluginBindingImpl) iter4.next();
+        	System.out.println("Read Binding " + k + ": " + binding.getPlugin());
+        	System.out.println("Read Binding Stub " + k + ": " + binding.getStub());
+        	
+        	if(binding instanceof PluginBinding){
+                PluginBindingConverter obj = new PluginBindingConverter(binding);
+                doConvert(obj,ps);
+            }
+        }
+		
 		// parsing the map for components      
         int j=0;
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
