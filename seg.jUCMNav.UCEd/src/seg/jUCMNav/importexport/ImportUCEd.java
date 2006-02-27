@@ -1283,4 +1283,14 @@ public class ImportUCEd implements IURNImport {
         // not used
         return null;
     }
+
+    public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
+        //Not used
+        return null;
+    }
+
+    public URNspec importURN(String filename, URNspec urn) throws InvocationTargetException {
+        // Not Used
+        return null;
+    }
 }
