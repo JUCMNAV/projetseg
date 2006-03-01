@@ -25,11 +25,11 @@ public class OutBindingConverter implements AbstractConverter{
         
       // object attributes
       String Object_attributes = "<outbinding id=\"" + "so" + out_bind.getBinding() + "\"" + " " +
-                                 "end=\"" + "h" + out_bind.getEndPoint()  + "\"" + " " + 
-		                         "out=\"" + "h" + out_bind.getStubExit() +"\"/>";
+                                 "end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
+		                         "out=\"" + "h" + out_bind.getStubExit().getTarget() +"\"/>";
 		        
       // output to file
-      ps.println("            " + Object_attributes);
+      ps.println("              " + Object_attributes);
       ps.flush();                    
      }
 		    
