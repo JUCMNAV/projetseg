@@ -18,7 +18,7 @@ import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PathNodeImpl;
-import ucm.map.impl.PluginBindingImpl;
+import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.IURNDiagram;
 /**
@@ -44,7 +44,7 @@ public class Convert implements IURNExport {
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";    
         String CSM_header = "<CSM name=\"root\" " +
                             "description= \"" + urn.getDescription() + "\">";
-        String CSM_footer = "</CSM>"; 
+        String CSM_footer = "</CSM>";         
         
         // output to file
         ps.println(XML_header);
@@ -95,12 +95,11 @@ public class Convert implements IURNExport {
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
 			}
-		    /*
+            /*
             else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
-            }
-            */
+            }*/
             else if(node instanceof EndPoint){
                 EndPointConverter obj = new EndPointConverter((EndPoint)node); 
                 doConvert(obj,ps);
@@ -116,38 +115,18 @@ public class Convert implements IURNExport {
             else if(node instanceof RespRef){
                 ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
                 doConvert(obj,ps);
-            }
-		    /*
-            else if(node instanceof OutBinding){
-                OutBindingConverter obj = new OutBindingConverter((OutBinding)node);
-                doConvert(obj,ps);
-            }
-            else if(node instanceof InBinding){
-                InBindingConverter obj = new InBindingConverter((InBinding)node);
-                doConvert(obj,ps);
-            }
-            else if(node instanceof PluginBinding){
-                PluginBindingConverter obj = new PluginBindingConverter((PluginBinding)node);
-                doConvert(obj,ps);
-            }
+            }		    
             else if(node instanceof ProcessingResource){ 
             	ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
             }
-            */
             else{
                 System.out.println("Node not implemented.");
             }
 		}
-         
-		int k=0;
-        for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {
-        	k++;
-        	PluginBinding binding = (PluginBinding) iter4.next();
-        	System.out.println("Read Binding " + k + ": " + binding.getPlugin());
-        	System.out.println("Read Binding Stub " + k + ": " + binding.getStub());
-        	System.out.println("In Binding " + k + ": " + binding.getIn());
-        	System.out.println("Out Binding " + k + ": " + binding.getOut());
-        	
+
+		// looking at stub for inbindings and outbindings
+        for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {        	
+        	PluginBinding binding = (PluginBinding) iter4.next();        	        	
         	if(binding instanceof PluginBinding){
                 PluginBindingConverter obj = new PluginBindingConverter(binding);
                 doConvert(obj,ps);
@@ -155,12 +134,10 @@ public class Convert implements IURNExport {
         }
 		
 		// parsing the map for components      
-        int j=0;
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef cref = (ComponentRef) iter3.next();         
             //  if UCM object is found, generate CSM representation
-            if(cref instanceof ComponentRef){
-                System.out.println("inside ComponentRef");
+            if(cref instanceof ComponentRef){                
                 ComponentConverter obj = new ComponentConverter(cref);
                 doConvert(obj,ps);
             }

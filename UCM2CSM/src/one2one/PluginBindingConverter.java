@@ -1,16 +1,15 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
-
-
 
 public class PluginBindingConverter implements AbstractConverter{
 	private PluginBinding p_bind;
-	// private InBinding in_bind;
-	// private OutBinding out_bind;
-
+	
 	// constructors
     public PluginBindingConverter(PluginBinding p_bind){
        this.p_bind = p_bind;
@@ -18,35 +17,34 @@ public class PluginBindingConverter implements AbstractConverter{
     
     // prints XML representation of object to output file
 	public void Convert(PrintStream ps){
-		
-		// String parent = ((UCMmap)p_bind.getPlugin().getParentStub().get(0)).getId();
-		Object parent = p_bind.getPlugin().getParentStub().get(0);
-		System.out.println("Parent:" + parent);
-		//PluginBinding sub = (PluginBinding) ((Stub)p_bind.getPlugin());
-		
-	    // object attributes
-//	    String object_attributes = "<Refinement parent=\"" + "h " + parent + "\"" + " " +
-//                                   "sub=\"" + "h" + sub +"\"/>";
+				
+	   // object attributes
+
+	   String object_attributes = "<Refinement parent=\"" + "h" + p_bind.getStub().getId() + "\"" + " " +
+                                  "sub=\"" + "h" + p_bind.getPlugin().getId() +"\"/>";
+       // output to file
+       ps.println("            " + object_attributes);
 	      
-/*
-
-	    String inbinding_attributes = "<InBinding id=\"" + "si" + in_bind.getBinding() + "\"" + " " +
-        								"start=\"" + "h" + in_bind.getStartPoint()  + "\"" + " " + 
-        								"in=\"" + "h" + in_bind.getStubEntry() +"\"/>";
-
-	    String outbinding_attributes = "<Outbinding id=\"" + "so" + out_bind.getBinding() + "\"" + " " +
-        								"end=\"" + "h" + out_bind.getEndPoint()  + "\"" + " " + 
-        								"out=\"" + "h" + out_bind.getStubExit() +"\"/>";
-*/
-//	    String object_attributes_close = "</Refinement>";
-
+       // get inbindings 
+       for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
+          InBinding in_bind = (InBinding) inbind_iter.next(); 
+          InBindingConverter in_bind_conv = new InBindingConverter(in_bind);
+          // output to file
+          in_bind_conv.Convert(ps);               
+       }
+       
+      // get outbindings      
+      for (Iterator outbind_iter = p_bind.getOut().iterator(); outbind_iter.hasNext();) {
+          OutBinding out_bind = (OutBinding) outbind_iter.next(); 
+          OutBindingConverter out_bind_conv = new OutBindingConverter(out_bind);
+          // output to file
+          out_bind_conv.Convert(ps);                                        
+      }    
+      String object_attributes_close = "</Refinement>";
 		        
-	    // output to file	        
-//	    ps.println("            " + object_attributes);	    
-//	    ps.println("            " + inbinding_attributes);
-//	    ps.println("            " + outbinding_attributes);
-//	    ps.println("            " + object_attributes_close);
-	    ps.flush();                    
+	  // output to file	           
+	  ps.println("            " + object_attributes_close);
+	  ps.flush();                    
  }
 
 }

@@ -35,7 +35,7 @@ public class EndPointConverter implements AbstractConverter {
                                    "source= \"h" + source.getId() +"\"/>";
                          
        // output to file             
-       ps.println("         " + object_attributes);                        
+       ps.println("            " + object_attributes);                        
        ps.flush();                    
                         
     }
