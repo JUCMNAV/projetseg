@@ -1077,11 +1077,16 @@ public class ImportUCEd implements IURNImport {
 
         // get destination object
         PathNode resprefOrStub = (PathNode) hmUseCaseObjectToUseCaseMapObject.get(redir.redirectTo());
-        if (resprefOrStub == null && redir.redirectTo().getOperation() instanceof IncludeOperation)
+        if (resprefOrStub==null && redir.redirectTo()==null)
+        {
+            // should we redirect to the end of the main path?
+            resprefOrStub = null;
+        }
+        else if (resprefOrStub == null && redir.redirectTo().getOperation() instanceof IncludeOperation)
             resprefOrStub = (PathNode) hmUseCaseObjectToUseCaseMapObject.get(((IncludeOperation) redir.redirectTo().getOperation()));
 
         if (resprefOrStub == null)
-            throw new InvocationTargetException(new Exception("Not yet implemented: goto a later step, in a main scenario")); //$NON-NLS-1$
+            throw new InvocationTargetException(new Exception("Not yet implemented: goto a later step, in a main scenario or goto somewhere that doesn't exist")); //$NON-NLS-1$
         // get the link before it.
         NodeConnection targetLink = (NodeConnection) resprefOrStub.getPred().get(0);
 
