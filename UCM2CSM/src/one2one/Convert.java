@@ -15,6 +15,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.PathNodeImpl;
@@ -94,12 +95,11 @@ public class Convert implements IURNExport {
             else if(node instanceof AndFork){
 			       AndForkConverter obj = new AndForkConverter((AndFork)node); 
 			       doConvert(obj,ps);
-			}
-            /*
+			}            
             else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
-            }*/
+            }
             else if(node instanceof EndPoint){
                 EndPointConverter obj = new EndPointConverter((EndPoint)node); 
                 doConvert(obj,ps);
@@ -123,7 +123,7 @@ public class Convert implements IURNExport {
                 System.out.println("Node not implemented.");
             }
 		}
-
+        
 		// looking at stub for inbindings and outbindings
         for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {        	
         	PluginBinding binding = (PluginBinding) iter4.next();        	        	

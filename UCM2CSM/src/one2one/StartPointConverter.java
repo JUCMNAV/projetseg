@@ -33,23 +33,24 @@ public class StartPointConverter implements AbstractConverter {
        String object_attributes = "<Start id=\"h" + sp.getId() + "\"" + " " +
                                    "name=\"" + sp.getName() +"\"" + " " + 
                                    "target=\"h" + target.getId() + "\" >";
-       
-       String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" />";
-       String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\"/>";
-       String object_attributes_close = "</Start>";
-                  
-       // output to file
-       
        // common attributes
-       ps.println("            " + object_attributes);
-                              
-       // decide if workload is open or closed   
-       if (sp.getWorkload().isClosed()){
-           ps.println("                " + close_wload_attributes);
-       }
-       else{
-           ps.println("                " + open_wload_attributes);
-       }       
+       ps.println("            " + object_attributes);     
+       
+       // processing workload
+       if (sp.getWorkload() != null){
+           System.out.println("Workload:" + sp.getWorkload());
+           String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" />";
+           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\"/>";
+           
+           // decide if workload is open or closed
+           if (sp.getWorkload().isClosed()){
+               ps.println("                " + close_wload_attributes);
+           }
+           else{
+               ps.println("                " + open_wload_attributes);
+           }       
+       }    
+       String object_attributes_close = "</Start>";
        
        // arrival parameters       
        ps.println("             " + object_attributes_close);
