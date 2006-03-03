@@ -3,6 +3,8 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.AndFork;
+import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +16,7 @@ import ucm.map.AndFork;
 
 public class AndForkConverter implements AbstractConverter{
 	    private AndFork af;
+	    
 		// constructors
 	    public AndForkConverter(AndFork af){
 	       this.af = af;
@@ -24,11 +27,27 @@ public class AndForkConverter implements AbstractConverter{
 	        
 	        // object attributes
             
-	        String object_attributes = "<Fork id=\"" + "h" + af.getId() + "\"" + " " +
-	                                    "description=\"" + af.getDescription() +"\"/>";
-        
-	        // output to file
-	        ps.println("            " + object_attributes);
+	        String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\"";
+	        ps.print(id_attribute);
+	        String closing_attribute = "/>";
+	        
+	        // optional attributes
+	        if (af.getDescription() != null){
+	        	String description_attribute = "description=\"" + af.getDescription() +"\"";
+	        	ps.print(description_attribute);
+	        }
+	        if ((NodeConnection)af.getSucc().get(0)!= null && (PathNode) ((NodeConnection)af.getSucc().get(0)).getTarget()!= null  ){
+	        	PathNode target = (PathNode) ((NodeConnection)af.getSucc().get(0)).getTarget(); 
+	        	String target_attribute = "target= \"h" +target.getId() +"\"";
+	        	ps.print(" " + target_attribute);
+	        }
+	        if ((NodeConnection)af.getPred().get(0) != null && (PathNode) ((NodeConnection)af.getPred().get(0)).getSource() != null){
+	        	PathNode source = (PathNode) ((NodeConnection)af.getPred().get(0)).getSource();
+	        	String source_attribute = "source= \"h" + source.getId() +"\"";
+	        	ps.print(" " + source_attribute);
+	        }
+	        
+	        ps.println(closing_attribute);
 	        ps.flush();                    
 	    }
 	

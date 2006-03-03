@@ -31,14 +31,12 @@ public class StartPointConverter implements AbstractConverter {
            
        // object attributes 
        String object_attributes = "<Start id=\"h" + sp.getId() + "\"" + " " +
-                                   "name=\"" + sp.getName() +"\"" + " " + 
-                                   "target=\"h" + target.getId() + "\" >";
+                                  "target=\"h" + target.getId() + "\" >";
        // common attributes
        ps.println("            " + object_attributes);     
        
        // processing workload
-       if (sp.getWorkload() != null){
-           System.out.println("Workload:" + sp.getWorkload());
+       if (sp.getWorkload() != null){           
            String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" />";
            String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\"/>";
            

@@ -30,8 +30,7 @@ public class EndPointConverter implements AbstractConverter {
        source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
       
        // object attributes 
-       String object_attributes = "<End id=\"h" + ep.getId() + "\"" + " " +
-                                   "name =\"" + ep.getName() +"\"" + " " + 
+       String object_attributes = "<End id=\"h" + ep.getId() + "\"" + " " +                              
                                    "source= \"h" + source.getId() +"\"/>";
                          
        // output to file             
