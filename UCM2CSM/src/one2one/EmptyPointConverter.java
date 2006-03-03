@@ -23,10 +23,10 @@ public class EmptyPointConverter implements AbstractConverter{
         public void Convert(PrintStream ps){
 
             // object attributes
-            String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\""+ " " +
-                                       "name=\"" + ep.getName() + "\""+ " " +
-                                       "source=\"" + ep.getName() + "\""+ " " +
-                                       "target=\"" + ep.getName() + "\"/>";
+            String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\"/>";
+                                      // "name=\"" + ep.getName() + "\""+ " " +
+                                     //  "source=\"" + ep.getName() + "\""+ " " +
+                                     //  "target=\"" + ep.getName() + "\"/>";
 
             // output to file
             ps.println("            " + Object_attributes);
