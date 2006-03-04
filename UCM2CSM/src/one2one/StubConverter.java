@@ -38,7 +38,7 @@ public class StubConverter implements AbstractConverter {
                                   "hostDemand=\"" + "1" + "\"" + " " +
                                   "predecessor=\"" + "h" + predecessor.getId() + "\"" + " " +
                                   "successor=\"" + "h" + successor.getId() +"\"/>";                                  
-   
+//     "hostDemand=\"" + "1" + "\"" + " " +
        // output to file       
        
        ps.println("            " + object_attributes);

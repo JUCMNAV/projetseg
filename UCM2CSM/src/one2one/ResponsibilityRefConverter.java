@@ -36,10 +36,10 @@ public class ResponsibilityRefConverter implements AbstractConverter {
         String object_attributes = "<Step id=\"h" + resp.getId() + "\"" + " " +
                                    "name =\"" + resp.getName() +"\"" + " " +
                                    "description =\"" + resp.getDescription() +"\"" + " " +                                   
-                                   "HostDemand =\"" + "1" + "\"" + " " +
+                                   
                                    "predecessor =\"h" + predecessor.getId() +"\"" + " " +
                                    "successor= \"h" + successor.getId() +"\"/>";
-        
+       // "HostDemand =\"" + "1" + "\"" + " " +
         // output to file
         ps.println("            " + object_attributes);
         ps.flush();                    
