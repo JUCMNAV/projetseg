@@ -82,7 +82,6 @@ import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Responsibility;
 
-
 /**
  * Loads a UCEd project and converts it into an instance of URNspec.
  * 
@@ -90,6 +89,17 @@ import urncore.Responsibility;
  * 
  */
 public class ImportUCEd implements IURNImport {
+
+    /**
+     * Base colors for actors and system. 
+     */
+    private static final int SYSTEM_BASERGB_BLUE = 130;
+    private static final int SYSTEM_BASERGB_GREEN = 175;
+    private static final int SYSTEM_BASERGB_RED = 130;
+    private static final int ACTOR_BASERGB_BLUE = 175;
+    private static final int ACTOR_BASERGB_GREEN = 130;
+    private static final int ACTOR_BASERGB_RED = 130;
+
     /** A command stack to run commands that we've already built. Doesn't need a UI */
     protected CommandStack cs;
 
@@ -260,8 +270,8 @@ public class ImportUCEd implements IURNImport {
                 if (node instanceof Stub) {
                     Stub stub = (Stub) node;
                     if (!stub.isDynamic()) {
-//                        PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
-//                        UCMmap plugin = pb.getPlugin();
+                        // PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
+                        // UCMmap plugin = pb.getPlugin();
 
                         // bind stub's in/outs with plugin's start/end
                         // might be more start/ends that in/outs.
@@ -671,10 +681,10 @@ public class ImportUCEd implements IURNImport {
 
         if (comp.getKind() == ComponentKind.ACTOR_LITERAL) {
             // actors are blue-ish
-            comp.setFillColor(StringConverter.asString(new RGB(130 + x, 130 + x, 175 + x)));
+            comp.setFillColor(StringConverter.asString(new RGB(ACTOR_BASERGB_RED + x, ACTOR_BASERGB_GREEN + x, ACTOR_BASERGB_BLUE + x)));
         } else {
             // system is green-ish
-            comp.setFillColor(StringConverter.asString(new RGB(130 + x, 175 + x, 130 + x)));
+            comp.setFillColor(StringConverter.asString(new RGB(SYSTEM_BASERGB_RED + x, SYSTEM_BASERGB_GREEN + x, SYSTEM_BASERGB_BLUE + x)));
         }
 
         comp.setFilled(true);
@@ -702,7 +712,7 @@ public class ImportUCEd implements IURNImport {
         NodeConnection endLink = buildMainPath(map, steps, link, defToRef);
 
         if (endLink != null && endLink.getTarget().getSucc().size() > 0) {
-        	IURNNode  pn = (IURNNode) ((NodeConnection) endLink.getTarget().getSucc().get(0)).getTarget();
+            IURNNode pn = (IURNNode) ((NodeConnection) endLink.getTarget().getSucc().get(0)).getTarget();
             if (pn instanceof EndPoint) {
                 ep = (EndPoint) pn;
             }
@@ -1077,16 +1087,15 @@ public class ImportUCEd implements IURNImport {
 
         // get destination object
         PathNode resprefOrStub = (PathNode) hmUseCaseObjectToUseCaseMapObject.get(redir.redirectTo());
-        if (resprefOrStub==null && redir.redirectTo()==null)
-        {
+        if (resprefOrStub == null && redir.redirectTo() == null) {
             // should we redirect to the end of the main path?
             resprefOrStub = null;
-        }
-        else if (resprefOrStub == null && redir.redirectTo().getOperation() instanceof IncludeOperation)
+        } else if (resprefOrStub == null && redir.redirectTo().getOperation() instanceof IncludeOperation)
             resprefOrStub = (PathNode) hmUseCaseObjectToUseCaseMapObject.get(((IncludeOperation) redir.redirectTo().getOperation()));
 
         if (resprefOrStub == null)
-            throw new InvocationTargetException(new Exception("Not yet implemented: goto a later step, in a main scenario or goto somewhere that doesn't exist")); //$NON-NLS-1$
+            throw new InvocationTargetException(
+                    new Exception("Not yet implemented: goto a later step, in a main scenario or goto somewhere that doesn't exist")); //$NON-NLS-1$
         // get the link before it.
         NodeConnection targetLink = (NodeConnection) resprefOrStub.getPred().get(0);
 
@@ -1141,7 +1150,7 @@ public class ImportUCEd implements IURNImport {
 
         link = handleDelay(map, link, op.getBeforeDelay(), op.getAfterDelay());
 
-        NodeConnection newLink=null;
+        NodeConnection newLink = null;
 
         if (op.getValidatedGuard() != null) {
             OrFork branchingPoint = handleAlternative(link);
@@ -1153,7 +1162,7 @@ public class ImportUCEd implements IURNImport {
             uced.grammar.Condition guard = op.getValidatedGuard();
             handleCondition(link, guard, true);
             handleCondition(newLink, guard, false);
-            
+
         }
         RespRef respref;
         // find the responsibility associated with the operation. (slow O(n))
@@ -1186,8 +1195,8 @@ public class ImportUCEd implements IURNImport {
         if (cr != null) {
             slcmd.getNode().setContRef(cr);
         }
-        
-        if (newLink!=null) {
+
+        if (newLink != null) {
             EndPoint end = (EndPoint) ((NodeConnection) newLink.getTarget().getSucc().get(0)).getTarget();
             DividePathCommand dpc = new DividePathCommand(end, link, 59, 43, true);
             cs.execute(dpc);
@@ -1290,7 +1299,7 @@ public class ImportUCEd implements IURNImport {
     }
 
     public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
-        //Not used
+        // Not used
         return null;
     }
 
