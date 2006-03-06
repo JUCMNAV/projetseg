@@ -3,6 +3,8 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.EmptyPoint;
+import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 
 /**
 * <!-- begin-user-doc -->
@@ -23,13 +25,30 @@ public class EmptyPointConverter implements AbstractConverter{
         public void Convert(PrintStream ps){
 
             // object attributes
-            String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\"/>";
+            String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\""; //>";
                                       // "name=\"" + ep.getName() + "\""+ " " +
                                      //  "source=\"" + ep.getName() + "\""+ " " +
                                      //  "target=\"" + ep.getName() + "\"/>";
+            ps.print("			" + Object_attributes);
+            String closing_attribute = "/>";
+           
+            if (ep.getDescription() != null){
+            	String description_attribute = "description=\"" + ep.getDescription() +"\"";
+            	ps.print(description_attribute);
+            }
+            if ((NodeConnection)ep.getSucc().get(0)!= null && (PathNode) ((NodeConnection)ep.getSucc().get(0)).getTarget()!= null  ){
+            	PathNode target = (PathNode) ((NodeConnection)ep.getSucc().get(0)).getTarget(); 
+            	String target_attribute = "target= \"h" +target.getId() +"\"";
+            	ps.print(" " + target_attribute);
+            }
+            if ((NodeConnection)ep.getPred().get(0) != null && (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource() != null){
+            	PathNode source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
+            	String source_attribute = "source= \"h" + source.getId() +"\"";
+            	ps.print(" " + source_attribute);
+            }
 
             // output to file
-            ps.println("            " + Object_attributes);
+            ps.println(closing_attribute);
             ps.flush();
         }
 

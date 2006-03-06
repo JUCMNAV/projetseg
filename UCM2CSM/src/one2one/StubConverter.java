@@ -34,11 +34,12 @@ public class StubConverter implements AbstractConverter {
        // object attributes         
        String object_attributes = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
                                   "name=\"" + stub.getName() + "\"" + " " +
-                                  "description=\"" + stub.getDescription() + " " +
                                   "hostDemand=\"" + "1" + "\"" + " " +
-                                  "predecessor=\"" + "h" + predecessor.getId() + "\"" + " " +
-                                  "successor=\"" + "h" + successor.getId() +"\"/>";                                  
-//     "hostDemand=\"" + "1" + "\"" + " " +
+                                  "description=\"" + stub.getDescription() + " " +
+       							  "predecessor=\"" + "h" + predecessor.getId() + "\"" + " " +
+                                  "successor=\"" + "h" + successor.getId() +"\"/>"; 
+       
+       							//"hostDemand=\"" + "1" + "\"" + " " +
        // output to file       
        
        ps.println("            " + object_attributes);
