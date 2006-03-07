@@ -1,5 +1,7 @@
 package one2one;
 
+import implicit.ResourceAcquisition;
+
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +15,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -64,6 +67,10 @@ public class Convert implements IURNExport {
 	}
 	
 	private void exportMap(UCMmap map, PrintStream ps) {
+	    
+	    //resource acquisition 
+        ResourceAcquisition ra = new ResourceAcquisition();
+        
         // map header and footer
         String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
                                     " " + "name=\"" + map.getName()+ "\"" +
@@ -78,11 +85,13 @@ public class Convert implements IURNExport {
 		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
             i++;
 		    PathNodeImpl node = (PathNodeImpl) iter2.next();
-            System.out.println("Read Node " + i + ": " + node.getName());
-		    //  if UCM object is found, generate CSM representation
+            System.out.println("Read Node " + i + ": " + node.toString());
+            
+            
+		    // if UCM object is found, generate CSM representation
 		    if(node instanceof OrJoin){
 		       OrJoinConverter obj = new OrJoinConverter((OrJoin)node); 
-		       doConvert(obj,ps);
+		       doConvert(obj,ps);               
 		    }		    
             else if(node instanceof AndJoin){
 		       AndJoinConverter obj = new AndJoinConverter((AndJoin)node); 
@@ -99,10 +108,14 @@ public class Convert implements IURNExport {
             else if(node instanceof StartPoint){
                    StartPointConverter obj = new StartPointConverter((StartPoint)node); 
                    doConvert(obj,ps);
+                   // insert resource acquisition
+                   ra.acquireResource(node, map);
             }
             else if(node instanceof EndPoint){
                 EndPointConverter obj = new EndPointConverter((EndPoint)node); 
                 doConvert(obj,ps);
+                // insert resource acquisition
+                ra.acquireResource(node, map);
             } 
             else if(node instanceof EmptyPoint){
 		 	   EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
@@ -111,10 +124,14 @@ public class Convert implements IURNExport {
             else if(node instanceof Stub){
                StubConverter obj = new StubConverter((Stub)node);
                doConvert(obj,ps);
+               // insert resource acquisition
+               ra.acquireResource(node, map);
             }
             else if(node instanceof RespRef){
                 ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
                 doConvert(obj,ps);
+                // insert resource acquisition                
+                ra.acquireResource((RespRef)node, map);
             }		    
             else if(node instanceof ProcessingResource){ 
             	ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
@@ -122,6 +139,7 @@ public class Convert implements IURNExport {
             else{
                 System.out.println("Node not implemented.");
             }
+                      
 		}
         
 		// looking at stub for inbindings and outbindings
@@ -135,12 +153,12 @@ public class Convert implements IURNExport {
 		
 		// parsing the map for components      
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
-            ComponentRef cref = (ComponentRef) iter3.next();         
+            ComponentRef cref = (ComponentRef) iter3.next();              
             //  if UCM object is found, generate CSM representation
             if(cref instanceof ComponentRef){                
                 ComponentConverter obj = new ComponentConverter(cref);
                 doConvert(obj,ps);
-            }
+            }            
             else{
                 System.out.println("Component not implemented.");
             }
@@ -148,7 +166,10 @@ public class Convert implements IURNExport {
         }
         ps.println("        " + close_scenario_tag);
         ps.flush();
+        
 	}
+    
+    
 	
 	public void export(URNspec urn, String filename) throws InvocationTargetException {
 		// TODO Auto-generated method stub		
