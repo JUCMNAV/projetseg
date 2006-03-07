@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import ucm.map.AndJoin;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
-import ucm.map.impl.AndJoinImpl;
 /**
  * <!-- begin-user-doc -->
  * Creates the CSM representation(Join) of the AndJoin object

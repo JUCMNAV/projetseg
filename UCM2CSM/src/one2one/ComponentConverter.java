@@ -1,10 +1,10 @@
 package one2one;
 import java.io.PrintStream;
 import java.util.Iterator;
-import java.util.*;
 
 import ucm.map.ComponentRef;
 import urncore.ComponentElement;
+import urncore.ComponentKind;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(Component) of the
@@ -61,12 +61,13 @@ public class ComponentConverter implements AbstractConverter {
 			
 		 String comp_attributes = "<Component id=\"" + "c" + compDef.getId() + "\"" + " " +
 		 						  "name=\"" + compDef.getName() + "\"" + " " +
-		 						  "host=\"" + " " + "\"" + " " + "\" />";
-		  
+		 						  "host=\"" + " " + "\" />";
+		
+		 /*
 		 String comp_attributes_sub = "<Component id=\"" + "c" + compDef.getId() + "\"" + " " +
 		 							  "name=\"" + compDef.getName()+ "\"" + " " +
 		 							  "host=\"" + " " + "\"" + " " + "sub=\"" + children + "\"/>";
-       
+         */
          String comp_attributes_parent = "<Component id=\"" + "c" + compDef.getId() + "\"" + " " +
                                          "name=\"" + compDef.getName() + "\"" + " " +
                                          "host=\"" + " " + "\"" + " " +
@@ -79,9 +80,10 @@ public class ComponentConverter implements AbstractConverter {
 		 									 "parent=\"" + parent + "\" />";		
 	 
 		// determine if component has parents or children or both and output to file
- 
-		 if(parent != " "){
-			 if(children != " "){
+		 System.out.println("parent: " + parent);
+		 System.out.println("children: " + children);
+		 if(parent.compareTo("") == 0){
+			 if(children.compareTo("") == 0){
 				 ps.println("            " + comp_attributes_sub_parent);
 			 }
 			 else{
@@ -89,12 +91,16 @@ public class ComponentConverter implements AbstractConverter {
 			 }
 		 }
 		 else {
-             if(children != " "){
-				 ps.println("            " + comp_attributes_sub);
+			 // Note: get component type and assign to CSM boolean value
+			 System.out.println("Comp type: ");
+					 /*()); 
+             if(compDef.getIncludingComponent().getKind().toString() != ""){ 
+				
 			 }
-			 else{
+			 */
+			 // else{
 				 ps.println("            " + comp_attributes);
-			 }
+			 // }
 		 }	
 		ps.flush();
 

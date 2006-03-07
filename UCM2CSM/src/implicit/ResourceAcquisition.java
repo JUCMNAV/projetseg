@@ -6,7 +6,6 @@ import java.util.Stack;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
-import urncore.ComponentElement;
 
 public class ResourceAcquisition {
     
