@@ -1,7 +1,7 @@
 package implicit;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
@@ -30,13 +30,26 @@ public class ResourceAcquisition {
   
     // Resource Acquire algorithm
     public void acquireResource(PathNode curr_edge, UCMmap map){
-        // local variables          
-        ComponentRef prev_edge_comp_ref;
+        
+        // local variables                  
         Stack curr_edge_stack = new Stack ();
-        // populate local prev_edge_list
-        List prev_edge_list = map.getNodes().subList(0,map.getNodes().size()-1);
-        // System.out.println("Previous edges: " + map.getNodes().subList(0,map.getNodes().size()-1));
+        ArrayList prev_edge_list = new ArrayList();
+        // populate local prev_edge_list -- PROBLEM: How to populate this list (in which order?)
+        boolean done = false;
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext() && !done;) {
+            PathNode node = (PathNode) iter.next();
+            if (node == curr_edge){
+               done = true; 
+            }
+            else{
+                prev_edge_list.add(node);
+                System.out.println("Prev. Edges: " + prev_edge_list.toString());
+            }
+        }
+        
         ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
+        System.out.println("curr_edge: " + curr_edge);
+        System.out.println("curr_edge_comp_ref: " + curr_edge_comp_ref);
         
         // current edge is inside component 
         if (curr_edge_comp_ref != null ){
@@ -47,9 +60,11 @@ public class ResourceAcquisition {
             if (!prev_edge_list.isEmpty()){
                 for (int j = 0; j < prev_edge_list.size(); j++){                      
                     // Previous edge must be in a different component
-                    PathNode prev_edge = (PathNode) prev_edge_list.get(j);                                        
-                    prev_edge_comp_ref = (ComponentRef) prev_edge.getContRef(); //PROBLEM!!!
-
+                    PathNode prev_edge = (PathNode) prev_edge_list.get(j);
+                    System.out.println("prev_edge: " + prev_edge_list.get(j));
+                    ComponentRef prev_edge_comp_ref = (ComponentRef) prev_edge.getContRef(); 
+                    System.out.println("prev_edge_comp_ref: " + prev_edge_comp_ref);
+                    
                     if (prev_edge_comp_ref != curr_edge_comp_ref){
                         
                         // Find which parents of curr_edge are not included in those prev_edge
@@ -64,34 +79,36 @@ public class ResourceAcquisition {
                             for (int k=0; k < curr_edge_stack.size(); k++){
                                 if (prev_edge_stack.get(i) == curr_edge_stack.get(k)){
                                     outside_comp_stack.push(curr_edge_stack.get(k));
-                                }
-                            }    
-                        }
+                                } // if
+                            } // for    
+                        } // for
+                        
                         // debug - prev_edge_stack contents
                         for (int a = 0; a < prev_edge_stack.size(); a ++){ 
                             System.out.println("prev_edge_stack " + a + " " + prev_edge_stack.get(a));
-                        }
+                        } // for 
                         
                         // debug - curr_edge_stack contents
                         for (int b = 0; b < curr_edge_stack.size(); b ++){ 
                              System.out.println("curr_edge_stack " + b + " " + curr_edge_stack.get(b));
-                        }
+                        } // for
+                        
                         // debug - outside_comp_stack contents
                         for (int c = 0; c < outside_comp_stack.size(); c ++){ 
                              System.out.println("outside_comp_stack " + c + " " + outside_comp_stack.get(c));
-                        }    
+                        } //for    
+                        
                         // Acquire the components of the parents
-                    }
+                    }// if
                     
-                }                
-            }                            
-        }
-        else {
-            // Must be a start point, acquire the components
-            System.out.println("acquireResource:  This is a StartPoint");
-        }
-    }
-    
+                }// for                
+            } // if                            
+            else {
+                // Must be a start point, acquire the components
+                System.out.println("acquireResource:  This is a StartPoint");
+            } // else            
+        } // if
+    } // function
     
     // prints XML representation of Resource Acquire element
     public void acquireComp(){
