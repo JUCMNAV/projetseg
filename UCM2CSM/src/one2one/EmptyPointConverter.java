@@ -46,6 +46,7 @@ public class EmptyPointConverter implements AbstractConverter{
             	String source_attribute = "source= \"h" + source.getId() +"\"";
             	ps.print(" " + source_attribute);
             }
+            
 
             // output to file
             ps.println(closing_attribute);

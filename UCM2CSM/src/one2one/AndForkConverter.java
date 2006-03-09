@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import ucm.map.AndFork;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
-
 /**
  * <!-- begin-user-doc -->
  * Creates the CSM representation(And-Fork) of the AndFork object
@@ -24,7 +23,7 @@ public class AndForkConverter implements AbstractConverter{
 
 	    // prints XML representation of object to output file
 	    public void Convert(PrintStream ps){
-	        
+	    // ()	;
 	        // object attributes
             
 	        String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\"";
@@ -46,6 +45,7 @@ public class AndForkConverter implements AbstractConverter{
 	        	String source_attribute = "source= \"h" + source.getId() +"\"";
 	        	ps.print(" " + source_attribute);
 	        }
+	        
 	        
 	        ps.println(closing_attribute);
 	        ps.flush();                    
