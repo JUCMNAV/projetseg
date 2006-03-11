@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import ucm.map.AndFork;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+
 /**
  * <!-- begin-user-doc -->
  * Creates the CSM representation(And-Fork) of the AndFork object
@@ -15,7 +16,7 @@ import ucm.map.PathNode;
 
 public class AndForkConverter implements AbstractConverter{
 	    private AndFork af;
-	    
+	   // OptionalAssociations so;
 		// constructors
 	    public AndForkConverter(AndFork af){
 	       this.af = af;
@@ -45,7 +46,7 @@ public class AndForkConverter implements AbstractConverter{
 	        	String source_attribute = "source= \"h" + source.getId() +"\"";
 	        	ps.print(" " + source_attribute);
 	        }
-	        
+	       // so.OptionalAttributes((NodeConnection) af,  ps);
 	        
 	        ps.println(closing_attribute);
 	        ps.flush();                    
