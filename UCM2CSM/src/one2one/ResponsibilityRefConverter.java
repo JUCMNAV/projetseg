@@ -28,9 +28,7 @@ public class ResponsibilityRefConverter implements AbstractConverter {
         
         // retrieve target/source        
         successor = (PathNode) ((NodeConnection)resp.getSucc().get(0)).getTarget();
-        predecessor = (PathNode) ((NodeConnection)resp.getPred().get(0)).getSource(); 
-        System.out.println("successor: " + successor.getId());
-        System.out.println("predecessor: " + predecessor.getId());
+        predecessor = (PathNode) ((NodeConnection)resp.getPred().get(0)).getSource();         
         
         // object attributes
         String object_attributes = "<Step id=\"h" + resp.getId() + "\"" + " " +

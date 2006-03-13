@@ -22,7 +22,7 @@ public class InBindingConverter implements AbstractConverter{
     
     // prints XML representation of object to output file
 	public void Convert(PrintStream ps){
-		        
+	        
 	    // object attributes
 	    String Object_attributes = "<inbinding id=\"" + "si" + in_bind.getStubEntry().getInBindings().get(0) + "\"" + " " +
                                     "start=\"" + "h" + in_bind.getStartPoint().getId() + "\"" + " " + 

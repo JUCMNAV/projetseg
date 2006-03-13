@@ -80,8 +80,8 @@ public class ComponentConverter implements AbstractConverter {
 		 									 "parent=\"" + parent + "\" />";		
 	 
 		// determine if component has parents or children or both and output to file
-		 System.out.println("parent: " + parent);
-		 System.out.println("children: " + children);
+		// System.out.println("parent: " + parent);
+		// System.out.println("children: " + children);
 		 if(parent.compareTo("") == 0){
 			 if(children.compareTo("") == 0){
 				 ps.println("            " + comp_attributes_sub_parent);
@@ -92,7 +92,7 @@ public class ComponentConverter implements AbstractConverter {
 		 }
 		 else {
 			 // Note: get component type and assign to CSM boolean value
-			 System.out.println("Comp type: ");
+			// System.out.println("Comp type: ");
 					 /*()); 
              if(compDef.getIncludingComponent().getKind().toString() != ""){ 
 				
