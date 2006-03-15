@@ -104,11 +104,23 @@ public class CSMDupNode {
     {
       // RA or RR to be inserted      
       type = RA;
-      node_id = "G" + raORrrORseq;
+      node_id = "G" + raORrrORseq;      
     }
     
     // return the id of the node
     public String getId(){
         return node_id;
     }
+    
+    // return successor
+    public String getSuccessor(){
+        // PathNode successor = (PathNode) ((NodeConnection)node.getSucc().get(0)).getTarget();
+        return node.getId();       
+    }
+    // return predecessor
+    public PathNode getPredecessor(){
+        PathNode predecessor = (PathNode) ((NodeConnection)node.getPred().get(0)).getSource();
+        return predecessor;       
+    }
+    
 }
