@@ -3,6 +3,7 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.OutBinding;
+import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +27,7 @@ public class OutBindingConverter implements AbstractConverter{
       // object attributes
       String Object_attributes = "<outbinding id=\"" + "so" + out_bind.getBinding() + "\"" + " " +
                                  "end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
-		                         "out=\"" + "h" + out_bind.getStubExit().getTarget() +"\"/>";
+		                         "out=\"" + "h" + ((PathNode)out_bind.getStubExit().getTarget()).getId() +"\"/>";
 		        
       // output to file
       ps.println("              " + Object_attributes);

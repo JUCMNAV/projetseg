@@ -14,7 +14,7 @@ import ucm.map.PathNode;
  */
 public class AndJoinConverter implements AbstractConverter {
     private AndJoin aj;
-    //OptionalAssociations so;
+    OptionalAssociations so = new OptionalAssociations();
     // constructors
     public AndJoinConverter(AndJoin aj){
        this.aj = aj;
@@ -24,12 +24,12 @@ public class AndJoinConverter implements AbstractConverter {
     public void Convert(PrintStream ps){
        
        // object attributes 
-        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\""; //+ " " +
+        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" "; //+ " " +
                                    
         ps.print("			" + object_attributes);
         String closing_attribute = "/>";
        
-        if (aj.getDescription() != null){
+      /*  if (aj.getDescription() != null){
         	String description_attribute = "description=\"" + aj.getDescription() +"\"";
         	ps.print(description_attribute);
         }
@@ -42,8 +42,8 @@ public class AndJoinConverter implements AbstractConverter {
         	PathNode source = (PathNode) ((NodeConnection)aj.getPred().get(0)).getSource();
         	String source_attribute = "source= \"h" + source.getId() +"\"";
         	ps.print(" " + source_attribute);
-        }
-       // so.OptionalAttributes((NodeConnection) aj,  ps);
+        }*/
+       so.OptionalAttributes((PathNode) aj,  ps);
        // output to file
       // ps.println("            " + object_attributes);
        ps.println(closing_attribute);

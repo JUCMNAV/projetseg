@@ -17,7 +17,7 @@ import ucm.map.PathNode;
 public class EndPointConverter implements AbstractConverter {
     private EndPoint ep; 
     private PathNode source;
-    
+    OptionalAssociations oa = new OptionalAssociations();
     // constructors
     public EndPointConverter(EndPoint ep){
        this.ep = ep;       
@@ -37,7 +37,7 @@ public class EndPointConverter implements AbstractConverter {
        String closing_attribute = "/>";
        
        // optional attributes
-       if (ep.getDescription() != null){
+     /*  if (ep.getDescription() != null){
        	String description_attribute = "description=\"" + ep.getDescription() +"\"";
        	ps.print(description_attribute);
        }
@@ -45,7 +45,8 @@ public class EndPointConverter implements AbstractConverter {
        	PathNode source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
        	String source_attribute = "source= \"h" + source.getId() +"\"";
        	ps.print(" " + source_attribute);
-       } 
+       } */
+       oa.OptionalAttributes((PathNode) ep,  ps);
        if (!ep.getOutBindings().isEmpty()){
          // NodeConnection bind = (NodeConnection) ep.getOutBindings();
     	   String outbind = "";
@@ -57,6 +58,7 @@ public class EndPointConverter implements AbstractConverter {
         System.out.println("OutBindings list: " + ep.getOutBindings());
         ps.print(" " + source_attribute);
        }
+      
        // output to file             
        ps.println(closing_attribute);                        
        ps.flush();                    
