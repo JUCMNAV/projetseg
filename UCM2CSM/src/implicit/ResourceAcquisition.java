@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
@@ -16,9 +15,6 @@ import ucm.map.PathNode;
  */
 
 public class ResourceAcquisition {
-    
-    // list that will store edges to be parsed
-    CSMDupNodeList prev_edge_list = new CSMDupNodeList();
     // RA and Empty Point IDs
     int ra_id = 100;                   
     int seq_id = 200;
@@ -38,11 +34,13 @@ public class ResourceAcquisition {
     }
   
     // Resource Acquire algorithm
-    public void acquireResource(PathNode curr_edge, CSMDupNodeList dup_map, PrintStream print){
+    public int acquireResource(PathNode curr_edge, CSMDupNodeList dup_map, PrintStream print){
+        // list that will store edges to be parsed (will contain pathnodes only)
+        CSMDupNodeList prev_edge_list = new CSMDupNodeList();
+        int nodes_inserted = 0; // total nodes inserted since last run
         
         // local variables                  
-        Stack curr_edge_stack = new Stack ();
-        // CSMDupNodeList prev_edge_list = new CSMDupNodeList();
+        Stack curr_edge_stack = new Stack ();        
         
         ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
         
@@ -51,30 +49,30 @@ public class ResourceAcquisition {
             
             // populate local prev_edge_list 
             boolean done = false;
-            // PathNode StartPoint = dup_map.getNode(0); // obtain startpoint
+          
+            // parsing list of dupnodes (each can be either a pathnode or an RA/RR/Seq
             for (int i = 0; !done && i < dup_map.size(); i++) {
-                PathNode node = dup_map.getNode(i);
-                if (node == curr_edge){
-                   done = true; 
-                }
-                else{
-                   prev_edge_list.add(node);                        
-                }
-            }                        
+                // PathNode node = dup_map.getNode(i);
+                PathNode node = dup_map.getListNode(i);
+                if (node != null) {
+                    if (node == curr_edge){
+                        done = true; 
+                    }
+                    else{
+                        prev_edge_list.add(new CSMDupNode (node));                        
+                    }
+                }// if
+            }//for                        
             
             // find the parent component of current edge                                        
             curr_edge_stack.push(curr_edge_comp_ref);
             findParentsRA(curr_edge_comp_ref, curr_edge_stack);
-            // debug - curr_edge_stack contents
-            for (int b = 0; b < curr_edge_stack.size(); b ++){ 
-                 System.out.println("Curr_edge_stack " + b + " " + curr_edge_stack.get(b));
-            } // for
             
             if (!prev_edge_list.isEmpty()){
                 // only look at the last two elements of the prev_edge_list
                 for (int j = prev_edge_list.size() - 1; j < prev_edge_list.size(); j++){
                     // Previous edge must be in a different component                    
-                    PathNode prev_edge = prev_edge_list.getNode(j);
+                    PathNode prev_edge = prev_edge_list.getListNode(j);
                     System.out.println("prev_edge: " + prev_edge);
                     ComponentRef prev_edge_comp_ref = (ComponentRef) prev_edge.getContRef(); 
                     System.out.println("prev_edge_comp_ref: " + prev_edge_comp_ref);
@@ -90,11 +88,16 @@ public class ResourceAcquisition {
                            ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
                            // create resource acquire component and insert it in duplicate map                           
                            CSMDupNode ra_node = new CSMDupNode(ra_id);
-                           // dup_map.add((PathNode)ra_node);
+                           System.out.println("Size BEFORE insertion: " + dup_map.size());
+                           System.out.println("j = " + j);
+                           dup_map.add(j,ra_node);
+                           nodes_inserted ++;
+                           System.out.println("Size AFTER insertion: " + dup_map.size());
                            acquireComp(comp,print,ra_node);
                            // create empty point and insert it in duplicate map
                            CSMDupNode e_node = new CSMDupNode(seq_id);
-                           // dup_map.add((PathNode)e_node);
+                           dup_map.add(j+1,e_node);
+                           nodes_inserted ++;
                            emptyPoint(comp,print,e_node);
                            ra_id++;
                            seq_id++;
@@ -109,31 +112,18 @@ public class ResourceAcquisition {
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack,prev_edge_stack);
                        
-                        // debug - prev_edge_stack contents
-                        for (int a = 0; a < prev_edge_stack.size(); a ++){ 
-                            System.out.println("prev_edge_stack " + a + " " + prev_edge_stack.get(a));
-                        } // for 
-                        
-                        // debug - curr_edge_stack contents
-                        for (int b = 0; b < curr_edge_stack.size(); b ++){ 
-                             System.out.println("curr_edge_stack " + b + " " + curr_edge_stack.get(b));
-                        } // for
-                        
-                        // debug - outside_comp_stack contents
-                        for (int c = 0; c < outside_comp_stack.size(); c ++){ 
-                             System.out.println("outside_comp_stack " + c + " " + outside_comp_stack.get(c));
-                        } //for                            
-                    
                         // Acquire the components of the parents                        
                         while (!outside_comp_stack.isEmpty()){
                             ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
                             // create a resource acquire component and insert it in duplicate map                           
                             CSMDupNode ra_node = new CSMDupNode(ra_id);
-                            // dup_map.add((PathNode)ra_node); 
+                            dup_map.add(j,ra_node);
+                            nodes_inserted++;
                             acquireComp(comp,print,ra_node);
                             // create empty point and insert it in duplicate map
                             CSMDupNode e_node = new CSMDupNode(seq_id);
-                            // dup_map.add((PathNode)e_node);
+                            dup_map.add(j+1, e_node);
+                            nodes_inserted++;
                             emptyPoint(comp,print,e_node);
                             seq_id++;
                             ra_id++;
@@ -148,21 +138,30 @@ public class ResourceAcquisition {
                 ComponentRef comp = (ComponentRef) curr_edge_stack.pop();
                 // create a resource acquire component and an empty point (sequence)                           
                 CSMDupNode ra_node = new CSMDupNode(ra_id);
+                dup_map.add(0,ra_node);
+                nodes_inserted++;
                 acquireComp(comp,print,ra_node);
                 // create empty point and insert it in duplicate map
                 CSMDupNode e_node = new CSMDupNode(seq_id);
-                // dup_map.add((PathNode)e_node);
+                dup_map.add(1, e_node);
                 emptyPoint(comp,print,e_node);
+                nodes_inserted++;
                 seq_id++;
                 ra_id++;
             }
-        } // else                
+        } // else        
+        
+        // debug - dup-map contents
+        for (int b = 0; b < dup_map.size(); b ++){ 
+             System.out.println("dup_map " + b + " " + dup_map.get(b));
+        } // for
+        return nodes_inserted;
     } // function
     
     // prints XML representation of Resource Acquire element
     public void acquireComp(ComponentRef comp, PrintStream ps, CSMDupNode node){
         
-        // PathNode successor = prev_edge_list.getNode()
+        // PathNode successor = prev_edge_list.getNode()        
         
         // object attributes 
         String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" +
@@ -192,5 +191,6 @@ public class ResourceAcquisition {
             }
         }
         return stack_three;
-    }
+    }   
+    
 }

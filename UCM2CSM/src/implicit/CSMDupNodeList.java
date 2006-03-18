@@ -16,23 +16,24 @@ import ucm.map.UCMmap;
  * @generated
  */
 public class CSMDupNodeList {
+    //  will contain CSMDupNodes (which in turn may point to a PathNode or an RA node)
     ArrayList pathList = new ArrayList(1000);    
     EList connList; // gets the connections between nodes  
     
-    //  create links to map
+    // create PathNode links to map
     public void DuplicateHyperEdges(UCMmap map){        
-        connList = map.getConnections(); 
-        PathNode source_pn = (PathNode) ((NodeConnection) (connList.get(0))).getSource();        
-        PathNode target_pn = (PathNode) ((NodeConnection) (connList.get(0))).getTarget();
-        // will contain CSMDupNodes
+        connList = map.getConnections();         
+        CSMDupNode source_pn = new CSMDupNode ((PathNode) ((NodeConnection) (connList.get(0))).getSource());        
+        CSMDupNode target_pn = new CSMDupNode ((PathNode) ((NodeConnection) (connList.get(0))).getTarget());
+        
         pathList.add(0, source_pn); 
         pathList.add(1, target_pn);
                
         // trying to associate the target of the first connection with the source of the second connection
         int index = 1;
         boolean done = false;
-        while (!done){            
-            PathNode node = getNextTarget(target_pn);
+        while (!done){                        
+            CSMDupNode node = getNextTarget(target_pn);
             if (node != null){
                 ++index;               
                 pathList.add(index, node); // add node to path list
@@ -41,46 +42,50 @@ public class CSMDupNodeList {
             else{
                 done = true;
             }
-        }
-        for (int i = 0; i<pathList.size(); i++){
-            System.out.println("PathList " + i + " : " + pathList.get(i).toString());
-        }
+        }// while                
+    } // function
+        
+    // identifies a connection (of type "Source Connnection Target") having StartPoint=Source and returns the target
+    public CSMDupNode getNextTarget(CSMDupNode source){        
+        for (int i=0; i < connList.size(); i++) {
+            if (source.getNode() == (PathNode)((NodeConnection)(connList.get(i))).getSource()){                                                    
+               return new CSMDupNode ((PathNode) ((NodeConnection)(connList.get(i))).getTarget());                                                
+            }            
+        } // for
+        return null;
+    } // function
+        
+    
+    /* The following are methods used to access the CSMDupNodeList */
+    
+    // size of path list
+    public int size(){
+       return pathList.size();
     }
         
-        // identifies a connection (of type "Source Connnection Target") having StartPoint=Source and returns the target
-        public PathNode getNextTarget(PathNode source){        
-            for (int i=0; i < connList.size(); i++) {
-                if (source == (PathNode) ((NodeConnection)(connList.get(i))).getSource()){
-                    return (PathNode) ((NodeConnection)(connList.get(i))).getTarget();                
-                }            
-            }
-            return null;
-        }
+    // get node
+    public CSMDupNode get(int i){
+       return (CSMDupNode) pathList.get(i);
+    }          
+       
+    // add node at the end of list
+    public void add(CSMDupNode node){
+       pathList.add(pathList.size(),node);
+    }
         
-        // size of path list
-        public int size(){
-            return pathList.size();
-        }
+    // add node at a specific point in map
+    public void add(int position, CSMDupNode node){
+         pathList.add(position,node);              
+    }
         
-        // get node
-        public CSMDupNode get(int i){
-            return (CSMDupNode) pathList.get(i);
-        }
+    // checks if list is empty
+    public boolean isEmpty(){
+       return pathList.isEmpty();                
+    }
         
-               
-        // add node
-        public void add(PathNode node){
-            pathList.add(pathList.size(),node);
-        }
-        
-        // checks if list is empty
-        public boolean isEmpty(){
-            return pathList.isEmpty();                
-        }
-        
-
-        public PathNode getNode(int i){
-            return (PathNode) pathList.get(i);                
-        }
-    
+    // return a PathNode from the Duplicate Graph
+    public PathNode getListNode(int i){            
+       return ((CSMDupNode) (pathList.get(i))).getNode();                
+    }
+     
 }

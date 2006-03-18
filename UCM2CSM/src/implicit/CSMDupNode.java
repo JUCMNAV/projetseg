@@ -16,15 +16,15 @@ import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import ucm.map.impl.PathNodeImpl;
 /**
  * <!-- begin-user-doc -->
- * Used to define existing PathNodes and new nodes such as Resource Acquire, 
- * Resource Release and Sequence.
+ * A CSMDupNode is a reference to a node in the original UCMmap
  * <!-- end-user-doc -->
  * @see implicit 
  * @generated
  */
-public class CSMDupNode {
+public class CSMDupNode extends PathNodeImpl {
     
     // The various types of PathNode elements in jUCMNav
 
@@ -91,8 +91,7 @@ public class CSMDupNode {
        }                 
        else{
             type = UNDEFINED;
-       }
-      
+       }      
     }
     
     // return pathnode type
@@ -112,15 +111,13 @@ public class CSMDupNode {
         return node_id;
     }
     
-    // return successor
-    public String getSuccessor(){
-        // PathNode successor = (PathNode) ((NodeConnection)node.getSucc().get(0)).getTarget();
-        return node.getId();       
+    // return the id of the node if node is a Pathnode, else return null
+    public PathNode getNode(){
+        if (type == RA || type == RR || type == EMPTY){
+            return null;
+        }
+        else{
+            return this.node;
+        }
     }
-    // return predecessor
-    public PathNode getPredecessor(){
-        PathNode predecessor = (PathNode) ((NodeConnection)node.getPred().get(0)).getSource();
-        return predecessor;       
-    }
-    
 }
