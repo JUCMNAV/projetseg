@@ -7,6 +7,7 @@ import implicit.ResourceAcquisition;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
@@ -17,7 +18,6 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -68,8 +68,6 @@ public class Convert implements IURNExport {
 	}
 	
 	private void exportMap(UCMmap map, PrintStream ps) {	    
-	    //resource acquisition 
-        // ResourceAcquisition ra = new ResourceAcquisition();        
         
         // map header and footer
         String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
@@ -86,11 +84,16 @@ public class Convert implements IURNExport {
          */ 
         CSMDupNodeList dupMaplist = new CSMDupNodeList();
         dupMaplist.DuplicateHyperEdges(map);
+        Hashtable comp_map = new Hashtable();
+        
         
         // Insert RA/RR/Seq nodes in above list 
-        transform(dupMaplist, ps);
+        transform(dupMaplist, comp_map, ps);
         
-        // Generate XML tags for all elements in above list
+        // Generate RA/RR/Seq XML tags
+        saveXML(ps, dupMaplist, comp_map);
+        
+        // code for explicit transformation (remains to be integrated with implicit
         int i=0;
 		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
             i++;
@@ -141,10 +144,9 @@ public class Convert implements IURNExport {
             */
             else{
                 System.out.println("Node not implemented.");
-            }
-                      
-		}
-    
+            }                     
+		} // for
+            
 		// looking at stub for inbindings and outbindings
         for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {        	
         	PluginBinding binding = (PluginBinding) iter4.next();        	        	
@@ -172,10 +174,9 @@ public class Convert implements IURNExport {
         
 	}
     
-    // adds RA/RR/Seq nodes where necessary
-    public void transform(CSMDupNodeList list, PrintStream ps){
-        // resource acquisition 
-        ResourceAcquisition ra = new ResourceAcquisition();    
+    // adds RA/RR/Seq nodes where necessary in the duplicate map
+    public void transform(CSMDupNodeList list,Hashtable comp_map, PrintStream ps){         
+        ResourceAcquisition ra = new ResourceAcquisition(ps);    
         int i = 0;
         while (i < list.size()){    
             CSMDupNode node = (CSMDupNode) list.get(i);
@@ -184,11 +185,33 @@ public class Convert implements IURNExport {
                node.getType() == CSMDupNode.END   ||
                node.getType() == CSMDupNode.STUB  ||
                node.getType() == CSMDupNode.RESPREF){
-                int ni = ra.acquireResource(node.getNode(), list, ps);
+                int ni = ra.acquireResource(node.getNode(), list, comp_map);
                 i = i + ni;
             }            
             i++;
         }        
+    }
+    
+    // print CSM output for RA and Sequence
+    public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, Hashtable comp_map){
+        ResourceAcquisition ra = new ResourceAcquisition(ps);
+        dupMaplist.printDupList(); // debug
+      
+        for (int b = 0; b < dupMaplist.size(); b ++){              
+             CSMDupNode curr_node = (CSMDupNode)dupMaplist.get(b);
+             
+             // printing RA
+             if (curr_node.getId().startsWith("G1")){
+             // if (curr_node.getType() == CSMDupNode.RA){                 
+                 ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());                 
+                 ra.acquireComp(comp,curr_node,dupMaplist,b);
+             }
+             // printing Sequence
+             if (curr_node.getId().startsWith("G2")){
+             // if (curr_node.getType() == CSMDupNode.EMPTY){
+                 ra.acquireEmptyPoint(curr_node);
+             }             
+        } // for
     }
 	
 	public void export(URNspec urn, String filename) throws InvocationTargetException {
