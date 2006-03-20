@@ -87,7 +87,7 @@ import urncore.Responsibility;
  * 
  * @author jkealey
  * 
- */
+ */ 
 public class ImportUCEd implements IURNImport {
 
     /**
@@ -114,6 +114,8 @@ public class ImportUCEd implements IURNImport {
 
     /** jUCMNav's internal model */
     protected URNspec urn;
+    
+    protected java.util.Vector autolayoutDiagrams;
 
     /**
      * Starting at root, recursively add all component definitions to the urn model. No references are added here.
@@ -528,6 +530,8 @@ public class ImportUCEd implements IURNImport {
             cs.execute(cmp);
             map = cmp.getMap();
             map.setName(uc.getName());
+            //Set the id in the autolayout Vector 
+            autolayoutDiagrams.add(map.getId());
             hmUseCaseObjectToUseCaseMapObject.put(uc, map);
         }
 
@@ -1258,7 +1262,9 @@ public class ImportUCEd implements IURNImport {
      * @return an initialized URNspec with no layout information.
      * @throws InvocationTargetException
      */
-    public URNspec importURN(String filename) throws InvocationTargetException {
+    public URNspec importURN(String filename, java.util.Vector autolayoutDiagrams) throws InvocationTargetException {
+        this.autolayoutDiagrams = autolayoutDiagrams;
+        
         // initialize all variables.
         init();
 
@@ -1293,18 +1299,19 @@ public class ImportUCEd implements IURNImport {
 
     }
 
-    public URNspec importURN(FileInputStream fis) throws InvocationTargetException {
+    public URNspec importURN(FileInputStream fis, java.util.Vector autolayoutDiagrams) throws InvocationTargetException {
         // not used
         return null;
     }
 
-    public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
+    public URNspec importURN(FileInputStream fis, URNspec urn, java.util.Vector autolayoutDiagrams) throws InvocationTargetException {
         // Not used
         return null;
     }
 
-    public URNspec importURN(String filename, URNspec urn) throws InvocationTargetException {
+    public URNspec importURN(String filename, URNspec urn, java.util.Vector autolayoutDiagrams) throws InvocationTargetException {
         // Not Used
         return null;
     }
+
 }
