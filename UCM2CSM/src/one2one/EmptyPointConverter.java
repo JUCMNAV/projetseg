@@ -16,7 +16,7 @@ import ucm.map.PathNode;
 
 public class EmptyPointConverter implements AbstractConverter{
         private EmptyPoint ep;
-        OptionalAssociations oa = new OptionalAssociations();
+       // OptionalAssociations oa = new OptionalAssociations();
         // constructors
         public EmptyPointConverter(EmptyPoint ep){
            this.ep = ep;
@@ -47,7 +47,10 @@ public class EmptyPointConverter implements AbstractConverter{
             	String source_attribute = "source= \"h" + source.getId() +"\"";
             	ps.print(" " + source_attribute);
             }*/
-            oa.OptionalAttributes((PathNode) ep,  ps);
+            OptionalAssociations.printDescription(ps, ep);
+            OptionalAssociations.printTarget(ps, ep);
+            OptionalAssociations.printSource(ps, ep);
+            //oa.OptionalAttributes((PathNode) ep,  ps);
 
             // output to file
             ps.println(closing_attribute);

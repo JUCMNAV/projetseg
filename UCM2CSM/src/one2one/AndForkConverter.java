@@ -16,7 +16,7 @@ import ucm.map.PathNode;
 
 public class AndForkConverter implements AbstractConverter{
 	    private AndFork af;
-	    OptionalAssociations oa = new OptionalAssociations();
+	   // OptionalAssociations oa = new OptionalAssociations();
 		// constructors
 	    public AndForkConverter(AndFork af){
 	       this.af = af;
@@ -46,7 +46,10 @@ public class AndForkConverter implements AbstractConverter{
 	        	String source_attribute = "source= \"h" + source.getId() +"\"";
 	        	ps.print(" " + source_attribute);
 	        }*/
-	        oa.OptionalAttributes((PathNode) af,  ps);
+	        OptionalAssociations.printDescription(ps, af);
+	        OptionalAssociations.printTarget(ps, af);
+	        OptionalAssociations.printSource(ps, af);
+	       // oa.OptionalAttributes((PathNode) af,  ps);
 	        
 	        ps.println(closing_attribute);
 	        ps.flush();                    
