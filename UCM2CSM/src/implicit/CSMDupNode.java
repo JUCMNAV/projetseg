@@ -101,8 +101,17 @@ public class CSMDupNode extends PathNodeImpl {
 
     public CSMDupNode(int raORrrORseq)
     {
-      // RA or RR to be inserted      
-      type = RA;
+      // RA or RR to be inserted
+      if (raORrrORseq >= 100 && raORrrORseq < 200 ){  
+          type = RA;
+      }
+      else if ((raORrrORseq >= 200 && raORrrORseq < 300)
+           ||  (raORrrORseq >= 400 && raORrrORseq < 500)){  
+          type = EMPTY;
+      }    
+      else if (raORrrORseq >= 300 && raORrrORseq < 400 ){  
+          type = RR;
+      }      
       node_id = "G" + raORrrORseq;      
     }
     

@@ -95,8 +95,8 @@ public class CSMDupNodeList {
        }
        else{    
            // if previous node is an RA or RR return its id
-           if (((CSMDupNode)(pathList.get(i-1))).getType() == CSMDupNode.RA ||
-               ((CSMDupNode)(pathList.get(i-1))).getType() == CSMDupNode.EMPTY)
+           int type = ((CSMDupNode)(pathList.get(i-1))).getType();
+           if (type == CSMDupNode.RA || type == CSMDupNode.EMPTY || type == CSMDupNode.RR )
                return ((CSMDupNode)(pathList.get(i-1))).getId();
            // if previous node is a pathnode return its id
            else 
@@ -111,8 +111,8 @@ public class CSMDupNodeList {
         }
         else{    
             // if previous node is an RA or RR return its id
-            if (((CSMDupNode)(pathList.get(i+1))).getType() == CSMDupNode.RA ||
-                ((CSMDupNode)(pathList.get(i+1))).getType() == CSMDupNode.EMPTY)
+            int type = ((CSMDupNode)(pathList.get(i+1))).getType();
+            if (type == CSMDupNode.RA || type == CSMDupNode.EMPTY || type == CSMDupNode.RR )            
                 return ((CSMDupNode)(pathList.get(i+1))).getId();
             // if previous node is a pathnode return its id
             else 
@@ -123,13 +123,22 @@ public class CSMDupNodeList {
     // for debug - prints ids of all elements in list
     public void printDupList(){
         System.out.println("----------Printing duplicate List-------");
+        System.out.println("List size: " + pathList.size());        
         for(int i=0; i<pathList.size();i++){
-            if (((CSMDupNode)(pathList.get(i))).getType() == CSMDupNode.RA ||
-                ((CSMDupNode)(pathList.get(i))).getType() == CSMDupNode.EMPTY)
-                System.out.println("Index " + i + "id: " +((CSMDupNode)(pathList.get(i))).getId());
-            else {
-                System.out.println("Index " + i + "id: " +((CSMDupNode)(pathList.get(i))).getNode().getId());
+            int type = ((CSMDupNode)(pathList.get(i))).getType();                        
+            System.out.println("PathList Element : " + (CSMDupNode)(pathList.get(i)));
+            System.out.println("Type : " + type);
+            /*
+            if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.EMPTY){
+                String id = ((CSMDupNode)(pathList.get(i))).getId();
+                System.out.println("Index " + i + " id: " + id);
+            }                
+            else{
+                String node_id = ((CSMDupNode)(pathList.get(i))).getNode().getId();
+                System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
+                System.out.println("Index " + i + " id: " + node_id);
             }
+            */
         }
     }
     

@@ -3,6 +3,7 @@ package one2one;
 import implicit.CSMDupNode;
 import implicit.CSMDupNodeList;
 import implicit.ResourceAcquisition;
+import implicit.ResourceRelease;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -84,7 +85,7 @@ public class Convert implements IURNExport {
          */ 
         CSMDupNodeList dupMaplist = new CSMDupNodeList();
         dupMaplist.DuplicateHyperEdges(map);
-        Hashtable comp_map = new Hashtable();
+        Hashtable comp_map = new Hashtable(); // stores the acquire/release components associated with every RA/RR 
         
         
         // Insert RA/RR/Seq nodes in above list 
@@ -175,18 +176,24 @@ public class Convert implements IURNExport {
 	}
     
     // adds RA/RR/Seq nodes where necessary in the duplicate map
-    public void transform(CSMDupNodeList list,Hashtable comp_map, PrintStream ps){         
-        ResourceAcquisition ra = new ResourceAcquisition(ps);    
+    public void transform(CSMDupNodeList list,
+                          Hashtable comp_map,                          
+                          PrintStream ps){         
+        ResourceAcquisition ra = new ResourceAcquisition(ps);
+        ResourceRelease rr = new ResourceRelease(ps);
         int i = 0;
-        while (i < list.size()){    
-            CSMDupNode node = (CSMDupNode) list.get(i);
-            System.out.println("Read Node " + i + ": " + node.toString()); 
+        while (i < list.size() - 1){    
+            CSMDupNode node = (CSMDupNode) list.get(i); // current edge
+            // System.out.println("Read Node " + i + ": " + node.toString()); 
             if(node.getType() == CSMDupNode.START ||
                node.getType() == CSMDupNode.END   ||
                node.getType() == CSMDupNode.STUB  ||
                node.getType() == CSMDupNode.RESPREF){
-                int ni = ra.acquireResource(node.getNode(), list, comp_map);
-                i = i + ni;
+               // keep track of all nodes inserted prior to current edge 
+               int ra_node_insert = ra.acquireResource(node.getNode(), list, comp_map);
+               int rr_node_insert = rr.releaseResource(node.getNode(), list, comp_map);       
+               i = i + ra_node_insert;
+               i = i + rr_node_insert;
             }            
             i++;
         }        
@@ -195,6 +202,7 @@ public class Convert implements IURNExport {
     // print CSM output for RA and Sequence
     public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, Hashtable comp_map){
         ResourceAcquisition ra = new ResourceAcquisition(ps);
+        ResourceRelease rr = new ResourceRelease(ps);
         dupMaplist.printDupList(); // debug
       
         for (int b = 0; b < dupMaplist.size(); b ++){              
@@ -206,11 +214,22 @@ public class Convert implements IURNExport {
                  ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());                 
                  ra.acquireComp(comp,curr_node,dupMaplist,b);
              }
-             // printing Sequence
+             // printing RR
+             if (curr_node.getId().startsWith("G3")){
+             // if (curr_node.getType() == CSMDupNode.RR){                 
+                 ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());                 
+                 rr.releaseComp(comp,curr_node,dupMaplist,b);
+             }
+             // printing RA_Sequence
              if (curr_node.getId().startsWith("G2")){
              // if (curr_node.getType() == CSMDupNode.EMPTY){
                  ra.acquireEmptyPoint(curr_node);
-             }             
+             }
+             // printing RR_Sequence
+             if (curr_node.getId().startsWith("G4")){
+             // if (curr_node.getType() == CSMDupNode.EMPTY){
+                 ra.acquireEmptyPoint(curr_node);
+             }      
         } // for
     }
 	

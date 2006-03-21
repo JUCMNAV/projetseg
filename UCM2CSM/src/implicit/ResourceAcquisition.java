@@ -41,7 +41,7 @@ public class ResourceAcquisition {
         // list that will store edges to be parsed (will contain pathnodes only)
         CSMDupNodeList prev_edge_list = new CSMDupNodeList();
         int nodes_inserted = 0; // total nodes inserted since last run        
-        int insert_pos = dup_map.getNodeIndex(curr_edge); // position where to insert node                          
+        int curr_edge_pos = dup_map.getNodeIndex(curr_edge); // position where to insert node                          
         Stack curr_edge_stack = new Stack (); // will hold all the parent components of current edge               
         ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
         
@@ -49,15 +49,14 @@ public class ResourceAcquisition {
         if (curr_edge_comp_ref != null ){
             boolean done = false;         
             // parsing list of dupnodes (each can be either a pathnode or an RA/RR/Seq
-            for (int i = 0; !done && i < dup_map.size(); i++) {
-                // PathNode node = dup_map.getNode(i);
+            for (int i = 0; !done && i < dup_map.size(); i++) {   
                 PathNode node = dup_map.getListNode(i);
                 if (node != null) {
                     if (node == curr_edge){
                         done = true; 
                     }
                     else{
-                        prev_edge_list.add(new CSMDupNode (node));                        
+                        prev_edge_list.add(new CSMDupNode (node));   // populate prev_edge_list                     
                     }
                 }// if
             }//for                        
@@ -83,11 +82,11 @@ public class ResourceAcquisition {
                            ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
                            // create empty point and insert it in duplicate map
                            CSMDupNode e_node = new CSMDupNode(seq_id);
-                           dup_map.add(insert_pos,e_node);
+                           dup_map.add(curr_edge_pos,e_node);
                            nodes_inserted ++;
                            // create resource acquire component and insert it in duplicate map                           
                            CSMDupNode ra_node = new CSMDupNode(ra_id);                          
-                           dup_map.add(insert_pos,ra_node);
+                           dup_map.add(curr_edge_pos,ra_node);
                            nodes_inserted ++;
                            component_acquire.put(new String(ra_node.getId()),comp);
                            ra_id++;
@@ -108,11 +107,11 @@ public class ResourceAcquisition {
                             ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
                             // create empty point and insert it in duplicate map
                             CSMDupNode e_node = new CSMDupNode(seq_id);
-                            dup_map.add(insert_pos, e_node);
+                            dup_map.add(curr_edge_pos, e_node);
                             nodes_inserted++;
                             // create a resource acquire component and insert it in duplicate map                           
                             CSMDupNode ra_node = new CSMDupNode(ra_id);
-                            dup_map.add(insert_pos,ra_node);
+                            dup_map.add(curr_edge_pos,ra_node);
                             nodes_inserted++;
                             component_acquire.put(new String(ra_node.getId()),comp);                                                        
                             seq_id++;
@@ -128,14 +127,13 @@ public class ResourceAcquisition {
                 ComponentRef comp = (ComponentRef) curr_edge_stack.pop();
                 // create empty point and insert it in duplicate map
                 CSMDupNode e_node = new CSMDupNode(seq_id);
-                dup_map.add(insert_pos, e_node);
+                dup_map.add(curr_edge_pos, e_node);
                 nodes_inserted++;
                 // create a resource acquire component and an empty point (sequence)                           
                 CSMDupNode ra_node = new CSMDupNode(ra_id);
-                dup_map.add(insert_pos,ra_node);
+                dup_map.add(curr_edge_pos,ra_node);
                 nodes_inserted++;
-                component_acquire.put(new String(ra_node.getId()),comp);                
-                // acquireComp(comp,ra_node,dup_map,0);                
+                component_acquire.put(new String(ra_node.getId()),comp);                                                
                 seq_id++;
                 ra_id++;
             }
