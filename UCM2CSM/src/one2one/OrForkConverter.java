@@ -23,10 +23,6 @@ public class OrForkConverter implements AbstractConverter{
     public void Convert(PrintStream ps){
         
         // object attributes
-        //String object_attributes = "<Branch id=\"" + "h" + of.getId() + "\"" + " " +
-          //                          "description=\"" + of.getDescription() +"\"/>";
-        
-        
         String id_attribute = "<Branch id=\"" + "h" + of.getId() + "\"";
         ps.print("			" + id_attribute);
         String closing_attribute = "/>";

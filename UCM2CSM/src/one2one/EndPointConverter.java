@@ -16,8 +16,7 @@ import ucm.map.PathNode;
  */
 public class EndPointConverter implements AbstractConverter {
     private EndPoint ep; 
-    private PathNode source;
-    OptionalAssociations oa = new OptionalAssociations();
+    
     // constructors
     public EndPointConverter(EndPoint ep){
        this.ep = ep;       
@@ -26,29 +25,16 @@ public class EndPointConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps){
        
-       //retrieve target/source        
-      // source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
-      
-       // object attributes 
-    //   String object_attributes = "<End id=\"h" + ep.getId() + "\"" + " " +                              
-      //                             "source= \"h" + source.getId() +"\"/>";
+       
        String id_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
        ps.print("			" + id_attribute);
        String closing_attribute = "/>";
        
        // optional attributes
-     /*  if (ep.getDescription() != null){
-       	String description_attribute = "description=\"" + ep.getDescription() +"\"";
-       	ps.print(description_attribute);
-       }
-       if ((NodeConnection)ep.getPred().get(0) != null && (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource() != null){
-       	PathNode source = (PathNode) ((NodeConnection)ep.getPred().get(0)).getSource();
-       	String source_attribute = "source= \"h" + source.getId() +"\"";
-       	ps.print(" " + source_attribute);
-       } */
-       oa.OptionalAttributes((PathNode) ep,  ps);
+       OptionalAssociations.printDescription(ps, ep);
+       OptionalAssociations.printSource(ps, ep);
+       
        if (!ep.getOutBindings().isEmpty()){
-         // NodeConnection bind = (NodeConnection) ep.getOutBindings();
     	   String outbind = "";
     	   for (int i=0;i<ep.getOutBindings().size(); i++){
     		   outbind += " so" + ep.getOutBindings().get(i);    		

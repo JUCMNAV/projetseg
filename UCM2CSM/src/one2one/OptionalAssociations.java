@@ -7,7 +7,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 public class OptionalAssociations {
-	public void OptionalAttributes(PathNode af, PrintStream ps){
+	/*public void OptionalAttributes(PathNode af, PrintStream ps){
 		
 		printDescription(ps, af);
 		printSource(ps, af);
@@ -25,7 +25,7 @@ public class OptionalAssociations {
            System.out.println("OutBindings list: " + ep.getOutBindings());
            ps.print(" " + source_attribute);
           }*/
-	}
+	//}
    
 public static void printSource(PrintStream ps, PathNode pathnode) {
 	if ((NodeConnection)pathnode.getPred().get(0) != null && (PathNode) ((NodeConnection)pathnode.getPred().get(0)).getSource() != null){
