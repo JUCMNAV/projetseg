@@ -76,21 +76,29 @@ public class ResourceAcquisition {
                     if (prev_edge_comp_ref == null) {
                         for (int b = 0; b < curr_edge_stack.size(); b ++){ 
                             outside_comp_stack.push(curr_edge_stack.get(b)); 
-                       } // for 
+                       } // for
                         
+                        // for debug - original outside stack
+                        System.out.println("Original stack- S point");
+                        for (int i=0; i<outside_comp_stack.size();i++){
+                            System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
+                        }
+                        
+                        outside_comp_stack = reverseStack (outside_comp_stack);
+                       
+                       // for debug - reversed outside stack
+                       System.out.println("Reversed stack-S point");
+                       for (int i=0; i<outside_comp_stack.size();i++){
+                           System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
+                       }
+                       
+                       // for every component in the outside stack, add an RA and an Empty Point 
                        while (!outside_comp_stack.isEmpty()){
-                           ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
-                           // create empty point and insert it in duplicate map
-                           CSMDupNode e_node = new CSMDupNode(seq_id);
-                           dup_map.add(curr_edge_pos,e_node);
-                           nodes_inserted ++;
-                           // create resource acquire component and insert it in duplicate map                           
-                           CSMDupNode ra_node = new CSMDupNode(ra_id);                          
-                           dup_map.add(curr_edge_pos,ra_node);
-                           nodes_inserted ++;
-                           component_acquire.put(new String(ra_node.getId()),comp);
-                           ra_id++;
-                           seq_id++;
+                           nodes_inserted = addRA(outside_comp_stack,
+                                                  curr_edge_pos,
+                                                  dup_map,
+                                                  nodes_inserted,
+                                                  component_acquire);
                        }
                     }
                     else if (prev_edge_comp_ref != curr_edge_comp_ref){
@@ -102,20 +110,20 @@ public class ResourceAcquisition {
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack,prev_edge_stack);
                         
+                        
+                        // for debug - reversed outside stack
+                        System.out.println("Reversed stack");
+                        for (int i=0; i<outside_comp_stack.size();i++){
+                            System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
+                        }
+                        
                         // Acquire the components of the parents                        
                         while (!outside_comp_stack.isEmpty()){
-                            ComponentRef comp = (ComponentRef) outside_comp_stack.pop();
-                            // create empty point and insert it in duplicate map
-                            CSMDupNode e_node = new CSMDupNode(seq_id);
-                            dup_map.add(curr_edge_pos, e_node);
-                            nodes_inserted++;
-                            // create a resource acquire component and insert it in duplicate map                           
-                            CSMDupNode ra_node = new CSMDupNode(ra_id);
-                            dup_map.add(curr_edge_pos,ra_node);
-                            nodes_inserted++;
-                            component_acquire.put(new String(ra_node.getId()),comp);                                                        
-                            seq_id++;
-                            ra_id++;
+                            nodes_inserted = addRA(outside_comp_stack,
+                                                   curr_edge_pos,
+                                                   dup_map,
+                                                   nodes_inserted,
+                                                   component_acquire);
                         }
                     }// if                    
                 }// for                
@@ -124,18 +132,11 @@ public class ResourceAcquisition {
         else {
             // Must be a start point, acquire the components                        
             while (!curr_edge_stack.isEmpty()){
-                ComponentRef comp = (ComponentRef) curr_edge_stack.pop();
-                // create empty point and insert it in duplicate map
-                CSMDupNode e_node = new CSMDupNode(seq_id);
-                dup_map.add(curr_edge_pos, e_node);
-                nodes_inserted++;
-                // create a resource acquire component and an empty point (sequence)                           
-                CSMDupNode ra_node = new CSMDupNode(ra_id);
-                dup_map.add(curr_edge_pos,ra_node);
-                nodes_inserted++;
-                component_acquire.put(new String(ra_node.getId()),comp);                                                
-                seq_id++;
-                ra_id++;
+                nodes_inserted = addRA(null,
+                                       curr_edge_pos,
+                                       dup_map,
+                                       nodes_inserted,
+                                       component_acquire);
             }
         } // else        
         return nodes_inserted;
@@ -172,12 +173,48 @@ public class ResourceAcquisition {
     
     // calculates the difference between two stacks
     public Stack stackDifference(Stack stack_one, Stack stack_two){
-        Stack stack_three = new Stack();
+        Stack stack_three = new Stack();        
         for (int i=0; i<stack_one.size();i++){
             if(!stack_two.contains(stack_one.get(i))){
                 stack_three.push(stack_one.get(i));
             }
         }
-        return stack_three;
-    }  
+        // for debug - original outside stack
+        System.out.println("Original stack");
+        for (int i=0; i<stack_three.size();i++){
+            System.out.println("Index: " + i + " Contents " + stack_three.get(i));
+        }
+        return reverseStack(stack_three);
+    }
+    
+    // restructures the given stack so that the first element in is not the last element in
+    public Stack reverseStack (Stack stack){
+        Stack reversed_stack = new Stack();
+        for (int i=stack.size()-1; i >= 0;i--){            
+                reversed_stack.add(stack.get(i));                                
+        }
+        return reversed_stack;
+    }
+    // inserts RA and Empty Points where necessary in the duplicate map 
+    public int addRA(Stack comp_stack,
+                     int edge_position,
+                     CSMDupNodeList map,
+                     int ins_nodes,
+                     Hashtable aquire){        
+        // create empty point and insert it in duplicate map
+        CSMDupNode e_node = new CSMDupNode(seq_id);
+        map.add(edge_position,e_node);
+        ins_nodes ++;
+        // create resource acquire component and insert it in duplicate map                           
+        CSMDupNode ra_node = new CSMDupNode(ra_id);                          
+        map.add(edge_position,ra_node);
+        ins_nodes ++;
+        if (!comp_stack.isEmpty()){
+            ComponentRef comp = (ComponentRef) comp_stack.pop();
+            aquire.put(new String(ra_node.getId()),comp);
+        }        
+        ra_id++;
+        seq_id++;
+        return ins_nodes;
+    }
 }

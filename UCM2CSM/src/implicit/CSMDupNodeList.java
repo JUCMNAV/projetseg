@@ -126,19 +126,19 @@ public class CSMDupNodeList {
         System.out.println("List size: " + pathList.size());        
         for(int i=0; i<pathList.size();i++){
             int type = ((CSMDupNode)(pathList.get(i))).getType();                        
-            System.out.println("PathList Element : " + (CSMDupNode)(pathList.get(i)));
-            System.out.println("Type : " + type);
-            /*
+            //System.out.println("PathList Element : " + (CSMDupNode)(pathList.get(i)));
+            // System.out.println("Type : " + type);
+            
             if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.EMPTY){
                 String id = ((CSMDupNode)(pathList.get(i))).getId();
                 System.out.println("Index " + i + " id: " + id);
             }                
             else{
                 String node_id = ((CSMDupNode)(pathList.get(i))).getNode().getId();
-                System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
+                // System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
                 System.out.println("Index " + i + " id: " + node_id);
             }
-            */
+            
         }
     }
     
