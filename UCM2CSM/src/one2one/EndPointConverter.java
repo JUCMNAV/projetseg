@@ -16,39 +16,33 @@ import ucm.map.PathNode;
  */
 public class EndPointConverter implements AbstractConverter {
     private EndPoint ep; 
-    
+
+    //private PathNode source;
+    OptionalAssociations oa = new OptionalAssociations();
+
     // constructors
     public EndPointConverter(EndPoint ep){
        this.ep = ep;       
     }
     
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps){
+    public void Convert(PrintStream ps, String source, String target){
        
        
-       String id_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
-       ps.print("			" + id_attribute);
+       String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
+       ps.print("			" + mandatory_attribute);
        String closing_attribute = "/>";
        
-       // optional attributes
-       OptionalAssociations.printDescription(ps, ep);
-       OptionalAssociations.printSource(ps, ep);
-       
-       if (!ep.getOutBindings().isEmpty()){
-    	   String outbind = "";
-    	   for (int i=0;i<ep.getOutBindings().size(); i++){
-    		   outbind += " so" + ep.getOutBindings().get(i);    		
-    	   }
-        String source_attribute = "Outbinding= \"" + outbind +"\"";
-        System.out.println("CSM Rep " + source_attribute);
-        System.out.println("OutBindings list: " + ep.getOutBindings());
-        ps.print(" " + source_attribute);
-       }
-      
+       //     optional attributes
+       oa.OptionalAttributes((PathNode) ep,  ps, source, target);
+   
        // output to file             
        ps.println(closing_attribute);                        
-       ps.flush();                    
+       ps.flush();      
+       }
+      
+                    
                         
     }
-}
+
 

@@ -12,5 +12,5 @@ import ucm.map.UCMmap;
  * @generated
  */
 public interface AbstractConverter {    
-    public void Convert(PrintStream ps);
+    public void Convert(PrintStream ps, String source, String target);
 }

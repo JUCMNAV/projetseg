@@ -14,24 +14,23 @@ import ucm.map.PathNode;
  */
 public class OrJoinConverter implements AbstractConverter {
 	private OrJoin oj;
+    OptionalAssociations so = new OptionalAssociations();
 	// constructors
     public OrJoinConverter(OrJoin oj){
       this.oj = oj;
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps){
+    public void Convert(PrintStream ps, String source, String target){
         
         // object attributes
-        String id_attribute = "<Merge id=\"" + "h" + oj.getId() + "\"";
-        ps.print("			" + id_attribute);
+        String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\"";
+        ps.print("			" + madatory_attribute);
         String closing_attribute = "/>";
         
         // optional attributes
-        OptionalAssociations.printDescription(ps, oj);
-        OptionalAssociations.printTarget(ps, oj);
-        OptionalAssociations.printSource(ps, oj);
-    
+        so.OptionalAttributes((PathNode) oj,  ps, source, target);
+        
         // output to file
         ps.println(closing_attribute);
         ps.flush();                    

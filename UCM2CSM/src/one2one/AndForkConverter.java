@@ -16,27 +16,24 @@ import ucm.map.PathNode;
 
 public class AndForkConverter implements AbstractConverter{
 	    private AndFork af;
-	   
+	    OptionalAssociations oa = new OptionalAssociations();
+        
 		// constructors
 	    public AndForkConverter(AndFork af){
 	       this.af = af;
 	    }
 
 	    // prints XML representation of object to output file
-	    public void Convert(PrintStream ps){
-	    // ()	;
-	        // object attributes
-            
+	    public void Convert(PrintStream ps, String source, String target){
+	   
+	        // object attributes           
 	        String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\" ";
 	        ps.print("			" + id_attribute);
 	        String closing_attribute = "/>";
 	        
 	        // optional attributes
-	        OptionalAssociations.printDescription(ps, af);
-	        OptionalAssociations.printTarget(ps, af);
-	        OptionalAssociations.printSource(ps, af);
-	       
-	        
+	        oa.OptionalAttributes((PathNode) af,  ps, source, target);
+
 	        ps.println(closing_attribute);
 	        ps.flush();                    
 	    }

@@ -13,9 +13,11 @@ import ucm.map.StartPoint;
  * @see one2one 
  * @generated
  */
-// public class StartPointConverter extends StartPointImpl implements AbstractConverter {
+
 public class StartPointConverter implements AbstractConverter { 
     private StartPoint sp;
+    OptionalAssociations oa = new OptionalAssociations();
+    WorkLoadAttributes wa = new WorkLoadAttributes();
     
     // constructors
     public StartPointConverter(StartPoint sp){
@@ -23,37 +25,39 @@ public class StartPointConverter implements AbstractConverter {
     }
     
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps){        
-      
+    public void Convert(PrintStream ps, String source, String target){        
+              
        // object attributes 
-       String object_attributes = "<Start id=\"h" + sp.getId() + "\" ";
-                                  //"target=\"h" + target.getId() + "\" >";
-       String closing_StartAtt = "/>";
+       String mandatory_attributes = "<Start id=\"h" + sp.getId() + "\"";                                      
+       String closing_attribute = "</Start>";
+
        // common attributes
-       ps.print("            " + object_attributes);     
-       OptionalAssociations.printDescription(ps, sp);
-       OptionalAssociations.printTarget(ps, sp);
-       if (!sp.getInBindings().isEmpty()){
-    	   String outbind = "";
-    	   for (int i=0;i<sp.getInBindings().size(); i++){
-    		   outbind += " so" + sp.getInBindings().get(i);    		
-    	   }
-        String source_attribute = "Inbinding= \"" + outbind +"\"";
-        System.out.println("CSM Rep " + source_attribute);
-        System.out.println("InBindings list: " + sp.getInBindings());
-        ps.print(" " + source_attribute);
-       }
-       ps.println(closing_StartAtt);
+       ps.print("            " + mandatory_attributes);
+       
+       // optional attributes
+       oa.OptionalAttributes((PathNode) sp,  ps, source, target);
+       
        // processing workload
-       WorkLoadOptionalAttributes.workLoadAttributes(ps, sp);    
-      
-       String object_attributes_close = "</Start>";
+       if (sp.getWorkload() != null){           
+           String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" />";
+           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\"/>";
+           
+           // decide if workload is open or closed
+           if (sp.getWorkload().isClosed()){
+               ps.println("");
+               ps.println("                " + close_wload_attributes);
+           }
+           else{
+               ps.println("");
+               ps.println("                " + open_wload_attributes);
+           }
+           // optional workload attributes
+           wa.workAttributes(sp, ps);
+       }    
        
-       // arrival parameters
-       
-       ps.println("             " + object_attributes_close);
-       ps.flush();                    
-                     
+       // output to file
+       ps.println("             " + closing_attribute);
+       ps.flush();                        
     }
 }
 

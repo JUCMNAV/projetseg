@@ -16,7 +16,7 @@ public class PluginBindingConverter implements AbstractConverter{
     }
     
     // prints XML representation of object to output file
-	public void Convert(PrintStream ps){
+	public void Convert(PrintStream ps, String source, String target){
 				
 	   // object attributes
 
@@ -26,19 +26,19 @@ public class PluginBindingConverter implements AbstractConverter{
        ps.println("            " + object_attributes);
 	      
        // get inbindings 
-       for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
-          InBinding in_bind = (InBinding) inbind_iter.next(); 
-          InBindingConverter in_bind_conv = new InBindingConverter(in_bind);
-          // output to file
-          in_bind_conv.Convert(ps);               
-       }
+      for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
+         InBinding in_bind = (InBinding) inbind_iter.next(); 
+         InBindingConverter in_bind_conv = new InBindingConverter(in_bind);
+         // output to file
+         in_bind_conv.Convert(ps, source, target);               
+      }
        
       // get outbindings      
       for (Iterator outbind_iter = p_bind.getOut().iterator(); outbind_iter.hasNext();) {
           OutBinding out_bind = (OutBinding) outbind_iter.next(); 
           OutBindingConverter out_bind_conv = new OutBindingConverter(out_bind);
           // output to file
-          out_bind_conv.Convert(ps);                                        
+          out_bind_conv.Convert(ps, source, target);                                        
       }    
       String object_attributes_close = "</Refinement>";
 		        

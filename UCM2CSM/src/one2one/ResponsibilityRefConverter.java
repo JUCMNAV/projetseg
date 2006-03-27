@@ -15,8 +15,8 @@ import ucm.map.RespRef;
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;
-    PathNode successor;
-    PathNode predecessor;
+    // PathNode successor;
+    // PathNode predecessor;    
     
     // constructors
     public ResponsibilityRefConverter(RespRef resp){
@@ -24,21 +24,25 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps){
+    public void Convert(PrintStream ps, String source, String target){
         
         // retrieve target/source        
-        successor = (PathNode) ((NodeConnection)resp.getSucc().get(0)).getTarget();
-        predecessor = (PathNode) ((NodeConnection)resp.getPred().get(0)).getSource();         
+        // successor = (PathNode) ((NodeConnection)resp.getSucc().get(0)).getTarget();
+        // predecessor = (PathNode) ((NodeConnection)resp.getPred().get(0)).getSource();         
         
         // object attributes
-        String object_attributes = "<Step id=\"h" + resp.getId() + "\"" + " " +
-                                   "name =\"" + resp.getName() +"\"" + " " +
-                                   "description =\"" + resp.getDescription() +"\"" + " " +                                   
-                                   "predecessor =\"h" + predecessor.getId() +"\"" + " " +
-                                   "successor= \"h" + successor.getId() +"\"/>";
-       // "HostDemand =\"" + "1" + "\"" + " " +
+        String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\"" + " " +
+                                     "name =\"" + resp.getName() +"\"" + " " +                                                                      
+                                     "predecessor =\"h" + source +"\"" + " " +                                        
+                                     "successor= \"h" + target + "\"";
+        ps.print("           " + mandatory_attribute);
+        String closing_attribute = "/>";
+        
+        // optional attributes
+        OptionalAssociations.printDescription(ps, resp);
+        
         // output to file
-        ps.println("            " + object_attributes);
-        ps.flush();                    
+        ps.println(closing_attribute);
+        ps.flush();                                   
     }
 }

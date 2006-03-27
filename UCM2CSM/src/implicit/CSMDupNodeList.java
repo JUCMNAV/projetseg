@@ -104,7 +104,7 @@ public class CSMDupNodeList {
        }
     }
     
-    //  return the node previous to this one
+    // return the node previous to this one
     public String getSuccessor(int i){
         if (i >= pathList.size()-1){
             return "null";
@@ -134,8 +134,8 @@ public class CSMDupNodeList {
                 System.out.println("Index " + i + " id: " + id);
             }                
             else{
-                String node_id = ((CSMDupNode)(pathList.get(i))).getNode().getId();
-                // System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
+                System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
+                String node_id = ((CSMDupNode)(pathList.get(i))).getNode().getId();                
                 System.out.println("Index " + i + " id: " + node_id);
             }
             
@@ -149,6 +149,5 @@ public class CSMDupNodeList {
                return i;            
         }
         return -1; // not found
-    }
-    
+    }    
 }
