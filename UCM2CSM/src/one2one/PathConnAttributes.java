@@ -8,13 +8,13 @@ import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc -->
- * Print optional attributes to CSM file 
+ * Prints PathConnection optional attributes to CSM file 
  * <!-- end-user-doc -->
  * @see one2one 
  * @generated
  */
 
-public class OptionalAssociations {
+public class PathConnAttributes {
 
 	public void OptionalAttributes(PathNode af,
                                    PrintStream ps,

@@ -16,7 +16,7 @@ import ucm.map.StartPoint;
 
 public class StartPointConverter implements AbstractConverter { 
     private StartPoint sp;
-    OptionalAssociations oa = new OptionalAssociations();
+    PathConnAttributes oa = new PathConnAttributes();
     WorkLoadAttributes wa = new WorkLoadAttributes();
     
     // constructors

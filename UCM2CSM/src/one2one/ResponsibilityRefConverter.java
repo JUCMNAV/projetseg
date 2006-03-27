@@ -15,6 +15,7 @@ import ucm.map.RespRef;
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;
+    StepAttributes sa = new StepAttributes();
     // PathNode successor;
     // PathNode predecessor;    
     
@@ -39,7 +40,8 @@ public class ResponsibilityRefConverter implements AbstractConverter {
         String closing_attribute = "/>";
         
         // optional attributes
-        OptionalAssociations.printDescription(ps, resp);
+        //PathConnAttributes.printDescription(ps, resp);
+        sa.OptionalAttributes(resp, ps);
         
         // output to file
         ps.println(closing_attribute);

@@ -162,10 +162,16 @@ public class ResourceAcquisition {
     }
     
     // prints XML representation of Dummy EmptyPoint element
-    public void acquireEmptyPoint (CSMDupNode node){
-               
+    public void acquireEmptyPoint (CSMDupNode node, CSMDupNodeList list, int position){
+        
+        // initializing attributes
+        String target = list.getSuccessor(position);
+        String source = list.getPredecessor(position);
+        
         // object attributes              
-        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + "/>";
+        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " " +
+                                    "target= \"h" + target + "\"" + " " +
+                                    "source= \"h" + source + "\"" + "/>";
         // output to file
         ps.println("            " + epoint_attributes);
         ps.flush();              
@@ -202,19 +208,32 @@ public class ResourceAcquisition {
                      int ins_nodes,
                      Hashtable aquire){        
         // create empty point and insert it in duplicate map
-        CSMDupNode e_node = new CSMDupNode(seq_id);
+        CSMDupNode e_node = new CSMDupNode(getRaSeqId());
         map.add(edge_position,e_node);
         ins_nodes ++;
         // create resource acquire component and insert it in duplicate map                           
-        CSMDupNode ra_node = new CSMDupNode(ra_id);                          
+        CSMDupNode ra_node = new CSMDupNode(getRaId());                          
         map.add(edge_position,ra_node);
         ins_nodes ++;
         if (!comp_stack.isEmpty()){
             ComponentRef comp = (ComponentRef) comp_stack.pop();
             aquire.put(new String(ra_node.getId()),comp);
         }        
-        ra_id++;
-        seq_id++;
+        setRaId(ra_id++); // ra_id++;
+        setRaSeqId(seq_id++); // seq_id++;
         return ins_nodes;
+    }
+    // methods to manipulate RA and Dummy Sequence IDs
+    public int getRaSeqId(){
+        return seq_id;
+    } 
+    public int getRaId(){
+        return ra_id;
+    } 
+    public void setRaSeqId(int id){
+        seq_id = id;
+    }
+    public void setRaId(int id){
+        ra_id = id;
     }
 }

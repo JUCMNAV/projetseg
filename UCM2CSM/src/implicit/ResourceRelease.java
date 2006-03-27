@@ -149,11 +149,17 @@ public class ResourceRelease {
         ps.println("            " + ra_attributes);         
     }
     
-    // prints XML representation of Dummy EmptyPoint element
-    public void acquireEmptyPoint (CSMDupNode node){
-               
+    //  prints XML representation of Dummy EmptyPoint element
+    public void acquireEmptyPoint (CSMDupNode node, CSMDupNodeList list, int position){
+        
+        // initializing attributes
+        String target = list.getSuccessor(position);
+        String source = list.getPredecessor(position);
+        
         // object attributes              
-        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + "/>";
+        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " " +
+                                    "target= \"h" + target + "\"" + " " +
+                                    "source= \"h" + source + "\"" + "/>";
         // output to file
         ps.println("            " + epoint_attributes);
         ps.flush();              
@@ -192,20 +198,32 @@ public class ResourceRelease {
                     int ins_nodes,
                     Hashtable release){        
         // create resource acquire component and insert it in duplicate map                           
-        CSMDupNode rr_node = new CSMDupNode(rr_id);                                                   
+        CSMDupNode rr_node = new CSMDupNode(getRrId());                                                   
         map.add((edge_position + 1),rr_node);
         ins_nodes ++;
         // create empty point and insert it in duplicate map
-        CSMDupNode e_node = new CSMDupNode(seq_id);                          
+        CSMDupNode e_node = new CSMDupNode(getRrSeqId());                          
         map.add((edge_position + 1),e_node);
         ins_nodes ++;
         if (!comp_stack.isEmpty()){
             ComponentRef comp = (ComponentRef) comp_stack.pop();
             release.put(new String(rr_node.getId()),comp);    
-        }        
-        rr_id++;
-        seq_id++;
+        }
+        setRrId(rr_id++); // rr_id++;
+        setRrSeqId(seq_id++); // seq_id++;        
         return ins_nodes;
-
-    }    
+    }
+    // methods to manipulate RR and Dummy Sequence IDs
+    public int getRrSeqId(){
+        return seq_id;
+    } 
+    public int getRrId(){
+        return rr_id;
+    } 
+    public void setRrSeqId(int id){
+        seq_id = id;
+    }
+    public void setRrId(int id){
+        rr_id = id;
+    }
 }

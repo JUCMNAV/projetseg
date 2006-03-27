@@ -224,12 +224,12 @@ public class Convert implements IURNExport {
              // printing RA_Sequence
              else if (curr_node.getId().startsWith("G2")){
              // if (curr_node.getType() == CSMDupNode.EMPTY){
-                 ra.acquireEmptyPoint(curr_node);
+                 ra.acquireEmptyPoint(curr_node, dupMaplist, b);
              }
              // printing RR_Sequence
              else if (curr_node.getId().startsWith("G4")){
              // if (curr_node.getType() == CSMDupNode.EMPTY){
-                 ra.acquireEmptyPoint(curr_node);
+                 ra.acquireEmptyPoint(curr_node,dupMaplist, b);
              }
              else{ // print other objects
                  // determine new source and target of all PathConnection types

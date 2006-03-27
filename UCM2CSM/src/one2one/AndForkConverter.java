@@ -16,7 +16,7 @@ import ucm.map.PathNode;
 
 public class AndForkConverter implements AbstractConverter{
 	    private AndFork af;
-	    OptionalAssociations oa = new OptionalAssociations();
+	    PathConnAttributes oa = new PathConnAttributes();
         
 		// constructors
 	    public AndForkConverter(AndFork af){

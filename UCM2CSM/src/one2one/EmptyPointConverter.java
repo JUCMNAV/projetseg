@@ -16,7 +16,7 @@ import ucm.map.PathNode;
 
 public class EmptyPointConverter implements AbstractConverter{
         private EmptyPoint ep;
-        OptionalAssociations oa = new OptionalAssociations();
+        PathConnAttributes oa = new PathConnAttributes();
         // constructors
         public EmptyPointConverter(EmptyPoint ep){
            this.ep = ep;

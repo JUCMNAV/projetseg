@@ -15,7 +15,8 @@ import ucm.map.Stub;
  * @generated
  */
 public class StubConverter implements AbstractConverter {
-    private Stub stub;        
+    private Stub stub;
+    StepAttributes sa = new StepAttributes();
     
     // constructors
     public StubConverter(Stub stub){
@@ -28,7 +29,7 @@ public class StubConverter implements AbstractConverter {
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
                                     "name=\"" + stub.getName() + "\"" + " " +
-                                    "hostDemand=\"" + "1" + "\"" + " " +                             
+                                    // "hostDemand=\"" + "1" + "\"" + " " +                             
                                     "predecessor=\"" + "h" + source + "\"" + " " +
                                     "successor=\"" + "h" + target +"\"";
        
@@ -36,7 +37,8 @@ public class StubConverter implements AbstractConverter {
        String closing_attribute = "/>";
        
        // optional attributes
-       OptionalAssociations.printDescription(ps, stub);
+       //PathConnAttributes.printDescription(ps, stub);
+       sa.OptionalAttributes(stub, ps);
        
        // output to file
        ps.println(closing_attribute);

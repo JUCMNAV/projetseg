@@ -14,7 +14,7 @@ import ucm.map.PathNode;
  */
 public class AndJoinConverter implements AbstractConverter {
     private AndJoin aj;
-    OptionalAssociations so = new OptionalAssociations();
+    PathConnAttributes so = new PathConnAttributes();
     // constructors
     public AndJoinConverter(AndJoin aj){
        this.aj = aj;

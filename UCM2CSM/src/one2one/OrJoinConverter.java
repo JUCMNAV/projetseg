@@ -14,7 +14,7 @@ import ucm.map.PathNode;
  */
 public class OrJoinConverter implements AbstractConverter {
 	private OrJoin oj;
-    OptionalAssociations so = new OptionalAssociations();
+    PathConnAttributes so = new PathConnAttributes();
 	// constructors
     public OrJoinConverter(OrJoin oj){
       this.oj = oj;

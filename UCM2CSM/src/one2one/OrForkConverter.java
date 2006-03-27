@@ -14,7 +14,7 @@ import ucm.map.impl.OrForkImpl;
  */
 public class OrForkConverter implements AbstractConverter{
     private OrFork of;
-    OptionalAssociations so = new OptionalAssociations();
+    PathConnAttributes so = new PathConnAttributes();
 	// constructors
     public OrForkConverter(OrFork of){
        this.of=of;

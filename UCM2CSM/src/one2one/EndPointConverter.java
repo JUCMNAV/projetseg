@@ -18,7 +18,7 @@ public class EndPointConverter implements AbstractConverter {
     private EndPoint ep; 
 
     //private PathNode source;
-    OptionalAssociations oa = new OptionalAssociations();
+    PathConnAttributes oa = new PathConnAttributes();
 
     // constructors
     public EndPointConverter(EndPoint ep){
