@@ -3,6 +3,7 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.PathNode;
+import ucm.performance.Workload;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,27 +15,26 @@ import ucm.map.PathNode;
  */
 
 public class WorkLoadAttributes {
-    public void workAttributes(PathNode load,
-                               PrintStream ps){                            
-        
+    public void workAttributes(Workload work,
+                               PrintStream ps){                                    
     }
     // workload optional attributes -- to be implemented
-    public static void printArrivalPattern(PrintStream ps) {        
+    public static void printArrivalPattern(PrintStream ps, Workload work) {        
     }
-    public static void printArrivalParam1(PrintStream ps) {        
+    public static void printArrivalParam1(PrintStream ps, Workload work) {        
     }
-    public static void printArrivalParam2(PrintStream ps) {        
+    public static void printArrivalParam2(PrintStream ps, Workload work) {        
     }
-    public static void externalDelay(PrintStream ps) {        
+    public static void externalDelay(PrintStream ps, Workload work) {        
     }
-    public static void value(PrintStream ps) {        
+    public static void value(PrintStream ps, Workload work) {        
     }
-    public static void coeffSeq(PrintStream ps) {        
+    public static void coeffSeq(PrintStream ps, Workload work) {        
     }
-    public static void description(PrintStream ps) {        
+    public static void description(PrintStream ps, Workload work) { 
     }
-    public static void tracebilityLink(PrintStream ps) {        
+    public static void tracebilityLink(PrintStream ps, Workload work) {        
     }
-    public static void responseTime(PrintStream ps) {        
+    public static void responseTime(PrintStream ps, Workload work) {        
     }
 }

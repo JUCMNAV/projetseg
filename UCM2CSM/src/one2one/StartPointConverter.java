@@ -52,7 +52,7 @@ public class StartPointConverter implements AbstractConverter {
                ps.println("                " + open_wload_attributes);
            }
            // optional workload attributes
-           wa.workAttributes(sp, ps);
+           wa.workAttributes(sp.getWorkload(), ps);
        }    
        
        // output to file
