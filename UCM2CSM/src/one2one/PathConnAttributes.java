@@ -53,7 +53,7 @@ public class PathConnAttributes {
             // special case for StartPoint
             if (pathnode.getName().compareTo("StartPoint") == 0){
                 String target_attribute = "target= \"h" + target + "\"" + ">";
-                ps.print(" " + target_attribute);
+                ps.println(" " + target_attribute);
             }
             else {
                 String target_attribute = "target= \"h" + target +"\"";

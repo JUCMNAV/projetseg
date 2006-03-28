@@ -22,10 +22,10 @@ public class StubConverter implements AbstractConverter {
     public StubConverter(Stub stub){
        this.stub = stub;
     }
-
+  
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, String source, String target){
-        
+       // stub.g
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
                                     "name=\"" + stub.getName() + "\"" + " " +

@@ -1,7 +1,7 @@
 package one2one;
 
 import java.io.PrintStream;
-
+import ucm.map.Stub;
 import ucm.map.PathNode;
 
 /**
@@ -17,7 +17,8 @@ public class StepAttributes {
                 printDescription(ps, af);
     }
     // step optional attributes -- to be implemented
-    public static void hostDemand(PrintStream ps, PathNode pathnode) {        
+    public static void hostDemand(PrintStream ps, PathNode pathnode) { 
+    	
     }
     public static void probability(PrintStream ps, PathNode pathnode) {        
     }

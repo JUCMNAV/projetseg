@@ -39,20 +39,22 @@ public class StartPointConverter implements AbstractConverter {
        
        // processing workload
        if (sp.getWorkload() != null){           
-           String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" />";
-           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\"/>";
+           String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" ";
+           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\" ";
            
            // decide if workload is open or closed
            if (sp.getWorkload().isClosed()){
-               ps.println("");
-               ps.println("                " + close_wload_attributes);
+               ps.print("");
+               ps.print("                " + close_wload_attributes);
            }
            else{
-               ps.println("");
-               ps.println("                " + open_wload_attributes);
+               ps.print("");
+               ps.print("                " + open_wload_attributes);
            }
            // optional workload attributes
            wa.workAttributes(sp.getWorkload(), ps);
+           String print_attribute = "/>";
+	       ps.println(print_attribute);
        }    
        
        // output to file

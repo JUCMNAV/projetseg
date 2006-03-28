@@ -198,7 +198,7 @@ public class Convert implements IURNExport {
             i++;
         }
         //  normalize duplicate map
-        normalize(list);
+        // normalize(list);
     }
     // normalize algorithm -- insert empty points in between steps and pathconnections
     public void normalize(CSMDupNodeList list){
