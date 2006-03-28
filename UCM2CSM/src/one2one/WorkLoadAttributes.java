@@ -1,8 +1,6 @@
 package one2one;
-
 import java.io.PrintStream;
 
-import ucm.map.PathNode;
 import ucm.performance.Workload;
 
 /**

@@ -120,7 +120,7 @@ public class CSMDupNode extends PathNodeImpl {
           type = RA;
       }
       else if ((raORrrORseq >= 200 && raORrrORseq < 300)
-           ||  (raORrrORseq >= 400 && raORrrORseq < 500)){  
+           ||  (raORrrORseq >= 400 && raORrrORseq < 600)){  
           type = EMPTY;
       }    
       else if (raORrrORseq >= 300 && raORrrORseq < 400 ){  

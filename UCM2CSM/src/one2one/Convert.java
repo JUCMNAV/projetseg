@@ -68,7 +68,7 @@ public class Convert implements IURNExport {
         ps.flush(); 
 	}
 	
-	private void exportMap(UCMmap map, PrintStream ps) {	    
+	private void exportMap(UCMmap map, PrintStream ps) {
         
         // map header and footer
         String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
@@ -86,7 +86,6 @@ public class Convert implements IURNExport {
         CSMDupNodeList dupMaplist = new CSMDupNodeList();
         dupMaplist.DuplicateHyperEdges(map);
         Hashtable comp_map = new Hashtable(); // stores the acquire/release components associated with every RA/RR 
-        
         
         // Insert RA/RR/Seq nodes in above list 
         transform(dupMaplist, comp_map, ps);
@@ -194,10 +193,67 @@ public class Convert implements IURNExport {
                int ra_node_insert = ra.acquireResource(node.getNode(), list, comp_map);
                int rr_node_insert = rr.releaseResource(node.getNode(), list, comp_map);       
                i = i + ra_node_insert;
-               i = i + rr_node_insert;
-            }            
+               i = i + rr_node_insert;               
+            }           
             i++;
-        }        
+        }
+        //  normalize duplicate map
+        normalize(list);
+    }
+    // normalize algorithm -- insert empty points in between steps and pathconnections
+    public void normalize(CSMDupNodeList list){
+        //  sequence ids for dummy empty points
+        int seq_id = 500;
+        String prev_edge_type_str = "";
+        String curr_edge_type_str = "";
+        for (int i=1; i < list.size(); i++){            
+            // previous edge node type
+            int prev_edge_type = ((CSMDupNode)(list.get(i-1))).getType();            
+            // current edge node type
+            int curr_edge_type = ((CSMDupNode)(list.get(i))).getType();
+            // convert type from int to string, so we have only 2 kinds of elements to deal with            
+            if (prev_edge_type == CSMDupNode.STUB ||
+                prev_edge_type == CSMDupNode.RESPREF ||
+                prev_edge_type == CSMDupNode.RA ||
+                prev_edge_type == CSMDupNode.RR ){
+                prev_edge_type_str = "Step";
+            }
+            else
+                prev_edge_type_str = "PathConnection";
+            if (curr_edge_type == CSMDupNode.STUB ||
+                curr_edge_type == CSMDupNode.RESPREF ||
+                curr_edge_type == CSMDupNode.RA ||
+                curr_edge_type == CSMDupNode.RR ){
+                curr_edge_type_str = "Step";
+            }
+            else
+                curr_edge_type_str = "PathConnection";
+            System.out.println("Prev edge type:" + prev_edge_type_str);
+            System.out.println("Curr edge type:" + curr_edge_type_str);
+            
+            if (curr_edge_type != CSMDupNode.END){
+                // if previous edge is a step and current edge are of the same type, insert Empty Point
+                if (prev_edge_type_str.compareTo(curr_edge_type_str) == 0){
+                    // create empty point and insert it in duplicate map                
+                    CSMDupNode e_node = new CSMDupNode(seq_id);
+                    list.add(i,e_node);
+                    seq_id++;
+                    System.out.println("Inserted E-POint" + seq_id);
+                }
+            }
+            // end-point 
+            else {
+                // if previous edge is a step and current edge are of the same type, insert Empty Point
+                if (prev_edge_type_str.compareTo(curr_edge_type_str) == 0){
+                    // create empty point and insert it in duplicate map and exit loop                
+                    CSMDupNode e_node = new CSMDupNode(seq_id);
+                    list.add(i,e_node);
+                    seq_id++; 
+                    System.out.println("Inserted E-POint" + seq_id);
+                    return;
+                }
+            } // if                        
+        }// for
     }
     
     // print CSM output for RA and Sequence
@@ -228,6 +284,11 @@ public class Convert implements IURNExport {
              }
              // printing RR_Sequence
              else if (curr_node.getId().startsWith("G4")){
+             // if (curr_node.getType() == CSMDupNode.EMPTY){
+                 ra.acquireEmptyPoint(curr_node,dupMaplist, b);
+             }
+             // printing dummy Sequence
+             else if (curr_node.getId().startsWith("G5")){
              // if (curr_node.getType() == CSMDupNode.EMPTY){
                  ra.acquireEmptyPoint(curr_node,dupMaplist, b);
              }

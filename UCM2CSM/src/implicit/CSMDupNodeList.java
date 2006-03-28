@@ -88,7 +88,7 @@ public class CSMDupNodeList {
        return ((CSMDupNode) (pathList.get(i))).getNode();                
     }
     
-    // return the id of the node following to this one
+    // returns the id of the node following to this one
     public String getPredecessor(int i){  
        if (i <= 0){
            return "null";
@@ -104,7 +104,7 @@ public class CSMDupNodeList {
        }
     }
     
-    // return the node previous to this one
+    // returns the node previous to this one
     public String getSuccessor(int i){
         if (i >= pathList.size()-1){
             return "null";
