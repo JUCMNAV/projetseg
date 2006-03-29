@@ -3,8 +3,8 @@ package one2one;
 import java.io.PrintStream;
 
 import ucm.map.EndPoint;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,28 +16,12 @@ import ucm.map.PathNode;
 
 public class PathConnAttributes {
 
-	public void OptionalAttributes(PathNode af,
-                                   PrintStream ps,
-                                   String source,
-                                   String target){
+	public void OptionalAttributes(PathNode af, PrintStream ps, String source, String target){
 
-		
 		printDescription(ps, af);
+		printTracebilityLink(ps, af);
 		printSource(ps, af, source);
 		printTarget(ps, af, target);
-		
-   /*     if ((NodeConnection)af.getogetO){
-            // NodeConnection bind = (NodeConnection) ep.getOutBindings();
-       	   String outbind = "";
-       	   for (int i=0;i<ep.getOutBindings().size(); i++){
-       		   outbind += " so" + ep.getOutBindings().get(i);    		
-       	   }
-       	   OutBinding
-           String source_attribute = "Outbinding= \"" + outbind +"\"";
-           System.out.println("CSM Rep " + source_attribute);
-           System.out.println("OutBindings list: " + ep.getOutBindings());
-           ps.print(" " + source_attribute);
-          }*/
 	}
     
 	// prints the source attribute
@@ -69,36 +53,43 @@ public class PathConnAttributes {
 	        ps.print(description_attribute);
 	    }
 	}
+	
+	public static void printTracebilityLink (PrintStream ps, PathNode pathnode) {
+	    if (pathnode.getId() != null){
+	        String tracebility_attribute = " Tracebilitylink=\"h" + pathnode.getId() +"\"";
+	        ps.print(tracebility_attribute);
+	    }
+	}
     
 	// prints inbinding attribute
-    public static void inbinding(PrintStream ps, PathNode pathnode) {
-        /*
-        if (!sp.getInBindings().isEmpty()){
-           String outbind = "";
-           for (int i=0;i<sp.getInBindings().size(); i++){
-               outbind += " so" + sp.getInBindings().get(i);            
-           }
-         String source_attribute = "Inbinding= \"" + outbind +"\"";
-         System.out.println("CSM Rep " + source_attribute);
-         System.out.println("InBindings list: " + sp.getInBindings());
-         ps.print(" " + source_attribute);
-        }
-        */                
+    public void inbinding(PrintStream ps, StartPoint sp) {
+    	if (!sp.getInBindings().isEmpty()){
+            String inbind = "";
+            for (int i=0;i<sp.getInBindings().size(); i++){
+         	   String in_bind_str = sp.getInBindings().get(i).toString();
+          	   String in_bind_id = in_bind_str.substring(28,(in_bind_str.length()-1));
+                inbind += in_bind_id;            
+            }
+          String source_attribute = "Inbinding= \"" +inbind +"\"";
+         // System.out.println("CSM Rep " + source_attribute);
+          //System.out.println("InBindings list: " + sp.getInBindings());
+          ps.print(" " + source_attribute);
+         }                 
     }
     // prints outbinding attribute
-    public static void outbinding(PrintStream ps, PathNode pathnode) {        
-        /*
-         * if (!ep.getOutBindings().isEmpty()){
-           String outbind = "";
-           for (int i=0;i<ep.getOutBindings().size(); i++){
-               outbind += " so" + ep.getOutBindings().get(i);           
-           }
-        */   
-        /*   
-        String source_attribute = "Outbinding= \"" + outbind +"\"";
-        System.out.println("CSM Rep " + source_attribute);
-        System.out.println("OutBindings list: " + ep.getOutBindings());
-         * 
-         */        
+    public void outbinding(PrintStream ps, EndPoint ep) {        
+    	if (!ep.getOutBindings().isEmpty()){
+            String outbind = "";
+            for (int i=0;i<ep.getOutBindings().size(); i++){
+         	   String out_bind_str = ep.getOutBindings().get(i).toString();
+         	   String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1));
+                outbind += out_bind_id;
+            }
+            
+         String source_attribute = "Outbinding= \"" + outbind +"\"";
+         //System.out.println("CSM Rep " + source_attribute);
+         //System.out.println("OutBindings list: " + ep.getOutBindings());
+         ps.print(" " + source_attribute);
+        }       
     }
 }

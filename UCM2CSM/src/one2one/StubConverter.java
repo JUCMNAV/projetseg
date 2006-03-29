@@ -2,8 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 
-import ucm.map.NodeConnection;
-import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.Stub;
 
 /**
@@ -17,7 +16,7 @@ import ucm.map.Stub;
 public class StubConverter implements AbstractConverter {
     private Stub stub;
     StepAttributes sa = new StepAttributes();
-    
+    private PluginBinding ao;
     // constructors
     public StubConverter(Stub stub){
        this.stub = stub;
@@ -25,7 +24,7 @@ public class StubConverter implements AbstractConverter {
   
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, String source, String target){
-       // stub.g
+     
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
                                     "name=\"" + stub.getName() + "\"" + " " +

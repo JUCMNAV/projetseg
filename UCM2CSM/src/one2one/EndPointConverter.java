@@ -32,8 +32,24 @@ public class EndPointConverter implements AbstractConverter {
        String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
        ps.print("			" + mandatory_attribute);
        String closing_attribute = "/>";
-       
+      
        //     optional attributes
+     /*  if (!ep.getOutBindings().isEmpty()){
+           String outbind = "";
+           for (int i=0;i<ep.getOutBindings().size(); i++){
+        	   String out_bind_str = ep.getOutBindings().get(i).toString();
+        	   String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1));
+              // outbind += " so" + ep.getOutBindings().get(i); 
+               outbind += out_bind_id;
+           }
+           
+           
+        String source_attribute = "Outbinding= \"" + outbind +"\"";
+        System.out.println("CSM Rep " + source_attribute);
+        System.out.println("OutBindings list: " + ep.getOutBindings());
+        ps.print(" " + source_attribute);
+       }*/
+       oa.outbinding(ps, ep);
        oa.OptionalAttributes((PathNode) ep,  ps, source, target);
    
        // output to file             
