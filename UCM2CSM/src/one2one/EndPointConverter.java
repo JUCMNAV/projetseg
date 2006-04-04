@@ -1,10 +1,9 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import ucm.map.EndPoint;
-import ucm.map.NodeConnection;
-import ucm.map.OutBinding;
 import ucm.map.PathNode;
 
 /**
@@ -26,7 +25,7 @@ public class EndPointConverter implements AbstractConverter {
     }
     
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, String source, String target){
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target){
        
        
        String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";

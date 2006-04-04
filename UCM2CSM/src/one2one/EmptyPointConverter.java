@@ -1,9 +1,9 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import ucm.map.EmptyPoint;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
@@ -23,7 +23,7 @@ public class EmptyPointConverter implements AbstractConverter{
         }
 
         // prints XML representation of object to output file
-        public void Convert(PrintStream ps, String source, String target){
+        public void Convert(PrintStream ps, ArrayList source, ArrayList target){
 
             // object attributes
             String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\""; 

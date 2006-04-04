@@ -1,6 +1,7 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
@@ -23,7 +24,7 @@ public class StubConverter implements AbstractConverter {
     }
   
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, String source, String target){
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target){
      
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +

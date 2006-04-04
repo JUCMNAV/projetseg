@@ -1,6 +1,7 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
@@ -16,7 +17,11 @@ import ucm.map.StartPoint;
 
 public class PathConnAttributes {
 
-	public void OptionalAttributes(PathNode af, PrintStream ps, String source, String target){
+
+	public void OptionalAttributes(PathNode af,
+                                   PrintStream ps,
+                                   ArrayList source,
+                                   ArrayList target){
 
 		printDescription(ps, af);
 		printTracebilityLink(ps, af);
@@ -25,24 +30,24 @@ public class PathConnAttributes {
 	}
     
 	// prints the source attribute
-	public static void printSource(PrintStream ps, PathNode pathnode, String source) {        
+	public static void printSource(PrintStream ps, PathNode pathnode, ArrayList source) {        
         if (source != null){            
             String source_attribute = "source= \"h" + source +"\"";
             ps.print(" " + source_attribute);
         }
 	}
     // prints the target attribute
-	public static void printTarget(PrintStream ps, PathNode pathnode, String target) {        
+	public static void printTarget(PrintStream ps, PathNode pathnode, ArrayList target) {        
         if (target != null){            
-            // special case for StartPoint
-            if (pathnode.getName().compareTo("StartPoint") == 0){
+            // special case for StartPoint   
+            if (pathnode.getName().compareTo("StartPoint")== 0){
                 String target_attribute = "target= \"h" + target + "\"" + ">";
                 ps.println(" " + target_attribute);
             }
             else {
                 String target_attribute = "target= \"h" + target +"\"";
                 ps.print(" " + target_attribute);
-            }
+           }
         }
 	}
     

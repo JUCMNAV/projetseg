@@ -1,9 +1,8 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
-import ucm.map.NodeConnection;
-import ucm.map.PathNode;
 import ucm.map.RespRef;
 
 /**
@@ -25,7 +24,7 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, String source, String target){
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target){
         
         // retrieve target/source        
         // successor = (PathNode) ((NodeConnection)resp.getSucc().get(0)).getTarget();

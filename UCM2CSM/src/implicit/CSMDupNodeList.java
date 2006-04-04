@@ -1,8 +1,7 @@
 package implicit;
 
 import java.util.ArrayList;
-
-import org.eclipse.emf.common.util.EList;
+import java.util.Iterator;
 
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -17,15 +16,18 @@ import ucm.map.UCMmap;
  */
 public class CSMDupNodeList {
     //  will contain CSMDupNodes (which in turn may point to a PathNode or an RA node)
-    ArrayList pathList = new ArrayList(1000);    
-    EList connList; // gets the connections between nodes  
+    ArrayList nodeList = new ArrayList(1000);          
     
-    // create PathNode links to map
+    // create list of PathNodes 
     public void DuplicateHyperEdges(UCMmap map){        
-        connList = map.getConnections();         
+        
+        
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();){
+            nodeList.add(new CSMDupNode ((PathNode)iter.next()));
+        }
+        /*
         CSMDupNode source_pn = new CSMDupNode ((PathNode) ((NodeConnection) (connList.get(0))).getSource());        
         CSMDupNode target_pn = new CSMDupNode ((PathNode) ((NodeConnection) (connList.get(0))).getTarget());
-        
         pathList.add(0, source_pn); 
         pathList.add(1, target_pn);
                
@@ -42,9 +44,10 @@ public class CSMDupNodeList {
             else{
                 done = true;
             }
-        }// while                
+        }// while   
+        */             
     } // function
-        
+        /*
     // identifies a connection (of type "Source Connnection Target") having StartPoint=Source and returns the target
     public CSMDupNode getNextTarget(CSMDupNode source){        
         for (int i=0; i < connList.size(); i++) {
@@ -54,40 +57,40 @@ public class CSMDupNodeList {
         } // for
         return null;
     } // function
-        
+        */
     
     /* The following are methods used to access the CSMDupNodeList */
     
     // size of path list
     public int size(){
-       return pathList.size();
+       return nodeList.size();
     }
         
     // get node
     public CSMDupNode get(int i){
-       return (CSMDupNode) pathList.get(i);
+       return (CSMDupNode) nodeList.get(i);
     }          
        
     // add node at the end of list
     public void add(CSMDupNode node){
-       pathList.add(pathList.size(),node);
+        nodeList.add(nodeList.size(),node);
     }
         
     // add node at a specific point in map
     public void add(int position, CSMDupNode node){
-         pathList.add(position,node);              
+        nodeList.add(position,node);              
     }
         
     // checks if list is empty
     public boolean isEmpty(){
-       return pathList.isEmpty();                
+       return nodeList.isEmpty();                
     }
         
     // return a PathNode from the Duplicate Graph
     public PathNode getListNode(int i){            
-       return ((CSMDupNode) (pathList.get(i))).getNode();                
+       return ((CSMDupNode) (nodeList.get(i))).getNode();                
     }
-    
+   /* 
     // returns the id of the node following to this one
     public String getPredecessor(int i){  
        if (i <= 0){
@@ -95,17 +98,19 @@ public class CSMDupNodeList {
        }
        else{    
            // if previous node is an RA or RR return its id
-           int type = ((CSMDupNode)(pathList.get(i-1))).getType();
+           int type = ((CSMDupNode)(nodeList.get(i-1))).getType();
            if (type == CSMDupNode.RA || type == CSMDupNode.EMPTY || type == CSMDupNode.RR )
-               return ((CSMDupNode)(pathList.get(i-1))).getId();
+               return ((CSMDupNode)(nodeList.get(i-1))).getId();
            // if previous node is a pathnode return its id
            else 
-               return ((CSMDupNode)(pathList.get(i-1))).getNode().getId();
+               return ((CSMDupNode)(nodeList.get(i-1))).getNode().getId();
        }
     }
     
+    
     // returns the node previous to this one
     public String getSuccessor(int i){
+        
         if (i >= pathList.size()-1){
             return "null";
         }
@@ -119,23 +124,32 @@ public class CSMDupNodeList {
                 return ((CSMDupNode)(pathList.get(i+1))).getNode().getId();
         }   
     }
-    
+    */
     // for debug - prints ids of all elements in list
     public void printDupList(){
-        System.out.println("----------Printing duplicate List-------");
-        System.out.println("List size: " + pathList.size());        
-        for(int i=0; i<pathList.size();i++){
-            int type = ((CSMDupNode)(pathList.get(i))).getType();                        
+        System.out.println("----------Printing duplicate Node List-------");
+        System.out.println("List size: " + nodeList.size());        
+        for(int i=0; i<nodeList.size();i++){
+            int type = ((CSMDupNode)(nodeList.get(i))).getType();                        
             //System.out.println("PathList Element : " + (CSMDupNode)(pathList.get(i)));
             // System.out.println("Type : " + type);
             
-            if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.EMPTY){
-                String id = ((CSMDupNode)(pathList.get(i))).getId();
-                System.out.println("Index " + i + " id: " + id);
+            if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.CSMEMPTY){
+                String id = ((CSMDupNode)(nodeList.get(i))).getId();
+                /*
+                // already existing empty point, get its id
+                if (type == CSMDupNode.EMPTY && id.compareTo("") == 0){
+                    String node_id = ((CSMDupNode)(nodeList.get(i))).getNode().getId();                
+                    System.out.println("Index " + i + " id: " + node_id);
+                }
+                // new empty point, get its id
+                else
+                */                
+                    System.out.println("Index " + i + " id: " + id);
             }                
             else{
-                System.out.println("Node : " + ((CSMDupNode)(pathList.get(i))).getNode());
-                String node_id = ((CSMDupNode)(pathList.get(i))).getNode().getId();                
+                System.out.println("Node : " + ((CSMDupNode)(nodeList.get(i))).getNode());
+                String node_id = ((CSMDupNode)(nodeList.get(i))).getId();                
                 System.out.println("Index " + i + " id: " + node_id);
             }
             
@@ -144,10 +158,31 @@ public class CSMDupNodeList {
     
     // returns the position of the node in the list of dup nodes
     public int getNodeIndex(PathNode node){
-        for(int i=0; i<pathList.size();i++){
-            if (((CSMDupNode)(pathList.get(i))).getNode() == node)
+        for(int i=0; i<nodeList.size();i++){
+            if (((CSMDupNode)(nodeList.get(i))).getNode() == node)
                return i;            
         }
         return -1; // not found
     }    
+    
+    // removes a node from the node list
+    public void remove(CSMDupNode node){
+        for(int i=0; i<nodeList.size();i++){
+            if (((CSMDupNode)(nodeList.get(i))).getNode() == node){
+                nodeList.remove(i);
+                System.out.println("Node: " + node + " deleted!");
+            }
+                          
+        }
+    }
+    
+    public void remove(PathNode node){
+        for(int i=0; i<nodeList.size();i++){
+            if (((CSMDupNode)(nodeList.get(i))).getNode() == node){
+                nodeList.remove(i);
+                System.out.println("Node: " + node + " deleted!");
+            }          
+        }
+    }
+    
 }

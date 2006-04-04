@@ -1,6 +1,7 @@
 package one2one;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
@@ -22,7 +23,7 @@ public class OutBindingConverter implements AbstractConverter{
     }
 		
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, String source, String target){
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target){
        
       // String out_bind_id = out_bind.getBinding().toString();// substring(32,6);
       String out_bind_str = out_bind.getStubExit().getOutBindings().get(0).toString();            

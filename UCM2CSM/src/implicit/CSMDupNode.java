@@ -1,6 +1,7 @@
 package implicit;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import one2one.AbstractConverter;
@@ -18,7 +19,6 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
@@ -26,7 +26,6 @@ import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
-import ucm.map.impl.PathNodeImpl;
 /**
  * <!-- begin-user-doc -->
  * A CSMDupNode is a reference to a node in the original UCMmap
@@ -34,14 +33,14 @@ import ucm.map.impl.PathNodeImpl;
  * @see implicit 
  * @generated
  */
-public class CSMDupNode extends PathNodeImpl {
+public class CSMDupNode {//extends PathNodeImpl {
     
     // The various types of PathNode elements in jUCMNav
 
     static public final int RESPREF=1;
     static public final int START=2;
     static public final int END=3;
-    static public final int EMPTY=4;
+    static public final int EMPTY=4;    
     static public final int TIMESTAMP=5;
     static public final int FAILURE=6;
     static public final int ARROW=7;
@@ -60,16 +59,18 @@ public class CSMDupNode extends PathNodeImpl {
     //  New types of elements
     static public final int RA=17; // Resource Allocate 
     static public final int RR=18; // Resource Release
+    static public final int CSMEMPTY=19; // new Empty Point
+    static public final int CSMDUMMY=20; // new Dummy Step
     
     // Reference to the PathNode in jUCMNav's UCM model
     private PathNode node;
     
     // id for ra, rr or sequence
-    private String node_id = "";
+    private String node_id; // = "";
     
     // redefining source and target for nodes on duplicate map
-    String source = "";
-    String target = "";
+    //String source = "";
+    //String target = "";
             
     // Constructors
     public CSMDupNode(PathNode node)
@@ -115,28 +116,34 @@ public class CSMDupNode extends PathNodeImpl {
 
     public CSMDupNode(int raORrrORseq)
     {
-      // RA or RR to be inserted
+      // RA,RR/Seq/Dummy Step to be inserted
       if (raORrrORseq >= 100 && raORrrORseq < 200 ){  
           type = RA;
       }
       else if ((raORrrORseq >= 200 && raORrrORseq < 300)
-           ||  (raORrrORseq >= 400 && raORrrORseq < 600)){  
-          type = EMPTY;
+           ||  (raORrrORseq >= 400 && raORrrORseq < 500)){  
+          type = CSMEMPTY;
       }    
       else if (raORrrORseq >= 300 && raORrrORseq < 400 ){  
           type = RR;
-      }      
+      }
+      else if (raORrrORseq >= 500 && raORrrORseq < 600){
+          type = CSMDUMMY;
+      }
       node_id = "G" + raORrrORseq;      
     }
     
     // return the id of the node
     public String getId(){
-        return node_id;
+        if (node == null)
+            return node_id;
+        else 
+            return node.getId();
     }
     
     // return the id of the node if node is a Pathnode, else return null
     public PathNode getNode(){
-        if (type == RA || type == RR || type == EMPTY){
+        if (type == RA || type == RR || type == CSMEMPTY){
             return null;
         }
         else{
@@ -144,16 +151,26 @@ public class CSMDupNode extends PathNodeImpl {
         }
     }
     
+    public boolean isPathNode(){
+        if (type == RA || type == RR || type == CSMEMPTY){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     //  Converts object through polymorphism (dynamic binding)
     public void doConvert(AbstractConverter pn,
                           PrintStream ps,
-                          String source,
-                          String target){
+                          ArrayList source,
+                          ArrayList target){
         pn.Convert(ps, source, target);
     }
     
     // prints CSM representation for attribute node 
-    public void printPathNode(PrintStream ps, String source, String target){
+    public void printPathNode(PrintStream ps,
+                              ArrayList source,
+                              ArrayList target){
         // guard against non-path node elements (RA/RR)
         if (node==null)
             return;        

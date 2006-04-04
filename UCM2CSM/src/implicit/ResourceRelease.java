@@ -1,6 +1,7 @@
 package implicit;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Stack;
 
@@ -17,8 +18,8 @@ import ucm.map.PathNode;
 public class ResourceRelease {
     
     // RR and Empty Point IDs
-    int rr_id = 300;                   
-    int seq_id = 400;    
+    static int rr_id = 300;                   
+    static int seq_id = 400;    
     PrintStream ps;
     
     // constructor 
@@ -37,54 +38,58 @@ public class ResourceRelease {
     }
   
     // Resource Release algorithm
-    public int releaseResource(PathNode curr_edge, CSMDupNodeList dup_map, Hashtable component_release){
+    public int releaseResource(PathNode curr_edge, CSMDupNodeList dup_map,CSMDupConnectionList dup_map_conn, Hashtable component_release){
         // list that will store edges to be parsed (will contain pathnodes only)
-        CSMDupNodeList next_edge_list = new CSMDupNodeList();
+        ArrayList next_edge_list = new ArrayList();
+        
         int nodes_inserted = 0; // total nodes inserted since last run        
-        int curr_edge_pos = dup_map.getNodeIndex(curr_edge); // position where to insert node                          
-        Stack curr_edge_stack = new Stack (); // will hold all the parent components of current edge               
+       // int curr_edge_pos = dup_map_conn.getConnectionIndex(curr_edge.getId()); // position where to insert node                          
+        Stack curr_edge_stack = new Stack (); // will hold all the parent components of current edge        
         ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
+       
         
         // current edge is inside component 
-        if (curr_edge_comp_ref != null ){            
-            boolean done = false;         
-            // parsing list of dupnodes (each can be either a pathnode or an RA/RR/Seq
-            for (int i = curr_edge_pos + 1; !done && i < dup_map.size(); i++) {
-                PathNode node = dup_map.getListNode(i);
-                if (node != null) {
-                    if (node == null){
-                        done = true; 
-                    }
-                    else{
-                        next_edge_list.add(new CSMDupNode (node));   // populate next_edge_list                     
-                    }
-                }// if
-            }//for                        
+        if (curr_edge_comp_ref != null ){
+            String curr_edge_id = curr_edge.getId();
+            dup_map_conn.getNextEdgeList(curr_edge_id, next_edge_list);
             
+            // for debug -- Printing next_edge_list
+            System.out.println("--------Printing next_edge_list----------");
+            for (int i=0;i<next_edge_list.size(); i++){
+                System.out.println("Index " + i + " Contents: " + next_edge_list.get(i));
+            }
+            System.out.println("-----------------------------------------");
+              
             // find the parent component of current edge                                                    
             findParentsRR(curr_edge_comp_ref, curr_edge_stack);
             curr_edge_stack.push(curr_edge_comp_ref);
           
             if (!next_edge_list.isEmpty()){                
                 
-                for (int j = 0; j < 1; j++){
+                for (int j = next_edge_list.size() - 1 ; j < next_edge_list.size(); j++){
                     // Next edge must be in a different component                
-                    PathNode next_edge = next_edge_list.getListNode(j);                    
-                    ComponentRef next_edge_comp_ref = (ComponentRef) next_edge.getContRef();                    
+                    PathNode next_edge = (PathNode) next_edge_list.get(j);
+                    System.out.println("Curr Edge: " + curr_edge);
+                    System.out.println("Next Edge: " + next_edge);
+                    ComponentRef next_edge_comp_ref = (ComponentRef) next_edge.getContRef();
+                    System.out.println("Curr Edge Comp Ref : " + curr_edge_comp_ref);
+                    System.out.println("Next Edge Comp Ref : " + next_edge_comp_ref);
                     Stack outside_comp_stack = new Stack();
                     
                     // next edge is an end-point                    
                     if (next_edge_comp_ref == null) {
                         for (int b = 0; b < curr_edge_stack.size(); b ++){ 
                             outside_comp_stack.push(curr_edge_stack.get(b)); 
-                       } // for 
+                        } // for 
                        
                        outside_comp_stack = reverseStack (outside_comp_stack); 
                         
                        while (!outside_comp_stack.isEmpty()){
                            nodes_inserted = addRR(outside_comp_stack,
-                                                  curr_edge_pos,
+                                                  // curr_edge_pos,                                                 
                                                   dup_map,
+                                                  dup_map_conn,                                                  
+                                                  curr_edge,
                                                   nodes_inserted,
                                                   component_release);
                        }// while
@@ -108,10 +113,12 @@ public class ResourceRelease {
                         // Acquire the components of the parents                        
                         while (!outside_comp_stack.isEmpty()){
                             nodes_inserted = addRR(outside_comp_stack,
-                                                   curr_edge_pos,
-                                                   dup_map,
-                                                   nodes_inserted,
-                                                   component_release);
+                                                    // curr_edge_pos,                                                 
+                                                    dup_map,
+                                                    dup_map_conn,                                                    
+                                                    curr_edge,
+                                                    nodes_inserted,
+                                                    component_release);
                         }
                     }// if                    
                 }// for                
@@ -120,11 +127,13 @@ public class ResourceRelease {
         else {
             // Must be an end point, acquire the components                        
             while (!curr_edge_stack.isEmpty()){
-                nodes_inserted = addRR(null,
-                                       curr_edge_pos,
-                                       dup_map,
-                                       nodes_inserted,
-                                       component_release);
+            nodes_inserted = addRR(null,
+                                   // curr_edge_pos,                                                 
+                                   dup_map,
+                                   dup_map_conn,                                  
+                                   curr_edge,
+                                   nodes_inserted,
+                                   component_release);
             }
         } // else        
         return nodes_inserted;
@@ -133,28 +142,29 @@ public class ResourceRelease {
     // prints XML representation of Resource Release element
     public void releaseComp(ComponentRef comp,
                             CSMDupNode node,
-                            CSMDupNodeList list,
-                            int position){
+                            CSMDupConnectionList list){ 
                   
         // initializing attributes
-        String successor = list.getSuccessor(position);
-        String predecessor = list.getPredecessor(position);
+        String successor = list.getTargetForSource(node.getId());
+        String predecessor = list.getSourceForTarget(node.getId());        
         
         // object attributes 
-        String ra_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" +
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" +
                                " name=\"" + " " + "\"" +   
-                               " release=\"" + "c" + comp.getId() + "\"" +   
-                               " successor=\"" + "h" + successor + "\"" + 
-                               " predecessor=\"" + "h" + predecessor + "\"" + "/>";        
-        ps.println("            " + ra_attributes);         
+                               " release=\"" + "c" + comp.getId() + "\"" + 
+                               " predecessor=\"" + "h" + predecessor + "\"" + 
+                               " successor=\"" + "h" + successor + "\"" + "/>";  
+                                     
+        ps.println("            " + rr_attributes);         
     }
     
     //  prints XML representation of Dummy EmptyPoint element
-    public void acquireEmptyPoint (CSMDupNode node, CSMDupNodeList list, int position){
-        
+    public void acquireEmptyPoint (CSMDupNode node,
+                                   CSMDupConnectionList list){
+                                           
         // initializing attributes
-        String target = list.getSuccessor(position);
-        String source = list.getPredecessor(position);
+        String target = list.getTargetForSource (node.getId());
+        String source = list.getSourceForTarget(node.getId());        
         
         // object attributes              
         String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " " +
@@ -193,24 +203,38 @@ public class ResourceRelease {
     
     // inserts RR and Empty Points where necessary in the duplicate map
     public int addRR(Stack comp_stack,
-                    int edge_position,
+                    //int edge_position,
                     CSMDupNodeList map,
+                    CSMDupConnectionList conn_map,
+                    PathNode curr_edge,
                     int ins_nodes,
                     Hashtable release){        
         // create resource acquire component and insert it in duplicate map                           
-        CSMDupNode rr_node = new CSMDupNode(getRrId());                                                   
-        map.add((edge_position + 1),rr_node);
+        CSMDupNode rr_node = new CSMDupNode(++rr_id);                                                   
+        map.add(rr_node);
         ins_nodes ++;
         // create empty point and insert it in duplicate map
-        CSMDupNode e_node = new CSMDupNode(getRrSeqId());                          
-        map.add((edge_position + 1),e_node);
+        CSMDupNode e_node = new CSMDupNode(++seq_id);                          
+        map.add(e_node);
         ins_nodes ++;
+        // create new links
+        // CSMDupNode source = conn_map.getSourceForTarget(curr_edge);
+        CSMDupNode target = conn_map.getTargetForSource(curr_edge);        
+        conn_map.add(new CSMDupConnection(curr_edge, e_node));
+        conn_map.add(new CSMDupConnection(e_node, rr_node));
+        conn_map.add(new CSMDupConnection(rr_node, target));        
+        /*
+        conn_map.add(new CSMDupConnection(curr_edge, rr_node));
+        conn_map.add(new CSMDupConnection(rr_node, e_node));
+        conn_map.add(new CSMDupConnection(e_node, target));
+        */
+        conn_map.remove(curr_edge, target);
         if (!comp_stack.isEmpty()){
             ComponentRef comp = (ComponentRef) comp_stack.pop();
             release.put(new String(rr_node.getId()),comp);    
         }
-        setRrId(rr_id++); // rr_id++;
-        setRrSeqId(seq_id++); // seq_id++;        
+        // setRrId(rr_id++); // rr_id++;
+        // setRrSeqId(seq_id++); // seq_id++;        
         return ins_nodes;
     }
     // methods to manipulate RR and Dummy Sequence IDs
