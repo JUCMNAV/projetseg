@@ -220,136 +220,10 @@ public class Convert implements IURNExport {
 
         //  normalize duplicate map -- does not work yet!
         // normalize(list, conn_list);
+        eliminateAdjacentEmptyPoints(list, conn_list);
+        addDummy(list, conn_list);
     }
-    
-    /* normalize algorithm -- insert dummy resp refs in between steps and pathconnections
-     *                        and delete redundant empty points 
-     */
-    /*
-    public void normalize(CSMDupNodeList list, CSMDupConnectionList conn_list){                
-        //  sequence ids for dummy empty points
-        int dummy_id = 500;
-        int list_size = list.size();
-        for (int i=0; i < list_size; i++){
-            CSMDupNode curr_edge = (CSMDupNode) list.get(i); // current edge
-            // removing all additional NODE empty points (not created by RA/RR algorithms)
-            if (curr_edge.getType() == CSMDupNode.EMPTY){
-                // build a list of all previous and all subsequent edges
-                String curr_edge_id = curr_edge.getId();
-                ArrayList prev_edge_list = new ArrayList(1000);                
-                ArrayList next_edge_list = new ArrayList(1000);
-                conn_list.getPrevEdgeList(curr_edge_id, prev_edge_list);
-                // for debug -- Printing prev_edge_list
-                System.out.println("--------Printing prev_edge_list----------");
-                for (int a=0;a<prev_edge_list.size(); a++){
-                    System.out.println("Index " + a + " Contents: " + prev_edge_list.get(a));
-                }
-                System.out.println("-----------------------------------------");
-                conn_list.getNextEdgeList(curr_edge_id, next_edge_list);
-                next_edge_list = conn_list.reverseList(next_edge_list);
-                
-                //  for debug -- Printing next_edge_list
-                System.out.println("--------Printing next_edge_list----------");
-                for (int b=0;b<next_edge_list.size(); b++){
-                    System.out.println("Index " + b + " Contents: " + next_edge_list.get(b));
-                }
-                System.out.println("-----------------------------------------");
-                 
-                // scan previous edge list looking for adjacent empty points
-                if (prev_edge_list.size() > 1){
-                    for (int j = 0; j < prev_edge_list.size() - 1; j++){
-                        PathNode prev_edge = (PathNode)prev_edge_list.get(j);
-                        PathNode prev_prev_edge = (PathNode)prev_edge_list.get(j+1);
-                        if (prev_edge instanceof EmptyPoint){
-                            // remove redundant node and adjust links
-                            list.remove(prev_edge);
-                            // CSMDupNode source = conn_list.getSourceForTarget(curr_edge.getNode());
-                            conn_list.remove(curr_edge, prev_edge);
-                            conn_list.remove(prev_edge, curr_edge);
-                            conn_list.remove(prev_edge, prev_prev_edge);
-                            conn_list.remove(prev_prev_edge, prev_edge);
-                            conn_list.add(new CSMDupConnection(curr_edge, prev_prev_edge));
-                            list.printDupList(); // debug
-                            conn_list.printDupList(); // debug
-                        }// if
-                    } //for
-                } // if     
-                // scan next edge list looking for adjacent empty points
-                if (next_edge_list.size() > 1){
-                    for (int j = 0; j < next_edge_list.size() - 1; j++){
-                        PathNode next_edge = (PathNode) next_edge_list.get(j);
-                        PathNode next_next_edge = (PathNode) next_edge_list.get(j+1);
-                        if (next_edge instanceof EmptyPoint){
-                            // remove redundant node and adjust links
-                            list.remove(next_edge);
-                            // CSMDupNode target = conn_list.getTargetForSource(next_edge);
-                            conn_list.remove(curr_edge, next_edge);
-                            conn_list.remove(next_edge, curr_edge);
-                            conn_list.remove(next_edge, next_next_edge);
-                            conn_list.remove(next_next_edge, next_edge);
-                            conn_list.add(new CSMDupConnection(curr_edge, next_next_edge));
-                            list.printDupList(); // debug
-                            conn_list.printDupList(); // debug
-                        } // if
-                     } // for
-                } //  if
-                
-                PathNode prev_edge = (PathNode) prev_edge_list.get(0);
-                PathNode next_edge = (PathNode) next_edge_list.get(0);
-                if (prev_edge instanceof RespRef || prev_edge instanceof Stub){
-                    if (next_edge instanceof RespRef || next_edge instanceof Stub){
-                        ; // keep node
-                    }
-                    else{
-                        // remove redundant node and adjust links
-                        list.remove(curr_edge);                        
-                        conn_list.remove(prev_edge, curr_edge);
-                        conn_list.remove(curr_edge, next_edge);
-                        conn_list.add(new CSMDupConnection(prev_edge, next_edge));
-                    }                        
-                }
-                else{
-                    if (next_edge instanceof RespRef || next_edge instanceof Stub){
-                        // remove redundant node and adjust links
-                        list.remove(curr_edge);                        
-                        conn_list.remove(prev_edge, curr_edge);
-                        conn_list.remove(curr_edge, next_edge);
-                        conn_list.add(new CSMDupConnection(prev_edge, next_edge));
-                    }
-                    else{
-                        // create dummy responsibility
-                        dummy_id = substituteWithDummy(curr_edge, conn_list, list, prev_edge, next_edge, curr_edge, dummy_id);
-                    }                       
-                }
-                
-            }
-        }                
-    }
-    
-    */
-    /*
-    // substitutes empty point with a dummy responsibility
-    public int substituteWithDummy(PathNode epoint,
-                                   CSMDupConnectionList conn_list,
-                                   CSMDupNodeList list,
-                                   PathNode prev_edge,
-                                   PathNode next_edge,
-                                   CSMDupNode curr_edge,
-                                   int id){
-        //  remove redundant node and adjust links        
-        list.remove(epoint);
-        conn_list.remove(prev_edge, curr_edge);
-        conn_list.remove(curr_edge, next_edge);
-        conn_list.add(new CSMDupConnection(prev_edge, next_edge));
-        // add new node and adjust links
-        CSMDupNode dummy_step = new CSMDupNode(id);
-        list.add(dummy_step);
-        conn_list.remove(prev_edge, next_edge);
-        conn_list.add(new CSMDupConnection(prev_edge, dummy_step));
-        conn_list.add(new CSMDupConnection(dummy_step, next_edge));
-        id++;
-        return id;
-    }
+        
     // prints dummy step
     public void printDummyStep(CSMDupNode node,
                                String id,
@@ -362,14 +236,14 @@ public class Convert implements IURNExport {
         
         // object attributes              
         String dummy_attributes = "<Step id=\"" + id + "\"" + " " +
-                                    "name= \"h" + name + "\"" + " " +
+                                    "name= \"" + name + "\"" + " " +
                                     "predecessor= \"h" + predecessor + "\"" + 
                                     "successor= \"h" + successor + "\"" + "/>";        
         // output to file
         ps.println("            " + dummy_attributes);
         ps.flush();     
     }
-    */
+    
     // print CSM output for RA and Sequence
     public void saveXML(PrintStream ps,
                         CSMDupNodeList dupMaplist,
@@ -414,7 +288,7 @@ public class Convert implements IURNExport {
              // if (curr_node.getType() == CSMDupNode.EMPTY){
                 // ResourceAcquisition ra = new ResourceAcquisition(ps);
                 //  ra.acquireEmptyPoint(curr_node,dupMapConnlist);
-                //printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);                 
+                printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);                 
              }
              else{ // print other objects
                  // initializing attributes
@@ -482,6 +356,144 @@ public class Convert implements IURNExport {
             return null;
     } // method
     
+    //  Eliminate adjacent emptyPoints
+    public void eliminateAdjacentEmptyPoints(CSMDupNodeList node_list, 
+                                             CSMDupConnectionList conn_list){
+        boolean adj_ep_found = true;
+        while (adj_ep_found){
+            adj_ep_found = false; // reset loop condition
+            // Scan the list of connections for a connection that has EmptyPoints as both source and target
+            int conn_list_size = conn_list.size();
+            for (int i=0; i < conn_list_size; i++){
+                CSMDupConnection curr_conn = (CSMDupConnection)conn_list.get(i);
+                CSMDupNode source = (CSMDupNode)curr_conn.getCSMSource();
+                CSMDupNode target = (CSMDupNode)curr_conn.getCSMTarget();
+
+                if (source.isPathNode() && (source.getNode() instanceof EmptyPoint) &&
+                    target.isPathNode() && (target.getNode() instanceof EmptyPoint)){
+                    // find next connection, that has source = 'target'
+                    if (conn_list.existsConnectionForSource(target)) {                        
+                        CSMDupConnection next_conn   = (CSMDupConnection)conn_list.getConnectionForSource(target);
+                        CSMDupNode       next_target = (CSMDupNode)next_conn.getCSMTarget();
+
+                        // remove 'target' node
+                        node_list.remove(target);
+
+                        
+                        // remove  curr_conn connection
+                        conn_list.remove(curr_conn);
+                        conn_list_size--;
+
+                        // remove  next_conn connection
+                        conn_list.remove(next_conn);
+                        conn_list_size--;
+
+                        // add new connection
+                        conn_list.add(new CSMDupConnection(source, next_target)); 
+                        conn_list_size++;
+
+                        adj_ep_found = true; // set loop condition
+                   }
+                   else {
+                        System.out.println("LOGICAL ERROR:  'last' connection has Empty Point target: " + target);
+                   }
+                } // if
+            } // for
+        } // while
+    } // method
+    
+    // Adds a Dummy responsability in between 2 steps 
+    public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list){
+        boolean work_done = true;
+        int dummy_id = 500;
+        
+        while (work_done){
+            work_done = false; // reset loop condition
+            // Scan the list of connections for a connection that has Steps as both source and target
+            int conn_list_size = conn_list.size();
+            for (int i=0; i < conn_list_size; i++){
+                CSMDupConnection curr_conn = (CSMDupConnection)conn_list.get(i);
+                CSMDupNode source = (CSMDupNode)curr_conn.getCSMSource();
+                CSMDupNode target = (CSMDupNode)curr_conn.getCSMTarget();
+                
+                // Empty point is in between two steps 
+                if (target.isPathNode() && (target.getNode() instanceof EmptyPoint)){
+                     if (conn_list.existsConnectionForSource(target)) {                         
+                        CSMDupConnection next_conn   = (CSMDupConnection)conn_list.getConnectionForSource(target);
+                        CSMDupNode       next_target = (CSMDupNode)next_conn.getCSMTarget();
+                        if (source.isPathNode() && ((source.getNode() instanceof RespRef) ||
+                           (source.getNode() instanceof Stub))){
+                            
+                           if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) ||
+                              (next_target.getNode() instanceof Stub))){
+                               ; // keep empty point          
+                           }
+                           else { // delete empty point                                     
+                               // remove 'target' node
+                               node_list.remove(target);
+                                    
+                               // remove  curr_conn connection
+                               conn_list.remove(curr_conn);
+                               conn_list_size--;
+
+                               // remove  next_conn connection
+                               conn_list.remove(next_conn);
+                               conn_list_size--;
+
+                               // add new connection
+                               conn_list.add(new CSMDupConnection(source, next_target)); 
+                               conn_list_size++;    
+                           }                   
+                         } // if
+                          else {
+                               if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) ||
+                                  (next_target.getNode() instanceof Stub))){
+                                   // delete empty point
+                                   // remove 'target' node
+                                   node_list.remove(target);
+                                     
+                                   // remove  curr_conn connection
+                                   conn_list.remove(curr_conn);
+                                   conn_list_size--;
+
+                                   // remove  next_conn connection
+                                   conn_list.remove(next_conn);
+                                   conn_list_size--;
+
+                                   // add new connection
+                                   conn_list.add(new CSMDupConnection(source, next_target)); 
+                                   conn_list_size++;     
+                                 }
+                               else { // replace empty point with dummy
+                                   // delete empty point
+                                   // remove 'target' node
+                                   node_list.remove(target);
+                                     
+                                   // create dummy node
+                                   CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+                                   dummy_id++;
+                                   node_list.add(dummy_node);
+                                     
+                                    // remove  curr_conn connection
+                                    conn_list.remove(curr_conn);
+                                    conn_list_size--;
+
+                                    // remove  next_conn connection
+                                    conn_list.remove(next_conn);
+                                    conn_list_size--;
+
+                                    // add new connection
+                                    conn_list.add(new CSMDupConnection(source, dummy_node));
+                                    conn_list_size++;
+                                    conn_list.add(new CSMDupConnection(dummy_node, next_target));
+                                    conn_list_size++;                                     
+                                 } // else
+                            } // else
+                     } // if
+                } // if
+            } // for
+        } // while
+    } // method
     
 	public void export(URNspec urn, String filename) throws InvocationTargetException {
 		// TODO Auto-generated method stub		

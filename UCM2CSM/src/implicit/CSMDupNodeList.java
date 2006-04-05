@@ -168,7 +168,7 @@ public class CSMDupNodeList {
     // removes a node from the node list
     public void remove(CSMDupNode node){
         for(int i=0; i<nodeList.size();i++){
-            if (((CSMDupNode)(nodeList.get(i))).getNode() == node){
+            if (((CSMDupNode)(nodeList.get(i))).getNode().getId() == node.getId()){
                 nodeList.remove(i);
                 System.out.println("Node: " + node + " deleted!");
             }

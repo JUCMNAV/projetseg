@@ -2,6 +2,7 @@ package implicit;
 
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.impl.NodeConnectionImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +19,6 @@ public class CSMDupConnection {
         private String source_id;
         private CSMDupNode source_node;
         private CSMDupNode target_node;
-               
                 
         // Constructors
         
@@ -37,7 +37,7 @@ public class CSMDupConnection {
             this.source_id = source;
             this.target_id = target;            
         }
-        
+                  
         public CSMDupConnection(PathNode source, String target)
         {
             this.connection = null;
@@ -52,7 +52,7 @@ public class CSMDupConnection {
             this.source_id = source.getId();
             this.target_id = target.getId();
             this.source_node = new CSMDupNode (source);
-            this.target_node = target;
+            this.target_node = target;            
         }
         
         public CSMDupConnection(CSMDupNode source, PathNode target)
@@ -72,14 +72,14 @@ public class CSMDupConnection {
             // this.source_node = source;
             this.target_node = new CSMDupNode (target);
         }
-        
+           
         public CSMDupConnection(CSMDupNode source, CSMDupNode target)
         {
-            this.connection = null;
-            this.source_id = source.getId();
+            this.connection = null;                    
+            this.source_id = source.getId();            
             this.target_id = target.getId();
             this.source_node = source;
-            this.target_node = target;
+            this.target_node = target;  
         }
         
         public PathNode getTarget(){
@@ -110,6 +110,10 @@ public class CSMDupConnection {
         
         public String getSourceStr(){
             return source_id;
+        }
+        
+        public void setTarget(CSMDupNode target){
+            target_node = target;
         }
         
         public boolean isNodeConnection(){

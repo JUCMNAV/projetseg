@@ -281,6 +281,26 @@ public class CSMDupConnectionList {
                                " Source: " + ((CSMDupConnection)connList.get(i)).getSourceStr() +
                                " Target: " + ((CSMDupConnection)connList.get(i)).getTargetStr());
         }
-    }    
-  
+    }
+    
+    // checks to see if a connection exists for a given source
+    public boolean existsConnectionForSource(CSMDupNode source){
+        for(int i=0; i < connList.size();i++){
+            String conn_source_id = (((CSMDupConnection)(connList.get(i)))).getSourceStr();
+            if (conn_source_id.compareTo(source.getId()) == 0){
+                return true;
+            }               
+        }
+        return false;
+    }
+    
+    // given a source method returns a connection 
+    public CSMDupConnection getConnectionForSource(CSMDupNode source){
+        for(int i=0; i<connList.size();i++){
+            String conn_source_id = (((CSMDupConnection)(connList.get(i)))).getSourceStr();
+            if (conn_source_id.compareTo(source.getId()) == 0)
+                return (CSMDupConnection)(connList.get(i));
+        }
+        return null;
+    }  
 }
