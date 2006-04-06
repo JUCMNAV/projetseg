@@ -32,7 +32,7 @@ public class PathConnAttributes {
 	// prints the source attribute
 	public static void printSource(PrintStream ps, PathNode pathnode, ArrayList source) {        
         if (source != null){            
-            String source_attribute = "source= \"h" + source +"\"";
+            String source_attribute = "source= \"h" + source.toString().subSequence(1,(source.toString().length()-1)) +"\"";
             ps.print(" " + source_attribute);
         }
 	}
@@ -41,11 +41,11 @@ public class PathConnAttributes {
         if (target != null){            
             // special case for StartPoint   
             if (pathnode.getName().compareTo("StartPoint")== 0){
-                String target_attribute = "target= \"h" + target + "\"" + ">";
+                String target_attribute = "target= \"h" + target.toString().subSequence(1,(target.toString().length()-1)) + "\"" + ">";
                 ps.println(" " + target_attribute);
             }
             else {
-                String target_attribute = "target= \"h" + target +"\"";
+                String target_attribute = "target= \"h" + target.toString().subSequence(1,(target.toString().length()-1)) +"\"";
                 ps.print(" " + target_attribute);
            }
         }

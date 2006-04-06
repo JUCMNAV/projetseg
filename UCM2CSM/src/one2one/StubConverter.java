@@ -30,8 +30,8 @@ public class StubConverter implements AbstractConverter {
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
                                     "name=\"" + stub.getName() + "\"" + " " +
                                     // "hostDemand=\"" + "1" + "\"" + " " +                             
-                                    "predecessor=\"" + "h" + source + "\"" + " " +
-                                    "successor=\"" + "h" + target +"\"";
+                                    "predecessor=\"" + "h" + source.toString().subSequence(1,(source.toString().length()-1)) + "\"" + " " +
+                                    "successor=\"" + "h" + target.toString().subSequence(1,(target.toString().length()-1)) +"\"";
        
        ps.print("           " + mandatory_attribute);
        String closing_attribute = "/>";

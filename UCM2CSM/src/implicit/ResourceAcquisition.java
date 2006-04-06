@@ -88,15 +88,16 @@ public class ResourceAcquisition {
                         for (int i=0; i<outside_comp_stack.size();i++){
                             System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
                         }
-                        
-                        outside_comp_stack = reverseStack (outside_comp_stack);
+                      
+                       /* 
+                       outside_comp_stack = reverseStack (outside_comp_stack);
                        
                        // for debug - reversed outside stack
                        System.out.println("Reversed stack-S point");
                        for (int i=0; i<outside_comp_stack.size();i++){
                            System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
                        }
-                       
+                       */
                        // for every component in the outside stack, add an RA and an Empty Point 
                        while (!outside_comp_stack.isEmpty()){
                            nodes_inserted = addRA(outside_comp_stack,
@@ -119,7 +120,7 @@ public class ResourceAcquisition {
                         
                         
                         // for debug - reversed outside stack
-                        System.out.println("Reversed stack");
+                        System.out.println("Original stack");
                         for (int i=0; i<outside_comp_stack.size();i++){
                             System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
                         }
@@ -203,9 +204,10 @@ public class ResourceAcquisition {
         for (int i=0; i<stack_three.size();i++){
             System.out.println("Index: " + i + " Contents " + stack_three.get(i));
         }
-        return reverseStack(stack_three);
+        // return reverseStack(stack_three);
+        return stack_three;
     }
-    
+    /*
     // restructures the given stack so that the first element in is not the last element in
     public Stack reverseStack (Stack stack){
         Stack reversed_stack = new Stack();
@@ -214,6 +216,7 @@ public class ResourceAcquisition {
         }
         return reversed_stack;
     }
+    */
     // inserts RA and Empty Points where necessary in the duplicate map 
     public int addRA(Stack comp_stack,
                      PathNode curr_edge,

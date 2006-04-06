@@ -33,8 +33,8 @@ public class ResponsibilityRefConverter implements AbstractConverter {
         // object attributes
         String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\"" + " " +
                                      "name =\"" + resp.getName() +"\"" + " " +                                                                      
-                                     "predecessor =\"h" + source +"\"" + " " +                                        
-                                     "successor= \"h" + target + "\"";
+                                     "predecessor =\"h" + source.toString().subSequence(1,(source.toString().length()-1)) +"\"" + " " +                                        
+                                     "successor= \"h" + target.toString().subSequence(1,(target.toString().length()-1)) + "\"";
         ps.print("           " + mandatory_attribute);
         String closing_attribute = "/>";
         
