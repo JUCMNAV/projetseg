@@ -24,7 +24,7 @@ public class PathConnAttributes {
                                    ArrayList target){
 
 		printDescription(ps, af);
-		printTracebilityLink(ps, af);
+		// printTracebilityLink(ps, af);
 		printSource(ps, af, source);
 		printTarget(ps, af, target);
 	}

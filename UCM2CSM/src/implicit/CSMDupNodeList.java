@@ -183,6 +183,5 @@ public class CSMDupNodeList {
                 System.out.println("Node: " + node + " deleted!");
             }          
         }
-    }
-    
+    }    
 }

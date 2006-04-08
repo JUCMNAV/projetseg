@@ -237,7 +237,7 @@ public class Convert implements IURNExport {
         // object attributes              
         String dummy_attributes = "<Step id=\"" + id + "\"" + " " +
                                     "name= \"" + name + "\"" + " " +
-                                    "predecessor= \"h" + predecessor + "\"" + 
+                                    "predecessor= \"h" + predecessor + "\"" + " " +
                                     "successor= \"h" + successor + "\"" + "/>";        
         // output to file
         ps.println("            " + dummy_attributes);

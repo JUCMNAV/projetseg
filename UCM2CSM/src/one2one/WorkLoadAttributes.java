@@ -26,8 +26,9 @@ public class WorkLoadAttributes {
     // workload optional attributes -- to be implemented
     public static void printArrivalPattern(PrintStream ps, Workload work) {
     	 if (work.getArrivalPattern() != null){
-    		 String print_aPattren = "arrivalPattern=\"" + work.getArrivalPattern() + "\"" + " " ;
+    		String print_aPattren = "arrivalPattern=\"" + work.getArrivalPattern() + "\"" + " " ;
 	        ps.print(print_aPattren);
+	        // target.toString().subSequence(1,(target.toString().length()-1))
 	       }
     }
     public static void printArrivalParam1(PrintStream ps, Workload work) {
@@ -76,7 +77,7 @@ public class WorkLoadAttributes {
     }
     public static void responseTime(PrintStream ps, Workload work) { 
     	if (work.getRespTime() != null){
-    		String print_respTime = "ResponesTime=\"" + work.getRespTime() + "\"" + " " ;
+    		String print_respTime = "ResponseTime=\"" + work.getRespTime() + "\"" + " " ;
 	        ps.print(print_respTime);
 	       }
     }
