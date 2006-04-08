@@ -48,7 +48,7 @@ public class EndPointConverter implements AbstractConverter {
         System.out.println("OutBindings list: " + ep.getOutBindings());
         ps.print(" " + source_attribute);
        }*/
-       oa.outbinding(ps, ep);
+       //oa.outbinding(ps, ep);
        oa.OptionalAttributes((PathNode) ep,  ps, source, target);
    
        // output to file             

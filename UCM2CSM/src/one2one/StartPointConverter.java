@@ -33,19 +33,8 @@ public class StartPointConverter implements AbstractConverter {
 
        // common attributes
        ps.print("            " + mandatory_attributes);
-      /* if (!sp.getInBindings().isEmpty()){
-           String inbind = "";
-           for (int i=0;i<sp.getInBindings().size(); i++){
-        	   String in_bind_str = sp.getInBindings().get(i).toString();
-         	   String in_bind_id = in_bind_str.substring(28,(in_bind_str.length()-1));
-               inbind += in_bind_id;            
-           }
-         String source_attribute = "Inbinding= \"" +inbind +"\"";
-         System.out.println("CSM Rep " + source_attribute);
-         System.out.println("InBindings list: " + sp.getInBindings());
-         ps.print(" " + source_attribute);
-        }*/
-       oa.inbinding(ps, sp);
+      
+       //oa.inbinding(ps, sp);
        // optional attributes
        oa.OptionalAttributes((PathNode) sp,  ps, source, target);
        

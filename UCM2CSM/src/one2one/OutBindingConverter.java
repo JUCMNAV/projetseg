@@ -30,8 +30,7 @@ public class OutBindingConverter implements AbstractConverter{
       String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1)); 
       
       // object attributes
-      String Object_attributes = "<outbinding id=\"" + out_bind_id + "\"" + " " +
-                                 "end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
+      String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
 		                         "out=\"" + "h" + ((PathNode)out_bind.getStubExit().getTarget()).getId() +"\"/>";
 		        
       // output to file

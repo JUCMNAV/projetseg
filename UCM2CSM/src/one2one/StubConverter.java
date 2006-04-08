@@ -25,6 +25,7 @@ public class StubConverter implements AbstractConverter {
   
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target){
+     ((PluginBinding) stub.getBindings().get(0)).getProbability();
      
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +

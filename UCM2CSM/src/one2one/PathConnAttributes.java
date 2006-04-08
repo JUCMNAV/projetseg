@@ -59,13 +59,13 @@ public class PathConnAttributes {
 	    }
 	}
 	
-	public static void printTracebilityLink (PrintStream ps, PathNode pathnode) {
+/*	public static void printTracebilityLink (PrintStream ps, PathNode pathnode) {
 	    if (pathnode.getId() != null){
 	        String tracebility_attribute = " Tracebilitylink=\"h" + pathnode.getId() +"\"";
 	        ps.print(tracebility_attribute);
 	    }
 	}
-    
+    */
 	// prints inbinding attribute
     public void inbinding(PrintStream ps, StartPoint sp) {
     	if (!sp.getInBindings().isEmpty()){

@@ -22,18 +22,19 @@ public class PluginBindingConverter implements AbstractConverter{
 	   // object attributes
 
 	   String object_attributes = "<Refinement parent=\"" + "h" + p_bind.getStub().getId() + "\"" + " " +
-                                  "sub=\"" + "h" + p_bind.getPlugin().getId() +"\"/>";
+                                  "sub=\"" + "m" + p_bind.getPlugin().getId() +"\">";
        // output to file
        ps.println("            " + object_attributes);
 	      
        // get inbindings 
+       
       for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
          InBinding in_bind = (InBinding) inbind_iter.next(); 
          InBindingConverter in_bind_conv = new InBindingConverter(in_bind);
          // output to file
          in_bind_conv.Convert(ps, source, target);               
       }
-       
+      //String bind_attributes = "inbinding id=\"" +  + "\"" ;
       // get outbindings      
       for (Iterator outbind_iter = p_bind.getOut().iterator(); outbind_iter.hasNext();) {
           OutBinding out_bind = (OutBinding) outbind_iter.next(); 

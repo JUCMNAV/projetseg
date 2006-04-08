@@ -27,8 +27,7 @@ public class InBindingConverter implements AbstractConverter{
         String in_bind_id = in_bind_str.substring(28,(in_bind_str.length()-1)); 
         
 	    // object attributes
-	    String Object_attributes = "<inbinding id=\"" + in_bind_id + "\"" + " " +
-                                    "start=\"" + "h" + in_bind.getStartPoint().getId() + "\"" + " " + 
+	    String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\"" + " " + 
                                     "in=\"" + "h" + ((PathNode)in_bind.getStubEntry().getSource()).getId() + "\"/>";
 	    // output to file
 	    ps.println("               " + Object_attributes);
