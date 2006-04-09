@@ -89,15 +89,15 @@ public class ComponentConverter {//implements AbstractConverter {
 		 String close = "/>";
 
 
-		 String comp_attributes_sub = "sub=\"" + children + "\"";
+		 String comp_attributes_sub = "sub=\"" + children + "\"" + " ";
 
 		 System.out.println("Children: " +comp_attributes_sub);
 
-		 String comp_attributes_parent = "parent=\"" + parent + "\"";
+		 String comp_attributes_parent = "parent=\"" + parent + "\"" + " ";
 
 		 System.out.println("parent: " + comp_attributes_parent);
 
-		 String comp_attributes_active_process = "is_active_process =\"" + activeP + "\"";
+		 String comp_attributes_active_process = "is_active_process =\"" + activeP + "\"" + " ";
 
 		 System.out.println("Active? " + comp_attributes_active_process);
 
