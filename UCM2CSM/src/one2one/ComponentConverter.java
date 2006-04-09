@@ -46,7 +46,7 @@ public class ComponentConverter {//implements AbstractConverter {
 		//check the type of the component; if the type is process, agent or team set activeP to true
 
 		//set up the boolean value is_active_process to true if component is Process, Team or Agent
-		String type = new String();
+
 		type = compDef.getKind().toString();
 		if (type.compareTo("Process")== 0 || type.compareTo("Team") == 0 ||
 					type.compareTo("Agent") == 0)
