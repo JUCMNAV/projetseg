@@ -14,14 +14,14 @@ import ucm.performance.Workload;
 
 public class WorkLoadAttributes {
     public void workAttributes(Workload work, PrintStream ps){
-    	printArrivalPattern(ps, work);
+    //	printArrivalPattern(ps, work);
     	printArrivalParam1(ps, work);
     	printArrivalParam2(ps, work);
     	externalDelay(ps, work);
     	value(ps, work);
     	coeffSeq(ps, work);
     	description(ps, work);
-    	responseTime(ps, work);
+    //	responseTime(ps, work);
     }
     // workload optional attributes -- to be implemented
     public static void printArrivalPattern(PrintStream ps, Workload work) {

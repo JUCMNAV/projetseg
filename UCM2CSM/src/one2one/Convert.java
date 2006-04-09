@@ -323,13 +323,43 @@ public class Convert implements IURNExport {
     // retrieve list of source nodes
     public ArrayList getSources(CSMDupConnectionList dupMapConnlist, String edge_id){
         ArrayList sources = new ArrayList();        
-        for (int i=0; i < dupMapConnlist.size();i++){               
-            // if more than one target node is repeated, create a list of sources for each instance of that target
-            String source_id = dupMapConnlist.get(i).getSourceStr();
-            String target_id = dupMapConnlist.get(i).getTargetStr();                     
-            if (target_id.compareTo(edge_id) == 0){                     
-                sources.add(source_id);                     
-            } // if              
+        for (int i=0; i < dupMapConnlist.size();i++){                           
+        	String add_h = "h";
+        	/*
+        	String source_id = null;
+        	String target_id = null;
+        	if (dupMapConnlist.get(i).getSourceStr().startsWith("G")){
+        		source_id = dupMapConnlist.get(i).getSourceStr();
+        		target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
+        		if (target_id.compareTo(edge_id) == 0){                     
+                    sources.add(source_id);                     
+                } // if 
+        	}
+        	else if(dupMapConnlist.get(i).getTargetStr().startsWith("G")){
+        		target_id = dupMapConnlist.get(i).getTargetStr();
+        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
+        		if (target_id.compareTo(edge_id) == 0){                     
+                    sources.add(source_id);                     
+                } // if 
+        	}
+        	else{
+        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
+                target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
+                if (target_id.compareTo(add_h.concat(edge_id)) == 0){                     
+                    sources.add(source_id);                     
+                } // if 
+        	}
+        	*/
+      		String source_id = dupMapConnlist.get(i).getSourceStr();
+            String target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());        	
+            if (target_id.compareTo(add_h.concat(edge_id)) == 0){
+            	if (source_id.startsWith("G"))
+            		sources.add(source_id); 
+            	else
+            		sources.add(add_h.concat(source_id));
+                                     
+            } // if
+                          
         } // for
         if (!sources.isEmpty()){
             return sources;
@@ -341,13 +371,43 @@ public class Convert implements IURNExport {
     //  retrieve list of target nodes
     public ArrayList getTargets(CSMDupConnectionList dupMapConnlist, String edge_id){
         ArrayList targets = new ArrayList();        
-        for (int i=0; i < dupMapConnlist.size();i++){               
-            // if more than one target node is repeated, create a list of sources for each instance of that target
-            String source_id = dupMapConnlist.get(i).getSourceStr();
+        for (int i=0; i < dupMapConnlist.size();i++){                           
+        	String add_h = "h";
+        	/*
+        	String source_id = null;
+        	String target_id = null;
+        	if (dupMapConnlist.get(i).getSourceStr().startsWith("G")){
+        		source_id = dupMapConnlist.get(i).getSourceStr();
+        		target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
+        		if (source_id.compareTo(edge_id) == 0){                     
+        			targets.add(target_id);                     
+                } // if 
+        	}
+        	else if(dupMapConnlist.get(i).getTargetStr().startsWith("G")){
+        		target_id = dupMapConnlist.get(i).getTargetStr();
+        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
+        		if (source_id.compareTo(edge_id) == 0){                     
+        			targets.add(target_id);                     
+                } // if 
+        	}
+        	else{
+        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
+                target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
+                if (source_id.compareTo(add_h.concat(edge_id)) == 0){                     
+                	targets.add(target_id);                     
+                } // if 
+        	}
+        	*/
+        	
+            String source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
             String target_id = dupMapConnlist.get(i).getTargetStr();                     
-            if (source_id.compareTo(edge_id) == 0){                     
-                targets.add(target_id);                     
-            } // if              
+            if (source_id.compareTo(add_h.concat(edge_id)) == 0){
+            	if (target_id.startsWith("G"))
+            		targets.add(target_id); 
+            	else
+            		targets.add(add_h.concat(target_id));
+            } // if
+                          
         } // for
         if (!targets.isEmpty()){
             return targets;

@@ -22,7 +22,6 @@ public class PathConnAttributes {
                                    PrintStream ps,
                                    ArrayList source,
                                    ArrayList target){
-
 		printDescription(ps, af);
 		// printTracebilityLink(ps, af);
 		printSource(ps, af, source);
@@ -31,21 +30,58 @@ public class PathConnAttributes {
     
 	// prints the source attribute
 	public static void printSource(PrintStream ps, PathNode pathnode, ArrayList source) {        
-        if (source != null){            
-            String source_attribute = "source= \"h" + source.toString().subSequence(1,(source.toString().length()-1)) +"\"";
+        if (source != null){ 
+        	//String str_source_stage1 = source.toString().replaceAll("[","");
+        	//String str_source_stage2 = str_source_stage1.replaceAll("]","");
+        	//String str_source_stage3 = str_source_stage2.replaceAll(",","");
+        	String str_source = source.toString().substring(1,(source.toString().length()-1));
+        	String refined_source = trimString(',',str_source); // eliminate ','
+            String source_attribute = "source= \"" + refined_source + "\"";
             ps.print(" " + source_attribute);
         }
 	}
+	 
+	// special method - parses a given string and eliminates any char c found
+	public static String trimString(char c, String trim_str){
+		// CharArray str_array = new CharArray(trim_str);
+		// str_array = trim_str;
+		//char nothing = (char)"";
+		String trimmed_str = null;
+		boolean replaced_elements = false;
+		for (int s=0; s < trim_str.length();s++){
+			if (trim_str.charAt(s) == c){
+				trimmed_str = trim_str.replace(trim_str.charAt(s), ' ');
+				replaced_elements = true;
+			}			
+		}
+		if (replaced_elements)
+			return trimmed_str;
+		else
+			return trim_str;
+	}
+	
     // prints the target attribute
 	public static void printTarget(PrintStream ps, PathNode pathnode, ArrayList target) {        
         if (target != null){            
             // special case for StartPoint   
             if (pathnode.getName().compareTo("StartPoint")== 0){
-                String target_attribute = "target= \"h" + target.toString().subSequence(1,(target.toString().length()-1)) + "\"" + ">";
+            	//String str_target_stage1 = target.toString();
+            	
+            	// String str_target_stage2 = (String) (str_target_stage1).replaceAll("]","");
+            	// String str_target_stage3 = (String) (str_target_stage2).replaceAll(",","");
+            	String str_target = (String)target.toString().substring(1,(target.toString().length()-1));
+            	String refined_target = trimString(',',str_target); // eliminate ','
+                String target_attribute = "target= \"" + refined_target + "\"" + ">";
+            	// String target_attribute = "target= \"h" + str_target_stage3 + "\"" + ">";
                 ps.println(" " + target_attribute);
             }
             else {
-                String target_attribute = "target= \"h" + target.toString().subSequence(1,(target.toString().length()-1)) +"\"";
+            	// String str_target_stage1 = target.toString().replaceAll("[","");
+            	// String str_target_stage2 = str_target_stage1.replaceAll("]","");
+            	// String str_target_stage3 = str_target_stage2.replaceAll(",","");
+            	String str_target = (String)target.toString().substring(1,(target.toString().length()-1));
+            	String refined_target = trimString(',',str_target); // eliminate ','
+                String target_attribute = "target= \"" + refined_target + "\"";
                 ps.print(" " + target_attribute);
            }
         }

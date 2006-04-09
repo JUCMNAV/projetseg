@@ -24,7 +24,7 @@ public class InBindingConverter implements AbstractConverter{
 	public void Convert(PrintStream ps, ArrayList source, ArrayList target){
 	    
         String in_bind_str = in_bind.getStubEntry().getInBindings().get(0).toString();        
-        String in_bind_id = in_bind_str.substring(28,(in_bind_str.length()-1)); 
+        // String in_bind_id = in_bind_str.substring(28,(in_bind_str.length()-1)); 
         
 	    // object attributes
 	    String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\"" + " " + 

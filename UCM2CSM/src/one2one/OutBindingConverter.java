@@ -27,7 +27,7 @@ public class OutBindingConverter implements AbstractConverter{
        
       // String out_bind_id = out_bind.getBinding().toString();// substring(32,6);
       String out_bind_str = out_bind.getStubExit().getOutBindings().get(0).toString();            
-      String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1)); 
+     // String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1)); 
       
       // object attributes
       String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
