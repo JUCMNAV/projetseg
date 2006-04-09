@@ -3,8 +3,9 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
-import urncore.ComponentElement;
-import urncore.ComponentKind;
+//import urncore.ComponentElement;
+import urncore.ComponentRegular;
+//import urncore.ComponentKind;
 
 /**
 * <!-- begin-user-doc --> Creates the CSM representation(Component) of the
@@ -16,49 +17,48 @@ import urncore.ComponentKind;
 public class ComponentConverter {//implements AbstractConverter {
 
     // component references
-	private ComponentRef compRef;
+	public ComponentRef compRef;
     private ComponentRef parentCompRef;
     private ComponentRef childrenCompRef;
 
     // component definitions
-	private ComponentElement compDef;
-	private ComponentElement parentCompDef;
-    private ComponentElement childrenCompDef;
+	private ComponentRegular compDef;
+	// private ComponentElement compDef;
+	private ComponentRegular parentCompDef;
+    private ComponentRegular childrenCompDef;
 
     // other variables
     private String children = new String();
     private String parent = new String();
+
     private boolean activeP;
-    private String type = new String();
-
-
+    public String type = new String();
+    
+    
 	// constructors
 	public ComponentConverter(ComponentRef compRef) {
 		this.compRef = compRef;
-		this.compDef = (ComponentElement) compRef.getContDef();
-		this.activeP = false;
+		this.compDef = (ComponentRegular) compRef.getContDef();
 
+		this.activeP = false;
+		
 
 		//check the type of the component; if the type is process, agent or team set activeP to true
 
 		//set up the boolean value is_active_process to true if component is Process, Team or Agent
-
-		if(compDef.getIncludingComponent() != null)
-		{
-			System.out.println("IncludingComponent nije null");
-			type += compDef.getIncludingComponent().getKind().toString();
-			System.out.println("Component type: " + type);
-			if (type.compareTo("Process")== 0 || type.compareTo("Team") == 0 ||
+		String type = new String();
+		type = compDef.getKind().toString();
+		if (type.compareTo("Process")== 0 || type.compareTo("Team") == 0 ||
 					type.compareTo("Agent") == 0)
-			{
-				this.activeP = true;
-			}
+		{
+			this.activeP = true;
 		}
+
 
 		// initialize parent only if a reference to the parent component exists
 		if (((ComponentRef) compRef.getParent()) != null){
 			this.parentCompRef = (ComponentRef) compRef.getParent();
-			this.parentCompDef = (ComponentElement) this.parentCompRef.getContDef();
+			this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
             parent += "c" + this.parentCompDef.getId();
 		}
 		else{
@@ -66,11 +66,12 @@ public class ComponentConverter {//implements AbstractConverter {
 		}
 
 		// retrieve children
-
+		
+		
 
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             this.childrenCompRef = (ComponentRef) iter.next();
-            this.childrenCompDef = (ComponentElement) this.childrenCompRef.getContDef();
+            this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
             children += "c" + this.childrenCompDef.getId() + " ";
        }
 
@@ -83,7 +84,7 @@ public class ComponentConverter {//implements AbstractConverter {
 
 		 String comp_attributes = "<Component id=\"" + "c" + compDef.getId() + "\"" + " " + 
 		 						  "name=\"" + compDef.getName() + "\"" + " " +
-		 						  "host=\"" + " " + "\"" + " ";
+		 						  "host=\"" + "h1000" + "\"" + " ";
 
 		 String close = "/>";
 
@@ -102,31 +103,33 @@ public class ComponentConverter {//implements AbstractConverter {
 
 
 
-		// 
+	
 		 
 		 ps.print("            " + comp_attributes);
-		
+
+
+
 		 if(activeP != false)
 		 {
 			 ps.print(comp_attributes_active_process);
+
 		 }
-		 
+
 		 if(parent.compareTo(" ") != 0)
 		 {
 			 ps.print(comp_attributes_parent);
 		 }
-		 
 		 if(children.compareTo("") != 0)
 		 {
 			 ps.print(comp_attributes_sub);
 		 }
-
-		 
-		 ps.println(" " + close);
 		
-		 ps.flush();
+		 ps.println(" " + close);
+		ps.flush();
+
+		
 
 	}
-
 }
+
 
