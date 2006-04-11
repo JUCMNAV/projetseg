@@ -12,6 +12,7 @@ import one2one.EndPointConverter;
 import one2one.OrForkConverter;
 import one2one.OrJoinConverter;
 import one2one.PluginBindingConverter;
+import one2one.ProcessingResourceConverter;
 import one2one.ResponsibilityRefConverter;
 import one2one.StartPointConverter;
 import one2one.StubConverter;
@@ -26,6 +27,7 @@ import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.performance.ProcessingResource;
 /**
  * <!-- begin-user-doc -->
  * A CSMDupNode is a reference to a node in the original UCMmap
@@ -66,12 +68,8 @@ public class CSMDupNode {//extends PathNodeImpl {
     private PathNode node;
     
     // id for ra, rr or sequence
-    private String node_id; // = "";
-    
-    // redefining source and target for nodes on duplicate map
-    //String source = "";
-    //String target = "";
-            
+    private String node_id; 
+              
     // Constructors
     public CSMDupNode(PathNode node)
     {
@@ -219,11 +217,9 @@ public class CSMDupNode {//extends PathNodeImpl {
             ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
             doConvert(obj,ps, source, target);
         }
-        /*
-        else if(node instanceof ProcessingResource){ 
-            ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
-        }
-        */
+        // **** To be implemented ****        
+        else if(node instanceof ProcessingResource){            
+        }        
         else{
             System.out.println("Node not implemented.");
         }                     

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
-//import ucm.performance.Workload;
+
 /**
  * <!-- begin-user-doc -->
  * Creates the CSM representation(Start) of the Start object
@@ -34,14 +34,14 @@ public class StartPointConverter implements AbstractConverter {
        // common attributes
        ps.print("            " + mandatory_attributes);
       
-       //oa.inbinding(ps, sp);
        // optional attributes
        oa.OptionalAttributes((PathNode) sp,  ps, source, target);
        
        // processing workload
        if (sp.getWorkload() != null){           
            String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" ";
-           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + "\" ";
+           String close_wload_attributes = "<CloseWorkload id=\"w" + sp.getWorkload().getId() + " "  +
+                                           "population=\"" + sp.getWorkload().getPopulation() + "\"" + " ";
            
            // decide if workload is open or closed
            if (sp.getWorkload().isClosed()){

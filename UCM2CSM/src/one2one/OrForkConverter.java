@@ -13,8 +13,10 @@ import ucm.map.PathNode;
  * @generated
  */
 public class OrForkConverter implements AbstractConverter{
+    
     private OrFork of;
     PathConnAttributes so = new PathConnAttributes();
+    
 	// constructors
     public OrForkConverter(OrFork of){
        this.of=of;

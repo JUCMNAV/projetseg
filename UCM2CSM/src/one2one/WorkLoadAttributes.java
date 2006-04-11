@@ -14,22 +14,21 @@ import ucm.performance.Workload;
 
 public class WorkLoadAttributes {
     public void workAttributes(Workload work, PrintStream ps){
-    //	printArrivalPattern(ps, work);
+        printArrivalPattern(ps, work);
     	printArrivalParam1(ps, work);
-    	printArrivalParam2(ps, work);
+    	printArrivalParam2(ps, work);        
     	externalDelay(ps, work);
     	value(ps, work);
     	coeffSeq(ps, work);
-    	description(ps, work);
-    //	responseTime(ps, work);
+    	description(ps, work);           
     }
-    // workload optional attributes -- to be implemented
+    
+    // *** To be implemented ***
     public static void printArrivalPattern(PrintStream ps, Workload work) {
     	 if (work.getArrivalPattern() != null){
-    		String print_aPattren = "arrivalPattern=\"" + work.getArrivalPattern() + "\"" + " " ;
-	        ps.print(print_aPattren);
-	        // target.toString().subSequence(1,(target.toString().length()-1))
-	       }
+    		String print_aPattern = "arrivalPattern=\"" + work.getArrivalPattern() + "\"" + " " ;
+	        ps.print(print_aPattern);
+	     }
     }
     public static void printArrivalParam1(PrintStream ps, Workload work) {
     	if (work.getArrivalParam1() != 0.0){
@@ -74,11 +73,5 @@ public class WorkLoadAttributes {
     		String print_tracebility = "TracebilityLink =\"" + work.getId() + "\"" + " " ;
     		ps.print(print_tracebility);
     	}
-    }
-    public static void responseTime(PrintStream ps, Workload work) { 
-    	if (work.getRespTime() != null){
-    		String print_respTime = "ResponseTime=\"" + work.getRespTime() + "\"" + " " ;
-	        ps.print(print_respTime);
-	       }
-    }
+    }   
 }

@@ -13,8 +13,10 @@ import ucm.map.PathNode;
  * @generated
  */
 public class OrJoinConverter implements AbstractConverter {
+    
 	private OrJoin oj;
     PathConnAttributes so = new PathConnAttributes();
+    
 	// constructors
     public OrJoinConverter(OrJoin oj){
       this.oj = oj;

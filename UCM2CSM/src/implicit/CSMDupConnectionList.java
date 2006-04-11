@@ -9,7 +9,7 @@ import ucm.map.UCMmap;
 
 /**
  * <!-- begin-user-doc -->
- * A CSMDupConnection List a list of references to all the connections in the UCMap
+ * A CSMDupConnectionList is a list of references to all the connections in the UCMap
  * <!-- end-user-doc -->
  * @see implicit 
  * @generated
@@ -52,6 +52,7 @@ public class CSMDupConnectionList {
     public void remove(CSMDupConnection conn){
         connList.remove(conn);
     }
+    
     // scans connections list and remove connection having the given target and source
     public void remove(CSMDupNode source, PathNode target){
         for(int i=0; i<connList.size();i++){  
@@ -118,11 +119,8 @@ public class CSMDupConnectionList {
        for(int i=0; i<connList.size();i++){
            if ((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMSource() != null && 
                (PathNode)((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMSource()).getNode() != null){
-               if ((PathNode)((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMSource()).getNode() == source){
-                   // if (((CSMDupConnection)connList.get(i)).getSource() == source){
-                   //PathNode target = ((CSMDupConnection)connList.get(i)).getTarget();
-                   CSMDupNode target = ((CSMDupConnection)connList.get(i)).getCSMTarget();
-                   // return new CSMDupNode (target);
+               if ((PathNode)((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMSource()).getNode() == source){ 
+                   CSMDupNode target = ((CSMDupConnection)connList.get(i)).getCSMTarget();                  
                    return target;
                }
            }
@@ -138,91 +136,39 @@ public class CSMDupConnectionList {
         }
         return null;
      }
-    
-        
+            
     // checks if list is empty
     public boolean isEmpty(){
        return connList.isEmpty();                
     }
-        /*    
-    // returns the id of the node following to this one
-    public String getPredecessor(int i){
-      
-       if (i <= 0){
-           return "null";
-       }
-       else{    
-           // if previous node is an RA or RR return its id
-           int type = ((CSMDupNode)(pathList.get(i-1))).getType();
-           if (type == CSMDupNode.RA || type == CSMDupNode.EMPTY || type == CSMDupNode.RR )
-               return ((CSMDupNode)(pathList.get(i-1))).getId();
-           // if previous node is a pathnode return its id
-           else 
-               return ((CSMDupNode)(pathList.get(i-1))).getNode().getId();
-       }
-      
-        return "";
-    }
-
-    // returns the node previous to this one
-    public String getSuccessor(int i){
-        /*
-        if (i >= pathList.size()-1){
-            return "null";
-        }
-        else{    
-            // if previous node is an RA or RR return its id
-            int type = ((CSMDupNode)(pathList.get(i+1))).getType();
-            if (type == CSMDupNode.RA || type == CSMDupNode.EMPTY || type == CSMDupNode.RR )            
-                return ((CSMDupNode)(pathList.get(i+1))).getId();
-            // if previous node is a pathnode return its id
-            else 
-                return ((CSMDupNode)(pathList.get(i+1))).getNode().getId();
-        } 
-     
-        return"";
-    }
-    */
+  
     // recursively builds list of previous edges    
-    public void getPrevEdgeList(String target, ArrayList sources){
-        System.out.println("----------Building Previous Edge List-----------");
-        System.out.println("List size " + connList.size());
+    public void getPrevEdgeList(String target, ArrayList sources){        
         for(int i=0; i < connList.size();i++){
-            String target_str = ((CSMDupConnection)connList.get(i)).getTargetStr();
-            System.out.println("target_str " + target_str);
-            System.out.println("target " + target);
+            String target_str = ((CSMDupConnection)connList.get(i)).getTargetStr();            
             if (target_str == target){
-                String source_str = ((CSMDupConnection)connList.get(i)).getSourceStr();
-                System.out.println("source_str (1) = " + source_str);
-                getPrevEdgeList(source_str, sources); // recursive call
-                System.out.println("source_str (2) = " + source_str);
-                if (((CSMDupConnection)connList.get(i)).getCSMSource().isPathNode()){
-                    System.out.println("Adding ");
+                String source_str = ((CSMDupConnection)connList.get(i)).getSourceStr();            
+                getPrevEdgeList(source_str, sources); // recursive call                
+                if (((CSMDupConnection)connList.get(i)).getCSMSource().isPathNode()){                    
                     sources.add(((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMSource()).getNode());
-                }
-                
-            }
-        }
-    }
+                } // if                
+            } // if
+        } // for
+    } // method
     
     // recursively builds list of next edges    
-    public void getNextEdgeList(String source, ArrayList targets){
-        System.out.println("----------Building Next Edge List-----------");
-        System.out.println("List size " + connList.size());        
+    public void getNextEdgeList(String source, ArrayList targets){        
         for(int i=0; i<connList.size();i++){  
-            String source_str = ((CSMDupConnection)connList.get(i)).getSourceStr();
-            System.out.println("target_str " + source_str);
-            System.out.println("target " + source);
+            String source_str = ((CSMDupConnection)connList.get(i)).getSourceStr();            
             if (source_str == source){
                 String target_str = ((CSMDupConnection)connList.get(i)).getTargetStr();
                 getNextEdgeList(target_str, targets); // recursive call
-                if (((CSMDupConnection)connList.get(i)).getCSMTarget().isPathNode()){
-                    System.out.println("Adding Next edge ");
+                if (((CSMDupConnection)connList.get(i)).getCSMTarget().isPathNode()){            
                     targets.add(((CSMDupNode)((CSMDupConnection)connList.get(i)).getCSMTarget()).getNode());
-                }                
-            }
-        }
-    }
+                } // if                
+            } // if
+        } // for
+    } //method
     
     // reverses any given list
     public ArrayList reverseList(ArrayList list){
@@ -233,25 +179,7 @@ public class CSMDupConnectionList {
         }
         return reversed_list;
     }
-    /*
-    // recursively builds list of next edges    
-    public void getNextEdgeList(String source, ArrayList targets){
-        System.out.println("----------Building Next Edge List-----------");
-        System.out.println("List size " + connList.size());
-        
-        for(int i=0; i<connList.size();i++){  
-            String source_str = ((CSMDupConnection)connList.get(i)).getSourceStr();
-            System.out.println("target_str " + source_str);
-            System.out.println("target " + source);
-            if (source_str == source){
-                String target_str = ((CSMDupConnection)connList.get(i)).getTargetStr();
-                getNextEdgeList(target_str, targets); // recursive call
-                if (((CSMDupConnection)connList.get(i)).isNodeConnection())
-                    targets.add(((CSMDupConnection)connList.get(i)).getTarget());
-            }
-        }
-    }
-    */
+
     //  given a source node, searches the list for the target nodes associated to that source 
     public ArrayList getTargetFromList(String source){
         ArrayList targets = new ArrayList(1000);

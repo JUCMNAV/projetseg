@@ -15,6 +15,7 @@ import ucm.map.PathNode;
  */
 
 public class AndForkConverter implements AbstractConverter{
+    
 	    private AndFork af;
 	    PathConnAttributes oa = new PathConnAttributes();
         
@@ -29,6 +30,7 @@ public class AndForkConverter implements AbstractConverter{
 	        // object attributes           
 	        String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\" ";
 	        ps.print("			" + id_attribute);
+            
 	        String closing_attribute = "/>";
 	        
 	        // optional attributes

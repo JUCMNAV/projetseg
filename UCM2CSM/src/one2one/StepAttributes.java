@@ -14,34 +14,21 @@ import ucm.map.PathNode;
 public class StepAttributes {
     public void OptionalAttributes(PathNode af,
                                    PrintStream ps){                                   
-                printDescription(ps, af);
+          printDescription(ps, af);
     }
-    // step optional attributes -- to be implemented
-    public static void hostDemand(PrintStream ps, PathNode pathnode) { 
     
-    
-    	
+    // *** To be implemented ***
+    public static void hostDemand(PrintStream ps, PathNode pathnode) {     	
     }
-   // public static void probability(PrintStream ps, PathNode pathnode) { 
-    	    	
-   // }
-   // public static void repCount(PrintStream ps, PathNode pathnode) {        
-   // }
-    //public static void externalDelay(PrintStream ps, PathNode pathnode) {        
-    //}
+    
+    // *** To be implemented ***
     public static void Component(PrintStream ps, PathNode pathnode) {        
     }
-/*    public static void perfMeasureTrigger(PrintStream ps, PathNode pathnode) { 
-    	
-    	
-    }
-    public static void perfMeasureEnd(PrintStream ps, PathNode pathnode) {        
-    }*/
-    
- //   public static void externalDemand(PrintStream ps, PathNode pathnode) {        
- //   }
+
+    //  *** To be implemented ***    
     public static void tracebilityLink(PrintStream ps, PathNode pathnode) {        
     }
+    
     //  prints description attribute
     public static void printDescription(PrintStream ps, PathNode pathnode) {
         if (pathnode.getDescription() != null){

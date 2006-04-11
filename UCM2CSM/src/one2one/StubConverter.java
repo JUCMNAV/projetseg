@@ -15,9 +15,11 @@ import ucm.map.Stub;
  * @generated
  */
 public class StubConverter implements AbstractConverter {
+    
     private Stub stub;
-    StepAttributes sa = new StepAttributes();
+    StepAttributes sa = new StepAttributes();    
     private PluginBinding ao;
+    
     // constructors
     public StubConverter(Stub stub){
        this.stub = stub;
@@ -29,8 +31,7 @@ public class StubConverter implements AbstractConverter {
      
        // object attributes         
        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " +
-                                    "name=\"" + stub.getName() + "\"" + " " +
-                                    // "hostDemand=\"" + "1" + "\"" + " " +                             
+                                    "name=\"" + stub.getName() + "\"" + " " +                                 
                                     "predecessor=\"" + "" + source.toString().subSequence(1,(source.toString().length()-1)) + "\"" + " " +
                                     "successor=\"" + "" + target.toString().subSequence(1,(target.toString().length()-1)) +"\"";
        
@@ -38,12 +39,10 @@ public class StubConverter implements AbstractConverter {
        String closing_attribute = "/>";
        
        // optional attributes
-       //PathConnAttributes.printDescription(ps, stub);
        sa.OptionalAttributes(stub, ps);
        
        // output to file
        ps.println(closing_attribute);
-       ps.flush();                    
-                    
+       ps.flush();                                        
     }
 }

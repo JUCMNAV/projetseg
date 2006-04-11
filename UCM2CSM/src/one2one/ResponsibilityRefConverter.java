@@ -14,9 +14,7 @@ import ucm.map.RespRef;
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;
-    StepAttributes sa = new StepAttributes();
-    // PathNode successor;
-    // PathNode predecessor;    
+    StepAttributes sa = new StepAttributes();     
     
     // constructors
     public ResponsibilityRefConverter(RespRef resp){
@@ -26,20 +24,16 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target){
         
-        // retrieve target/source        
-        // successor = (PathNode) ((NodeConnection)resp.getSucc().get(0)).getTarget();
-        // predecessor = (PathNode) ((NodeConnection)resp.getPred().get(0)).getSource();         
-        
         // object attributes
         String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\"" + " " +
                                      "name =\"" + resp.getName() +"\"" + " " +                                                                      
                                      "predecessor =\"" + source.toString().subSequence(1,(source.toString().length()-1)) +"\"" + " " +                                        
                                      "successor= \"" + target.toString().subSequence(1,(target.toString().length()-1)) + "\"";
+        
         ps.print("           " + mandatory_attribute);
         String closing_attribute = "/>";
         
-        // optional attributes
-        //PathConnAttributes.printDescription(ps, resp);
+        // optional attributes        
         sa.OptionalAttributes(resp, ps);
         
         // output to file

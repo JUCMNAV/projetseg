@@ -93,71 +93,7 @@ public class Convert implements IURNExport {
         
         // Generate XML tags
         saveXML(ps, dupMaplist, dupMapConnList, comp_map);
-        /*
-        // code for explicit transformation (remains to be integrated with implicit
-        int i=0;
-		for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
-            i++;
-		    PathNodeImpl node = (PathNodeImpl) iter2.next();
-            // System.out.println("Read Node " + i + ": " + node.toString());            
-            
-		    // if UCM object is found, generate CSM representation
-		    if(node instanceof OrJoin){
-		       OrJoinConverter obj = new OrJoinConverter((OrJoin)node); 
-		       doConvert(obj,ps);               
-		    }		    
-            else if(node instanceof AndJoin){
-		        AndJoinConverter obj = new AndJoinConverter((AndJoin)node); 
-		        doConvert(obj,ps);
-		    }
-            else if(node instanceof OrFork){
-			    OrForkConverter obj = new OrForkConverter((OrFork)node); 
-			    doConvert(obj,ps);
-            }
-            else if(node instanceof AndFork){
-			    AndForkConverter obj = new AndForkConverter((AndFork)node); 
-			    doConvert(obj,ps);
-			}            
-            else if(node instanceof StartPoint){
-                StartPointConverter obj = new StartPointConverter((StartPoint)node); 
-                doConvert(obj,ps);
-            }
-            else if(node instanceof EndPoint){
-                EndPointConverter obj = new EndPointConverter((EndPoint)node); 
-                doConvert(obj,ps);
-            } 
-            else if(node instanceof EmptyPoint){
-		 	    EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint)node);
-		 	    doConvert(obj,ps);
-		 	}
-            else if(node instanceof Stub){
-                StubConverter obj = new StubConverter((Stub)node);
-                doConvert(obj,ps);                
-            }
-            else if(node instanceof RespRef){
-                ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef)node);
-                doConvert(obj,ps);
-            }
-            
-            else if(node instanceof ProcessingResource){ 
-            	ProcessingResourceConverter obj = new ProcessingResourceConverter((ProcessingResource)node);
-            }
-            
-            else{
-                System.out.println("Node not implemented.");
-            }                     
-		} // for
-            */
-        /*
-		// looking at stub for inbindings and outbindings
-        for (Iterator iter4 = map.getParentStub().iterator(); iter4.hasNext();) {        	
-        	PluginBinding binding = (PluginBinding) iter4.next();        	        	
-        	if(binding instanceof PluginBinding){
-                PluginBindingConverter obj = new PluginBindingConverter(binding);
-                doConvert(obj,ps);
-            }
-        }
-		*/
+
 		// parsing the map for components      
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef cref = (ComponentRef) iter3.next();              
@@ -182,44 +118,27 @@ public class Convert implements IURNExport {
                           Hashtable comp_map,                          
                           PrintStream ps){         
         ResourceAcquisition ra = new ResourceAcquisition(ps);
-        ResourceRelease rr = new ResourceRelease(ps);
-        System.out.println("*********In Transform*************");
-        list.printDupList(); // debug
-        conn_list.printDupList(); // debug
+        ResourceRelease rr = new ResourceRelease(ps);        
         int i = 0;
-        int list_size = list.size();
-        // System.out.println("List size: " + list.size());
+        int list_size = list.size();        
         while (i < list_size){    
-            CSMDupNode node = (CSMDupNode) list.get(i); // current edge
-            // System.out.println("Read Node " + i + ": " + node.toString());
-            // System.out.println("Reading type: " + node.getType());
+            CSMDupNode node = (CSMDupNode) list.get(i); // current edge            
             if(node.getType() == CSMDupNode.START ||
                node.getType() == CSMDupNode.END   ||
                node.getType() == CSMDupNode.STUB  ||
                node.getType() == CSMDupNode.RESPREF){
+                
                // keep track of all nodes inserted prior to current edge
-               PathNode curr_node = node.getNode(); 
-               // ResourceAcquisition ra = new ResourceAcquisition(ps);
-               ra.acquireResource(curr_node, list, conn_list, comp_map);
-               //ResourceRelease rr = new ResourceRelease(ps);
-               list.printDupList(); // debug
-               conn_list.printDupList(); // debug
-               rr.releaseResource(curr_node, list, conn_list, comp_map);
-               /*
-               i = i + ra_node_insert;
-               list_size+=ra_node_insert;
-               i = i + rr_node_insert;
-               list_size+=rr_node_insert;
-               */
+               PathNode curr_node = node.getNode();             
+               ra.acquireResource(curr_node, list, conn_list, comp_map);          
+               rr.releaseResource(curr_node, list, conn_list, comp_map);           
             }
             else {
                 System.out.println("Unhandled type = " + node.getType());
             }
             i++;
         }
-
-        //  normalize duplicate map -- does not work yet!
-        // normalize(list, conn_list);
+        // eliminate duplicate empty points and add dummy Steps
         eliminateAdjacentEmptyPoints(list, conn_list);
         addDummy(list, conn_list);
     }
@@ -229,6 +148,7 @@ public class Convert implements IURNExport {
                                String id,
                                PrintStream ps,
                                CSMDupConnectionList list){
+        
         // initializing attributes
         String name = "Dummy";
         String successor = list.getTargetForSource (node.getId());
@@ -236,9 +156,9 @@ public class Convert implements IURNExport {
         
         // object attributes              
         String dummy_attributes = "<Step id=\"" + id + "\"" + " " +
-                                    "name= \"" + name + "\"" + " " +
-                                    "predecessor= \"h" + predecessor + "\"" + " " +
-                                    "successor= \"h" + successor + "\"" + "/>";        
+                                  "name= \"" + name + "\"" + " " +
+                                  "predecessor= \"h" + predecessor + "\"" + " " +
+                                  "successor= \"h" + successor + "\"" + "/>";        
         // output to file
         ps.println("            " + dummy_attributes);
         ps.flush();     
@@ -249,72 +169,44 @@ public class Convert implements IURNExport {
                         CSMDupNodeList dupMaplist,
                         CSMDupConnectionList dupMapConnlist,
                         Hashtable comp_map){
-        // ResourceAcquisition ra = new ResourceAcquisition(ps);
-        // ResourceRelease rr = new ResourceRelease(ps);
-        dupMaplist.printDupList(); // debug
-        dupMapConnlist.printDupList(); // debug
       
         for (int b = 0; b < dupMaplist.size(); b ++){              
-             CSMDupNode curr_node = (CSMDupNode)dupMaplist.get(b);
-             
+             CSMDupNode curr_node = (CSMDupNode)dupMaplist.get(b);             
              // printing RA
-             if (curr_node.getId().startsWith("G1")){
-             // if (curr_node.getType() == CSMDupNode.RA){                 
+             if (curr_node.getId().startsWith("G1")){                              
                  ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());
                  ResourceAcquisition ra = new ResourceAcquisition(ps);                 
                  ra.acquireComp(comp,curr_node, dupMapConnlist);
              }
              // printing RR
-             else if (curr_node.getId().startsWith("G3")){
-             // if (curr_node.getType() == CSMDupNode.RR){                 
+             else if (curr_node.getId().startsWith("G3")){                              
                  ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());
                  ResourceRelease rr = new ResourceRelease(ps);
                  rr.releaseComp(comp,curr_node, dupMapConnlist);
              }
              // printing RA_Sequence
-             else if (curr_node.getId().startsWith("G2")){
-             // if (curr_node.getType() == CSMDupNode.EMPTY){
+             else if (curr_node.getId().startsWith("G2")){             
                  ResourceAcquisition ra = new ResourceAcquisition(ps);
                  ra.acquireEmptyPoint(curr_node, dupMapConnlist);
              }
              // printing RR_Sequence
-             else if (curr_node.getId().startsWith("G4")){
-             // if (curr_node.getType() == CSMDupNode.EMPTY){
+             else if (curr_node.getId().startsWith("G4")){             
                  ResourceRelease rr = new ResourceRelease(ps);
                  rr.acquireEmptyPoint(curr_node,dupMapConnlist);
              }
              // printing dummy Sequence
-             else if (curr_node.getId().startsWith("G5")){
-             // if (curr_node.getType() == CSMDupNode.EMPTY){
-                // ResourceAcquisition ra = new ResourceAcquisition(ps);
-                //  ra.acquireEmptyPoint(curr_node,dupMapConnlist);
+             else if (curr_node.getId().startsWith("G5")){             
                 printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);                 
              }
              else{ // print other objects
                  // initializing attributes
-                 String curr_node_id = ((PathNode)((CSMDupNode)dupMaplist.get(b)).getNode()).getId();
-                 // String successor = dupMapConnlist.getSourceForTarget(curr_node.getId());
-                 // String predecessor = dupMapConnlist.getTargetForSource(curr_node.getId());        
-                 
-                 // determine new source and target of all PathConnection types
-                 // String source = null;
-                 // String target = null;
+                 String curr_node_id = ((PathNode)((CSMDupNode)dupMaplist.get(b)).getNode()).getId();                 
                  // determine new source and target of all PathConnection types
                  ArrayList source = new ArrayList();
                  ArrayList target = new ArrayList();
                  // retrieve list of target/source nodes
                  source = getSources(dupMapConnlist, curr_node_id);
-                 target = getTargets(dupMapConnlist, curr_node_id);
-                 /*
-                 if (b == 0) // start point
-                     target = dupMapConnlist.getSourceForTarget(curr_node.getId());
-                 else if (b == dupMaplist.size() - 1) // end point
-                     source = dupMapConnlist.getTargetForSource(curr_node.getId());        
-                 else{
-                     target = dupMapConnlist.getSourceForTarget(curr_node.getId());
-                     source = dupMapConnlist.getTargetForSource(curr_node.getId());        
-                 }
-                 */
+                 target = getTargets(dupMapConnlist, curr_node_id);   
                  curr_node.printPathNode(ps, source, target);
              }
         } // for
@@ -324,32 +216,7 @@ public class Convert implements IURNExport {
     public ArrayList getSources(CSMDupConnectionList dupMapConnlist, String edge_id){
         ArrayList sources = new ArrayList();        
         for (int i=0; i < dupMapConnlist.size();i++){                           
-        	String add_h = "h";
-        	/*
-        	String source_id = null;
-        	String target_id = null;
-        	if (dupMapConnlist.get(i).getSourceStr().startsWith("G")){
-        		source_id = dupMapConnlist.get(i).getSourceStr();
-        		target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
-        		if (target_id.compareTo(edge_id) == 0){                     
-                    sources.add(source_id);                     
-                } // if 
-        	}
-        	else if(dupMapConnlist.get(i).getTargetStr().startsWith("G")){
-        		target_id = dupMapConnlist.get(i).getTargetStr();
-        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
-        		if (target_id.compareTo(edge_id) == 0){                     
-                    sources.add(source_id);                     
-                } // if 
-        	}
-        	else{
-        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
-                target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
-                if (target_id.compareTo(add_h.concat(edge_id)) == 0){                     
-                    sources.add(source_id);                     
-                } // if 
-        	}
-        	*/
+        	String add_h = "h";  
       		String source_id = dupMapConnlist.get(i).getSourceStr();
             String target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());        	
             if (target_id.compareTo(add_h.concat(edge_id)) == 0){
@@ -358,8 +225,7 @@ public class Convert implements IURNExport {
             	else
             		sources.add(add_h.concat(source_id));
                                      
-            } // if
-                          
+            } // if                          
         } // for
         if (!sources.isEmpty()){
             return sources;
@@ -373,32 +239,6 @@ public class Convert implements IURNExport {
         ArrayList targets = new ArrayList();        
         for (int i=0; i < dupMapConnlist.size();i++){                           
         	String add_h = "h";
-        	/*
-        	String source_id = null;
-        	String target_id = null;
-        	if (dupMapConnlist.get(i).getSourceStr().startsWith("G")){
-        		source_id = dupMapConnlist.get(i).getSourceStr();
-        		target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
-        		if (source_id.compareTo(edge_id) == 0){                     
-        			targets.add(target_id);                     
-                } // if 
-        	}
-        	else if(dupMapConnlist.get(i).getTargetStr().startsWith("G")){
-        		target_id = dupMapConnlist.get(i).getTargetStr();
-        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
-        		if (source_id.compareTo(edge_id) == 0){                     
-        			targets.add(target_id);                     
-                } // if 
-        	}
-        	else{
-        		source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
-                target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
-                if (source_id.compareTo(add_h.concat(edge_id)) == 0){                     
-                	targets.add(target_id);                     
-                } // if 
-        	}
-        	*/
-        	
             String source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
             String target_id = dupMapConnlist.get(i).getTargetStr();                     
             if (source_id.compareTo(add_h.concat(edge_id)) == 0){
@@ -406,8 +246,7 @@ public class Convert implements IURNExport {
             		targets.add(target_id); 
             	else
             		targets.add(add_h.concat(target_id));
-            } // if
-                          
+            } // if                          
         } // for
         if (!targets.isEmpty()){
             return targets;
@@ -438,7 +277,6 @@ public class Convert implements IURNExport {
 
                         // remove 'target' node
                         node_list.remove(target);
-
                         
                         // remove  curr_conn connection
                         conn_list.remove(curr_conn);

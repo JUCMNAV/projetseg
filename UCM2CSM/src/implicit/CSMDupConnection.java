@@ -68,8 +68,7 @@ public class CSMDupConnection {
         {
             this.connection = null;
             this.source_id = source;
-            this.target_id = target.getId();  
-            // this.source_node = source;
+            this.target_id = target.getId();            
             this.target_node = new CSMDupNode (target);
         }
            
@@ -82,6 +81,7 @@ public class CSMDupConnection {
             this.target_node = target;  
         }
         
+        // methods to acquire target/source elements of a connection
         public PathNode getTarget(){
             if (connection != null)
                 return (PathNode) connection.getTarget();
@@ -116,6 +116,7 @@ public class CSMDupConnection {
             target_node = target;
         }
         
+        // checks validity of node connection
         public boolean isNodeConnection(){
             if (connection == null){
                 return false;

@@ -17,6 +17,7 @@ import ucm.map.PathNode;
  */
 
 public class ResourceAcquisition {
+    
     // RA and Empty Point IDs
     static int ra_id = 100;                   
     static int seq_id = 200;    
@@ -28,13 +29,13 @@ public class ResourceAcquisition {
     }
     
     // adds all hyperedge parent components to stack
-    public void findParentsRA(ComponentRef component_ref, Stack edge_stack){
+    public void findParentsRA(ComponentRef component_ref, Stack edge_stack){        
         // The top of the stack is the outermost component        
         ComponentRef parent_ref = (ComponentRef) component_ref.getParent();
         if (parent_ref != null){
             edge_stack.push(parent_ref);
             findParentsRA(parent_ref, edge_stack);
-        }                
+        }            
     }
   
     // Resource Acquire algorithm
@@ -42,30 +43,18 @@ public class ResourceAcquisition {
                                CSMDupNodeList dup_map,
                                CSMDupConnectionList dup_map_conn,
                                Hashtable component_acquire){
-        // list that will store edges to be parsed (will contain pathnodes only)
-        // CSMDupNodeList prev_edge_list = new CSMDupNodeList();
-        int nodes_inserted = 0; // total nodes inserted since last run        
-        // int curr_edge_pos = dup_map.getNodeIndex(curr_edge); // position where to insert node                          
-        Stack curr_edge_stack = new Stack (); // will hold all the parent components of current edge
-        System.out.println("curr_edge: " + curr_edge);
-        ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
-        System.out.println("curr_edge_comp_ref " + curr_edge_comp_ref);
         
+        // list that will store edges to be parsed (will contain pathnodes only)    
+        int nodes_inserted = 0; // total nodes inserted since last run                                          
+        Stack curr_edge_stack = new Stack (); // will hold all the parent components of current edge        
+        ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
+                
         // current edge is inside component 
-        if (curr_edge_comp_ref != null ){
-            
-            boolean done = false;
+        if (curr_edge_comp_ref != null ){                        
             ArrayList prev_edge_list = new ArrayList(1000);
             String curr_edge_id = curr_edge.getId();
             dup_map_conn.getPrevEdgeList(curr_edge_id, prev_edge_list); 
-            
-            // for debug -- Printing prev_edge_list
-            System.out.println("--------Printing prev_edge_list----------");
-            for (int i=0;i<prev_edge_list.size(); i++){
-                System.out.println("Index " + i + " Contents: " + prev_edge_list.get(i));
-            }
-            System.out.println("-----------------------------------------");
-            
+                                    
             // find the parent component of current edge                                        
             curr_edge_stack.push(curr_edge_comp_ref);
             findParentsRA(curr_edge_comp_ref, curr_edge_stack);
@@ -79,29 +68,13 @@ public class ResourceAcquisition {
                     Stack outside_comp_stack = new Stack();
                     // prev edge is a start point                    
                     if (prev_edge_comp_ref == null) {
-                        for (int b = 0; b < curr_edge_stack.size(); b ++){ 
+                       for (int b = 0; b < curr_edge_stack.size(); b ++){ 
                             outside_comp_stack.push(curr_edge_stack.get(b)); 
                        } // for
-                        
-                        // for debug - original outside stack
-                        System.out.println("Original stack- S point");
-                        for (int i=0; i<outside_comp_stack.size();i++){
-                            System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
-                        }
                       
-                       /* 
-                       outside_comp_stack = reverseStack (outside_comp_stack);
-                       
-                       // for debug - reversed outside stack
-                       System.out.println("Reversed stack-S point");
-                       for (int i=0; i<outside_comp_stack.size();i++){
-                           System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
-                       }
-                       */
                        // for every component in the outside stack, add an RA and an Empty Point 
                        while (!outside_comp_stack.isEmpty()){
                            nodes_inserted = addRA(outside_comp_stack,
-                                                  // curr_edge_pos,
                                                   curr_edge, 
                                                   dup_map,
                                                   dup_map_conn,
@@ -118,17 +91,9 @@ public class ResourceAcquisition {
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack,prev_edge_stack);
                         
-                        
-                        // for debug - reversed outside stack
-                        System.out.println("Original stack");
-                        for (int i=0; i<outside_comp_stack.size();i++){
-                            System.out.println("Index: " + i + " Contents " + outside_comp_stack.get(i));
-                        }
-                        
                         // Acquire the components of the parents                        
                         while (!outside_comp_stack.isEmpty()){
                             nodes_inserted = addRA(outside_comp_stack,
-                                                   // curr_edge_pos,
                                                    curr_edge, 
                                                    dup_map,
                                                    dup_map_conn,
@@ -143,7 +108,6 @@ public class ResourceAcquisition {
             // Must be a start point, acquire the components                        
             while (!curr_edge_stack.isEmpty()){
                 nodes_inserted = addRA(null,
-                                       // curr_edge_pos,
                                        curr_edge, 
                                        dup_map,
                                        dup_map_conn,    
@@ -151,7 +115,6 @@ public class ResourceAcquisition {
                                        component_acquire);
             }
         } // else        
-
         return nodes_inserted;
     } // function
     
@@ -165,14 +128,12 @@ public class ResourceAcquisition {
         String predecessor = list.getSourceForTarget(node.getId());
         
         // object attributes 
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" +
-                               " name=\"" + " " + "\"" +   
-                               " acquire=\"" + "c" + comp.getId() + "\"";  
-                             //   " predecessor=\"" + "h" + predecessor + "\"" +
-                             //  " successor=\"" + "h" + successor + "\"" + "/>";
+        String ra_attributes  = "<ResourceAcquire id=\"" + node.getId() + "\"" +
+                                " name=\"" + " " + "\"" +   
+                                " acquire=\"" + "c" + comp.getId() + "\"";   
         String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
-        String ra_successor = " successor=\"" + "h" + successor + "\"";
-        String end_ra = "/>";
+        String ra_successor   = " successor=\"" + "h" + successor + "\"";
+        String end_ra         = "/>";
         
         // special naming convention for RR/RA objects
         if (predecessor.startsWith("G")){
@@ -200,11 +161,9 @@ public class ResourceAcquisition {
         
         // object attributes              
         String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " "; 
-                                    // "target= \"h" + target + "\"" + " " +
-                                    // "source= \"h" + source + "\"" + "/>";
-        String epoint_target = "target= \"h" + target + "\"" + " ";
-        String epoint_source = "source= \"h" + source + "\"";
-        String epoint_end = "/>";
+        String epoint_target     = "target= \"h" + target + "\"" + " ";
+        String epoint_source     = "source= \"h" + source + "\"";
+        String epoint_end        = "/>";
         
         // special naming convention for RR/RA objects
         if (source.startsWith("G")){
@@ -230,29 +189,13 @@ public class ResourceAcquisition {
             if(!stack_two.contains(stack_one.get(i))){
                 stack_three.push(stack_one.get(i));
             }
-        }
-        // for debug - original outside stack
-        System.out.println("Original stack");
-        for (int i=0; i<stack_three.size();i++){
-            System.out.println("Index: " + i + " Contents " + stack_three.get(i));
-        }
-        // return reverseStack(stack_three);
+        }       
         return stack_three;
     }
-    /*
-    // restructures the given stack so that the first element in is not the last element in
-    public Stack reverseStack (Stack stack){
-        Stack reversed_stack = new Stack();
-        for (int i=stack.size()-1; i >= 0;i--){            
-                reversed_stack.add(stack.get(i));                                
-        }
-        return reversed_stack;
-    }
-    */
+    
     // inserts RA and Empty Points where necessary in the duplicate map 
     public int addRA(Stack comp_stack,
-                     PathNode curr_edge,
-                     // int edge_position,
+                     PathNode curr_edge,                     
                      CSMDupNodeList map,
                      CSMDupConnectionList conn_map,
                      int ins_nodes,
@@ -274,9 +217,7 @@ public class ResourceAcquisition {
         if (!comp_stack.isEmpty()){
             ComponentRef comp = (ComponentRef) comp_stack.pop();
             aquire.put(new String(ra_node.getId()),comp);
-        }        
-        // setRaId(ra_id++); // ra_id++;
-        // setRaSeqId(seq_id++); // seq_id++;
+        }         
         return ins_nodes;
     }
     // methods to manipulate RA and Dummy Sequence IDs

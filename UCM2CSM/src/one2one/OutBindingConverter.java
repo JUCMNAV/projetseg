@@ -15,6 +15,7 @@ import ucm.map.PathNode;
  */
 
 public class OutBindingConverter implements AbstractConverter{
+    
 	private OutBinding out_bind;
     
 	// constructors
@@ -25,10 +26,6 @@ public class OutBindingConverter implements AbstractConverter{
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target){
        
-      // String out_bind_id = out_bind.getBinding().toString();// substring(32,6);
-      String out_bind_str = out_bind.getStubExit().getOutBindings().get(0).toString();            
-     // String out_bind_id = out_bind_str.substring(28,(out_bind_str.length()-1)); 
-      
       // object attributes
       String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId()  + "\"" + " " + 
 		                         "out=\"" + "h" + ((PathNode)out_bind.getStubExit().getTarget()).getId() +"\"/>";
@@ -37,7 +34,4 @@ public class OutBindingConverter implements AbstractConverter{
       ps.println("              " + Object_attributes);
       ps.flush();                    
      }
-		    
-
-
 }
