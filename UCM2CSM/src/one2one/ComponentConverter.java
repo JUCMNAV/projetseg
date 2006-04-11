@@ -31,7 +31,7 @@ public class ComponentConverter {//implements AbstractConverter {
     private String children = new String();
     private String parent = new String();
 
-    private boolean activeP;
+    // private boolean activeP;
     public String type = new String();
     
     
@@ -40,20 +40,20 @@ public class ComponentConverter {//implements AbstractConverter {
 		this.compRef = compRef;
 		this.compDef = (ComponentRegular) compRef.getContDef();
 
-		this.activeP = false;
+		// this.activeP = false;
 		
 
 		//check the type of the component; if the type is process, agent or team set activeP to true
 
+        /*
 		//set up the boolean value is_active_process to true if component is Process, Team or Agent
-
 		type = compDef.getKind().toString();
 		if (type.compareTo("Process")== 0 || type.compareTo("Team") == 0 ||
 					type.compareTo("Agent") == 0)
 		{
 			this.activeP = true;
 		}
-
+*/
 
 		// initialize parent only if a reference to the parent component exists
 		if (((ComponentRef) compRef.getParent()) != null){
@@ -82,7 +82,7 @@ public class ComponentConverter {//implements AbstractConverter {
 
 		// object attributes
 
-		 String comp_attributes = "<Component id=\"" + "c" + compDef.getId() + "\"" + " " + 
+		 String comp_attributes = "<Component id=\"" + "c" + compRef.getId() + "\"" + " " + 
 		 						  "name=\"" + compDef.getName() + "\"" + " " +
 		 						  "host=\"" + "h1000" + "\"" + " ";
 
@@ -95,11 +95,11 @@ public class ComponentConverter {//implements AbstractConverter {
 
 		 String comp_attributes_parent = "parent=\"" + parent + "\"" + " ";
 
-		 System.out.println("parent: " + comp_attributes_parent);
+		 // System.out.println("parent: " + comp_attributes_parent);
 
-		 String comp_attributes_active_process = "is_active_process =\"" + activeP + "\"" + " ";
+		 // String comp_attributes_active_process = "is_active_process =\"" + activeP + "\"" + " ";
 
-		 System.out.println("Active? " + comp_attributes_active_process);
+		// System.out.println("Active? " + comp_attributes_active_process);
 
 
 
@@ -108,13 +108,13 @@ public class ComponentConverter {//implements AbstractConverter {
 		 ps.print("            " + comp_attributes);
 
 
-
+/*
 		 if(activeP != false)
 		 {
 			 ps.print(comp_attributes_active_process);
 
 		 }
-
+*/
 		 if(parent.compareTo(" ") != 0)
 		 {
 			 ps.print(comp_attributes_parent);

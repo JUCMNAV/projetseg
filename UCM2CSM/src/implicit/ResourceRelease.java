@@ -147,32 +147,66 @@ public class ResourceRelease {
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());        
-        
+              
         // object attributes 
         String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" +
                                " name=\"" + " " + "\"" +   
-                               " release=\"" + "c" + comp.getId() + "\"" + 
-                               " predecessor=\"" + "h" + predecessor + "\"" + 
-                               " successor=\"" + "h" + successor + "\"" + "/>";  
-                                     
-        ps.println("            " + rr_attributes);         
+                               " release=\"" + "c" + comp.getId() + "\""; 
+                              // " predecessor=\"" + "h" + predecessor + "\"" + 
+                              // " successor=\"" + "h" + successor + "\"" + "/>";
+        
+        String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
+        String rr_successor = " successor=\"" + "h" + successor + "\"";
+        String end_rr = "/>";
+        
+        // special naming convention for RR/RA objects
+        if (predecessor.startsWith("G")){
+            rr_predecessor = " predecessor=\"" + predecessor + "\"";
+        }
+        if (successor.startsWith("G")){
+            rr_successor = " successor=\"" + successor + "\"";
+        }
+                
+        // printing attributes
+        ps.print("            " + rr_attributes);
+        ps.print(" " + rr_predecessor);
+        ps.print(" " + rr_successor);
+        ps.print(" " + end_rr);
+        ps.println("");
     }
     
     //  prints XML representation of Dummy EmptyPoint element
     public void acquireEmptyPoint (CSMDupNode node,
                                    CSMDupConnectionList list){
                                            
+        
         // initializing attributes
         String target = list.getTargetForSource (node.getId());
-        String source = list.getSourceForTarget(node.getId());        
+        String source = list.getSourceForTarget(node.getId());
         
         // object attributes              
-        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " " +
-                                    "target= \"h" + target + "\"" + " " +
-                                    "source= \"h" + source + "\"" + "/>";
-        // output to file
-        ps.println("            " + epoint_attributes);
-        ps.flush();              
+        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " "; 
+                                    // "target= \"h" + target + "\"" + " " +
+                                    // "source= \"h" + source + "\"" + "/>";
+        String epoint_target = "target= \"h" + target + "\"" + " ";
+        String epoint_source = "source= \"h" + source + "\"";
+        String epoint_end = "/>";
+        
+        // special naming convention for RR/RA objects
+        if (source.startsWith("G")){
+            epoint_source = " source=\"" + source + "\"";
+        }
+        if (target.startsWith("G")){
+            epoint_target = " target=\"" + target + "\"";
+        }
+        
+        // output to file        
+        ps.print("            " + epoint_attributes);
+        ps.print(" " + epoint_source);
+        ps.print(" " + epoint_target);
+        ps.print(" " + epoint_end);
+        ps.println("");
+        ps.flush();                       
     }
     
     // calculates the difference between two stacks
