@@ -3,7 +3,6 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
-import ucm.performance.ProcessingResource;
 import urncore.ComponentRegular;
 
 
@@ -70,9 +69,9 @@ public class ComponentConverter {//implements AbstractConverter {
 	// prints XML representation of object to output file
 	public void Convert(PrintStream ps) {
 
-		 // object attributes
+		 // object attributes --- host attribute to be implemanted
 		 String comp_attributes = "<Component id=\"" + "c" + compRef.getId() + "\"" + " " + 
-		 						  "name=\"" + compDef.getName() + "\"" + " " +
+		 						  "name=\"" + compDef.getName() + "\"" + " "+
 		 						  "host=\"" + " " + "\"" + " ";
 		 String close           = "/>";
 

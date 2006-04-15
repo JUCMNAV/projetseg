@@ -40,7 +40,6 @@ public class StubConverter implements AbstractConverter {
        
        // optional attributes
        sa.OptionalAttributes(stub, ps);
-       
        // output to file
        ps.println(closing_attribute);
        ps.flush();                                        

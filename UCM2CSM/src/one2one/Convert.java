@@ -64,17 +64,30 @@ public class Convert implements IURNExport {
         ps.flush(); 
 	}
 	
+	// prints scenario CSM element
+	public void csmScenario(UCMmap map, PrintStream ps){
+		//  map header and footer
+        
+	}
+	
 	private void exportMap(UCMmap map, PrintStream ps) {
         
-        // map header and footer
-        String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
-                                    " " + "name=\"" + map.getName()+ "\"" +
-                                    " " + "description=\"" + map.getDescription()+ "\"" + " " + ">";
-        String close_scenario_tag = "</Scenario>";
-        
+	    String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" +
+        							" " + "name=\"" + map.getName()+ "\"" + 
+        							" " +"transaction=\"" + "false"+ "\"" + " ";
+	    String close_attributes = ">";
+		// optional attributes
+		
+		String close_scenario_tag = "</Scenario>";
+		
         // output to file
-        ps.println("        " + open_scenario_tag);
-       
+		ps.print("        " + open_scenario_tag);
+		
+		if(map.getDescription()!=null){
+			String descr_attribute = "description=\"" + map.getDescription()+ "\"" ;
+			ps.print(descr_attribute);
+		}
+		ps.println(close_attributes);
         /* Create an intermediate map based on original one
          * This map contains references to all PathNodes in the original map as well
          * as references to all the original connections in the map
