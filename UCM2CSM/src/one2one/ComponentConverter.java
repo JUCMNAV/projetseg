@@ -13,7 +13,7 @@ import urncore.ComponentRegular;
 * @see one2one
 * @generated
 */
-public class ComponentConverter {//implements AbstractConverter {
+public class ComponentConverter {
 
     // component references
 	public ComponentRef compRef;
