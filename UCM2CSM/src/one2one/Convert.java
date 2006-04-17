@@ -21,7 +21,9 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import ucm.performance.ProcessingResource;
 import urn.URNspec;
+import urncore.ComponentRegular;
 import urncore.IURNDiagram;
 /**
  * <!-- begin-user-doc -->
@@ -109,7 +111,7 @@ public class Convert implements IURNExport {
 
 		// parsing the map for components      
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
-            ComponentRef cref = (ComponentRef) iter3.next();              
+            ComponentRef cref = (ComponentRef) iter3.next();           
             //  if UCM object is found, generate CSM representation
             if(cref instanceof ComponentRef){                
                 ComponentConverter obj = new ComponentConverter(cref);
@@ -356,7 +358,7 @@ public class Convert implements IURNExport {
                                conn_list_size++;    
                            }                   
                          } // if
-                          else {
+                         else {
                                if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) ||
                                   (next_target.getNode() instanceof Stub))){
                                    // delete empty point

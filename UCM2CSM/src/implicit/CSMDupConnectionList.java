@@ -20,8 +20,7 @@ public class CSMDupConnectionList {
     ArrayList connList = new ArrayList(1000);          
     
     // create list of NodeConnections 
-    public void DuplicateConnection(UCMmap map){        
-                                 
+    public void DuplicateConnection(UCMmap map){                                         
         for (Iterator iter = map.getConnections().iterator(); iter.hasNext();){
             connList.add(new CSMDupConnection ((NodeConnection)iter.next()));
         }

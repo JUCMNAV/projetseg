@@ -31,12 +31,16 @@ public class ComponentConverter {//implements AbstractConverter {
 
     private boolean activeP;
     public String type = new String();
-        
+    
+    public String host = new String();
+ 
+    
+            
 	// constructors
 	public ComponentConverter(ComponentRef compRef) {
 		this.compRef = compRef;
 		this.compDef = (ComponentRegular) compRef.getContDef();
-		
+   
         // processing active_process
         this.activeP = false;
         
@@ -52,7 +56,7 @@ public class ComponentConverter {//implements AbstractConverter {
 		if (((ComponentRef) compRef.getParent()) != null){
 			this.parentCompRef = (ComponentRef) compRef.getParent();
 			this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
-            parent += "c" + this.parentCompDef.getId();
+            parent += "c" + this.parentCompRef.getId();
 		}
 		else{
             parent += " ";
@@ -62,8 +66,9 @@ public class ComponentConverter {//implements AbstractConverter {
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             this.childrenCompRef = (ComponentRef) iter.next();
             this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
-            children += "c" + this.childrenCompDef.getId() + " ";
-       }
+            children += "c" + this.childrenCompRef.getId() + " ";
+       }               
+       
 	}
 
 	// prints XML representation of object to output file
