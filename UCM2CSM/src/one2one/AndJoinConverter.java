@@ -5,38 +5,38 @@ import java.util.ArrayList;
 
 import ucm.map.AndJoin;
 import ucm.map.PathNode;
+
 /**
- * <!-- begin-user-doc -->
- * Creates the CSM representation(Join) of the AndJoin object
- * <!-- end-user-doc -->
- * @see one2one 
+ * <!-- begin-user-doc --> Creates the CSM representation(Join) of the AndJoin object <!-- end-user-doc -->
+ * 
+ * @see one2one
  * @generated
  */
 public class AndJoinConverter implements AbstractConverter {
-    
+
     private AndJoin aj;
     PathConnAttributes so = new PathConnAttributes();
-    
+
     // constructors
-    public AndJoinConverter(AndJoin aj){
-       this.aj = aj;
+    public AndJoinConverter(AndJoin aj) {
+        this.aj = aj;
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target){
-       
-        // object attributes 
-        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" "; 
-        
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+
+        // object attributes
+        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" ";
+
         // output to file
         ps.print("			" + object_attributes);
         String closing_attribute = "/>";
-        
+
         // optional attributes
-        so.OptionalAttributes((PathNode) aj,  ps, source, target);
+        so.OptionalAttributes((PathNode) aj, ps, source, target);
 
         ps.println(closing_attribute);
-        ps.flush();                    
-                        
+        ps.flush();
+
     }
 }
