@@ -33,6 +33,7 @@ import uced.domain.Aggregation;
 import uced.domain.Concept;
 import uced.domain.ConceptInstance;
 import uced.domain.Domain;
+import uced.domain.Operation;
 import uced.domain.SystemConcept;
 import uced.grammar.Entity;
 import uced.grammar.NullCondition;
@@ -351,8 +352,8 @@ public class ImportUCEd implements IURNImport {
             if (block instanceof ActionStep) {
                 ActionStep element = (ActionStep) block;
 
-                if (element.getProcedure_() instanceof NormalProcedure) {
-                    NormalProcedure procedure = (NormalProcedure) element.getProcedure_();
+                if (element.getProcedure() instanceof NormalProcedure) {
+                    NormalProcedure procedure = (NormalProcedure) element.getProcedure();
                     for (Iterator iterator = procedure.getAnyExtensions(); iterator.hasNext();) {
                         AnyExtension extensionPart = (AnyExtension) iterator.next();
 
@@ -484,7 +485,7 @@ public class ImportUCEd implements IURNImport {
                     }
 
                     // regular steps have components; add it.
-                    ComponentRef cr = handleEntity(map, defToRef, op.getEntity());
+                    ComponentRef cr = handleEntity(map, defToRef, ((Operation)op.getOperation()).getOwner());
 
                     // add the responsibility
                     link = handleRegularStep(map, link, element, op, cr);
@@ -754,7 +755,7 @@ public class ImportUCEd implements IURNImport {
         for (Iterator iter = iterations.iterator(); iter.hasNext();) {
             Object obj = (Object) iter.next();
             if (obj instanceof Part)
-                steps = (Vector) ((Part) obj).getPartElements();
+                steps = (Vector) ((Part) obj).getElements();
             else
                 steps = (Vector) obj;
 
@@ -970,7 +971,7 @@ public class ImportUCEd implements IURNImport {
             if (original instanceof ObjectReference)
                 cr.setParent(null);
         } else {
-            throw new InvocationTargetException(new Exception("Unknown entity type. (This may be legal, but not sure; update code)")); //$NON-NLS-1$
+            throw new InvocationTargetException(new Exception("Unknown entity type. (This may be legal, but not sure; update code)")); 
             // cr = null;
         }
         return cr;
@@ -1027,7 +1028,7 @@ public class ImportUCEd implements IURNImport {
      */
     private NodeConnection handleInclude(UCMmap map, NodeConnection link, IncludeOperation inc) throws InvocationTargetException {
         // use the same name as the plugin for the stub.
-        String pluginName = inc.getUseCase().getName();
+        String pluginName = inc.getUseCaseName();
         Stub staticStub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
         staticStub.setName(pluginName);
         UCMmap plugin = (UCMmap) URNElementFinder.findMapByName(urn, pluginName);

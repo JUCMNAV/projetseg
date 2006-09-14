@@ -13,3 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common.ui
 Eclipse-AutoStart: true
+Export-Package: seg.jUCMNav.importexport
+Bundle-ClassPath: .,
+ lib/jdom.jar,
+ lib/uced.jar
