@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Assemble seg.jUCMNav" default="main">
+	<property name="archiveName" value="seg.jUCMNav-${buildId}-win32.win32.x86.zip"/>
+	<property name="os" value="win32"/>
+	<property name="ws" value="win32"/>
+	<property name="arch" value="x86"/>
+	<property name="assemblyTempDir" value="${buildDirectory}/tmp"/>
+	<property name="eclipse.base" value="${assemblyTempDir}/${collectingFolder}"/>
+	<property name="eclipse.plugins" value="${eclipse.base}/plugins"/>
+	<property name="eclipse.features" value="${eclipse.base}/features"/>
+	<property name="archiveFullPath" value="${basedir}/${buildLabel}/${archiveName}"/>
+	<property name="tarargs" value=""/>
+	<!-- Beginning of the jarUp task -->
+	<target name="jarUp" description="Create a jar from the given location.">
+		<available property="${source}/${elementName}_exists" file="${source}/${elementName}"/>
+		<antcall target="jarIng">
+			<param name="source" value="${source}"/>
+			<param name="elementName" value="${elementName}"/>
+		</antcall>
+	</target>
+	<target name="jarIng" if="${source}/${elementName}_exists">
+		<zip destfile="${source}/${elementName}.jar" basedir="${source}/${elementName}" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${source}/${elementName}"/>
+	</target>
+	<!-- End of the jarUp task -->
+	<!-- Beginning of the jar signing  target -->
+	<target name="jarSigning" description="Sign a jar.">
+		<signjar jar="${source}/${elementName}.jar" alias="${sign.alias}" keystore="${sign.keystore}" storepass="${sign.storepass}"/>
+	</target>
+	<!-- End of the jarUp task -->
+	<target name="main">
+		<condition property="pluginArchivePrefix" value="plugins">
+			<equals arg1="${archivePrefix}"  arg2="" trim="true"/>
+		</condition>
+		<property name="pluginArchivePrefix" value="${archivePrefix}/plugins"/>
+
+		<condition property="featureArchivePrefix" value="features">
+			<equals arg1="${archivePrefix}"  arg2="" trim="true"/>
+		</condition>
+		<property name="featureArchivePrefix" value="${archivePrefix}/features"/>
+
+		<dirname property="archiveParentFolder" file="${archiveFullPath}"/>
+		<mkdir dir="${archiveParentFolder}"/>
+		<mkdir dir="${assemblyTempDir}"/>
+		<mkdir dir="${buildLabel}"/>
+		<eclipse.brand root="${eclipse.base}/win32.win32.x86/${collectingFolder}" icons="${launcherIcons}" name="${launcherName}" os="${os}"		/>
+		<delete dir="${assemblyTempDir}"/>
+	</target>
+</project>

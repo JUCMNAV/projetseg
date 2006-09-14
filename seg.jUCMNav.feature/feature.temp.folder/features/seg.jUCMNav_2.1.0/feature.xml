@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="seg.jUCMNav"
+      label="jUCMNav"
+      version="2.1.0"
+      provider-name="usecasemaps.org">
+
+   <description url="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/WebHome">
+      jUCMNav is a graphical editor for both the Use Case Map (UCM)
+notation and the Goal-Oriented Requirements Language (GRL).
+   </description>
+
+   <copyright url="jUCMNav is a graphical editor for the Use Case Map (UCM) notation">
+      Copyright (c) 2006 UseCaseMaps.org
+   </copyright>
+
+   <license url="http://www.eclipse.org/org/documents/epl-v10.php">
+      Eclipse Public License 1.0
+   </license>
+
+   <url>
+      <update label="jUCMNav" url="http://jucmnav.softwareengineering.ca/~ccbuilds/updatesite/site.xml"/>
+   </url>
+
+   <plugin
+         id="seg.jUCMNav"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="seg.jUCMNav.UCEd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
