@@ -13,7 +13,7 @@
 	<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 
         <!-- Call the target that does everything -->
-        <ant antfile="build.xml" target="build.fullzip"/>
+        <ant antfile="ccbuild.xml" target="build.fullzip"/>
 		<delete>
 		  <fileset dir="../../../testing/">
 			<include name="seg.jUCMNav_*.zip" />

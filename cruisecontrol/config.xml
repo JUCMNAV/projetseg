@@ -3,6 +3,8 @@
     <listeners>
       <currentbuildstatuslistener
           file="logs/seg.jUCMNav/buildstatus.txt"/>
+      <currentbuildstatuslistener
+          file="r:/buildstatus.txt"/>
     </listeners>
 
     <!-- Bootstrappers are run every time the build runs, 
