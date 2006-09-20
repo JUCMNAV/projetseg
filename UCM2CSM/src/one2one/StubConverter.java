@@ -16,7 +16,7 @@ public class StubConverter implements AbstractConverter {
 
     private Stub stub;
     StepAttributes sa = new StepAttributes();
-    private PluginBinding ao;
+    //private PluginBinding ao;
 
     // constructors
     public StubConverter(Stub stub) {

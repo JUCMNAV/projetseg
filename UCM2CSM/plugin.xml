@@ -10,14 +10,6 @@
             name="UCM to CSM converter"
             useStream="true"/>
    </extension>
-   <extension
-         point="seg.jUCMNav.URNImport">
-   </extension>
   
-   <extension
-         point="org.eclipse.emf.ecore.extension_parser">
-   </extension> <extension
-         point="seg.jUCMNav.UseCaseMapExport">   
-   </extension>
 
 </plugin>
