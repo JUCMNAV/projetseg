@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="Assemble All Config of seg.jUCMNav" default="main">
-	<target name="main">
-		<ant antfile="${customTargets}" target="assemble.seg.jUCMNav.win32.win32.x86">
-			<property name="assembleScriptName" value="assemble.seg.jUCMNav.win32.win32.x86.xml"/>
-		</ant>
-	</target>
-</project>
