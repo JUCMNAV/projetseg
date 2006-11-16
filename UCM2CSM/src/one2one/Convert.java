@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -38,7 +39,7 @@ public class Convert implements IURNExport {
         obj.Convert(ps);
     }
 
-    public void export(URNspec urn, FileOutputStream fos) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
         PrintStream ps = new PrintStream(fos);
 
@@ -375,7 +376,7 @@ public class Convert implements IURNExport {
         } // while
     } // method
 
-    public void export(URNspec urn, String filename) throws InvocationTargetException {
+    public void export(URNspec urn,  HashMap mapDiagrams, String filename) throws InvocationTargetException {
         // TODO Auto-generated method stub
     }
 }
