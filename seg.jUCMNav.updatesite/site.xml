@@ -9,5 +9,8 @@
    <feature url="features/seg.jUCMNav_2.2.1.jar" id="seg.jUCMNav" version="2.2.1">
       <category name="UseCaseMaps.Org"/>
    </feature>
+   <feature url="features/seg.jUCMNav_2.2.2.jar" id="seg.jUCMNav" version="2.2.2">
+      <category name="UseCaseMaps.Org"/>
+   </feature>
    <category-def name="UseCaseMaps.Org" label="UseCaseMaps.Org"/>
 </site>
