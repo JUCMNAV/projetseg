@@ -553,6 +553,9 @@
 		<exec dir="." executable="unzip">
 			<arg line="-o -qq -j seg.jUCMNav*.zip -d ${install}/eclipse/plugins/seg.jUCMNav_2.0.0"/>
 	    </exec>
+             <mkdir dir="${install}/eclipse/plugins/seg.jUCMNav_2.0.0/META-INF"/>
+             <move file="${install}/eclipse/plugins/seg.jUCMNav_2.0.0/MANIFEST.MF" todir="${install}/eclipse/plugins/seg.jUCMNav_2.0.0/META-INF"/>
+
 		<!-- can't manage to rename the friggen directory; flattening the hiearchy -->
 <!--		<move todir="${install}/eclipse/plugins/seg.jUCMNav_2.0.0">
 			<fileset dir="${install}/eclipse/plugins" includes="seg.jUCMNav*/**"/>

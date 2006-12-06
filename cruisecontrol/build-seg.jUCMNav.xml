@@ -24,8 +24,35 @@
 				<include name="seg.jUCMNav_*.zip" />
 			</fileset>
 		</copy>
+		<!-- 15 min timeout -->
+		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true" timeout="900000">
+			<arg line="-noclean jUCMNav" />
+		</exec>
+    </target>
+
+    <target name="build-noupdate">
+	<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+
+        <!-- Call the target that does everything -->
+        <ant antfile="ccbuild.xml" target="build.fullzip"/>
+		<delete>
+		  <fileset dir="../../../testing/">
+			<include name="seg.jUCMNav_*.zip" />
+		  </fileset>
+		</delete>		
+		<copy todir="../../../testing/">
+			<fileset dir="build/">
+				<include name="seg.jUCMNav_*.zip" />
+			</fileset>
+		</copy>
 		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true">
 			<arg line="-noclean jUCMNav" />
 		</exec>
+    </target>
+    <target name="test">
+		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true">
+			<arg line="-noclean jUCMNav" />
+		</exec>
+
     </target>
 </project>
