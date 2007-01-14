@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ucm-design SYSTEM "UCMscenario2.dtd">
+
+<scenarios date="Wed Oct 20 15:49:23 2004" ucm-file="WSI-DfM.ucm" design-name="WSI-DfM" ucm-design-version="115">
+   <components>
+      <component name="Consumer" id="C1" />
+      <component name="OrderProcessing" id="C2" />
+      <component name="Warehouse" id="C3" />
+      <component name="Production" id="C4" />
+   </components>
+   <group name="ShipmentConfirmed" group-id="2">
+      <scenario name="ShipmentWithReplenishmentSuffInv" scenario-definition-id="2" description="The warehouse has the desired item. Replenishment with sufficient inventory.">
+         <instances>
+            <instance id="I1" name="Consumer_Env" component="Consumer" role="Env" desc="" />
+            <instance id="I4" name="Production_M" component="Production" role="M" desc="" />
+            <instance id="I2" name="OrderProcessing_M" component="OrderProcessing" role="M" desc="" />
+            <instance id="I3" name="Warehouse_M" component="Warehouse" role="M" desc="" />
+         </instances>
+         <seq para-label="">
+            <do hyperedge-id="0" name="PurchaseGoods" type="Start" component-name="Consumer" component-id="1" component-role="Env" />
+            <do hyperedge-id="189" name="in1" type="Connect_Start" component-name="Consumer" component-id="1" component-role="Env" />
+            <message id="M2" name="PurchaseGoods" source-id="I1" destination-id="I1" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="191" name="NavigateToSite" type="Resp" component-name="Consumer" component-id="1" component-role="Env" />
+            <message id="M3" name="NavigateToSite" source-id="I1" destination-id="I1" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="193" name="PresentCatalog" type="Resp" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <message id="M5" name="CONNECTOR_MSG" source-id="I1" destination-id="I2" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="true" connector-type="simple" />
+            <message id="M4" name="PresentCatalog" source-id="I2" destination-id="I2" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="195" name="EnterOrderInfo" type="Resp" component-name="Consumer" component-id="1" component-role="Env" />
+            <message id="M7" name="CONNECTOR_MSG" source-id="I2" destination-id="I1" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="true" connector-type="simple" />
+            <message id="M6" name="EnterOrderInfo" source-id="I1" destination-id="I1" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="197" name="ReceiveOrder" type="Resp" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <message id="M9" name="CONNECTOR_MSG" source-id="I1" destination-id="I2" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="true" connector-type="simple" />
+            <message id="M8" name="ReceiveOrder" source-id="I2" destination-id="I2" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="190" name="out1" type="Connect_End" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <do hyperedge-id="107" name="in2" type="Connect_Start" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <do hyperedge-id="113" name="ValidateOrder" type="Resp" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <message id="M10" name="ValidateOrder" source-id="I2" destination-id="I2" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <condition hyperedge-id="115" label="[ValidOrder]" expression="ProductExists" instance="I2" />
+            <do hyperedge-id="166" name="in1" type="Connect_Start" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <do hyperedge-id="174" name="PresentToFirstWH" type="Resp" component-name="OrderProcessing" component-id="5" component-role="M" />
+            <message id="M11" name="PresentToFirstWH" source-id="I2" destination-id="I2" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <do hyperedge-id="75" name="in1" type="Connect_Start" component-name="Warehouse" component-id="7" component-role="M" />
+            <message id="M12" name="CONNECTOR_MSG" source-id="I2" destination-id="I3" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="true" connector-type="simple" />
+            <do hyperedge-id="86" name="GetNextItem" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+            <message id="M13" name="GetNextItem" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <condition hyperedge-id="82" label="[SufficientStock]" expression="SufficientStock" instance="I3" />
+            <do hyperedge-id="89" name="DecrementStock" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+            <message id="M14" name="DecrementStock" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="" is-connector="false" connector-type="" />
+            <par>
+               <seq para-label="p1.s1">
+                  <condition hyperedge-id="77" label="[Done]" expression="!MoreItems" instance="I3" />
+                  <do hyperedge-id="76" name="out1" type="Connect_End" component-name="Warehouse" component-id="7" component-role="M" />
+                  <do hyperedge-id="180" name="RecordShippedItems" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+                  <message id="M15" name="RecordShippedItems" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s1" is-connector="false" connector-type="" />
+                  <condition hyperedge-id="183" label="[AllShippedOrNoMoreWH]" expression="(!WarehouseLeft) + ItemListEmpty" instance="I3" />
+                  <condition hyperedge-id="169" label="[SomeItemsShipped]" expression="SomeItemsShipped" instance="I3" />
+                  <do hyperedge-id="167" name="out1" type="Connect_End" component-name="OrderProcessing" component-id="5" component-role="M" />
+                  <message id="M16" name="CONNECTOR_MSG" source-id="I3" destination-id="I2" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s1" is-connector="true" connector-type="simple" />
+                  <do hyperedge-id="112" name="GenListItemsShipped" type="Resp" component-name="OrderProcessing" component-id="5" component-role="M" />
+                  <message id="M17" name="GenListItemsShipped" source-id="I2" destination-id="I2" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s1" is-connector="false" connector-type="" />
+                  <do hyperedge-id="108" name="out3" type="Connect_End" component-name="OrderProcessing" component-id="5" component-role="M" />
+                  <do hyperedge-id="7" name="ShipmentConfirmed" type="End_Point" component-name="Consumer" component-id="1" component-role="Env" />
+                  <message id="M18" name="ShipmentConfirmed" source-id="I2" destination-id="I1" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s1" is-connector="false" connector-type="" />
+               </seq>
+               <seq para-label="p1.s2">
+                  <condition hyperedge-id="103" label="ReplenishStock" expression="!SufficientStock" instance="I1" />
+                  <do hyperedge-id="137" name="in1" type="Connect_Start" component-name="Warehouse" component-id="7" component-role="M" />
+                  <do hyperedge-id="143" name="BuildOrder" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+                  <message id="M19" name="BuildOrder" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2" is-connector="false" connector-type="" />
+                  <do hyperedge-id="144" name="SelectManufacturer" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+                  <message id="M20" name="SelectManufacturer" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2" is-connector="false" connector-type="" />
+                  <do hyperedge-id="146" name="PlaceOrder" type="Resp" component-name="Warehouse" component-id="7" component-role="M" />
+                  <message id="M21" name="PlaceOrder" source-id="I3" destination-id="I3" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2" is-connector="false" connector-type="" />
+                  <do hyperedge-id="148" name="ValidateWHorder" type="Resp" component-name="Production" component-id="6" component-role="M" />
+                  <message id="M23" name="CONNECTOR_MSG" source-id="I3" destination-id="I4" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2" is-connector="true" connector-type="simple" />
+                  <message id="M22" name="ValidateWHorder" source-id="I4" destination-id="I4" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2" is-connector="false" connector-type="" />
+                  <condition hyperedge-id="153" label="[ValidOrder]" expression="ValidOrder" instance="I4" />
+                  <par>
+                     <seq para-label="p1.s2.p1.s1">
+                        <do hyperedge-id="203" name="in1" type="Connect_Start" component-name="Production" component-id="6" component-role="M" />
+                        <do hyperedge-id="205" name="CheckInventory" type="Resp" component-name="Production" component-id="6" component-role="M" />
+                        <message id="M24" name="CheckInventory" source-id="I4" destination-id="I4" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1" is-connector="false" connector-type="" />
+                        <condition hyperedge-id="213" label="Default" expression="SufficientInventory" instance="I4" />
+                        <do hyperedge-id="104" name="in1" type="Connect_Start" component-name="Production" component-id="6" component-role="M" />
+                        <do hyperedge-id="106" name="out1" type="Connect_End" component-name="Production" component-id="6" component-role="M" />
+                        <do hyperedge-id="208" name="ShipOrder" type="Resp" component-name="Production" component-id="6" component-role="M" />
+                        <message id="M25" name="ShipOrder" source-id="I4" destination-id="I4" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1" is-connector="false" connector-type="" />
+                        <do hyperedge-id="210" name="UpdateInventory" type="Resp" component-name="Production" component-id="6" component-role="M" />
+                        <message id="M26" name="UpdateInventory" source-id="I4" destination-id="I4" is-task="true" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1" is-connector="false" connector-type="" />
+                        <do hyperedge-id="204" name="out1" type="Connect_End" component-name="Production" component-id="6" component-role="M" />
+                        <do hyperedge-id="139" name="Shipping" type="Trigger_End" component-name="Warehouse" component-id="7" component-role="M" />
+                        <message id="M28" name="CONNECTOR_MSG" source-id="I4" destination-id="I3" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1" is-connector="true" connector-type="simple" />
+                        <message id="M27" name="Shipping" source-id="I3" destination-id="I4" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1" is-connector="false" connector-type="" />
+                        <do hyperedge-id="141" name="ShippingNotice" type="Connect_Start" component-name="Warehouse" component-id="7" component-role="M" />
+                        <par>
+                           <seq para-label="p1.s2.p1.s1.p1.s1">
+                              <do hyperedge-id="142" name="updateStock" type="Connect_End" component-name="Warehouse" component-id="7" component-role="M" />
+                              <do hyperedge-id="96" name="UpdateStock" type="End_Point" component-name="Warehouse" component-id="7" component-role="M" />
+                              <message id="M29" name="UpdateStock" source-id="I3" destination-id="I3" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1.p1.s1" is-connector="false" connector-type="" />
+                           </seq>
+                           <seq para-label="p1.s2.p1.s1.p1.s2">
+                              <do hyperedge-id="164" name="AckToManu" type="End_Point" component-name="Production" component-id="6" component-role="M" />
+                              <message id="M30" name="AckToManu" source-id="I3" destination-id="I4" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1.p1.s2" is-connector="false" connector-type="" />
+                           </seq>
+                        </par>
+                        <paraMessageConnectors para-block-id="0" />
+                     </seq>
+                     <seq para-label="p1.s2.p1.s1.p1.s3">
+                        <do hyperedge-id="152" name="AckToWH" type="End_Point" component-name="Warehouse" component-id="7" component-role="M" />
+                        <message id="M31" name="AckToWH" source-id="I4" destination-id="I3" is-task="false" is-timer="false" timer-property="" last-ref="" desc="" para-label="p1.s2.p1.s1.p1.s3" is-connector="false" connector-type="" />
+                     </seq>
+                  </par>
+                  <paraMessageConnectors para-block-id="1" />
+               </seq>
+            </par>
+            <paraMessageConnectors para-block-id="2" />
+         </seq>
+      </scenario>
+   </group>
+</scenarios>
+

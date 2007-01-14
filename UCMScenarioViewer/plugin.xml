@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.site.UCMScenarioViewer"
+   name="UCM Scenario Viewer Plug-in"
+   version="1.0.0"
+   provider-name="SITE (School of Information Technology and Engineering)"
+   class="com.site.UCMScenarioViewer.UCMScenarioViewerPlugin">
+
+   <runtime>
+      <library name="UCMScenarioViewer.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.gef"/>
+   </requires>
+   
+   <extension point="org.eclipse.ui.editors" 
+   		id="com.site.UCMScenarioViewer.UCMScenarioViewer"
+        name="UCMScenarioViewer">
+  	<editor
+  	     id="com.site.ucmscenarioviewer.ucm_scenario_viewer"
+         icon="icons/msc-icon-main.gif"
+         class="com.site.UCMScenarioViewer.UCMScenarioViewer"
+         name="UCM Scenario Viewer"
+         extensions="scenarios"
+         contributorClass="com.site.UCMScenarioViewer.actions.UCMScenarioViewerActionBarContributor"/> 
+   </extension>
+   
+   <extension point="org.eclipse.ui.importWizards">
+       <wizard
+             id="com.site.ucmscenarioviewer.wizards.ucm_import_wizard"
+             name="UCM Scenario"
+             class="com.site.UCMScenarioViewer.wizards.UCMScenarioImportWizard"
+             icon="icons/msc-icon-import.gif">
+             <description>Import contents of .msc or .xml files that contain Message Secuence Charts</description>
+       </wizard>
+    </extension>
+   
+   <extension point="org.eclipse.ui.exportWizards">
+       <wizard
+             id="com.site.ucmscenarioviewer.wizards.ucm_export_wizard"
+             name="UCM Scenario Image"
+             class="com.site.UCMScenarioViewer.wizards.UCMScenarioExportWizard"
+             icon="icons/msc-icon-import.gif">
+             <description>Export MSC scenarios to image files</description>
+       </wizard>
+   </extension> 
+   
+</plugin>
