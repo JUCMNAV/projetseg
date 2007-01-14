@@ -30,6 +30,8 @@ import com.site.UCMScenarioViewer.model.ScenarioGroup;
 import com.site.UCMScenarioViewer.utils.Helper;
 
 /**
+ * jkealey: Tree should not be extended; this class can no longer be used and has to be refactored. 
+ * 
  * @author mkova062
  *
  * TODO To change the template for this generated type comment go to

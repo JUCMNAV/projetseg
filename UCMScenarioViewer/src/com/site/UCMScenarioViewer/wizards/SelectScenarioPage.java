@@ -87,6 +87,7 @@ public class SelectScenarioPage extends WizardPage {
 
         hookDiagramSelection();
 
+        updateScenarioList();
         validatePage(false);
     }
 

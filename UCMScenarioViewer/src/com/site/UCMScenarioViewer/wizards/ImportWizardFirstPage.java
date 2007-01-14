@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 
 import com.site.UCMScenarioViewer.model.ScenarioGroup;
-import com.site.UCMScenarioViewer.parser.XMLParserInitializer;
 import com.site.UCMScenarioViewer.parser.MSCParserInitializer;
+import com.site.UCMScenarioViewer.parser.XMLParserInitializer;
 import com.site.UCMScenarioViewer.utils.Helper;
 
 public class ImportWizardFirstPage extends WizardPage {

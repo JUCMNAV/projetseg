@@ -7,7 +7,6 @@
 package com.site.UCMScenarioViewer.wizards;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -32,7 +31,8 @@ public class UCMScenarioExportWizard extends Wizard implements IExportWizard {
     private IWorkbench workbench = null;
     private IStructuredSelection selection = null;
 
-    private SelectModelFromWorkspacePage selectModelPage;
+    // jkealey: quick hack: removed this page because it used a control that extends Tree that no longer works in new eclipse. 
+    //private SelectModelFromWorkspacePage selectModelPage;
     private SelectScenarioPage selectScenarioPage;
     private SelectExportFilePage selectExportFile;
 
@@ -43,20 +43,26 @@ public class UCMScenarioExportWizard extends Wizard implements IExportWizard {
     }
 
     public void addPages() {
-        selectModelPage = new SelectModelFromWorkspacePage(getSelectedModel(workbench, selection));
+    	
+    	
+        //selectModelPage = new SelectModelFromWorkspacePage(getSelectedModel(workbench, selection));
         selectScenarioPage = new SelectScenarioPage();
+        selectScenarioPage.setModelFile(getSelectedModel(workbench, selection));
         selectExportFile = new SelectExportFilePage(getShell());
-        addPage(selectModelPage);
+        //addPage(selectModelPage);
         addPage(selectScenarioPage);
         addPage(selectExportFile);
 
-        selectModelPage.setWorkspace(ResourcesPlugin.getWorkspace());
+        //selectModelPage.setWorkspace(ResourcesPlugin.getWorkspace());
     }
 
     public IWizardPage getNextPage(IWizardPage page) {
-        if (page == selectModelPage) {
-            selectScenarioPage.setModelFile(selectModelPage.getSelectedFile());
-        } else if (page == selectScenarioPage) {
+//        if (page == selectModelPage) {
+//			selectScenarioPage.setModelFile(selectModelPage.getSelectedFile());
+//   
+//        	
+//        } else 
+    	if (page == selectScenarioPage) {
             selectExportFile.setViewer(selectScenarioPage.getSelectedDiagram());
         }
         
