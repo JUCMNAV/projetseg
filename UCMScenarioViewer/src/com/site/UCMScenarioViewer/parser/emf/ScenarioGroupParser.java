@@ -38,7 +38,8 @@ public class ScenarioGroupParser {
 		for (Iterator iter = scenariospec.getGroups().iterator(); iter.hasNext();) {
 			ucmscenarios.ScenarioGroup src = (ucmscenarios.ScenarioGroup) iter.next();
 
-			group = new ScenarioGroup(src.getId(), src.getName());
+			if (group==null) // the if is here because there is a limitation in the scenario viewer that doesn't support multiple groups 
+				group = new ScenarioGroup(src.getId(), src.getName());
 
 			for (Iterator iterator = src.getScenarios().iterator(); iterator.hasNext();) {
 				ScenarioDef srcscenario = (ScenarioDef) iterator.next();
