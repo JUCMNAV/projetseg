@@ -26,7 +26,7 @@ import com.site.UCMScenarioViewer.parser.xml.ScenarioGroupParser;
 public class XMLParserInitializer {
 
 	public static ScenarioGroup parseXmlModel(File file) throws IOException{
-		ScenarioGroup scenG = new ScenarioGroup();
+		ScenarioGroup scenG = null;
 		try {
 			FileReader fileRead = new FileReader(file);
 			ScenarioGroupParser scenGParser = new ScenarioGroupParser(fileRead);

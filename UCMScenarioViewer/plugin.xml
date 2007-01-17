@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="com.site.UCMScenarioViewer"
-   name="UCM Scenario Viewer Plug-in"
-   version="1.0.0"
-   provider-name="SITE (School of Information Technology and Engineering)"
-   class="com.site.UCMScenarioViewer.UCMScenarioViewerPlugin">
+<plugin>
 
-   <runtime>
-      <library name="UCMScenarioViewer.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.gef"/>
-   </requires>
-   
-   <extension point="org.eclipse.ui.editors" 
+     <extension point="org.eclipse.ui.editors" 
    		id="com.site.UCMScenarioViewer.UCMScenarioViewer"
         name="UCMScenarioViewer">
   	<editor

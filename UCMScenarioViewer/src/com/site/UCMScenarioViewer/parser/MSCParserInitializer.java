@@ -33,7 +33,7 @@ public class MSCParserInitializer {
 	} 
 	*/
 	public static ScenarioGroup parseMscModel(File file){
-		ScenarioGroup scenG = new ScenarioGroup();
+		ScenarioGroup scenG = null;
 		try {			
 			BufferedReader bufR = new BufferedReader(new FileReader(file));
 			ScenarioGroupParser GroupParse = new ScenarioGroupParser(bufR);//(fileRead);

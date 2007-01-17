@@ -68,7 +68,7 @@ public class Helper {
 	public static final String WIZARD_P1_TITLE = "Import Scenarios";
     public static final String WIZARD_P1_DESC = "Import to view Message Sequence Chart diagrams for UCM scenarios";
 
-    public static final String WIZARD_P1_LABEL = "Select XML or MSC file that contains UCM diagram(s)";
+    public static final String WIZARD_P1_LABEL = "Select .JUCMSCENARIOS, .XML, or .MSC file that contains UCM scenarios";
     public static final String WIZARD_P1_BROWSE_TEXT = "Browse";
     public static final String WIZARD_P1_CANT_PARSE_ERROR = "Can''t parse file: {0}";
     public static final String WIZARD_P1_WRONG_EXT_ERROR = "Wrong file extension: {0}";
@@ -80,6 +80,7 @@ public class Helper {
     
 	public static final String EXTENSION_XML =".xml";
 	public static final String EXTENSION_MSC =".msc";
+	public static final String EXTENSION_JUCMSCENARIOS =".jucmscenarios";
 	public static final String EXTENSION_SCENARIOS =".scenarios";
 	
 	public static ScenarioGroup readModel(IFile modelFile) {
