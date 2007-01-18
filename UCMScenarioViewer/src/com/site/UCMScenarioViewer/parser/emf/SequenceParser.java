@@ -52,81 +52,77 @@ public class SequenceParser {
 			children = seq.getChildren();
 		}
 
-		List children2 = null;
-		do {
+		if (children!=null) {
 
-			if (children2 != null) {
-				children = children2;
-				children2 = null;
-			}
-			if (children == null)
-				break;
 			for (Iterator iter = children.iterator(); iter.hasNext();) {
 				ModelElement me = (ModelElement) iter.next();
-
-				if (me instanceof Event) {
-					Event srcevent = (Event) me;
-
-					DoElement element = null;
-
-					String id = srcevent.getId();
-					String name = srcevent.getName();
-					LifeLine line = (LifeLine) lines.get(srcevent.getInstance());
-
-					switch (srcevent.getType().getValue()) {
-					case EventType.RESPONSIBILITY:
-						element = new Action(id, name, line);
-						break;
-					case EventType.START_POINT:
-					case EventType.END_POINT:
-						element = new StartEndMessage(id, name, line);
-						break;
-					case EventType.TIMER_SET:
-						element = new SetTimer(id, name, line);
-						break;
-					case EventType.TIMER_RESET:
-						element = new ResetTimer(id, name, line);
-						break;
-					case EventType.TIMEOUT:
-						element = new TimeOut(id, name, line);
-						break;
-					default:
-						// these are ignored.
-						break;
-					}
-
-					if (element != null)
-						sequence.addChild(element);
-
-				} else if (me instanceof ucmscenarios.Condition) {
-					ucmscenarios.Condition srccond = (ucmscenarios.Condition) me;
-					DoElement element = new Condition(srccond.getId(), srccond.getLabel(), (LifeLine) lines.get(srccond.getInstance()), srccond.getExpression());
-					sequence.addChild(element);
-				} else if (me instanceof ucmscenarios.Message) {
-					ucmscenarios.Message srcmsg = (ucmscenarios.Message) me;
-					Message message = new Message(srcmsg.getId(), srcmsg.getName(), (LifeLine) lines.get(srcmsg.getSource()), (LifeLine) lines.get(srcmsg
-							.getTarget()));
-					sequence.addChild(message);
-				} else if (me instanceof Parallel) {
-					Parallel srcpar = (Parallel) me;
-
-					ParallelParser parParse = new ParallelParser(srcpar);
-					ParallelSequence par = parParse.parseParallel(lines);
-					sequence.addChild(par);
-				} else if (me instanceof ucmscenarios.Sequence) {
-					// srcseq child of src : flatten
-					ucmscenarios.Sequence srcseq = (ucmscenarios.Sequence) me;
-					if (children2 == null)
-						children2 = new Vector();
-					// could be called multiple times.
-					children2.addAll(srcseq.getChildren());
-				}
-
+				parseModelElement(lines, me);
 			}
-		} while (children2 != null);
+		}
 
 		return sequence;
 
+	}
+
+	private void parseModelElement(HashMap lines, ModelElement me) {
+		if (me instanceof Event) {
+			Event srcevent = (Event) me;
+
+			DoElement element = null;
+
+			String id = srcevent.getId();
+			String name = srcevent.getName();
+			LifeLine line = (LifeLine) lines.get(srcevent.getInstance());
+
+			switch (srcevent.getType().getValue()) {
+			case EventType.RESPONSIBILITY:
+				element = new Action(id, name, line);
+				break;
+			case EventType.START_POINT:
+			case EventType.END_POINT:
+				element = new StartEndMessage(id, name, line);
+				break;
+			case EventType.TIMER_SET:
+				element = new SetTimer(id, name, line);
+				break;
+			case EventType.TIMER_RESET:
+				element = new ResetTimer(id, name, line);
+				break;
+			case EventType.TIMEOUT:
+				element = new TimeOut(id, name, line);
+				break;
+			default:
+				// these are ignored.
+				break;
+			}
+
+			if (element != null)
+				sequence.addChild(element);
+
+		} else if (me instanceof ucmscenarios.Condition) {
+			ucmscenarios.Condition srccond = (ucmscenarios.Condition) me;
+			DoElement element = new Condition(srccond.getId(), srccond.getLabel(), (LifeLine) lines.get(srccond.getInstance()), srccond.getExpression());
+			sequence.addChild(element);
+		} else if (me instanceof ucmscenarios.Message) {
+			ucmscenarios.Message srcmsg = (ucmscenarios.Message) me;
+			Message message = new Message(srcmsg.getId(), srcmsg.getName(), (LifeLine) lines.get(srcmsg.getSource()), (LifeLine) lines.get(srcmsg
+					.getTarget()));
+			sequence.addChild(message);
+		} else if (me instanceof Parallel) {
+			Parallel srcpar = (Parallel) me;
+
+			ParallelParser parParse = new ParallelParser(srcpar);
+			ParallelSequence par = parParse.parseParallel(lines);
+			sequence.addChild(par);
+		} else if (me instanceof ucmscenarios.Sequence) {
+			// srcseq child of src : flatten
+			ucmscenarios.Sequence srcseq = (ucmscenarios.Sequence) me;
+			for (Iterator iter = srcseq.getChildren().iterator(); iter.hasNext();) {
+				ModelElement element = (ModelElement) iter.next();
+				parseModelElement(lines, element);
+				
+			}
+		}
 	}
 
 }

@@ -47,6 +47,6 @@ public class ConditionEditPart extends AbstractModelElementEditPart {
 	 */
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		((ConditionFigure)getFigure()).setPolygon( ((Condition)getModelElement()).getExpression());
+		((ConditionFigure)getFigure()).setPolygon( ((Condition)getModelElement()).getName());
 	}
 }
