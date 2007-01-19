@@ -10,7 +10,7 @@
          icon="icons/msc-icon-main.gif"
          class="com.site.UCMScenarioViewer.UCMScenarioViewer"
          name="UCM Scenario Viewer"
-         extensions="scenarios"
+         extensions="scenarios, jucmscenarios"
          contributorClass="com.site.UCMScenarioViewer.actions.UCMScenarioViewerActionBarContributor"/> 
    </extension>
    

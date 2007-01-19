@@ -6,6 +6,7 @@ package com.site.UCMScenarioViewer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -26,6 +27,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
@@ -76,6 +78,7 @@ import com.site.UCMScenarioViewer.dnd.MSCTransferDropTargetListener;
 import com.site.UCMScenarioViewer.factory.GraphicalPartFactory;
 import com.site.UCMScenarioViewer.factory.TreePartFactory;
 import com.site.UCMScenarioViewer.model.ScenarioGroup;
+import com.site.UCMScenarioViewer.parser.EMFParserInitializer;
 
 /**
  * @author oboyk022
@@ -271,6 +274,8 @@ public class UCMScenarioViewer extends GraphicalEditor {
 	private ScenarioGroup diagram = new ScenarioGroup();
 
 	private boolean savePreviouslyNeeded = false;
+	
+	private boolean isSaveAllowed=true;
 
 	/**
 	 *  Default constructor.
@@ -289,6 +294,11 @@ public class UCMScenarioViewer extends GraphicalEditor {
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave(IProgressMonitor progressMonitor) {
+		if (!isSaveAllowed()) {
+			isSaveAllowed=performSaveAs();
+			return; 
+		}
+
 		try {
 			editorSaving = true;
 			saveProperties();
@@ -336,7 +346,15 @@ public class UCMScenarioViewer extends GraphicalEditor {
 	protected boolean performSaveAs() {
 		SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
 				.getShell());
-		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
+		
+		IFile origfile = ((IFileEditorInput) getEditorInput()).getFile();
+		String ext = origfile.getFileExtension();
+		if ("jucmscenarios".equalsIgnoreCase(ext)) {
+			dialog.setOriginalName(origfile.getFullPath().removeFileExtension().addFileExtension("scenarios").lastSegment());
+		}
+		else 
+			dialog.setOriginalFile(origfile);
+		
 		dialog.open();
 		IPath path = dialog.getResult();
 
@@ -408,7 +426,9 @@ public class UCMScenarioViewer extends GraphicalEditor {
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
-
+	public boolean isSaveAllowed() {
+		return isSaveAllowed;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -540,7 +560,7 @@ public class UCMScenarioViewer extends GraphicalEditor {
 	 */
 	public void setInput(IEditorInput input) {
 		superSetInput(input);
-
+		isSaveAllowed=true;
 		IFile file = ((IFileEditorInput) input).getFile();
 		try {
 			setPartName(file.getName());
@@ -549,8 +569,13 @@ public class UCMScenarioViewer extends GraphicalEditor {
 			setMSCDiagram((ScenarioGroup) ois.readObject());
 			ois.close();
 		} catch (Exception e) {
-			//This is just an example. All exceptions caught here.
-			e.printStackTrace();
+			try {
+			setMSCDiagram(EMFParserInitializer.parseMscModel(new File(file.getRawLocation().toOSString())));
+			isSaveAllowed=false;
+			} catch (Exception ex) {
+				//This is just an example. All exceptions caught here.
+				e.printStackTrace();
+			}
 		}
 
 		if (!editorSaving) {
