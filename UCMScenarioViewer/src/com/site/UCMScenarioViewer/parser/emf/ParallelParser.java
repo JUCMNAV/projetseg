@@ -13,7 +13,7 @@ public class ParallelParser {
 	private ucmscenarios.Parallel src;
 
 	public ParallelParser(ucmscenarios.Parallel src) {
-		this.par = new ParallelSequence(src.getId(), src.getName());
+		this.par = new ParallelSequence(src.getId(), "par");
 		this.src = src;
 	}
 

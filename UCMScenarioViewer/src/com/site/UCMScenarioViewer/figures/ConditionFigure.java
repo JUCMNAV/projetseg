@@ -41,7 +41,7 @@ public class ConditionFigure extends Figure {
 		label.setText(expression);
 		label.setBounds(r);
 		label.setFont(getFont());
-		
+		setOpaque(true);
 		polygon = new Polygon();
 		polygon.addPoint(new Point(r.x, r.y + r.height/2));
 		polygon.addPoint(new Point(r.x + r.height/3, r.y));
