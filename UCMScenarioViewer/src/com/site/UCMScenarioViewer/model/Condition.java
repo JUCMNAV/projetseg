@@ -20,7 +20,11 @@ import com.site.UCMScenarioViewer.utils.Helper;
  */
 public class Condition extends DoElement {
 
-	private String expression = ""; 
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private String expression = ""; 
 	
 	/**
 	 * 

@@ -3,8 +3,6 @@ package com.site.UCMScenarioViewer.parser.emf;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import ucmscenarios.Event;
 import ucmscenarios.EventType;
 import ucmscenarios.ModelElement;

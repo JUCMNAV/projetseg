@@ -153,7 +153,12 @@ public class XmlParser extends AbstractXmlParser {
     /** creates a new Parser based on the give reader */
     
     class DefaultParserException extends ParseException {
-	DefaultParserException (String msg, Exception chained) {
+	/**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+    DefaultParserException (String msg, Exception chained) {
 	    super (msg, chained, XmlParser.this.line, XmlParser.this.column);
 	}
     }

@@ -25,7 +25,11 @@ import com.site.UCMScenarioViewer.utils.Helper;
  */
 public class Message extends SequenceElement {
 	
-	private LifeLine source;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private LifeLine source;
 	private LifeLine target;
 
 	public Message() {}

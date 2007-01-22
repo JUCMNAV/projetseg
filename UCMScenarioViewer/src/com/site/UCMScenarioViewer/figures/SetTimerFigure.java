@@ -46,7 +46,7 @@ public class SetTimerFigure extends Figure implements ITimerFigure {
 
 		label.setFont(getFont());
 		label.setText(name);
-		int labelY = label.getTextBounds().height;
+		//int labelY = label.getTextBounds().height;
 		label.setBounds(new Rectangle(r.x + DefaultFigureSize.TEXT_PADDING, 
 				r.y, r.width - 2*r.height - DefaultFigureSize.TEXT_PADDING, r.height));
 

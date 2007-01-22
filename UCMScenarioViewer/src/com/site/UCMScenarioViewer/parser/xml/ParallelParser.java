@@ -23,7 +23,6 @@ public class ParallelParser {
 
 	public ParallelSequence parseParallel(HashMap lines, HashMap components) {
 		try {
-			int count = 0;
 			boolean keepParsing = true;
 
 			while (keepParsing) {

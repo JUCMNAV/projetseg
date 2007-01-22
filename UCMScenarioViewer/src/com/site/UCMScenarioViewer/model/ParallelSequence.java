@@ -27,7 +27,12 @@ import com.site.UCMScenarioViewer.utils.DefaultFigureSize;
  */
 public class ParallelSequence extends SequenceElement {
 	
-	public ParallelSequence() {}
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public ParallelSequence() {}
 	
 	/**
 	 * @param id

@@ -40,7 +40,6 @@ public class SelectScenarioPage extends WizardPage {
 
     private Label label;
     private List scenarioList;
-    private IFile modelFile;
     private UCMScenarioViewer viewer;
 
     public SelectScenarioPage() {
@@ -50,7 +49,6 @@ public class SelectScenarioPage extends WizardPage {
 
     // Page data manipulation
     public void setModelFile(IFile modelFile) {
-        this.modelFile = modelFile;
         viewer = Helper.openViewer(modelFile);
         updateScenarioList();
     }

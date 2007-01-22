@@ -77,7 +77,6 @@ public class WbxmlParser extends AbstractXmlParser {
 	    return next;
 	}
 
-	ParseEvent result = null;
 	
 	do {
 	    int id = in.read ();

@@ -26,7 +26,11 @@ import com.site.UCMScenarioViewer.utils.Properties;
  */
 public class LifeLine extends AbstractModelElement {
 	
-	private ArrayList sourceConnections = new ArrayList();
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private ArrayList sourceConnections = new ArrayList();
 	private ArrayList targetConnections = new ArrayList(); 
 	
 	public LifeLine() {}

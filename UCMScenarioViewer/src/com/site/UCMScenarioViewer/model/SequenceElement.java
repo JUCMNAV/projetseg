@@ -19,7 +19,12 @@ import org.eclipse.swt.graphics.Image;
  */
 public class SequenceElement extends AbstractModelElement {
 	
-	public SequenceElement() {}
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public SequenceElement() {}
 	
 	/**
 	 * @param id

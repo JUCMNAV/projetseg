@@ -117,13 +117,13 @@ public class WorkspaceModelsTree extends Tree {
     
     private TreeItem createProjectTreeItem(IProject project) {
         TreeItem projectItem = new TreeItem(this, SWT.NONE);
-        ImageDescriptor icon;
-
-        if (project.isAccessible()) {
-            icon = /*Helper.EXPORT_WIZARD_BANNER*/ null;
-        } else {
-            icon = /*Helper.IMPORT_WIZARD_BANNER*/ null;
-        }
+//        ImageDescriptor icon;
+//
+//        if (project.isAccessible()) {
+//            icon = /*Helper.EXPORT_WIZARD_BANNER*/ null;
+//        } else {
+//            icon = /*Helper.IMPORT_WIZARD_BANNER*/ null;
+//        }
 
         projectItem.setText(project.getName());
         //projectItem.setImage(icon.createImage());

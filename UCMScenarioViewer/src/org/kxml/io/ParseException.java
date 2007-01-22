@@ -8,6 +8,10 @@ import java.io.*;
 
 public class ParseException extends IOException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     protected int lineNumber = -1;
     protected int columnNumber = -1;
     protected Exception chained; 

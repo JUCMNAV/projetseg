@@ -21,6 +21,11 @@ import com.site.UCMScenarioViewer.utils.Helper;
 public class SetTimer extends DoElement {
 
 	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
 	 * 
 	 */
 	public SetTimer() {
@@ -61,7 +66,7 @@ public class SetTimer extends DoElement {
 	public int getXdimension() {
 		if (getWidth() < 0) {
 			int maxX = getMaxLabel().getTextBounds().width;
-			int standardX = getStandardLabel().getTextBounds().width;
+			//int standardX = getStandardLabel().getTextBounds().width;
 			int labelX = getLabel().getTextBounds().width; 
 			int dimX = 2*DefaultFigureSize.TEXT_PADDING;
 			if (labelX + 2*getYdimension() <= maxX/2) {

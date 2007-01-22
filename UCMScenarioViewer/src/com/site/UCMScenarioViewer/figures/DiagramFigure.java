@@ -8,7 +8,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.geometry.Insets;
 
 /**
  * @author Sasha
@@ -16,7 +15,6 @@ import org.eclipse.draw2d.geometry.Insets;
  */
 public class DiagramFigure extends Figure {
 
-	private static Insets insets;
 	private Label nameLabel;
 	private String name;
 

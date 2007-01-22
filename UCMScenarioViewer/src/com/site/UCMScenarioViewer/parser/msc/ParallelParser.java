@@ -11,7 +11,6 @@ public class ParallelParser {
 	
 	private ParallelSequence par;
 	private BufferedReader reader;
-	private boolean flag;
 	
 	public ParallelParser(BufferedReader bufread){
 		this.par = new ParallelSequence("id", "par");

@@ -45,7 +45,7 @@ public class SequenceParser {
 
 	public Sequence parseSequence(HashMap lifeLines, String lines) {
 		try {
-			String line, temp = "", parl = "", endPar = "", tempL = "";
+			String line, temp = "", endPar = "", tempL = "";
 			line = lines;
 
 			while (line != null) {
@@ -68,7 +68,6 @@ public class SequenceParser {
 
 						if (endPar.equals("end")) {
 							setFlag(false);
-							parl = "";
 							return sequence;
 						}
 					}

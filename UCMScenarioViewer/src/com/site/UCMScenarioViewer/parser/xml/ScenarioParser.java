@@ -30,9 +30,6 @@ public class ScenarioParser {
 			String id = "";
 			String name = "";
 			String component = "";
-			boolean noSeqTag = false;
-			Sequence seq1;
-
 			HashMap lifeLines = new HashMap();
 			HashMap componentNames = new HashMap();
 

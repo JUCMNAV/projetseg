@@ -1,8 +1,6 @@
 package com.site.UCMScenarioViewer.wizards;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jface.wizard.WizardPage;
@@ -90,13 +88,13 @@ public class ImportWizardFirstPage extends WizardPage {
 				// TODO - change to one try block with if checking for extension inside the try block
 				if (fileName.toLowerCase().endsWith(Helper.EXTENSION_XML)) {
 					// start parsing .XML file
-					InputStream stream = new FileInputStream(file);
+					//InputStream stream = new FileInputStream(file);
 					model = XMLParserInitializer.parseXmlModel(file);
 					setErrorMessage(null);
 
 				} else if (fileName.toLowerCase().endsWith(Helper.EXTENSION_MSC)) {
 					// start parsing .MSC file
-					InputStream stream = new FileInputStream(file);
+					//InputStream stream = new FileInputStream(file);
 					model = MSCParserInitializer.parseMscModel(file);
 
 					setErrorMessage(null);

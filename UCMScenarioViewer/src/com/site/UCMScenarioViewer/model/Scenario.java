@@ -28,7 +28,11 @@ import com.site.UCMScenarioViewer.utils.Properties;
  */
 public class Scenario extends AbstractModelElement {
 	
-	public static int LIFELINES = 0;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    public static int LIFELINES = 0;
 	public static int SEQUENCE = 1;
 	
 	private String description;
@@ -204,7 +208,7 @@ public class Scenario extends AbstractModelElement {
 			dimX += ((AbstractModelElement)lifelines.get(i)).getXdimension() + 
 				DefaultFigureSize.SPACING_X;
 		}
-		LifeLine last = (LifeLine)lifelines.get(lifelines.size()-1);
+		//LifeLine last = (LifeLine)lifelines.get(lifelines.size()-1);
 		dimX -= DefaultFigureSize.SPACING_X;
 		return dimX;
 	}

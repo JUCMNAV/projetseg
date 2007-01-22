@@ -29,7 +29,7 @@
              id="com.site.ucmscenarioviewer.wizards.ucm_export_wizard"
              name="UCM Scenario Image"
              class="com.site.UCMScenarioViewer.wizards.UCMScenarioExportWizard"
-             icon="icons/msc-icon-import.gif">
+             icon="icons/msc-icon-export.gif">
              <description>Export MSC scenarios to image files</description>
        </wizard>
    </extension> 

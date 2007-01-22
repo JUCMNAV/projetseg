@@ -22,7 +22,12 @@ import com.site.UCMScenarioViewer.utils.Helper;
  */
 public class Sequence extends AbstractModelElement {
 	
-	public Sequence() {}
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public Sequence() {}
 	
 	/**
 	 * @param id

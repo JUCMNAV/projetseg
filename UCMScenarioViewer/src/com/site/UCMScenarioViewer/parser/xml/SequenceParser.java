@@ -82,9 +82,7 @@ public class SequenceParser {
 								&& !type.equals("Connect_End")
 								&& !type.equals("Trigger_End")) {
 							DoElement element = null;
-							String a = (String) components.get(component);
 							String b = (String) components.get(component);
-							int typeInt = 0;
 							if (type.equals("Resp"))
 								element = new Action(Doid, name, (LifeLine) lines.get(b));
 							if (type.equals("Start")

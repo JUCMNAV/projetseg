@@ -16,6 +16,11 @@ import com.site.UCMScenarioViewer.utils.Helper;
 public class Action extends DoElement {
 
 	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
 	 * Default constructor.
 	 */
 	public Action() {
@@ -63,7 +68,7 @@ public class Action extends DoElement {
 		if (getWidth() < 0) {
 			// Width has not been set, so it needs to be calculated and set
 			int maxX = getMaxLabel().getTextBounds().width;
-			int standardX = getStandardLabel().getTextBounds().width;
+			//int standardX = getStandardLabel().getTextBounds().width;
 			int labelX = getLabel().getTextBounds().width; 
 			int dimX = 2*DefaultFigureSize.TEXT_PADDING;
 			if (labelX + dimX > getYdimension()) {

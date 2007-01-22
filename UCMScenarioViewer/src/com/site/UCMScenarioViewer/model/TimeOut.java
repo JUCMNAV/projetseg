@@ -19,6 +19,11 @@ import com.site.UCMScenarioViewer.utils.Helper;
 public class TimeOut extends SetTimer {
 
 	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
 	 * 
 	 */
 	public TimeOut() {

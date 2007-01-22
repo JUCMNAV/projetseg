@@ -25,7 +25,11 @@ import com.site.UCMScenarioViewer.utils.Properties;
  */
 public class ScenarioGroup extends AbstractModelElement {
 	
-	private int selectedScenario = 0;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private int selectedScenario = 0;
 	protected static IPropertyDescriptor[] descriptors = null;
 
 	static {
