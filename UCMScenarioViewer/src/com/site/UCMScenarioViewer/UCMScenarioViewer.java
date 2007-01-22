@@ -54,6 +54,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -85,6 +87,33 @@ import com.site.UCMScenarioViewer.parser.EMFParserInitializer;
  */
 public class UCMScenarioViewer extends GraphicalEditor {
 
+    protected static Font applicationFont;
+    protected static Font largerApplicationFont;
+    
+    public static Font getApplicationFont() {
+        if (applicationFont == null) {
+            applicationFont = new Font(null, "", 12, org.eclipse.swt.SWT.CANCEL);
+        }
+        return applicationFont;
+    }
+    public static Font getLargerApplicationFont() {
+        if (largerApplicationFont == null) {
+            largerApplicationFont = new Font(null, "", 16, org.eclipse.swt.SWT.CANCEL);
+        }
+        return largerApplicationFont;
+    }
+    public static void setApplicationFont(FontData newFont) 
+    {
+        if (applicationFont!=null && !applicationFont.isDisposed())
+            applicationFont.dispose();
+        applicationFont = new Font(null, newFont.getName(), newFont.getHeight(), newFont.getStyle());
+
+        if (largerApplicationFont!=null && !largerApplicationFont.isDisposed())
+            largerApplicationFont.dispose();
+        largerApplicationFont = new Font(null, newFont.getName(), newFont.getHeight()+4, newFont.getStyle());
+        
+    }
+    
 	/**
 	 * 
 	 * Outline implementation class. Supports two views: tree view and outline view.

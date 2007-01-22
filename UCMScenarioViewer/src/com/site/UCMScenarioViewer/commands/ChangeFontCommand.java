@@ -6,14 +6,14 @@ package com.site.UCMScenarioViewer.commands;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.FontData;
 
-import com.site.UCMScenarioViewer.model.Scenario;
+import com.site.UCMScenarioViewer.UCMScenarioViewer;
 
 /**
  * Implementation of 'font switching' command.
  */
 public class ChangeFontCommand extends Command {
 
-	private Scenario scenario;
+	private UCMScenarioViewer editor;
 	private FontData newFont;
 	private FontData oldFont;
 	
@@ -31,8 +31,8 @@ public class ChangeFontCommand extends Command {
 		super(label);
 	}
 	
-	public ChangeFontCommand(Scenario scenario, FontData oldFont, FontData newFont) {
-		this.scenario = scenario;
+	public ChangeFontCommand(UCMScenarioViewer editor, FontData oldFont, FontData newFont) {
+		this.editor = editor;
 		this.oldFont = oldFont;
 		this.newFont = newFont;
 	}
@@ -50,6 +50,16 @@ public class ChangeFontCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		scenario.changeFont(oldFont, newFont);
+		//scenario.changeFont(oldFont, newFont);
+        redo();
 	}
+    
+    public void redo() {
+        editor.setApplicationFont(newFont);
+    }
+    
+    public void undo() {
+        editor.setApplicationFont(oldFont);
+    }
+    
 }

@@ -11,13 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.Label;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import com.site.UCMScenarioViewer.UCMScenarioViewer;
 import com.site.UCMScenarioViewer.utils.DefaultFigureSize;
 import com.site.UCMScenarioViewer.utils.Helper;
 import com.site.UCMScenarioViewer.utils.Properties;
@@ -248,7 +247,8 @@ public class Scenario extends AbstractModelElement {
 	 */
 	public Label getLabel() {
 		Label label = super.getLabel();
-		label.setFont(new Font(null, font, fontSize+4, SWT.BOLD));
+		//label.setFont(new Font(null, font, fontSize+4, SWT.BOLD));
+        label.setFont(UCMScenarioViewer.getLargerApplicationFont());
 		return label;
 	}
 	

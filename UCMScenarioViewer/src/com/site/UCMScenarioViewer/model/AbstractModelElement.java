@@ -19,6 +19,7 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import com.site.UCMScenarioViewer.UCMScenarioViewer;
 import com.site.UCMScenarioViewer.utils.DefaultFigureSize;
 import com.site.UCMScenarioViewer.utils.Properties;
 
@@ -403,7 +404,8 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	 * label for its name
 	 */
 	public Font getFont() {
-		return new Font(null, font, fontSize, fontStyle);
+		//return new Font(null, font, fontSize, fontStyle);
+        return UCMScenarioViewer.getApplicationFont();
 	}
 	
 	/**
