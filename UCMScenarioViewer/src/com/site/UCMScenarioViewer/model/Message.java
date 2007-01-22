@@ -34,14 +34,11 @@ public class Message extends SequenceElement {
 
 	public Message() {}
 	
-	protected static IPropertyDescriptor[] descriptors = null;
-
-	static {
-		descriptors = new IPropertyDescriptor[]{
-			new PropertyDescriptor(Properties.ID_REFRESH_SOURCE, "Refresh Source Anchor"),
-			new PropertyDescriptor(Properties.ID_REFRESH_TARGET, "Refresh Target Anchor")			
-		};
-	}
+	protected static final IPropertyDescriptor[] descriptors  = new IPropertyDescriptor[]{
+        new PropertyDescriptor(Properties.ID_REFRESH_SOURCE, "Refresh Source Anchor"),
+        new PropertyDescriptor(Properties.ID_REFRESH_TARGET, "Refresh Target Anchor")           
+    };
+    
 	/**
 	 * @param id
 	 * @param name

@@ -32,19 +32,16 @@ public class Scenario extends AbstractModelElement {
      * 
      */
     private static final long serialVersionUID = 1L;
-    public static int LIFELINES = 0;
-	public static int SEQUENCE = 1;
+    public static final int LIFELINES = 0;
+	public static final int SEQUENCE = 1;
 	
 	private String description;
 	//private ArrayList children = new ArrayList(2);
 	private double zoom = 1.0;
-	protected static IPropertyDescriptor[] descriptors = null;
+	protected static final IPropertyDescriptor[] descriptors = new IPropertyDescriptor[]{
+        new PropertyDescriptor(Properties.ID_INSERT_LIFELINE, "Insert LifeLine")
+    };
 
-	static {
-		descriptors = new IPropertyDescriptor[]{
-			new PropertyDescriptor(Properties.ID_INSERT_LIFELINE, "Insert LifeLine")
-		};
-	}
 
 	public Scenario() {
 		

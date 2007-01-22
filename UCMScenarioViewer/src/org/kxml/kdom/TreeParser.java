@@ -12,7 +12,7 @@ import org.kxml.parser.Tag;
 
 public class TreeParser extends AbstractXmlParser {
 
-    class Position {
+    static class Position {
 
 	Node node;
 	StartTag start;

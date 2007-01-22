@@ -416,14 +416,10 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	 * Descriptors of the listeners
 	 * Comment for <code>descriptors</code>
 	 */
-	protected static IPropertyDescriptor[] descriptors = null;
+	protected static final IPropertyDescriptor[] descriptors = new IPropertyDescriptor[]{
+        new PropertyDescriptor(Properties.ID_REFRESH, "Refresh Part"),
+    };
 
-	// The only event fired is a refresh event
-	static {
-		descriptors = new IPropertyDescriptor[]{
-			new PropertyDescriptor(Properties.ID_REFRESH, "Refresh Part"),
-		};
-	}
 
 	/**
 	 * Adds a listener to element

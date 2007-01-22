@@ -30,14 +30,10 @@ public class ScenarioGroup extends AbstractModelElement {
      */
     private static final long serialVersionUID = 1L;
     private int selectedScenario = 0;
-	protected static IPropertyDescriptor[] descriptors = null;
+	protected static IPropertyDescriptor[] descriptors  = new IPropertyDescriptor[]{
+        new PropertyDescriptor(Properties.ID_SWITCH_SCENARIO, "Switch Scenario"),
+    };
 
-	static {
-		descriptors = new IPropertyDescriptor[]{
-			new PropertyDescriptor(Properties.ID_SWITCH_SCENARIO, "Switch Scenario"),
-		};
-	}
-	
 	public ScenarioGroup() {}
 	
 	public ScenarioGroup(String id, String name) {

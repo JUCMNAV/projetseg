@@ -93,7 +93,7 @@ public class Xml {
 
     /** forces escaping of all character coded greater than 127 */
     
-    public static int ENCODE_128 = 2;
+    public static final int ENCODE_128 = 2;
 
     /** Constant identifying wap extension events */
 

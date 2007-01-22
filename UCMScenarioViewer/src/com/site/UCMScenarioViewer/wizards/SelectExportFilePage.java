@@ -131,9 +131,8 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
 
     // Page validation
     protected void validatePage(boolean showErrorMessage) {
-        String errorMessage = null;
+        String errorMessage = testPathValid();
 
-        errorMessage = errorMessage == null ? testPathValid() : errorMessage;
         errorMessage = errorMessage == null ? testCanWrite() : errorMessage;
         errorMessage = errorMessage == null ? testViewer() : errorMessage;
 

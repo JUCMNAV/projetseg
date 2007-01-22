@@ -68,9 +68,8 @@ public class SelectModelFromWorkspacePage extends WizardPage {
 
     // Page validation
     protected void validatePage(boolean showErrorMessage) {
-        String errorMessage = null;
+        String errorMessage =  modelsTree.testModelSelected();
 
-        errorMessage = errorMessage == null ? modelsTree.testModelSelected() : errorMessage;
         errorMessage = errorMessage == null ? modelsTree.testModelCorrectness() : errorMessage;
 
         setErrorMessage(showErrorMessage ? errorMessage : null);
