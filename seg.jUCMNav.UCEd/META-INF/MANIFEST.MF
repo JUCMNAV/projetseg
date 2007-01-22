@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  seg.jUCMNav,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common.ui
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true
 Export-Package: seg.jUCMNav.importexport
 Bundle-ClassPath: .,
  lib/jdom.jar,

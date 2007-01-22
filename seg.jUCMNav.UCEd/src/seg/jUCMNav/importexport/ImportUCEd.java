@@ -186,7 +186,7 @@ public class ImportUCEd implements IURNImport {
 	 *            the recursion level, influences color.
 	 * @throws InvocationTargetException
 	 */
-	private void addComponent(AbstractEntityBlock absblock, String name, int level) throws InvocationTargetException {
+    private void addComponent(AbstractEntityBlock absblock, String name, int level) throws InvocationTargetException {
 		// create a new component reference ; reusing ModelCreationFactory code to set the kind, but don't care about the actual reference
 		ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, getComponentKind(absblock));
 
