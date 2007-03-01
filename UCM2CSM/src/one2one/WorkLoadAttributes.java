@@ -25,7 +25,12 @@ public class WorkLoadAttributes {
     // *** To be implemented ***
     public static void printArrivalPattern(PrintStream ps, Workload work) {
         if (work.getArrivalPattern() != null) {
-            String print_aPattern = "arrivalPattern=\"" + work.getArrivalPattern() + "\"" + " ";
+        	String arrivalPatternType = work.getArrivalPattern().toString();
+        	// Fix the mapping between what the URN spec says and what CSM expects. 1st letter is lowercase
+        	arrivalPatternType = arrivalPatternType.substring(0, 1).toLowerCase() + arrivalPatternType.substring(1);
+        	if (arrivalPatternType.equals("phaseType"))
+        		arrivalPatternType = "phase_Type";
+            String print_aPattern = "arrivalPattern=\"" + arrivalPatternType + "\"" + " ";
             ps.print(print_aPattern);
         }
     }
