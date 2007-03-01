@@ -16,10 +16,16 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
+import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
+import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -39,14 +45,14 @@ public class Convert implements IURNExport {
         obj.Convert(ps);
     }
 
-    public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
-
+    	public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
+    	
         PrintStream ps = new PrintStream(fos);
 
         // CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-        String CSM_header = "<CSM name=\"root\" " + "description= \"" + urn.getDescription() + "\">";
-        String CSM_footer = "</CSM>";
+        String CSM_header = "<CSM:CSMType xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" name=\"root\" " + "description= \"" + urn.getDescription() + "\">";
+        String CSM_footer = "</CSM:CSMType>";
 
         // output to file
         ps.println(XML_header);
@@ -103,6 +109,9 @@ public class Convert implements IURNExport {
         // Generate XML tags
         saveXML(ps, dupMaplist, dupMapConnList, comp_map);
 
+        // close scenario THEN print components. JS
+        ps.println("        " + close_scenario_tag);
+
         // parsing the map for components
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef cref = (ComponentRef) iter3.next();
@@ -115,7 +124,6 @@ public class Convert implements IURNExport {
             }
 
         }
-        ps.println("        " + close_scenario_tag);
         ps.flush();
 
     }
@@ -160,6 +168,20 @@ public class Convert implements IURNExport {
         ps.println("            " + dummy_attributes);
         ps.flush();
     }
+    
+    // JS.
+    public void printDummySequence(CSMDupNode node, String id, PrintStream ps, CSMDupConnectionList list) {
+        // initializing attributes
+        String successor = list.getTargetForSource(node.getId());
+        String predecessor = list.getSourceForTarget(node.getId());
+
+        // object attributes
+        String dummy_seq_attributes = "<Sequence id=\"" + id + "\"" + " " + "source= \"h" + predecessor + "\"" + " "
+                + "target= \"h" + successor + "\"" + "/>";
+        // output to file
+        ps.println("            " + dummy_seq_attributes);
+        ps.flush();
+    }
 
     // print CSM output for RA and Sequence
     public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Hashtable comp_map) {
@@ -191,6 +213,10 @@ public class Convert implements IURNExport {
             // printing dummy Sequence
             else if (curr_node.getId().startsWith("G5")) {
                 printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);
+            }
+            // print (the truly) dummy Sequence. JS
+            else if (curr_node.getId().startsWith("G9")) {
+                printDummySequence(curr_node, curr_node.getId(), ps, dupMapConnlist);
             } else { // print other objects
                 // initializing attributes
                 String curr_node_id = ((PathNode) ((CSMDupNode) dupMaplist.get(b)).getNode()).getId();
@@ -292,6 +318,7 @@ public class Convert implements IURNExport {
     public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list) {
         boolean work_done = true;
         int dummy_id = 500;
+        int dummy_seq_id = 900;
 
         while (work_done) {
             work_done = false; // reset loop condition
@@ -355,7 +382,7 @@ public class Convert implements IURNExport {
                                 dummy_id++;
                                 node_list.add(dummy_node);
 
-                                // remove curr_conn connection
+                               // remove curr_conn connection
                                 conn_list.remove(curr_conn);
                                 conn_list_size--;
 
@@ -371,7 +398,69 @@ public class Convert implements IURNExport {
                             } // else
                         } // else
                     } // if
-                } // if
+                    // Insert Dummy Steps in empty path. JS
+//                } else if (source.isPathNode() && (source.getNode() instanceof StartPoint) && target.isPathNode() && (target.getNode() instanceof EndPoint)) {
+                  } else if ( ( (source.isPathNode() && (
+                  					(source.getNode() instanceof EndPoint)
+                  					|| (source.getNode() instanceof StartPoint)
+                  					|| (source.getNode() instanceof AndJoin)
+                  					|| (source.getNode() instanceof AndFork)
+                  					|| (source.getNode() instanceof OrJoin)
+                  					|| (source.getNode() instanceof OrFork)
+                  			) ) && 
+                  			(target.isPathNode() && (
+                  					(target.getNode() instanceof EndPoint)
+                  					|| (target.getNode() instanceof StartPoint)
+                  					|| (target.getNode() instanceof AndJoin)
+                  					|| (target.getNode() instanceof AndFork)
+                  					|| (target.getNode() instanceof OrJoin)
+                  					|| (target.getNode() instanceof OrFork)
+                  			)  ) ) ||
+                  			// (failed) attempt at introducing a step after a fork and before a responsibility
+                  			// even if this should not be (because CSM Viewer seems to prefer it that way). JS
+                  			(
+                  			( source.isPathNode() && source.getNode() instanceof OrFork )
+                  			&&
+                  			( target.isPathNode() && target.getNode() instanceof RespRef )
+                  			)
+                  			){
+
+                    // create dummy node
+                    CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+                    dummy_id++;
+                    node_list.add(dummy_node);
+
+                    // remove curr_conn connection
+                    conn_list.remove(curr_conn);
+                    conn_list_size--;
+
+                    // add new connection
+                    conn_list.add(new CSMDupConnection(source, dummy_node));
+                    conn_list_size++;
+
+                    // add new connection
+                    conn_list.add(new CSMDupConnection(dummy_node, target));
+                    conn_list_size++;
+                    // Insert Dummy Sequence between two responsibilities.  JS
+                } else if ( (source.isPathNode() && (source.getNode() instanceof RespRef) && target.isPathNode() && (target.getNode() instanceof RespRef))
+                		|| (source.isPathNode() && (source.getNode() instanceof RespRef) && target.isPathNode() && (target.getNode() instanceof ResourceAcquisition)) ){
+                	// create dummy node
+                    CSMDupNode dummy_node = new CSMDupNode(dummy_seq_id);
+                    dummy_seq_id++;
+                    node_list.add(dummy_node);
+
+                    // remove curr_conn connection
+                    conn_list.remove(curr_conn);
+                    conn_list_size--;
+
+                    // add new connection
+                    conn_list.add(new CSMDupConnection(source, dummy_node));
+                    conn_list_size++;
+
+                    // add new connection
+                    conn_list.add(new CSMDupConnection(dummy_node, target));
+                    conn_list_size++;
+                }
             } // for
         } // while
     } // method

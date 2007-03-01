@@ -106,7 +106,7 @@ public class ResourceAcquisition {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " name=\"" + " " + "\"" + " acquire=\"" + "c" + comp.getId() + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "c" + comp.getId() + "\"";
         String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String ra_successor = " successor=\"" + "h" + successor + "\"";
         String end_ra = "/>";

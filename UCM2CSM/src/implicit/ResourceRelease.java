@@ -108,7 +108,7 @@ public class ResourceRelease {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " name=\"" + " " + "\"" + " release=\"" + "c" + comp.getId() + "\"";
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + comp.getId() + "\"";
 
         String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String rr_successor = " successor=\"" + "h" + successor + "\"";
