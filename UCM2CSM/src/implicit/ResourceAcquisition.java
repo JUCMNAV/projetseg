@@ -180,7 +180,20 @@ public class ResourceAcquisition {
         ins_nodes++;
         // create new links
         CSMDupNode source = conn_map.getSourceForTarget(curr_edge);
-        conn_map.add(new CSMDupConnection(source, ra_node));
+        // add an empty point if immediatly followed by RR node
+        if (source.getType() == CSMDupNode.RR) {
+            // create empty point and insert it in duplicate map
+            CSMDupNode e2_node = new CSMDupNode(++seq_id);
+            map.add(e2_node);
+            ins_nodes++;
+            conn_map.add(new CSMDupConnection(source, e2_node));
+            conn_map.add(new CSMDupConnection(e2_node, ra_node));
+        	
+        } else {
+            conn_map.add(new CSMDupConnection(source, ra_node));
+        	
+        }
+        
         conn_map.add(new CSMDupConnection(ra_node, e_node));
         conn_map.add(new CSMDupConnection(e_node, curr_edge));
         conn_map.remove(source, curr_edge);

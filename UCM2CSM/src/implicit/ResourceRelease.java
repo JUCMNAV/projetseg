@@ -195,7 +195,18 @@ public class ResourceRelease {
         CSMDupNode target = conn_map.getTargetForSource(curr_edge);
         conn_map.add(new CSMDupConnection(curr_edge, e_node));
         conn_map.add(new CSMDupConnection(e_node, rr_node));
-        conn_map.add(new CSMDupConnection(rr_node, target));
+        // add an empty point if immediatly followed by RA node
+        if (target.getType() == CSMDupNode.RA) {
+            // create empty point and insert it in duplicate map
+            CSMDupNode e2_node = new CSMDupNode(++seq_id);
+            map.add(e2_node);
+            ins_nodes++;
+            conn_map.add(new CSMDupConnection(rr_node, e2_node));
+            conn_map.add(new CSMDupConnection(e2_node, target));
+        } else {
+            conn_map.add(new CSMDupConnection(rr_node, target));	
+        }
+        
         conn_map.remove(curr_edge, target);
         if (!comp_stack.isEmpty()) {
             ComponentRef comp = (ComponentRef) comp_stack.pop();
