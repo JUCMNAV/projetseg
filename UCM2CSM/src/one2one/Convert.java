@@ -80,7 +80,7 @@ public class Convert implements IURNExport {
         String close_scenario_tag = "</Scenario>";
 
         // output to file
-        ps.print("        " + open_scenario_tag);
+        ps.print("\n        " + open_scenario_tag);
 
         if (map.getDescription() != null) {
             String descr_attribute = "description=\"" + map.getDescription() + "\"";
