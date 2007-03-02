@@ -30,7 +30,7 @@ public class OutBindingConverter implements AbstractConverter {
                 + ((PathNode) out_bind.getStubExit().getTarget()).getId() + "\"/>";
 
         // output to file
-        ps.println("              " + Object_attributes);
+        ps.println("                     " + Object_attributes);
         ps.flush();
     }
 }

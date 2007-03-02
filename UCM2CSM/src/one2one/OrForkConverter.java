@@ -27,7 +27,7 @@ public class OrForkConverter implements AbstractConverter {
 
         // object attributes
         String madatory_attribute = "<Branch id=\"" + "h" + of.getId() + "\"";
-        ps.print("			" + madatory_attribute);
+        ps.print("            " + madatory_attribute);
         String closing_attribute = "/>";
 
         // optional attributes

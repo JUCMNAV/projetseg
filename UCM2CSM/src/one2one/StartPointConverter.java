@@ -54,7 +54,7 @@ public class StartPointConverter implements AbstractConverter {
         }
 
         // output to file
-        ps.println("             " + closing_attribute);
+        ps.println("            " + closing_attribute);
         ps.flush();
     }
 }

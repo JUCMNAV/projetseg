@@ -77,7 +77,7 @@ public class ComponentConverter {
         String comp_attributes_parent = "parent=\"" + parent + "\"" + " ";
         String comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\"" + " ";
 
-        ps.print("            " + comp_attributes);
+        ps.print("        " + comp_attributes);
         ps.print(" " + comp_attributes_active_process);
 
         if (parent.compareTo(" ") != 0) {

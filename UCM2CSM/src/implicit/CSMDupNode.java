@@ -175,14 +175,6 @@ public class CSMDupNode {// extends PathNodeImpl {
         } else if (node instanceof Stub) {
             StubConverter obj = new StubConverter((Stub) node);
             doConvert(obj, ps, source, target);
-            // process bindings
-            for (Iterator iter = ((Stub) node).getBindings().iterator(); iter.hasNext();) {
-                PluginBinding binding = (PluginBinding) iter.next();
-                if (binding instanceof PluginBinding) {
-                    PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
-                    doConvert(bind_obj, ps, source, target);
-                }
-            }
         } else if (node instanceof RespRef) {
             ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef) node);
             doConvert(obj, ps, source, target);

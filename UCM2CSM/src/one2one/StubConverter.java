@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
@@ -32,13 +33,24 @@ public class StubConverter implements AbstractConverter {
                 + source.toString().subSequence(1, (source.toString().length() - 1)) + "\"" + " " + "successor=\"" + ""
                 + target.toString().subSequence(1, (target.toString().length() - 1)) + "\"";
 
-        ps.print("           " + mandatory_attribute);
-        String closing_attribute = "/>";
+        ps.print("            " + mandatory_attribute);
 
         // optional attributes
         sa.OptionalAttributes(stub, ps);
+        ps.println(">");
+        
+        // process bindings as CSM refinements
+        for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
+            PluginBinding binding = (PluginBinding) iter.next();
+            if (binding instanceof PluginBinding) {
+                PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
+                bind_obj.Convert(ps, source, target);
+            }      
+        }
+
         // output to file
-        ps.println(closing_attribute);
+        String closing_attribute = "</Step>";
+        ps.println("            " + closing_attribute);
         ps.flush();
     }
 }

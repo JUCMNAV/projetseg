@@ -31,7 +31,7 @@ public class PluginBindingConverter implements AbstractConverter {
         String object_attributes = "<Refinement parent=\"" + "h" + p_bind.getStub().getId() + "\"" + " " + "sub=\"" + "m" + p_bind.getPlugin().getId() + "\">";
 
         // output to file
-        ps.println("            " + object_attributes);
+        ps.println("                " + object_attributes);
 
         // get inbindings
         for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
@@ -52,7 +52,7 @@ public class PluginBindingConverter implements AbstractConverter {
         String object_attributes_close = "</Refinement>";
 
         // output to file
-        ps.println("            " + object_attributes_close);
+        ps.println("                " + object_attributes_close);
         ps.flush();
     }
 

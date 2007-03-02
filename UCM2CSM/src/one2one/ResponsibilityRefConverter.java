@@ -24,11 +24,11 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-        String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\"" + " " + "name =\"" + resp.getName() + "\"" + " " + "predecessor =\""
+        String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\"" + " " + "name =\"" + resp.getRespDef().getName() + "\"" + " " + "predecessor =\""
                 + source.toString().subSequence(1, (source.toString().length() - 1)) + "\"" + " " + "successor= \""
                 + target.toString().subSequence(1, (target.toString().length() - 1)) + "\"";
 
-        ps.print("           " + mandatory_attribute);
+        ps.print("            " + mandatory_attribute);
         String closing_attribute = "/>";
 
         // optional attributes

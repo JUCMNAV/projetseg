@@ -27,7 +27,7 @@ public class EndPointConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
-        ps.print("			" + mandatory_attribute);
+        ps.print("            " + mandatory_attribute);
         String closing_attribute = "/>";
 
         // optional attributes
