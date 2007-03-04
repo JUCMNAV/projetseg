@@ -36,7 +36,7 @@ public class ResourceAcquisition {
             findParentsRA(parent_ref, edge_stack);
         }
     }
-
+    
     // Resource Acquire algorithm
     public int acquireResource(PathNode curr_edge, CSMDupNodeList dup_map, CSMDupConnectionList dup_map_conn, Hashtable component_acquire) {
 
@@ -181,7 +181,8 @@ public class ResourceAcquisition {
         // create new links
         CSMDupNode source = conn_map.getSourceForTarget(curr_edge);
         // add an empty point if immediatly followed by RR node
-        if (source.getType() == CSMDupNode.RR) {
+
+        if ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.RESPREF)) { //js
             // create empty point and insert it in duplicate map
             CSMDupNode e2_node = new CSMDupNode(++seq_id);
             map.add(e2_node);
@@ -196,6 +197,8 @@ public class ResourceAcquisition {
         
         conn_map.add(new CSMDupConnection(ra_node, e_node));
         conn_map.add(new CSMDupConnection(e_node, curr_edge));
+        
+        
         conn_map.remove(source, curr_edge);
         if (!comp_stack.isEmpty()) {
             ComponentRef comp = (ComponentRef) comp_stack.pop();

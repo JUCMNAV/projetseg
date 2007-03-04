@@ -22,6 +22,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import ucm.map.impl.MapFactoryImpl;
 import urn.URNspec;
 import urncore.IURNDiagram;
 
@@ -130,8 +131,11 @@ public class Convert implements IURNExport {
         int list_size = list.size();
         while (i < list_size) {
             CSMDupNode node = (CSMDupNode) list.get(i); // current edge
-            if (node.getType() == CSMDupNode.START || node.getType() == CSMDupNode.END || node.getType() == CSMDupNode.STUB
-                    || node.getType() == CSMDupNode.RESPREF) {
+            if (true)
+            		/*js
+             		(node.getType() == CSMDupNode.START || node.getType() == CSMDupNode.END || node.getType() == CSMDupNode.STUB
+                    || node.getType() == CSMDupNode.RESPREF)
+                    */ {
 
                 // keep track of all nodes inserted prior to current edge
                 PathNode curr_node = node.getNode();
@@ -154,29 +158,28 @@ public class Convert implements IURNExport {
         String name = "Dummy";
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
+        String dummy_attributes;
 
         // object attributes
-        String dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
-                + "successor= \"h" + successor + "\"" + "/>";
+        if (predecessor.startsWith("G") && successor.startsWith("G")) {
+            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
+            + "successor= \"" + successor + "\"" + "/>";        
+        } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) {
+            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
+            + "successor= \"h" + successor + "\"" + "/>";
+        } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) {
+            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
+            + "successor= \"" + successor + "\"" + "/>";
+        } else {        	
+            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
+            + "successor= \"h" + successor + "\"" + "/>";
+        }
+
         // output to file
         ps.println("            " + dummy_attributes);
         ps.flush();
     }
     
-    // JS.
-    public void printDummySequence(CSMDupNode node, String id, PrintStream ps, CSMDupConnectionList list) {
-        // initializing attributes
-        String successor = list.getTargetForSource(node.getId());
-        String predecessor = list.getSourceForTarget(node.getId());
-
-        // object attributes
-        String dummy_seq_attributes = "<Sequence id=\"" + id + "\"" + " " + "source= \"h" + predecessor + "\"" + " "
-                + "target= \"h" + successor + "\"" + "/>";
-        // output to file
-        ps.println("            " + dummy_seq_attributes);
-        ps.flush();
-    }
-
     // print CSM output for RA and Sequence
     public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Hashtable comp_map) {
 
@@ -204,7 +207,7 @@ public class Convert implements IURNExport {
                 ResourceRelease rr = new ResourceRelease(ps);
                 rr.acquireEmptyPoint(curr_node, dupMapConnlist);
             }
-            // printing dummy Sequence
+            // printing dummy Step
             else if (curr_node.getId().startsWith("G5")) {
                 printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);
             } else { // print other objects
@@ -306,11 +309,12 @@ public class Convert implements IURNExport {
 
     // Adds a Dummy responsability in between 2 steps
     public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list) {
-        boolean work_done = true;
+        boolean work_to_do = true;
         int dummy_id = 500;
+        int emptyPoint_id = 9000; //js
 
-        while (work_done) {
-            work_done = false; // reset loop condition
+        while (work_to_do) {
+            work_to_do = false; // reset loop condition
             // Scan the list of connections for a connection that has Steps as both source and target
             int conn_list_size = conn_list.size();
             for (int i = 0; i < conn_list_size; i++) {
@@ -347,10 +351,11 @@ public class Convert implements IURNExport {
                                 // add new connection
                                 conn_list.add(new CSMDupConnection(source, next_target));
                                 conn_list_size++;
+                                work_to_do = true; // js:  we need to start over when adding connections
                             }
                         } // if
                         else {
-                            if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub))) {
+                        	if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub))) {
                                 // delete empty point
                                 // remove 'target' node
                                 node_list.remove(target);
@@ -366,6 +371,7 @@ public class Convert implements IURNExport {
                                 // add new connection
                                 conn_list.add(new CSMDupConnection(source, next_target));
                                 conn_list_size++;
+                                work_to_do = true; // js:  we need to start over when adding connections
                             } else { // replace empty point with dummy
                                 // delete empty point
                                 // remove 'target' node
@@ -389,14 +395,78 @@ public class Convert implements IURNExport {
                                 conn_list_size++;
                                 conn_list.add(new CSMDupConnection(dummy_node, next_target));
                                 conn_list_size++;
+                                work_to_do = true; // js:  we need to start over when adding connections
                             } // else
                         } // else
                     } // if
                 } // if 
+                //  Throw in an empty point in between to adjacent ResponsibilityRef. NEEDS MAJOR CHECKUP. JS 
+                else if ((source.getType() == CSMDupNode.RESPREF) && (target.getType() == CSMDupNode.RESPREF)) {
+
+                	// create dummy node
+                	MapFactoryImpl mfi = new MapFactoryImpl();
+                	EmptyPoint ep = mfi.createEmptyPoint();
+                	ep.setName("" + emptyPoint_id);
+                	ep.setDescription("" + emptyPoint_id);
+                	ep.setId("" + emptyPoint_id);
+                	CSMDupNode ep_node = new CSMDupNode((PathNode)ep);
+                	ep_node.setType(CSMDupNode.EMPTY);
+                	ep_node.setID("" + emptyPoint_id);
+                	emptyPoint_id++;
+                	node_list.add(ep_node);
+
+                	// remove curr_conn connection
+                    conn_list.remove(curr_conn);
+                    conn_list_size--;
+
+                    // add new connection
+                    conn_list.add(new CSMDupConnection(source, ep_node));
+                    conn_list_size++;
+                    conn_list.add(new CSMDupConnection(ep_node, target));
+                    conn_list_size++;
+               		work_to_do = true; // js:  we need to start over when adding connections
+                } // else  complex cases //js
+                else if ((  (source.getType() == CSMDupNode.START)
+                		|| (source.getType() == CSMDupNode.END)
+                		|| (source.getType() == CSMDupNode.ANDFORK)
+                		|| (source.getType() == CSMDupNode.ANDJOIN)
+                		|| (source.getType() == CSMDupNode.ORFORK)
+                		|| (source.getType() == CSMDupNode.ORJOIN)
+                		)&&((  (target.getType() == CSMDupNode.START)
+                        		|| (target.getType() == CSMDupNode.END)
+                        		|| (target.getType() == CSMDupNode.ANDFORK)
+                        		|| (target.getType() == CSMDupNode.ANDJOIN)
+                        		|| (target.getType() == CSMDupNode.ORFORK)
+                        		|| (target.getType() == CSMDupNode.ORJOIN)
+                        		)
+                				)) {	// create dummy node
+                	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
+                	conn_list_size++;
+            		work_to_do = true; // js:  we need to start over when adding connections
+                } // else STEP-STEP needs a DUMMY SEQUENCE. JS
+                else if ((source.getType() == CSMDupNode.CSMDUMMY) && (target.getType() == CSMDupNode.CSMDUMMY)) {
+                	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
+                	conn_list_size++;
+            		work_to_do = true; // js:  we need to start over when adding connections
+                } // else  STEP-STEP case //js
             } // for
         } // while
     } // method
 
+    // js
+    public int insertDummyStep(int dummy_id, CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
+//    	create dummy node
+		CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+		dummy_id++;
+		node_list.add(dummy_node);
+		// remove curr_conn connection
+		conn_list.remove(curr_conn);
+		// add the new connections
+		conn_list.add(new CSMDupConnection(source, dummy_node));
+		conn_list.add(new CSMDupConnection(dummy_node, target));
+		return dummy_id;
+    }
+        
     public void export(URNspec urn,  HashMap mapDiagrams, String filename) throws InvocationTargetException {
         // TODO Auto-generated method stub
     }

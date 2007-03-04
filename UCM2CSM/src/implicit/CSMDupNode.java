@@ -2,7 +2,6 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import one2one.AbstractConverter;
 import one2one.AndForkConverter;
@@ -11,7 +10,6 @@ import one2one.EmptyPointConverter;
 import one2one.EndPointConverter;
 import one2one.OrForkConverter;
 import one2one.OrJoinConverter;
-import one2one.PluginBindingConverter;
 import one2one.ResponsibilityRefConverter;
 import one2one.StartPointConverter;
 import one2one.StubConverter;
@@ -22,7 +20,6 @@ import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
-import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -63,6 +60,57 @@ public class CSMDupNode {// extends PathNodeImpl {
     static public final int CSMEMPTY = 19; // new Empty Point
     static public final int CSMDUMMY = 20; // new Dummy Step
 
+    // Convert (int) Type to String (for debugging purposes) Js
+    public String getTypeString() {
+    	String textual;
+    	if (type == RESPREF) {
+			textual = "RESPREF";
+		} else if (type == START) {
+			textual = "START";
+		} else if (type == END) {
+			textual = "END";
+		} else if (type == EMPTY) {
+			textual = "EMPTY";
+		} else if (type == TIMESTAMP) {
+			textual = "TIMESTAMP";
+		} else if (type == FAILURE) {
+			textual = "FAILURE";
+		} else if (type == ARROW) {
+			textual = "ARROW";
+		} else if (type == CONNECT) {
+			textual = "CONNECT";
+		} else if (type == STUB) {
+			textual = "STUB";
+		} else if (type == ABORT) {
+			textual = "ABORT";
+		} else if (type == WAIT) {
+			textual = "WAIT";
+		} else if (type == ORFORK) {
+			textual = "ORFORK";
+		} else if (type == ANDFORK) {
+			textual = "ANDFORK";
+		} else if (type == ORJOIN) {
+			textual = "ORJOIN";
+		} else if (type == ANDJOIN) {
+			textual = "ANDJOIN";
+		} else if (type == LOOP) {
+			textual = "LOOP";
+		} else if (type == UNDEFINED) {
+			textual = "UNDEFINED";
+		} else if (type == RA) {
+			textual = "RA";
+		} else if (type == RR) {
+			textual = "RR";
+		} else if (type == CSMEMPTY) {
+			textual = "CSMEMPTY";
+		} else if (type == CSMDUMMY) {
+			textual = "CSMDUMMY";
+		} else {
+			textual = "NOT DEFINED IN SYSTEM";
+		}
+    	return textual;
+    }
+    
     // Reference to the PathNode in jUCMNav's UCM model
     private PathNode node;
 
@@ -99,6 +147,16 @@ public class CSMDupNode {// extends PathNodeImpl {
     // return pathnode type
     public int getType() {
         return type;
+    }
+
+    // return pathnode type. js
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    // set ID. js
+    public void setID(String id) {
+    	this.node_id = id;
     }
 
     public CSMDupNode(int raORrrORseq) {

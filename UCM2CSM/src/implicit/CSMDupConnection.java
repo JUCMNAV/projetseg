@@ -32,6 +32,8 @@ public class CSMDupConnection {
         this.connection = null;
         this.source_id = source;
         this.target_id = target;
+        this.source_node = null; // js
+        this.target_node = null; // js
     }
 
     public CSMDupConnection(PathNode source, String target) {
@@ -39,6 +41,7 @@ public class CSMDupConnection {
         this.source_id = source.getId();
         this.target_id = target;
         this.source_node = new CSMDupNode(source);
+        this.target_node = null; // js
     }
 
     public CSMDupConnection(PathNode source, CSMDupNode target) {
@@ -61,6 +64,7 @@ public class CSMDupConnection {
         this.connection = null;
         this.source_id = source;
         this.target_id = target.getId();
+        this.source_node = null; // js
         this.target_node = new CSMDupNode(target);
     }
 

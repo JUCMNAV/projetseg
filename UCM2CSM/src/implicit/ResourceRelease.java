@@ -196,7 +196,7 @@ public class ResourceRelease {
         conn_map.add(new CSMDupConnection(curr_edge, e_node));
         conn_map.add(new CSMDupConnection(e_node, rr_node));
         // add an empty point if immediatly followed by RA node
-        if (target.getType() == CSMDupNode.RA) {
+        if ((target.getType() == CSMDupNode.RR) || (target.getType() == CSMDupNode.RA) || (target.getType() == CSMDupNode.RESPREF)) { //js
             // create empty point and insert it in duplicate map
             CSMDupNode e2_node = new CSMDupNode(++seq_id);
             map.add(e2_node);

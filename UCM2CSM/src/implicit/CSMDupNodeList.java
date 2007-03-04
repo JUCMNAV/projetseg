@@ -59,15 +59,17 @@ public class CSMDupNodeList {
     public void printDupList() {
         System.out.println("----------Printing duplicate Node List-------");
         System.out.println("List size: " + nodeList.size());
+        String typeName;
         for (int i = 0; i < nodeList.size(); i++) {
             int type = ((CSMDupNode) (nodeList.get(i))).getType();
+            typeName = " (" + ((CSMDupNode) (nodeList.get(i))).getTypeString() + ")";
             if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.CSMEMPTY) {
                 String id = ((CSMDupNode) (nodeList.get(i))).getId();
-                System.out.println("Index " + i + " id: " + id);
+                System.out.println("Index " + i + " id: " + id + typeName);
             } else {
                 System.out.println("Node : " + ((CSMDupNode) (nodeList.get(i))).getNode());
                 String node_id = ((CSMDupNode) (nodeList.get(i))).getId();
-                System.out.println("Index " + i + " id: " + node_id);
+                System.out.println("Index " + i + " id: " + node_id + typeName);
             }
         }
     }

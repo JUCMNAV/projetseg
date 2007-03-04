@@ -16,7 +16,7 @@ import ucm.map.UCMmap;
 
 public class CSMDupConnectionList {
     // will contain CSMDupConnection
-    ArrayList connList = new ArrayList(1000);
+    ArrayList connList = new ArrayList(1000); // js:  limitation
 
     // create list of NodeConnections
     public void DuplicateConnection(UCMmap map) {
