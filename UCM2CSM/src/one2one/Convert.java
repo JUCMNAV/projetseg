@@ -310,7 +310,7 @@ public class Convert implements IURNExport {
     // Adds a Dummy responsability in between 2 steps
     public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list) {
         boolean work_to_do = true;
-        int dummy_id = 500;
+        int dummy_id = 5000; // limitation.  js
         int emptyPoint_id = 9000; //js
 
         while (work_to_do) {
@@ -425,25 +425,29 @@ public class Convert implements IURNExport {
                     conn_list.add(new CSMDupConnection(ep_node, target));
                     conn_list_size++;
                		work_to_do = true; // js:  we need to start over when adding connections
-                } // else  complex cases //js
+                } // else
+                // complex cases //js
                 else if ((  (source.getType() == CSMDupNode.START)
                 		|| (source.getType() == CSMDupNode.END)
                 		|| (source.getType() == CSMDupNode.ANDFORK)
                 		|| (source.getType() == CSMDupNode.ANDJOIN)
                 		|| (source.getType() == CSMDupNode.ORFORK)
                 		|| (source.getType() == CSMDupNode.ORJOIN)
+                		|| (source.getType() == CSMDupNode.CSMEMPTY)
                 		)&&((  (target.getType() == CSMDupNode.START)
                         		|| (target.getType() == CSMDupNode.END)
                         		|| (target.getType() == CSMDupNode.ANDFORK)
                         		|| (target.getType() == CSMDupNode.ANDJOIN)
                         		|| (target.getType() == CSMDupNode.ORFORK)
                         		|| (target.getType() == CSMDupNode.ORJOIN)
+                        		|| (target.getType() == CSMDupNode.CSMEMPTY)                        		
                         		)
                 				)) {	// create dummy node
                 	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
                 	conn_list_size++;
             		work_to_do = true; // js:  we need to start over when adding connections
-                } // else STEP-STEP needs a DUMMY SEQUENCE. JS
+                } // else
+                // STEP-STEP needs a DUMMY SEQUENCE. JS
                 else if ((source.getType() == CSMDupNode.CSMDUMMY) && (target.getType() == CSMDupNode.CSMDUMMY)) {
                 	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
                 	conn_list_size++;

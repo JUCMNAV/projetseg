@@ -18,8 +18,8 @@ import ucm.map.PathNode;
 public class ResourceAcquisition {
 
     // RA and Empty Point IDs
-    static int ra_id = 100;
-    static int seq_id = 200;
+    static int ra_id = 1000; // limitation.  js
+    static int seq_id = 2000; // limitation.  js
     PrintStream ps;
 
     // constructor

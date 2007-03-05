@@ -17,8 +17,8 @@ import ucm.map.PathNode;
 public class ResourceRelease {
 
     // RR and Empty Point IDs
-    static int rr_id = 300;
-    static int seq_id = 400;
+    static int rr_id = 3000; // limitation.  js
+    static int seq_id = 4000; // limitation.  js
     PrintStream ps;
 
     // constructor
