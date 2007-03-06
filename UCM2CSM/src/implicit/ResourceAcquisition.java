@@ -70,7 +70,7 @@ public class ResourceAcquisition {
 
                         // for every component in the outside stack, add an RA and an Empty Point
                         while (!outside_comp_stack.isEmpty()) {
-                            nodes_inserted = addRA(outside_comp_stack, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire);
+                            nodes_inserted = addRA(outside_comp_stack, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire, prev_edge);
                         }
                     } else if (prev_edge_comp_ref != curr_edge_comp_ref) {
                         // Find which parents of curr_edge are not included in those prev_edge
@@ -83,7 +83,7 @@ public class ResourceAcquisition {
 
                         // Acquire the components of the parents
                         while (!outside_comp_stack.isEmpty()) {
-                            nodes_inserted = addRA(outside_comp_stack, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire);
+                            nodes_inserted = addRA(outside_comp_stack, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire, prev_edge);
                         }
                     }// if
                 }// for
@@ -92,7 +92,7 @@ public class ResourceAcquisition {
         else {
             // Must be a start point, acquire the components
             while (!curr_edge_stack.isEmpty()) {
-                nodes_inserted = addRA(null, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire);
+                nodes_inserted = addRA(null, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire, null);
             }
         } // else
         return nodes_inserted;
@@ -169,7 +169,7 @@ public class ResourceAcquisition {
     }
 
     // inserts RA and Empty Points where necessary in the duplicate map
-    public int addRA(Stack comp_stack, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes, Hashtable aquire) {
+    public int addRA(Stack comp_stack, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes, Hashtable aquire, PathNode prev_edge) {
         // create empty point and insert it in duplicate map
         CSMDupNode e_node = new CSMDupNode(++seq_id);
         map.add(e_node);
@@ -179,7 +179,8 @@ public class ResourceAcquisition {
         map.add(ra_node);
         ins_nodes++;
         // create new links
-        CSMDupNode source = conn_map.getSourceForTarget(curr_edge);
+	CSMDupNode source = conn_map.getSourceForTargetTowardNode(curr_edge.getId(), prev_edge);
+        
         // add an empty point if immediatly followed by RR node
 
         if ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.RESPREF)) { //js

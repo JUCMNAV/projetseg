@@ -61,7 +61,7 @@ public class ResourceRelease {
                     ComponentRef next_edge_comp_ref = (ComponentRef) next_edge.getContRef();
                     Stack outside_comp_stack = new Stack();
 
-                    // next edge is an end-point
+                    // next edge is an end-point... NOT SUFFICIENT CONDITION -> could be unbounded RESPREF JS
                     if (next_edge_comp_ref == null) {
                         for (int b = 0; b < curr_edge_stack.size(); b++) {
                             outside_comp_stack.push(curr_edge_stack.get(b));
@@ -69,8 +69,8 @@ public class ResourceRelease {
 
                         outside_comp_stack = reverseStack(outside_comp_stack);
 
-                        while (!outside_comp_stack.isEmpty()) {
-                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release);
+                        while (!outside_comp_stack.isEmpty()) { //
+                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, next_edge);
                         }// while
                     }// if
 
@@ -83,9 +83,9 @@ public class ResourceRelease {
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack, next_edge_stack);
 
-                        // Acquire the components of the parents
+                        // Acquire the components of the parents... RELEASE! JS
                         while (!outside_comp_stack.isEmpty()) {
-                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release);
+                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, next_edge);
                         }
                     }// if
                 }// for
@@ -94,7 +94,7 @@ public class ResourceRelease {
         else {
             // Must be an end point, acquire the components
             while (!curr_edge_stack.isEmpty()) {
-                nodes_inserted = addRR(null, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release);
+                nodes_inserted = addRR(null, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, null);
             }
         } // else
         return nodes_inserted;
@@ -181,7 +181,7 @@ public class ResourceRelease {
     }
 
     // inserts RR and Empty Points where necessary in the duplicate map
-    public int addRR(Stack comp_stack, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, Hashtable release) {
+    public int addRR(Stack comp_stack, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, Hashtable release, PathNode next_edge) {
 
         // create resource acquire component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
@@ -192,7 +192,8 @@ public class ResourceRelease {
         map.add(e_node);
         ins_nodes++;
         // create new links
-        CSMDupNode target = conn_map.getTargetForSource(curr_edge);
+        CSMDupNode target;
+	target = conn_map.getTargetForSourceTowardNode(curr_edge.getId(), next_edge);
         conn_map.add(new CSMDupConnection(curr_edge, e_node));
         conn_map.add(new CSMDupConnection(e_node, rr_node));
         // add an empty point if immediatly followed by RA node
