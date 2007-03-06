@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import one2one.AbstractConverter;
 import one2one.AndForkConverter;
 import one2one.AndJoinConverter;
+import one2one.DirectionArrowConverter;
 import one2one.EmptyPointConverter;
 import one2one.EndPointConverter;
 import one2one.OrForkConverter;
@@ -259,11 +260,14 @@ public class CSMDupNode {// extends PathNodeImpl {
         } else if (node instanceof RespRef) {
             ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef) node);
             doConvert(obj, ps, source, target);
+        } else if (node instanceof DirectionArrow) {
+            DirectionArrowConverter obj = new DirectionArrowConverter((DirectionArrow) node);
+            doConvert(obj, ps, source, target);
         }
         // **** To be implemented ****
         else if (node instanceof ProcessingResource) {
         } else {
-            System.out.println("Node not implemented.");
+            System.out.println("Node type not implemented: " + node.getClass().getName());
         }
     }
 }
