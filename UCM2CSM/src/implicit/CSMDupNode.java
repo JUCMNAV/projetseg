@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import one2one.AbstractConverter;
 import one2one.AndForkConverter;
 import one2one.AndJoinConverter;
+import one2one.ConnectConverter;
 import one2one.DirectionArrowConverter;
 import one2one.EmptyPointConverter;
 import one2one.EndPointConverter;
@@ -14,6 +15,7 @@ import one2one.OrJoinConverter;
 import one2one.ResponsibilityRefConverter;
 import one2one.StartPointConverter;
 import one2one.StubConverter;
+import one2one.TimerConverter;
 import ucm.map.Abort;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -29,6 +31,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import ucm.performance.ProcessingResource;
 import ucm.performance.Timestamp;
@@ -262,6 +265,12 @@ public class CSMDupNode {// extends PathNodeImpl {
             doConvert(obj, ps, source, target);
         } else if (node instanceof DirectionArrow) {
             DirectionArrowConverter obj = new DirectionArrowConverter((DirectionArrow) node);
+            doConvert(obj, ps, source, target);
+        } else if (node instanceof Timer) {
+            TimerConverter obj = new TimerConverter((Timer) node);
+            doConvert(obj, ps, source, target);
+        } else if (node instanceof Connect) {
+            ConnectConverter obj = new ConnectConverter((Connect) node);
             doConvert(obj, ps, source, target);
         }
         // **** To be implemented ****
