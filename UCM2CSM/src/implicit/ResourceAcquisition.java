@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
+import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 
 /**
@@ -170,10 +171,6 @@ public class ResourceAcquisition {
 
     // inserts RA and Empty Points where necessary in the duplicate map
     public int addRA(Stack comp_stack, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes, Hashtable aquire, PathNode prev_edge) {
-        // create empty point and insert it in duplicate map
-        CSMDupNode e_node = new CSMDupNode(++seq_id);
-        map.add(e_node);
-        ins_nodes++;
         // create resource acquire component and insert it in duplicate map
         CSMDupNode ra_node = new CSMDupNode(++ra_id);
         map.add(ra_node);
@@ -182,7 +179,7 @@ public class ResourceAcquisition {
 	CSMDupNode source = conn_map.getSourceForTargetTowardNode(curr_edge.getId(), prev_edge);
         
         // add an empty point if immediatly followed by RR node
-
+        
         if ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.RESPREF)) { //js
             // create empty point and insert it in duplicate map
             CSMDupNode e2_node = new CSMDupNode(++seq_id);
@@ -192,13 +189,19 @@ public class ResourceAcquisition {
             conn_map.add(new CSMDupConnection(e2_node, ra_node));
         	
         } else {
-            conn_map.add(new CSMDupConnection(source, ra_node));
-        	
+            conn_map.add(new CSMDupConnection(source, ra_node));        	
         }
-        
-        conn_map.add(new CSMDupConnection(ra_node, e_node));
-        conn_map.add(new CSMDupConnection(e_node, curr_edge));
-        
+
+        if ((curr_edge instanceof EmptyPoint)) { // leave it alone.  NEEDS TESTING... js
+            conn_map.add(new CSMDupConnection(ra_node, curr_edge));
+        } else {
+            // create empty point and insert it in duplicate map
+            CSMDupNode e_node = new CSMDupNode(++seq_id);
+            map.add(e_node);
+            ins_nodes++;
+            conn_map.add(new CSMDupConnection(ra_node, e_node));
+            conn_map.add(new CSMDupConnection(e_node, curr_edge));            
+        }
         
         conn_map.remove(source, curr_edge);
         if (!comp_stack.isEmpty()) {
