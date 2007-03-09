@@ -36,7 +36,7 @@ import urncore.IURNDiagram;
 public class Convert implements IURNExport {
 
     // Converts object through polymorphism (dynamic binding)
-    public void doComponentConvert(ComponentConverter obj, PrintStream ps) {
+    public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
         obj.Convert(ps);
     }
 
@@ -109,11 +109,11 @@ public class Convert implements IURNExport {
 
         // parsing the map for components
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
-            ComponentRef cref = (ComponentRef) iter3.next();
+            ComponentRef compRef = (ComponentRef) iter3.next();
             // if UCM object is found, generate CSM representation
-            if (cref instanceof ComponentRef) {
-                ComponentConverter obj = new ComponentConverter(cref);
-                doComponentConvert(obj, ps);
+            if (compRef instanceof ComponentRef) {
+                ComponentRefConverter obj = new ComponentRefConverter(compRef);
+                doComponentRefConvert(obj, ps);
             } else {
                 System.out.println("Component not implemented.");
             }
@@ -187,15 +187,15 @@ public class Convert implements IURNExport {
             CSMDupNode curr_node = (CSMDupNode) dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
-                ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());
+                ComponentRef compRef = (ComponentRef) comp_map.get(curr_node.getId());
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
-                ra.acquireComp(comp, curr_node, dupMapConnlist);
+                ra.acquireComp(compRef, curr_node, dupMapConnlist);
             }
             // printing RR
             else if (curr_node.getId().startsWith("G3")) {
-                ComponentRef comp = (ComponentRef) comp_map.get(curr_node.getId());
+                ComponentRef compRef2 = (ComponentRef) comp_map.get(curr_node.getId());
                 ResourceRelease rr = new ResourceRelease(ps);
-                rr.releaseComp(comp, curr_node, dupMapConnlist);
+                rr.releaseComp(compRef2, curr_node, dupMapConnlist);
             }
             // printing RA_Sequence
             else if (curr_node.getId().startsWith("G2")) {

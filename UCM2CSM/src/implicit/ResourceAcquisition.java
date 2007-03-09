@@ -29,12 +29,12 @@ public class ResourceAcquisition {
     }
 
     // adds all hyperedge parent components to stack
-    public void findParentsRA(ComponentRef component_ref, Stack edge_stack) {
+    public void findParentsRA(ComponentRef compRef, Stack edge_stack) {
         // The top of the stack is the outermost component
-        ComponentRef parent_ref = (ComponentRef) component_ref.getParent();
-        if (parent_ref != null) {
-            edge_stack.push(parent_ref);
-            findParentsRA(parent_ref, edge_stack);
+        ComponentRef parent_compRef = (ComponentRef) compRef.getParent();
+        if (parent_compRef != null) {
+            edge_stack.push(parent_compRef);
+            findParentsRA(parent_compRef, edge_stack);
         }
     }
     
@@ -44,27 +44,27 @@ public class ResourceAcquisition {
         // list that will store edges to be parsed (will contain pathnodes only)
         int nodes_inserted = 0; // total nodes inserted since last run
         Stack curr_edge_stack = new Stack(); // will hold all the parent components of current edge
-        ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
+        ComponentRef curr_edge_compRef = (ComponentRef) curr_edge.getContRef();
 
         // current edge is inside component
-        if (curr_edge_comp_ref != null) {
+        if (curr_edge_compRef != null) {
             ArrayList prev_edge_list = new ArrayList(1000);
             String curr_edge_id = curr_edge.getId();
             dup_map_conn.getPrevEdgeList(curr_edge_id, prev_edge_list);
 
             // find the parent component of current edge
-            curr_edge_stack.push(curr_edge_comp_ref);
-            findParentsRA(curr_edge_comp_ref, curr_edge_stack);
+            curr_edge_stack.push(curr_edge_compRef);
+            findParentsRA(curr_edge_compRef, curr_edge_stack);
 
             if (!prev_edge_list.isEmpty()) {
                 // only look at the last two elements of the prev_edge_list
                 for (int j = prev_edge_list.size() - 1; j < prev_edge_list.size(); j++) {
                     // Previous edge must be in a different component
                     PathNode prev_edge = (PathNode) prev_edge_list.get(j);
-                    ComponentRef prev_edge_comp_ref = (ComponentRef) prev_edge.getContRef();
+                    ComponentRef prev_edge_compRef = (ComponentRef) prev_edge.getContRef();
                     Stack outside_comp_stack = new Stack();
                     // prev edge is a start point
-                    if (prev_edge_comp_ref == null) {
+                    if (prev_edge_compRef == null) {
                         for (int b = 0; b < curr_edge_stack.size(); b++) {
                             outside_comp_stack.push(curr_edge_stack.get(b));
                         } // for
@@ -73,11 +73,11 @@ public class ResourceAcquisition {
                         while (!outside_comp_stack.isEmpty()) {
                             nodes_inserted = addRA(outside_comp_stack, curr_edge, dup_map, dup_map_conn, nodes_inserted, component_acquire, prev_edge);
                         }
-                    } else if (prev_edge_comp_ref != curr_edge_comp_ref) {
+                    } else if (prev_edge_compRef != curr_edge_compRef) {
                         // Find which parents of curr_edge are not included in those prev_edge
                         Stack prev_edge_stack = new Stack();
-                        prev_edge_stack.push(prev_edge_comp_ref);
-                        findParentsRA(prev_edge_comp_ref, prev_edge_stack);
+                        prev_edge_stack.push(prev_edge_compRef);
+                        findParentsRA(prev_edge_compRef, prev_edge_stack);
 
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack, prev_edge_stack);
@@ -100,14 +100,14 @@ public class ResourceAcquisition {
     } // function
 
     // prints XML representation of Resource Acquire element
-    public void acquireComp(ComponentRef comp, CSMDupNode node, CSMDupConnectionList list) {
+    public void acquireComp(ComponentRef compRef, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "c" + comp.getId() + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "c" + compRef.getId() + "\"";
         String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String ra_successor = " successor=\"" + "h" + successor + "\"";
         String end_ra = "/>";
@@ -170,7 +170,7 @@ public class ResourceAcquisition {
     }
 
     // inserts RA and Empty Points where necessary in the duplicate map
-    public int addRA(Stack comp_stack, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes, Hashtable aquire, PathNode prev_edge) {
+    public int addRA(Stack compRef_stack, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes, Hashtable aquire, PathNode prev_edge) {
         // create resource acquire component and insert it in duplicate map
         CSMDupNode ra_node = new CSMDupNode(++ra_id);
         map.add(ra_node);
@@ -204,9 +204,9 @@ public class ResourceAcquisition {
         }
         
         conn_map.remove(source, curr_edge);
-        if (!comp_stack.isEmpty()) {
-            ComponentRef comp = (ComponentRef) comp_stack.pop();
-            aquire.put(new String(ra_node.getId()), comp);
+        if (!compRef_stack.isEmpty()) {
+            ComponentRef compRef = (ComponentRef) compRef_stack.pop();
+            aquire.put(new String(ra_node.getId()), compRef);
         }
         return ins_nodes;
     }

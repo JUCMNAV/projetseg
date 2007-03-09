@@ -27,12 +27,12 @@ public class ResourceRelease {
     }
 
     // adds all hyperedge parent components to stack
-    public void findParentsRR(ComponentRef component_ref, Stack edge_stack) {
+    public void findParentsRR(ComponentRef compRef, Stack edge_stack) {
         // The top of the stack is the outermost component
-        ComponentRef parent_ref = (ComponentRef) component_ref.getParent();
-        if (parent_ref != null) {
-            findParentsRR(parent_ref, edge_stack);
-            edge_stack.push(parent_ref);
+        ComponentRef parent_compRef = (ComponentRef) compRef.getParent();
+        if (parent_compRef != null) {
+            findParentsRR(parent_compRef, edge_stack);
+            edge_stack.push(parent_compRef);
         }
     }
 
@@ -43,26 +43,26 @@ public class ResourceRelease {
 
         int nodes_inserted = 0; // total nodes inserted since last run
         Stack curr_edge_stack = new Stack(); // will hold all the parent components of current edge
-        ComponentRef curr_edge_comp_ref = (ComponentRef) curr_edge.getContRef();
+        ComponentRef curr_edge_compRef = (ComponentRef) curr_edge.getContRef();
 
         // current edge is inside component
-        if (curr_edge_comp_ref != null) {
+        if (curr_edge_compRef != null) {
             String curr_edge_id = curr_edge.getId();
             dup_map_conn.getNextEdgeList(curr_edge_id, next_edge_list);
 
             // find the parent component of current edge
-            findParentsRR(curr_edge_comp_ref, curr_edge_stack);
-            curr_edge_stack.push(curr_edge_comp_ref);
+            findParentsRR(curr_edge_compRef, curr_edge_stack);
+            curr_edge_stack.push(curr_edge_compRef);
 
             if (!next_edge_list.isEmpty()) {
                 for (int j = next_edge_list.size() - 1; j < next_edge_list.size(); j++) {
                     // Next edge must be in a different component
                     PathNode next_edge = (PathNode) next_edge_list.get(j);
-                    ComponentRef next_edge_comp_ref = (ComponentRef) next_edge.getContRef();
+                    ComponentRef next_edge_compRef = (ComponentRef) next_edge.getContRef();
                     Stack outside_comp_stack = new Stack();
 
                     // next edge is an end-point... NOT SUFFICIENT CONDITION -> could be unbounded RESPREF JS
-                    if (next_edge_comp_ref == null) {
+                    if (next_edge_compRef == null) {
                         for (int b = 0; b < curr_edge_stack.size(); b++) {
                             outside_comp_stack.push(curr_edge_stack.get(b));
                         } // for
@@ -74,11 +74,11 @@ public class ResourceRelease {
                         }// while
                     }// if
 
-                    else if (next_edge_comp_ref != curr_edge_comp_ref) {
+                    else if (next_edge_compRef != curr_edge_compRef) {
                         // Find which parents of curr_edge are not included in those prev_edge
                         Stack next_edge_stack = new Stack();
-                        findParentsRR(next_edge_comp_ref, next_edge_stack);
-                        next_edge_stack.push(next_edge_comp_ref);
+                        findParentsRR(next_edge_compRef, next_edge_stack);
+                        next_edge_stack.push(next_edge_compRef);
 
                         // Difference between component stacks, keeps outside components
                         outside_comp_stack = stackDifference(curr_edge_stack, next_edge_stack);
@@ -101,14 +101,14 @@ public class ResourceRelease {
     } // function
 
     // prints XML representation of Resource Release element
-    public void releaseComp(ComponentRef comp, CSMDupNode node, CSMDupConnectionList list) {
+    public void releaseComp(ComponentRef compRef, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + comp.getId() + "\"";
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + compRef.getId() + "\"";
 
         String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String rr_successor = " successor=\"" + "h" + successor + "\"";
@@ -181,7 +181,7 @@ public class ResourceRelease {
     }
 
     // inserts RR and Empty Points where necessary in the duplicate map
-    public int addRR(Stack comp_stack, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, Hashtable release, PathNode next_edge) {
+    public int addRR(Stack compRef_stack, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, Hashtable release, PathNode next_edge) {
 
         // create resource acquire component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
@@ -209,9 +209,9 @@ public class ResourceRelease {
         }
         
         conn_map.remove(curr_edge, target);
-        if (!comp_stack.isEmpty()) {
-            ComponentRef comp = (ComponentRef) comp_stack.pop();
-            release.put(new String(rr_node.getId()), comp);
+        if (!compRef_stack.isEmpty()) {
+            ComponentRef compRef = (ComponentRef) compRef_stack.pop();
+            release.put(new String(rr_node.getId()), compRef);
         }
         return ins_nodes;
     }
