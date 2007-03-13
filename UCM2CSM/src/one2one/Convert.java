@@ -12,7 +12,6 @@ import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
@@ -24,6 +23,7 @@ import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
 import urn.URNspec;
+import urncore.Component;
 import urncore.IURNDiagram;
 
 /**
@@ -96,13 +96,12 @@ public class Convert implements IURNExport {
         dupMaplist.DuplicateHyperEdges(map);
         CSMDupConnectionList dupMapConnList = new CSMDupConnectionList();
         dupMapConnList.DuplicateConnection(map);
-        Hashtable comp_map = new Hashtable(); // stores the acquire/release components associated with every RA/RR
 
         // Insert RA/RR/Seq nodes in above list
-        transform(dupMaplist, dupMapConnList, comp_map, ps);
+        transform(dupMaplist, dupMapConnList, ps);
 
         // Generate XML tags
-        saveXML(ps, dupMaplist, dupMapConnList, comp_map);
+        saveXML(ps, dupMaplist, dupMapConnList);
 
         // close scenario THEN print components. JS
         ps.println("        " + close_scenario_tag);
@@ -124,7 +123,7 @@ public class Convert implements IURNExport {
     }
 
     // adds RA/RR/Seq nodes where necessary in the duplicate map
-    public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, Hashtable comp_map, PrintStream ps) {
+    public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);
         ResourceRelease rr = new ResourceRelease(ps);
         int i = 0;
@@ -139,8 +138,8 @@ public class Convert implements IURNExport {
 
                 // keep track of all nodes inserted prior to current edge
                 PathNode curr_node = node.getNode();
-                ra.acquireResource(curr_node, list, conn_list, comp_map);
-                rr.releaseResource(curr_node, list, conn_list, comp_map);
+                ra.acquireResource(curr_node, list, conn_list);
+                rr.releaseResource(curr_node, list, conn_list);
             } else {
                 System.out.println("Unhandled type = " + node.getType());
             }
@@ -181,21 +180,33 @@ public class Convert implements IURNExport {
     }
     
     // print CSM output for RA and Sequence
-    public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Hashtable comp_map) {
+    public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist) {
 
         for (int b = 0; b < dupMaplist.size(); b++) {
             CSMDupNode curr_node = (CSMDupNode) dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
-                ComponentRef compRef = (ComponentRef) comp_map.get(curr_node.getId());
+        	Component comp = curr_node.getCompToAcquire();
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
-                ra.acquireComp(compRef, curr_node, dupMapConnlist);
+                if (comp != null) {
+                    ra.acquireComp(comp, curr_node, dupMapConnlist);    
+                } else {
+                    String res = curr_node.getResToAcquire();
+                    ra.acquireComp(res, curr_node, dupMapConnlist);
+                }
+                
             }
             // printing RR
             else if (curr_node.getId().startsWith("G3")) {
-                ComponentRef compRef2 = (ComponentRef) comp_map.get(curr_node.getId());
+                Component comp = curr_node.getCompToRelease();
                 ResourceRelease rr = new ResourceRelease(ps);
-                rr.releaseComp(compRef2, curr_node, dupMapConnlist);
+                if (comp != null) {
+                    rr.releaseComp(comp, curr_node, dupMapConnlist);    
+                } else {
+                    String res = curr_node.getResToRelease();
+                    rr.releaseComp(res, curr_node, dupMapConnlist);
+                }
+                
             }
             // printing RA_Sequence
             else if (curr_node.getId().startsWith("G2")) {

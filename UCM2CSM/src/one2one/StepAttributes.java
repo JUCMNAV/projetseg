@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.performance.ProcessingResource;
+import urncore.Component;
 
 /**
  * <!-- begin-user-doc --> Prints Step optional attributes to CSM file <!-- end-user-doc -->
@@ -31,7 +32,7 @@ public class StepAttributes {
     // print component id
     public static void Component(PrintStream ps, PathNode pathnode) {
         if ((ComponentRef) pathnode.getContRef() != null && ((ComponentRef) pathnode.getContRef()).getId() != null) {
-            String comp_id = ((ComponentRef) pathnode.getContRef()).getId();
+            String comp_id = ((Component)(((ComponentRef) pathnode.getContRef()).getContDef())) .getId();
             String comp_attribute = " component=\"" + "c" + comp_id + "\"";
             ps.print(comp_attribute);
         }

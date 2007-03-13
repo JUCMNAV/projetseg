@@ -35,6 +35,7 @@ import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import ucm.performance.ProcessingResource;
 import ucm.performance.Timestamp;
+import urncore.Component;
 
 /**
  * <!-- begin-user-doc --> A CSMDupNode is a reference to a node in the original UCMmap <!-- end-user-doc -->
@@ -64,6 +65,42 @@ public class CSMDupNode {// extends PathNodeImpl {
     static public final int LOOP = 16;
     static public final int UNDEFINED = 0;
     private int type = UNDEFINED;
+    private ArrayList usedResources = new ArrayList();
+    private Component compToAcquire = null;
+    private Component compToRelease = null;
+
+    private String res = null;
+    
+    public void setResToAcquire(String res) {
+	this.res = res;
+    }
+
+    public String getResToAcquire() {
+	return res;
+    }
+
+    public void setCompToAcquire(Component comp) {
+	compToAcquire = comp;
+    }
+
+    public Component getCompToAcquire() {
+	return compToAcquire;
+    }
+
+    public void setResToRelease(String res) {
+	this.res = res;
+    }
+
+    public String getResToRelease() {
+	return res;
+    }
+    public void setCompToRelease(Component comp) {
+	compToRelease = comp;
+    }
+
+    public Component getCompToRelease() {
+	return (Component) compToRelease;
+    }
 
     // New types of elements
     static public final int RA = 17; // Resource Allocate
@@ -169,7 +206,19 @@ public class CSMDupNode {// extends PathNodeImpl {
         } else {
             type = UNDEFINED;
         }
+        if (type != UNDEFINED) {
+            usedResources = (new ResourceUtil()).getResourcesUsage(node);
+        }
     }
+
+    public ArrayList getUsedResources() {
+	return usedResources;
+    }
+
+    public void setUsedResources(ArrayList usedResources) {
+	this.usedResources =  usedResources;
+    }
+    
 
     // return pathnode type
     public int getType() {

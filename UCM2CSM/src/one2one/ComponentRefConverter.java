@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
+import urncore.Component;
 import urncore.ComponentRegular;
 
 /**
@@ -68,8 +69,10 @@ public class ComponentRefConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps) {
 
-        // object attributes --- host attribute to be implemanted
-        String comp_attributes = "<Component id=\"" + "c" + compRef.getId() + "\"" + " " + "name=\"" + compDef.getName() + "\"" + " " + "host=\"" + " " + "\""
+        // object attributes --- host attribute to be implemanteds
+	String id = ((Component)compRef.getContDef()).getId();
+	String name = ((Component)compRef.getContDef()).getName();
+        String comp_attributes = "<Component id=\"" + "c" + id + "\"" + " " + "name=\"" + name + "\"" + " " + "host=\"" + " " + "\""
                 + " ";
         String close = "/>";
 

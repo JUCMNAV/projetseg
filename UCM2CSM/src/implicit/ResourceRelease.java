@@ -2,11 +2,15 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Stack;
 
+import javax.rmi.CORBA.Stub;
+
+import sun.rmi.transport.Endpoint;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
+import urncore.Component;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
@@ -14,7 +18,7 @@ import ucm.map.PathNode;
  * @see implicit
  * @generated
  */
-public class ResourceRelease {
+public class ResourceRelease extends ResourceUtil {
 
     // RR and Empty Point IDs
     static int rr_id = 3000; // limitation.  js
@@ -37,78 +41,79 @@ public class ResourceRelease {
     }
 
     // Resource Release algorithm
-    public int releaseResource(PathNode curr_edge, CSMDupNodeList dup_map, CSMDupConnectionList dup_map_conn, Hashtable component_release) {
+    public int releaseResource(PathNode curr_edge, CSMDupNodeList dup_map, CSMDupConnectionList dup_map_conn) {
+
         // list that will store edges to be parsed (will contain pathnodes only)
-        ArrayList next_edge_list = new ArrayList();
-
         int nodes_inserted = 0; // total nodes inserted since last run
-        Stack curr_edge_stack = new Stack(); // will hold all the parent components of current edge
-        ComponentRef curr_edge_compRef = (ComponentRef) curr_edge.getContRef();
+        // Compute resources to be acquired
+        ArrayList usedResources = null; // requested resources + containing components
+        ArrayList resToRelease = new ArrayList(); // resPreviouslyNeeded - usedResources 
+        ArrayList resNeededNext; // resources used by previous node
+        CSMDupNode curr_edge_dupNode = dup_map.get(dup_map.getNodeIndex(curr_edge));
+        CSMDupNode nextDupNode = null;
+        PathNode next_pathnode = null;
+        // EndPoint releases all containing components
+        if (curr_edge instanceof Endpoint) {
+            usedResources = curr_edge_dupNode.getUsedResources();
+            copyArray(usedResources, resToRelease);
+        // ResponsibilityRef/Stub release what is no longer required
+        } else if ( (curr_edge instanceof RespRef) || (curr_edge instanceof Stub) ) {
+            usedResources = curr_edge_dupNode.getUsedResources();
+            nextDupNode = dup_map_conn.getTargetForSource(curr_edge);
+            resNeededNext = nextDupNode.getUsedResources();
+            copyArray(firstMinusSecond(usedResources, resNeededNext),resToRelease);
+            next_pathnode = nextDupNode.getNode();
+        }
 
-        // current edge is inside component
-        if (curr_edge_compRef != null) {
-            String curr_edge_id = curr_edge.getId();
-            dup_map_conn.getNextEdgeList(curr_edge_id, next_edge_list);
-
-            // find the parent component of current edge
-            findParentsRR(curr_edge_compRef, curr_edge_stack);
-            curr_edge_stack.push(curr_edge_compRef);
-
-            if (!next_edge_list.isEmpty()) {
-                for (int j = next_edge_list.size() - 1; j < next_edge_list.size(); j++) {
-                    // Next edge must be in a different component
-                    PathNode next_edge = (PathNode) next_edge_list.get(j);
-                    ComponentRef next_edge_compRef = (ComponentRef) next_edge.getContRef();
-                    Stack outside_comp_stack = new Stack();
-
-                    // next edge is an end-point... NOT SUFFICIENT CONDITION -> could be unbounded RESPREF JS
-                    if (next_edge_compRef == null) {
-                        for (int b = 0; b < curr_edge_stack.size(); b++) {
-                            outside_comp_stack.push(curr_edge_stack.get(b));
-                        } // for
-
-                        outside_comp_stack = reverseStack(outside_comp_stack);
-
-                        while (!outside_comp_stack.isEmpty()) { //
-                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, next_edge);
-                        }// while
-                    }// if
-
-                    else if (next_edge_compRef != curr_edge_compRef) {
-                        // Find which parents of curr_edge are not included in those prev_edge
-                        Stack next_edge_stack = new Stack();
-                        findParentsRR(next_edge_compRef, next_edge_stack);
-                        next_edge_stack.push(next_edge_compRef);
-
-                        // Difference between component stacks, keeps outside components
-                        outside_comp_stack = stackDifference(curr_edge_stack, next_edge_stack);
-
-                        // Acquire the components of the parents... RELEASE! JS
-                        while (!outside_comp_stack.isEmpty()) {
-                            nodes_inserted = addRR(outside_comp_stack, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, next_edge);
-                        }
-                    }// if
-                }// for
-            } // if
-        } // if
-        else {
-            // Must be an end point, acquire the components
-            while (!curr_edge_stack.isEmpty()) {
-                nodes_inserted = addRR(null, dup_map, dup_map_conn, curr_edge, nodes_inserted, component_release, null);
+        while (resToRelease.size() != 0) {
+            if (next_pathnode != null) {
+        	nodes_inserted = addRR(resToRelease, usedResources, dup_map, dup_map_conn, curr_edge, nodes_inserted, next_pathnode);
+            } else {
+        	// TODO:  endpoint: insert *BEFORE* js
+        	resToRelease.remove(0);
             }
-        } // else
-        return nodes_inserted;
+        }
+                return nodes_inserted;
     } // function
 
     // prints XML representation of Resource Release element
-    public void releaseComp(ComponentRef compRef, CSMDupNode node, CSMDupConnectionList list) {
+    public void releaseComp(Component comp, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + compRef.getId() + "\"";
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + comp.getId() + "\"";
+
+        String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
+        String rr_successor = " successor=\"" + "h" + successor + "\"";
+        String end_rr = "/>";
+
+        // special naming convention for RR/RA objects
+        if (predecessor.startsWith("G")) {
+            rr_predecessor = " predecessor=\"" + predecessor + "\"";
+        }
+        if (successor.startsWith("G")) {
+            rr_successor = " successor=\"" + successor + "\"";
+        }
+
+        // printing attributes
+        ps.print("            " + rr_attributes);
+        ps.print(" " + rr_predecessor);
+        ps.print(" " + rr_successor);
+        ps.print(" " + end_rr);
+        ps.println("");
+    }
+
+    public void releaseComp(String res, CSMDupNode node, CSMDupConnectionList list) {
+
+        // initializing attributes
+        String successor = list.getTargetForSource(node.getId());
+        String predecessor = list.getSourceForTarget(node.getId());
+
+        // object attributes
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "c" + res + "\"";
 
         String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String rr_successor = " successor=\"" + "h" + successor + "\"";
@@ -160,46 +165,28 @@ public class ResourceRelease {
         ps.flush();
     }
 
-    // calculates the difference between two stacks
-    public Stack stackDifference(Stack stack_one, Stack stack_two) {
-        Stack stack_three = new Stack();
-        for (int i = 0; i < stack_one.size(); i++) {
-            if (!stack_two.contains(stack_one.get(i))) {
-                stack_three.push(stack_one.get(i));
-            }
-        }
-        return reverseStack(stack_three);
-    }
-
-    // restructures the given stack so that the first element in is not the last element in
-    public Stack reverseStack(Stack stack) {
-        Stack reversed_stack = new Stack();
-        for (int i = stack.size() - 1; i >= 0; i--) {
-            reversed_stack.add(stack.get(i));
-        }
-        return reversed_stack;
-    }
-
     // inserts RR and Empty Points where necessary in the duplicate map
-    public int addRR(Stack compRef_stack, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, Hashtable release, PathNode next_edge) {
+    public int addRR(ArrayList resToRelease, ArrayList usedResources, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes, PathNode next_edge) {
 
-        // create resource acquire component and insert it in duplicate map
+        // create resource release component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
+        rr_node.setUsedResources(usedResources); // to compute release/acquire sets
         map.add(rr_node);
         ins_nodes++;
         // create empty point and insert it in duplicate map
         CSMDupNode e_node = new CSMDupNode(++seq_id);
+        e_node.setUsedResources(usedResources); // to compute release/acquire sets
         map.add(e_node);
         ins_nodes++;
         // create new links
-        CSMDupNode target;
-	target = conn_map.getTargetForSourceTowardNode(curr_edge.getId(), next_edge);
+        CSMDupNode target = conn_map.getTargetForSourceTowardNode(curr_edge.getId(), next_edge);
         conn_map.add(new CSMDupConnection(curr_edge, e_node));
         conn_map.add(new CSMDupConnection(e_node, rr_node));
-        // add an empty point if immediatly followed by RA node
-        if ((target.getType() == CSMDupNode.RR) || (target.getType() == CSMDupNode.RA) || (target.getType() == CSMDupNode.RESPREF)) { //js
+        // add an empty point if immediatly followed by RR/RA/RESPREF node
+        if ((target.getType() == CSMDupNode.RR) || (target.getType() == CSMDupNode.RA) || (target.getType() == CSMDupNode.RESPREF)  || (target.getType() == CSMDupNode.STUB)) { //js
             // create empty point and insert it in duplicate map
             CSMDupNode e2_node = new CSMDupNode(++seq_id);
+            e2_node.setUsedResources(usedResources);
             map.add(e2_node);
             ins_nodes++;
             conn_map.add(new CSMDupConnection(rr_node, e2_node));
@@ -209,9 +196,28 @@ public class ResourceRelease {
         }
         
         conn_map.remove(curr_edge, target);
-        if (!compRef_stack.isEmpty()) {
-            ComponentRef compRef = (ComponentRef) compRef_stack.pop();
-            release.put(new String(rr_node.getId()), compRef);
+        
+/*
+        if ((curr_edge instanceof EmptyPoint)) { // leave it alone.  NEEDS TESTING... js
+            conn_map.add(new CSMDupConnection(ra_node, curr_edge));
+        } else {
+            // create empty point and insert it in duplicate map
+            CSMDupNode e_node = new CSMDupNode(++seq_id);
+            e_node.setUsedResources(usedResources); // to compute the release set
+            map.add(e_node);
+            ins_nodes++;
+            conn_map.add(new CSMDupConnection(ra_node, e_node));
+            conn_map.add(new CSMDupConnection(e_node, curr_edge));
+        }
+
+ */        
+
+        // if (releaseList.size != 0){ take one out of list  } js
+        // but first, convert to component use
+        if (resToRelease.size() != 0) {
+            Component comp = (Component) resToRelease.get(0);
+            resToRelease.remove(0);
+            rr_node.setCompToRelease(comp); // for when source wants to get ready to compute release set
         }
         return ins_nodes;
     }
