@@ -2,6 +2,7 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
 import javax.rmi.CORBA.Stub;
@@ -53,16 +54,39 @@ public class ResourceRelease extends ResourceUtil {
         CSMDupNode nextDupNode = null;
         PathNode next_pathnode = null;
         // EndPoint releases all containing components
-        if (curr_edge instanceof Endpoint) {
+        if (curr_edge_dupNode.getType() == CSMDupNode.END) {
             usedResources = curr_edge_dupNode.getUsedResources();
             copyArray(usedResources, resToRelease);
         // ResponsibilityRef/Stub release what is no longer required
-        } else if ( (curr_edge instanceof RespRef) || (curr_edge instanceof Stub) ) {
+        } else if ( (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) || (curr_edge_dupNode.getType() == CSMDupNode.STUB) ) {
             usedResources = curr_edge_dupNode.getUsedResources();
             nextDupNode = dup_map_conn.getTargetForSource(curr_edge);
             resNeededNext = nextDupNode.getUsedResources();
             copyArray(firstMinusSecond(usedResources, resNeededNext),resToRelease);
             next_pathnode = nextDupNode.getNode();
+        } else {
+            for (int i = 0; i < dup_map_conn.size(); i++) {
+		CSMDupConnection conn = dup_map_conn.get(i);
+		if (conn.getSource() == curr_edge) {
+		    nextDupNode = conn.getCSMTarget();
+		    if ((nextDupNode.getType() == CSMDupNode.RR) || (nextDupNode.getType() == CSMDupNode.RA) || (nextDupNode.getType() == CSMDupNode.RESPREF)  || (nextDupNode.getType() == CSMDupNode.STUB)) {
+	        	usedResources = curr_edge_dupNode.getUsedResources();
+	        	resNeededNext = nextDupNode.getUsedResources();
+	        	copyArray(firstMinusSecond(usedResources, resNeededNext),resToRelease);
+	                next_pathnode = nextDupNode.getNode();
+	                while (resToRelease.size() != 0) {
+	                    if (next_pathnode != null) {
+	                	nodes_inserted = addRR(resToRelease, usedResources, dup_map, dup_map_conn, curr_edge, nodes_inserted, next_pathnode);
+	                    } else {
+	                	// TODO:  endpoint: insert *BEFORE* js
+	                	resToRelease.remove(0);
+	                    }
+	                }
+	            }
+		}
+		
+	    }
+            
         }
 
         while (resToRelease.size() != 0) {
