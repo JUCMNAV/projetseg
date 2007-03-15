@@ -341,11 +341,11 @@ public class Convert implements IURNExport {
                     if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = (CSMDupConnection) conn_list.getConnectionForSource(target);
                         CSMDupNode next_target = (CSMDupNode) next_conn.getCSMTarget();
-                        if (	(source.isPathNode() && ((source.getNode() instanceof RespRef) || (source.getNode() instanceof Stub)))
+                        if (	(source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
                         		||
                         		( (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)  )
                         	) {
-                            if (	(next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub)))
+                            if (	(next_target.isPathNode() && ((next_target.getType() == CSMDupNode.RESPREF) || (next_target.getType() == CSMDupNode.STUB)))
                             		||
                             		( (next_target.getType() == CSMDupNode.RR)  || (next_target.getType() == CSMDupNode.RA) )
                             	)	{
@@ -369,7 +369,7 @@ public class Convert implements IURNExport {
                             }
                         } // if
                         else {
-                        	if ( (next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub)
+                        	if ( (next_target.getType() == CSMDupNode.RESPREF) || (next_target.getType() == CSMDupNode.STUB)
                         		||
                             		 (next_target.getType() == CSMDupNode.RR)  || (next_target.getType() == CSMDupNode.RA)  ) {
                                 // delete empty point
@@ -419,7 +419,11 @@ public class Convert implements IURNExport {
                     } // if
                 } // if 
                 //  Throw in an empty point in between to adjacent ResponsibilityRef. NEEDS MAJOR CHECKUP. JS 
-                else if ((source.getType() == CSMDupNode.RESPREF) && (target.getType() == CSMDupNode.RESPREF)) {
+                else if (
+                	((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB))
+                	&& 
+                	( (target.getType() == CSMDupNode.RESPREF) || (target.getType() == CSMDupNode.STUB))
+                	) {
 
                 	// create dummy node
                 	MapFactoryImpl mfi = new MapFactoryImpl();
