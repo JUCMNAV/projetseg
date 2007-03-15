@@ -97,6 +97,9 @@ public class Convert implements IURNExport {
         CSMDupConnectionList dupMapConnList = new CSMDupConnectionList();
         dupMapConnList.DuplicateConnection(map);
 
+        // Complete Resource Requests
+        dupMaplist.computeNodesResources(dupMapConnList);
+        
         // Insert RA/RR/Seq nodes in above list
         transform(dupMaplist, dupMapConnList, ps);
 
@@ -366,7 +369,9 @@ public class Convert implements IURNExport {
                             }
                         } // if
                         else {
-                        	if (next_target.isPathNode() && ((next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub))) {
+                        	if ( (next_target.getNode() instanceof RespRef) || (next_target.getNode() instanceof Stub)
+                        		||
+                            		 (next_target.getType() == CSMDupNode.RR)  || (next_target.getType() == CSMDupNode.RA)  ) {
                                 // delete empty point
                                 // remove 'target' node
                                 node_list.remove(target);
@@ -390,6 +395,8 @@ public class Convert implements IURNExport {
 
                                 // create dummy node
                                 CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+                		dummy_node.setResourcesDownstream(source.getResourcesDownstream());
+                		dummy_node.setResourcesUpstream(target.getResourcesUpstream());
                                 dummy_id++;
                                 node_list.add(dummy_node);
 
@@ -423,7 +430,9 @@ public class Convert implements IURNExport {
                 	CSMDupNode ep_node = new CSMDupNode((PathNode)ep);
                 	ep_node.setType(CSMDupNode.EMPTY);
                 	ep_node.setID("" + emptyPoint_id);
-                	emptyPoint_id++;
+        		ep_node.setResourcesDownstream(source.getResourcesDownstream());
+        		ep_node.setResourcesUpstream(target.getResourcesUpstream());
+        		emptyPoint_id++;
                 	node_list.add(ep_node);
 
                 	// remove curr_conn connection
@@ -473,6 +482,8 @@ public class Convert implements IURNExport {
     public int insertDummyStep(int dummy_id, CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
 //    	create dummy node
 		CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+		dummy_node.setResourcesDownstream(source.getResourcesDownstream());
+		dummy_node.setResourcesUpstream(target.getResourcesUpstream());
 		dummy_id++;
 		node_list.add(dummy_node);
 		// remove curr_conn connection

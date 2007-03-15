@@ -101,4 +101,41 @@ public class CSMDupNodeList {
             } // if
         } // for
     } // method
+
+    /**
+     * 
+     * @param dupMapConnList
+     */
+    public void computeNodesResources(CSMDupConnectionList dupMapConnList) {
+	boolean done = false;
+	// propagate resources - forward and backward - from nodes START, RESPRES, STUB and END
+	while (!done) {
+	    done = true;
+	    for (int i = 0; i < dupMapConnList.size(); i++) {
+		CSMDupConnection conn = dupMapConnList.get(i);
+		CSMDupNode source = conn.getCSMSource();
+		int srcType = source.getType();
+		CSMDupNode target = conn.getCSMTarget();
+		int tgtType = target.getType();
+		// propagate upward
+		if ((srcType == CSMDupNode.START) || (srcType == CSMDupNode.RESPREF) || (srcType == CSMDupNode.STUB)) {
+		    if ((tgtType != CSMDupNode.RESPREF) || (tgtType != CSMDupNode.STUB) || (tgtType != CSMDupNode.END)) {
+			if (target.getResourcesDownstream() != source.getResourcesDownstream()) {
+			    target.setResourcesDownstream(source.getResourcesDownstream());
+			    done = false;
+			} // if
+		    } // if
+		} // if
+		// propagate downard
+		if ((tgtType == CSMDupNode.RESPREF) || (tgtType == CSMDupNode.STUB) || (tgtType == CSMDupNode.END)) {
+		    if ((srcType != CSMDupNode.START) || (srcType != CSMDupNode.RESPREF) || (srcType != CSMDupNode.STUB)) {
+			if (source.getResourcesUpstream() != target.getResourcesUpstream()) {
+			    source.setResourcesUpstream(target.getResourcesUpstream());
+			    done = false;
+			} // if
+		    } // if
+		} // if
+	    } // for
+	} // while
+    } // method
 }

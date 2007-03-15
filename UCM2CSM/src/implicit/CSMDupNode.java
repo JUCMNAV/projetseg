@@ -65,7 +65,8 @@ public class CSMDupNode {// extends PathNodeImpl {
     static public final int LOOP = 16;
     static public final int UNDEFINED = 0;
     private int type = UNDEFINED;
-    private ArrayList usedResources = new ArrayList();
+    private ArrayList resourcesDownstream = new ArrayList();
+    private ArrayList resourcesUpstream = new ArrayList();
     private Component compToAcquire = null;
     private Component compToRelease = null;
 
@@ -179,14 +180,22 @@ public class CSMDupNode {// extends PathNodeImpl {
             type = ANDFORK;
         } else if (node instanceof StartPoint) {
             type = START;
+            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EndPoint) {
             type = END;
+            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EmptyPoint) {
             type = EMPTY;
         } else if (node instanceof Stub) {
             type = STUB;
+            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof RespRef) {
             type = RESPREF;
+            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
             type = ORJOIN; // js
         } else if (node instanceof Timestamp) {
@@ -206,20 +215,24 @@ public class CSMDupNode {// extends PathNodeImpl {
         } else {
             type = UNDEFINED;
         }
-        if (type != UNDEFINED) {
-            usedResources = (new ResourceUtil()).getResourcesUsage(node);
-        }
     }
 
-    public ArrayList getUsedResources() {
-	return usedResources;
+    public ArrayList getResourcesDownstream() {
+	return resourcesDownstream;
     }
 
-    public void setUsedResources(ArrayList usedResources) {
-	this.usedResources =  usedResources;
+    public void setResourcesDownstream(ArrayList usedResources) {
+	this.resourcesDownstream =  usedResources;
     }
     
+    public ArrayList getResourcesUpstream() {
+	return resourcesUpstream;
+    }
 
+    public void setResourcesUpstream(ArrayList usedResources) {
+	this.resourcesUpstream =  usedResources;
+    }
+    
     // return pathnode type
     public int getType() {
         return type;
