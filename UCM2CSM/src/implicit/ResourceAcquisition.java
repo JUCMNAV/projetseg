@@ -4,12 +4,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import javax.rmi.CORBA.Stub;
-
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
-import ucm.map.StartPoint;
 import urncore.Component;
 
 /**

@@ -2,15 +2,10 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
-import javax.rmi.CORBA.Stub;
-
-import sun.rmi.transport.Endpoint;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
 import urncore.Component;
 
 /**

@@ -18,8 +18,6 @@ import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
-import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
 import urn.URNspec;
