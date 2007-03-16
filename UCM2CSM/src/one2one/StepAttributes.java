@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
+import ucm.map.Stub;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
 
@@ -18,6 +20,7 @@ public class StepAttributes {
         printDescription(ps, af);
         Component(ps, af);
         hostDemand(ps, af);
+        printRepCount(ps, af);
         // tracebilityLink(ps, af);
     }
 
@@ -25,8 +28,15 @@ public class StepAttributes {
 
     // print hostDemand
     public static void hostDemand(PrintStream ps, PathNode pathnode) {
-        String host_attribute = " hostDemand = \"" + "1" + "\"";
-        ps.print(host_attribute);
+	String hostDemand;
+	String hostDemand_attribute = " hostDemand = \"" + "1" + "\"";
+	if (pathnode instanceof RespRef) {
+	    hostDemand = ((RespRef) pathnode).getHostDemand();
+	    if ((hostDemand != null) && (hostDemand != "1")) {
+		hostDemand_attribute = " hostDemand=\"" + hostDemand + "\"";
+	    }
+	}
+	ps.print(hostDemand_attribute);
     }
 
     // print component id
@@ -44,5 +54,24 @@ public class StepAttributes {
             String description_attribute = " description=\"" + pathnode.getDescription() + "\"";
             ps.print(description_attribute);
         }
+    }
+    
+    // prints repitition count (repCount)
+    public static void printRepCount(PrintStream ps, PathNode pathnode) {
+	String repCount;
+	String repCount_attribute = " repCount=\"" + "1" + "\"";
+	if (pathnode instanceof RespRef) {
+	    repCount = ((RespRef) pathnode).getRepetitionCount();
+	    if ((repCount != null) && (repCount != "1")) {
+		repCount_attribute = " repCount=\"" + repCount + "\"";
+	    }
+	}
+	if (pathnode instanceof Stub) {
+	    repCount = ((Stub) pathnode).getRepetitionCount();
+	    if ((repCount != null) && (repCount != "1")) {
+		repCount_attribute = " repCount=\"" + repCount + "\"";
+	    }
+	}
+	ps.print(repCount_attribute);
     }
 }
