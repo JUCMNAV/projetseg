@@ -29,14 +29,15 @@ public class StepAttributes {
     // print hostDemand
     public static void hostDemand(PrintStream ps, PathNode pathnode) {
 	String hostDemand;
-	String hostDemand_attribute = " hostDemand = \"" + "1" + "\"";
+	String hostDemand_attribute;
 	if (pathnode instanceof RespRef) {
 	    hostDemand = ((RespRef) pathnode).getHostDemand();
-	    if ((hostDemand != null) && (hostDemand != "1")) {
+	    if ((hostDemand != null) && (hostDemand != "")) {
 		hostDemand_attribute = " hostDemand=\"" + hostDemand + "\"";
+		ps.print(hostDemand_attribute);
 	    }
 	}
-	ps.print(hostDemand_attribute);
+	
     }
 
     // print component id
