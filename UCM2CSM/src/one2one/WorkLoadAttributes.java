@@ -74,7 +74,7 @@ public class WorkLoadAttributes {
 
     public static void description(PrintStream ps, Workload work) {
         if (work.getDescription() != null) {
-            String print_description = "Description=\"" + work.getDescription() + "\"" + " ";
+            String print_description = "description=\"" + work.getDescription() + "\"" + " ";
             ps.print(print_description);
         }
     }
