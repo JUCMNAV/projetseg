@@ -44,7 +44,11 @@ public class Convert implements IURNExport {
 
         // CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-        String CSM_header = "<CSM:CSMType xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" name=\"root\" " + "description= \"" + urn.getDescription() + "\">";
+        String CSM_header = "<CSM:CSMType xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                            "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " + 
+                            "name=\"" + urn.getName() + "\" description= \"" + urn.getDescription() + 
+                            "\" author=\"" + urn.getAuthor() + "\" version=\"" + urn.getSpecVersion() + "\">";
+                            // Note: "created" not handled yet because of missing Date to xsd:dateTime conversion
         String CSM_footer = "</CSM:CSMType>";
 
         // output to file
@@ -71,8 +75,10 @@ public class Convert implements IURNExport {
 
     private void exportMap(UCMmap map, PrintStream ps) {
 
-        String open_scenario_tag = "<Scenario id=\"" + "m" + map.getId() + "\"" + " " + "name=\"" + map.getName() + "\"" + " " + "transaction=\"" + "false"
-                + "\"" + " ";
+        String open_scenario_tag = "<Scenario id=\"m" + map.getId() + 
+                                   "\" name=\"" + map.getName() + 
+                                   "\" traceabilityLink=\"" + map.getId() +
+                                   "\" ";
         String close_attributes = ">";
         // optional attributes
 
