@@ -20,8 +20,9 @@ import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
+import ucm.performance.ExternalOperation;
+import ucm.performance.GeneralResource;
 import urn.URNspec;
-import urncore.Component;
 import urncore.IURNDiagram;
 
 /**
@@ -123,10 +124,27 @@ public class Convert implements IURNExport {
             } else {
                 System.out.println("Component not implemented.");
             }
-
         }
+        
+        // parsing the map for resources (External Opn)
+        // NB: other resources done while converting Components
+        for (Iterator res = map.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
+	    GeneralResource genRes = (GeneralResource) res.next();
+	    if (genRes instanceof ExternalOperation) {
+		printExternOpnComponent((ExternalOperation)genRes, ps);
+	    }
+	}
         ps.flush();
 
+    }
+    
+    // This is possibly not required.  Maybe not correct (literature vague...)
+    public void printExternOpnComponent(ExternalOperation externOp, PrintStream ps) {
+    	if (externOp != null) {
+    	    String extOpStr = "<Component id=\"" + "e" + externOp.getId() + "\" name=\"" + externOp.getName() + "\" />";
+    	    ps.println("        " + extOpStr);
+    	    ps.flush();
+    	}
     }
 
     // adds RA/RR/Seq nodes where necessary in the duplicate map
@@ -193,10 +211,10 @@ public class Convert implements IURNExport {
             CSMDupNode curr_node = (CSMDupNode) dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
-        	Component comp = curr_node.getCompToAcquire();
+        	GeneralResource genRes = curr_node.getResourceToAcquire();
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
-                if (comp != null) {
-                    ra.acquireComp(comp, curr_node, dupMapConnlist);    
+                if (genRes != null) {
+                    ra.acquireRes(genRes, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToAcquire();
                     ra.acquireComp(res, curr_node, dupMapConnlist);
@@ -205,10 +223,10 @@ public class Convert implements IURNExport {
             }
             // printing RR
             else if (curr_node.getId().startsWith("G3")) {
-                Component comp = curr_node.getCompToRelease();
+        	GeneralResource genRes = curr_node.getResourceToRelease();
                 ResourceRelease rr = new ResourceRelease(ps);
-                if (comp != null) {
-                    rr.releaseComp(comp, curr_node, dupMapConnlist);    
+                if (genRes != null) {
+                    rr.releaseComp(genRes, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToRelease();
                     rr.releaseComp(res, curr_node, dupMapConnlist);

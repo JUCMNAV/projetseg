@@ -18,7 +18,6 @@ import ucm.performance.ProcessingResource;
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentRegular;
-import urncore.Responsibility;
 
 /**
  * @author jack
@@ -32,8 +31,11 @@ public class ResourceUtil {
      * @param respref
      * @return
      */
-    public ArrayList getResourcesUsage(PathNode pathnode) {
-	ArrayList components = new ArrayList();
+    public ArrayList getResourcesNeeded(PathNode pathnode) {
+	ArrayList resources = new ArrayList();
+	// Don't add resources tied to demands (external opn)
+	// otherwise, add corresponding Component.
+	/*
 	if (pathnode instanceof RespRef) {
 	    RespRef respref = (RespRef) pathnode;
 	    if (respref.getRespDef().getDemands().size() != 0) {
@@ -41,47 +43,36 @@ public class ResourceUtil {
 		    Responsibility resp = respref.getRespDef();
 		    for (int j = 0; j < resp.getDemands().size(); j++) {
 			Demand demand = (Demand) resp.getDemands().get(j);
-			components = getDemandedResources(demand.getResource());
+			resources.add(demand.getResource());
 		    }
 		}
 	    }
-
 	}
-	getContainingComponents((ComponentRef) pathnode.getContRef(), components);
-	return components;
-    }
-
-
-    /**
-     * Returns an array of components related to a resource (null for external operations)
-     * @param res
-     * @return
-     */
-    public ArrayList getDemandedResources(GeneralResource res) {
-	ArrayList components = new ArrayList();
-        if (res instanceof ExternalOperation) {
-            			// ****************************************************
-            components = null;  // TODO:  define how to handle external operations.  JS
-            			// ****************************************************
-        } else if (res instanceof ProcessingResource) { // 0..* components (ComponentRegular)
-            for (Iterator comp = ((ProcessingResource) res).getComponents().iterator(); comp.hasNext();) {
-		components.add((Component) comp.next());
-	    }
-        } else if (res instanceof PassiveResource) { // 0..1 component (ComponentElement)
-            components.add((Component)((PassiveResource) res).getComponent());
-        }
-        return components;
+	*/
+	// add the resources bound to components
+	getContainingComponentsWithResources((ComponentRef) pathnode.getContRef(), resources);
+	return resources;
     }
 
     /**
      * Returns the hierarchy of containing componentRef
      * @param compRef
-     * @param componentsIn
+     * @param resourcesIn
      */
-    public void getContainingComponents(ComponentRef compRef, ArrayList componentsIn) {
+    public void getContainingComponentsWithResources(ComponentRef compRef, ArrayList resourcesIn) {
 	if (compRef != null) {
-	    componentsIn.add(compRef.getContDef());
-	    getContainingComponents((ComponentRef) compRef.getParent(), componentsIn);
+	    Component comp = (Component)compRef.getContDef();
+	    if (comp instanceof ComponentElement) {
+		if (((ComponentElement)comp).getResource() != null) {
+		    resourcesIn.add((PassiveResource)(((ComponentElement)comp).getResource()));
+		}
+	    }
+	    if (comp instanceof ComponentRegular) {
+		if (((ComponentRegular)comp).getHost() != null) {
+		    resourcesIn.add((ProcessingResource)(((ComponentRegular)comp).getHost()));
+		}
+	    }
+	    getContainingComponentsWithResources((ComponentRef) compRef.getParent(), resourcesIn);
 	}
     }
  

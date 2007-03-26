@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import urncore.Component;
+import ucm.performance.GeneralResource;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Acquisition objects in duplicate map <!-- end-user-doc -->
@@ -73,14 +73,14 @@ public class ResourceAcquisition extends ResourceUtil {
     } // function
 
     // prints XML representation of Resource Acquire element
-    public void acquireComp(Component comp, CSMDupNode node, CSMDupConnectionList list) {
+    public void acquireRes(GeneralResource genRes, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "c" + ((Component)comp).getId() + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "r" + genRes.getId() + "\"";
         String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String ra_successor = " successor=\"" + "h" + successor + "\"";
         String end_ra = "/>";
@@ -108,7 +108,7 @@ public class ResourceAcquisition extends ResourceUtil {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "c" + res + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "r" + res + "\"";
         String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String ra_successor = " successor=\"" + "h" + successor + "\"";
         String end_ra = "/>";
@@ -215,9 +215,9 @@ public class ResourceAcquisition extends ResourceUtil {
 	}
 
         if (resToAcquire.size() != 0) {
-            Component comp = (Component) resToAcquire.get(0);
+            GeneralResource genRes = (GeneralResource) resToAcquire.get(0);
             resToAcquire.remove(0);
-            ra_node.setCompToAcquire(comp); // for when source wants to get ready to compute release set
+            ra_node.setResourceToAcquire(genRes); // for when source wants to get ready to compute release set
         }
         return ins_nodes;
     }

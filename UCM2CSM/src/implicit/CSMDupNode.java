@@ -33,9 +33,9 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
+import ucm.performance.GeneralResource;
 import ucm.performance.ProcessingResource;
 import ucm.performance.Timestamp;
-import urncore.Component;
 
 /**
  * <!-- begin-user-doc --> A CSMDupNode is a reference to a node in the original UCMmap <!-- end-user-doc -->
@@ -67,8 +67,8 @@ public class CSMDupNode {// extends PathNodeImpl {
     private int type = UNDEFINED;
     private ArrayList resourcesDownstream = new ArrayList();
     private ArrayList resourcesUpstream = new ArrayList();
-    private Component compToAcquire = null;
-    private Component compToRelease = null;
+    private GeneralResource resourceToAcquire = null;
+    private GeneralResource resourceToRelease = null;
 
     private String res = null;
     
@@ -80,12 +80,12 @@ public class CSMDupNode {// extends PathNodeImpl {
 	return res;
     }
 
-    public void setCompToAcquire(Component comp) {
-	compToAcquire = comp;
+    public void setResourceToAcquire(GeneralResource genRes) {
+	resourceToAcquire = genRes;
     }
 
-    public Component getCompToAcquire() {
-	return compToAcquire;
+    public GeneralResource getResourceToAcquire() {
+	return resourceToAcquire;
     }
 
     public void setResToRelease(String res) {
@@ -95,12 +95,12 @@ public class CSMDupNode {// extends PathNodeImpl {
     public String getResToRelease() {
 	return res;
     }
-    public void setCompToRelease(Component comp) {
-	compToRelease = comp;
+    public void setResourceToRelease(GeneralResource genRes) {
+	resourceToRelease = genRes;
     }
 
-    public Component getCompToRelease() {
-	return (Component) compToRelease;
+    public GeneralResource getResourceToRelease() {
+	return resourceToRelease;
     }
 
     // New types of elements
@@ -180,21 +180,21 @@ public class CSMDupNode {// extends PathNodeImpl {
             type = ANDFORK;
         } else if (node instanceof StartPoint) {
             type = START;
-            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EndPoint) {
             type = END;
-            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EmptyPoint) {
             type = EMPTY;
         } else if (node instanceof Stub) {
             type = STUB;
-            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof RespRef) {
             type = RESPREF;
-            resourcesDownstream = (new ResourceUtil()).getResourcesUsage(node);
+            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
             type = ORJOIN; // js
