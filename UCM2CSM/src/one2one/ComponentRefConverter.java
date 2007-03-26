@@ -4,7 +4,10 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
+import ucm.performance.PassiveResource;
+import ucm.performance.ProcessingResource;
 import urncore.Component;
+import urncore.ComponentElement;
 import urncore.ComponentRegular;
 
 /**
@@ -91,5 +94,26 @@ public class ComponentRefConverter {
         }
         ps.println(" " + close);
         ps.flush();
+        
+        // resources do not exist yet. js
+        Component comp = (Component)compRef.getContDef();
+        if (comp != null) {
+            if (comp instanceof ComponentRegular) {
+        	if (comp.getHost() != null) {
+        	    ProcessingResource procRes = (ProcessingResource) comp.getHost();
+        	    String resStr = "<Component id=\"" + "r" + procRes.getId() + "\" name=\"" + procRes.getName() + "\" />";
+        	    ps.println("        " + resStr);
+        	    ps.flush();
+        	}
+            }
+            if (comp instanceof ComponentElement) {
+        	if (comp.getResource() != null) {
+        	    PassiveResource passRes = (PassiveResource) comp.getResource(); 
+        	    String resStr = "<Component id=\"" + "r" + passRes.getId() + "\" name=\"" + passRes.getName() + "\" />";
+        	    ps.println("        " + resStr);
+        	    ps.flush();
+        	}
+            }
+        }
     }
 }
