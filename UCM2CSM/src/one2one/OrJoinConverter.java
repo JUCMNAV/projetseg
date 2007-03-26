@@ -27,7 +27,7 @@ public class OrJoinConverter implements AbstractConverter {
 
         // object attributes
         String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\"";
-        ps.print("			" + madatory_attribute);
+        ps.print("            " + madatory_attribute);
         String closing_attribute = "/>";
 
         // optional attributes
