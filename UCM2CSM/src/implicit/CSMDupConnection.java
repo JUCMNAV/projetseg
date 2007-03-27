@@ -22,10 +22,10 @@ public class CSMDupConnection {
 
     public CSMDupConnection(NodeConnection connection) {
         this.connection = connection;
-        this.source_id = ((PathNode) ((NodeConnection) connection).getSource()).getId();
-        this.target_id = ((PathNode) ((NodeConnection) connection).getTarget()).getId();
-        this.source_node = new CSMDupNode((PathNode) ((NodeConnection) connection).getSource());
-        this.target_node = new CSMDupNode((PathNode) ((NodeConnection) connection).getTarget());
+        this.source_id = ((PathNode) connection.getSource()).getId();
+        this.target_id = ((PathNode) connection.getTarget()).getId();
+        this.source_node = new CSMDupNode((PathNode) connection.getSource());
+        this.target_node = new CSMDupNode((PathNode) connection.getTarget());
     }
 
     public CSMDupConnection(String source, String target) {
@@ -78,10 +78,11 @@ public class CSMDupConnection {
 
     // methods to acquire target/source elements of a connection
     public PathNode getTarget() {
-        if (connection != null)
-            return (PathNode) connection.getTarget();
-        else
-            return null;
+	PathNode pn = null;
+        if (connection != null) {
+            pn = (PathNode) connection.getTarget();
+        }
+        return pn;
     }
 
     public CSMDupNode getCSMTarget() {
@@ -89,10 +90,11 @@ public class CSMDupConnection {
     }
 
     public PathNode getSource() {
-        if (connection != null)
-            return (PathNode) connection.getSource();
-        else
-            return null;
+	PathNode pn = null;
+        if (connection != null) {
+            pn = (PathNode) connection.getSource();
+        }
+        return pn;
     }
 
     public CSMDupNode getCSMSource() {
