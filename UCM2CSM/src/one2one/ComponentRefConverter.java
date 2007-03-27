@@ -6,6 +6,7 @@ import java.util.Iterator;
 import ucm.map.ComponentRef;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
+import urncore.ComponentKind;
 import urncore.ComponentRegular;
 
 /**
@@ -31,6 +32,7 @@ public class ComponentRefConverter {
     private String parent = new String();
 
     private boolean activeP;
+    private boolean activePDefined;
     public String type = new String();
 
     public String host = new String();
@@ -43,10 +45,15 @@ public class ComponentRefConverter {
         // processing active_process
         this.activeP = false;
 
-        // set up the boolean value is_active_process to true if component is Process, Team or Agent
+        // set up the boolean value is_active_process to true if component is Process, false if Object, undefined otherwise
         type = compDef.getKind().toString();
-        if (type.compareTo("Process") == 0 || type.compareTo("Team") == 0 || type.compareTo("Agent") == 0) {
+        this.activePDefined = false;
+        if (compDef.getKind() == ComponentKind.PROCESS_LITERAL) {
             this.activeP = true;
+            this.activePDefined = true;
+        } else if (compDef.getKind() == ComponentKind.OBJECT_LITERAL) {
+            this.activeP = false;
+            this.activePDefined = true;
         }
 
         // initialize parent only if a reference to the parent component exists
@@ -70,7 +77,7 @@ public class ComponentRefConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps) {
 
-	String comp_host = "host=\" \"";
+	String comp_host = "";
 	// resources do not exist yet. js
         if (compRef.getContDef() != null) {
             if (compRef.getContDef() instanceof ComponentRegular) {
@@ -89,7 +96,13 @@ public class ComponentRefConverter {
 
         String comp_attributes_sub = "sub=\"" + children + "\"" + " ";
         String comp_attributes_parent = "parent=\"" + parent + "\"" + " ";
-        String comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\"" + " ";
+        String comp_attributes_active_process;
+        if (activePDefined) {
+            comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\"" + " ";    
+        } else {
+            comp_attributes_active_process = "";
+        }
+        
 
         ps.print("        " + comp_attributes);
         ps.print(" " + comp_attributes_active_process);
