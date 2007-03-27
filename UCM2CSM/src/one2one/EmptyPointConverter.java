@@ -29,7 +29,7 @@ public class EmptyPointConverter implements AbstractConverter {
         // object attributes
         String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\"";
 
-        ps.print("			" + Object_attributes);
+        ps.print("            " + Object_attributes);
         String closing_attribute = "/>";
 
         oa.OptionalAttributes((PathNode) ep, ps, source, target);
