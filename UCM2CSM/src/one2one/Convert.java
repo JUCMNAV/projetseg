@@ -22,6 +22,8 @@ import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
 import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
+import ucm.performance.PassiveResource;
+import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.IURNDiagram;
 
@@ -126,27 +128,23 @@ public class Convert implements IURNExport {
             }
         }
         
-        // parsing the map for resources (External Opn)
-        // NB: other resources done while converting Components
+        // parsing the map for resources
         for (Iterator res = map.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
 	    GeneralResource genRes = (GeneralResource) res.next();
 	    if (genRes instanceof ExternalOperation) {
-		printExternOpnComponent((ExternalOperation)genRes, ps);
+		ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
+		externalOpnCvtr.Convert(ps, /*source*/null, /*target*/null);
+	    } else if (genRes instanceof ProcessingResource) {
+		ProcessingResourceConverter processingResCvtr = new ProcessingResourceConverter((ProcessingResource) genRes);
+		processingResCvtr.Convert(ps, /*source*/null, /*target*/null);
+	    } else if (genRes instanceof PassiveResource){
+		PassiveResourceConverter passiveResCvtr = new PassiveResourceConverter((PassiveResource) genRes);
+		passiveResCvtr.Convert(ps, /*source*/null, /*target*/null);
 	    }
 	}
         ps.flush();
-
     }
     
-    // This is possibly not required.  Maybe not correct (literature vague...)
-    public void printExternOpnComponent(ExternalOperation externOp, PrintStream ps) {
-    	if (externOp != null) {
-    	    String extOpStr = "<Component id=\"" + "e" + externOp.getId() + "\" name=\"" + externOp.getName() + "\" />";
-    	    ps.println("        " + extOpStr);
-    	    ps.flush();
-    	}
-    }
-
     // adds RA/RR/Seq nodes where necessary in the duplicate map
     public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);

@@ -4,10 +4,8 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
-import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
-import urncore.ComponentElement;
 import urncore.ComponentRegular;
 
 /**
@@ -55,7 +53,7 @@ public class ComponentRefConverter {
         if (((ComponentRef) compRef.getParent()) != null) {
             this.parentCompRef = (ComponentRef) compRef.getParent();
             this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
-            parent += "c" + this.parentCompRef.getId();
+            parent += "c" + this.parentCompDef.getId();
         } else {
             parent += " ";
         }
@@ -64,7 +62,7 @@ public class ComponentRefConverter {
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             this.childrenCompRef = (ComponentRef) iter.next();
             this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
-            children += "c" + this.childrenCompRef.getId() + " ";
+            children += "c" + this.childrenCompDef.getId() + " ";
         }
 
     }
@@ -72,11 +70,21 @@ public class ComponentRefConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps) {
 
+	String comp_host = "host=\" \"";
+	// resources do not exist yet. js
+        if (compRef.getContDef() != null) {
+            if (compRef.getContDef() instanceof ComponentRegular) {
+        	if (((ComponentRegular)compRef.getContDef()).getHost() != null) {
+        	    ProcessingResource procRes = ((ComponentRegular)compRef.getContDef()).getHost();
+        	    comp_host = "host=\"" +  "r" + procRes.getId() + "\"";
+        	}
+            }
+        }
+
         // object attributes --- host attribute to be implemanteds
 	String id = ((Component)compRef.getContDef()).getId();
 	String name = ((Component)compRef.getContDef()).getName();
-        String comp_attributes = "<Component id=\"" + "c" + id + "\"" + " " + "name=\"" + name + "\"" + " " + "host=\"" + " " + "\""
-                + " ";
+        String comp_attributes = "<Component id=\"" + "c" + id + "\"" + " " + "name=\"" + name + "\"" + " " + comp_host + " ";
         String close = "/>";
 
         String comp_attributes_sub = "sub=\"" + children + "\"" + " ";
@@ -95,25 +103,5 @@ public class ComponentRefConverter {
         ps.println(" " + close);
         ps.flush();
         
-        // resources do not exist yet. js
-        Component comp = (Component)compRef.getContDef();
-        if (comp != null) {
-            if (comp instanceof ComponentRegular) {
-        	if (comp.getHost() != null) {
-        	    ProcessingResource procRes = (ProcessingResource) comp.getHost();
-        	    String resStr = "<Component id=\"" + "r" + procRes.getId() + "\" name=\"" + procRes.getName() + "\" />";
-        	    ps.println("        " + resStr);
-        	    ps.flush();
-        	}
-            }
-            if (comp instanceof ComponentElement) {
-        	if (comp.getResource() != null) {
-        	    PassiveResource passRes = (PassiveResource) comp.getResource(); 
-        	    String resStr = "<Component id=\"" + "r" + passRes.getId() + "\" name=\"" + passRes.getName() + "\" />";
-        	    ps.println("        " + resStr);
-        	    ps.flush();
-        	}
-            }
-        }
     }
 }
