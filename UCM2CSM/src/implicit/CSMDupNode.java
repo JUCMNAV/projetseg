@@ -264,27 +264,30 @@ public class CSMDupNode {// extends PathNodeImpl {
 
     // return the id of the node
     public String getId() {
-        if (node == null)
-            return node_id;
-        else
-            return node.getId();
+	String id;
+        if (node == null) {
+            id = node_id;
+        }
+        else {
+            id = node.getId();
+        }
+        return id;
     }
 
     // return the id of the node if node is a Pathnode, else return null
     public PathNode getNode() {
+	PathNode pn;
         if (type == RA || type == RR || type == CSMEMPTY) {
-            return null;
+            pn =  null;
         } else {
-            return this.node;
+            pn = this.node;
         }
+        return pn;
     }
 
     public boolean isPathNode() {
-        if (type == RA || type == RR || type == CSMEMPTY) {
-            return false;
-        } else {
-            return true;
-        }
+	boolean notPathnodeKind = (type == RA || type == RR || type == CSMEMPTY);
+	return !notPathnodeKind;
     }
 
     // Converts object through polymorphism (dynamic binding)
