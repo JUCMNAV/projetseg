@@ -2,10 +2,16 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
+import ucm.performance.GeneralResource;
+import ucm.performance.PassiveResource;
+import urn.URNspec;
+import urncore.Metadata;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
@@ -67,7 +73,37 @@ public class ResourceRelease extends ResourceUtil {
         while (resToRelease.size() != 0) {
             nodes_inserted = addRR(resToRelease, usedResources, dup_map, dup_map_conn, curr_edge, nodes_inserted);
         }
-                return nodes_inserted;
+//      RA/RR via MetaData
+	if (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) {
+	    ArrayList resAttrList = new ArrayList();
+	    for (Iterator md = ((RespRef)curr_edge).getRespDef().getMetadata().iterator(); md.hasNext();) {
+		Metadata mdElement = (Metadata) md.next();
+		if (mdElement.getName().compareTo("RR") == 0) {
+		    if (md.hasNext()) {
+		    Metadata mdValue = (Metadata) md.next();
+		    if (mdValue.getName().compareTo("Qty") == 0) {
+			URNspec urn = ((RespRef) curr_edge).getRespDef().getUrndefinition().getUrnspec();
+			for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
+			    GeneralResource genResElement = (GeneralResource) genRes.next();
+			    if (genResElement instanceof PassiveResource) {
+				if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
+				    PassiveResource pasRes = (PassiveResource) genResElement;
+				    ResourceAttribs resAttr = new ResourceAttribs();
+				    resAttr.setRes(pasRes);
+				    resAttr.setRUnits(mdValue.getValue());
+				    resAttrList.add(resAttr);
+	                        }
+	                    }
+	                }		
+		    }
+		    }
+		}
+	    }
+	    while (resAttrList.size() > 0) {
+		nodes_inserted = addRR(resAttrList, null, dup_map, dup_map_conn, curr_edge, nodes_inserted);
+	    }
+	}
+        return nodes_inserted;
     } // function
 
     // prints XML representation of Resource Release element

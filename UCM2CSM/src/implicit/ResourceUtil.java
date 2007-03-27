@@ -56,7 +56,7 @@ public class ResourceUtil {
     public void getContainingComponentsWithResources(ComponentRef compRef, ArrayList resourcesIn) {
 	ResourceAttribs resAttribs = new ResourceAttribs();
 	if (compRef != null) {
-	    resAttribs.setRUnits(compRef.getReplicationFactor());
+	    resAttribs.setRUnits("" + compRef.getReplicationFactor());
 	    if (compRef.getContDef() instanceof ComponentElement) {
 		if (((ComponentElement)compRef.getContDef()).getResource() != null) {
 		    resAttribs.setRes(((ComponentElement)compRef.getContDef()).getResource());

@@ -4,7 +4,7 @@ import ucm.performance.GeneralResource;
 
 public class ResourceAttribs  {
     private GeneralResource resource;
-    private int rUnits;
+    private String rUnits;
 
     public void setRes(GeneralResource genRes) {
 	this.resource = genRes;
@@ -14,11 +14,11 @@ public class ResourceAttribs  {
 	return this.resource;
     }
     
-    public void setRUnits(int qty) {
+    public void setRUnits(String qty) {
 	this.rUnits = qty;
     }
 
-    public int getRUnits() {
+    public String getRUnits() {
 	return this.rUnits;
     }
 
