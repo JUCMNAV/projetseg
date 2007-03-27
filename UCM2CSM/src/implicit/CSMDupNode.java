@@ -33,7 +33,6 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
-import ucm.performance.GeneralResource;
 import ucm.performance.ProcessingResource;
 import ucm.performance.Timestamp;
 
@@ -67,8 +66,8 @@ public class CSMDupNode {// extends PathNodeImpl {
     private int type = UNDEFINED;
     private ArrayList resourcesDownstream = new ArrayList();
     private ArrayList resourcesUpstream = new ArrayList();
-    private GeneralResource resourceToAcquire = null;
-    private GeneralResource resourceToRelease = null;
+    private ResourceAttribs resourceToAcquire = null;
+    private ResourceAttribs resourceToRelease = null;
 
     private String res = null;
     
@@ -80,11 +79,11 @@ public class CSMDupNode {// extends PathNodeImpl {
 	return res;
     }
 
-    public void setResourceToAcquire(GeneralResource genRes) {
-	resourceToAcquire = genRes;
+    public void setResourceToAcquire(ResourceAttribs resAttribs) {
+	resourceToAcquire = resAttribs;
     }
 
-    public GeneralResource getResourceToAcquire() {
+    public ResourceAttribs getResourceToAcquire() {
 	return resourceToAcquire;
     }
 
@@ -95,11 +94,11 @@ public class CSMDupNode {// extends PathNodeImpl {
     public String getResToRelease() {
 	return res;
     }
-    public void setResourceToRelease(GeneralResource genRes) {
-	resourceToRelease = genRes;
+    public void setResourceToRelease(ResourceAttribs resAttribs) {
+	resourceToRelease = resAttribs;
     }
 
-    public GeneralResource getResourceToRelease() {
+    public ResourceAttribs getResourceToRelease() {
 	return resourceToRelease;
     }
 

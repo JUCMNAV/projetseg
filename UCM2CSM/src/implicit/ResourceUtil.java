@@ -4,18 +4,12 @@
 package implicit;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
-import ucm.performance.ExternalOperation;
-import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
-import ucm.performance.ProcessingResource;
-import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentRegular;
 
@@ -60,15 +54,19 @@ public class ResourceUtil {
      * @param resourcesIn
      */
     public void getContainingComponentsWithResources(ComponentRef compRef, ArrayList resourcesIn) {
+	ResourceAttribs resAttribs = new ResourceAttribs();
 	if (compRef != null) {
+	    resAttribs.setRUnits(compRef.getReplicationFactor());
 	    if (compRef.getContDef() instanceof ComponentElement) {
 		if (((ComponentElement)compRef.getContDef()).getResource() != null) {
-		    resourcesIn.add(((ComponentElement)compRef.getContDef()).getResource());
+		    resAttribs.setRes(((ComponentElement)compRef.getContDef()).getResource());
+		    resourcesIn.add(resAttribs);
 		}
 	    }
 	    if (compRef.getContDef() instanceof ComponentRegular) {
 		if (((ComponentRegular)compRef.getContDef()).getHost() != null) {
-		    resourcesIn.add(((ComponentRegular)compRef.getContDef()).getHost());
+		    resAttribs.setRes(((ComponentRegular)compRef.getContDef()).getHost());
+		    resourcesIn.add(resAttribs);
 		}
 	    }
 	    getContainingComponentsWithResources((ComponentRef) compRef.getParent(), resourcesIn);
@@ -80,25 +78,6 @@ public class ResourceUtil {
 	for (int i = 0; i < in.size(); i++) {
 	    out.add(in.get(i));
 	}
-    }
-    public String[] getResStringList(GeneralResource res) {
-        String[] resource = null; // = new String()[];
-        if (res instanceof ExternalOperation) {
-            resource = new String[1];
-            resource[0] = ((ExternalOperation) res).getDescription();
-        } else if (res instanceof ProcessingResource) { // 0..* components (ComponentRegular)
-            resource = new String[((ProcessingResource) res).getComponents().size()];
-            int i = 0;
-            for (Iterator comp = ((ProcessingResource) res).getComponents().iterator(); comp.hasNext();) {
-		Component component = (Component) comp.next();
-		resource[i] = component.getId();
-		i++;
-	    }
-        } else if (res instanceof PassiveResource) { // 0..* component (ComponentElement)
-            resource = new String[1];
-            resource[0] = ((PassiveResource) res).getComponent().getId();
-        }
-        return resource;
     }
 
     /**
@@ -119,64 +98,6 @@ public class ResourceUtil {
         return demands;
     }
     
-    public Stack intersectStackDemands(Stack comprefs, ArrayList demands) {
-        // returned stack = INTERSCTION of comprefs AND demands
-        Stack toRemove = new Stack();
-        for (int i = 0; i < demands.size(); i++) {
-            GeneralResource res = (GeneralResource) demands.get(i);
-            if (res instanceof ExternalOperation) {
-                //
-            } else if (res instanceof ProcessingResource) { // 0..* components (ComponentRegular)
-                for (int j = 0; j < ((ProcessingResource) res).getComponents().size(); j++) {
-                    ComponentRegular compreg = (ComponentRegular) ((ProcessingResource) res).getComponents().get(j);
-                    if (compreg != null) {
-                        for (Iterator elem = comprefs.iterator(); elem.hasNext();) {
-                            ComponentRef element = (ComponentRef) elem.next();
-                            if (((Component) element.getContDef()).getId() == compreg.getId()) {
-                                toRemove.push(compreg);
-                            }
-                        }
-                    }
-                }
-            } else if (res instanceof PassiveResource) { // 0..* component (ComponentElement)
-                ComponentElement compele = ((PassiveResource) res).getComponent();
-                if (compele != null) {
-                    for (Iterator elem = comprefs.iterator(); elem.hasNext();) {
-                        ComponentRef element = (ComponentRef) elem.next();
-                        if (((Component) element.getContDef()).getId() == compele.getId()) {
-                            toRemove.push(element);
-                        }
-                    }
-                }
-            }
-
-        }
-        return toRemove;
-    }
-
-    public boolean demandsRequiresComponents(ArrayList demandList) {
-        boolean resReqComp = false;
-        for (int i = 0; !resReqComp && i < demandList.size(); i++) {
-            GeneralResource res = (GeneralResource) demandList.get(i);
-            if (res instanceof ExternalOperation) {
-                //
-            } else if (res instanceof ProcessingResource) { // 0..* components (ComponentRegular)
-                for (int j = 0; j < ((ProcessingResource) res).getComponents().size(); j++) {
-                    if (((ComponentRegular) ((ProcessingResource) res).getComponents().get(j)) != null) {
-                        resReqComp = true;
-                        // curr_edge_demands.add((ComponentRegular) ((ProcessingResource) res).getComponents().get(j));
-                    }
-                }
-            } else if (res instanceof PassiveResource) { // 0..* component (ComponentElement)
-                if (((PassiveResource) res).getComponent() != null) {
-                    resReqComp = true;
-                    // curr_edge_demands.add(((PassiveResource) res).getComponent());
-                }
-            }
-        }
-        return resReqComp;
-    }
-
     /**
      * Returns elements of the first array which are not in the second
      * @param first

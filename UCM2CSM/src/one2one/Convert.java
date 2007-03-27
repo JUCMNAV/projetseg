@@ -5,6 +5,7 @@ import implicit.CSMDupConnectionList;
 import implicit.CSMDupNode;
 import implicit.CSMDupNodeList;
 import implicit.ResourceAcquisition;
+import implicit.ResourceAttribs;
 import implicit.ResourceRelease;
 
 import java.io.FileOutputStream;
@@ -209,10 +210,10 @@ public class Convert implements IURNExport {
             CSMDupNode curr_node = (CSMDupNode) dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
-        	GeneralResource genRes = curr_node.getResourceToAcquire();
+        	ResourceAttribs resAttribs = curr_node.getResourceToAcquire();
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
-                if (genRes != null) {
-                    ra.acquireRes(genRes, curr_node, dupMapConnlist);    
+                if (resAttribs != null) {
+                    ra.acquireRes(resAttribs, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToAcquire();
                     ra.acquireComp(res, curr_node, dupMapConnlist);
@@ -221,10 +222,10 @@ public class Convert implements IURNExport {
             }
             // printing RR
             else if (curr_node.getId().startsWith("G3")) {
-        	GeneralResource genRes = curr_node.getResourceToRelease();
+        	ResourceAttribs resAttribs = curr_node.getResourceToRelease();
                 ResourceRelease rr = new ResourceRelease(ps);
-                if (genRes != null) {
-                    rr.releaseComp(genRes, curr_node, dupMapConnlist);    
+                if (resAttribs != null) {
+                    rr.releaseRes(resAttribs, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToRelease();
                     rr.releaseComp(res, curr_node, dupMapConnlist);

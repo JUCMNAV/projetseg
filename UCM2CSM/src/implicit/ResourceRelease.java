@@ -6,7 +6,6 @@ import java.util.Stack;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import ucm.performance.GeneralResource;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
@@ -72,14 +71,15 @@ public class ResourceRelease extends ResourceUtil {
     } // function
 
     // prints XML representation of Resource Release element
-    public void releaseComp(GeneralResource genRes, CSMDupNode node, CSMDupConnectionList list) {
+    public void releaseRes(ResourceAttribs resAttribs, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "r" + genRes.getId() + "\"";
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\"" + " release=\"" + "r" + (resAttribs.getRes()).getId() + "\""
+        	+ " rUnits=\""+ resAttribs.getRUnits() + "\"";
 
         String rr_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
         String rr_successor = " successor=\"" + "h" + successor + "\"";
@@ -217,9 +217,9 @@ public class ResourceRelease extends ResourceUtil {
         // if (releaseList.size != 0){ take one out of list } js
         // but first, convert to component use
         if (resToRelease.size() != 0) {
-            GeneralResource genRes = (GeneralResource) resToRelease.get(0);
+            ResourceAttribs resAttribs = (ResourceAttribs) resToRelease.get(0);
             resToRelease.remove(0);
-            rr_node.setResourceToRelease(genRes); // for when source wants to get ready to compute release set
+            rr_node.setResourceToRelease(resAttribs); // for when source wants to get ready to compute release set
         }
         return ins_nodes;
     }
