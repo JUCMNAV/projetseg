@@ -61,15 +61,14 @@ public class ResourceUtil {
      */
     public void getContainingComponentsWithResources(ComponentRef compRef, ArrayList resourcesIn) {
 	if (compRef != null) {
-	    Component comp = (Component)compRef.getContDef();
-	    if (comp instanceof ComponentElement) {
-		if (((ComponentElement)comp).getResource() != null) {
-		    resourcesIn.add((PassiveResource)(((ComponentElement)comp).getResource()));
+	    if (compRef.getContDef() instanceof ComponentElement) {
+		if (((ComponentElement)compRef.getContDef()).getResource() != null) {
+		    resourcesIn.add(((ComponentElement)compRef.getContDef()).getResource());
 		}
 	    }
-	    if (comp instanceof ComponentRegular) {
-		if (((ComponentRegular)comp).getHost() != null) {
-		    resourcesIn.add((ProcessingResource)(((ComponentRegular)comp).getHost()));
+	    if (compRef.getContDef() instanceof ComponentRegular) {
+		if (((ComponentRegular)compRef.getContDef()).getHost() != null) {
+		    resourcesIn.add(((ComponentRegular)compRef.getContDef()).getHost());
 		}
 	    }
 	    getContainingComponentsWithResources((ComponentRef) compRef.getParent(), resourcesIn);
@@ -112,7 +111,7 @@ public class ResourceUtil {
         ArrayList demands = new ArrayList();
         if (node instanceof RespRef) {
             for (int i = 0; i < ((RespRef) node).getRespDef().getDemands().size(); i++) {
-                demands.add((GeneralResource) ((Demand) ((RespRef) node).getRespDef().getDemands().get(i)).getResource());
+                demands.add(((Demand) ((RespRef) node).getRespDef().getDemands().get(i)).getResource());
             }
         } else {
             demands = null;
@@ -133,7 +132,7 @@ public class ResourceUtil {
                     if (compreg != null) {
                         for (Iterator elem = comprefs.iterator(); elem.hasNext();) {
                             ComponentRef element = (ComponentRef) elem.next();
-                            if (((Component) ((ComponentRef) element).getContDef()).getId() == compreg.getId()) {
+                            if (((Component) element.getContDef()).getId() == compreg.getId()) {
                                 toRemove.push(compreg);
                             }
                         }
@@ -144,7 +143,7 @@ public class ResourceUtil {
                 if (compele != null) {
                     for (Iterator elem = comprefs.iterator(); elem.hasNext();) {
                         ComponentRef element = (ComponentRef) elem.next();
-                        if (((Component) ((ComponentRef) element).getContDef()).getId() == compele.getId()) {
+                        if (((Component) element.getContDef()).getId() == compele.getId()) {
                             toRemove.push(element);
                         }
                     }
