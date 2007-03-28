@@ -76,7 +76,7 @@ public class ResourceRelease extends ResourceUtil {
 //      RA/RR via MetaData
 	if (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) {
 	    ArrayList resAttrList = new ArrayList();
-	    for (Iterator md = ((RespRef)curr_edge).getRespDef().getMetadata().iterator(); md.hasNext();) {
+	    for (Iterator md = ((RespRef)curr_edge).getMetadata().iterator(); md.hasNext();) {
 		Metadata mdElement = (Metadata) md.next();
 		if (mdElement.getName().compareTo("RR") == 0) {
 		    if (md.hasNext()) {
