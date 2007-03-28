@@ -36,28 +36,28 @@ public class WorkLoadAttributes {
     }
 
     public static void printArrivalParam1(PrintStream ps, Workload work) {
-        if (work.getArrivalParam1() != 0.0) {
+        if (work.getArrivalParam1() != null) {
             String print_aParam1 = "arrivalParam1=\"" + work.getArrivalParam1() + "\"" + " ";
             ps.print(print_aParam1);
         }
     }
 
     public static void printArrivalParam2(PrintStream ps, Workload work) {
-        if (work.getArrivalParam2() != 0.0) {
+        if (work.getArrivalParam2() != null) {
             String print_aParam2 = "arrivalParam2=\"" + work.getArrivalParam2() + "\"" + " ";
             ps.print(print_aParam2);
         }
     }
 
     public static void externalDelay(PrintStream ps, Workload work) {
-        if (work.getExternalDelay() != 0.0) {
+        if (work.getExternalDelay() != null) {
             String print_delay = "externalDelay=\"" + work.getExternalDelay() + "\"" + " ";
             ps.print(print_delay);
         }
     }
 
     public static void value(PrintStream ps, Workload work) {
-        if (work.getValue() != 0.0) {
+        if (work.getValue() != null) {
             String print_value = "Value=\"" + work.getValue() + "\"" + " ";
             ps.print(print_value);
         }
@@ -65,7 +65,7 @@ public class WorkLoadAttributes {
     }
 
     public static void coeffSeq(PrintStream ps, Workload work) {
-        if (work.getCoeffVarSeq() != 0.0) {
+        if (work.getCoeffVarSeq() != null) {
             String print_coeffVar = "coeffVarSq=\"" + work.getCoeffVarSeq() + "\"" + " ";
             ps.print(print_coeffVar);
         }
