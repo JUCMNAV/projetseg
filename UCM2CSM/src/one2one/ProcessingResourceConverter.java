@@ -21,11 +21,32 @@ public class ProcessingResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
-        String resStr = "<ProcessingResource "
-            + "id=\"" + "r" + processingRes.getId() + "\" "
-            + "name=\"" + processingRes.getName() + "\" "
-            + "opTime=\"" + processingRes.getOpTime()+ "\" />";
+	String id = "id=\"" + "r" + processingRes.getId() + "\" ";
+	String name = "name=\"" + processingRes.getName() + "\" ";
+	String description;
+	String opTime = "opTime=\"" + processingRes.getOpTime()+ "\" "; 
+	String multiplicity;
+	String schedPolicy;
+	if (processingRes.getDescription() != null) {
+	    description = "description=\"" + processingRes.getDescription() + "\" ";
+	} else
+	    description = "";
+	if (processingRes.getMultiplicity() != null) {
+	    multiplicity = "multiplicity=\"" + processingRes.getMultiplicity() + "\" ";
+	} else {
+	    multiplicity = "";
+	}
+	if (processingRes.getSchedPolicy() != null) {
+	    schedPolicy = "schedPolicy=\"" + processingRes.getSchedPolicy() + "\" ";
+	} else {
+	    schedPolicy = "";
+	}
+
+	String resStr = "<ProcessingResource "
+	    + id + name + opTime + description + multiplicity + schedPolicy
+            +  "/>";
         ps.println("        " + resStr);
+
         ps.flush();
     }
 }
