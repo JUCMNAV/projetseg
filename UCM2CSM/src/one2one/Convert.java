@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.ComponentRef;
@@ -26,6 +27,7 @@ import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
 import urn.URNspec;
+import urncore.Component;
 import urncore.IURNDiagram;
 
 /**
@@ -37,6 +39,7 @@ import urncore.IURNDiagram;
 
 public class Convert implements IURNExport {
 
+    private List processedComponents = new ArrayList();
     // Converts object through polymorphism (dynamic binding)
     public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
         obj.Convert(ps);
@@ -120,12 +123,16 @@ public class Convert implements IURNExport {
         // parsing the map for components
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
-            // if UCM object is found, generate CSM representation
-            if (compRef instanceof ComponentRef) {
-                ComponentRefConverter obj = new ComponentRefConverter(compRef);
-                doComponentRefConvert(obj, ps);
-            } else {
-                System.out.println("Component not implemented.");
+            // produce components only once (to avoid CSM2LQN to crash)
+            if (!processedComponents.contains(((Component)compRef.getContDef()).getId())) {
+        	processedComponents.add(((Component)compRef.getContDef()).getId());
+                // if UCM object is found, generate CSM representation
+                if (compRef instanceof ComponentRef) {
+                    ComponentRefConverter obj = new ComponentRefConverter(compRef);
+                    doComponentRefConvert(obj, ps);
+                } else {
+                    System.out.println("Component not implemented.");
+                }        	
             }
         }
         
@@ -145,7 +152,7 @@ public class Convert implements IURNExport {
 	}
         ps.flush();
     }
-    
+
     // adds RA/RR/Seq nodes where necessary in the duplicate map
     public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);
