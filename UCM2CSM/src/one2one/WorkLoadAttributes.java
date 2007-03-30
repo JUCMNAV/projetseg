@@ -20,6 +20,7 @@ public class WorkLoadAttributes {
         value(ps, work);
         coeffSeq(ps, work);
         description(ps, work);
+        tracebilityLink(ps, work);
     }
 
     // *** To be implemented ***
@@ -58,7 +59,7 @@ public class WorkLoadAttributes {
 
     public static void value(PrintStream ps, Workload work) {
         if (work.getValue() != null) {
-            String print_value = "Value=\"" + work.getValue() + "\"" + " ";
+            String print_value = "value=\"" + work.getValue() + "\"" + " ";
             ps.print(print_value);
         }
 
@@ -81,7 +82,7 @@ public class WorkLoadAttributes {
 
     public static void tracebilityLink(PrintStream ps, Workload work) {
         if (work.getId() != null) {
-            String print_tracebility = "TracebilityLink =\"" + work.getId() + "\"" + " ";
+            String print_tracebility = "traceabilityLink =\"" + work.getId() + "\"" + " ";
             ps.print(print_tracebility);
         }
     }
