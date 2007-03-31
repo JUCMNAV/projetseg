@@ -35,7 +35,7 @@ public class DirectionArrowConverter implements AbstractConverter {
         ps.print("            " + Object_attributes);
         String closing_attribute = "/>";
 
-        oa.OptionalAttributes((PathNode) ep, ps, source, target);
+        oa.OptionalAttributes(ep, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

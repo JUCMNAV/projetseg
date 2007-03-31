@@ -87,9 +87,9 @@ public class CSMDupConnectionList {
     // returns the source of a given target
     public CSMDupNode getSourceForTarget(PathNode target) {
         for (int i = 0; i < connList.size(); i++) {
-            if ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget() != null
-                    && (PathNode) ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode() != null) {
-                if ((PathNode) ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode() == target) {
+            if (((CSMDupConnection) connList.get(i)).getCSMTarget() != null
+                    && (((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode() != null) {
+                if ((((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode() == target) {
                     CSMDupNode source = ((CSMDupConnection) connList.get(i)).getCSMSource();
                     // return new CSMDupNode (source);
                     return source;
@@ -102,7 +102,7 @@ public class CSMDupConnectionList {
     // returns the target of a given source. js
     public CSMDupNode getTargetforSourceTowardNode(PathNode source, PathNode destination) {
 	for (int i = 0; i < connList.size(); i++) {
-	    if (((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source.getId()) {
+	    if ((((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source.getId()) {
 		CSMDupNode target = ((CSMDupConnection) connList.get(i)).getCSMTarget();
 		if (destination == null) {
 		    return target;
@@ -123,7 +123,7 @@ public class CSMDupConnectionList {
     // returns the target of a given source. js
     public CSMDupNode getTargetForSourceTowardNode(String source, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
-                if ( ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source) {
+                if ( (((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source) {
                     CSMDupNode target = ((CSMDupConnection) connList.get(i)).getCSMTarget();
                     if (destination == null) {
                 	return target;
@@ -138,7 +138,7 @@ public class CSMDupConnectionList {
     // returns the source of a given target. js
     public CSMDupNode getSourceForTargetTowardNode(PathNode target, PathNode destination) {
 	for (int i = 0; i < connList.size(); i++) {
-	    if (((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target.getId()) {
+	    if ((((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target.getId()) {
 		CSMDupNode source = ((CSMDupConnection) connList.get(i)).getCSMSource();
 		if (destination == null) {
 		    return source;
@@ -159,7 +159,7 @@ public class CSMDupConnectionList {
     // returns the source of a given target. js
     public CSMDupNode getSourceForTargetTowardNode(String target, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
-                if ( ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target) {
+                if ( (((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target) {
                     CSMDupNode source = ((CSMDupConnection) connList.get(i)).getCSMSource();
                     if (destination == null) {
                 	return source;
@@ -184,9 +184,9 @@ public class CSMDupConnectionList {
     // returns the target of a given source
     public CSMDupNode getTargetForSource(PathNode source) {
         for (int i = 0; i < connList.size(); i++) {
-            if ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource() != null
-                    && (PathNode) ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource()).getNode() != null) {
-                if ((PathNode) ((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource()).getNode() == source) {
+            if (((CSMDupConnection) connList.get(i)).getCSMSource() != null
+                    && (((CSMDupConnection) connList.get(i)).getCSMSource()).getNode() != null) {
+                if ((((CSMDupConnection) connList.get(i)).getCSMSource()).getNode() == source) {
                     CSMDupNode target = ((CSMDupConnection) connList.get(i)).getCSMTarget();
                     return target;
                 }
@@ -217,7 +217,7 @@ public class CSMDupConnectionList {
                 String source_str = ((CSMDupConnection) connList.get(i)).getSourceStr();
                 getPrevEdgeList(source_str, sources); // recursive call
                 if (((CSMDupConnection) connList.get(i)).getCSMSource().isPathNode()) {
-                    sources.add(((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMSource()).getNode());
+                    sources.add((((CSMDupConnection) connList.get(i)).getCSMSource()).getNode());
                 } // if
             } // if
         } // for
@@ -231,7 +231,7 @@ public class CSMDupConnectionList {
                 String target_str = ((CSMDupConnection) connList.get(i)).getTargetStr();
                 getNextEdgeList(target_str, targets); // recursive call
                 if (((CSMDupConnection) connList.get(i)).getCSMTarget().isPathNode()) {
-                    targets.add(((CSMDupNode) ((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode());
+                    targets.add((((CSMDupConnection) connList.get(i)).getCSMTarget()).getNode());
                 } // if
             } // if
         } // for

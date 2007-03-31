@@ -31,7 +31,7 @@ public class OrJoinConverter implements AbstractConverter {
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes((PathNode) oj, ps, source, target);
+        so.OptionalAttributes(oj, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

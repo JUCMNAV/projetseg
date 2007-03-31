@@ -33,7 +33,7 @@ public class AndJoinConverter implements AbstractConverter {
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes((PathNode) aj, ps, source, target);
+        so.OptionalAttributes(aj, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

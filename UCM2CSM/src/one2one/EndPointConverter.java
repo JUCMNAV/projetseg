@@ -31,7 +31,7 @@ public class EndPointConverter implements AbstractConverter {
         String closing_attribute = "/>";
 
         // optional attributes
-        oa.OptionalAttributes((PathNode) ep, ps, source, target);
+        oa.OptionalAttributes(ep, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

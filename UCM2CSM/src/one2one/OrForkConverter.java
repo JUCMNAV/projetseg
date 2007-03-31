@@ -31,7 +31,7 @@ public class OrForkConverter implements AbstractConverter {
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes((PathNode) of, ps, source, target);
+        so.OptionalAttributes(of, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

@@ -33,7 +33,7 @@ public class AndForkConverter implements AbstractConverter {
         String closing_attribute = "/>";
 
         // optional attributes
-        oa.OptionalAttributes((PathNode) af, ps, source, target);
+        oa.OptionalAttributes(af, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

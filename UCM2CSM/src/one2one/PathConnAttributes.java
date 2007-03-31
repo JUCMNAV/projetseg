@@ -53,12 +53,12 @@ public class PathConnAttributes {
         if (target != null) {
             // special case for StartPoint
             if (pathnode instanceof StartPoint) {
-                String str_target = (String) target.toString().substring(1, (target.toString().length() - 1));
+                String str_target = target.toString().substring(1, (target.toString().length() - 1));
                 String refined_target = trimString(',', str_target); // eliminate ','
                 String target_attribute = "target= \"" + refined_target + "\"" + ">";
                 ps.println(" " + target_attribute);
             } else {
-                String str_target = (String) target.toString().substring(1, (target.toString().length() - 1));
+                String str_target = target.toString().substring(1, (target.toString().length() - 1));
                 String refined_target = trimString(',', str_target); // eliminate ','
                 String target_attribute = "target= \"" + refined_target + "\"";
                 ps.print(" " + target_attribute);

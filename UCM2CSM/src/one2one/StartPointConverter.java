@@ -34,7 +34,7 @@ public class StartPointConverter implements AbstractConverter {
         ps.print("            " + mandatory_attributes);
 
         // optional attributes
-        oa.OptionalAttributes((PathNode) sp, ps, source, target);
+        oa.OptionalAttributes(sp, ps, source, target);
 
         // processing workload
         if (sp.getWorkload() != null) {
