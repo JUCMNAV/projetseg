@@ -42,10 +42,7 @@ public class PathConnAttributes {
                 replaced_elements = true;
             }
         }
-        if (replaced_elements)
-            return trimmed_str;
-        else
-            return trim_str;
+        return replaced_elements ? trimmed_str : trim_str;
     }
 
     // prints the target attribute
