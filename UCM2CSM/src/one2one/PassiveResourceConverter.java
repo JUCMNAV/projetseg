@@ -41,9 +41,9 @@ public class PassiveResourceConverter implements AbstractConverter {
 	} else {
 	    schedPolicy = "";
 	}
-
+	String traceabilityLink = "traceabilityLink=\"" + passiveRes.getId() + "\" ";
 	String resStr = "<PassiveResource "
-	    + id + name + description + multiplicity + schedPolicy
+	    + id + name + description + multiplicity + schedPolicy + traceabilityLink
             + "/>";
 
         // output to file

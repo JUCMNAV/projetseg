@@ -83,7 +83,7 @@ public class ComponentRefConverter {
             if (compRef.getContDef() instanceof ComponentRegular) {
         	if (((ComponentRegular)compRef.getContDef()).getHost() != null) {
         	    ProcessingResource procRes = ((ComponentRegular)compRef.getContDef()).getHost();
-        	    comp_host = "host=\"" +  "r" + procRes.getId() + "\"";
+        	    comp_host = "host=\"" +  "r" + procRes.getId() + "\" ";
         	}
             }
         }
@@ -91,20 +91,21 @@ public class ComponentRefConverter {
         // object attributes --- host attribute to be implemanteds
 	String id = ((Component)compRef.getContDef()).getId();
 	String name = ((Component)compRef.getContDef()).getName();
-        String comp_attributes = "<Component id=\"" + "c" + id + "\"" + " " + "name=\"" + name + "\"" + " " + comp_host + " ";
+        String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " ";
+        String traceabilityLink = "traceabilityLink=\"" + compRef.getId() + "\" ";
         String close = "/>";
 
-        String comp_attributes_sub = "sub=\"" + children + "\"" + " ";
-        String comp_attributes_parent = "parent=\"" + parent + "\"" + " ";
+        String comp_attributes_sub = "sub=\"" + children + "\" ";
+        String comp_attributes_parent = "parent=\"" + parent + "\" ";
         String comp_attributes_active_process;
         if (activePDefined) {
-            comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\"" + " ";    
+            comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\" ";    
         } else {
             comp_attributes_active_process = "";
         }
         
 
-        ps.print("        " + comp_attributes);
+        ps.print("        " + comp_attributes + traceabilityLink);
         ps.print(" " + comp_attributes_active_process);
 
         if (parent.compareTo(" ") != 0) {

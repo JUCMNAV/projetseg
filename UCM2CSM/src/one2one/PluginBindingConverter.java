@@ -33,7 +33,7 @@ public class PluginBindingConverter implements AbstractConverter {
 	    addId = "_h" + p_bind.getStub().getId();
 	}
         String object_attributes_head = "<Refinement parent=\""
-            + "h" + p_bind.getStub().getId() + "\"" + " "
+            + "h" + p_bind.getStub().getId() + "\" "
             + "sub=\"" + "m" + p_bind.getPlugin().getId() + addId + "\" ";
         String object_closing = ">";
         

@@ -25,8 +25,9 @@ public class OrJoinConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-        String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\"";
-        ps.print("            " + madatory_attribute);
+        String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + oj.getId() + "\" ";
+        ps.print("            " + madatory_attribute + traceabilityLink);
         String closing_attribute = "/>";
 
         // optional attributes

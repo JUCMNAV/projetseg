@@ -26,7 +26,7 @@ public class OutBindingConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\"" + " " + "out=\"" + "h"
+        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + "h"
                 + ((PathNode) out_bind.getStubExit().getTarget()).getId() + "\"/>";
 
         // output to file

@@ -26,7 +26,8 @@ public class StartPointConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-        String mandatory_attributes = "<Start id=\"h" + sp.getId() + "\" traceabilityLink=\"" + sp.getId() + "\"";
+        String mandatory_attributes = "<Start id=\"h" + sp.getId() + "\" "
+        	+ "traceabilityLink=\"" + sp.getId() + "\" ";
         String closing_attribute = "</Start>";
 
         // common attributes

@@ -25,7 +25,7 @@ public class InBindingConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\"" + " " + "in=\"" + "h"
+        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + "h"
                 + ((PathNode) in_bind.getStubEntry().getSource()).getId() + "\"/>";
         // output to file
         ps.println("                     " + Object_attributes);

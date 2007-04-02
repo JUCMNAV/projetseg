@@ -26,9 +26,9 @@ public class AndJoinConverter implements AbstractConverter {
 
         // object attributes
         String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" ";
-
+        String traceabilityLink = "traceabilityLink=\"" + aj.getId() + "\" ";
         // output to file
-        ps.print("			" + object_attributes);
+        ps.print("			" + object_attributes + traceabilityLink);
         String closing_attribute = "/>";
 
         // optional attributes

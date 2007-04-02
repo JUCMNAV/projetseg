@@ -41,9 +41,9 @@ public class ExternalOperationConverter implements AbstractConverter {
 	} else {
 	    schedPolicy = "";
 	}
-
+	String traceabilityLink = "traceabilityLink=\"" + externalOpn.getId() + "\" ";
 	String resStr = "<ExternalOperation "
-	    + id + name + opTime + description + multiplicity + schedPolicy
+	    + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink
             +  "/>";
         ps.println("        " + resStr);
         ps.flush();

@@ -102,7 +102,7 @@ public class Convert implements IURNExport {
         if (pb != null) {
             name_extension = "_h" + pb.getStub().getId();
             probability = "probability=\"" + pb.getProbability() + "\" ";
-            transaction = "transaction=\"" + pb.isTransaction() + "\"";
+            transaction = "transaction=\"" + pb.isTransaction() + "\" ";
         } else {
             name_extension = "";
             probability = "";
@@ -110,10 +110,10 @@ public class Convert implements IURNExport {
         }
 
 
-        String open_scenario_tag = "<Scenario id=\"m" + map.getId() + name_extension + 
-                                   "\" name=\"" + map.getName() + 
-                                   "\" traceabilityLink=\"" + map.getId() +
-                                   "\" ";
+        String open_scenario_tag = "<Scenario "
+            	+ "id=\"m" + map.getId() + name_extension + "\" "
+        	+ "name=\"" + map.getName() + "\" "
+        	+ "traceabilityLink=\"" + map.getId() + "\" ";
         String close_attributes = ">";
         // optional attributes
 
@@ -123,7 +123,7 @@ public class Convert implements IURNExport {
         ps.print("\n        " + open_scenario_tag + probability + transaction);
 
         if (map.getDescription() != null) {
-            String descr_attribute = "description=\"" + map.getDescription() + "\"";
+            String descr_attribute = "description=\"" + map.getDescription() + "\" ";
             ps.print(descr_attribute);
         }
         ps.println(close_attributes);
@@ -216,16 +216,20 @@ public class Convert implements IURNExport {
         String hostDemand = "hostDemand=\"0\" ";
         // object attributes
         if (predecessor.startsWith("G") && successor.startsWith("G")) {
-            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name= \"" + name + "\" " 
+            + "predecessor= \"" + predecessor + "\" "
             + "successor= \"" + successor + "\" " + hostDemand + "/>";        
         } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) {
-            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name= \"" + name + "\" "
+            + "predecessor= \"" + predecessor + "\" "
             + "successor= \"h" + successor + "\" " + hostDemand + "/>";
         } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) {
-            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name= \"" + name + "\" "
+            + "predecessor= \"h" + predecessor + "\" "
             + "successor= \"" + successor + "\" " + hostDemand + "/>";
         } else {        	
-            dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name= \"" + name + "\" "
+            + "predecessor= \"h" + predecessor + "\" "
             + "successor= \"h" + successor + "\" " + hostDemand + "/>";
         }
 

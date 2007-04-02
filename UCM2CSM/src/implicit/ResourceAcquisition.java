@@ -116,25 +116,26 @@ public class ResourceAcquisition extends ResourceUtil {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "r" + (resAttribs.getRes()).getId() + "\""
-        	+ " rUnits=\""+ resAttribs.getRUnits() + "\"";
-        String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
-        String ra_successor = " successor=\"" + "h" + successor + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " 
+        	+ "acquire=\"" + "r" + (resAttribs.getRes()).getId() + "\" "
+        	+ "rUnits=\""+ resAttribs.getRUnits() + "\" ";
+        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
+        String ra_successor = "successor=\"" + "h" + successor + "\" ";
         String end_ra = "/>";
 
         // special naming convention for RR/RA objects
         if (predecessor.startsWith("G")) {
-            ra_predecessor = " predecessor=\"" + predecessor + "\"";
+            ra_predecessor = "predecessor=\"" + predecessor + "\" ";
         }
         if (successor.startsWith("G")) {
-            ra_successor = " successor=\"" + successor + "\"";
+            ra_successor = "successor=\"" + successor + "\" ";
         }
 
         // printing attributes
         ps.print("            " + ra_attributes);
-        ps.print(" " + ra_predecessor);
-        ps.print(" " + ra_successor);
-        ps.print(" " + end_ra);
+        ps.print(ra_predecessor);
+        ps.print(ra_successor);
+        ps.print(end_ra);
         ps.println("");
     }
 
@@ -145,24 +146,25 @@ public class ResourceAcquisition extends ResourceUtil {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\"" + " acquire=\"" + "r" + res + "\"";
-        String ra_predecessor = " predecessor=\"" + "h" + predecessor + "\"";
-        String ra_successor = " successor=\"" + "h" + successor + "\"";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " 
+        	+ "acquire=\"" + "r" + res + "\" ";
+        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
+        String ra_successor = "successor=\"" + "h" + successor + "\" ";
         String end_ra = "/>";
 
         // special naming convention for RR/RA objects
         if (predecessor.startsWith("G")) {
-            ra_predecessor = " predecessor=\"" + predecessor + "\"";
+            ra_predecessor = "predecessor=\"" + predecessor + "\" ";
         }
         if (successor.startsWith("G")) {
-            ra_successor = " successor=\"" + successor + "\"";
+            ra_successor = "successor=\"" + successor + "\" ";
         }
 
         // printing attributes
         ps.print("            " + ra_attributes);
-        ps.print(" " + ra_predecessor);
-        ps.print(" " + ra_successor);
-        ps.print(" " + end_ra);
+        ps.print(ra_predecessor);
+        ps.print(ra_successor);
+        ps.print(end_ra);
         ps.println("");
     }
 
@@ -174,24 +176,24 @@ public class ResourceAcquisition extends ResourceUtil {
         String source = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\"" + " ";
-        String epoint_target = "target= \"h" + target + "\"" + " ";
-        String epoint_source = "source= \"h" + source + "\"";
+        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\" ";
+        String epoint_target = "target= \"h" + target + "\" ";
+        String epoint_source = "source= \"h" + source + "\" ";
         String epoint_end = "/>";
 
         // special naming convention for RR/RA objects
         if (source.startsWith("G")) {
-            epoint_source = " source=\"" + source + "\"";
+            epoint_source = "source=\"" + source + "\" ";
         }
         if (target.startsWith("G")) {
-            epoint_target = " target=\"" + target + "\"";
+            epoint_target = "target=\"" + target + "\" ";
         }
 
         // output to file
         ps.print("            " + epoint_attributes);
-        ps.print(" " + epoint_source);
-        ps.print(" " + epoint_target);
-        ps.print(" " + epoint_end);
+        ps.print(epoint_source);
+        ps.print(epoint_target);
+        ps.print(epoint_end);
         ps.println("");
         ps.flush();
     }

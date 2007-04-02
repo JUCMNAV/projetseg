@@ -41,9 +41,9 @@ public class ProcessingResourceConverter implements AbstractConverter {
 	} else {
 	    schedPolicy = "";
 	}
-
+	String traceabilityLink = "traceabilityLink=\"" + processingRes.getId() + "\" ";
 	String resStr = "<ProcessingResource "
-	    + id + name + opTime + description + multiplicity + schedPolicy
+	    + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink
             +  "/>";
         ps.println("        " + resStr);
 

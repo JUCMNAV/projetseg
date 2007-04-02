@@ -27,10 +27,10 @@ public class TimerConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
 	// object attributes
-//	String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\"";
-	String Object_attributes = "<Branch id=\"" + "h" + ep.getId() + "\"";
-
-	ps.print("            " + Object_attributes);
+//	String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
+	String Object_attributes = "<Branch id=\"" + "h" + ep.getId() + "\" ";
+	String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+	ps.print("            " + Object_attributes + traceabilityLink);
 	String closing_attribute = "/>";
 
 	oa.OptionalAttributes(ep, ps, source, target);

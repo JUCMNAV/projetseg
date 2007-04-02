@@ -29,10 +29,10 @@ public class StubConverter implements AbstractConverter {
         ((PluginBinding) stub.getBindings().get(0)).getProbability();
 
         // object attributes
-        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\"" + " " + "name=\"" + stub.getName() + "\"" + " " + "predecessor=\"" + ""
-                + source.toString().subSequence(1, (source.toString().length() - 1)) + "\"" + " " + "successor=\"" + ""
-                + target.toString().subSequence(1, (target.toString().length() - 1)) + "\"";
-
+        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " 
+        	+ "name=\"" + stub.getName() + "\" "
+        	+ "predecessor=\"" + source.toString().subSequence(1, (source.toString().length() - 1)) + "\" "
+        	+ "successor=\"" + target.toString().subSequence(1, (target.toString().length() - 1)) + "\" ";
         ps.print("            " + mandatory_attribute);
 
         // optional attributes
