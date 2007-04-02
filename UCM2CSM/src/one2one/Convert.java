@@ -213,20 +213,20 @@ public class Convert implements IURNExport {
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
         String dummy_attributes;
-
+        String hostDemand = "hostDemand=\"0\" ";
         // object attributes
         if (predecessor.startsWith("G") && successor.startsWith("G")) {
             dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
-            + "successor= \"" + successor + "\"" + "/>";        
+            + "successor= \"" + successor + "\" " + hostDemand + "/>";        
         } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) {
             dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"" + predecessor + "\"" + " "
-            + "successor= \"h" + successor + "\"" + "/>";
+            + "successor= \"h" + successor + "\" " + hostDemand + "/>";
         } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) {
             dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
-            + "successor= \"" + successor + "\"" + "/>";
+            + "successor= \"" + successor + "\" " + hostDemand + "/>";
         } else {        	
             dummy_attributes = "<Step id=\"" + id + "\"" + " " + "name= \"" + name + "\"" + " " + "predecessor= \"h" + predecessor + "\"" + " "
-            + "successor= \"h" + successor + "\"" + "/>";
+            + "successor= \"h" + successor + "\" " + hostDemand + "/>";
         }
 
         // output to file
