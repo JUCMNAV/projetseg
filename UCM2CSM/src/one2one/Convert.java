@@ -20,6 +20,7 @@ import seg.jUCMNav.extensionpoints.IURNExport;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
 import ucm.performance.ExternalOperation;
@@ -67,7 +68,18 @@ public class Convert implements IURNExport {
             IURNDiagram diag = (IURNDiagram) iter.next();
             if (diag instanceof UCMmap) {
                 UCMmap map = (UCMmap) diag;
-                exportMap(map, ps);
+                // if map is called from plugin bindings
+                if (map.getParentStub().size() > 0) {
+                    // output a map for each plugin binding (for prob/trans)
+                    for (Iterator pbIter = map.getParentStub().iterator(); pbIter.hasNext();) {
+			PluginBinding pb = (PluginBinding) pbIter.next();
+			exportMap(map, ps, pb);
+		    }
+		    // else, output a single map
+                } else {
+                    exportMap(map, ps, null);    
+                }
+                
             }
         }
         ps.println(CSM_footer);
@@ -80,9 +92,25 @@ public class Convert implements IURNExport {
 
     }
 
-    private void exportMap(UCMmap map, PrintStream ps) {
+    private void exportMap(UCMmap map, PrintStream ps, PluginBinding pb) {
+        String probability;
+        String transaction;
+        String name_extension;
 
-        String open_scenario_tag = "<Scenario id=\"m" + map.getId() + 
+	// map name will also be plugin binding specific (if given)
+	// and contain probability and transaction
+        if (pb != null) {
+            name_extension = "_h" + pb.getStub().getId();
+            probability = "probability=\"" + pb.getProbability() + "\" ";
+            transaction = "transaction=\"" + pb.isTransaction() + "\"";
+        } else {
+            name_extension = "";
+            probability = "";
+            transaction = "";
+        }
+
+
+        String open_scenario_tag = "<Scenario id=\"m" + map.getId() + name_extension + 
                                    "\" name=\"" + map.getName() + 
                                    "\" traceabilityLink=\"" + map.getId() +
                                    "\" ";
@@ -92,7 +120,7 @@ public class Convert implements IURNExport {
         String close_scenario_tag = "</Scenario>";
 
         // output to file
-        ps.print("\n        " + open_scenario_tag);
+        ps.print("\n        " + open_scenario_tag + probability + transaction);
 
         if (map.getDescription() != null) {
             String descr_attribute = "description=\"" + map.getDescription() + "\"";
