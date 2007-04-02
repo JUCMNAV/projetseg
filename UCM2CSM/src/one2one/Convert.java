@@ -41,6 +41,8 @@ import urncore.IURNDiagram;
 public class Convert implements IURNExport {
 
     private List processedComponents = new ArrayList();
+    private List processedResources = new ArrayList();
+    
     // Converts object through polymorphism (dynamic binding)
     public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
         obj.Convert(ps);
@@ -163,18 +165,22 @@ public class Convert implements IURNExport {
         // parsing the map for resources
         for (Iterator res = map.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
 	    GeneralResource genRes = (GeneralResource) res.next();
-	    if (genRes instanceof ExternalOperation) {
-		ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
-		externalOpnCvtr.Convert(ps, /*source*/null, /*target*/null);
-	    } else if (genRes instanceof ProcessingResource) {
-		ProcessingResourceConverter processingResCvtr = new ProcessingResourceConverter((ProcessingResource) genRes);
-		processingResCvtr.Convert(ps, /*source*/null, /*target*/null);
-	    } else if (genRes instanceof PassiveResource){
-		PassiveResourceConverter passiveResCvtr = new PassiveResourceConverter((PassiveResource) genRes);
-		passiveResCvtr.Convert(ps, /*source*/null, /*target*/null);
+	    // but ouput each resource only once
+	    if (!processedResources.contains(genRes.getId())) {
+		processedResources.add(genRes.getId());
+		if (genRes instanceof ExternalOperation) {
+		    ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
+		    externalOpnCvtr.Convert(ps, /* source */null, /* target */null);
+		} else if (genRes instanceof ProcessingResource) {
+		    ProcessingResourceConverter processingResCvtr = new ProcessingResourceConverter((ProcessingResource) genRes);
+		    processingResCvtr.Convert(ps, /* source */null, /* target */null);
+		} else if (genRes instanceof PassiveResource) {
+		    PassiveResourceConverter passiveResCvtr = new PassiveResourceConverter((PassiveResource) genRes);
+		    passiveResCvtr.Convert(ps, /* source */null, /* target */null);
+		}
 	    }
 	}
-        ps.flush();
+	ps.flush();
     }
 
     // adds RA/RR/Seq nodes where necessary in the duplicate map
