@@ -152,16 +152,12 @@ public class Convert implements IURNExport {
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
-            if (!processedComponents.contains(((Component)compRef.getContDef()).getId())) {
-        	processedComponents.add(((Component)compRef.getContDef()).getId());
-                // if UCM object is found, generate CSM representation
-                if (compRef instanceof ComponentRef) {
-                    ComponentRefConverter obj = new ComponentRefConverter(compRef);
-                    doComponentRefConvert(obj, ps);
-                } else {
-                    System.out.println("Component not implemented.");
-                }        	
-            }
+            if (!processedComponents.contains(((Component) compRef.getContDef()).getId())) {
+		processedComponents.add(((Component) compRef.getContDef()).getId());
+		// generate CSM representation
+		ComponentRefConverter obj = new ComponentRefConverter(compRef);
+		doComponentRefConvert(obj, ps);
+	    }
         }
         
         // parsing the map for resources
@@ -188,7 +184,7 @@ public class Convert implements IURNExport {
         int i = 0;
         int list_size = list.size();
         while (i < list_size) {
-            CSMDupNode node = (CSMDupNode) list.get(i); // current edge
+            CSMDupNode node = list.get(i); // current edge
             if (true)
             		/*js
              		(node.getType() == CSMDupNode.START || node.getType() == CSMDupNode.END || node.getType() == CSMDupNode.STUB
@@ -242,7 +238,7 @@ public class Convert implements IURNExport {
     public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist) {
 
         for (int b = 0; b < dupMaplist.size(); b++) {
-            CSMDupNode curr_node = (CSMDupNode) dupMaplist.get(b);
+            CSMDupNode curr_node = dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
         	ResourceAttribs resAttribs = curr_node.getResourceToAcquire();
@@ -282,7 +278,7 @@ public class Convert implements IURNExport {
                 printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);
             } else { // print other objects
                 // initializing attributes
-                String curr_node_id = ((PathNode) ((CSMDupNode) dupMaplist.get(b)).getNode()).getId();
+                String curr_node_id = dupMaplist.get(b).getNode().getId();
                 // determine new source and target of all PathConnection types
                 ArrayList source = new ArrayList();
                 ArrayList target = new ArrayList();
@@ -309,10 +305,10 @@ public class Convert implements IURNExport {
 
             } // if
         } // for
-        if (!sources.isEmpty()) {
-            return sources;
-        } else
-            return null;
+        if (sources.isEmpty()) {
+            sources = null;
+        }
+        return sources;
     } // method
 
     // retrieve list of target nodes
@@ -329,10 +325,10 @@ public class Convert implements IURNExport {
                     targets.add(add_h.concat(target_id));
             } // if
         } // for
-        if (!targets.isEmpty()) {
-            return targets;
-        } else
-            return null;
+        if (targets.isEmpty()) {
+            targets = null;
+        }
+        return targets;
     } // method
 
     // Eliminate adjacent emptyPoints
@@ -343,15 +339,15 @@ public class Convert implements IURNExport {
             // Scan the list of connections for a connection that has EmptyPoints as both source and target
             int conn_list_size = conn_list.size();
             for (int i = 0; i < conn_list_size; i++) {
-                CSMDupConnection curr_conn = (CSMDupConnection) conn_list.get(i);
-                CSMDupNode source = (CSMDupNode) curr_conn.getCSMSource();
-                CSMDupNode target = (CSMDupNode) curr_conn.getCSMTarget();
+                CSMDupConnection curr_conn = conn_list.get(i);
+                CSMDupNode source = curr_conn.getCSMSource();
+                CSMDupNode target = curr_conn.getCSMTarget();
 
                 if (source.isPathNode() && (source.getNode() instanceof EmptyPoint) && target.isPathNode() && (target.getNode() instanceof EmptyPoint)) {
                     // find next connection, that has source = 'target'
                     if (conn_list.existsConnectionForSource(target)) {
-                        CSMDupConnection next_conn = (CSMDupConnection) conn_list.getConnectionForSource(target);
-                        CSMDupNode next_target = (CSMDupNode) next_conn.getCSMTarget();
+                        CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
+                        CSMDupNode next_target = next_conn.getCSMTarget();
 
                         // remove 'target' node
                         node_list.remove(target);
@@ -388,15 +384,15 @@ public class Convert implements IURNExport {
             // Scan the list of connections for a connection that has Steps as both source and target
             int conn_list_size = conn_list.size();
             for (int i = 0; i < conn_list_size; i++) {
-                CSMDupConnection curr_conn = (CSMDupConnection) conn_list.get(i);
-                CSMDupNode source = (CSMDupNode) curr_conn.getCSMSource();
-                CSMDupNode target = (CSMDupNode) curr_conn.getCSMTarget();
+                CSMDupConnection curr_conn = conn_list.get(i);
+                CSMDupNode source = curr_conn.getCSMSource();
+                CSMDupNode target = curr_conn.getCSMTarget();
 
                 // Empty point is in between two steps
                 if (target.isPathNode() && (target.getNode() instanceof EmptyPoint)) {
                     if (conn_list.existsConnectionForSource(target)) {
-                        CSMDupConnection next_conn = (CSMDupConnection) conn_list.getConnectionForSource(target);
-                        CSMDupNode next_target = (CSMDupNode) next_conn.getCSMTarget();
+                        CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
+                        CSMDupNode next_target = next_conn.getCSMTarget();
                         if (	(source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
                         		||
                         		( (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)  )
@@ -487,7 +483,7 @@ public class Convert implements IURNExport {
                 	ep.setName("" + emptyPoint_id);
                 	ep.setDescription("" + emptyPoint_id);
                 	ep.setId("" + emptyPoint_id);
-                	CSMDupNode ep_node = new CSMDupNode((PathNode)ep);
+                	CSMDupNode ep_node = new CSMDupNode(ep);
                 	ep_node.setType(CSMDupNode.EMPTY);
                 	ep_node.setID("" + emptyPoint_id);
         		ep_node.setResourcesDownstream(source.getResourcesDownstream());
