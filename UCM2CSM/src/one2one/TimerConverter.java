@@ -3,7 +3,6 @@ package one2one;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import ucm.map.PathNode;
 import ucm.map.Timer;
 
 public class TimerConverter implements AbstractConverter {

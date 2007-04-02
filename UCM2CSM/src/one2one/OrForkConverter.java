@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.OrFork;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(Branch) of the OrFork object <!-- end-user-doc -->

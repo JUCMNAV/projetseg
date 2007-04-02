@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.DirectionArrow;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the DirectionArrow object <!-- end-user-doc -->

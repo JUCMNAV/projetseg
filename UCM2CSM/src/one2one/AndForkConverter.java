@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.AndFork;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(And-Fork) of the AndFork object <!-- end-user-doc -->

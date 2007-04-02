@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.Connect;
-import ucm.map.PathNode;
 
 public class ConnectConverter implements AbstractConverter {
 
