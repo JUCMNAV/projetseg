@@ -41,12 +41,10 @@ public class StubConverter implements AbstractConverter {
         
         // process bindings as CSM refinements
         for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
-            PluginBinding binding = (PluginBinding) iter.next();
-            if (binding instanceof PluginBinding) {
-                PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
-                bind_obj.Convert(ps, source, target);
-            }      
-        }
+	    PluginBinding binding = (PluginBinding) iter.next();
+	    PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
+	    bind_obj.Convert(ps, source, target);
+	}
 
         // output to file
         String closing_attribute = "</Step>";
