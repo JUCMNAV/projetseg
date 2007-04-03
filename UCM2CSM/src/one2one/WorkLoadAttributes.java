@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 
+import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 
 /**
@@ -24,13 +25,23 @@ public class WorkLoadAttributes {
     }
 
     // *** To be implemented ***
-    public static void printArrivalPattern(PrintStream ps, Workload work) {
+    public static void printArrivalPattern(PrintStream ps, Workload work) {	
         if (work.getArrivalPattern() != null) {
-        	String arrivalPatternType = work.getArrivalPattern().toString();
-        	// Fix the mapping between what the URN spec says and what CSM expects. 1st letter is lowercase
-        	arrivalPatternType = arrivalPatternType.substring(0, 1).toLowerCase() + arrivalPatternType.substring(1);
-        	if (arrivalPatternType.equals("phaseType"))
-        		arrivalPatternType = "phase_Type";
+            String arrivalPatternType = "";
+            // to be in sync with CSM, the model's values are not used.
+            if (ArrivalProcess.PERIODIC_LITERAL == work.getArrivalPattern()) {
+//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.PERIODIC).toString();
+        	arrivalPatternType = "periodic";
+            } else if (ArrivalProcess.PHASE_TYPE_LITERAL == work.getArrivalPattern()) {
+//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.PHASE_TYPE).toString();
+        	arrivalPatternType = "phaseType";
+            } if (ArrivalProcess.POISSON_PDF_LITERAL == work.getArrivalPattern()) {
+//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.POISSON_PDF).toString();
+        	arrivalPatternType = "poissonPDF";
+            } if (ArrivalProcess.UNIFORM_LITERAL == work.getArrivalPattern()) {
+//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.UNIFORM).toString();
+        	arrivalPatternType = "uniform";
+            }
             String print_aPattern = "arrivalPattern=\"" + arrivalPatternType + "\" ";
             ps.print(print_aPattern);
         }
