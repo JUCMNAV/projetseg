@@ -33,7 +33,6 @@ public class ComponentRefConverter {
 
     private boolean activeP;
     private boolean activePDefined;
-    public String type = new String();
 
     public String host = new String();
 
@@ -46,7 +45,6 @@ public class ComponentRefConverter {
         this.activeP = false;
 
         // set up the boolean value is_active_process to true if component is Process, false if Object, undefined otherwise
-        type = compDef.getKind().toString();
         this.activePDefined = false;
         if (compDef.getKind() == ComponentKind.PROCESS_LITERAL) {
             this.activeP = true;
