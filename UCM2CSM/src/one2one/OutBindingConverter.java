@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.OutBinding;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(outbinding) of the Out-Connection object <!-- end-user-doc -->
@@ -25,9 +24,10 @@ public class OutBindingConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
+        String successor = (String) target.toString().subSequence(1, (target.toString().length() - 1));
+ 
         // object attributes
-        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + "h"
-                + ((PathNode) out_bind.getStubExit().getTarget()).getId() + "\"/>";
+        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + successor + "\"/>";
 
         // output to file
         ps.println("                     " + Object_attributes);

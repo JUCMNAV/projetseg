@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import ucm.map.InBinding;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc --> Creates the CSM representation(inbinding) of the In-Connection object <!-- end-user-doc -->
@@ -24,9 +23,11 @@ public class InBindingConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
+        String predecessor = (String) source.toString().subSequence(1, (source.toString().length() - 1));
+
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + "h"
-                + ((PathNode) in_bind.getStubEntry().getSource()).getId() + "\"/>";
+        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + predecessor + "\"/>";
+
         // output to file
         ps.println("                     " + Object_attributes);
         ps.flush();
