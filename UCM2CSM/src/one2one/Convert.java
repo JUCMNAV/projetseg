@@ -21,6 +21,7 @@ import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.impl.MapFactoryImpl;
 import ucm.performance.ExternalOperation;
@@ -48,7 +49,7 @@ public class Convert implements IURNExport {
         obj.Convert(ps);
     }
 
-    	public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
     	
         PrintStream ps = new PrintStream(fos);
 
@@ -65,23 +66,12 @@ public class Convert implements IURNExport {
         ps.println(XML_header);
         ps.println(CSM_header);
 
-        // parsing SpecDiagram
+        // Produce SpecDiagrams (scenarios)
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             IURNDiagram diag = (IURNDiagram) iter.next();
             if (diag instanceof UCMmap) {
                 UCMmap map = (UCMmap) diag;
-                // if map is called from plugin bindings
-                if (map.getParentStub().size() > 0) {
-                    // output a map for each plugin binding (for prob/trans)
-                    for (Iterator pbIter = map.getParentStub().iterator(); pbIter.hasNext();) {
-			PluginBinding pb = (PluginBinding) pbIter.next();
-			exportMap(map, ps, pb);
-		    }
-		    // else, output a single map
-                } else {
-                    exportMap(map, ps, null);    
-                }
-                
+                exportMap(map, ps, null);    
             }
         }
         ps.println(CSM_footer);
@@ -110,7 +100,6 @@ public class Convert implements IURNExport {
             probability = "";
             transaction = "";
         }
-
 
         String open_scenario_tag = "<Scenario "
             	+ "id=\"m" + map.getId() + name_extension + "\" "
@@ -147,10 +136,13 @@ public class Convert implements IURNExport {
         // Generate XML tags
         saveXML(ps, dupMaplist, dupMapConnList);
 
-        // close scenario THEN print components. JS
+        // Close scenario
         ps.println("        " + close_scenario_tag);
 
-        // parsing the map for components
+        // Generate sub-maps for probabilistic binding of dynamic stubs
+        outputDynamicStubSubMaps(dupMaplist, map, ps);
+        
+        // Generate components
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
@@ -162,7 +154,7 @@ public class Convert implements IURNExport {
 	    }
         }
         
-        // parsing the map for resources
+        // Generate resources
         for (Iterator res = map.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
 	    GeneralResource genRes = (GeneralResource) res.next();
 	    // but ouput each resource only once
@@ -180,9 +172,83 @@ public class Convert implements IURNExport {
 		}
 	    }
 	}
+        
 	ps.flush();
     }
 
+    public void outputDynamicStubSubMaps(CSMDupNodeList dupMaplist, UCMmap map, PrintStream ps) {
+        for (int i = 0; i < dupMaplist.size(); i++) {
+	    CSMDupNode	node = dupMaplist.get(i);
+	    if ((node.getNode() != null) && (node.getNode() instanceof Stub) && ( ((Stub)node.getNode()).isDynamic())) {
+		Stub stub = (Stub) node.getNode();
+		
+		String stubId = stub.getId();
+	        String fake_stubId = "fs_" + stubId;
+		String steps = "";
+		for (int j = 0; j < stub.getBindings().size(); j++) {
+		    steps = steps + fake_stubId + "_step_" + j + " "; 
+		}
+		steps = steps.trim();
+
+		String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + map.getName() + "_" + stub.getName() + "\" >";
+		String start = "<Start id=\"" + fake_stubId + "_start\" target=\"" + fake_stubId + "_ds1\" />";
+		String ds1 = "<Step id=\"" + fake_stubId + "_ds1\" "
+			+ "name=\"dummy1\" "
+			+ "predecessor=\"" + fake_stubId + "_start\" " 
+			+ "successor=\"" + fake_stubId + "_branch\" />";
+		String branch = "<Branch id=\"" + fake_stubId + "_branch\" source=\"" + fake_stubId + "_ds1\" target=\"" + steps + "\" />";
+
+		String oneTab = "        ";
+	        String twoTab = "            ";
+//	        String threeTab = "                ";
+//	        String fourTab = "                    ";
+
+		ps.println(oneTab + scenario_head);
+		ps.println(twoTab + start);
+		ps.println(twoTab + ds1);
+		ps.println(twoTab + branch);
+		
+		int j = 0;
+		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
+		    PluginBinding binding = (PluginBinding) iter.next();
+		    PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
+		    String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " 
+		    	+ "name=\"Stub\" "
+		    	+ "predecessor=\"" + fake_stubId + "_branch\" "
+		    	+ "successor=\"" + fake_stubId + "_merge\" "
+		    	+ "probability=\"" + binding.getProbability() + "\" "
+		    	+ ">";
+		    ps.println(twoTab + step);
+
+		    // produce Bindings relative to sub-map
+		    ArrayList src = new ArrayList();
+		    ArrayList tgt = new ArrayList();
+		    src.add(fake_stubId + "_start");
+		    tgt.add(fake_stubId + "_end");
+		    bind_obj.Convert(ps, src /*source*/, tgt /*target*/);
+		    ps.println(twoTab + "</Step>");
+		    j++;
+		}
+		String merge = "<Merge id=\"" + fake_stubId + "_merge\" "
+			+ "source=\"" + steps + "\" "
+			+ "target=\"" + fake_stubId + "_ds2\" />";
+		String ds2 = "<Step id=\"" + fake_stubId + "_ds2\" "
+			+ "name=\"dummy2\" "
+			+ "predecessor=\"" + fake_stubId + "_merge\" " 
+			+ "successor=\"" + fake_stubId + "_end\" />";
+		String end = "<End id=\"" + fake_stubId + "_end\" "
+			+ "source=\"" + fake_stubId + "_ds2\" />";
+		String scenario_tail = "</Scenario>";
+		
+		ps.println(twoTab + merge);
+		ps.println(twoTab + ds2);
+		ps.println(twoTab + end);
+		ps.println(oneTab + scenario_tail);
+	    }
+	}
+	
+    }
+    
     // adds RA/RR/Seq nodes where necessary in the duplicate map
     public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);
@@ -191,19 +257,9 @@ public class Convert implements IURNExport {
         int list_size = list.size();
         while (i < list_size) {
             CSMDupNode node = list.get(i); // current edge
-            if (true)
-            		/*js
-             		(node.getType() == CSMDupNode.START || node.getType() == CSMDupNode.END || node.getType() == CSMDupNode.STUB
-                    || node.getType() == CSMDupNode.RESPREF)
-                    */ {
-
-                // keep track of all nodes inserted prior to current edge
-                PathNode curr_node = node.getNode();
-                ra.acquireResource(curr_node, list, conn_list);
-                rr.releaseResource(curr_node, list, conn_list);
-            } else {
-                System.out.println("Unhandled type = " + node.getType());
-            }
+            PathNode curr_node = node.getNode(); // current node
+            ra.acquireResource(curr_node, list, conn_list);
+            rr.releaseResource(curr_node, list, conn_list);
             i++;
         }
         // eliminate duplicate empty points and add dummy Steps

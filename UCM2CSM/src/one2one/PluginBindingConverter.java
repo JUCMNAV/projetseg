@@ -27,14 +27,9 @@ public class PluginBindingConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
         // object attributes
-
-	String addId = "";
-	if (p_bind.getStub() != null) {
-	    addId = "_h" + p_bind.getStub().getId();
-	}
         String object_attributes_head = "<Refinement parent=\""
             + "h" + p_bind.getStub().getId() + "\" "
-            + "sub=\"" + "m" + p_bind.getPlugin().getId() + addId + "\" ";
+            + "sub=\"" + "m" + p_bind.getPlugin().getId() + "\" ";
         String object_closing = ">";
         
         String object_attributes = object_attributes_head + object_closing;
