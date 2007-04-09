@@ -43,6 +43,9 @@ public class Convert implements IURNExport {
 
     private List processedComponents = new ArrayList();
     private List processedResources = new ArrayList();
+    private int dummy_id = 5000; // limitation.  js
+    private int emptyPoint_id = 9000; //js
+
     
     // Converts object through polymorphism (dynamic binding)
     public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
@@ -442,8 +445,6 @@ public class Convert implements IURNExport {
     // Adds a Dummy responsability in between 2 steps
     public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list) {
         boolean work_to_do = true;
-        int dummy_id = 5000; // limitation.  js
-        int emptyPoint_id = 9000; //js
 
         while (work_to_do) {
             work_to_do = false; // reset loop condition
