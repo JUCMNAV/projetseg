@@ -27,6 +27,15 @@ public class CSMDupConnectionList {
 
     /* The following are methods used to access the CSMDupNodeList */
 
+    public void swap(int left, int right) {
+	CSMDupConnection tmp;
+	tmp = (CSMDupConnection) connList.get(left);
+	connList.add(left, connList.get(right));
+	connList.remove(left+1);
+	connList.add(right, tmp);
+	connList.remove(right+1);
+    }
+
     // size of connection list
     public int size() {
         return connList.size();

@@ -45,7 +45,6 @@ public class Convert implements IURNExport {
     private List processedResources = new ArrayList();
     private int dummy_id = 5000; // limitation.  js
     private int emptyPoint_id = 9000; //js
-
     
     // Converts object through polymorphism (dynamic binding)
     public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
@@ -136,14 +135,20 @@ public class Convert implements IURNExport {
         // Insert RA/RR/Seq nodes in above list
         transform(dupMaplist, dupMapConnList, ps);
 
+        // Imperfect and optional sorting:  eases XML human parsing.
+        // If in doubt, remove altogether.  JS
+        sortConnectionList(dupMapConnList);
+        CSMDupNodeList dupMaplistSorted = new CSMDupNodeList();
+        sortNodeList(dupMapConnList,dupMaplist, dupMaplistSorted);
+
         // Generate XML tags
-        saveXML(ps, dupMaplist, dupMapConnList);
+        saveXML(ps, dupMaplistSorted, dupMapConnList);
 
         // Close scenario
         ps.println("        " + close_scenario_tag);
 
         // Generate sub-maps for probabilistic binding of dynamic stubs
-        outputDynamicStubSubMaps(dupMaplist, map, ps);
+        outputDynamicStubSubMaps(dupMaplistSorted, map, ps);
         
         // Generate components
         for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
@@ -251,6 +256,111 @@ public class Convert implements IURNExport {
 	}
 	
     }
+    
+    	/**
+    	 * Sorting of CSMDupNodeList
+    	 * 
+    	 * @param connList
+    	 * 	used to visit the nodes
+    	 * @param nodeList
+    	 * 	list of nodes to sort
+    	 * @param nodeListSorted
+    	 * 	sorted node list
+    	 */
+	public void sortNodeList(CSMDupConnectionList connList, CSMDupNodeList nodeList, CSMDupNodeList nodeListSorted) {
+		boolean lastWasEnd = false;
+		int indexInNewList;
+		int indexInOldList;
+		for (int i = 0; i < connList.size(); i++) {
+			indexInNewList = findNodeInList(nodeListSorted, connList.get(i).getCSMSource().getId());
+			if (indexInNewList == -1) {
+				indexInOldList = findNodeInList(nodeList, connList.get(i).getCSMSource().getId());
+				nodeListSorted.add(nodeList.get(indexInOldList));
+			}
+			if (!lastWasEnd) {
+				indexInNewList = findNodeInList(nodeListSorted, connList.get(i).getCSMTarget().getId());
+				if (indexInNewList == -1) {
+					indexInOldList = findNodeInList(nodeList, connList.get(i).getCSMTarget().getId());
+					nodeListSorted.add(nodeList.get(indexInOldList));
+
+				}
+			}
+			lastWasEnd = connList.get(i).getCSMTarget().getType() == CSMDupNode.END;
+		}
+	}
+
+	/**
+	 * Utility to search for nodes in nodelist
+	 * 
+	 * @param nodeList
+	 * 	list of nodes to search
+	 * @param id
+	 * 	id of the node sought
+	 * @return
+	 * 	index of the node in the list
+	 */
+	public int findNodeInList(CSMDupNodeList nodeList, String id) {
+		boolean found = false;
+		int pos = -1;
+		for (int i = 0; (i < nodeList.size()) && (!found); i++) {
+			CSMDupNode n = nodeList.get(i);
+			if (n.getId() == id) {
+				found = true;
+				pos = i;
+			}
+		}
+		return pos;
+	}
+
+	/**
+	 * Sorting of CSMDupConnectionList
+	 * 
+	 * @param connList
+	 */
+	public void sortConnectionList(CSMDupConnectionList connList) {
+		int startSortingAt = 0;
+		int lastSorted = 0;
+		int startSortingFrom = startSortingAt;
+		while (startSortingAt < connList.size()) {
+			// find a better starting place if it exists
+			boolean foundConnWithStartSource = false;
+			for (int i3 = startSortingAt; !foundConnWithStartSource && i3 < connList.size(); i3++) {
+				if (connList.get(i3).getCSMSource().getType() == CSMDupNode.START) {
+					startSortingFrom = i3;
+					foundConnWithStartSource = true;
+				}
+			}
+			if (startSortingAt != startSortingFrom) {
+				connList.swap(startSortingAt, startSortingFrom);
+			}
+			lastSorted = startSortingAt;
+			startSortingAt++;
+			startSortingFrom = startSortingAt;
+
+			// sort until end node or end of list
+			boolean foundEnd = false;
+			while ((startSortingAt < connList.size()) && !foundEnd) {
+				boolean foundFollowing = false;
+
+				foundEnd = connList.get(lastSorted).getCSMTarget().getType() == CSMDupNode.END;
+				for (int i4 = startSortingAt; !foundFollowing && i4 < connList.size(); i4++) {
+					if (connList.get(i4).getCSMSource().getId() == connList.get(lastSorted).getCSMTarget().getId()) {
+						startSortingFrom = i4;
+						foundFollowing = true;
+					}
+				}
+				if (startSortingAt != startSortingFrom) {
+					connList.swap(startSortingAt, startSortingFrom);
+				}
+				lastSorted = startSortingAt;
+				startSortingAt++;
+				startSortingFrom = startSortingAt;
+			}
+
+			// the end
+
+		}
+	}
     
     // adds RA/RR/Seq nodes where necessary in the duplicate map
     public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps) {
