@@ -697,13 +697,13 @@ public class Convert implements IURNExport {
                         || (target.getType() == CSMDupNode.ORJOIN)
                         || (target.getType() == CSMDupNode.CSMEMPTY)                        		
                 	)) {	// create dummy node
-                	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
+                	insertDummyStep(node_list, conn_list, curr_conn, source, target);
                 	conn_list_size++;
             		work_to_do = true; // js:  we need to start over when adding connections
                 } // else
                 // STEP-STEP needs a DUMMY SEQUENCE. JS
                 else if ((source.getType() == CSMDupNode.CSMDUMMY) && (target.getType() == CSMDupNode.CSMDUMMY)) {
-                	dummy_id = insertDummyStep(dummy_id, node_list, conn_list, curr_conn, source, target);
+                	insertDummyStep(node_list, conn_list, curr_conn, source, target);
                 	conn_list_size++;
             		work_to_do = true; // js:  we need to start over when adding connections
                 } // else  STEP-STEP case //js
@@ -711,20 +711,32 @@ public class Convert implements IURNExport {
         } // while
     } // method
 
-    // js
-    public int insertDummyStep(int dummy_id, CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
-//    	create dummy node
-		CSMDupNode dummy_node = new CSMDupNode(dummy_id);
-		dummy_node.setResourcesDownstream(source.getResourcesDownstream());
-		dummy_node.setResourcesUpstream(target.getResourcesUpstream());
-		dummy_id++;
-		node_list.add(dummy_node);
-		// remove curr_conn connection
-		conn_list.remove(curr_conn);
-		// add the new connections
-		conn_list.add(new CSMDupConnection(source, dummy_node));
-		conn_list.add(new CSMDupConnection(dummy_node, target));
-		return dummy_id;
+    /**
+     * Create a Dummy Step (likely just to comply with CSM syntax)
+     * 
+     * @param node_list
+     * 	where to store generated Step
+     * @param conn_list
+     *  to connected CSM Dup nodes
+     * @param curr_conn
+     *  the Dummy Step will be inserted in place of this connection
+     * @param source
+     *  node preceeding the Dummy Step
+     * @param target
+     *  node following the Dummy Step
+     */
+    public void insertDummyStep(CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
+	// create the new node
+	CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+	dummy_node.setResourcesDownstream(source.getResourcesDownstream());
+	dummy_node.setResourcesUpstream(target.getResourcesUpstream());
+	dummy_id++;
+	node_list.add(dummy_node);
+	// remove curr_conn connection
+	conn_list.remove(curr_conn);
+	// add new connections to the DummyStep node 
+	conn_list.add(new CSMDupConnection(source, dummy_node));
+	conn_list.add(new CSMDupConnection(dummy_node, target));
     }
         
     public void export(URNspec urn,  HashMap mapDiagrams, String filename) throws InvocationTargetException {
