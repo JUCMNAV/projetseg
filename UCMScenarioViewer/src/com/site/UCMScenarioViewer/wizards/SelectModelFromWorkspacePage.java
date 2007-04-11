@@ -33,8 +33,6 @@ public class SelectModelFromWorkspacePage extends WizardPage {
     public static final String DESCRIPTION = "Select .scenarios file from opened projects of workspace";
 
     private static final String LABEL = "Select .scenarios file to export";
-    private static final String NOT_SELECTED_ERROR = ".scenarios file to export isn't selected";
-    private static final String FILE_CORRUPTED_ERROR = ".scenarios file is corrupted. Model can't be read";
 
     private IFile defaultSelected;
     private IWorkspace workspace;

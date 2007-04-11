@@ -60,10 +60,7 @@ public class SetFontAction extends WorkbenchPartAction {
 	 * the execution of which initiate the font change
 	 */
 	private Command getCommand(FontData fontData) {
-//		return new ChangeFontCommand(viewer.getMSCDiagram().getSelectedScenario(), 
-//				viewer.getMSCDiagram().getSelectedScenario().getFont().getFontData()[0],
-//				fontData);
-        return new ChangeFontCommand(viewer, UCMScenarioViewer.getApplicationFont().getFontData()[0], fontData);
+        return new ChangeFontCommand(UCMScenarioViewer.getApplicationFont().getFontData()[0], fontData);
 	}
 
 	/* (non-Javadoc)

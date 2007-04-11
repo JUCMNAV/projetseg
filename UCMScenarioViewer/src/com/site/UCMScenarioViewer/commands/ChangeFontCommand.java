@@ -13,26 +13,11 @@ import com.site.UCMScenarioViewer.UCMScenarioViewer;
  */
 public class ChangeFontCommand extends Command {
 
-	private UCMScenarioViewer editor;
-	private FontData newFont;
-	private FontData oldFont;
+	private FontData newFont = UCMScenarioViewer.getApplicationFont().getFontData()[0];
+	private FontData oldFont = UCMScenarioViewer.getApplicationFont().getFontData()[0];
 	
-	/**
-	 * Default constructor.
-	 */
-	public ChangeFontCommand() {
-		super();
-	}
 
-	/**
-	 * @param label
-	 */
-	public ChangeFontCommand(String label) {
-		super(label);
-	}
-	
-	public ChangeFontCommand(UCMScenarioViewer editor, FontData oldFont, FontData newFont) {
-		this.editor = editor;
+	public ChangeFontCommand(FontData oldFont, FontData newFont) {
 		this.oldFont = oldFont;
 		this.newFont = newFont;
 	}
@@ -50,16 +35,15 @@ public class ChangeFontCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		//scenario.changeFont(oldFont, newFont);
         redo();
 	}
     
     public void redo() {
-        editor.setApplicationFont(newFont);
+    	UCMScenarioViewer.setApplicationFont(newFont);
     }
     
     public void undo() {
-        editor.setApplicationFont(oldFont);
+    	UCMScenarioViewer.setApplicationFont(oldFont);
     }
     
 }

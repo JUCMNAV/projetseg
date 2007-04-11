@@ -14,11 +14,13 @@ import org.eclipse.jface.action.IMenuManager;
  * Provides context menu support for main viewer. Currently inactive. Included 
  * mainly for possiblity of adding functionality in the future.
  * 
+ * Many things commented out by DA to please the compiler...
+ * 
  * @author oboyk022
  */
 public class UCMScenarioViewerContextMenuProvider extends ContextMenuProvider {
 
-	private ActionRegistry actionRegistry;
+//	private ActionRegistry actionRegistry;
 
 	public UCMScenarioViewerContextMenuProvider(EditPartViewer viewer) {
 		super(viewer);
@@ -26,7 +28,7 @@ public class UCMScenarioViewerContextMenuProvider extends ContextMenuProvider {
 
 	public UCMScenarioViewerContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
-		setActionRegistry(registry);
+//		setActionRegistry(registry);
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +37,7 @@ public class UCMScenarioViewerContextMenuProvider extends ContextMenuProvider {
 	public void buildContextMenu(IMenuManager menu) {
 		GEFActionConstants.addStandardActionGroups(menu);
 	}
-
+/*
 	private ActionRegistry getActionRegistry() {
 		return actionRegistry;
 	}
@@ -43,5 +45,5 @@ public class UCMScenarioViewerContextMenuProvider extends ContextMenuProvider {
 	private void setActionRegistry(ActionRegistry registry) {
 		actionRegistry = registry;
 	}
-
+*/
 }

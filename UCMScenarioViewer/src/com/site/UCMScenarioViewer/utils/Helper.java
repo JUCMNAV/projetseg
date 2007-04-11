@@ -58,14 +58,14 @@ public class Helper {
         	UCMScenarioViewerPlugin.class,
             "model/icons/button-font-change.gif");
 	
-	public static final String SET_FONT_ACTION_TEXT = "Change Font!";
+	public static final String SET_FONT_ACTION_TEXT = "Change Font";
 	public static final String SET_FONT_ACTION_ID = "Change Font";
     
-	public static final String WIZARD_IMPORT_WINDOW_TITLE = "Import UCM scenarios";
-	public static final String WIZARD_EXPORT_WINDOW_TITLE = "Export UCM scenario to image";
+	public static final String WIZARD_IMPORT_WINDOW_TITLE = "Import UCM/MSC scenarios";
+	public static final String WIZARD_EXPORT_WINDOW_TITLE = "Export UCM/MSC scenario to image";
 	
 	
-	public static final String WIZARD_P1_TITLE = "Import Scenarios";
+	public static final String WIZARD_P1_TITLE = "Import UCM/MSC Scenarios";
     public static final String WIZARD_P1_DESC = "Import to view Message Sequence Chart diagrams for UCM scenarios";
 
     public static final String WIZARD_P1_LABEL = "Select .JUCMSCENARIOS, .XML, or .MSC file that contains UCM scenarios";

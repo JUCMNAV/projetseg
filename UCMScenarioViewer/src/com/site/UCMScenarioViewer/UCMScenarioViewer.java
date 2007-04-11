@@ -49,6 +49,7 @@ import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -68,6 +69,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
@@ -104,12 +106,14 @@ public class UCMScenarioViewer extends GraphicalEditor {
     }
     public static void setApplicationFont(FontData newFont) 
     {
-        if (applicationFont!=null && !applicationFont.isDisposed())
-            applicationFont.dispose();
+        if (applicationFont!=null)
+        	if (!applicationFont.isDisposed())
+        		applicationFont.dispose();
         applicationFont = new Font(null, newFont.getName(), newFont.getHeight(), newFont.getStyle());
 
-        if (largerApplicationFont!=null && !largerApplicationFont.isDisposed())
-            largerApplicationFont.dispose();
+        if (largerApplicationFont!=null)
+        	if(!largerApplicationFont.isDisposed())
+        		largerApplicationFont.dispose();
         largerApplicationFont = new Font(null, newFont.getName(), newFont.getHeight()+4, newFont.getStyle());
         
     }
@@ -474,18 +478,22 @@ public class UCMScenarioViewer extends GraphicalEditor {
 		zoomLevels.add(ZoomManager.FIT_HEIGHT);
 		root.getZoomManager().setZoomLevelContributions(zoomLevels);
 
+		
 		IAction zoomIn = new ZoomInAction(root.getZoomManager());
 		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
 		getActionRegistry().registerAction(zoomIn);
 		getActionRegistry().registerAction(zoomOut);
-		getSite().getKeyBindingService().registerAction(zoomIn);
-		getSite().getKeyBindingService().registerAction(zoomOut);
+		IHandlerService handler = (IHandlerService)	getSite().getService(IHandlerService.class);
+		handler.activateHandler(zoomIn.getActionDefinitionId(), new ActionHandler(zoomIn));
+		handler.activateHandler(zoomOut.getActionDefinitionId(), new ActionHandler(zoomOut));
+		// Allows zooming with the mouse wheel while holding down CTRL
+		// getSite().getKeyBindingService().registerAction(zoomIn);
+		// getSite().getKeyBindingService().registerAction(zoomOut);
 
 		viewer.setRootEditPart(root);
 
 		viewer.setEditPartFactory(new GraphicalPartFactory());
-		ContextMenuProvider provider = new UCMScenarioViewerContextMenuProvider(
-				viewer, getActionRegistry());
+		ContextMenuProvider provider = new UCMScenarioViewerContextMenuProvider(viewer, getActionRegistry());
 		viewer.setContextMenu(provider);
 		getSite().registerContextMenu("com.site.UCMViewer.editor.contextmenu",
 				provider, viewer);
@@ -555,7 +563,8 @@ public class UCMScenarioViewer extends GraphicalEditor {
 		ZoomManager manager = (ZoomManager) getGraphicalViewer().getProperty(
 				ZoomManager.class.toString());
 		if (manager != null)
-			manager.setZoom(getMSCDiagram().getSelectedScenario().getZoom());
+			if (getMSCDiagram().getSelectedScenario() != null)
+				manager.setZoom(getMSCDiagram().getSelectedScenario().getZoom());
 	}
 
 	/**

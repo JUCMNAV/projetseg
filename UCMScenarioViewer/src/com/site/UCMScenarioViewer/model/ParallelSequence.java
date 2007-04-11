@@ -146,15 +146,6 @@ public class ParallelSequence extends SequenceElement {
 		return getHeight();
 	}
 	
-	private int totalNumberOfSequenceElements() {
-		int totalNumber = 0;
-		for (int i=0; i<children.size(); i++) {
-			Sequence s = (Sequence) children.get(i);
-			totalNumber += s.children.size();
-		}
-		return totalNumber;
-	}
-	
 	/* (non-Javadoc)
 	 * @see com.site.UCMViewer.model.AbstractModelElement#getViewChildren()
 	 */

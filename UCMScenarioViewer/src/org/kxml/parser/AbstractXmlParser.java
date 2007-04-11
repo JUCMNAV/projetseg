@@ -51,7 +51,7 @@ public abstract class AbstractXmlParser {
     public void readTree (Vector buf) throws IOException { 
 
 
-	StartTag start = (StartTag) read ();
+    read (); // Was: StartTag start = (StartTag) read ();
 	//if (buf != null) buf.addElement (start); [caused duplication, fixed by SD]
 
 	while (true) {

@@ -66,13 +66,13 @@ public class UCMScenarioViewerActionBarContributor extends ActionBarContributor 
 	 */
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
-		MenuManager viewMenu = new MenuManager("UCM Diagram Viewer");
+		MenuManager viewMenu = new MenuManager("MSC Viewer");
 		viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
 		viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
 		viewMenu.add(new Separator());
 		viewMenu.add(getAction(Helper.SET_FONT_ACTION_ID));
 		viewMenu.add(new Separator());
-		menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
+		menuManager.insertBefore(IWorkbenchActionConstants.M_WINDOW, viewMenu);
 
 	}
 }
