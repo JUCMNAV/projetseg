@@ -28,7 +28,7 @@ public class AndForkConverter implements AbstractConverter {
         // object attributes
         String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\" ";
         String traceabilityLink = "traceabilityLink=\"" + af.getId() + "\" ";
-        ps.print("			" + id_attribute + traceabilityLink);
+        ps.print("            " + id_attribute + traceabilityLink);
 
         String closing_attribute = "/>";
 
