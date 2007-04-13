@@ -23,7 +23,11 @@ public class InBindingConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
-        String predecessor = (String) source.toString().subSequence(1, (source.toString().length() - 1));
+        String predecessor0 = (String) source.toString().subSequence(1, (source.toString().length() - 1));
+        String predecessor = StringUtil.trimString(',', predecessor0); // eliminate ','
+        if (source.size() > 1) {
+            System.err.println("WARNING:  InBinding " + in_bind.getStartPoint().getId() + " has more than one predecessor.");
+        }
 
         // object attributes
         String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + predecessor + "\"/>";

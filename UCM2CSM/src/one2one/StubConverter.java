@@ -29,8 +29,16 @@ public class StubConverter implements AbstractConverter {
 //?js        ((PluginBinding) stub.getBindings().get(0)).getProbability();
 
         // object attributes
-        String predecessor = (String) source.toString().subSequence(1, (source.toString().length() - 1));
-        String successor = (String) target.toString().subSequence(1, (target.toString().length() - 1));
+        String predecessorWithCommas = (String) source.toString().subSequence(1, (source.toString().length() - 1));
+        String predecessor = StringUtil.trimString(',', predecessorWithCommas); // eliminate ','
+        if (stub.getPred().size() > 1) {
+            System.err.println("WARNING:  Stub " + stub.getName() + " has more than one predecessor.");
+        }
+        String successorWithCommas = (String) target.toString().subSequence(1, (target.toString().length() - 1));
+        String successor = StringUtil.trimString(',', successorWithCommas); // eliminate ','
+        if (stub.getSucc().size() > 1) {
+            System.err.println("WARNING:  Stub " + stub.getName() + " has more than one successor.");    
+        }
         String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " 
         	+ "name=\"" + stub.getName() + "\" "
         	+ "predecessor=\"" + predecessor + "\" "
@@ -39,7 +47,7 @@ public class StubConverter implements AbstractConverter {
 
         // optional attributes
         sa.OptionalAttributes(stub, ps);
-        ps.println(">");
+        ps.println("> <!-- Stub -->");
         
         if (stub.isDynamic()) {
             String stubId = stub.getId();
