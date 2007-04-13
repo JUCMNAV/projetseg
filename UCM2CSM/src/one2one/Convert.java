@@ -640,47 +640,12 @@ public class Convert implements IURNExport {
                                 work_to_do = true; // js:  we need to start over when adding connections
                             }
                         } // if
-                        else {
-                        	if ( (next_target.getType() == CSMDupNode.RESPREF) || (next_target.getType() == CSMDupNode.STUB)
-                        		||
-                            		 (next_target.getType() == CSMDupNode.RR)  || (next_target.getType() == CSMDupNode.RA)  ) {
-                                // delete empty point
-                                // remove 'target' node
-                                node_list.remove(target);
-
-                                // remove curr_conn connection
-                                conn_list.remove(curr_conn);
-                                conn_list_size--;
-
-                                // remove next_conn connection
-                                conn_list.remove(next_conn);
-                                conn_list_size--;
-
-                                // add new connection
-                                conn_list.add(new CSMDupConnection(source, next_target));
-                                conn_list_size++;
-                                work_to_do = true; // js:  we need to start over when adding connections
-                            } else {                        	
-                        	/**
-                        	 * an EmptyPoint with two (2) successors is that of a WaitingPlace:
-                        	 * convert to AndFork and insert DummyStep before and after
-                        	 */
-                        	if ((target.getNode().getSucc().size() > 1) 
-                        		&& (source.getType() != CSMDupNode.ANDFORK) 
-                        		&& (source.getType() != CSMDupNode.CSMDUMMY)
-                        		&& (source.getType() != CSMDupNode.START) // path connected to start followed by emptyPoint
-                        		) {
-                        	    // convert EmptyPoint to AndFork
-                        	    insertDummyStep(node_list, conn_list, curr_conn, source, target);
-                                    conn_list_size++;
-                        	    insertDummyStep(node_list, conn_list, next_conn, target, next_target);
-                                    conn_list_size++;
-                        	    node_list.retype(target, CSMDupNode.ANDFORK);
+                        else {                        	
                         	/**
                         	 * an EmptyPoint is preceded by a connection node:
                         	 * convert the EmptyPoint to a DummySequence and insert DummyStep before  
                         	 */
-                        	} else if ((source.getType() == CSMDupNode.START) || (source.getType() == CSMDupNode.ARROW)
+                        	if ((source.getType() == CSMDupNode.START) || (source.getType() == CSMDupNode.ARROW)
 					|| (source.getType() == CSMDupNode.ANDFORK) || (source.getType() == CSMDupNode.ANDJOIN)
 					|| (source.getType() == CSMDupNode.ORFORK) || (source.getType() == CSMDupNode.ORJOIN)
 					|| (source.getType() == CSMDupNode.WAIT) || (source.getType() == CSMDupNode.CSMEMPTY)
@@ -688,6 +653,7 @@ public class Convert implements IURNExport {
 				    insertDummyStep(node_list, conn_list, curr_conn, source, target);
 				    conn_list_size++;
 				    node_list.retype(target, CSMDupNode.CSMDUMMY);
+	                            work_to_do = true; // js:  we need to start over when adding connections
 				/**
 				 * an EmptyPoint is followed by a connection node:
 				 * convert EmptyPoint to a DummySequence and insert a DummyStep after
@@ -700,8 +666,8 @@ public class Convert implements IURNExport {
 				    insertDummyStep(node_list, conn_list, next_conn, target, next_target);
 				    conn_list_size++;
 				    node_list.retype(target, CSMDupNode.CSMDUMMY);
-				}
-                            } // else
+				    work_to_do = true; // js:  we need to start over when adding connections
+                        	}
                         } // else
                     } // if
                 } // if
