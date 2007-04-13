@@ -138,4 +138,19 @@ public class CSMDupNodeList {
 	    } // for
 	} // while
     } // method
+
+    /**
+     * Change the type of a CSMDupNode
+     * @param oldNode
+     * 		the node to be changed
+     * @param type
+     * 		the new type of the node
+     */
+    public void retype(CSMDupNode oldNode, int type) {
+	int nodeIndex = getNodeIndex(oldNode.getNode());
+	CSMDupNode newNode = (CSMDupNode) nodeList.get(nodeIndex);
+	nodeList.remove(nodeIndex);
+	newNode.setType(type);
+	nodeList.add(nodeIndex, newNode);
+    }
 }

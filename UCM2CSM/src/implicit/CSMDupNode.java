@@ -16,6 +16,7 @@ import one2one.ResponsibilityRefConverter;
 import one2one.StartPointConverter;
 import one2one.StubConverter;
 import one2one.TimerConverter;
+import one2one.WaitingPlaceConverter;
 import ucm.map.Abort;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -335,6 +336,9 @@ public class CSMDupNode {// extends PathNodeImpl {
             doConvert(obj, ps, source, target);
         } else if (node instanceof Connect) {
             ConnectConverter obj = new ConnectConverter((Connect) node);
+            doConvert(obj, ps, source, target);
+        } else if (node instanceof WaitingPlace) {
+            WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
             doConvert(obj, ps, source, target);
         }
         // **** To be implemented ****
