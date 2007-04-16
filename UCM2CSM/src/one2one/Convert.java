@@ -610,6 +610,54 @@ public class Convert implements IURNExport {
 
                 // Empty point is in between two steps
                 if (target.isPathNode() && (target.getNode() instanceof EmptyPoint)) {
+                    // check for EmptyPoint with multiple successors (i.e. those of Timer and Connect)
+                    if ((target.getNode().getSucc().size() > 1) && (target.getType() != CSMDupNode.ANDFORK)) {
+                	// convert that EmptyPoint in AndFork
+                	node_list.retype(target, CSMDupNode.ANDFORK);
+                	// if necessary, insert a DummyStep after previous node
+                	boolean source_is_CSMDUMMY = source.getType() == CSMDupNode.CSMDUMMY;
+                	boolean source_is_CONNECT = source.getType() == CSMDupNode.CONNECT;
+                	if (source_is_CSMDUMMY || source_is_CONNECT) {
+                	    System.err.println("found one");
+                	}
+                	if (	(source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
+                		|| (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)
+                		/* || (source.getType() == CSMDupNode.CSMDUMMY) || (source.getType() == CSMDupNode.CONNECT) */ 
+                	) { // OK as is.
+                	} else {
+			    insertDummyStep(node_list, conn_list, curr_conn, source, target);
+			    conn_list_size++;
+			    work_to_do = true; // js:  we need to start over when adding connections
+                	}
+                	// if necessary, insert a DummyStep before each successor node
+			ArrayList conns = new ArrayList();
+			for (int j = 0; j < conn_list.size(); j++) {
+			    if (conn_list.get(j).getSource() == target.getNode()) {
+				conns.add(conn_list.get(j));
+			    }
+			}
+                	for (int j = 0; j < conns.size(); j++) {
+			    CSMDupConnection con = (CSMDupConnection)conns.get(j);
+			    CSMDupNode nod = con.getCSMTarget();
+	                	boolean nod_is_CSMDUMMY = nod.getType() == CSMDupNode.CSMDUMMY;
+	                	if (nod_is_CSMDUMMY) {
+	                	    System.err.println("found DUMMY");
+	                	}
+	                	boolean nod_is_CONNECT = nod.getType() == CSMDupNode.CONNECT; // OK
+	                	if (nod_is_CSMDUMMY || nod_is_CONNECT) {
+	                	    System.err.println("found CONNECT");
+	                	}
+			    if (	(nod.isPathNode() && ((nod.getType() == CSMDupNode.RESPREF) || (nod.getType() == CSMDupNode.STUB)))
+				    	|| (nod.getType() == CSMDupNode.RR)  || (nod.getType() == CSMDupNode.RA)
+				    	|| (nod.getType() == CSMDupNode.CONNECT) // CONNECT will turn into a DummyStep
+	                	)  { // OK as is.
+			    } else {
+				insertDummyStep(node_list, conn_list, con, target, nod);
+				conn_list_size++;
+				work_to_do = true; // js:  we need to start over when adding connections
+			    }
+			}
+                    } else
                     if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
                         CSMDupNode next_target = next_conn.getCSMTarget();
