@@ -144,7 +144,7 @@ public class Convert implements IURNExport {
         sortNodeList(dupMapConnList,dupMaplist, dupMaplistSorted);
 
         // Generate XML tags
-        saveXML(ps, dupMaplistSorted, dupMapConnList);
+        saveXML(map, ps, dupMaplistSorted, dupMapConnList);
 
         // Close scenario
         ps.println("        " + close_scenario_tag);
@@ -419,8 +419,10 @@ public class Convert implements IURNExport {
     }
     
     // print CSM output for RA and Sequence
-    public void saveXML(PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist) {
+    public void saveXML(UCMmap map, PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist) {
 
+	int startPoints = 0;
+	
         for (int b = 0; b < dupMaplist.size(); b++) {
             CSMDupNode curr_node = dupMaplist.get(b);
             // printing RA
@@ -473,6 +475,12 @@ public class Convert implements IURNExport {
                 target = getTargets(dupMapConnlist, curr_node_id);
                 PathNode pathnode = curr_node.getNode();
                 /**
+                 * Check for presence of too many StartPoint
+                 */
+                if ((curr_node.getType() == CSMDupNode.START) && (curr_node.getNode().getPred().size() == 0)) {
+                    startPoints++;
+                }
+                /**
                  * EmptyPoint of a WaitingPlace
                  */
 		if (curr_node.isPathNode() && (pathnode instanceof EmptyPoint)
@@ -510,6 +518,9 @@ public class Convert implements IURNExport {
                 }
             }
         } // for
+        if (startPoints > 1) {
+            System.err.println("WARNING:  Too many (" + startPoints + ") StartPoint in map " + map.getName());
+        }
     }
 
     // retrieve list of source nodes
@@ -615,11 +626,6 @@ public class Convert implements IURNExport {
                 	// convert that EmptyPoint in AndFork
                 	node_list.retype(target, CSMDupNode.ANDFORK);
                 	// if necessary, insert a DummyStep after previous node
-                	boolean source_is_CSMDUMMY = source.getType() == CSMDupNode.CSMDUMMY;
-                	boolean source_is_CONNECT = source.getType() == CSMDupNode.CONNECT;
-                	if (source_is_CSMDUMMY || source_is_CONNECT) {
-                	    System.err.println("found one");
-                	}
                 	if (	(source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
                 		|| (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)
                 		/* || (source.getType() == CSMDupNode.CSMDUMMY) || (source.getType() == CSMDupNode.CONNECT) */ 
@@ -639,14 +645,6 @@ public class Convert implements IURNExport {
                 	for (int j = 0; j < conns.size(); j++) {
 			    CSMDupConnection con = (CSMDupConnection)conns.get(j);
 			    CSMDupNode nod = con.getCSMTarget();
-	                	boolean nod_is_CSMDUMMY = nod.getType() == CSMDupNode.CSMDUMMY;
-	                	if (nod_is_CSMDUMMY) {
-	                	    System.err.println("found DUMMY");
-	                	}
-	                	boolean nod_is_CONNECT = nod.getType() == CSMDupNode.CONNECT; // OK
-	                	if (nod_is_CSMDUMMY || nod_is_CONNECT) {
-	                	    System.err.println("found CONNECT");
-	                	}
 			    if (	(nod.isPathNode() && ((nod.getType() == CSMDupNode.RESPREF) || (nod.getType() == CSMDupNode.STUB)))
 				    	|| (nod.getType() == CSMDupNode.RR)  || (nod.getType() == CSMDupNode.RA)
 				    	|| (nod.getType() == CSMDupNode.CONNECT) // CONNECT will turn into a DummyStep
