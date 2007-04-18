@@ -223,7 +223,7 @@ public class Convert implements IURNExport {
 		    PluginBinding binding = (PluginBinding) iter.next();
 		    PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
 		    String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " 
-		    	+ "name=\"Stub\" "
+		    	+ "name=\"" + binding.getPlugin().getName() + "\" "
 		    	+ "predecessor=\"" + fake_stubId + "_branch\" "
 		    	+ "successor=\"" + fake_stubId + "_merge\" "
 		    	+ "probability=\"" + binding.getProbability() + "\" "
@@ -466,7 +466,14 @@ public class Convert implements IURNExport {
             // print other objects
             else {
                 // initializing attributes
-                String curr_node_id = dupMaplist.get(b).getNode().getId();
+        	// dupMaplist.get(b).getNode() no longer works since some EmptyPoints get here now
+        	// and since getNode() returns null for CSMEMPTY.
+//        	String curr_node_id0 = dupMaplist.get(b).getNode2().getId();
+        	String curr_node_id = dupMaplist.get(b).getId();
+/*        	if (curr_node_id0.compareTo(curr_node_id) != 0) {
+        	    System.err.println("curr_node_id0 and curr_node_id differ");
+        	}
+*/
                 // determine new source and target of all PathConnection types
                 ArrayList source = new ArrayList();
                 ArrayList target = new ArrayList();
@@ -491,8 +498,19 @@ public class Convert implements IURNExport {
                     String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" ";
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target_noComma + "\" ";
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- EmptyPoint -->";
-                    ps.println(epoint_attributes + epoint_source + epoint_target + epoint_end);
+                    ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
+                /**
+                 * EmptyPoint turned into DummyStep
+                 */
+		} else if (curr_node.getType() == CSMDupNode.CSMSTEP) {
+                    String epoint_attributes = "            <Step id=\"h" + curr_node.getId() + "\" name=\"EmptyPoint\" hostDemand=\"0\" ";
+                    String epoint_source = "predecessor=\"" + source.get(0) + "\" ";
+                    String epoint_target = "successor=\"" + target.get(0) + "\" ";
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
+                    String epoint_end = "/> <!-- EmptyPoint -->";
+                    ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 /**
                  * EndPoint of a Connect
                  */
@@ -501,8 +519,9 @@ public class Convert implements IURNExport {
                     String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target.get(0) + "\" ";
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- EndPoint -->";
-                    ps.println(epoint_attributes + epoint_source + epoint_target + epoint_end);
+                    ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 /**
                  * StartPoint of a Connect
                  */
@@ -511,8 +530,9 @@ public class Convert implements IURNExport {
                     String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target.get(0) + "\" ";
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- StartPoint -->";
-                    ps.println(epoint_attributes + epoint_source + epoint_target + epoint_end);
+                    ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 } else {
                     curr_node.printPathNode(ps, source, target);
                 }
@@ -575,8 +595,8 @@ public class Convert implements IURNExport {
                 CSMDupConnection curr_conn = conn_list.get(i);
                 CSMDupNode source = curr_conn.getCSMSource();
                 CSMDupNode target = curr_conn.getCSMTarget();
-
-                if (source.isPathNode() && (source.getNode() instanceof EmptyPoint) && target.isPathNode() && (target.getNode() instanceof EmptyPoint)) {
+                // DO NOT remove EmptyPoint with multiple successors (i.e. related to Connect, WaitingPlace, Timer or the like) 
+                if (source.isPathNode() && (source.getNode() instanceof EmptyPoint) && target.isPathNode() && (target.getNode() instanceof EmptyPoint) && (target.getNode().getSucc().size() == 1)) {
                     // find next connection, that has source = 'target'
                     if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
@@ -624,11 +644,10 @@ public class Convert implements IURNExport {
                     // check for EmptyPoint with multiple successors (i.e. those of Timer and Connect)
                     if ((target.getNode().getSucc().size() > 1) && (target.getType() != CSMDupNode.ANDFORK)) {
                 	// convert that EmptyPoint in AndFork
-                	node_list.retype(target, CSMDupNode.ANDFORK);
                 	// if necessary, insert a DummyStep after previous node
                 	if (	(source.isPathNode() && ((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)))
                 		|| (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)
-                		/* || (source.getType() == CSMDupNode.CSMDUMMY) || (source.getType() == CSMDupNode.CONNECT) */ 
+                		|| (source.getType() == CSMDupNode.CSMDUMMY) /* || (source.getType() == CSMDupNode.CONNECT) */ 
                 	) { // OK as is.
                 	} else {
 			    insertDummyStep(node_list, conn_list, curr_conn, source, target);
@@ -655,6 +674,7 @@ public class Convert implements IURNExport {
 				work_to_do = true; // js:  we need to start over when adding connections
 			    }
 			}
+                	node_list.retype(target, CSMDupNode.ANDFORK);  // wait last to retype()
                     } else
                     if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
@@ -696,10 +716,18 @@ public class Convert implements IURNExport {
 					|| (source.getType() == CSMDupNode.ORFORK) || (source.getType() == CSMDupNode.ORJOIN)
 					|| (source.getType() == CSMDupNode.WAIT) || (source.getType() == CSMDupNode.CSMEMPTY)
 					|| (source.getType() == CSMDupNode.END) || (source.getType() == CSMDupNode.EMPTY)) {
-				    insertDummyStep(node_list, conn_list, curr_conn, source, target);
-				    conn_list_size++;
-				    node_list.retype(target, CSMDupNode.CSMDUMMY);
-	                            work_to_do = true; // js:  we need to start over when adding connections
+                        	    if ((next_target.getType() == CSMDupNode.START) || (next_target.getType() == CSMDupNode.ARROW)
+    					|| (next_target.getType() == CSMDupNode.ANDFORK) || (next_target.getType() == CSMDupNode.ANDJOIN)
+    					|| (next_target.getType() == CSMDupNode.ORFORK) || (next_target.getType() == CSMDupNode.ORJOIN)
+    					|| (next_target.getType() == CSMDupNode.WAIT) || (next_target.getType() == CSMDupNode.CSMEMPTY)
+    					|| (next_target.getType() == CSMDupNode.END) || (next_target.getType() == CSMDupNode.EMPTY)) {
+                        		node_list.retype(target, CSMDupNode.CSMSTEP);
+                        	    } else {
+                        		insertDummyStep(node_list, conn_list, curr_conn, source, target);
+                        		conn_list_size++;
+                        		node_list.retype(target, CSMDupNode.CSMEMPTY);
+                        		work_to_do = true; // js:  we need to start over when adding connections                        		
+                        	    }
 				/**
 				 * an EmptyPoint is followed by a connection node:
 				 * convert EmptyPoint to a DummySequence and insert a DummyStep after
