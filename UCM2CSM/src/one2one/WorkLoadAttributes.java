@@ -93,7 +93,7 @@ public class WorkLoadAttributes {
 
     public static void tracebilityLink(PrintStream ps, Workload work) {
         if (work.getId() != null) {
-            String print_tracebility = "traceabilityLink =\"" + work.getId() + "\" ";
+            String print_tracebility = "traceabilityLink=\"" + work.getId() + "\" ";
             ps.print(print_tracebility);
         }
     }

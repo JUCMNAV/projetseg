@@ -97,7 +97,7 @@ public class ComponentRefConverter {
         String comp_attributes_parent = "parent=\"" + parent + "\" ";
         String comp_attributes_active_process;
         if (activePDefined) {
-            comp_attributes_active_process = "isActiveProcess =\"" + activeP + "\" ";    
+            comp_attributes_active_process = "isActiveProcess=\"" + activeP + "\" ";    
         } else {
             comp_attributes_active_process = "";
         }

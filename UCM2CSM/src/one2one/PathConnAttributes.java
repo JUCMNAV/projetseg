@@ -27,7 +27,7 @@ public class PathConnAttributes {
         if (source != null) {
             String str_source = source.toString().substring(1, (source.toString().length() - 1));
             String refined_source = StringUtil.trimString(',', str_source); // eliminate ','
-            String source_attribute = "source= \"" + refined_source + "\" ";
+            String source_attribute = "source=\"" + refined_source + "\" ";
             ps.print(source_attribute);
         }
     }
@@ -39,12 +39,12 @@ public class PathConnAttributes {
             if (pathnode instanceof StartPoint) {
                 String str_target = target.toString().substring(1, (target.toString().length() - 1));
                 String refined_target = StringUtil.trimString(',', str_target); // eliminate ','
-                String target_attribute = "target= \"" + refined_target + "\" " + ">";
+                String target_attribute = "target=\"" + refined_target + "\" " + ">";
                 ps.println(" " + target_attribute);
             } else {
                 String str_target = target.toString().substring(1, (target.toString().length() - 1));
                 String refined_target = StringUtil.trimString(',', str_target); // eliminate ','
-                String target_attribute = "target= \"" + refined_target + "\" ";
+                String target_attribute = "target=\"" + refined_target + "\" ";
                 ps.print(target_attribute);
             }
         }
@@ -67,7 +67,7 @@ public class PathConnAttributes {
                 String in_bind_id = in_bind_str.substring(28, (in_bind_str.length() - 1));
                 inbind += in_bind_id;
             }
-            String source_attribute = "Inbinding= \"" + inbind + "\" ";
+            String source_attribute = "Inbinding=\"" + inbind + "\" ";
             ps.print(source_attribute);
         }
     }
@@ -81,7 +81,7 @@ public class PathConnAttributes {
                 String out_bind_id = out_bind_str.substring(28, (out_bind_str.length() - 1));
                 outbind += out_bind_id;
             }
-            String source_attribute = "Outbinding= \"" + outbind + "\" ";
+            String source_attribute = "Outbinding=\"" + outbind + "\" ";
             ps.print(source_attribute);
         }
     }

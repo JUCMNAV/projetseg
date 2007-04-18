@@ -175,8 +175,8 @@ public class ResourceRelease extends ResourceUtil {
 
         // object attributes
         String epoint_attributes = "<Sequence id=\"" + node.getId() + "\" ";
-        String epoint_target = "target= \"h" + target + "\" ";
-        String epoint_source = "source= \"h" + source + "\" ";
+        String epoint_target = "target=\"h" + target + "\" ";
+        String epoint_source = "source=\"h" + source + "\" ";
         String epoint_end = "/>";
 
         // special naming convention for RR/RA objects
