@@ -108,6 +108,7 @@ public class CSMDupNode {// extends PathNodeImpl {
     static public final int RR = 18; // Resource Release
     static public final int CSMEMPTY = 19; // new Empty Point
     static public final int CSMDUMMY = 20; // new Dummy Step
+    static public final int CSMSTEP = 21; // EmptyPoint into DummyStep
 
     // Convert (int) Type to String (for debugging purposes) Js
     public String getTypeString() {
@@ -154,6 +155,8 @@ public class CSMDupNode {// extends PathNodeImpl {
 	    textual = "CSMEMPTY";
 	} else if (type == CSMDUMMY) {
 	    textual = "CSMDUMMY";
+	} else if (type == CSMSTEP) {
+	    textual = "CSMSTEP";
 	} else {
 	    textual = "NOT DEFINED IN SYSTEM";
 	}
@@ -278,6 +281,17 @@ public class CSMDupNode {// extends PathNodeImpl {
     public PathNode getNode() {
 	PathNode pn;
         if (type == RA || type == RR || type == CSMEMPTY) {
+            pn =  null;
+        } else {
+            pn = this.node;
+        }
+        return pn;
+    }
+
+    // return the pathnode if node is a Pathnode, else return null. js
+    public PathNode getNode2() {
+	PathNode pn;
+        if (type == RA || type == RR) {
             pn =  null;
         } else {
             pn = this.node;
