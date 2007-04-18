@@ -39,8 +39,10 @@ public class StubConverter implements AbstractConverter {
         if (stub.getSucc().size() > 1) {
             System.err.println("WARNING:  Stub " + stub.getName() + " has more than one successor.");    
         }
+        String name;
+        name = stub.isDynamic() ? stub.getName() :  stub.getName()+"/"+((PluginBinding)(stub.getBindings().get(0))).getPlugin().getName();  
         String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " 
-        	+ "name=\"" + stub.getName() + "\" "
+        	+ "name=\"" + name + "\" "
         	+ "predecessor=\"" + predecessor + "\" "
         	+ "successor=\"" + successor + "\" ";
         ps.print("            " + mandatory_attribute);
