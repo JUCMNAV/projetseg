@@ -282,8 +282,18 @@ public class CSMDupConnectionList {
         System.out.println("----------Printing duplicate Connection List-------");
         System.out.println("List size: " + connList.size());
         for (int i = 0; i < connList.size(); i++) {
-            System.out.println("Connection " + i + ": " + " Source: " + ((CSMDupConnection) connList.get(i)).getSourceStr() + " Target: "
-                    + ((CSMDupConnection) connList.get(i)).getTargetStr());
+            CSMDupNode source = ((CSMDupConnection) connList.get(i)).getCSMSource();
+            PathNode sourceNode = source.getNode();
+	    String sourceName = sourceNode != null ? " (" + sourceNode.getName() + ") " : ""; 
+	    CSMDupNode target = ((CSMDupConnection) connList.get(i)).getCSMTarget();
+	    PathNode targetNode = target.getNode();
+	    String targetName = targetNode != null ? " (" + targetNode.getName() + ") " : "";
+	    System.out.println("Connection " + i + ": "
+        	    + " Source: " + ((CSMDupConnection) connList.get(i)).getSourceStr()
+        	    + sourceName
+        	    + " Target: " + ((CSMDupConnection) connList.get(i)).getTargetStr()
+        	    + targetName
+        	    );
         }
     }
 
