@@ -562,7 +562,7 @@ public class UCMScenarioViewer extends GraphicalEditor {
 		// Zoom
 		ZoomManager manager = (ZoomManager) getGraphicalViewer().getProperty(
 				ZoomManager.class.toString());
-		if (manager != null)
+		if (manager != null && getMSCDiagram().getSelectedScenario()!=null)
 			if (getMSCDiagram().getSelectedScenario() != null)
 				manager.setZoom(getMSCDiagram().getSelectedScenario().getZoom());
 	}

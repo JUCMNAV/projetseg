@@ -40,5 +40,6 @@ Require-Bundle: org.eclipse.ui,
  seg.jUCMNav,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.junit
+ org.junit,
+ org.eclipse.core.expressions
 Eclipse-LazyStart: true

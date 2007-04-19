@@ -23,6 +23,7 @@ public class EMFParserInitializer {
 			ScenarioGroupParser GroupParse = new ScenarioGroupParser(mgr.getModel());
 			scenG = GroupParse.parseScenarioGroup();
 		} catch (IOException e) {
+            e.printStackTrace();
 		}
 		return scenG;
 	}
