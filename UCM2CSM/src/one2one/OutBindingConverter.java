@@ -11,7 +11,6 @@ import ucm.map.OutBinding;
  * @see one2one
  * @generated
  */
-
 public class OutBindingConverter implements AbstractConverter {
 
     private OutBinding out_bind;
@@ -24,14 +23,12 @@ public class OutBindingConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
-        String successor0 = (String) target.toString().subSequence(1, (target.toString().length() - 1));
-        String successor = StringUtil.trimString(',', successor0); // eliminate ','
-        if (target.size() > 1) {
-            System.err.println("WARNING:  OutBinding " + out_bind.getEndPoint().getId() + " has more than one predecessor.");
-        }
- 
+	// a DummySequence may now exist between stub and next node suche that stubEntry.target no longer holds.
+	// new "next" nodes (CSMDupNode) are passed as array.
+        String nextNode = (String)target.get(0);
+
         // object attributes
-        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + successor + "\"/>";
+        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + nextNode + "\"/>";
 
         // output to file
         ps.println("                     " + Object_attributes);

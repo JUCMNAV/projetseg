@@ -214,7 +214,7 @@ public class ResourceRelease extends ResourceUtil {
             e_node.setResourcesUpstream(usedResources); // to compute release/acquire sets
             map.add(e_node);
             ins_nodes++;
-            conn_map.add(new CSMDupConnection(curr_edge, e_node));
+            conn_map.add(new CSMDupConnection(curr_edge, e_node, map));
             conn_map.add(new CSMDupConnection(e_node, rr_node));
             // add an empty point if immediatly followed by RR/RA/RESPREF node
             if ((target.getType() == CSMDupNode.RR) || (target.getType() == CSMDupNode.RA) || (target.getType() == CSMDupNode.RESPREF)  || (target.getType() == CSMDupNode.STUB)) { //js
@@ -245,7 +245,7 @@ public class ResourceRelease extends ResourceUtil {
 	    } else {
 		conn_map.add(new CSMDupConnection(source, rr_node));
 	    }
-	    conn_map.add(new CSMDupConnection(rr_node, curr_edge));
+	    conn_map.add(new CSMDupConnection(rr_node, curr_edge, map));
 	    conn_map.remove(source, curr_edge);
         }
         

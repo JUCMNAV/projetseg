@@ -20,12 +20,12 @@ public class CSMDupConnection {
 
     // Constructors
 
-    public CSMDupConnection(NodeConnection connection) {
+    public CSMDupConnection(NodeConnection connection, CSMDupNodeList dupNodeList) {
         this.connection = connection;
         this.source_id = ((PathNode) connection.getSource()).getId();
         this.target_id = ((PathNode) connection.getTarget()).getId();
-        this.source_node = new CSMDupNode((PathNode) connection.getSource());
-        this.target_node = new CSMDupNode((PathNode) connection.getTarget());
+        this.source_node = dupNodeList.get(dupNodeList.getNodeIndex((PathNode) connection.getSource()));
+        this.target_node = dupNodeList.get(dupNodeList.getNodeIndex((PathNode) connection.getTarget()));
     }
 
     public CSMDupConnection(String source, String target) {
@@ -36,36 +36,36 @@ public class CSMDupConnection {
         this.target_node = null; // js
     }
 
-    public CSMDupConnection(PathNode source, String target) {
+    public CSMDupConnection(PathNode source, String target, CSMDupNodeList dupNodeList) {
         this.connection = null;
         this.source_id = source.getId();
         this.target_id = target;
-        this.source_node = new CSMDupNode(source);
+        this.source_node = dupNodeList.get(dupNodeList.getNodeIndex(source));
         this.target_node = null; // js
     }
 
-    public CSMDupConnection(PathNode source, CSMDupNode target) {
+    public CSMDupConnection(PathNode source, CSMDupNode target, CSMDupNodeList dupNodeList) {
         this.connection = null;
         this.source_id = source.getId();
         this.target_id = target.getId();
-        this.source_node = new CSMDupNode(source);
+        this.source_node = dupNodeList.get(dupNodeList.getNodeIndex(source));
         this.target_node = target;
     }
 
-    public CSMDupConnection(CSMDupNode source, PathNode target) {
+    public CSMDupConnection(CSMDupNode source, PathNode target, CSMDupNodeList dupNodeList) {
         this.connection = null;
         this.source_id = source.getId();
         this.target_id = target.getId();
         this.source_node = source;
-        this.target_node = new CSMDupNode(target);
+        this.target_node = dupNodeList.get(dupNodeList.getNodeIndex(target));
     }
 
-    public CSMDupConnection(String source, PathNode target) {
+    public CSMDupConnection(String source, PathNode target, CSMDupNodeList dupNodeList) {
         this.connection = null;
         this.source_id = source;
         this.target_id = target.getId();
         this.source_node = null; // js
-        this.target_node = new CSMDupNode(target);
+        this.target_node = dupNodeList.get(dupNodeList.getNodeIndex(target));
     }
 
     public CSMDupConnection(CSMDupNode source, CSMDupNode target) {

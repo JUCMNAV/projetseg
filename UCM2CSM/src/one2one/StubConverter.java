@@ -57,6 +57,7 @@ public class StubConverter implements AbstractConverter {
         sa.OptionalAttributes(stub, ps);
         ps.println("> <!-- Stub -->");
         
+        // Dynamic Stub
         if (stub.isDynamic()) {
             String stubId = stub.getId();
             String fake_stubId = "fs_" + stubId;
@@ -68,23 +69,34 @@ public class StubConverter implements AbstractConverter {
             String threeTab = "                ";
             String fourTab = "                    ";
             ps.println(threeTab + plugBind_head);
-            for (Iterator pluginBindingIter = stub.getBindings().iterator(); pluginBindingIter.hasNext();) {
-		PluginBinding pb = (PluginBinding) pluginBindingIter.next();
-		for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
-		    InBinding ib = (InBinding) inBindingIterator.next();
-		    String inBind = "<InBinding start=\"" + fake_stubId + "_start\" in=\"" + ((PathNode)ib.getStubEntry().getSource()).getId() +"\" />";
-		    ps.println(fourTab + inBind);
-		}
-		for (Iterator outBindingIterator = pb.getOut().iterator(); outBindingIterator.hasNext();) {
-		    OutBinding ob = (OutBinding) outBindingIterator.next();
-		    String outBind = "<OutBinding end=\"" + fake_stubId + "_end\" out=\"" + ((PathNode)ob.getStubExit().getTarget()).getId() + "\" />";
-		    ps.println(fourTab + outBind);
-		}
+
+            /**
+             * All bindings should have the same cardinality.
+             * We're using the first binding one as "skeleton" for all of them.
+             * The proper binding of the maps should be checked.
+             * JS
+             */
+            PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
+            int nthIn = 0;
+	    for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
+		InBinding ib = (InBinding) inBindingIterator.next();
+		String inBind = "<InBinding start=\"" + fake_stubId + "_start_" + nthIn + "\" "
+			+ "in=\"h" + ((PathNode) ib.getStubEntry().getSource()).getId() + "\" />";
+		ps.println(fourTab + inBind);
+		nthIn++;
+	    }
+	    int nthOut = 0;
+	    for (Iterator outBindingIterator = pb.getOut().iterator(); outBindingIterator.hasNext();) {
+		OutBinding ob = (OutBinding) outBindingIterator.next();
+		String outBind = "<OutBinding end=\"" + fake_stubId + "_end_" + nthOut + "\" "
+			+ "out=\"h" + ((PathNode) ob.getStubExit().getTarget()).getId() + "\" />";
+		ps.println(fourTab + outBind);
+		nthOut++;
 	    }
             
-            
             ps.println(threeTab + plugBind_tail);
-            // PluginBindings will be output as branches in another map            
+            // PluginBindings will be output as branches in another map
+        // Static Stub
         } else {
             // process bindings as CSM refinements
 	    for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {

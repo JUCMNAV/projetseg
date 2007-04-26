@@ -237,7 +237,7 @@ public class ResourceAcquisition extends ResourceUtil {
 		map.add(e_node);
 		ins_nodes++;
 		conn_map.add(new CSMDupConnection(ra_node, e_node));
-		conn_map.add(new CSMDupConnection(e_node, curr_edge));
+		conn_map.add(new CSMDupConnection(e_node, curr_edge, map));
 //	    }
 	} else { // curr_edge is StartPoint (special case)
 	    // create empty point and insert it in duplicate map after RA
@@ -247,7 +247,7 @@ public class ResourceAcquisition extends ResourceUtil {
 	    map.add(e_node);
 	    ins_nodes++;
 	    CSMDupNode nextDupNode = conn_map.getTargetForSource(curr_edge);
-	    conn_map.add(new CSMDupConnection(curr_edge, ra_node));
+	    conn_map.add(new CSMDupConnection(curr_edge, ra_node, map));
 	    conn_map.add(new CSMDupConnection(ra_node, e_node));
 	    conn_map.add(new CSMDupConnection(e_node,nextDupNode));
 	    conn_map.remove(map.get(map.getNodeIndex(curr_edge)), nextDupNode);

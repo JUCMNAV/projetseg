@@ -38,19 +38,29 @@ public class PluginBindingConverter implements AbstractConverter {
         ps.println("                " + object_attributes);
 
         // get inbindings
+        int nthIn;
+        nthIn = 0;
         for (Iterator inbind_iter = p_bind.getIn().iterator(); inbind_iter.hasNext();) {
             InBinding in_bind = (InBinding) inbind_iter.next();
             InBindingConverter in_bind_conv = new InBindingConverter(in_bind);
             // output to file
-            in_bind_conv.Convert(ps, source, target);
+            ArrayList singleElementArrayIncomingNode = new ArrayList();
+            singleElementArrayIncomingNode.add(source.get(nthIn));
+            in_bind_conv.Convert(ps, singleElementArrayIncomingNode, null);
+            nthIn++;
         }
 
         // get outbindings
+        int nthOut;
+        nthOut = 0;
         for (Iterator outbind_iter = p_bind.getOut().iterator(); outbind_iter.hasNext();) {
             OutBinding out_bind = (OutBinding) outbind_iter.next();
             OutBindingConverter out_bind_conv = new OutBindingConverter(out_bind);
             // output to file
-            out_bind_conv.Convert(ps, source, target);
+            ArrayList singleElementArrayOutgoingNode = new ArrayList();
+            singleElementArrayOutgoingNode.add(target.get(nthOut));
+            out_bind_conv.Convert(ps, null, singleElementArrayOutgoingNode);
+            nthOut++;
         }
 
         String object_attributes_close = "</Refinement>";

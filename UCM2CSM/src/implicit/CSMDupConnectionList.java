@@ -19,9 +19,9 @@ public class CSMDupConnectionList {
     ArrayList connList = new ArrayList(1000); // js:  limitation
 
     // create list of NodeConnections
-    public void DuplicateConnection(UCMmap map) {
+    public void DuplicateConnection(UCMmap map, CSMDupNodeList dupNodeList) {
         for (Iterator iter = map.getConnections().iterator(); iter.hasNext();) {
-            connList.add(new CSMDupConnection((NodeConnection) iter.next()));
+            connList.add(new CSMDupConnection((NodeConnection) iter.next(), dupNodeList));
         }
     }
 

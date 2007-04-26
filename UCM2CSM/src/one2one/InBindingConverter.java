@@ -23,14 +23,12 @@ public class InBindingConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 
-        String predecessor0 = (String) source.toString().subSequence(1, (source.toString().length() - 1));
-        String predecessor = StringUtil.trimString(',', predecessor0); // eliminate ','
-        if (source.size() > 1) {
-            System.err.println("WARNING:  InBinding " + in_bind.getStartPoint().getId() + " has more than one predecessor.");
-        }
+        // a DummySequence may exist between stub and previous node such that stubEntry.source no longer holds.
+	// new "source" nodes (CSMDupNode) are passed as array.
+	String previousNode = (String)source.get(0);
 
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + predecessor + "\"/>";
+        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>";
 
         // output to file
         ps.println("                     " + Object_attributes);
