@@ -138,7 +138,10 @@ public class CSMDupNodeList {
 		// propagate upward
 		if ((srcType == CSMDupNode.START) || (srcType == CSMDupNode.RESPREF) || (srcType == CSMDupNode.STUB)) {
 		    if ((tgtType != CSMDupNode.RESPREF) || (tgtType != CSMDupNode.STUB) || (tgtType != CSMDupNode.END)) {
-			if (target.getResourcesDownstream() != source.getResourcesDownstream()) {
+			if ((source.getResourcesDownstream().size() != 0)
+				&& (target.getResourcesDownstream() != source.getResourcesDownstream())
+				&& (target.getNode().getPred().size() == 1) // TODO: mutliple downstream... JS
+				) {
 			    target.setResourcesDownstream(source.getResourcesDownstream());
 			    done = false;
 			} // if
@@ -147,7 +150,10 @@ public class CSMDupNodeList {
 		// propagate downard
 		if ((tgtType == CSMDupNode.RESPREF) || (tgtType == CSMDupNode.STUB) || (tgtType == CSMDupNode.END)) {
 		    if ((srcType != CSMDupNode.START) || (srcType != CSMDupNode.RESPREF) || (srcType != CSMDupNode.STUB)) {
-			if (source.getResourcesUpstream() != target.getResourcesUpstream()) {
+			if ((target.getResourcesUpstream().size() != 0)
+				&& (source.getResourcesUpstream() != target.getResourcesUpstream())
+				&& (source.getNode().getSucc().size() == 1) // TODO: mutliple upstream... JS
+				) {
 			    source.setResourcesUpstream(target.getResourcesUpstream());
 			    done = false;
 			} // if
