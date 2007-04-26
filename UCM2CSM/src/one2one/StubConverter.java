@@ -4,6 +4,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
+import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
 
@@ -27,6 +30,9 @@ public class StubConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
 //?js        ((PluginBinding) stub.getBindings().get(0)).getProbability();
+
+	// TODO:  predecessor/successor (from parameters source/target) may be (correctly) pointing at newly inserted (CSM) DummySequences
+	// while PluginBinding still points at the elements referred within the UCM structure.
 
         // object attributes
         String predecessorWithCommas = (String) source.toString().subSequence(1, (source.toString().length() - 1));
@@ -54,17 +60,29 @@ public class StubConverter implements AbstractConverter {
         if (stub.isDynamic()) {
             String stubId = stub.getId();
             String fake_stubId = "fs_" + stubId;
-            String plugBind_head = "<Refinement parent=\"" + "h" + stubId + "\" sub=\"" + fake_stubId + "\" >" ;
-            String inBind = "<InBinding start=\"" + fake_stubId + "_start\" in=\"" + predecessor +"\" />";
-            String outBind = "<OutBinding end=\"" + fake_stubId + "_end\" out=\"" + successor + "\" />";
+            String plugBind_head = "<Refinement parent=\"" + "h" + stubId + "\" sub=\"" + fake_stubId + "\" >" ;            
+            
             String plugBind_tail = "</Refinement>";
 //            String oneTab = "        ";
 //            String twoTab = "            ";
             String threeTab = "                ";
             String fourTab = "                    ";
             ps.println(threeTab + plugBind_head);
-            ps.println(fourTab + inBind);
-            ps.println(fourTab + outBind);
+            for (Iterator pluginBindingIter = stub.getBindings().iterator(); pluginBindingIter.hasNext();) {
+		PluginBinding pb = (PluginBinding) pluginBindingIter.next();
+		for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
+		    InBinding ib = (InBinding) inBindingIterator.next();
+		    String inBind = "<InBinding start=\"" + fake_stubId + "_start\" in=\"" + ((PathNode)ib.getStubEntry().getSource()).getId() +"\" />";
+		    ps.println(fourTab + inBind);
+		}
+		for (Iterator outBindingIterator = pb.getOut().iterator(); outBindingIterator.hasNext();) {
+		    OutBinding ob = (OutBinding) outBindingIterator.next();
+		    String outBind = "<OutBinding end=\"" + fake_stubId + "_end\" out=\"" + ((PathNode)ob.getStubExit().getTarget()).getId() + "\" />";
+		    ps.println(fourTab + outBind);
+		}
+	    }
+            
+            
             ps.println(threeTab + plugBind_tail);
             // PluginBindings will be output as branches in another map            
         } else {
