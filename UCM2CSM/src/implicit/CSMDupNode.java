@@ -43,10 +43,9 @@ import ucm.performance.Timestamp;
  * @see implicit
  * @generated
  */
-public class CSMDupNode {// extends PathNodeImpl {
+public class CSMDupNode {
 
     // The various types of PathNode elements in jUCMNav
-
     static public final int RESPREF = 1;
     static public final int START = 2;
     static public final int END = 3;
@@ -64,11 +63,20 @@ public class CSMDupNode {// extends PathNodeImpl {
     static public final int ANDJOIN = 15;
     static public final int LOOP = 16;
     static public final int UNDEFINED = 0;
+
+    // Types of new elements
+    static public final int RA = 17; // Resource Allocate
+    static public final int RR = 18; // Resource Release
+    static public final int CSMEMPTY = 19; // new Empty Point
+    static public final int CSMDUMMY = 20; // new Dummy Step
+    static public final int CSMSTEP = 21; // EmptyPoint into DummyStep
+
     private int type = UNDEFINED;
-    private ArrayList resourcesDownstream = new ArrayList();
-    private ArrayList resourcesUpstream = new ArrayList();
-    private ResourceAttribs resourceToAcquire = null;
-    private ResourceAttribs resourceToRelease = null;
+
+    private CSMResourceSet resourcesDownstream = null;
+    private CSMResourceSet resourcesUpstream = null;
+    private CSMResource resourceToAcquire = null;
+    private CSMResource resourceToRelease = null;
 
     private String res = null;
     
@@ -80,11 +88,11 @@ public class CSMDupNode {// extends PathNodeImpl {
 	return res;
     }
 
-    public void setResourceToAcquire(ResourceAttribs resAttribs) {
+    public void setResourceToAcquire(CSMResource resAttribs) {
 	resourceToAcquire = resAttribs;
     }
 
-    public ResourceAttribs getResourceToAcquire() {
+    public CSMResource getResourceToAcquire() {
 	return resourceToAcquire;
     }
 
@@ -95,20 +103,13 @@ public class CSMDupNode {// extends PathNodeImpl {
     public String getResToRelease() {
 	return res;
     }
-    public void setResourceToRelease(ResourceAttribs resAttribs) {
+    public void setResourceToRelease(CSMResource resAttribs) {
 	resourceToRelease = resAttribs;
     }
 
-    public ResourceAttribs getResourceToRelease() {
+    public CSMResource getResourceToRelease() {
 	return resourceToRelease;
     }
-
-    // New types of elements
-    static public final int RA = 17; // Resource Allocate
-    static public final int RR = 18; // Resource Release
-    static public final int CSMEMPTY = 19; // new Empty Point
-    static public final int CSMDUMMY = 20; // new Dummy Step
-    static public final int CSMSTEP = 21; // EmptyPoint into DummyStep
 
     // Convert (int) Type to String (for debugging purposes) Js
     public String getTypeString() {
@@ -183,21 +184,21 @@ public class CSMDupNode {// extends PathNodeImpl {
             type = ANDFORK;
         } else if (node instanceof StartPoint) {
             type = START;
-            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
-            resourcesUpstream = resourcesDownstream;
+//            resourcesDownstream = new CSMResourceSet(node);
+//            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EndPoint) {
             type = END;
-            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
-            resourcesUpstream = resourcesDownstream;
+//            resourcesDownstream = new CSMResourceSet(node);
+//            resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EmptyPoint) {
             type = EMPTY;
         } else if (node instanceof Stub) {
             type = STUB;
-            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
+            resourcesDownstream = new CSMResourceSet(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof RespRef) {
             type = RESPREF;
-            resourcesDownstream = (new ResourceUtil()).getResourcesNeeded(node);
+            resourcesDownstream = new CSMResourceSet(node);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
             type = ORJOIN; // js
@@ -220,19 +221,18 @@ public class CSMDupNode {// extends PathNodeImpl {
         }
     }
 
-    public ArrayList getResourcesDownstream() {
+    public CSMResourceSet getResourcesDownstream() {
 	return resourcesDownstream;
     }
 
-    public void setResourcesDownstream(ArrayList usedResources) {
+    public void setResourcesDownstream(CSMResourceSet usedResources) {
 	this.resourcesDownstream =  usedResources;
     }
-    
-    public ArrayList getResourcesUpstream() {
+    public CSMResourceSet getResourcesUpstream() {
 	return resourcesUpstream;
     }
 
-    public void setResourcesUpstream(ArrayList usedResources) {
+    public void setResourcesUpstream(CSMResourceSet usedResources) {
 	this.resourcesUpstream =  usedResources;
     }
     
@@ -251,7 +251,7 @@ public class CSMDupNode {// extends PathNodeImpl {
     	this.node_id = id;
     }
 
-    public CSMDupNode(int raORrrORseq) {  // limitation.  js
+    public CSMDupNode(int raORrrORseq) {  // TODO:  remove limitations.  js
         // RA,RR/Seq/Dummy Step to be inserted
         if (raORrrORseq >= 1000 && raORrrORseq < 2000) {
             type = RA;

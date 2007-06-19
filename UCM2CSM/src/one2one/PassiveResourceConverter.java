@@ -22,7 +22,7 @@ public class PassiveResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
-	String id = "id=\"" + "r" + passiveRes.getId() + "\" ";
+	String id = "id=\"" + "p" + passiveRes.getId() + "\" ";
 	String name = "name=\"" + passiveRes.getName() + "\" ";
 	String description;
 	String multiplicity;

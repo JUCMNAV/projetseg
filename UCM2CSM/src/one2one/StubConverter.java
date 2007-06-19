@@ -45,8 +45,14 @@ public class StubConverter implements AbstractConverter {
         if (stub.getSucc().size() > 1) {
             System.err.println("WARNING:  Stub " + stub.getName() + " has more than one successor.");    
         }
-        String name;
-        name = stub.isDynamic() ? stub.getName() :  stub.getName()+"/"+((PluginBinding)(stub.getBindings().get(0))).getPlugin().getName();  
+        String name = null;
+        if (stub.getBindings().size() == 0) {
+            System.err.println("WARNING:  Stub " + stub.getName() + " has no bindings.");
+            name = stub.isDynamic() ? stub.getName() :  stub.getName()+"/"+"ERROR_NO_BINDING";
+        } else {
+            name = stub.isDynamic() ? stub.getName() :  stub.getName()+"/"+((PluginBinding)(stub.getBindings().get(0))).getPlugin().getName();    
+        }
+          
         String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " 
         	+ "name=\"" + name + "\" "
         	+ "predecessor=\"" + predecessor + "\" "
@@ -76,22 +82,24 @@ public class StubConverter implements AbstractConverter {
              * The proper binding of the maps should be checked.
              * JS
              */
-            PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
-            int nthIn = 0;
-	    for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
-		InBinding ib = (InBinding) inBindingIterator.next();
-		String inBind = "<InBinding start=\"" + fake_stubId + "_start_" + nthIn + "\" "
-			+ "in=\"h" + ((PathNode) ib.getStubEntry().getSource()).getId() + "\" />";
-		ps.println(fourTab + inBind);
-		nthIn++;
-	    }
-	    int nthOut = 0;
-	    for (Iterator outBindingIterator = pb.getOut().iterator(); outBindingIterator.hasNext();) {
-		OutBinding ob = (OutBinding) outBindingIterator.next();
-		String outBind = "<OutBinding end=\"" + fake_stubId + "_end_" + nthOut + "\" "
-			+ "out=\"h" + ((PathNode) ob.getStubExit().getTarget()).getId() + "\" />";
-		ps.println(fourTab + outBind);
-		nthOut++;
+            if (stub.getBindings().size() != 0) {
+		PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
+		int nthIn = 0;
+		for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
+		    InBinding ib = (InBinding) inBindingIterator.next();
+		    String inBind = "<InBinding start=\"" + fake_stubId + "_start_" + nthIn + "\" " + "in=\"h"
+			    + ((PathNode) ib.getStubEntry().getSource()).getId() + "\" />";
+		    ps.println(fourTab + inBind);
+		    nthIn++;
+		}
+		int nthOut = 0;
+		for (Iterator outBindingIterator = pb.getOut().iterator(); outBindingIterator.hasNext();) {
+		    OutBinding ob = (OutBinding) outBindingIterator.next();
+		    String outBind = "<OutBinding end=\"" + fake_stubId + "_end_" + nthOut + "\" " + "out=\"h"
+			    + ((PathNode) ob.getStubExit().getTarget()).getId() + "\" />";
+		    ps.println(fourTab + outBind);
+		    nthOut++;
+		}
 	    }
             
             ps.println(threeTab + plugBind_tail);

@@ -8,6 +8,9 @@ import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.performance.ProcessingResource;
 import urncore.Component;
+import urncore.ComponentKind;
+import urncore.ComponentRegular;
+import urncore.IURNContainerRef;
 
 /**
  * <!-- begin-user-doc --> Prints Step optional attributes to CSM file <!-- end-user-doc -->
@@ -46,10 +49,26 @@ public class StepAttributes {
 
     // print component id
     public static void Component(PrintStream ps, PathNode pathnode) {
-        if ((ComponentRef) pathnode.getContRef() != null && ((ComponentRef) pathnode.getContRef()).getId() != null) {
-            String comp_id = ((Component)(((ComponentRef) pathnode.getContRef()).getContDef())) .getId();
-            String comp_attribute = "component=\"" + "c" + comp_id + "\" ";
-            ps.print(comp_attribute);
+        IURNContainerRef contRef = pathnode.getContRef();
+	if ((ComponentRef) contRef != null && ((ComponentRef) contRef).getId() != null) {
+	    if (contRef.getContDef() instanceof ComponentRegular) {
+		ComponentRegular compReg = (ComponentRegular) contRef.getContDef();
+		ComponentKind compKind = compReg.getKind();
+		/*
+		 * Produce the "component" attribute only if the component reference is refering
+		 * to a component of kind Process, Agent, Teamn or Object.
+		 */
+		if (
+			(compKind == ComponentKind.PROCESS_LITERAL)
+			|| (compKind == ComponentKind.AGENT_LITERAL)
+			|| (compKind == ComponentKind.TEAM_LITERAL)
+			|| (compKind == ComponentKind.OBJECT_LITERAL)
+			) {
+	            String comp_id = ((Component)(((ComponentRef) contRef).getContDef())) .getId();
+	            String comp_attribute = "component=\"" + "c" + comp_id + "\" ";
+	            ps.print(comp_attribute);
+		}
+	    }
         }
     }
 

@@ -1,17 +1,12 @@
 package implicit;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
+import ucm.map.EndPoint;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
-import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
-import urn.URNspec;
-import urncore.Metadata;
+import ucm.map.StartPoint;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Acquisition objects in duplicate map <!-- end-user-doc -->
@@ -20,7 +15,7 @@ import urncore.Metadata;
  * @generated
  */
 
-public class ResourceAcquisition extends ResourceUtil {
+public class ResourceAcquisition {
 
     // RA and Empty Point IDs
     static int ra_id = 1000; // limitation.  js
@@ -55,70 +50,42 @@ public class ResourceAcquisition extends ResourceUtil {
 	// list that will store edges to be parsed (will contain pathnodes only)
 	int nodes_inserted = 0; // total nodes inserted since last run
 	// Compute resources to be acquired
-	ArrayList usedResources = null; // requested resources + containing components
-	ArrayList resToAcquire = new ArrayList(); // usedResources - resPreviouslyNeeded
-	ArrayList resPreviouslyNeeded; // resources used by previous node
+	CSMResourceSet usedResources = null; // requested resources + containing components
+	CSMResourceSet resToAcquire = null; // usedResources - resPreviouslyNeeded
 	CSMDupNode curr_edge_dupNode = dup_map.get(dup_map.getNodeIndex(curr_edge));
 	CSMDupNode previousDupNode = null;
 	// StartPoint acquires all containing components
-	if (curr_edge_dupNode.getType() == CSMDupNode.START) {
-	    usedResources = curr_edge_dupNode.getResourcesDownstream();
-	    copyArray(usedResources, resToAcquire);
-	    // ResponsibilityRef/Stub acquire what was not acquired previously
-	} else if ( (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) || (curr_edge_dupNode.getType() == CSMDupNode.STUB) ) {
-	    usedResources = curr_edge_dupNode.getResourcesDownstream();
+	if ((curr_edge_dupNode.getType() == CSMDupNode.RESPREF) || (curr_edge_dupNode.getType() == CSMDupNode.STUB)) {
+	    if (curr_edge_dupNode.getResourcesDownstream() != null) {
+		usedResources = curr_edge_dupNode.getResourcesDownstream().toAcquire();
+	    } else {
+		usedResources = null;
+	    }
 	    previousDupNode = dup_map_conn.getSourceForTarget(curr_edge);
-	    resPreviouslyNeeded = previousDupNode.getResourcesDownstream();
-	    copyArray(firstMinusSecond(usedResources, resPreviouslyNeeded), resToAcquire);
+	    if ((previousDupNode != null) && previousDupNode.getResourcesDownstream() != null) {
+		resToAcquire = usedResources.minus(previousDupNode.getResourcesDownstream().toAcquire());
+	    } else {
+		resToAcquire = usedResources;
+	    }
 	}
-	while (resToAcquire.size() != 0) {
+	while ((resToAcquire != null) && (resToAcquire.size() != 0)) {
 	    nodes_inserted = addRA(resToAcquire, usedResources, curr_edge, dup_map, dup_map_conn, nodes_inserted);
 	}
-	// RA/RR via MetaData
-	if (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) {
-	    ArrayList resAttrList = new ArrayList();
-	    for (Iterator md = ((RespRef)curr_edge).getMetadata().iterator(); md.hasNext();) {
-		Metadata mdElement = (Metadata) md.next();
-		if (mdElement.getName().compareTo("RA") == 0) {
-		    if (md.hasNext()) {
-		    Metadata mdValue = (Metadata) md.next();
-		    if (mdValue.getName().compareTo("Qty") == 0) {
-			URNspec urn = ((RespRef) curr_edge).getRespDef().getUrndefinition().getUrnspec();
-			for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
-			    GeneralResource genResElement = (GeneralResource) genRes.next();
-			    if (genResElement instanceof PassiveResource) {
-				if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
-				    PassiveResource pasRes = (PassiveResource) genResElement;
-				    ResourceAttribs resAttr = new ResourceAttribs();
-				    resAttr.setRes(pasRes);
-				    resAttr.setRUnits(mdValue.getValue());
-				    resAttrList.add(resAttr);
-	                        }
-	                    }
-	                }		
-		    }
-		    }
-		}
-	    }
-	    while (resAttrList.size() > 0) {
-		nodes_inserted = addRA(resAttrList, null, curr_edge, dup_map, dup_map_conn, nodes_inserted);
-	    }
-	}
-	
 	return nodes_inserted;
     } // function
 
     // prints XML representation of Resource Acquire element
-    public void acquireRes(ResourceAttribs resAttribs, CSMDupNode node, CSMDupConnectionList list) {
+    public void acquireRes(CSMResource resAttribs, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
+        String resType = resAttribs.getResourcePrefix();
         String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " 
-        	+ "acquire=\"" + "r" + (resAttribs.getRes()).getId() + "\" "
-        	+ "rUnits=\""+ resAttribs.getRUnits() + "\" ";
+        	+ "acquire=\"" + resType + resAttribs.getResource() + "\" "	// js
+        	+ "rUnits=\""+ resAttribs.getQty() + "\" ";
         String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
         String ra_successor = "successor=\"" + "h" + successor + "\" ";
         String end_ra = "/>";
@@ -199,7 +166,7 @@ public class ResourceAcquisition extends ResourceUtil {
     }
 
     // inserts RA and Empty Points where necessary in the duplicate map
-    public int addRA(ArrayList resToAcquire, ArrayList usedResources, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes) {
+    public int addRA(CSMResourceSet resToAcquire, CSMResourceSet usedResources, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map, int ins_nodes) {
         // create resource acquire component and insert it in duplicate map
         CSMDupNode ra_node = new CSMDupNode(++ra_id);
         ra_node.setResourcesDownstream(usedResources); // to compute the release set
@@ -212,7 +179,7 @@ public class ResourceAcquisition extends ResourceUtil {
 
         if (source != null) {
 
-	    if ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB)) {
+	    if ((source.getType() == CSMDupNode.RR) || (source.getType() == CSMDupNode.RA) || (source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB) || (source.getType() == CSMDupNode.CONNECT)) {
 		// create empty point and insert it in duplicate map
 		CSMDupNode e2_node = new CSMDupNode(++seq_id);
 		e2_node.setResourcesDownstream(usedResources); // to compute the release set
@@ -226,10 +193,9 @@ public class ResourceAcquisition extends ResourceUtil {
 		conn_map.add(new CSMDupConnection(source, ra_node));
 	    }
 	    conn_map.remove(source, map.get(map.getNodeIndex(curr_edge)));
-
-//	    if ((curr_edge instanceof EmptyPoint)) { // leave it alone. NEEDS TESTING... js
-//		conn_map.add(new CSMDupConnection(ra_node, curr_edge));
-//	    } else {
+	    if ((curr_edge instanceof StartPoint) || (curr_edge instanceof EndPoint)) { // curr_edge is StartPoint of a Connect (special case)
+		conn_map.add(new CSMDupConnection(ra_node, curr_edge, map));
+	    } else {
 		// create empty point and insert it in duplicate map
 		CSMDupNode e_node = new CSMDupNode(++seq_id);
 		e_node.setResourcesDownstream(usedResources); // to compute the release set
@@ -237,8 +203,8 @@ public class ResourceAcquisition extends ResourceUtil {
 		map.add(e_node);
 		ins_nodes++;
 		conn_map.add(new CSMDupConnection(ra_node, e_node));
-		conn_map.add(new CSMDupConnection(e_node, curr_edge, map));
-//	    }
+		conn_map.add(new CSMDupConnection(e_node, curr_edge, map));		
+	    }
 	} else { // curr_edge is StartPoint (special case)
 	    // create empty point and insert it in duplicate map after RA
 	    CSMDupNode e_node = new CSMDupNode(++seq_id);
@@ -254,9 +220,8 @@ public class ResourceAcquisition extends ResourceUtil {
 	}
 
         if (resToAcquire.size() != 0) {
-            ResourceAttribs resAttribs = (ResourceAttribs) resToAcquire.get(0);
+            ra_node.setResourceToAcquire(resToAcquire.get(0)); // resource to acquire
             resToAcquire.remove(0);
-            ra_node.setResourceToAcquire(resAttribs); // for when source wants to get ready to compute release set
         }
         return ins_nodes;
     }

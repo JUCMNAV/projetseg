@@ -4,8 +4,8 @@ import implicit.CSMDupConnection;
 import implicit.CSMDupConnectionList;
 import implicit.CSMDupNode;
 import implicit.CSMDupNodeList;
+import implicit.CSMResource;
 import implicit.ResourceAcquisition;
-import implicit.ResourceAttribs;
 import implicit.ResourceRelease;
 
 import java.io.FileOutputStream;
@@ -137,8 +137,8 @@ public class Convert implements IURNExport {
         // Insert RA/RR/Seq nodes in above list
         transform(dupMaplist, dupMapConnList, ps);
 
-        // Imperfect and optional sorting:  eases XML human parsing.
-        // If in doubt, remove altogether.  JS
+        // Optional sorting:  eases human parsing (reading) of generated XML.
+        // If in doubt, remove or disable.  JS
         sortConnectionList(dupMapConnList);
         CSMDupNodeList dupMaplistSorted = new CSMDupNodeList();
         sortNodeList(dupMapConnList,dupMaplist, dupMaplistSorted);
@@ -214,19 +214,24 @@ public class Convert implements IURNExport {
 		 * assuming all bindings have the same cardinality...
 		 */
 		String sourceId = "";
-		for (int j = 0; j < ((PluginBinding)stub.getBindings().get(0)).getIn().size(); j++) {
-		    String startId = fake_stubId + "_start_" + j ;
-		    String start = "<Start id=\"" + startId + "\" "+ "target=\"" + startId + "_ds1\" />";
-		    String ds1 = "<Step id=\"" + startId + "_ds1\" "
-			+ "name=\"dummy1\" "
-			+ "predecessor=\"" + startId + "\" "
-			+ "successor=\"" + fake_stubId + "_branch\" />";
+		if (stub.getBindings().size() != 0) {
+			for (int j = 0; j < ((PluginBinding)stub.getBindings().get(0)).getIn().size(); j++) {
+			    String startId = fake_stubId + "_start_" + j ;
+			    String start = "<Start id=\"" + startId + "\" "+ "target=\"" + startId + "_ds1\" />";
+			    String ds1 = "<Step id=\"" + startId + "_ds1\" "
+				+ "name=\"dummy1\" "
+				+ "predecessor=\"" + startId + "\" "
+				+ "successor=\"" + fake_stubId + "_branch\" />";
 
-		    ps.println(twoTab + start);
-		    ps.println(twoTab + ds1);
-		    sourceId = sourceId.concat(startId + "_ds1 ");
+			    ps.println(twoTab + start);
+			    ps.println(twoTab + ds1);
+			    sourceId = sourceId.concat(startId + "_ds1 ");
+			}
+		    
+		} else {
+		    System.err.println("WARNING:  Stub " + stub.getName() + " has no bindings.");
+		    sourceId = sourceId.concat(fake_stubId + "_ERROR_NO_BINDING");
 		}
-		//String branch = "<Branch id=\"" + fake_stubId + "_branch\" source=\"" + fake_stubId + "_ds1\" target=\"" + steps + "\" />";
 		String branch = "<Branch id=\"" + fake_stubId + "_branch\" source=\"" + sourceId + "\" target=\"" + steps + "\" />";
 		ps.println(twoTab + branch);
 
@@ -234,55 +239,61 @@ public class Convert implements IURNExport {
 		 * identifying the sucessors (merge)
 		 */
 		String targetId = "";
-		for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
-		    targetId = targetId.concat(fake_stubId + "_merge_" + k + " ");
+		if (stub.getBindings().size() != 0) {
+		    for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
+			targetId = targetId.concat(fake_stubId + "_merge_" + k + " ");
+		    }
 		}
 
 		int j = 0;
-		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
-		    PluginBinding binding = (PluginBinding) iter.next();
-		    PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
-		    String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " 
-		    	+ "name=\"" + binding.getPlugin().getName() + "\" "
-		    	+ "predecessor=\"" + fake_stubId + "_branch\" "
-		    	+ "successor=\"" + targetId + "\" "
-		    	+ "probability=\"" + binding.getProbability() + "\" "
-		    	+ ">";
-		    ps.println(twoTab + step);
+		if (stub.getBindings().size() != 0) {
+		    for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
+			PluginBinding binding = (PluginBinding) iter.next();
+			PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
+			String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" "
+				+ "name=\"" + binding.getPlugin().getName() + "\" "
+				+ "predecessor=\"" + fake_stubId + "_branch\" "
+				+ "successor=\"" + targetId + "\" "
+				+ "probability=\"" + binding.getProbability() + "\" "
+				+ ">";
+			ps.println(twoTab + step);
 
-		    // produce Bindings relative to sub-map
-		    ArrayList src = new ArrayList();
-		    ArrayList tgt = new ArrayList();
-		    if (binding.getIn().size() > 1) {
-			for (int k = 0; k < binding.getIn().size(); k++) {
+			// produce Bindings relative to sub-map
+			ArrayList src = new ArrayList();
+			ArrayList tgt = new ArrayList();
+			if (binding.getIn().size() > 1) {
+			    for (int k = 0; k < binding.getIn().size(); k++) {
 				src.add(fake_stubId + "_start_" + k);
 			    }
-		    } else {
-			src.add(fake_stubId + "_start");
-		    }
-		    if (binding.getOut().size() > 1) {
-			for (int k = 0; k < binding.getOut().size(); k++) {
+			} else {
+			    src.add(fake_stubId + "_start");
+			}
+			if (binding.getOut().size() > 1) {
+			    for (int k = 0; k < binding.getOut().size(); k++) {
 				tgt.add(fake_stubId + "_end_" + k); // for bind_obj
 			    }
-		    } else {
-			tgt.add(fake_stubId + "_end");
-		    }		    
-		    bind_obj.Convert(ps, src /*source*/, tgt /*target*/);
-		    ps.println(twoTab + "</Step>");
-		    j++;
+			} else {
+			    tgt.add(fake_stubId + "_end");
+			}
+			bind_obj.Convert(ps, src, tgt);
+			ps.println(twoTab + "</Step>");
+			j++;
+		    }
 		}
-		
-		for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
-		    String merge = "<Merge id=\"" + fake_stubId + "_merge_" + k + "\" "
-		    	+ "source=\"" + steps + "\" "
-		    	+ "target=\"" + fake_stubId + "_ds2_" + k + "\" />";
-		    String ds2 = "<Step id=\"" + fake_stubId + "_ds2_" + k + "\" " + "name=\"dummy2\" "
-		    	+ "predecessor=\"" + fake_stubId + "_merge_" + k + "\" "
-		    	+ "successor=\"" + fake_stubId + "_end_" + k + "\" />";
-		    String end = "<End id=\"" + fake_stubId + "_end_" + k + "\" " + "source=\"" + fake_stubId + "_ds2_" + k + "\" />";
-		    ps.println(twoTab + merge);
-		    ps.println(twoTab + ds2);
-		    ps.println(twoTab + end);
+
+		if (stub.getBindings().size() != 0) {
+		    for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
+			String merge = "<Merge id=\"" + fake_stubId + "_merge_" + k + "\" "
+		    		+ "source=\"" + steps + "\" "
+		    		+ "target=\"" + fake_stubId + "_ds2_" + k + "\" />";
+			String ds2 = "<Step id=\"" + fake_stubId + "_ds2_" + k + "\" " + "name=\"dummy2\" "
+		    		+ "predecessor=\"" + fake_stubId + "_merge_" + k + "\" "
+		    		+ "successor=\"" + fake_stubId + "_end_" + k + "\" />";
+			String end = "<End id=\"" + fake_stubId + "_end_" + k + "\" " + "source=\"" + fake_stubId + "_ds2_" + k + "\" />";
+			ps.println(twoTab + merge);
+			ps.println(twoTab + ds2);
+			ps.println(twoTab + end);
+		    }
 		}
 
 		String scenario_tail = "</Scenario>";
@@ -364,9 +375,11 @@ public class Convert implements IURNExport {
 			// find a better starting place if it exists
 			boolean foundConnWithStartSource = false;
 			for (int i3 = startSortingAt; !foundConnWithStartSource && i3 < connList.size(); i3++) {
-				if (connList.get(i3).getCSMSource().getType() == CSMDupNode.START) {
-					startSortingFrom = i3;
-					foundConnWithStartSource = true;
+				if (connList.get(i3).getCSMSource().getType() == CSMDupNode.START) { // TODO:  connect -> start
+				    	if (connList.get(i3).getCSMSource().getNode().getPred() != null) {
+						startSortingFrom = i3;
+						foundConnWithStartSource = true;				    	    
+				    	}
 				}
 			}
 			if (startSortingAt != startSortingFrom) {
@@ -381,7 +394,9 @@ public class Convert implements IURNExport {
 			while ((startSortingAt < connList.size()) && !foundEnd) {
 				boolean foundFollowing = false;
 
-				foundEnd = connList.get(lastSorted).getCSMTarget().getType() == CSMDupNode.END;
+				foundEnd = ((connList.get(lastSorted).getCSMTarget().getType() == CSMDupNode.END)
+				&& (connList.get(lastSorted).getCSMTarget().getNode().getSucc() == null));
+
 				for (int i4 = startSortingAt; !foundFollowing && i4 < connList.size(); i4++) {
 					if (connList.get(i4).getCSMSource().getId() == connList.get(lastSorted).getCSMTarget().getId()) {
 						startSortingFrom = i4;
@@ -461,10 +476,10 @@ public class Convert implements IURNExport {
             CSMDupNode curr_node = dupMaplist.get(b);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
-        	ResourceAttribs resAttribs = curr_node.getResourceToAcquire();
+        	CSMResource resource = curr_node.getResourceToAcquire();
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
-                if (resAttribs != null) {
-                    ra.acquireRes(resAttribs, curr_node, dupMapConnlist);    
+                if (resource != null) {
+                    ra.acquireRes(resource, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToAcquire();
                     ra.acquireComp(res, curr_node, dupMapConnlist);
@@ -473,10 +488,10 @@ public class Convert implements IURNExport {
             }
             // printing RR
             else if (curr_node.getId().startsWith("G3")) {
-        	ResourceAttribs resAttribs = curr_node.getResourceToRelease();
+        	CSMResource resource = curr_node.getResourceToRelease();
                 ResourceRelease rr = new ResourceRelease(ps);
-                if (resAttribs != null) {
-                    rr.releaseRes(resAttribs, curr_node, dupMapConnlist);    
+                if (resource != null) {
+                    rr.releaseRes(resource, curr_node, dupMapConnlist);    
                 } else {
                     String res = curr_node.getResToRelease();
                     rr.releaseComp(res, curr_node, dupMapConnlist);
@@ -504,10 +519,6 @@ public class Convert implements IURNExport {
         	// and since getNode() returns null for CSMEMPTY.
 //        	String curr_node_id0 = dupMaplist.get(b).getNode2().getId();
         	String curr_node_id = dupMaplist.get(b).getId();
-/*        	if (curr_node_id0.compareTo(curr_node_id) != 0) {
-        	    System.err.println("curr_node_id0 and curr_node_id differ");
-        	}
-*/
                 // determine new source and target of all PathConnection types
                 ArrayList source = new ArrayList();
                 ArrayList target = new ArrayList();
@@ -533,7 +544,7 @@ public class Convert implements IURNExport {
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target_noComma + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- EmptyPoint -->";
+                    String epoint_end = "/> <!-- EmptyPoint of WaitingPlace -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 /**
                  * EmptyPoint turned into DummyStep
@@ -554,7 +565,7 @@ public class Convert implements IURNExport {
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target.get(0) + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- EndPoint -->";
+                    String epoint_end = "/> <!-- EndPoint of a Connect -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 /**
                  * StartPoint of a Connect
@@ -565,7 +576,7 @@ public class Convert implements IURNExport {
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
                     String epoint_target = "target=\"" + target.get(0) + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- StartPoint -->";
+                    String epoint_end = "/> <!-- StartPoint of a Connect -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 } else {
                     curr_node.printPathNode(ps, source, target);
@@ -683,6 +694,7 @@ public class Convert implements IURNExport {
                 		|| (source.getType() == CSMDupNode.RR)  || (source.getType() == CSMDupNode.RA)
                 		|| (source.getType() == CSMDupNode.CSMSTEP) /* || (source.getType() == CSMDupNode.CONNECT) */ 
                 	) { // no need for extra DummyStep
+                	    // do nothing!
                 	} else {
                 	    // do insert a DummyStep after previous node
 			    insertDummyStep(node_list, conn_list, curr_conn, source, target);
@@ -704,6 +716,7 @@ public class Convert implements IURNExport {
 				    	|| (nod.getType() == CSMDupNode.CONNECT) // CONNECT will turn into a DummyStep
 				    	|| (nod.getType() == CSMDupNode.CSMSTEP)
 	                	)  { // OK as is.
+				// do nothing!
 			    } else {
 				insertDummyStep(node_list, conn_list, con, target, nod);
 				conn_list_size++;
@@ -711,7 +724,7 @@ public class Convert implements IURNExport {
 			    }
 			}
                 	node_list.retype(target, CSMDupNode.ANDFORK);  // wait last to retype()
-                    // regular EmptyPoint.  Is the test justified????
+                    // regular EmptyPoint.  Is the test necessary?
                     } else if (conn_list.existsConnectionForSource(target)) {
                         CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
                         CSMDupNode next_target = next_conn.getCSMTarget();
@@ -734,59 +747,54 @@ public class Convert implements IURNExport {
                             		( (next_target.getType() == CSMDupNode.RR)  || (next_target.getType() == CSMDupNode.RA) )
                             		|| (next_target.getType() == CSMDupNode.CSMSTEP)
                             	)	{
-                        	; // keep empty point as is (i.e. output as DummySequence)
-                        	node_list.retype(target, CSMDupNode.CSMDUMMY); // TEST TEST TEST was *nothing*
+                        	// keep empty point as is (i.e. output as DummySequence)
+                        	node_list.retype(target, CSMDupNode.CSMDUMMY);
                             // next node ought to be a connection
                             } else { // convert EmptyPoint to a DummySequence followed by a DummyStep
                         	if (next_target.getType() != CSMDupNode.CSMDUMMY) {
                         	    insertDummyStep(node_list, conn_list, next_conn, target, next_target);
                         	    conn_list_size++;
                         	    node_list.retype(target, CSMDupNode.CSMDUMMY);
-                        	    work_to_do = true; // js:  we need to start over when adding connections
+                        	    work_to_do = true; // start over when new connections are added
                         	}
                             }
                         // EmptyPoint preceded by connection node
                         } else {                        	
-                        	/**
-                        	 * an EmptyPoint is preceded by a connection node:
-                        	 * convert the EmptyPoint to a DummySequence and insert DummyStep before  
-                        	 */
-                        	if ((source.getType() == CSMDupNode.START) || (source.getType() == CSMDupNode.ARROW)
-					|| (source.getType() == CSMDupNode.ANDFORK) || (source.getType() == CSMDupNode.ANDJOIN)
-					|| (source.getType() == CSMDupNode.ORFORK) || (source.getType() == CSMDupNode.ORJOIN)
-					|| (source.getType() == CSMDupNode.WAIT) || (source.getType() == CSMDupNode.CSMEMPTY)
-					|| (source.getType() == CSMDupNode.END) || (source.getType() == CSMDupNode.EMPTY)) {
-                        	    if ((next_target.getType() == CSMDupNode.START) || (next_target.getType() == CSMDupNode.ARROW)
+                            /**
+                             * an EmptyPoint is preceded by a connection node:
+                             * convert the EmptyPoint to a DummySequence and insert DummyStep before  
+                             */
+                            if ((source.getType() == CSMDupNode.START) || (source.getType() == CSMDupNode.ARROW)
+                        	    || (source.getType() == CSMDupNode.ANDFORK) || (source.getType() == CSMDupNode.ANDJOIN)
+                        	    || (source.getType() == CSMDupNode.ORFORK) || (source.getType() == CSMDupNode.ORJOIN)
+                        	    || (source.getType() == CSMDupNode.WAIT) || (source.getType() == CSMDupNode.CSMEMPTY)
+                        	    || (source.getType() == CSMDupNode.END) || (source.getType() == CSMDupNode.EMPTY)) {
+                        	if ((next_target.getType() == CSMDupNode.START) || (next_target.getType() == CSMDupNode.ARROW)
     					|| (next_target.getType() == CSMDupNode.ANDFORK) || (next_target.getType() == CSMDupNode.ANDJOIN)
     					|| (next_target.getType() == CSMDupNode.ORFORK) || (next_target.getType() == CSMDupNode.ORJOIN)
     					|| (next_target.getType() == CSMDupNode.WAIT) || (next_target.getType() == CSMDupNode.CSMEMPTY)
     					|| (next_target.getType() == CSMDupNode.END) || (next_target.getType() == CSMDupNode.EMPTY)) {
                         		node_list.retype(target, CSMDupNode.CSMSTEP);
-                        	    } else {
-                        		insertDummyStep(node_list, conn_list, curr_conn, source, target);
-                        		conn_list_size++;
-                        		node_list.retype(target, CSMDupNode.CSMEMPTY);
-                        		work_to_do = true; // js:  we need to start over when adding connections                        		
-                        	    }
-				/**
-				 * an Emptypoint is preceded by a step and followed by a Connect (aka faked EndPoint)
-				 */
-//                        	} else if ((next_target.getType() == CSMDupNode.END) && (next_target.getNode().getSucc().size() > 0)) {
-                                   // leave alone (i.e. as sequence)
-                        	/**
-                        	 * an EmptyPoint is preceded by a step and followed by a connection node:
-				 * convert EmptyPoint to a DummySequence and insert a DummyStep after
-				 */
-                        	} else if ((next_target.getType() == CSMDupNode.START) || (next_target.getType() == CSMDupNode.ARROW)
-					|| (next_target.getType() == CSMDupNode.ANDFORK) || (next_target.getType() == CSMDupNode.ANDJOIN)
-					|| (next_target.getType() == CSMDupNode.ORFORK) || (next_target.getType() == CSMDupNode.ORJOIN)
-					|| (next_target.getType() == CSMDupNode.WAIT) /* || (next_target.getType() == CSMDupNode.CSMEMPTY) */
-					|| (next_target.getType() == CSMDupNode.END) || (next_target.getType() == CSMDupNode.EMPTY)) {
-				    insertDummyStep(node_list, conn_list, next_conn, target, next_target);
-				    conn_list_size++;
-				    node_list.retype(target, CSMDupNode.CSMDUMMY);
-				    work_to_do = true; // js:  we need to start over when adding connections
+                        	} else {
+                        	    insertDummyStep(node_list, conn_list, curr_conn, source, target);
+                        	    conn_list_size++;
+                        	    node_list.retype(target, CSMDupNode.CSMEMPTY);
+                        	    work_to_do = true; // js:  we need to start over when adding connections                        		
                         	}
+                            /**
+                             * an EmptyPoint is preceded by a step and followed by a connection node:
+                             * convert EmptyPoint to a DummySequence and insert a DummyStep after
+                             */
+                            } else if ((next_target.getType() == CSMDupNode.START) || (next_target.getType() == CSMDupNode.ARROW)
+                        	    || (next_target.getType() == CSMDupNode.ANDFORK) || (next_target.getType() == CSMDupNode.ANDJOIN)
+                        	    || (next_target.getType() == CSMDupNode.ORFORK) || (next_target.getType() == CSMDupNode.ORJOIN)
+                        	    || (next_target.getType() == CSMDupNode.WAIT)
+                        	    || (next_target.getType() == CSMDupNode.END) || (next_target.getType() == CSMDupNode.EMPTY)) {
+                        	insertDummyStep(node_list, conn_list, next_conn, target, next_target);
+                        	conn_list_size++;
+                        	node_list.retype(target, CSMDupNode.CSMDUMMY);
+                        	work_to_do = true; // start over when new connections are added
+                            } // if
                         } // else
                     } // if
                 } // if
@@ -797,21 +805,21 @@ public class Convert implements IURNExport {
                 	( (target.getType() == CSMDupNode.RESPREF) || (target.getType() == CSMDupNode.STUB))
                 	) {
 
-                	// create dummy node
-                	MapFactoryImpl mfi = new MapFactoryImpl();
-                	EmptyPoint ep = mfi.createEmptyPoint();
-                	ep.setName("" + emptyPoint_id);
-                	ep.setDescription("" + emptyPoint_id);
-                	ep.setId("" + emptyPoint_id);
-                	CSMDupNode ep_node = new CSMDupNode(ep);
-                	ep_node.setType(CSMDupNode.EMPTY);
-                	ep_node.setID("" + emptyPoint_id);
-        		ep_node.setResourcesDownstream(source.getResourcesDownstream());
-        		ep_node.setResourcesUpstream(target.getResourcesUpstream());
-        		emptyPoint_id++;
-                	node_list.add(ep_node);
+                    // create dummy node
+                    MapFactoryImpl mfi = new MapFactoryImpl();
+                    EmptyPoint ep = mfi.createEmptyPoint();
+                    ep.setName("" + emptyPoint_id);
+                    ep.setDescription("" + emptyPoint_id);
+                    ep.setId("" + emptyPoint_id);
+                    CSMDupNode ep_node = new CSMDupNode(ep);
+                    ep_node.setType(CSMDupNode.EMPTY);
+                    ep_node.setID("" + emptyPoint_id);
+                    ep_node.setResourcesDownstream(source.getResourcesDownstream());
+                    ep_node.setResourcesUpstream(target.getResourcesUpstream());
+                    emptyPoint_id++;
+                    node_list.add(ep_node);
 
-                	// remove curr_conn connection
+                    // remove curr_conn connection
                     conn_list.remove(curr_conn);
                     conn_list_size--;
 
@@ -820,9 +828,8 @@ public class Convert implements IURNExport {
                     conn_list_size++;
                     conn_list.add(new CSMDupConnection(ep_node, target));
                     conn_list_size++;
-               		work_to_do = true; // js:  we need to start over when adding connections
+               	    work_to_do = true; // start over when new connections are added
                 } // else
-                // complex cases //js
                 else if ((
                 	   (source.getType() == CSMDupNode.START)
                 	|| (source.getType() == CSMDupNode.ARROW)
@@ -842,17 +849,11 @@ public class Convert implements IURNExport {
                         || (target.getType() == CSMDupNode.WAIT)
                         || (target.getType() == CSMDupNode.END)
                 	)) {	// create dummy node
-                	insertDummyStep(node_list, conn_list, curr_conn, source, target);
-                	conn_list_size++;
-            		work_to_do = true; // js:  we need to start over when adding connections
+                    insertDummyStep(node_list, conn_list, curr_conn, source, target);
+                    conn_list_size++;
+                    work_to_do = true; // start over when new connections are added
                 } // else
-                // STEP-STEP needs a DUMMY SEQUENCE. JS
-/*                else if ((source.getType() == CSMDupNode.CSMDUMMY) && (target.getType() == CSMDupNode.CSMDUMMY)) {
-                	insertDummyStep(node_list, conn_list, curr_conn, source, target);
-                	conn_list_size++;
-            		work_to_do = true; // js:  we need to start over when adding connections
-                } // else  STEP-STEP case //js
-*/            } // for
+            } // for
         } // while
     } // method
 

@@ -1,17 +1,10 @@
 package implicit;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
-import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
-import urn.URNspec;
-import urncore.Metadata;
 
 /**
  * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
@@ -19,7 +12,7 @@ import urncore.Metadata;
  * @see implicit
  * @generated
  */
-public class ResourceRelease extends ResourceUtil {
+public class ResourceRelease {
 
     // RR and Empty Point IDs
     static int rr_id = 3000; // limitation.  js
@@ -51,71 +44,45 @@ public class ResourceRelease extends ResourceUtil {
      * 		the number of newly created nodes
      */
     public int releaseResource(PathNode curr_edge, CSMDupNodeList dup_map, CSMDupConnectionList dup_map_conn) {
-        // list that will store edges to be parsed (will contain pathnodes only)
-        int nodes_inserted = 0; // total nodes inserted since last run
-        // Compute resources to be released:
-        ArrayList usedResources = null; // requested resources + containing components
-        ArrayList resNeededNext; // resources used by upstream path
-        ArrayList resToRelease = new ArrayList(); // usedResources - resNeededNext 
-        CSMDupNode curr_edge_dupNode = dup_map.get(dup_map.getNodeIndex(curr_edge));
-        CSMDupNode nextDupNode = null;
-        // EndPoint releases all containing components
-        if (curr_edge_dupNode.getType() == CSMDupNode.END) {
-            usedResources = curr_edge_dupNode.getResourcesDownstream(); // restrict to those already acquired? js
-            copyArray(usedResources, resToRelease);
-        // ResponsibilityRef/Stub release what will no longer be required
-        } else if ( (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) || (curr_edge_dupNode.getType() == CSMDupNode.STUB) ) {
-            usedResources = curr_edge_dupNode.getResourcesDownstream();
-            nextDupNode = dup_map_conn.getTargetForSource(curr_edge);
-            resNeededNext = nextDupNode.getResourcesUpstream();
-            copyArray(firstMinusSecond(usedResources, resNeededNext),resToRelease);
-        }
-        while (resToRelease.size() != 0) {
-            nodes_inserted = addRR(resToRelease, usedResources, dup_map, dup_map_conn, curr_edge, nodes_inserted);
-        }
-//      RA/RR via MetaData
-	if (curr_edge_dupNode.getType() == CSMDupNode.RESPREF) {
-	    ArrayList resAttrList = new ArrayList();
-	    for (Iterator md = ((RespRef)curr_edge).getMetadata().iterator(); md.hasNext();) {
-		Metadata mdElement = (Metadata) md.next();
-		if (mdElement.getName().compareTo("RR") == 0) {
-		    if (md.hasNext()) {
-		    Metadata mdValue = (Metadata) md.next();
-		    if (mdValue.getName().compareTo("Qty") == 0) {
-			URNspec urn = ((RespRef) curr_edge).getRespDef().getUrndefinition().getUrnspec();
-			for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
-			    GeneralResource genResElement = (GeneralResource) genRes.next();
-			    if (genResElement instanceof PassiveResource) {
-				if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
-				    PassiveResource pasRes = (PassiveResource) genResElement;
-				    ResourceAttribs resAttr = new ResourceAttribs();
-				    resAttr.setRes(pasRes);
-				    resAttr.setRUnits(mdValue.getValue());
-				    resAttrList.add(resAttr);
-	                        }
-	                    }
-	                }		
-		    }
-		    }
-		}
+	// list that will store edges to be parsed (will contain pathnodes only)
+	int nodes_inserted = 0; // total nodes inserted since last run
+	// Compute resources to be released:
+	CSMResourceSet usedResources = null; // requested resources + containing components
+	CSMResourceSet resToRelease = null; // usedResources - resNeededNext
+	CSMDupNode curr_edge_dupNode = dup_map.get(dup_map.getNodeIndex(curr_edge));
+	CSMDupNode nextDupNode = null;
+	// EndPoint releases all containing components (minus those previously released)
+	if ((curr_edge_dupNode.getType() == CSMDupNode.RESPREF) || (curr_edge_dupNode.getType() == CSMDupNode.STUB)) {
+	    if (curr_edge_dupNode.getResourcesDownstream() != null) {
+		usedResources = curr_edge_dupNode.getResourcesDownstream().toRelease();
+	    } else {
+		usedResources = null;
 	    }
-	    while (resAttrList.size() > 0) {
-		nodes_inserted = addRR(resAttrList, null, dup_map, dup_map_conn, curr_edge, nodes_inserted);
+	    nextDupNode = dup_map_conn.getTargetForSource(curr_edge);
+	    if ((nextDupNode != null) && (nextDupNode.getResourcesUpstream() != null)) {
+		resToRelease = usedResources.minus(nextDupNode.getResourcesUpstream().toAcquire());
+	    } else {
+		resToRelease = usedResources;
 	    }
 	}
-        return nodes_inserted;
+	while ((resToRelease != null) && (resToRelease.size() != 0)) {
+	    nodes_inserted = addRR(resToRelease, usedResources, dup_map, dup_map_conn, curr_edge, nodes_inserted);
+	}
+	return nodes_inserted;
     } // function
 
     // prints XML representation of Resource Release element
-    public void releaseRes(ResourceAttribs resAttribs, CSMDupNode node, CSMDupConnectionList list) {
+    public void releaseRes(CSMResource resource, CSMDupNode node, CSMDupConnectionList list) {
 
         // initializing attributes
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\" " + "release=\"" + "r" + (resAttribs.getRes()).getId() + "\" "
-        	+ "rUnits=\""+ resAttribs.getRUnits() + "\" ";
+        String resType = resource.getResourcePrefix();
+        String rr_attributes = "<ResourceRelease id=\"" + node.getId() + "\" " +
+        	"release=\"" + resType + resource.getResource() + "\" "
+        	+ "rUnits=\""+ resource.getQty() + "\" ";
 
         String rr_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
         String rr_successor = "successor=\"" + "h" + successor + "\" ";
@@ -197,7 +164,7 @@ public class ResourceRelease extends ResourceUtil {
     }
 
     // inserts RR and Empty Points where necessary in the duplicate map
-    public int addRR(ArrayList resToRelease, ArrayList usedResources, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes) {
+    public int addRR(CSMResourceSet resToRelease, CSMResourceSet usedResources, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge, int ins_nodes) {
 
         // create resource release component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
@@ -249,13 +216,9 @@ public class ResourceRelease extends ResourceUtil {
 	    conn_map.remove(source, curr_edge);
         }
         
-        
-        // if (releaseList.size != 0){ take one out of list } js
-        // but first, convert to component use
-        if (resToRelease.size() != 0) {
-            ResourceAttribs resAttribs = (ResourceAttribs) resToRelease.get(0);
+        if (resToRelease.size() != 0) { // this ought to be non-empty
+            rr_node.setResourceToRelease(resToRelease.get(0)); // the resource to be released
             resToRelease.remove(0);
-            rr_node.setResourceToRelease(resAttribs); // for when source wants to get ready to compute release set
         }
         return ins_nodes;
     }

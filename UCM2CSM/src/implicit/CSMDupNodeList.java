@@ -12,10 +12,7 @@ import ucm.map.UCMmap;
  */
 public class CSMDupNodeList {
     // will contain CSMDupNodes (which in turn may point to a PathNode or an RA node)
-    // was: ArrayList nodeList = new ArrayList(1000);
-    // which made the content of the list unchangeable.
-    // TODO:  manage size limitation.
-    private CSMDupNode[] nodeList = new CSMDupNode[1000];
+    private CSMDupNode[] nodeList = new CSMDupNode[1000]; // TODO:  remove size limitation.
     private int length = 0;
 
     // create list of PathNodes
@@ -136,27 +133,37 @@ public class CSMDupNodeList {
 		CSMDupNode target = conn.getCSMTarget();
 		int tgtType = target.getType();
 		// propagate upward
-		if ((srcType == CSMDupNode.START) || (srcType == CSMDupNode.RESPREF) || (srcType == CSMDupNode.STUB)) {
-		    if ((tgtType != CSMDupNode.RESPREF) || (tgtType != CSMDupNode.STUB) || (tgtType != CSMDupNode.END)) {
-			if ((source.getResourcesDownstream().size() != 0)
-				&& (target.getResourcesDownstream() != source.getResourcesDownstream())
-				&& (target.getNode().getPred().size() == 1) // TODO: mutliple downstream... JS
-				) {
-			    target.setResourcesDownstream(source.getResourcesDownstream());
-			    done = false;
-			} // if
+		if ((tgtType != CSMDupNode.RESPREF) && (tgtType != CSMDupNode.STUB)) {
+		    if ((source.getResourcesDownstream() != null) && (source.getResourcesDownstream().size() != 0)) {
+			if ((target.getNode().getPred().size() == 1) && (target.getNode().getSucc().size() == 1)) {
+			    if (target.getResourcesDownstream() != source.getResourcesDownstream()) {
+				target.setResourcesDownstream(source.getResourcesDownstream());
+				done = false;
+			    }
+			} else {
+			    /*
+			     * Unpredictable incoming multipath node: empty downstream resources (as if none were
+			     * requested previously), actually forcing a "request all"
+			     */
+			    target.setResourcesDownstream(null);
+			}
 		    } // if
 		} // if
 		// propagate downard
-		if ((tgtType == CSMDupNode.RESPREF) || (tgtType == CSMDupNode.STUB) || (tgtType == CSMDupNode.END)) {
-		    if ((srcType != CSMDupNode.START) || (srcType != CSMDupNode.RESPREF) || (srcType != CSMDupNode.STUB)) {
-			if ((target.getResourcesUpstream().size() != 0)
-				&& (source.getResourcesUpstream() != target.getResourcesUpstream())
-				&& (source.getNode().getSucc().size() == 1) // TODO: mutliple upstream... JS
-				) {
-			    source.setResourcesUpstream(target.getResourcesUpstream());
-			    done = false;
-			} // if
+		if ((srcType != CSMDupNode.RESPREF) && (srcType != CSMDupNode.STUB)) {
+		    if ((target.getResourcesUpstream() != null) && (target.getResourcesUpstream().size() != 0)) {
+			if ((source.getNode().getPred().size() == 1) && (source.getNode().getSucc().size() == 1)) {
+			    if (source.getResourcesUpstream() != target.getResourcesUpstream()) {
+				source.setResourcesUpstream(target.getResourcesUpstream());
+				done = false;
+			    }
+			} else {
+			    /*
+			     * Unpredictable outgoing multipath node: empty upstream resources (as if none were
+			     * needed thereafter), actually forcing a "release all"
+			     */
+			    source.setResourcesUpstream(null);
+			}
 		    } // if
 		} // if
 	    } // for

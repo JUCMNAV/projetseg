@@ -44,12 +44,12 @@ public class ComponentRefConverter {
         // processing active_process
         this.activeP = false;
 
-        // set up the boolean value is_active_process to true if component is Process, false if Object, undefined otherwise
+        // set is_active_process to true if component is Process or Agent, false if Team or Object, undefined otherwise
         this.activePDefined = false;
-        if (compDef.getKind() == ComponentKind.PROCESS_LITERAL) {
+        if ((compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
             this.activeP = true;
             this.activePDefined = true;
-        } else if (compDef.getKind() == ComponentKind.OBJECT_LITERAL) {
+        } else if ((compDef.getKind() == ComponentKind.TEAM_LITERAL) || (compDef.getKind() == ComponentKind.OBJECT_LITERAL)) {
             this.activeP = false;
             this.activePDefined = true;
         }
@@ -74,6 +74,11 @@ public class ComponentRefConverter {
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps) {
+
+	/* Only convert Process, Agent, Team and Object components to CSM components.
+	 * For all of those, activePDefined is true.
+	 */
+	if (!activePDefined) return;
 
 	String comp_host = "";
 	// resources do not exist yet. js
