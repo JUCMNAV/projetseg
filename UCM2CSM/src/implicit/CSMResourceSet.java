@@ -52,12 +52,11 @@ public class CSMResourceSet {
 				GeneralResource genResElement = (GeneralResource) genRes.next();
 				if (genResElement instanceof PassiveResource) {
 				    if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
-					/*
-                                         * ResourceAttribs resAttr = new ResourceAttribs(genResElement);
-                                         * resAttr.setRUnits(mdValue.getValue()); resAttr.setRelease();
-                                         * resources[resources_count++] = new CSMResource(resAttr);
-                                         */
-					resources[resources_count++] = new CSMResource(genResElement);
+					ResourceAttribs resAttr = new ResourceAttribs(genResElement);
+					resAttr.setRUnits(mdValue.getValue());
+					resAttr.setRelease();
+					resources[resources_count++] = new CSMResource(resAttr);
+					// resources[resources_count++] = new CSMResource(genResElement);
 				    }
 				}
 			    }
@@ -72,12 +71,11 @@ public class CSMResourceSet {
 				GeneralResource genResElement = (GeneralResource) genRes.next();
 				if (genResElement instanceof PassiveResource) {
 				    if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
-					/*
-                                         * ResourceAttribs resAttr = new ResourceAttribs(genResElement);
-                                         * resAttr.setRUnits(mdValue.getValue()); resAttr.setAcquire();
-                                         * resources[resources_count++] = new CSMResource(resAttr);
-                                         */
-					resources[resources_count++] = new CSMResource(genResElement);
+					ResourceAttribs resAttr = new ResourceAttribs(genResElement);
+					resAttr.setRUnits(mdValue.getValue());
+					resAttr.setAcquire();
+					resources[resources_count++] = new CSMResource(resAttr);
+					// resources[resources_count++] = new CSMResource(genResElement);
 				    }
 				}
 			    }

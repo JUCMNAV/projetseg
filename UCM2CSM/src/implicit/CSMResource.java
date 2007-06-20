@@ -96,7 +96,16 @@ public class CSMResource {
 		resType = "u"; // unforeseen case...
 	    }
 	} else if (this.getType() == this.RESATR) {
-	    resType = "a";
+	    // resType = "a";
+	    if (this.resAtr.getRes() instanceof ExternalOperation) {
+		resType = "e";
+	    } else if (this.resAtr.getRes() instanceof ProcessingResource) {
+		resType = "r";
+	    } else if (this.resAtr.getRes() instanceof PassiveResource) {
+		resType = "p";
+	    } else {
+		resType = "u"; // unforeseen case...
+	    }
 	}
 	return resType;
     }
