@@ -60,7 +60,11 @@ public class CSMResourceSet {
 				    }
 				}
 			    }
+			} else {
+		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RR without a subsequent Qty");
 			}
+		    } else {
+		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RR without subsequent metadata");
 		    }
 		} else if (mdElement.getName().compareTo("RA") == 0) {
 		    if (md.hasNext()) {
@@ -79,7 +83,12 @@ public class CSMResourceSet {
 				    }
 				}
 			    }
+			} else {
+		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RA without a subsequent Qty");
 			}
+
+		    } else {
+		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RA without subsequent metadata");
 		    }
 		}
 	    }
