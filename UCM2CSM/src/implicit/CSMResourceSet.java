@@ -7,7 +7,6 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
@@ -50,7 +49,7 @@ public class CSMResourceSet {
 			    URNspec urn = respref.getRespDef().getUrndefinition().getUrnspec();
 			    for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
 				GeneralResource genResElement = (GeneralResource) genRes.next();
-				if (genResElement instanceof PassiveResource) {
+//				if (genResElement instanceof PassiveResource) {
 				    if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
 					ResourceAttribs resAttr = new ResourceAttribs(genResElement);
 					resAttr.setRUnits(mdValue.getValue());
@@ -58,7 +57,7 @@ public class CSMResourceSet {
 					resources[resources_count++] = new CSMResource(resAttr);
 					// resources[resources_count++] = new CSMResource(genResElement);
 				    }
-				}
+//				}
 			    }
 			} else {
 		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RR without a subsequent Qty");
@@ -73,7 +72,7 @@ public class CSMResourceSet {
 			    URNspec urn = respref.getRespDef().getUrndefinition().getUrnspec();
 			    for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
 				GeneralResource genResElement = (GeneralResource) genRes.next();
-				if (genResElement instanceof PassiveResource) {
+//				if (genResElement instanceof PassiveResource) {
 				    if (genResElement.getName().compareTo(mdElement.getValue()) == 0) {
 					ResourceAttribs resAttr = new ResourceAttribs(genResElement);
 					resAttr.setRUnits(mdValue.getValue());
@@ -81,7 +80,7 @@ public class CSMResourceSet {
 					resources[resources_count++] = new CSMResource(resAttr);
 					// resources[resources_count++] = new CSMResource(genResElement);
 				    }
-				}
+//				}
 			    }
 			} else {
 		            System.err.println("WARNING:  Responsibility " + respref.getRespDef().getName() + " contains a meta-RA without a subsequent Qty");
@@ -129,8 +128,14 @@ public class CSMResourceSet {
     public void getContainingComponentsAndResources(ComponentRef compRef, CSMResource[] resourcesIn) {
 	if (compRef != null) {
 	    if (compRef.getContDef() instanceof ComponentRegular) {
-		if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
-		    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getHost());
+//		Active Processing Resources do *NOT* get Acquired nor Released
+//		if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
+//		    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getHost());
+//		}
+		// Passive Resources do get Acquired and Released
+		// TODO:  should this be from ComponentElement? js
+		if (((ComponentRegular) compRef.getContDef()).getResource() != null) {
+		    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
 		}
 		// TODO: check that only ComponentRegular has a *kind* ?
 		if (((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
