@@ -77,8 +77,11 @@ public class ComponentRefConverter {
 
 	/* Only convert Process, Agent, Team and Object components to CSM components.
 	 * For all of those, activePDefined is true.
+	 * 
+	 * NOT!  What if some activePDefined() component is contained (parent) within
+	 * a !activePDefined()???  Answer:  There is no ID/IDREF binding for IDREF 'cNNN'.
 	 */
-	if (!activePDefined) return;
+	// if (!activePDefined) return;
 
 	String comp_host = "";
 	// resources do not exist yet. js
