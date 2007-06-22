@@ -266,14 +266,14 @@ public class Convert implements IURNExport {
 				src.add(fake_stubId + "_start_" + k);
 			    }
 			} else {
-			    src.add(fake_stubId + "_start");
+			    src.add(fake_stubId + "_start_0");
 			}
 			if (binding.getOut().size() > 1) {
 			    for (int k = 0; k < binding.getOut().size(); k++) {
 				tgt.add(fake_stubId + "_end_" + k); // for bind_obj
 			    }
 			} else {
-			    tgt.add(fake_stubId + "_end");
+			    tgt.add(fake_stubId + "_end_0");
 			}
 			bind_obj.Convert(ps, src, tgt);
 			ps.println(twoTab + "</Step>");
