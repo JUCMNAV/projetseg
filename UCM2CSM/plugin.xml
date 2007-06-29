@@ -7,7 +7,7 @@
             class="one2one.Convert"
             extension="csm"
             id="seg.jUCMNav.UCM2CSM"           
-            name="UCM to CSM converter"
+            name="UCM to CSM converter (.csm)"
             useStream="true"/>
    </extension>
   
