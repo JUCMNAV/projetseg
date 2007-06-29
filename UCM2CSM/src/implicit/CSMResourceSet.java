@@ -27,6 +27,9 @@ public class CSMResourceSet {
     private int resources_count = 0;
 
     public CSMResourceSet(PathNode pathnode) {
+	// Add the resources bound to components, implicitly and explicitly
+	getContainingComponentsAndResources((ComponentRef) pathnode.getContRef(), resources);
+	// Responsibilities:
 	if (pathnode instanceof RespRef) {
 	    RespRef respref = (RespRef) pathnode;
 	    // Add resources commanded by demands tied to respnsibilities (external opn)
@@ -92,9 +95,6 @@ public class CSMResourceSet {
 		}
 	    }
 	}
-	// Add the resources bound to components, implicitly and explicitly
-	ComponentRef compRef0 = (ComponentRef) pathnode.getContRef();
-	getContainingComponentsAndResources(compRef0, resources);
     }
 
     public CSMResourceSet(CSMResource[] resArrayList, int size) {
@@ -127,8 +127,16 @@ public class CSMResourceSet {
          */
     public void getContainingComponentsAndResources(ComponentRef compRef, CSMResource[] resourcesIn) {
 	if (compRef != null) {
+	    getContainingComponentsAndResources((ComponentRef) compRef.getParent(), resourcesIn);
 	    if (compRef.getContDef() instanceof ComponentRegular) {
-//		Active Processing Resources do *NOT* get Acquired nor Released
+		// TODO: check that only ComponentRegular has a *kind* ?
+		if (((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
+			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.OBJECT_LITERAL)
+			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.PROCESS_LITERAL)
+			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
+		    resourcesIn[resources_count++] = new CSMResource(compRef);
+		}
+		// Active Processing Resources do *NOT* get Acquired nor Released
 //		if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
 //		    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getHost());
 //		}
@@ -137,19 +145,11 @@ public class CSMResourceSet {
 		if (((ComponentRegular) compRef.getContDef()).getResource() != null) {
 		    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
 		}
-		// TODO: check that only ComponentRegular has a *kind* ?
-		if (((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
-			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.OBJECT_LITERAL)
-			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.PROCESS_LITERAL)
-			|| ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
-		    resourcesIn[resources_count++] = new CSMResource(compRef);
-		}
 	    } else if (compRef.getContDef() instanceof ComponentElement) {
 		if (((ComponentElement) compRef.getContDef()).getResource() != null) {
 		    resourcesIn[resources_count++] = new CSMResource(((ComponentElement) compRef.getContDef()).getResource());
 		}
 	    }
-	    getContainingComponentsAndResources((ComponentRef) compRef.getParent(), resourcesIn);
 	}
     }
 
@@ -196,9 +196,9 @@ public class CSMResourceSet {
     public CSMResourceSet minus(CSMResourceSet second) {
 	CSMResource[] curMinusSecond = new CSMResource[RESLIMIT];
 	int count = 0;
-	for (int i = this.resources_count; i > 0; i--) {
-	    if ((second == null) || (!second.contains(this.resources[i - 1]))) {
-		curMinusSecond[count++] = this.resources[i - 1];
+	for (int i = 0; i < this.resources_count; i++) {
+	    if ((second == null) || (!second.contains(this.resources[i]))) {
+		curMinusSecond[count++] = this.resources[i];
 	    }
 	}
 	return new CSMResourceSet(curMinusSecond, count);
