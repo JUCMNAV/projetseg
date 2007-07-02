@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.AndJoin;
 
@@ -14,6 +15,7 @@ import ucm.map.AndJoin;
 public class AndJoinConverter implements AbstractConverter {
 
     private AndJoin aj;
+
     PathConnAttributes so = new PathConnAttributes();
 
     // constructors
@@ -22,7 +24,7 @@ public class AndJoinConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
         String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" ";

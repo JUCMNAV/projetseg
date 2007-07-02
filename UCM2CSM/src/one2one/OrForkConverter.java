@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.OrFork;
 
@@ -14,6 +15,7 @@ import ucm.map.OrFork;
 public class OrForkConverter implements AbstractConverter {
 
     private OrFork of;
+
     PathConnAttributes so = new PathConnAttributes();
 
     // constructors
@@ -22,7 +24,7 @@ public class OrForkConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
         String madatory_attribute = "<Branch id=\"" + "h" + of.getId() + "\" ";

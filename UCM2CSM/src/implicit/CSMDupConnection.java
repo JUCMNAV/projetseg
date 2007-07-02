@@ -13,9 +13,13 @@ import ucm.map.PathNode;
 public class CSMDupConnection {
 
     private NodeConnection connection;
+
     private String target_id;
+
     private String source_id;
+
     private CSMDupNode source_node;
+
     private CSMDupNode target_node;
 
     // Constructors
@@ -78,7 +82,7 @@ public class CSMDupConnection {
 
     // methods to acquire target/source elements of a connection
     public PathNode getTarget() {
-	PathNode pn = null;
+        PathNode pn = null;
         if (connection != null) {
             pn = (PathNode) connection.getTarget();
         }
@@ -90,7 +94,7 @@ public class CSMDupConnection {
     }
 
     public PathNode getSource() {
-	PathNode pn = null;
+        PathNode pn = null;
         if (connection != null) {
             pn = (PathNode) connection.getSource();
         }

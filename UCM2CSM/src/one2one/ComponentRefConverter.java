@@ -19,19 +19,25 @@ public class ComponentRefConverter {
 
     // component references
     public ComponentRef compRef;
+
     private ComponentRef parentCompRef;
+
     private ComponentRef childrenCompRef;
 
     // component definitions
     private ComponentRegular compDef;
+
     private ComponentRegular parentCompDef;
+
     private ComponentRegular childrenCompDef;
 
     // other variables
     private String children = new String();
+
     private String parent = new String();
 
     private boolean activeP;
+
     private boolean activePDefined;
 
     public String host = new String();
@@ -44,7 +50,8 @@ public class ComponentRefConverter {
         // processing active_process
         this.activeP = false;
 
-        // set is_active_process to true if component is Process or Agent, false if Team or Object, undefined otherwise
+        // set is_active_process to true if component is Process or Agent, false
+        // if Team or Object, undefined otherwise
         this.activePDefined = false;
         if ((compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
             this.activeP = true;
@@ -75,28 +82,27 @@ public class ComponentRefConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps) {
 
-	/* Only convert Process, Agent, Team and Object components to CSM components.
-	 * For all of those, activePDefined is true.
-	 * 
-	 * NOT!  What if some activePDefined() component is contained (parent) within
-	 * a !activePDefined()???  Answer:  There is no ID/IDREF binding for IDREF 'cNNN'.
-	 */
-	// if (!activePDefined) return;
-
-	String comp_host = "";
-	// resources do not exist yet. js
+        /*
+         * Only convert Process, Agent, Team and Object components to CSM components. For all of those, activePDefined is true.
+         * 
+         * NOT! What if some activePDefined() component is contained (parent) within a !activePDefined()??? Answer: There is no ID/IDREF binding for IDREF
+         * 'cNNN'.
+         */
+        // if (!activePDefined) return;
+        String comp_host = "";
+        // resources do not exist yet. js
         if (compRef.getContDef() != null) {
             if (compRef.getContDef() instanceof ComponentRegular) {
-        	if (((ComponentRegular)compRef.getContDef()).getHost() != null) {
-        	    ProcessingResource procRes = ((ComponentRegular)compRef.getContDef()).getHost();
-        	    comp_host = "host=\"" +  "r" + procRes.getId() + "\" ";
-        	}
+                if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
+                    ProcessingResource procRes = ((ComponentRegular) compRef.getContDef()).getHost();
+                    comp_host = "host=\"" + "r" + procRes.getId() + "\" ";
+                }
             }
         }
 
         // object attributes --- host attribute to be implemanteds
-	String id = ((Component)compRef.getContDef()).getId();
-	String name = ((Component)compRef.getContDef()).getName();
+        String id = ((Component) compRef.getContDef()).getId();
+        String name = ((Component) compRef.getContDef()).getName();
         String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " ";
         String traceabilityLink = "traceabilityLink=\"" + compRef.getId() + "\" ";
         String close = "/>";
@@ -105,11 +111,10 @@ public class ComponentRefConverter {
         String comp_attributes_parent = "parent=\"" + parent + "\" ";
         String comp_attributes_active_process;
         if (activePDefined) {
-            comp_attributes_active_process = "isActiveProcess=\"" + activeP + "\" ";    
+            comp_attributes_active_process = "isActiveProcess=\"" + activeP + "\" ";
         } else {
             comp_attributes_active_process = "";
         }
-        
 
         ps.print("        " + comp_attributes + traceabilityLink);
         ps.print(" " + comp_attributes_active_process);
@@ -122,6 +127,6 @@ public class ComponentRefConverter {
         }
         ps.println(" " + close);
         ps.flush();
-        
+
     }
 }

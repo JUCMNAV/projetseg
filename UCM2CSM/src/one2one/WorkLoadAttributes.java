@@ -25,22 +25,28 @@ public class WorkLoadAttributes {
     }
 
     // *** To be implemented ***
-    public static void printArrivalPattern(PrintStream ps, Workload work) {	
+    public static void printArrivalPattern(PrintStream ps, Workload work) {
         if (work.getArrivalPattern() != null) {
             String arrivalPatternType = "";
             // to be in sync with CSM, the model's values are not used.
             if (ArrivalProcess.PERIODIC_LITERAL == work.getArrivalPattern()) {
-//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.PERIODIC).toString();
-        	arrivalPatternType = "periodic";
+                // arrivalPatternType =
+                // ArrivalProcess.VALUES.get(ArrivalProcess.PERIODIC).toString();
+                arrivalPatternType = "periodic";
             } else if (ArrivalProcess.PHASE_TYPE_LITERAL == work.getArrivalPattern()) {
-//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.PHASE_TYPE).toString();
-        	arrivalPatternType = "phaseType";
-            } if (ArrivalProcess.POISSON_PDF_LITERAL == work.getArrivalPattern()) {
-//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.POISSON_PDF).toString();
-        	arrivalPatternType = "poissonPDF";
-            } if (ArrivalProcess.UNIFORM_LITERAL == work.getArrivalPattern()) {
-//        	arrivalPatternType = ArrivalProcess.VALUES.get(ArrivalProcess.UNIFORM).toString();
-        	arrivalPatternType = "uniform";
+                // arrivalPatternType =
+                // ArrivalProcess.VALUES.get(ArrivalProcess.PHASE_TYPE).toString();
+                arrivalPatternType = "phaseType";
+            }
+            if (ArrivalProcess.POISSON_PDF_LITERAL == work.getArrivalPattern()) {
+                // arrivalPatternType =
+                // ArrivalProcess.VALUES.get(ArrivalProcess.POISSON_PDF).toString();
+                arrivalPatternType = "poissonPDF";
+            }
+            if (ArrivalProcess.UNIFORM_LITERAL == work.getArrivalPattern()) {
+                // arrivalPatternType =
+                // ArrivalProcess.VALUES.get(ArrivalProcess.UNIFORM).toString();
+                arrivalPatternType = "uniform";
             }
             String print_aPattern = "arrivalPattern=\"" + arrivalPatternType + "\" ";
             ps.print(print_aPattern);

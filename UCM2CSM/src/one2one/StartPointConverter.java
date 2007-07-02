@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.StartPoint;
 
@@ -14,7 +15,9 @@ import ucm.map.StartPoint;
 
 public class StartPointConverter implements AbstractConverter {
     private StartPoint sp;
+
     PathConnAttributes oa = new PathConnAttributes();
+
     WorkLoadAttributes wa = new WorkLoadAttributes();
 
     // constructors
@@ -23,11 +26,10 @@ public class StartPointConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String mandatory_attributes = "<Start id=\"h" + sp.getId() + "\" "
-        	+ "traceabilityLink=\"" + sp.getId() + "\" ";
+        String mandatory_attributes = "<Start id=\"h" + sp.getId() + "\" " + "traceabilityLink=\"" + sp.getId() + "\" ";
         String closing_attribute = "</Start>";
 
         // common attributes
@@ -41,7 +43,8 @@ public class StartPointConverter implements AbstractConverter {
 
             // decide if workload is open or closed
             if (sp.getWorkload().isClosed()) {
-                String close_wload_attributes = "<ClosedWorkload id=\"w" + sp.getWorkload().getId() + "\" " + "population=\"" + sp.getWorkload().getPopulation() + "\" " + " ";
+                String close_wload_attributes = "<ClosedWorkload id=\"w" + sp.getWorkload().getId() + "\" " + "population=\""
+                        + sp.getWorkload().getPopulation() + "\" " + " ";
                 ps.print("                " + close_wload_attributes);
             } else {
                 String open_wload_attributes = "<OpenWorkload id=\"w" + sp.getWorkload().getId() + "\" ";

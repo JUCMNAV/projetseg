@@ -3,6 +3,7 @@ package one2one;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
@@ -24,16 +25,14 @@ public class PluginBindingConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String object_attributes_head = "<Refinement parent=\""
-            + "h" + p_bind.getStub().getId() + "\" "
-            + "sub=\"" + "m" + p_bind.getPlugin().getId() + "\" ";
+        String object_attributes_head = "<Refinement parent=\"" + "h" + p_bind.getStub().getId() + "\" " + "sub=\"" + "m" + p_bind.getPlugin().getId() + "\" ";
         String object_closing = ">";
-        
+
         String object_attributes = object_attributes_head + object_closing;
-        
+
         // output to file
         ps.println("                " + object_attributes);
 
@@ -46,7 +45,7 @@ public class PluginBindingConverter implements AbstractConverter {
             // output to file
             ArrayList singleElementArrayIncomingNode = new ArrayList();
             singleElementArrayIncomingNode.add(source.get(nthIn));
-            in_bind_conv.Convert(ps, singleElementArrayIncomingNode, null);
+            in_bind_conv.Convert(ps, singleElementArrayIncomingNode, null, warnings);
             nthIn++;
         }
 
@@ -59,7 +58,7 @@ public class PluginBindingConverter implements AbstractConverter {
             // output to file
             ArrayList singleElementArrayOutgoingNode = new ArrayList();
             singleElementArrayOutgoingNode.add(target.get(nthOut));
-            out_bind_conv.Convert(ps, null, singleElementArrayOutgoingNode);
+            out_bind_conv.Convert(ps, null, singleElementArrayOutgoingNode, warnings);
             nthOut++;
         }
 

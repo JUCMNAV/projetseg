@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.InBinding;
 
@@ -21,11 +22,12 @@ public class InBindingConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
-        // a DummySequence may exist between stub and previous node such that stubEntry.source no longer holds.
-	// new "source" nodes (CSMDupNode) are passed as array.
-	String previousNode = (String)source.get(0);
+        // a DummySequence may exist between stub and previous node such that
+        // stubEntry.source no longer holds.
+        // new "source" nodes (CSMDupNode) are passed as array.
+        String previousNode = (String) source.get(0);
 
         // object attributes
         String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>";

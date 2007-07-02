@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.OrJoin;
 
@@ -14,6 +15,7 @@ import ucm.map.OrJoin;
 public class OrJoinConverter implements AbstractConverter {
 
     private OrJoin oj;
+
     PathConnAttributes so = new PathConnAttributes();
 
     // constructors
@@ -22,7 +24,7 @@ public class OrJoinConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
         String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\" ";

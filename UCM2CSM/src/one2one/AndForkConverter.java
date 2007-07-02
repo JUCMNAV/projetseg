@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.AndFork;
 
@@ -15,6 +16,7 @@ import ucm.map.AndFork;
 public class AndForkConverter implements AbstractConverter {
 
     private AndFork af;
+
     PathConnAttributes oa = new PathConnAttributes();
 
     // constructors
@@ -23,7 +25,7 @@ public class AndForkConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
         String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\" ";

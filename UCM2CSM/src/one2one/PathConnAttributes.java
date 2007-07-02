@@ -26,7 +26,8 @@ public class PathConnAttributes {
     public static void printSource(PrintStream ps, PathNode pathnode, ArrayList source) {
         if (source != null) {
             String str_source = source.toString().substring(1, (source.toString().length() - 1));
-            String refined_source = StringUtil.trimString(',', str_source); // eliminate ','
+            String refined_source = StringUtil.trimString(',', str_source); // eliminate
+            // ','
             String source_attribute = "source=\"" + refined_source + "\" ";
             ps.print(source_attribute);
         }
@@ -38,12 +39,14 @@ public class PathConnAttributes {
             // special case for StartPoint
             if (pathnode instanceof StartPoint) {
                 String str_target = target.toString().substring(1, (target.toString().length() - 1));
-                String refined_target = StringUtil.trimString(',', str_target); // eliminate ','
+                String refined_target = StringUtil.trimString(',', str_target); // eliminate
+                // ','
                 String target_attribute = "target=\"" + refined_target + "\" " + ">";
                 ps.println(" " + target_attribute);
             } else {
                 String str_target = target.toString().substring(1, (target.toString().length() - 1));
-                String refined_target = StringUtil.trimString(',', str_target); // eliminate ','
+                String refined_target = StringUtil.trimString(',', str_target); // eliminate
+                // ','
                 String target_attribute = "target=\"" + refined_target + "\" ";
                 ps.print(target_attribute);
             }

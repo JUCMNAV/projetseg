@@ -2,6 +2,7 @@ package one2one;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import ucm.map.EndPoint;
 
@@ -23,7 +24,7 @@ public class EndPointConverter implements AbstractConverter {
     }
 
     // prints XML representation of object to output file
-    public void Convert(PrintStream ps, ArrayList source, ArrayList target) {
+    public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
         String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";

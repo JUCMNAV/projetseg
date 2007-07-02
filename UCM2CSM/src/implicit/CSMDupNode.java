@@ -2,11 +2,13 @@ package implicit;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import one2one.AbstractConverter;
 import one2one.AndForkConverter;
 import one2one.AndJoinConverter;
 import one2one.ConnectConverter;
+import one2one.CsmExportWarning;
 import one2one.DirectionArrowConverter;
 import one2one.EmptyPointConverter;
 import one2one.EndPointConverter;
@@ -47,123 +49,147 @@ public class CSMDupNode {
 
     // The various types of PathNode elements in jUCMNav
     static public final int RESPREF = 1;
+
     static public final int START = 2;
+
     static public final int END = 3;
+
     static public final int EMPTY = 4;
+
     static public final int TIMESTAMP = 5;
+
     static public final int FAILURE = 6;
+
     static public final int ARROW = 7;
+
     static public final int CONNECT = 8;
+
     static public final int STUB = 9;
+
     static public final int ABORT = 10;
+
     static public final int WAIT = 11;
+
     static public final int ORFORK = 12;
+
     static public final int ANDFORK = 13;
+
     static public final int ORJOIN = 14;
+
     static public final int ANDJOIN = 15;
+
     static public final int LOOP = 16;
+
     static public final int UNDEFINED = 0;
 
     // Types of new elements
     static public final int RA = 17; // Resource Allocate
+
     static public final int RR = 18; // Resource Release
+
     static public final int CSMEMPTY = 19; // new Empty Point
+
     static public final int CSMDUMMY = 20; // new Dummy Step
+
     static public final int CSMSTEP = 21; // EmptyPoint into DummyStep
 
     private int type = UNDEFINED;
 
     private CSMResourceSet resourcesDownstream = null;
+
     private CSMResourceSet resourcesUpstream = null;
+
     private CSMResource resourceToAcquire = null;
+
     private CSMResource resourceToRelease = null;
 
     private String res = null;
-    
+
     public void setResToAcquire(String res) {
-	this.res = res;
+        this.res = res;
     }
 
     public String getResToAcquire() {
-	return res;
+        return res;
     }
 
     public void setResourceToAcquire(CSMResource resAttribs) {
-	resourceToAcquire = resAttribs;
+        resourceToAcquire = resAttribs;
     }
 
     public CSMResource getResourceToAcquire() {
-	return resourceToAcquire;
+        return resourceToAcquire;
     }
 
     public void setResToRelease(String res) {
-	this.res = res;
+        this.res = res;
     }
 
     public String getResToRelease() {
-	return res;
+        return res;
     }
+
     public void setResourceToRelease(CSMResource resAttribs) {
-	resourceToRelease = resAttribs;
+        resourceToRelease = resAttribs;
     }
 
     public CSMResource getResourceToRelease() {
-	return resourceToRelease;
+        return resourceToRelease;
     }
 
     // Convert (int) Type to String (for debugging purposes) Js
     public String getTypeString() {
-	String textual;
-	if (type == RESPREF) {
-	    textual = "RESPREF";
-	} else if (type == START) {
-	    textual = "START";
-	} else if (type == END) {
-	    textual = "END";
-	} else if (type == EMPTY) {
-	    textual = "EMPTY";
-	} else if (type == TIMESTAMP) {
-	    textual = "TIMESTAMP";
-	} else if (type == FAILURE) {
-	    textual = "FAILURE";
-	} else if (type == ARROW) {
-	    textual = "ARROW";
-	} else if (type == CONNECT) {
-	    textual = "CONNECT";
-	} else if (type == STUB) {
-	    textual = "STUB";
-	} else if (type == ABORT) {
-	    textual = "ABORT";
-	} else if (type == WAIT) {
-	    textual = "WAIT";
-	} else if (type == ORFORK) {
-	    textual = "ORFORK";
-	} else if (type == ANDFORK) {
-	    textual = "ANDFORK";
-	} else if (type == ORJOIN) {
-	    textual = "ORJOIN";
-	} else if (type == ANDJOIN) {
-	    textual = "ANDJOIN";
-	} else if (type == LOOP) {
-	    textual = "LOOP";
-	} else if (type == UNDEFINED) {
-	    textual = "UNDEFINED";
-	} else if (type == RA) {
-	    textual = "RA";
-	} else if (type == RR) {
-	    textual = "RR";
-	} else if (type == CSMEMPTY) {
-	    textual = "CSMEMPTY";
-	} else if (type == CSMDUMMY) {
-	    textual = "CSMDUMMY";
-	} else if (type == CSMSTEP) {
-	    textual = "CSMSTEP";
-	} else {
-	    textual = "NOT DEFINED IN SYSTEM";
-	}
-	return textual;
+        String textual;
+        if (type == RESPREF) {
+            textual = "RESPREF";
+        } else if (type == START) {
+            textual = "START";
+        } else if (type == END) {
+            textual = "END";
+        } else if (type == EMPTY) {
+            textual = "EMPTY";
+        } else if (type == TIMESTAMP) {
+            textual = "TIMESTAMP";
+        } else if (type == FAILURE) {
+            textual = "FAILURE";
+        } else if (type == ARROW) {
+            textual = "ARROW";
+        } else if (type == CONNECT) {
+            textual = "CONNECT";
+        } else if (type == STUB) {
+            textual = "STUB";
+        } else if (type == ABORT) {
+            textual = "ABORT";
+        } else if (type == WAIT) {
+            textual = "WAIT";
+        } else if (type == ORFORK) {
+            textual = "ORFORK";
+        } else if (type == ANDFORK) {
+            textual = "ANDFORK";
+        } else if (type == ORJOIN) {
+            textual = "ORJOIN";
+        } else if (type == ANDJOIN) {
+            textual = "ANDJOIN";
+        } else if (type == LOOP) {
+            textual = "LOOP";
+        } else if (type == UNDEFINED) {
+            textual = "UNDEFINED";
+        } else if (type == RA) {
+            textual = "RA";
+        } else if (type == RR) {
+            textual = "RR";
+        } else if (type == CSMEMPTY) {
+            textual = "CSMEMPTY";
+        } else if (type == CSMDUMMY) {
+            textual = "CSMDUMMY";
+        } else if (type == CSMSTEP) {
+            textual = "CSMSTEP";
+        } else {
+            textual = "NOT DEFINED IN SYSTEM";
+        }
+        return textual;
     }
-    
+
     // Reference to the PathNode in jUCMNav's UCM model
     private PathNode node;
 
@@ -171,7 +197,7 @@ public class CSMDupNode {
     private String node_id;
 
     // Constructors
-    public CSMDupNode(PathNode node) {
+    public CSMDupNode(PathNode node, Vector warnings) {
         this.node = node;
         // Set the node type
         if (node instanceof OrJoin) {
@@ -184,21 +210,21 @@ public class CSMDupNode {
             type = ANDFORK;
         } else if (node instanceof StartPoint) {
             type = START;
-//            resourcesDownstream = new CSMResourceSet(node);
-//            resourcesUpstream = resourcesDownstream;
+            // resourcesDownstream = new CSMResourceSet(node);
+            // resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EndPoint) {
             type = END;
-//            resourcesDownstream = new CSMResourceSet(node);
-//            resourcesUpstream = resourcesDownstream;
+            // resourcesDownstream = new CSMResourceSet(node);
+            // resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EmptyPoint) {
             type = EMPTY;
         } else if (node instanceof Stub) {
             type = STUB;
-            resourcesDownstream = new CSMResourceSet(node);
+            resourcesDownstream = new CSMResourceSet(node, warnings);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof RespRef) {
             type = RESPREF;
-            resourcesDownstream = new CSMResourceSet(node);
+            resourcesDownstream = new CSMResourceSet(node, warnings);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
             type = ORJOIN; // js
@@ -222,20 +248,21 @@ public class CSMDupNode {
     }
 
     public CSMResourceSet getResourcesDownstream() {
-	return resourcesDownstream;
+        return resourcesDownstream;
     }
 
     public void setResourcesDownstream(CSMResourceSet usedResources) {
-	this.resourcesDownstream =  usedResources;
+        this.resourcesDownstream = usedResources;
     }
+
     public CSMResourceSet getResourcesUpstream() {
-	return resourcesUpstream;
+        return resourcesUpstream;
     }
 
     public void setResourcesUpstream(CSMResourceSet usedResources) {
-	this.resourcesUpstream =  usedResources;
+        this.resourcesUpstream = usedResources;
     }
-    
+
     // return pathnode type
     public int getType() {
         return type;
@@ -248,10 +275,10 @@ public class CSMDupNode {
 
     // set ID. js
     public void setID(String id) {
-    	this.node_id = id;
+        this.node_id = id;
     }
 
-    public CSMDupNode(int raORrrORseq) {  // TODO:  remove limitations.  js
+    public CSMDupNode(int raORrrORseq) { // TODO: remove limitations. js
         // RA,RR/Seq/Dummy Step to be inserted
         if (raORrrORseq >= 1000 && raORrrORseq < 2000) {
             type = RA;
@@ -267,11 +294,10 @@ public class CSMDupNode {
 
     // return the id of the node
     public String getId() {
-	String id;
+        String id;
         if (node == null) {
             id = node_id;
-        }
-        else {
+        } else {
             id = node.getId();
         }
         return id;
@@ -279,9 +305,9 @@ public class CSMDupNode {
 
     // return the id of the node if node is a Pathnode, else return null
     public PathNode getNode() {
-	PathNode pn;
+        PathNode pn;
         if (type == RA || type == RR || type == CSMEMPTY) {
-            pn =  null;
+            pn = null;
         } else {
             pn = this.node;
         }
@@ -290,9 +316,9 @@ public class CSMDupNode {
 
     // return the pathnode if node is a Pathnode, else return null. js
     public PathNode getNode2() {
-	PathNode pn;
+        PathNode pn;
         if (type == RA || type == RR) {
-            pn =  null;
+            pn = null;
         } else {
             pn = this.node;
         }
@@ -300,65 +326,65 @@ public class CSMDupNode {
     }
 
     public boolean isPathNode() {
-	boolean notPathnodeKind = (type == RA || type == RR || type == CSMEMPTY);
-	return !notPathnodeKind;
+        boolean notPathnodeKind = (type == RA || type == RR || type == CSMEMPTY);
+        return !notPathnodeKind;
     }
 
     // Converts object through polymorphism (dynamic binding)
-    public void doConvert(AbstractConverter pn, PrintStream ps, ArrayList source, ArrayList target) {
-        pn.Convert(ps, source, target);
+    public void doConvert(AbstractConverter pn, PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
+        pn.Convert(ps, source, target, warnings);
     }
 
     // prints CSM representation for attribute node
-    public void printPathNode(PrintStream ps, ArrayList source, ArrayList target) {
+    public void printPathNode(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         // guard against non-path node elements (RA/RR)
         if (node == null)
             return;
         // if UCM object is found, generate CSM representation
         if (node instanceof OrJoin) {
             OrJoinConverter obj = new OrJoinConverter((OrJoin) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof AndJoin) {
             AndJoinConverter obj = new AndJoinConverter((AndJoin) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof OrFork) {
             OrForkConverter obj = new OrForkConverter((OrFork) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof AndFork) {
             AndForkConverter obj = new AndForkConverter((AndFork) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof StartPoint) {
             StartPointConverter obj = new StartPointConverter((StartPoint) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof EndPoint) {
             EndPointConverter obj = new EndPointConverter((EndPoint) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof EmptyPoint) {
             EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof Stub) {
             StubConverter obj = new StubConverter((Stub) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof RespRef) {
             ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof DirectionArrow) {
             DirectionArrowConverter obj = new DirectionArrowConverter((DirectionArrow) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof Timer) {
             TimerConverter obj = new TimerConverter((Timer) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof Connect) {
             ConnectConverter obj = new ConnectConverter((Connect) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         } else if (node instanceof WaitingPlace) {
             WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
-            doConvert(obj, ps, source, target);
+            doConvert(obj, ps, source, target, warnings);
         }
         // **** To be implemented ****
         else if (node instanceof ProcessingResource) {
         } else {
-            System.out.println("Node type not implemented: " + node.getClass().getName());
+            warnings.add(new CsmExportWarning(" Node type not implemented: " + node.getClass().getName(), node));
         }
     }
 }
