@@ -36,7 +36,6 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
-import ucm.performance.ProcessingResource;
 import ucm.performance.Timestamp;
 
 /**
