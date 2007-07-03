@@ -10,7 +10,6 @@ import ucm.performance.ExternalOperation;
  * <!-- begin-user-doc --> Producing ExternalOperation declarations <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 
 public class ExternalOperationConverter implements AbstractConverter {

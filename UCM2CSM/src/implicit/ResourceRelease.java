@@ -10,7 +10,6 @@ import ucm.map.PathNode;
  * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
  * 
  * @see implicit
- * @generated
  */
 public class ResourceRelease {
 

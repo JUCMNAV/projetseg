@@ -10,7 +10,6 @@ import ucm.map.EndPoint;
  * <!-- begin-user-doc --> Creates the CSM representation(End) of the End-Point object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class EndPointConverter implements AbstractConverter {
     private EndPoint ep;

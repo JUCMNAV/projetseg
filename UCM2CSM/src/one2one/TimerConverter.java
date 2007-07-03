@@ -6,14 +6,13 @@ import java.util.Vector;
 
 import ucm.map.Timer;
 
-public class TimerConverter implements AbstractConverter {
+/**
+ * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Timer object <!-- end-user-doc -->
+ * 
+ * @see one2one
+ */
 
-    /**
-     * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Timer object <!-- end-user-doc -->
-     * 
-     * @see one2one
-     * @generated
-     */
+public class TimerConverter implements AbstractConverter {
 
     private Timer ep;
 

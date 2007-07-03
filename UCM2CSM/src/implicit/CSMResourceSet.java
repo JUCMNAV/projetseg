@@ -203,6 +203,7 @@ public class CSMResourceSet {
      * 
      * @param second
      * @return
+     * 		elements of this not contained in second
      */
     public CSMResourceSet minus(CSMResourceSet second) {
         CSMResource[] curMinusSecond = new CSMResource[RESLIMIT];

@@ -11,7 +11,6 @@ import ucm.map.UCMmap;
  * <!-- begin-user-doc --> A CSMDupConnectionList is a list of references to all the connections in the UCMap <!-- end-user-doc -->
  * 
  * @see implicit
- * @generated
  */
 
 public class CSMDupConnectionList {

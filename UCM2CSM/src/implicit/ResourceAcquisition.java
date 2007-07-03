@@ -12,7 +12,6 @@ import ucm.map.StartPoint;
  * <!-- begin-user-doc --> Inserts Resource Acquisition objects in duplicate map <!-- end-user-doc -->
  * 
  * @see implicit
- * @generated
  */
 
 public class ResourceAcquisition {

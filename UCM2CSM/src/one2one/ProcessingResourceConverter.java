@@ -10,7 +10,6 @@ import ucm.performance.ProcessingResource;
  * <!-- begin-user-doc --> Class currently NOT IMPLEMENTED! <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 
 public class ProcessingResourceConverter implements AbstractConverter {

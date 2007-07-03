@@ -10,7 +10,6 @@ import ucm.map.WaitingPlace;
  * <!-- begin-user-doc --> Creates the CSM representation(And-Fork) of the WaitingPlace object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 
 public class WaitingPlaceConverter implements AbstractConverter {

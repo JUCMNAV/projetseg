@@ -10,7 +10,6 @@ import ucm.map.OrJoin;
  * <!-- begin-user-doc --> Creates the CSM representation(Merge) of the OrJoin object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class OrJoinConverter implements AbstractConverter {
 

@@ -13,7 +13,6 @@ import ucm.map.PluginBinding;
  * <!-- begin-user-doc --> Creates the CSM representation(Refinement) of the PluginBinding object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 
 public class PluginBindingConverter implements AbstractConverter {

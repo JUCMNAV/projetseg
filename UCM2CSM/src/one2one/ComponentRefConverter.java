@@ -13,7 +13,6 @@ import urncore.ComponentRegular;
  * <!-- begin-user-doc --> Creates the CSM representation(Component) of the Component-Ref object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class ComponentRefConverter {
 

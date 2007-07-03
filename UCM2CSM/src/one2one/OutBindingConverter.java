@@ -10,7 +10,6 @@ import ucm.map.OutBinding;
  * <!-- begin-user-doc --> Creates the CSM representation(outbinding) of the Out-Connection object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class OutBindingConverter implements AbstractConverter {
 

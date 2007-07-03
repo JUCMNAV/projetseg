@@ -12,7 +12,6 @@ import ucm.performance.Demand;
  * <!-- begin-user-doc --> Creates the CSM representation(Step) of the Responsibility object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;

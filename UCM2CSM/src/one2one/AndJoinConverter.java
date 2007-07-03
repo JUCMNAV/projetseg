@@ -10,7 +10,6 @@ import ucm.map.AndJoin;
  * <!-- begin-user-doc --> Creates the CSM representation(Join) of the AndJoin object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 public class AndJoinConverter implements AbstractConverter {
 

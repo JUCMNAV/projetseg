@@ -9,7 +9,6 @@ import ucm.performance.Workload;
  * <!-- begin-user-doc --> Print optional workload attributes to CSM file Component-Ref object <!-- end-user-doc -->
  * 
  * @see one2one
- * @generated
  */
 
 public class WorkLoadAttributes {

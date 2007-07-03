@@ -6,14 +6,13 @@ import java.util.Vector;
 
 import ucm.map.Connect;
 
-public class ConnectConverter implements AbstractConverter {
+/**
+ * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Connect object <!-- end-user-doc -->
+ * 
+ * @see one2one
+ */
 
-    /**
-     * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Connect object <!-- end-user-doc -->
-     * 
-     * @see one2one
-     * @generated
-     */
+public class ConnectConverter implements AbstractConverter {
 
     private Connect ep;
 

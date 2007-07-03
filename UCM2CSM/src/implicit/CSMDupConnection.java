@@ -7,7 +7,6 @@ import ucm.map.PathNode;
  * <!-- begin-user-doc --> A CSMDupConnection is a reference to a connection in the original UCMmap <!-- end-user-doc -->
  * 
  * @see implicit
- * @generated
  */
 
 public class CSMDupConnection {
