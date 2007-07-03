@@ -382,8 +382,7 @@ public class CSMDupNode {
             doConvert(obj, ps, source, target, warnings);
         }
         // **** To be implemented ****
-        else if (node instanceof ProcessingResource) {
-        } else {
+        else {
             warnings.add(new CsmExportWarning(" Node type not implemented: " + node.getClass().getName(), node));
         }
     }
