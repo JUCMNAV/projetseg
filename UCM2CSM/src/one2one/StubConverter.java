@@ -43,14 +43,12 @@ public class StubConverter implements AbstractConverter {
 
         // object attributes
         String predecessorWithCommas = (String) source.toString().subSequence(1, (source.toString().length() - 1));
-        String predecessor = StringUtil.trimString(',', predecessorWithCommas); // eliminate
-        // ','
+        String predecessor = predecessorWithCommas.replaceAll(",", "");
         if (stub.getPred().size() > 1) {
             warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has more than one predecessor", stub));
         }
         String successorWithCommas = (String) target.toString().subSequence(1, (target.toString().length() - 1));
-        String successor = StringUtil.trimString(',', successorWithCommas); // eliminate
-        // ','
+        String successor = successorWithCommas.replaceAll(",", "");
         if (stub.getSucc().size() > 1) {
             warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has more than one successor", stub));
         }

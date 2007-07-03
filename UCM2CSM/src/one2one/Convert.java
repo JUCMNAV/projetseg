@@ -539,7 +539,7 @@ public class Convert implements IURNExport {
                  */
                 if (curr_node.isPathNode() && (pathnode instanceof EmptyPoint) && (pathnode.getSucc().size() > 1)) {
                     String target_noBracket = target.toString().substring(1, (target.toString().length() - 1));
-                    String target_noComma = StringUtil.trimString(',', target_noBracket); // eliminate ','
+                    String target_noComma =  target_noBracket.replaceAll(",", "");
 
                     String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" ";
                     String epoint_source = "source=\"" + source.get(0) + "\" ";
