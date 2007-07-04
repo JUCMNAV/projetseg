@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.OutBinding;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(outbinding) of the Out-Connection object <!-- end-user-doc -->
+ * Creates the CSM representation(outbinding) of the Out-Connection object
  * 
  * @see one2one
  */

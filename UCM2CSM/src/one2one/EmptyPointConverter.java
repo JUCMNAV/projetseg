@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.EmptyPoint;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the EmptyPoint object <!-- end-user-doc -->
+ * Creates the CSM representation(Sequence) of the EmptyPoint object.
  * 
  * @see one2one
  */

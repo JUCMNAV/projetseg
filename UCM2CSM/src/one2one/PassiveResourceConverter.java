@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.performance.PassiveResource;
 
 /**
- * <!-- begin-user-doc --> Produces CSM of PassiveResources <!-- end-user-doc -->
+ * Produces CSM of PassiveResources.
  * 
  * @see one2one
  */

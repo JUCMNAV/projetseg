@@ -7,7 +7,7 @@ import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 
 /**
- * <!-- begin-user-doc --> Inserts Resource Release objects in duplicate map <!-- end-user-doc -->
+ * Inserts Resource Release objects in duplicate map.
  * 
  * @see implicit
  */

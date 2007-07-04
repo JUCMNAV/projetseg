@@ -10,7 +10,7 @@ import urncore.ComponentKind;
 import urncore.ComponentRegular;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Component) of the Component-Ref object <!-- end-user-doc -->
+ * Creates the CSM representation(Component) of the Component-Ref object.
  * 
  * @see one2one
  */

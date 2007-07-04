@@ -2,6 +2,11 @@ package implicit;
 
 import ucm.performance.GeneralResource;
 
+/**
+ * 
+ * @author jack
+ *
+ */
 public class ResourceAttribs {
     private GeneralResource resource;
 
@@ -39,6 +44,11 @@ public class ResourceAttribs {
         return this.resource;
     }
 
+    /**
+     * 
+     * @param qty
+     * 		number of resources
+     */
     public void setRUnits(String qty) {
         this.rUnits = qty;
     }
@@ -51,6 +61,10 @@ public class ResourceAttribs {
         this.usage = ACQUIRE;
     }
 
+    /**
+     * 
+     * @return TRUE if this resource deals with ACQUISITION
+     */
     public boolean isAcquire() {
         return (this.usage == ACQUIRE) || (this.usage == BOTH);
     }
@@ -59,6 +73,10 @@ public class ResourceAttribs {
         this.usage = RELEASE;
     }
 
+    /**
+     * 
+     * @return TRUE if this resource deals with RELEASE
+     */
     public boolean isRelease() {
         return (this.usage == RELEASE) || (this.usage == BOTH);
     }

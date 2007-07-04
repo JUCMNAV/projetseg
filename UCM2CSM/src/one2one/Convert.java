@@ -46,10 +46,9 @@ import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
 /**
- * <!-- begin-user-doc --> Performs implicit and explicit conversions on UCM components <!-- end-user-doc -->
+ * Performs implicit and explicit conversions on UCM components.
  * 
  * @see one2one
- * @generated
  */
 
 public class Convert implements IURNExport {

@@ -6,7 +6,7 @@ import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 
 /**
- * <!-- begin-user-doc --> Print optional workload attributes to CSM file Component-Ref object <!-- end-user-doc -->
+ * Print optional workload attributes to CSM file Component-Ref object.
  * 
  * @see one2one
  */

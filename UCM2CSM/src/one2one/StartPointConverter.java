@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.StartPoint;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Start) of the Start object <!-- end-user-doc -->
+ * Creates the CSM representation(Start) of the Start object.
  * 
  * @see one2one
  */

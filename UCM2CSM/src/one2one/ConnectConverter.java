@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.Connect;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Connect object <!-- end-user-doc -->
+ * Creates the CSM representation(Sequence) of the Connect object.
  * 
  * @see one2one
  */

@@ -39,10 +39,9 @@ import ucm.map.WaitingPlace;
 import ucm.performance.Timestamp;
 
 /**
- * <!-- begin-user-doc --> A CSMDupNode is a reference to a node in the original UCMmap <!-- end-user-doc -->
+ * A CSMDupNode is a reference to a node in the original UCMmap.
  * 
  * @see implicit
- * @generated
  */
 public class CSMDupNode {
 

@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.DirectionArrow;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the DirectionArrow object <!-- end-user-doc -->
+ * Creates the CSM representation(Sequence) of the DirectionArrow object.
  * 
  * Direction Arrows are replaced by a CSM Dummy Sequence
  * 

@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.performance.ExternalOperation;
 
 /**
- * <!-- begin-user-doc --> Producing ExternalOperation declarations <!-- end-user-doc -->
+ * Producing ExternalOperation declarations.
  * 
  * @see one2one
  */

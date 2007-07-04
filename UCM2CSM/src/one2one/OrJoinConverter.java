@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.OrJoin;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Merge) of the OrJoin object <!-- end-user-doc -->
+ * Creates the CSM representation(Merge) of the OrJoin object.
  * 
  * @see one2one
  */

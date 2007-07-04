@@ -13,7 +13,7 @@ import urncore.ComponentRegular;
 import urncore.IURNContainerRef;
 
 /**
- * <!-- begin-user-doc --> Prints Step optional attributes to CSM file <!-- end-user-doc -->
+ * Prints Step optional attributes to CSM file.
  * 
  * @see one2one
  */

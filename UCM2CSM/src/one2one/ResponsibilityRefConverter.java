@@ -9,7 +9,7 @@ import ucm.map.RespRef;
 import ucm.performance.Demand;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Step) of the Responsibility object <!-- end-user-doc -->
+ * Creates the CSM representation(Step) of the Responsibility object.
  * 
  * @see one2one
  */

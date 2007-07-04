@@ -7,7 +7,7 @@ import ucm.map.PathNode;
 import ucm.map.UCMmap;
 
 /**
- * <!-- begin-user-doc --> Creates a list of CSMDupNodes, that is meant to replicate the UCM map <!-- end-user-doc -->
+ * Creates a list of CSMDupNodes, that is meant to replicate the UCM map.
  * 
  * @see implicit
  */

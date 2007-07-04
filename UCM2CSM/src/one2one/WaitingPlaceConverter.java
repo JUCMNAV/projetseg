@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.WaitingPlace;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(And-Fork) of the WaitingPlace object <!-- end-user-doc -->
+ * Creates the CSM representation(And-Fork) of the WaitingPlace object.
  * 
  * @see one2one
  */

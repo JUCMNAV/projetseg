@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.performance.ProcessingResource;
 
 /**
- * <!-- begin-user-doc --> Class currently NOT IMPLEMENTED! <!-- end-user-doc -->
+ * Class currently NOT IMPLEMENTED!
  * 
  * @see one2one
  */

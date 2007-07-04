@@ -8,10 +8,9 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
- * <!-- begin-user-doc --> Prints PathConnection optional attributes to CSM file <!-- end-user-doc -->
+ * Prints PathConnection optional attributes to CSM file.
  * 
  * @see one2one
- * @generated
  */
 
 public class PathConnAttributes {

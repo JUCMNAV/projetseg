@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.InBinding;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(inbinding) of the In-Connection object <!-- end-user-doc -->
+ * Creates the CSM representation(inbinding) of the In-Connection object.
  * 
  * @see one2one
  */

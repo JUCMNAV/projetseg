@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 /**
- * <!-- begin-user-doc --> It provides a convert method for all UCM to CSM Explicit Mappings. <!-- end-user-doc -->
+ * It provides a convert method for all UCM to CSM Explicit Mappings.
  * 
  * @see one2one
  */

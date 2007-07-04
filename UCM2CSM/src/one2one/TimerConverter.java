@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.Timer;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Sequence) of the Timer object <!-- end-user-doc -->
+ * Creates the CSM representation(Sequence) of the Timer object.
  * 
  * @see one2one
  */

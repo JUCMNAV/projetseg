@@ -14,10 +14,9 @@ import ucm.map.PluginBinding;
 import ucm.map.Stub;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Step) of the Stub object Component-Ref object <!-- end-user-doc -->
+ * Creates the CSM representation(Step) of the Stub object Component-Ref object.
  * 
  * @see one2one
- * @generated
  */
 public class StubConverter implements AbstractConverter {
 

@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.AndJoin;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Join) of the AndJoin object <!-- end-user-doc -->
+ * Creates the CSM representation(Join) of the AndJoin object.
  * 
  * @see one2one
  */

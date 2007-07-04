@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.EndPoint;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(End) of the End-Point object <!-- end-user-doc -->
+ * Creates the CSM representation(End) of the End-Point object.
  * 
  * @see one2one
  */

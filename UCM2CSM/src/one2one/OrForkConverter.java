@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.OrFork;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Branch) of the OrFork object <!-- end-user-doc -->
+ * Creates the CSM representation(Branch) of the OrFork object.
  * 
  * @see one2one
  */

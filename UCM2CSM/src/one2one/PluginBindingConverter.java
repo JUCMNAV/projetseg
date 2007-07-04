@@ -10,7 +10,7 @@ import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 
 /**
- * <!-- begin-user-doc --> Creates the CSM representation(Refinement) of the PluginBinding object <!-- end-user-doc -->
+ * Creates the CSM representation(Refinement) of the PluginBinding object.
  * 
  * @see one2one
  */
