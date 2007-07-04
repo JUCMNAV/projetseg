@@ -4,7 +4,7 @@
    <extension
          point="seg.jUCMNav.URNExport">
 		<exporter
-            class="one2one.Convert"
+            class="seg.ucm2csm.Convert"
             extension="csm"
             id="seg.jUCMNav.UCM2CSM"           
             name="UCM to CSM converter (.csm)"
