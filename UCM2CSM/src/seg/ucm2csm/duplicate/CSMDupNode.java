@@ -44,7 +44,7 @@ import ucm.performance.Timestamp;
 /**
  * A CSMDupNode is a reference to a node in the original UCMmap.
  * 
- * @see implicit
+ * @see seg.ucm2csm.implicit
  */
 public class CSMDupNode {
 
@@ -83,7 +83,7 @@ public class CSMDupNode {
 
     static public final int UNDEFINED = 0;
 
-    // Types of new elements
+    // Types of new elements, necessary to produce CSM
     static public final int RA = 17; // Resource Allocate
 
     static public final int RR = 18; // Resource Release
@@ -106,14 +106,26 @@ public class CSMDupNode {
 
     private String res = null;
 
-    public void setResToAcquire(String res) {
-        this.res = res;
+    /**
+     * 
+     * @param resource
+     */
+    public void setResToAcquire(String resource) {
+        this.res = resource;
     }
 
+    /**
+     * 
+     * @return the resource to be acquired
+     */
     public String getResToAcquire() {
         return res;
     }
 
+    /**
+     * 
+     * @param resAttribs
+     */
     public void setResourceToAcquire(CSMResource resAttribs) {
         resourceToAcquire = resAttribs;
     }
@@ -138,7 +150,11 @@ public class CSMDupNode {
         return resourceToRelease;
     }
 
-    // Convert (int) Type to String (for debugging purposes) Js
+    /**
+     * Converts TypeOfNode(int) to String (for debugging purposes)
+     * 
+     * @return string corresponding to the node type
+     */
     public String getTypeString() {
         String textual;
         if (type == RESPREF) {
@@ -197,7 +213,11 @@ public class CSMDupNode {
     // id for ra, rr or sequence
     private String node_id;
 
-    // Constructors
+    /**
+     * Constructor
+     * @param node
+     * @param warnings
+     */
     public CSMDupNode(PathNode node, Vector warnings) {
         this.node = node;
         // Set the node type
@@ -228,21 +248,21 @@ public class CSMDupNode {
             resourcesDownstream = new CSMResourceSet(node, warnings);
             resourcesUpstream = resourcesDownstream;
         } else if (node instanceof OrJoin) {
-            type = ORJOIN; // js
+            type = ORJOIN;
         } else if (node instanceof Timestamp) {
-            type = TIMESTAMP; // js
+            type = TIMESTAMP;
         } else if (node instanceof FailurePoint) {
-            type = FAILURE; // js
+            type = FAILURE;
         } else if (node instanceof DirectionArrow) {
-            type = ARROW; // js
+            type = ARROW;
         } else if (node instanceof Connect) {
-            type = CONNECT; // js
+            type = CONNECT;
         } else if (node instanceof Abort) {
-            type = ABORT; // js
+            type = ABORT;
         } else if (node instanceof WaitingPlace) {
-            type = WAIT; // js
+            type = WAIT;
         } else if (node instanceof Loop) {
-            type = LOOP; // js
+            type = LOOP;
         } else {
             type = UNDEFINED;
         }
@@ -264,22 +284,39 @@ public class CSMDupNode {
         this.resourcesUpstream = usedResources;
     }
 
-    // return pathnode type
+
+    /**
+     * 
+     * @return the type of node
+     */
     public int getType() {
         return type;
     }
 
-    // return pathnode type. js
+    /**
+     * Set the type of node.
+     */
     public void setType(int type) {
         this.type = type;
     }
 
-    // set ID. js
-    public void setID(String id) {
-        this.node_id = id;
+    /**
+     * Set the nodeId
+     * @param nodeId
+     */
+    public void setID(String nodeId) {
+        this.node_id = nodeId;
     }
 
-    public CSMDupNode(int raORrrORseq) { // TODO: remove limitations. js
+    /**
+     * The new node is entirely defined by its ID; this is typically a node added to
+     * obtain a CSM-compliant structure or to add RA/RR nodes.
+     * <BR>
+     * TODO: wave limitations
+     * 
+     * @param node ID, of an RA, RR, Dummy Sequence or Dummy Step
+     */
+    public CSMDupNode(int raORrrORseq) {
         // RA,RR/Seq/Dummy Step to be inserted
         if (raORrrORseq >= 1000 && raORrrORseq < 2000) {
             type = RA;
@@ -315,17 +352,6 @@ public class CSMDupNode {
         return pn;
     }
 
-    // return the pathnode if node is a Pathnode, else return null. js
-    public PathNode getNode2() {
-        PathNode pn;
-        if (type == RA || type == RR) {
-            pn = null;
-        } else {
-            pn = this.node;
-        }
-        return pn;
-    }
-
     public boolean isPathNode() {
         boolean notPathnodeKind = (type == RA || type == RR || type == CSMEMPTY);
         return !notPathnodeKind;
@@ -336,7 +362,14 @@ public class CSMDupNode {
         pn.Convert(ps, source, target, warnings);
     }
 
-    // prints CSM representation for attribute node
+    /**
+     * Prints CSM representation for attribute node
+     * 
+     * @param ps
+     * @param source
+     * @param target
+     * @param warnings
+     */
     public void printPathNode(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         // guard against non-path node elements (RA/RR)
         if (node == null)
@@ -382,7 +415,7 @@ public class CSMDupNode {
             WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
             doConvert(obj, ps, source, target, warnings);
         }
-        // **** To be implemented ****
+        // **** There should not remain any unimplemented node type ****
         else {
             warnings.add(new CsmExportWarning(" Node type not implemented: " + node.getClass().getName(), node));
         }
