@@ -107,7 +107,7 @@ public class ComponentRefConverter {
         String close = "/>";
 
         String comp_attributes_sub = "sub=\"" + this.childrenIDs + "\" ";
-        String comp_attributes_parent = "parentID=\"" + this.parentID + "\" ";
+        String comp_attributes_parent = "parent=\"" + this.parentID + "\" ";
         String comp_attributes_active_process;
         if (this.activeProcStatusDefined) {
             comp_attributes_active_process = "isActiveProcess=\"" + this.activeProcess + "\" ";
