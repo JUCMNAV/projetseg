@@ -8,7 +8,7 @@ import ucm.performance.Workload;
 /**
  * Print optional workload attributes to CSM file Component-Ref object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class WorkLoadAttributes {

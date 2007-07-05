@@ -9,7 +9,7 @@ import ucm.map.AndJoin;
 /**
  * Creates the CSM representation(Join) of the AndJoin object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class AndJoinConverter implements AbstractConverter {
 

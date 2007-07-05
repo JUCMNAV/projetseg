@@ -9,7 +9,7 @@ import ucm.map.InBinding;
 /**
  * Creates the CSM representation(inbinding) of the In-Connection object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class InBindingConverter implements AbstractConverter {
 

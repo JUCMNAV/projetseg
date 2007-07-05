@@ -12,7 +12,7 @@ import ucm.map.DirectionArrow;
  * Direction Arrows are replaced by a CSM Dummy Sequence
  * 
  * @author jack
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class DirectionArrowConverter implements AbstractConverter {
@@ -33,7 +33,7 @@ public class DirectionArrowConverter implements AbstractConverter {
         String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
         String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
         ps.print("            " + Object_attributes + traceabilityLink);
-        String closing_attribute = "/>";
+        String closing_attribute = "/> <!-- DirectionArrow -->";
 
         oa.OptionalAttributes(ep, ps, source, target);
 

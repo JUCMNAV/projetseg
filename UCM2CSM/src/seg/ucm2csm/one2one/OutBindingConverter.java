@@ -9,7 +9,7 @@ import ucm.map.OutBinding;
 /**
  * Creates the CSM representation(outbinding) of the Out-Connection object
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class OutBindingConverter implements AbstractConverter {
 

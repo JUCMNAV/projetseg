@@ -9,7 +9,7 @@ import ucm.map.UCMmap;
 /**
  * Creates a list of CSMDupNodes, that is meant to replicate the UCM map.
  * 
- * @see implicit
+ * @see seg.ucm2csm.implicit
  */
 public class CSMDupNodeList {
     // will contain CSMDupNodes (which in turn may point to a PathNode or an RA
@@ -122,14 +122,17 @@ public class CSMDupNodeList {
     } // method
 
     /**
+     * Populate non-RESPREF and non-STUB nodes with downstream and upstream resource lists such that computing RA
+     * and RR can be optimized later on (i.e. by not acquiring a resource acquired previously, and by not releasing
+     * a resource that will be needed next).
      * 
-     * @param dupMapConnList
+     * @param dupMapConnList list of duplicated connections
      */
     public void computeNodesResources(CSMDupConnectionList dupMapConnList) {
         boolean done = false;
-        // propagate resources - forward and backward - from nodes START,
-        // RESPRES, STUB and END
-        while (!done) {
+	// propagate resources - forward and backward - from nodes RESPRES and STUB.
+	// TODO:  investigate possibility to take into account nodes START and END.
+	while (!done) {
             done = true;
             for (int i = 0; i < dupMapConnList.size(); i++) {
                 CSMDupConnection conn = dupMapConnList.get(i);
@@ -178,13 +181,13 @@ public class CSMDupNodeList {
     /**
      * Change the type of a CSMDupNode
      * 
-     * @param oldNode
+     * @param dupNode
      *            the node to be changed
      * @param type
      *            the new type of the node
      */
-    public void retype(CSMDupNode oldNode, int type) {
-        int nodeIndex = getNodeIndex(oldNode.getNode());
-        this.nodeList[nodeIndex].setType(type);
+    public void retype(CSMDupNode dupNode, int type) {
+	int nodeIndex = getNodeIndex(dupNode.getNode());
+	this.nodeList[nodeIndex].setType(type);
     }
 }

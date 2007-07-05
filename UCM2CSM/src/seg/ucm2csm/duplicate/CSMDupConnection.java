@@ -6,7 +6,7 @@ import ucm.map.PathNode;
 /**
  * A CSMDupConnection is a reference to a connection in the original UCMmap
  * 
- * @see implicit
+ * @see seg.ucm2csm.implicit
  */
 
 public class CSMDupConnection {

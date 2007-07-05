@@ -9,7 +9,7 @@ import ucm.map.AndFork;
 /**
  * Creates the CSM representation(And-Fork) of the AndFork object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class AndForkConverter implements AbstractConverter {

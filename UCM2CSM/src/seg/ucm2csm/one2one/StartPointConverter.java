@@ -9,7 +9,7 @@ import ucm.map.StartPoint;
 /**
  * Creates the CSM representation(Start) of the Start object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class StartPointConverter implements AbstractConverter {

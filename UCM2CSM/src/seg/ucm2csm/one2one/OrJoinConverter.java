@@ -9,7 +9,7 @@ import ucm.map.OrJoin;
 /**
  * Creates the CSM representation(Merge) of the OrJoin object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class OrJoinConverter implements AbstractConverter {
 

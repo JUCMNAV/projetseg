@@ -15,7 +15,7 @@ import ucm.map.StartPoint;
 /**
  * Inserts Resource Acquisition objects in duplicate map.
  * 
- * @see implicit
+ * @see seg.ucm2csm.implicit
  */
 
 public class ResourceAcquisition {
@@ -151,7 +151,7 @@ public class ResourceAcquisition {
         String epoint_attributes = "<Sequence id=\"" + node.getId() + "\" ";
         String epoint_target = "target=\"h" + target + "\" ";
         String epoint_source = "source=\"h" + source + "\" ";
-        String epoint_end = "/>";
+        String epoint_end = "/> <!-- RA-Sequence -->";
 
         // special naming convention for RR/RA objects
         if (source.startsWith("G")) {

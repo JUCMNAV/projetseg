@@ -9,7 +9,7 @@ import ucm.map.EmptyPoint;
 /**
  * Creates the CSM representation(Sequence) of the EmptyPoint object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class EmptyPointConverter implements AbstractConverter {
@@ -30,7 +30,7 @@ public class EmptyPointConverter implements AbstractConverter {
         String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
         String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
         ps.print("            " + Object_attributes + traceabilityLink);
-        String closing_attribute = "/>";
+        String closing_attribute = "/> <!-- EmptyPoint -->";
 
         oa.OptionalAttributes(ep, ps, source, target);
 

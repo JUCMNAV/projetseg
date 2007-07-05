@@ -9,7 +9,7 @@ import ucm.performance.ExternalOperation;
 /**
  * Producing ExternalOperation declarations.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class ExternalOperationConverter implements AbstractConverter {

@@ -10,7 +10,7 @@ import ucm.map.UCMmap;
 /**
  * A CSMDupConnectionList is a list of references to all the connections in the UCMap.
  * 
- * @see implicit
+ * @see seg.ucm2csm.implicit
  */
 
 public class CSMDupConnectionList {

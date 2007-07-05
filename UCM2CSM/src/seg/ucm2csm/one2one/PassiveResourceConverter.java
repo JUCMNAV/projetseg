@@ -9,7 +9,7 @@ import ucm.performance.PassiveResource;
 /**
  * Produces CSM of PassiveResources.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 
 public class PassiveResourceConverter implements AbstractConverter {

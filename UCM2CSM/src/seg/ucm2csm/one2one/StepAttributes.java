@@ -15,7 +15,7 @@ import urncore.IURNContainerRef;
 /**
  * Prints Step optional attributes to CSM file.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class StepAttributes {
     public void OptionalAttributes(PathNode af, PrintStream ps) {

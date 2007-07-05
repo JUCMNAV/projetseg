@@ -9,7 +9,7 @@ import ucm.map.OrFork;
 /**
  * Creates the CSM representation(Branch) of the OrFork object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class OrForkConverter implements AbstractConverter {
 

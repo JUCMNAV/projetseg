@@ -11,7 +11,7 @@ import ucm.performance.Demand;
 /**
  * Creates the CSM representation(Step) of the Responsibility object.
  * 
- * @see one2one
+ * @see seg.ucm2csm.one2one
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
     private RespRef resp;
