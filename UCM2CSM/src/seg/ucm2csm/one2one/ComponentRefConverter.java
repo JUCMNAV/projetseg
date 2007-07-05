@@ -31,13 +31,13 @@ public class ComponentRefConverter {
     private ComponentRegular childrenCompDef;
 
     // other variables
-    private String children = new String();
+    private String childrenIDs = new String();
 
-    private String parent = new String();
+    private String parentID = new String();
 
-    private boolean activeP;
+    private boolean activeProcess;
 
-    private boolean activePDefined;
+    private boolean activeProcStatusDefined;
 
     public String host = new String();
 
@@ -47,33 +47,33 @@ public class ComponentRefConverter {
         this.compDef = (ComponentRegular) compRef.getContDef();
 
         // processing active_process
-        this.activeP = false;
+        this.activeProcess = false;
 
         // set is_active_process to true if component is Process or Agent, false
         // if Team or Object, undefined otherwise
-        this.activePDefined = false;
-        if ((compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
-            this.activeP = true;
-            this.activePDefined = true;
-        } else if ((compDef.getKind() == ComponentKind.TEAM_LITERAL) || (compDef.getKind() == ComponentKind.OBJECT_LITERAL)) {
-            this.activeP = false;
-            this.activePDefined = true;
+        this.activeProcStatusDefined = false;
+        if ((this.compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (this.compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
+            this.activeProcess = true;
+            this.activeProcStatusDefined = true;
+        } else if ((this.compDef.getKind() == ComponentKind.TEAM_LITERAL) || (this.compDef.getKind() == ComponentKind.OBJECT_LITERAL)) {
+            this.activeProcess = false;
+            this.activeProcStatusDefined = true;
         }
 
-        // initialize parent only if a reference to the parent component exists
+        // initialize parentID only if a reference to the parentID component exists
         if (((ComponentRef) compRef.getParent()) != null) {
             this.parentCompRef = (ComponentRef) compRef.getParent();
             this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
-            parent += "c" + this.parentCompDef.getId();
+            this.parentID += "c" + this.parentCompDef.getId();
         } else {
-            parent += " ";
+            this.parentID += " ";
         }
 
-        // retrieve children
+        // retrieve childrenIDs
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             this.childrenCompRef = (ComponentRef) iter.next();
             this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
-            children += "c" + this.childrenCompDef.getId() + " ";
+            this.childrenIDs += "c" + this.childrenCompDef.getId() + " ";
         }
 
     }
@@ -82,35 +82,35 @@ public class ComponentRefConverter {
     public void Convert(PrintStream ps) {
 
         /*
-         * Only convert Process, Agent, Team and Object components to CSM components. For all of those, activePDefined is true.
+         * Only convert Process, Agent, Team and Object components to CSM components. For all of those, activeProcStatusDefined is true.
          * 
-         * NOT! What if some activePDefined() component is contained (parent) within a !activePDefined()??? Answer: There is no ID/IDREF binding for IDREF
+         * NOT! What if some activeProcStatusDefined() component is contained (parentID) within a !activeProcStatusDefined()??? Answer: There is no ID/IDREF binding for IDREF
          * 'cNNN'.
          */
-        // if (!activePDefined) return;
+        // if (!activeProcStatusDefined) return;
         String comp_host = "";
         // resources do not exist yet. js
-        if (compRef.getContDef() != null) {
-            if (compRef.getContDef() instanceof ComponentRegular) {
-                if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
-                    ProcessingResource procRes = ((ComponentRegular) compRef.getContDef()).getHost();
+        if (this.compRef.getContDef() != null) {
+            if (this.compRef.getContDef() instanceof ComponentRegular) {
+                if (((ComponentRegular) this.compRef.getContDef()).getHost() != null) {
+                    ProcessingResource procRes = ((ComponentRegular) this.compRef.getContDef()).getHost();
                     comp_host = "host=\"" + "r" + procRes.getId() + "\" ";
                 }
             }
         }
 
         // object attributes --- host attribute to be implemanteds
-        String id = ((Component) compRef.getContDef()).getId();
-        String name = ((Component) compRef.getContDef()).getName();
+        String id = ((Component) this.compRef.getContDef()).getId();
+        String name = ((Component) this.compRef.getContDef()).getName();
         String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " ";
-        String traceabilityLink = "traceabilityLink=\"" + compRef.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.compRef.getId() + "\" ";
         String close = "/>";
 
-        String comp_attributes_sub = "sub=\"" + children + "\" ";
-        String comp_attributes_parent = "parent=\"" + parent + "\" ";
+        String comp_attributes_sub = "sub=\"" + this.childrenIDs + "\" ";
+        String comp_attributes_parent = "parentID=\"" + this.parentID + "\" ";
         String comp_attributes_active_process;
-        if (activePDefined) {
-            comp_attributes_active_process = "isActiveProcess=\"" + activeP + "\" ";
+        if (this.activeProcStatusDefined) {
+            comp_attributes_active_process = "isActiveProcess=\"" + this.activeProcess + "\" ";
         } else {
             comp_attributes_active_process = "";
         }
@@ -118,10 +118,10 @@ public class ComponentRefConverter {
         ps.print("        " + comp_attributes + traceabilityLink);
         ps.print(" " + comp_attributes_active_process);
 
-        if (parent.compareTo(" ") != 0) {
+        if (this.parentID.compareTo(" ") != 0) {
             ps.print(comp_attributes_parent);
         }
-        if (children.compareTo("") != 0) {
+        if (this.childrenIDs.compareTo("") != 0) {
             ps.print(comp_attributes_sub);
         }
         ps.println(" " + close);

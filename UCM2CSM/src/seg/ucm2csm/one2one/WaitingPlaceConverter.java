@@ -14,27 +14,27 @@ import ucm.map.WaitingPlace;
 
 public class WaitingPlaceConverter implements AbstractConverter {
 
-    private WaitingPlace af;
+    private WaitingPlace waitingPlaceNode;
 
-    PathConnAttributes oa = new PathConnAttributes();
+    PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public WaitingPlaceConverter(WaitingPlace af) {
-        this.af = af;
+        this.waitingPlaceNode = af;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String id_attribute = "<Join id=\"" + "h" + af.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + af.getId() + "\" ";
+        String id_attribute = "<Join id=\"" + "h" + this.waitingPlaceNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.waitingPlaceNode.getId() + "\" ";
         ps.print("            " + id_attribute + traceabilityLink);
 
         String closing_attribute = "/> <!-- Waiting Place -->";
 
         // optional attributes
-        oa.OptionalAttributes(af, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.waitingPlaceNode, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

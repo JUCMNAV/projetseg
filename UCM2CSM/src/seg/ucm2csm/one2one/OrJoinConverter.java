@@ -13,26 +13,26 @@ import ucm.map.OrJoin;
  */
 public class OrJoinConverter implements AbstractConverter {
 
-    private OrJoin oj;
+    private OrJoin orJoinNode;
 
-    PathConnAttributes so = new PathConnAttributes();
+    PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public OrJoinConverter(OrJoin oj) {
-        this.oj = oj;
+        this.orJoinNode = oj;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String madatory_attribute = "<Merge id=\"" + "h" + oj.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + oj.getId() + "\" ";
+        String madatory_attribute = "<Merge id=\"" + "h" + this.orJoinNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.orJoinNode.getId() + "\" ";
         ps.print("            " + madatory_attribute + traceabilityLink);
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes(oj, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.orJoinNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

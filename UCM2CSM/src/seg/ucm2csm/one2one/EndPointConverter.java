@@ -12,26 +12,26 @@ import ucm.map.EndPoint;
  * @see seg.ucm2csm.one2one
  */
 public class EndPointConverter implements AbstractConverter {
-    private EndPoint ep;
+    private EndPoint endPointNode;
 
     // private PathNode source;
-    PathConnAttributes oa = new PathConnAttributes();
+    PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public EndPointConverter(EndPoint ep) {
-        this.ep = ep;
+        this.endPointNode = ep;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
-        String mandatory_attribute = "<End id=\"" + "h" + ep.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+        String mandatory_attribute = "<End id=\"" + "h" + this.endPointNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.endPointNode.getId() + "\" ";
         ps.print("            " + mandatory_attribute + traceabilityLink);
-        String closing_attribute = "/> <!-- EndPoint " + ep.getName() + " -->";
+        String closing_attribute = "/> <!-- EndPoint " + this.endPointNode.getName() + " -->";
 
         // optional attributes
-        oa.OptionalAttributes(ep, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.endPointNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

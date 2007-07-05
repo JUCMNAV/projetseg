@@ -25,13 +25,13 @@ import urncore.Responsibility;
 public class CSMResourceSet {
     private final int RESLIMIT = 500; // TODO: remove limitation *** MAXIMUM NUMBER OF RESOURCES ***
 
-    private CSMResource[] resources = new CSMResource[RESLIMIT];
+    private CSMResource[] resources = new CSMResource[this.RESLIMIT];
 
     private int resources_count = 0;
 
     public CSMResourceSet(PathNode pathnode, Vector warnings) {
         // Add the resources bound to components, implicitly and explicitly
-        getContainingComponentsAndResources((ComponentRef) pathnode.getContRef(), resources);
+        getContainingComponentsAndResources((ComponentRef) pathnode.getContRef(), this.resources);
         // Responsibilities:
         if (pathnode instanceof RespRef) {
             RespRef respref = (RespRef) pathnode;
@@ -41,7 +41,7 @@ public class CSMResourceSet {
                     Responsibility resp = respref.getRespDef();
                     for (int j = 0; j < resp.getDemands().size(); j++) {
                         Demand demand = (Demand) resp.getDemands().get(j);
-                        resources[resources_count++] = new CSMResource(demand.getResource());
+                        this.resources[this.resources_count++] = new CSMResource(demand.getResource());
                     }
                 }
             }
@@ -62,7 +62,7 @@ public class CSMResourceSet {
                                     ResourceAttribs resAttr = new ResourceAttribs(genResElement);
                                     resAttr.setRUnits(mdValue.getValue());
                                     resAttr.setRelease();
-                                    resources[resources_count++] = new CSMResource(resAttr);
+                                    this.resources[this.resources_count++] = new CSMResource(resAttr);
                                 }
                             }
                             if (!found) {
@@ -91,7 +91,7 @@ public class CSMResourceSet {
                                     ResourceAttribs resAttr = new ResourceAttribs(genResElement);
                                     resAttr.setRUnits(mdValue.getValue());
                                     resAttr.setAcquire();
-                                    resources[resources_count++] = new CSMResource(resAttr);
+                                    this.resources[this.resources_count++] = new CSMResource(resAttr);
                                 }
                             }
                             if (!found) {
@@ -112,24 +112,24 @@ public class CSMResourceSet {
     }
 
     public CSMResourceSet(CSMResource[] resArrayList, int size) {
-        resources = resArrayList;
-        resources_count = size;
+	this.resources = resArrayList;
+	this.resources_count = size;
     }
 
     public CSMResource get(int n) {
-        return resources[n];
+        return this.resources[n];
     }
 
     public void remove(int n) {
-        if (n < resources_count) { // TODO: replace with assert? JS
-            for (int i = 0; i < resources_count; i++) {
+        if (n < this.resources_count) { // TODO: replace with assert? JS
+            for (int i = 0; i < this.resources_count; i++) {
                 if (i > n) {
-                    resources[i - 1] = resources[i];
+                    this.resources[i - 1] = this.resources[i];
                 } else {
-                    resources[i] = resources[i];
+                    this.resources[i] = this.resources[i];
                 }
             }
-            resources_count--;
+            this.resources_count--;
         }
     }
 
@@ -148,24 +148,24 @@ public class CSMResourceSet {
                         || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.OBJECT_LITERAL)
                         || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.PROCESS_LITERAL)
                         || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
-                    resourcesIn[resources_count++] = new CSMResource(compRef);
+                    resourcesIn[this.resources_count++] = new CSMResource(compRef);
                 }
                 // Active Processing Resources do *NOT* get Acquired nor Released
                 // Passive Resources do get Acquired and Released
                 // TODO: should this be from ComponentElement? js
                 if (((ComponentRegular) compRef.getContDef()).getResource() != null) {
-                    resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
+                    resourcesIn[this.resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
                 }
             } else if (compRef.getContDef() instanceof ComponentElement) {
                 if (((ComponentElement) compRef.getContDef()).getResource() != null) {
-                    resourcesIn[resources_count++] = new CSMResource(((ComponentElement) compRef.getContDef()).getResource());
+                    resourcesIn[this.resources_count++] = new CSMResource(((ComponentElement) compRef.getContDef()).getResource());
                 }
             }
         }
     }
 
     public int size() {
-        return resources_count;
+        return this.resources_count;
     }
 
     public void add(CSMResourceSet addedRes) {
@@ -177,22 +177,22 @@ public class CSMResourceSet {
     }
 
     public CSMResourceSet toAcquire() {
-        CSMResource[] temp = new CSMResource[RESLIMIT];
+        CSMResource[] temp = new CSMResource[this.RESLIMIT];
         int count = 0;
-        for (int i = 0; i < resources_count; i++) {
-            if (resources[i].isAcquire()) {
-                temp[count++] = resources[i];
+        for (int i = 0; i < this.resources_count; i++) {
+            if (this.resources[i].isAcquire()) {
+                temp[count++] = this.resources[i];
             }
         }
         return new CSMResourceSet(temp, count);
     }
 
     public CSMResourceSet toRelease() {
-        CSMResource[] temp = new CSMResource[RESLIMIT];
+        CSMResource[] temp = new CSMResource[this.RESLIMIT];
         int count = 0;
-        for (int i = 0; i < resources_count; i++) {
-            if (resources[i].isRelease()) {
-                temp[count++] = resources[i];
+        for (int i = 0; i < this.resources_count; i++) {
+            if (this.resources[i].isRelease()) {
+                temp[count++] = this.resources[i];
             }
         }
         return new CSMResourceSet(temp, count);
@@ -206,7 +206,7 @@ public class CSMResourceSet {
      * 		elements of this not contained in second
      */
     public CSMResourceSet minus(CSMResourceSet second) {
-        CSMResource[] curMinusSecond = new CSMResource[RESLIMIT];
+        CSMResource[] curMinusSecond = new CSMResource[this.RESLIMIT];
         int count = 0;
         for (int i = 0; i < this.resources_count; i++) {
             if ((second == null) || (!second.contains(this.resources[i]))) {
@@ -218,8 +218,8 @@ public class CSMResourceSet {
 
     private boolean contains(CSMResource res) {
         boolean found = false;
-        for (int i = 0; (i < resources_count) && (!found); i++) {
-            if (resources[i].equivalent(res)) {
+        for (int i = 0; (i < this.resources_count) && (!found); i++) {
+            if (this.resources[i].equivalent(res)) {
                 found = true;
             }
         }

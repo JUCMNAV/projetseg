@@ -13,11 +13,11 @@ import ucm.map.InBinding;
  */
 public class InBindingConverter implements AbstractConverter {
 
-    private InBinding in_bind;
+    private InBinding inBinding;
 
     // constructors
     public InBindingConverter(InBinding in_bind) {
-        this.in_bind = in_bind;
+        this.inBinding = in_bind;
     }
 
     // prints XML representation of object to output file
@@ -29,7 +29,7 @@ public class InBindingConverter implements AbstractConverter {
         String previousNode = (String) source.get(0);
 
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + in_bind.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>";
+        String Object_attributes = "<InBinding start=\"" + "h" + this.inBinding.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>";
 
         // output to file
         ps.println("                     " + Object_attributes);

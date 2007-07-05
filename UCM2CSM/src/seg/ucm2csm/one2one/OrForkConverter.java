@@ -7,32 +7,32 @@ import java.util.Vector;
 import ucm.map.OrFork;
 
 /**
- * Creates the CSM representation(Branch) of the OrFork object.
+ * Creates the CSM representation(Branch) orForkNode the OrFork object.
  * 
  * @see seg.ucm2csm.one2one
  */
 public class OrForkConverter implements AbstractConverter {
 
-    private OrFork of;
+    private OrFork orForkNode;
 
-    PathConnAttributes so = new PathConnAttributes();
+    PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public OrForkConverter(OrFork of) {
-        this.of = of;
+        this.orForkNode = of;
     }
 
-    // prints XML representation of object to output file
+    // prints XML representation orForkNode object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String madatory_attribute = "<Branch id=\"" + "h" + of.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + of.getId() + "\" ";
+        String madatory_attribute = "<Branch id=\"" + "h" + this.orForkNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.orForkNode.getId() + "\" ";
         ps.print("            " + madatory_attribute + traceabilityLink);
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes(of, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.orForkNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

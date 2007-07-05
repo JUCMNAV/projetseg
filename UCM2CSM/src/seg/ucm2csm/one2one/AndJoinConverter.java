@@ -13,27 +13,27 @@ import ucm.map.AndJoin;
  */
 public class AndJoinConverter implements AbstractConverter {
 
-    private AndJoin aj;
+    private AndJoin andJoinNode;
 
-    PathConnAttributes so = new PathConnAttributes();
+    private PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public AndJoinConverter(AndJoin aj) {
-        this.aj = aj;
+        this.andJoinNode = aj;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String object_attributes = "<Join id=\"" + "h" + aj.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + aj.getId() + "\" ";
+        String object_attributes = "<Join id=\"" + "h" + this.andJoinNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.andJoinNode.getId() + "\" ";
         // output to file
         ps.print("			" + object_attributes + traceabilityLink);
         String closing_attribute = "/>";
 
         // optional attributes
-        so.OptionalAttributes(aj, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.andJoinNode, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

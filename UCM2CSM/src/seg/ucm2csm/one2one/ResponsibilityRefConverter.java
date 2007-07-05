@@ -14,28 +14,28 @@ import ucm.performance.Demand;
  * @see seg.ucm2csm.one2one
  */
 public class ResponsibilityRefConverter implements AbstractConverter {
-    private RespRef resp;
+    private RespRef respRef;
 
-    StepAttributes sa = new StepAttributes();
+    StepAttributes stepAttribs = new StepAttributes();
 
     // constructors
     public ResponsibilityRefConverter(RespRef resp) {
-        this.resp = resp;
+        this.respRef = resp;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String mandatory_attribute = "<Step id=\"h" + resp.getId() + "\" " + "name=\"" + resp.getRespDef().getName() + "\" " + "predecessor=\""
+        String mandatory_attribute = "<Step id=\"h" + this.respRef.getId() + "\" " + "name=\"" + this.respRef.getRespDef().getName() + "\" " + "predecessor=\""
                 + source.toString().subSequence(1, (source.toString().length() - 1)) + "\" " + "successor=\""
                 + target.toString().subSequence(1, (target.toString().length() - 1)) + "\" ";
         ps.print("            " + mandatory_attribute);
 
         // optional attributes
-        sa.OptionalAttributes(resp, ps);
+        this.stepAttribs.OptionalAttributes(this.respRef, ps);
 
-        if (resp.getRespDef().getDemands().size() == 0) {
+        if (this.respRef.getRespDef().getDemands().size() == 0) {
             String closing_attribute = "/>";
             // output to file
             ps.println(closing_attribute);
@@ -43,7 +43,7 @@ public class ResponsibilityRefConverter implements AbstractConverter {
             String closing_attribute1 = ">";
             // output to file
             ps.println(closing_attribute1);
-            for (Iterator demands = resp.getRespDef().getDemands().iterator(); demands.hasNext();) {
+            for (Iterator demands = this.respRef.getRespDef().getDemands().iterator(); demands.hasNext();) {
                 Demand demand = (Demand) demands.next();
                 String currentDemandQty = demand.getQuantity();
                 if (currentDemandQty == null)

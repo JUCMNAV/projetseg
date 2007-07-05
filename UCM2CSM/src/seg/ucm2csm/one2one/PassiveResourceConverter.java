@@ -23,26 +23,26 @@ public class PassiveResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "p" + passiveRes.getId() + "\" ";
-        String name = "name=\"" + passiveRes.getName() + "\" ";
+        String id = "id=\"" + "p" + this.passiveRes.getId() + "\" ";
+        String name = "name=\"" + this.passiveRes.getName() + "\" ";
         String description;
         String multiplicity;
         String schedPolicy;
-        if (passiveRes.getDescription() != null) {
-            description = "description=\"" + passiveRes.getDescription() + "\" ";
+        if (this.passiveRes.getDescription() != null) {
+            description = "description=\"" + this.passiveRes.getDescription() + "\" ";
         } else
             description = "";
-        if (passiveRes.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + passiveRes.getMultiplicity() + "\" ";
+        if (this.passiveRes.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + this.passiveRes.getMultiplicity() + "\" ";
         } else {
             multiplicity = "";
         }
-        if (passiveRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + passiveRes.getSchedPolicy() + "\" ";
+        if (this.passiveRes.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + this.passiveRes.getSchedPolicy() + "\" ";
         } else {
             schedPolicy = "";
         }
-        String traceabilityLink = "traceabilityLink=\"" + passiveRes.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.passiveRes.getId() + "\" ";
         String resStr = "<PassiveResource " + id + name + description + multiplicity + schedPolicy + traceabilityLink + "/>";
 
         // output to file

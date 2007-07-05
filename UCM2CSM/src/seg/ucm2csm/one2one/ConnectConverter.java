@@ -14,13 +14,11 @@ import ucm.map.Connect;
 
 public class ConnectConverter implements AbstractConverter {
 
-    private Connect ep;
-
-    PathConnAttributes oa = new PathConnAttributes();
+    private Connect connectNode;
 
     // constructors
     public ConnectConverter(Connect ep) {
-        this.ep = ep;
+        this.connectNode = ep;
     }
 
     // prints XML representation of object to output file
@@ -32,18 +30,18 @@ public class ConnectConverter implements AbstractConverter {
         String hostDemand = "hostDemand=\"0\" ";
         // at the moment, jUCMNav does not permit to set the description of a
         // Connect
-        String description = ((ep.getDescription() != null)) ? "description=\"" + ep.getDescription() + "\" " : "";
+        String description = ((this.connectNode.getDescription() != null)) ? "description=\"" + this.connectNode.getDescription() + "\" " : "";
 
         // object attributes
-        String Object_attributes = "<Step id=\"" + "h" + ep.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\""
+        String Object_attributes = "<Step id=\"" + "h" + this.connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\""
                 + successor + "\" " + hostDemand + description;
-        String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.connectNode.getId() + "\" ";
         ps.print("            " + Object_attributes + traceabilityLink);
         String closing_attribute = "/> <!-- Connect -->";
 
-        // Connect is converted to a Dummy Step so it's no longer considered a
+        // Connect is converted to a Dummy Step pathConnAttribs it's no longer considered a
         // connection
-        // oa.OptionalAttributes(ep, ps, source, target);
+        // patthConnAttribs.OptionalAttributes(connectNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

@@ -14,27 +14,27 @@ import ucm.map.AndFork;
 
 public class AndForkConverter implements AbstractConverter {
 
-    private AndFork af;
+    private AndFork andForkNode;
 
-    PathConnAttributes oa = new PathConnAttributes();
+    private PathConnAttributes patthConnAttribs = new PathConnAttributes();
 
     // constructors
     public AndForkConverter(AndFork af) {
-        this.af = af;
+        this.andForkNode = af;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String id_attribute = "<Fork id=\"" + "h" + af.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + af.getId() + "\" ";
+        String id_attribute = "<Fork id=\"" + "h" + this.andForkNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.andForkNode.getId() + "\" ";
         ps.print("            " + id_attribute + traceabilityLink);
 
         String closing_attribute = "/>";
 
         // optional attributes
-        oa.OptionalAttributes(af, ps, source, target);
+        this.patthConnAttribs.OptionalAttributes(this.andForkNode, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

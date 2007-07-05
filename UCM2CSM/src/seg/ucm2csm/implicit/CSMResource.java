@@ -31,7 +31,7 @@ public class CSMResource {
 
     public final int RESATR = 3;
 
-    private int type = UNKNOWN;
+    private int type = this.UNKNOWN;
 
     public int getType() {
         return this.type;
@@ -43,21 +43,21 @@ public class CSMResource {
 
     public CSMResource(GeneralResource genRes) {
         this.genRes = genRes;
-        this.type = GENRES;
+        this.type = this.GENRES;
         this.name = genRes.getId();
         this.quantity = this.genRes.getMultiplicity();
     }
 
     public CSMResource(ComponentRef compRef) {
         this.compRef = compRef;
-        this.type = COMPREF;
+        this.type = this.COMPREF;
         this.name = ((ComponentRegular) compRef.getContDef()).getId();
         this.quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS
     }
 
     public CSMResource(ResourceAttribs resAtr) {
         this.resAtr = resAtr;
-        this.type = RESATR;
+        this.type = this.RESATR;
         this.name = this.resAtr.getResId();
         this.quantity = "" + this.resAtr.getRUnits();
     }
@@ -75,11 +75,11 @@ public class CSMResource {
     }
 
     public boolean isAcquire() {
-        return !((resAtr != null) && (resAtr.isRelease()));
+        return !((this.resAtr != null) && (this.resAtr.isRelease()));
     }
 
     public boolean isRelease() {
-        return !((resAtr != null) && (resAtr.isAcquire()));
+        return !((this.resAtr != null) && (this.resAtr.isAcquire()));
     }
 
     public String getResourcePrefix() {

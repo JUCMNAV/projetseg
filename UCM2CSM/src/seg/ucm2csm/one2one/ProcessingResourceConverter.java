@@ -22,27 +22,27 @@ public class ProcessingResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "r" + processingRes.getId() + "\" ";
-        String name = "name=\"" + processingRes.getName() + "\" ";
+        String id = "id=\"" + "r" + this.processingRes.getId() + "\" ";
+        String name = "name=\"" + this.processingRes.getName() + "\" ";
         String description;
-        String opTime = "opTime=\"" + processingRes.getOpTime() + "\" ";
+        String opTime = "opTime=\"" + this.processingRes.getOpTime() + "\" ";
         String multiplicity;
         String schedPolicy;
-        if (processingRes.getDescription() != null) {
-            description = "description=\"" + processingRes.getDescription() + "\" ";
+        if (this.processingRes.getDescription() != null) {
+            description = "description=\"" + this.processingRes.getDescription() + "\" ";
         } else
             description = "";
-        if (processingRes.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + processingRes.getMultiplicity() + "\" ";
+        if (this.processingRes.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + this.processingRes.getMultiplicity() + "\" ";
         } else {
             multiplicity = "";
         }
-        if (processingRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + processingRes.getSchedPolicy() + "\" ";
+        if (this.processingRes.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + this.processingRes.getSchedPolicy() + "\" ";
         } else {
             schedPolicy = "";
         }
-        String traceabilityLink = "traceabilityLink=\"" + processingRes.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.processingRes.getId() + "\" ";
         String resStr = "<ProcessingResource " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>";
         ps.println("        " + resStr);
 

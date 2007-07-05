@@ -87,7 +87,7 @@ public class Convert implements IURNExport {
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
         PrintStream ps = new PrintStream(fos);
-        problems.clear();
+        this.problems.clear();
 
         // prepare CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
@@ -110,7 +110,7 @@ public class Convert implements IURNExport {
             IURNDiagram diag = (IURNDiagram) iter.next();
             if (diag instanceof UCMmap) {
                 UCMmap map = (UCMmap) diag;
-                exportMap(map, ps, null, problems);
+                exportMap(map, ps, null, this.problems);
             }
         }
         
@@ -119,16 +119,16 @@ public class Convert implements IURNExport {
         ps.flush();
 
         // Reports to Problems view
-        problems.add(new CsmExportWarning("CSM export completed. Consult the console for additional schema validation results.", IMarker.SEVERITY_INFO));
-        refreshProblemsView(problems);
+        this.problems.add(new CsmExportWarning("CSM export completed. Consult the console for additional schema validation results.", IMarker.SEVERITY_INFO));
+        refreshProblemsView(this.problems);
 
     }
 
     /**
      * Converts the UCM (String) timestamp into a (CSM) xsd:dateTime compliant format.
      * 
-     * @param date (String) to be converted
-     * @return the xsd:dateTime equivalent
+     * @param dateString to be converted into a xsd:dateTime compliant format
+     * @return the xsd:dateTime equivalent to dateString
      */
     private String convertUcmDateToCsmDate(String dateString) {
 	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz");
@@ -140,16 +140,16 @@ public class Convert implements IURNExport {
 	}
 	Calendar cal = Calendar.getInstance();
 	cal.setTime(date);
-	String csmYear = String.valueOf(cal.get(cal.YEAR));
-	String month = String.valueOf(cal.get(cal.MONTH));
+	String csmYear = String.valueOf(cal.get(Calendar.YEAR));
+	String month = String.valueOf(cal.get(Calendar.MONTH));
 	String csmMonth = ("0" + month).substring(month.length() - 1);
-	String day = String.valueOf(cal.get(cal.DAY_OF_MONTH));
+	String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
 	String csmDay = ("0" + day).substring(day.length() - 1);
-	String hour = String.valueOf(cal.get(cal.HOUR_OF_DAY));
+	String hour = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
 	String csmHour = ("0" + hour).substring(hour.length() - 1);
-	String min = String.valueOf(cal.get(cal.MINUTE));
+	String min = String.valueOf(cal.get(Calendar.MINUTE));
 	String csmMin = ("0" + min).substring(min.length() - 1);
-	String sec = String.valueOf(cal.get(cal.SECOND));
+	String sec = String.valueOf(cal.get(Calendar.SECOND));
 	String csmSec = ("0" + sec).substring(sec.length() - 1);
 	return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec;
     }
@@ -232,8 +232,8 @@ public class Convert implements IURNExport {
         for (Iterator iter3 = ucmMap.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
-            if (!processedComponents.contains(((Component) compRef.getContDef()).getId())) {
-                processedComponents.add(((Component) compRef.getContDef()).getId());
+            if (!this.processedComponents.contains(((Component) compRef.getContDef()).getId())) {
+        	this.processedComponents.add(((Component) compRef.getContDef()).getId());
                 // generate CSM representation
                 ComponentRefConverter obj = new ComponentRefConverter(compRef);
                 doComponentRefConvert(obj, ps);
@@ -244,8 +244,8 @@ public class Convert implements IURNExport {
         for (Iterator res = ucmMap.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
             GeneralResource genRes = (GeneralResource) res.next();
             // but ouput each resource only once
-            if (!processedResources.contains(genRes.getId())) {
-                processedResources.add(genRes.getId());
+            if (!this.processedResources.contains(genRes.getId())) {
+        	this.processedResources.add(genRes.getId());
                 if (genRes instanceof ExternalOperation) {
                     ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
                     externalOpnCvtr.Convert(ps, /* source */null, /* target */ null, warnings);
@@ -837,15 +837,15 @@ public class Convert implements IURNExport {
                     // create dummy node
                     MapFactoryImpl mfi = new MapFactoryImpl();
                     EmptyPoint ep = mfi.createEmptyPoint();
-                    ep.setName("" + emptyPoint_id);
-                    ep.setDescription("" + emptyPoint_id);
-                    ep.setId("" + emptyPoint_id);
+                    ep.setName("" + this.emptyPoint_id);
+                    ep.setDescription("" + this.emptyPoint_id);
+                    ep.setId("" + this.emptyPoint_id);
                     CSMDupNode ep_node = new CSMDupNode(ep, warnings);
                     ep_node.setType(CSMDupNode.EMPTY);
-                    ep_node.setID("" + emptyPoint_id);
+                    ep_node.setID("" + this.emptyPoint_id);
                     ep_node.setResourcesDownstream(source.getResourcesDownstream());
                     ep_node.setResourcesUpstream(target.getResourcesUpstream());
-                    emptyPoint_id++;
+                    this.emptyPoint_id++;
                     node_list.add(ep_node);
 
                     // remove curr_conn connection
@@ -890,10 +890,10 @@ public class Convert implements IURNExport {
      */
     private void insertDummyStep(CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
         // create the new node
-        CSMDupNode dummy_node = new CSMDupNode(dummy_id);
+        CSMDupNode dummy_node = new CSMDupNode(this.dummy_id);
         dummy_node.setResourcesDownstream(source.getResourcesDownstream());
         dummy_node.setResourcesUpstream(target.getResourcesUpstream());
-        dummy_id++;
+        this.dummy_id++;
         node_list.add(dummy_node);
         // remove curr_conn connection
         conn_list.remove(curr_conn);
@@ -958,6 +958,7 @@ public class Convert implements IURNExport {
 
                         resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
                     } catch (CoreException ex) {
+                        System.out.println(ex); // or ex.getMessage()?
                     }
 
                 }

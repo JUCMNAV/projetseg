@@ -119,7 +119,7 @@ public class CSMDupNode {
      * @return the resource to be acquired
      */
     public String getResToAcquire() {
-        return res;
+        return this.res;
     }
 
     /**
@@ -127,11 +127,11 @@ public class CSMDupNode {
      * @param resAttribs
      */
     public void setResourceToAcquire(CSMResource resAttribs) {
-        resourceToAcquire = resAttribs;
+	this.resourceToAcquire = resAttribs;
     }
 
     public CSMResource getResourceToAcquire() {
-        return resourceToAcquire;
+        return this.resourceToAcquire;
     }
 
     public void setResToRelease(String res) {
@@ -139,15 +139,15 @@ public class CSMDupNode {
     }
 
     public String getResToRelease() {
-        return res;
+        return this.res;
     }
 
     public void setResourceToRelease(CSMResource resAttribs) {
-        resourceToRelease = resAttribs;
+	this.resourceToRelease = resAttribs;
     }
 
     public CSMResource getResourceToRelease() {
-        return resourceToRelease;
+        return this.resourceToRelease;
     }
 
     /**
@@ -157,49 +157,49 @@ public class CSMDupNode {
      */
     public String getTypeString() {
         String textual;
-        if (type == RESPREF) {
+        if (this.type == RESPREF) {
             textual = "RESPREF";
-        } else if (type == START) {
+        } else if (this.type == START) {
             textual = "START";
-        } else if (type == END) {
+        } else if (this.type == END) {
             textual = "END";
-        } else if (type == EMPTY) {
+        } else if (this.type == EMPTY) {
             textual = "EMPTY";
-        } else if (type == TIMESTAMP) {
+        } else if (this.type == TIMESTAMP) {
             textual = "TIMESTAMP";
-        } else if (type == FAILURE) {
+        } else if (this.type == FAILURE) {
             textual = "FAILURE";
-        } else if (type == ARROW) {
+        } else if (this.type == ARROW) {
             textual = "ARROW";
-        } else if (type == CONNECT) {
+        } else if (this.type == CONNECT) {
             textual = "CONNECT";
-        } else if (type == STUB) {
+        } else if (this.type == STUB) {
             textual = "STUB";
-        } else if (type == ABORT) {
+        } else if (this.type == ABORT) {
             textual = "ABORT";
-        } else if (type == WAIT) {
+        } else if (this.type == WAIT) {
             textual = "WAIT";
-        } else if (type == ORFORK) {
+        } else if (this.type == ORFORK) {
             textual = "ORFORK";
-        } else if (type == ANDFORK) {
+        } else if (this.type == ANDFORK) {
             textual = "ANDFORK";
-        } else if (type == ORJOIN) {
+        } else if (this.type == ORJOIN) {
             textual = "ORJOIN";
-        } else if (type == ANDJOIN) {
+        } else if (this.type == ANDJOIN) {
             textual = "ANDJOIN";
-        } else if (type == LOOP) {
+        } else if (this.type == LOOP) {
             textual = "LOOP";
-        } else if (type == UNDEFINED) {
+        } else if (this.type == UNDEFINED) {
             textual = "UNDEFINED";
-        } else if (type == RA) {
+        } else if (this.type == RA) {
             textual = "RA";
-        } else if (type == RR) {
+        } else if (this.type == RR) {
             textual = "RR";
-        } else if (type == CSMEMPTY) {
+        } else if (this.type == CSMEMPTY) {
             textual = "CSMEMPTY";
-        } else if (type == CSMDUMMY) {
+        } else if (this.type == CSMDUMMY) {
             textual = "CSMDUMMY";
-        } else if (type == CSMSTEP) {
+        } else if (this.type == CSMSTEP) {
             textual = "CSMSTEP";
         } else {
             textual = "NOT DEFINED IN SYSTEM";
@@ -222,54 +222,54 @@ public class CSMDupNode {
         this.node = node;
         // Set the node type
         if (node instanceof OrJoin) {
-            type = ORJOIN;
+            this.type = ORJOIN;
         } else if (node instanceof AndJoin) {
-            type = ANDJOIN;
+            this.type = ANDJOIN;
         } else if (node instanceof OrFork) {
-            type = ORFORK;
+            this.type = ORFORK;
         } else if (node instanceof AndFork) {
-            type = ANDFORK;
+            this.type = ANDFORK;
         } else if (node instanceof StartPoint) {
-            type = START;
+            this.type = START;
             // resourcesDownstream = new CSMResourceSet(node);
             // resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EndPoint) {
-            type = END;
+            this.type = END;
             // resourcesDownstream = new CSMResourceSet(node);
             // resourcesUpstream = resourcesDownstream;
         } else if (node instanceof EmptyPoint) {
-            type = EMPTY;
+            this.type = EMPTY;
         } else if (node instanceof Stub) {
-            type = STUB;
-            resourcesDownstream = new CSMResourceSet(node, warnings);
-            resourcesUpstream = resourcesDownstream;
+            this.type = STUB;
+            this.resourcesDownstream = new CSMResourceSet(node, warnings);
+            this.resourcesUpstream = this.resourcesDownstream;
         } else if (node instanceof RespRef) {
-            type = RESPREF;
-            resourcesDownstream = new CSMResourceSet(node, warnings);
-            resourcesUpstream = resourcesDownstream;
+            this.type = RESPREF;
+            this.resourcesDownstream = new CSMResourceSet(node, warnings);
+            this.resourcesUpstream = this.resourcesDownstream;
         } else if (node instanceof OrJoin) {
-            type = ORJOIN;
+            this.type = ORJOIN;
         } else if (node instanceof Timestamp) {
-            type = TIMESTAMP;
+            this.type = TIMESTAMP;
         } else if (node instanceof FailurePoint) {
-            type = FAILURE;
+            this.type = FAILURE;
         } else if (node instanceof DirectionArrow) {
-            type = ARROW;
+            this.type = ARROW;
         } else if (node instanceof Connect) {
-            type = CONNECT;
+            this.type = CONNECT;
         } else if (node instanceof Abort) {
-            type = ABORT;
+            this.type = ABORT;
         } else if (node instanceof WaitingPlace) {
-            type = WAIT;
+            this.type = WAIT;
         } else if (node instanceof Loop) {
-            type = LOOP;
+            this.type = LOOP;
         } else {
-            type = UNDEFINED;
+            this.type = UNDEFINED;
         }
     }
 
     public CSMResourceSet getResourcesDownstream() {
-        return resourcesDownstream;
+        return this.resourcesDownstream;
     }
 
     public void setResourcesDownstream(CSMResourceSet usedResources) {
@@ -277,7 +277,7 @@ public class CSMDupNode {
     }
 
     public CSMResourceSet getResourcesUpstream() {
-        return resourcesUpstream;
+        return this.resourcesUpstream;
     }
 
     public void setResourcesUpstream(CSMResourceSet usedResources) {
@@ -290,7 +290,7 @@ public class CSMDupNode {
      * @return the type of node
      */
     public int getType() {
-        return type;
+        return this.type;
     }
 
     /**
@@ -314,29 +314,29 @@ public class CSMDupNode {
      * <BR>
      * TODO: wave limitations
      * 
-     * @param node ID, of an RA, RR, Dummy Sequence or Dummy Step
+     * @param raORrrORseq is the node ID of an RA, RR, Dummy Sequence or Dummy Step
      */
     public CSMDupNode(int raORrrORseq) {
         // RA,RR/Seq/Dummy Step to be inserted
         if (raORrrORseq >= 1000 && raORrrORseq < 2000) {
-            type = RA;
+            this.type = RA;
         } else if ((raORrrORseq >= 2000 && raORrrORseq < 3000) || (raORrrORseq >= 4000 && raORrrORseq < 5000)) {
-            type = CSMEMPTY;
+            this.type = CSMEMPTY;
         } else if (raORrrORseq >= 3000 && raORrrORseq < 4000) {
-            type = RR;
+            this.type = RR;
         } else if (raORrrORseq >= 5000 && raORrrORseq < 6000) {
-            type = CSMDUMMY;
+            this.type = CSMDUMMY;
         }
-        node_id = "G" + raORrrORseq;
+        this.node_id = "G" + raORrrORseq;
     }
 
     // return the id of the node
     public String getId() {
         String id;
-        if (node == null) {
-            id = node_id;
+        if (this.node == null) {
+            id = this.node_id;
         } else {
-            id = node.getId();
+            id = this.node.getId();
         }
         return id;
     }
@@ -344,7 +344,7 @@ public class CSMDupNode {
     // return the id of the node if node is a Pathnode, else return null
     public PathNode getNode() {
         PathNode pn;
-        if (type == RA || type == RR || type == CSMEMPTY) {
+        if (this.type == RA || this.type == RR || this.type == CSMEMPTY) {
             pn = null;
         } else {
             pn = this.node;
@@ -353,7 +353,7 @@ public class CSMDupNode {
     }
 
     public boolean isPathNode() {
-        boolean notPathnodeKind = (type == RA || type == RR || type == CSMEMPTY);
+        boolean notPathnodeKind = (this.type == RA || this.type == RR || this.type == CSMEMPTY);
         return !notPathnodeKind;
     }
 
@@ -372,52 +372,52 @@ public class CSMDupNode {
      */
     public void printPathNode(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
         // guard against non-path node elements (RA/RR)
-        if (node == null)
+        if (this.node == null)
             return;
         // if UCM object is found, generate CSM representation
-        if (node instanceof OrJoin) {
-            OrJoinConverter obj = new OrJoinConverter((OrJoin) node);
+        if (this.node instanceof OrJoin) {
+            OrJoinConverter obj = new OrJoinConverter((OrJoin) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof AndJoin) {
-            AndJoinConverter obj = new AndJoinConverter((AndJoin) node);
+        } else if (this.node instanceof AndJoin) {
+            AndJoinConverter obj = new AndJoinConverter((AndJoin) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof OrFork) {
-            OrForkConverter obj = new OrForkConverter((OrFork) node);
+        } else if (this.node instanceof OrFork) {
+            OrForkConverter obj = new OrForkConverter((OrFork) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof AndFork) {
-            AndForkConverter obj = new AndForkConverter((AndFork) node);
+        } else if (this.node instanceof AndFork) {
+            AndForkConverter obj = new AndForkConverter((AndFork) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof StartPoint) {
-            StartPointConverter obj = new StartPointConverter((StartPoint) node);
+        } else if (this.node instanceof StartPoint) {
+            StartPointConverter obj = new StartPointConverter((StartPoint) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof EndPoint) {
-            EndPointConverter obj = new EndPointConverter((EndPoint) node);
+        } else if (this.node instanceof EndPoint) {
+            EndPointConverter obj = new EndPointConverter((EndPoint) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof EmptyPoint) {
-            EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint) node);
+        } else if (this.node instanceof EmptyPoint) {
+            EmptyPointConverter obj = new EmptyPointConverter((EmptyPoint) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof Stub) {
-            StubConverter obj = new StubConverter((Stub) node);
+        } else if (this.node instanceof Stub) {
+            StubConverter obj = new StubConverter((Stub) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof RespRef) {
-            ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef) node);
+        } else if (this.node instanceof RespRef) {
+            ResponsibilityRefConverter obj = new ResponsibilityRefConverter((RespRef) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof DirectionArrow) {
-            DirectionArrowConverter obj = new DirectionArrowConverter((DirectionArrow) node);
+        } else if (this.node instanceof DirectionArrow) {
+            DirectionArrowConverter obj = new DirectionArrowConverter((DirectionArrow) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof Timer) {
-            TimerConverter obj = new TimerConverter((Timer) node);
+        } else if (this.node instanceof Timer) {
+            TimerConverter obj = new TimerConverter((Timer) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof Connect) {
-            ConnectConverter obj = new ConnectConverter((Connect) node);
+        } else if (this.node instanceof Connect) {
+            ConnectConverter obj = new ConnectConverter((Connect) this.node);
             doConvert(obj, ps, source, target, warnings);
-        } else if (node instanceof WaitingPlace) {
-            WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
+        } else if (this.node instanceof WaitingPlace) {
+            WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) this.node);
             doConvert(obj, ps, source, target, warnings);
         }
         // **** There should not remain any unimplemented node type ****
         else {
-            warnings.add(new CsmExportWarning(" Node type not implemented: " + node.getClass().getName(), node));
+            warnings.add(new CsmExportWarning(" Node type not implemented: " + this.node.getClass().getName(), this.node));
         }
     }
 }

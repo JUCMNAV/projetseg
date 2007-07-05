@@ -22,7 +22,7 @@ public class ResourceAttribs {
 
     private final int BOTH = 0; // default
 
-    private int usage = BOTH;
+    private int usage = this.BOTH;
 
     public ResourceAttribs(GeneralResource genRes) {
         this.resource = genRes;
@@ -33,7 +33,7 @@ public class ResourceAttribs {
     }
 
     public String getResId() {
-        return (name != null) ? name : resource.getId();
+        return (this.name != null) ? this.name : this.resource.getId();
     }
 
     public void setRes(GeneralResource genRes) {
@@ -58,7 +58,7 @@ public class ResourceAttribs {
     }
 
     public void setAcquire() {
-        this.usage = ACQUIRE;
+        this.usage = this.ACQUIRE;
     }
 
     /**
@@ -66,11 +66,11 @@ public class ResourceAttribs {
      * @return TRUE if this resource deals with ACQUISITION
      */
     public boolean isAcquire() {
-        return (this.usage == ACQUIRE) || (this.usage == BOTH);
+        return (this.usage == this.ACQUIRE) || (this.usage == this.BOTH);
     }
 
     public void setRelease() {
-        this.usage = RELEASE;
+        this.usage = this.RELEASE;
     }
 
     /**
@@ -78,6 +78,6 @@ public class ResourceAttribs {
      * @return TRUE if this resource deals with RELEASE
      */
     public boolean isRelease() {
-        return (this.usage == RELEASE) || (this.usage == BOTH);
+        return (this.usage == this.RELEASE) || (this.usage == this.BOTH);
     }
 }

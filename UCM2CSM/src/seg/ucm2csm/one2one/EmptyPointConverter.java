@@ -14,25 +14,25 @@ import ucm.map.EmptyPoint;
 
 public class EmptyPointConverter implements AbstractConverter {
 
-    private EmptyPoint ep;
+    private EmptyPoint emptyPointNode;
 
-    PathConnAttributes oa = new PathConnAttributes();
+    PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public EmptyPointConverter(EmptyPoint ep) {
-        this.ep = ep;
+        this.emptyPointNode = ep;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+        String Object_attributes = "<Sequence id=\"" + "h" + this.emptyPointNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.emptyPointNode.getId() + "\" ";
         ps.print("            " + Object_attributes + traceabilityLink);
         String closing_attribute = "/> <!-- EmptyPoint -->";
 
-        oa.OptionalAttributes(ep, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.emptyPointNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

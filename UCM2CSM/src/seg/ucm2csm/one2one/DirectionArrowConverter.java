@@ -17,25 +17,25 @@ import ucm.map.DirectionArrow;
 
 public class DirectionArrowConverter implements AbstractConverter {
 
-    private DirectionArrow ep;
+    private DirectionArrow directionArrowNode;
 
-    PathConnAttributes oa = new PathConnAttributes();
+    private PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public DirectionArrowConverter(DirectionArrow ep) {
-        this.ep = ep;
+        this.directionArrowNode = ep;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+        String Object_attributes = "<Sequence id=\"" + "h" + this.directionArrowNode.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.directionArrowNode.getId() + "\" ";
         ps.print("            " + Object_attributes + traceabilityLink);
         String closing_attribute = "/> <!-- DirectionArrow -->";
 
-        oa.OptionalAttributes(ep, ps, source, target);
+        this.pathConnAttribs.OptionalAttributes(this.directionArrowNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

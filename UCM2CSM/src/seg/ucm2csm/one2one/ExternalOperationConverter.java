@@ -22,27 +22,27 @@ public class ExternalOperationConverter implements AbstractConverter {
 
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "e" + externalOpn.getId() + "\" ";
-        String name = "name=\"" + externalOpn.getName() + "\" ";
+        String id = "id=\"" + "e" + this.externalOpn.getId() + "\" ";
+        String name = "name=\"" + this.externalOpn.getName() + "\" ";
         String description;
-        String opTime = "opTime=\"" + externalOpn.getOpTime() + "\" ";
+        String opTime = "opTime=\"" + this.externalOpn.getOpTime() + "\" ";
         String multiplicity;
         String schedPolicy;
-        if (externalOpn.getDescription() != null) {
-            description = "description=\"" + externalOpn.getDescription() + "\" ";
+        if (this.externalOpn.getDescription() != null) {
+            description = "description=\"" + this.externalOpn.getDescription() + "\" ";
         } else
             description = "";
-        if (externalOpn.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + externalOpn.getMultiplicity() + "\" ";
+        if (this.externalOpn.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + this.externalOpn.getMultiplicity() + "\" ";
         } else {
             multiplicity = "";
         }
-        if (externalOpn.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + externalOpn.getSchedPolicy() + "\" ";
+        if (this.externalOpn.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + this.externalOpn.getSchedPolicy() + "\" ";
         } else {
             schedPolicy = "";
         }
-        String traceabilityLink = "traceabilityLink=\"" + externalOpn.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + this.externalOpn.getId() + "\" ";
         String resStr = "<ExternalOperation " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>";
         ps.println("        " + resStr);
         ps.flush();

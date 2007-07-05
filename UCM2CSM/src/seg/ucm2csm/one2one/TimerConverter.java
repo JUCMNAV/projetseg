@@ -14,13 +14,13 @@ import ucm.map.Timer;
 
 public class TimerConverter implements AbstractConverter {
 
-    private Timer ep;
+    private Timer timerNode;
 
-    PathConnAttributes oa = new PathConnAttributes();
+    private PathConnAttributes pathConnAttribs = new PathConnAttributes();
 
     // constructors
     public TimerConverter(Timer ep) {
-        this.ep = ep;
+        this.timerNode = ep;
     }
 
     // prints XML representation of object to output file
@@ -35,11 +35,11 @@ public class TimerConverter implements AbstractConverter {
             // no other need
             if (target.size() == 1) {
                 // join
-                Object_attributes = "<Join id=\"" + "h" + ep.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+                Object_attributes = "<Join id=\"" + "h" + this.timerNode.getId() + "\" ";
+                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes + traceabilityLink);
                 closing_attribute = "/> <!-- Timer -->";
-                oa.OptionalAttributes(ep, ps, source, target);
+                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);
@@ -47,37 +47,36 @@ public class TimerConverter implements AbstractConverter {
                 // requires Join; DummyStep; Branch
             } else {
                 // join
-                Object_attributes = "<Join id=\"" + "h" + ep.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+                Object_attributes = "<Join id=\"" + "h" + this.timerNode.getId() + "\" ";
+                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes + traceabilityLink);
                 closing_attribute = "/> <!-- Timer 1/3 -->";
                 ArrayList tgt = new ArrayList();
-                tgt.add("h" + ep.getId() + "_t");
-                oa.OptionalAttributes(ep, ps, source, tgt);
+                tgt.add("h" + this.timerNode.getId() + "_t");
+                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, tgt);
 
                 // output to file
                 ps.println(closing_attribute);
                 ps.flush();
                 // DummyStep
                 ArrayList tgt2 = new ArrayList();
-                tgt2.add("h" + ep.getId() + "__t");
-                String Object_attributes2 = "<Step id=\"" + "h" + ep.getId() + "_t\" name=\"Timer\" predecessor=\"" + "h" + ep.getId() + "\" successor=\""
+                tgt2.add("h" + this.timerNode.getId() + "__t");
+                String Object_attributes2 = "<Step id=\"" + "h" + this.timerNode.getId() + "_t\" name=\"Timer\" predecessor=\"" + "h" + this.timerNode.getId() + "\" successor=\""
                         + tgt2.get(0) + "\" ";
-                String traceabilityLink2 = "traceabilityLink=\"" + ep.getId() + "\" ";
+                String traceabilityLink2 = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes2 + traceabilityLink2);
                 String closing_attribute2 = "/> <!-- Timer 2/3 -->";
-                // oa.OptionalAttributes(ep, ps, tgt, tgt2);
 
                 // output to file
                 ps.println(closing_attribute2);
                 ps.flush();
 
                 // Branch
-                String Object_attributes3 = "<Branch id=\"" + "h" + ep.getId() + "__t\" ";
-                String traceabilityLink3 = "traceabilityLink=\"" + ep.getId() + "\" ";
+                String Object_attributes3 = "<Branch id=\"" + "h" + this.timerNode.getId() + "__t\" ";
+                String traceabilityLink3 = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes3 + traceabilityLink3);
                 String closing_attribute3 = "/> <!-- Timer 3/3 -->";
-                oa.OptionalAttributes(ep, ps, tgt, target);
+                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, tgt, target);
 
                 // output to file
                 ps.println(closing_attribute3);
@@ -87,11 +86,11 @@ public class TimerConverter implements AbstractConverter {
             // replace by a sequence
             if (target.size() == 1) {
                 // sequence
-                Object_attributes = "<Sequence id=\"" + "h" + ep.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+                Object_attributes = "<Sequence id=\"" + "h" + this.timerNode.getId() + "\" ";
+                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes + traceabilityLink);
                 closing_attribute = "/> <!-- Timer -->";
-                oa.OptionalAttributes(ep, ps, source, target);
+                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);
@@ -99,11 +98,11 @@ public class TimerConverter implements AbstractConverter {
                 // implement as a Branch
             } else {
                 // branch
-                Object_attributes = "<Branch id=\"" + "h" + ep.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + ep.getId() + "\" ";
+                Object_attributes = "<Branch id=\"" + "h" + this.timerNode.getId() + "\" ";
+                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
                 ps.print("            " + Object_attributes + traceabilityLink);
                 closing_attribute = "/> <!-- Timer -->";
-                oa.OptionalAttributes(ep, ps, source, target);
+                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);

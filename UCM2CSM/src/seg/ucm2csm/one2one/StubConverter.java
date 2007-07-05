@@ -22,9 +22,7 @@ public class StubConverter implements AbstractConverter {
 
     private Stub stub;
 
-    StepAttributes sa = new StepAttributes();
-
-    // private PluginBinding ao;
+    private StepAttributes stepAttribs = new StepAttributes();
 
     // constructors
     public StubConverter(Stub stub) {
@@ -43,33 +41,33 @@ public class StubConverter implements AbstractConverter {
         // object attributes
         String predecessorWithCommas = (String) source.toString().subSequence(1, (source.toString().length() - 1));
         String predecessor = predecessorWithCommas.replaceAll(",", "");
-        if (stub.getPred().size() > 1) {
-            warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has more than one predecessor", stub));
+        if (this.stub.getPred().size() > 1) {
+            warnings.add(new CsmExportWarning("Stub " + this.stub.getName() + " has more than one predecessor", this.stub));
         }
         String successorWithCommas = (String) target.toString().subSequence(1, (target.toString().length() - 1));
         String successor = successorWithCommas.replaceAll(",", "");
-        if (stub.getSucc().size() > 1) {
-            warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has more than one successor", stub));
+        if (this.stub.getSucc().size() > 1) {
+            warnings.add(new CsmExportWarning("Stub " + this.stub.getName() + " has more than one successor", this.stub));
         }
         String name = null;
-        if (stub.getBindings().size() == 0) {
-            warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has no bindings", stub, IMarker.SEVERITY_ERROR));
-            name = stub.isDynamic() ? stub.getName() : stub.getName() + "/" + "ERROR_NO_BINDING";
+        if (this.stub.getBindings().size() == 0) {
+            warnings.add(new CsmExportWarning("Stub " + this.stub.getName() + " has no bindings", this.stub, IMarker.SEVERITY_ERROR));
+            name = this.stub.isDynamic() ? this.stub.getName() : this.stub.getName() + "/" + "ERROR_NO_BINDING";
         } else {
-            name = stub.isDynamic() ? stub.getName() : stub.getName() + "/" + ((PluginBinding) (stub.getBindings().get(0))).getPlugin().getName();
+            name = this.stub.isDynamic() ? this.stub.getName() : this.stub.getName() + "/" + ((PluginBinding) (this.stub.getBindings().get(0))).getPlugin().getName();
         }
 
-        String mandatory_attribute = "<Step id=\"" + "h" + stub.getId() + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" "
+        String mandatory_attribute = "<Step id=\"" + "h" + this.stub.getId() + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" "
                 + "successor=\"" + successor + "\" ";
         ps.print("            " + mandatory_attribute);
 
         // optional attributes
-        sa.OptionalAttributes(stub, ps);
+        this.stepAttribs.OptionalAttributes(this.stub, ps);
         ps.println("> <!-- Stub -->");
 
         // Dynamic Stub
-        if (stub.isDynamic()) {
-            String stubId = stub.getId();
+        if (this.stub.isDynamic()) {
+            String stubId = this.stub.getId();
             String fake_stubId = "fs_" + stubId;
             String plugBind_head = "<Refinement parent=\"" + "h" + stubId + "\" sub=\"" + fake_stubId + "\" >";
 
@@ -84,8 +82,8 @@ public class StubConverter implements AbstractConverter {
              * All bindings should have the same cardinality. We're using the first binding one as "skeleton" for all of them. The proper binding of the maps
              * should be checked. JS
              */
-            if (stub.getBindings().size() != 0) {
-                PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
+            if (this.stub.getBindings().size() != 0) {
+                PluginBinding pb = (PluginBinding) this.stub.getBindings().get(0);
                 int nthIn = 0;
                 for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
                     InBinding ib = (InBinding) inBindingIterator.next();
@@ -109,7 +107,7 @@ public class StubConverter implements AbstractConverter {
             // Static Stub
         } else {
             // process bindings as CSM refinements
-            for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
+            for (Iterator iter = this.stub.getBindings().iterator(); iter.hasNext();) {
                 PluginBinding binding = (PluginBinding) iter.next();
                 PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
                 bind_obj.Convert(ps, source, target, warnings);

@@ -82,43 +82,43 @@ public class CSMDupConnection {
     // methods to acquire target/source elements of a connection
     public PathNode getTarget() {
         PathNode pn = null;
-        if (connection != null) {
-            pn = (PathNode) connection.getTarget();
+        if (this.connection != null) {
+            pn = (PathNode) this.connection.getTarget();
         }
         return pn;
     }
 
     public CSMDupNode getCSMTarget() {
-        return target_node;
+        return this.target_node;
     }
 
     public PathNode getSource() {
         PathNode pn = null;
-        if (connection != null) {
-            pn = (PathNode) connection.getSource();
+        if (this.connection != null) {
+            pn = (PathNode) this.connection.getSource();
         }
         return pn;
     }
 
     public CSMDupNode getCSMSource() {
-        return source_node;
+        return this.source_node;
     }
 
     public String getTargetStr() {
-        return target_id;
+        return this.target_id;
     }
 
     public String getSourceStr() {
-        return source_id;
+        return this.source_id;
     }
 
     public void setTarget(CSMDupNode target) {
-        target_node = target;
+	this.target_node = target;
     }
 
     // checks validity of node connection
     public boolean isNodeConnection() {
-        if (connection == null) {
+        if (this.connection == null) {
             return false;
         }
         return true;

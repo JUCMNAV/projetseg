@@ -105,11 +105,11 @@ public class ResourceAcquisition {
         }
 
         // printing attributes
-        ps.print("            " + ra_attributes);
-        ps.print(ra_predecessor);
-        ps.print(ra_successor);
-        ps.print(end_ra);
-        ps.println("");
+        this.ps.print("            " + ra_attributes);
+        this.ps.print(ra_predecessor);
+        this.ps.print(ra_successor);
+        this.ps.print(end_ra);
+        this.ps.println("");
     }
 
     public void acquireComp(String res, CSMDupNode node, CSMDupConnectionList list) {
@@ -133,11 +133,11 @@ public class ResourceAcquisition {
         }
 
         // printing attributes
-        ps.print("            " + ra_attributes);
-        ps.print(ra_predecessor);
-        ps.print(ra_successor);
-        ps.print(end_ra);
-        ps.println("");
+        this.ps.print("            " + ra_attributes);
+        this.ps.print(ra_predecessor);
+        this.ps.print(ra_successor);
+        this.ps.print(end_ra);
+        this.ps.println("");
     }
 
     // prints XML representation of Dummy EmptyPoint element
@@ -162,17 +162,18 @@ public class ResourceAcquisition {
         }
 
         // output to file
-        ps.print("            " + epoint_attributes);
-        ps.print(epoint_source);
-        ps.print(epoint_target);
-        ps.print(epoint_end);
-        ps.println("");
-        ps.flush();
+        this.ps.print("            " + epoint_attributes);
+        this.ps.print(epoint_source);
+        this.ps.print(epoint_target);
+        this.ps.print(epoint_end);
+        this.ps.println("");
+        this.ps.flush();
     }
 
     // inserts RA and Empty Points where necessary in the duplicate map
     public int addRA(CSMResourceSet resToAcquire, CSMResourceSet usedResources, PathNode curr_edge, CSMDupNodeList map, CSMDupConnectionList conn_map,
             int ins_nodes) {
+	int nodesInserted = ins_nodes;
         // create resource acquire component and insert it in duplicate map
         CSMDupNode ra_node = new CSMDupNode(++ra_id);
         ra_node.setResourcesDownstream(usedResources); // to compute the
@@ -180,7 +181,7 @@ public class ResourceAcquisition {
         ra_node.setResourcesUpstream(usedResources); // to compute the
         // release set
         map.add(ra_node);
-        ins_nodes++;
+        nodesInserted++;
         // create new links
         CSMDupNode source = conn_map.getSourceForTarget(curr_edge);
         // add an empty point if immediatly preceded by RR/RA/RESPREF node
@@ -198,7 +199,7 @@ public class ResourceAcquisition {
                 // the release
                 // set
                 map.add(e2_node);
-                ins_nodes++;
+                nodesInserted++;
                 conn_map.add(new CSMDupConnection(source, e2_node));
                 conn_map.add(new CSMDupConnection(e2_node, ra_node));
 
@@ -220,7 +221,7 @@ public class ResourceAcquisition {
                 e_node.setResourcesUpstream(usedResources); // to compute the
                 // release set
                 map.add(e_node);
-                ins_nodes++;
+                nodesInserted++;
                 conn_map.add(new CSMDupConnection(ra_node, e_node));
                 conn_map.add(new CSMDupConnection(e_node, curr_edge, map));
             }
@@ -232,7 +233,7 @@ public class ResourceAcquisition {
             e_node.setResourcesUpstream(usedResources); // to compute the
             // release set
             map.add(e_node);
-            ins_nodes++;
+            nodesInserted++;
             CSMDupNode nextDupNode = conn_map.getTargetForSource(curr_edge);
             conn_map.add(new CSMDupConnection(curr_edge, ra_node, map));
             conn_map.add(new CSMDupConnection(ra_node, e_node));
@@ -245,7 +246,7 @@ public class ResourceAcquisition {
             // acquire
             resToAcquire.remove(0);
         }
-        return ins_nodes;
+        return nodesInserted;
     }
 
     // methods to manipulate RA and Dummy Sequence IDs

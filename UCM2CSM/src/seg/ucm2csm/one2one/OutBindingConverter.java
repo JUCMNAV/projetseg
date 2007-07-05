@@ -13,11 +13,11 @@ import ucm.map.OutBinding;
  */
 public class OutBindingConverter implements AbstractConverter {
 
-    private OutBinding out_bind;
+    private OutBinding outBinding;
 
     // constructors
     public OutBindingConverter(OutBinding out_bind) {
-        this.out_bind = out_bind;
+        this.outBinding = out_bind;
     }
 
     // prints XML representation of object to output file
@@ -29,7 +29,7 @@ public class OutBindingConverter implements AbstractConverter {
         String nextNode = (String) target.get(0);
 
         // object attributes
-        String Object_attributes = "<OutBinding end=\"" + "h" + out_bind.getEndPoint().getId() + "\" " + "out=\"" + nextNode + "\"/>";
+        String Object_attributes = "<OutBinding end=\"" + "h" + this.outBinding.getEndPoint().getId() + "\" " + "out=\"" + nextNode + "\"/>";
 
         // output to file
         ps.println("                     " + Object_attributes);

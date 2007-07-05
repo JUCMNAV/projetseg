@@ -103,11 +103,11 @@ public class ResourceRelease {
         }
 
         // printing attributes
-        ps.print("            " + rr_attributes);
-        ps.print(rr_predecessor);
-        ps.print(rr_successor);
-        ps.print(end_rr);
-        ps.println("");
+        this.ps.print("            " + rr_attributes);
+        this.ps.print(rr_predecessor);
+        this.ps.print(rr_successor);
+        this.ps.print(end_rr);
+        this.ps.println("");
     }
 
     public void releaseComp(String res, CSMDupNode node, CSMDupConnectionList list) {
@@ -132,11 +132,11 @@ public class ResourceRelease {
         }
 
         // printing attributes
-        ps.print("            " + rr_attributes);
-        ps.print(rr_predecessor);
-        ps.print(rr_successor);
-        ps.print(end_rr);
-        ps.println("");
+        this.ps.print("            " + rr_attributes);
+        this.ps.print(rr_predecessor);
+        this.ps.print(rr_successor);
+        this.ps.print(end_rr);
+        this.ps.println("");
     }
 
     // prints XML representation of Dummy EmptyPoint element
@@ -161,18 +161,18 @@ public class ResourceRelease {
         }
 
         // output to file
-        ps.print("            " + epoint_attributes);
-        ps.print(epoint_source);
-        ps.print(epoint_target);
-        ps.print(epoint_end);
-        ps.println("");
-        ps.flush();
+        this.ps.print("            " + epoint_attributes);
+        this.ps.print(epoint_source);
+        this.ps.print(epoint_target);
+        this.ps.print(epoint_end);
+        this.ps.println("");
+        this.ps.flush();
     }
 
     // inserts RR and Empty Points where necessary in the duplicate map
     public int addRR(CSMResourceSet resToRelease, CSMResourceSet usedResources, CSMDupNodeList map, CSMDupConnectionList conn_map, PathNode curr_edge,
             int ins_nodes) {
-
+	int nodesInserted = ins_nodes;
         // create resource release component and insert it in duplicate map
         CSMDupNode rr_node = new CSMDupNode(++rr_id);
         rr_node.setResourcesDownstream(usedResources); // to compute
@@ -180,7 +180,7 @@ public class ResourceRelease {
         rr_node.setResourcesUpstream(usedResources); // to compute
         // release/acquire sets
         map.add(rr_node);
-        ins_nodes++;
+        nodesInserted++;
         // create empty point and insert it in duplicate map
         // create new links
         CSMDupNode target = conn_map.getTargetForSource(curr_edge);
@@ -192,7 +192,7 @@ public class ResourceRelease {
             e_node.setResourcesUpstream(usedResources); // to compute
             // release/acquire sets
             map.add(e_node);
-            ins_nodes++;
+            nodesInserted++;
             conn_map.add(new CSMDupConnection(curr_edge, e_node, map));
             conn_map.add(new CSMDupConnection(e_node, rr_node));
             // add an empty point if immediatly followed by RR/RA/RESPREF node
@@ -203,7 +203,7 @@ public class ResourceRelease {
                 e2_node.setResourcesDownstream(usedResources);
                 e2_node.setResourcesUpstream(usedResources);
                 map.add(e2_node);
-                ins_nodes++;
+                nodesInserted++;
                 conn_map.add(new CSMDupConnection(rr_node, e2_node));
                 conn_map.add(new CSMDupConnection(e2_node, target));
             } else {
@@ -224,7 +224,7 @@ public class ResourceRelease {
                 // release/acquire
                 // sets
                 map.add(e_node);
-                ins_nodes++;
+                nodesInserted++;
                 conn_map.add(new CSMDupConnection(source, e_node));
                 conn_map.add(new CSMDupConnection(e_node, rr_node));
             } else {
@@ -240,7 +240,7 @@ public class ResourceRelease {
             // released
             resToRelease.remove(0);
         }
-        return ins_nodes;
+        return nodesInserted;
     }
 
     // methods to manipulate RR and Dummy Sequence IDs
