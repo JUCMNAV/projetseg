@@ -4,12 +4,15 @@ package seg.ucm2csm;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -53,43 +56,52 @@ import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
 /**
- * Performs implicit and explicit conversions on UCM components.
- * 
- * @see one2one
+ * Performs the sequence of operations to convert a URN specification into a CSM.
+ *
+ * @see seg.ucm2csm.duplicate
+ * @see seg.ucm2csm.implicit
+ * @see seg.ucm2csm.one2one
+ *
  */
-
 public class Convert implements IURNExport {
 
     private List processedComponents = new ArrayList();
 
     private List processedResources = new ArrayList();
 
-    private int dummy_id = 5000; // limitation. js
+    private int dummy_id = 5000; // TODO:  wave limitation
 
-    private int emptyPoint_id = 9000; // js
+    private int emptyPoint_id = 9000; // TODO:  wave limitation
 
     Vector problems = new Vector(); // List of warnings and errors for the Problems view
 
     // Converts object through polymorphism (dynamic binding)
-    public void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
+    private void doComponentRefConvert(ComponentRefConverter obj, PrintStream ps) {
         obj.Convert(ps);
     }
 
+    /**
+     * Main control loop that provides the CSM header, translates each UCM map into a CSM scenario
+     * (with components and resources), then outputs the CSM footer.
+     */
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
         PrintStream ps = new PrintStream(fos);
         problems.clear();
 
-        // CSM header and footer
+        // prepare CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-        String CSM_header = "<CSM:CSMType xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-            + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " + "name=\"" + urn.getName() + "\" description=\"" + urn.getDescription()
-            + "\" author=\"" + urn.getAuthor() + "\" version=\"" + urn.getSpecVersion() + "\">";
-        // Note: "created" not handled yet because of missing Date to
-        // xsd:dateTime conversion
+        String CSM_header = "<CSM:CSMType "
+            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+            + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" "
+            + "name=\"" + urn.getName() + "\" "
+            + "description=\"" + urn.getDescription() + "\" "
+            + "author=\"" + urn.getAuthor() + "\" "
+            + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" "
+            + "version=\"" + urn.getSpecVersion() + "\">";
         String CSM_footer = "</CSM:CSMType>";
 
-        // output to file
+        // output header
         ps.println(XML_header);
         ps.println(CSM_header);
 
@@ -101,6 +113,8 @@ public class Convert implements IURNExport {
                 exportMap(map, ps, null, problems);
             }
         }
+        
+        // output footer
         ps.println(CSM_footer);
         ps.flush();
 
@@ -110,75 +124,112 @@ public class Convert implements IURNExport {
 
     }
 
-    // prints scenario CSM element
-    public void csmScenario(UCMmap map, PrintStream ps) {
-        // map header and footer
-
+    /**
+     * Converts the UCM (String) timestamp into a (CSM) xsd:dateTime compliant format.
+     * 
+     * @param date (String) to be converted
+     * @return the xsd:dateTime equivalent
+     */
+    private String convertUcmDateToCsmDate(String dateString) {
+	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz");
+	Date date = Calendar.getInstance().getTime(); // as fallback in case things go wrong
+	try {
+	    date = sdf.parse(dateString);
+	} catch (ParseException p) {
+	    System.out.println(p.toString());
+	}
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(date);
+	String csmYear = String.valueOf(cal.get(cal.YEAR));
+	String month = String.valueOf(cal.get(cal.MONTH));
+	String csmMonth = ("0" + month).substring(month.length() - 1);
+	String day = String.valueOf(cal.get(cal.DAY_OF_MONTH));
+	String csmDay = ("0" + day).substring(day.length() - 1);
+	String hour = String.valueOf(cal.get(cal.HOUR_OF_DAY));
+	String csmHour = ("0" + hour).substring(hour.length() - 1);
+	String min = String.valueOf(cal.get(cal.MINUTE));
+	String csmMin = ("0" + min).substring(min.length() - 1);
+	String sec = String.valueOf(cal.get(cal.SECOND));
+	String csmSec = ("0" + sec).substring(sec.length() - 1);
+	return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec;
     }
 
-    private void exportMap(UCMmap map, PrintStream ps, PluginBinding pb, Vector warnings) {
+    /**
+     * Exports a UCM map into a CSM scenario, along with the necessary Components and Resources.
+     * 
+     * @param ucmMap UCM map to export
+     * @param ps print stream
+     * @param pluginBinding CURRENTLY UNUSED
+     * @param warnings to advertise exportation problems
+     */
+    private void exportMap(UCMmap ucmMap, PrintStream ps, PluginBinding pluginBinding, Vector warnings) {
         String probability;
         String transaction;
         String name_extension;
 
         // map name will also be plugin binding specific (if given) 
         // and contains probability and transaction
-        if (pb != null) {
-            name_extension = "_h" + pb.getStub().getId();
-            probability = "probability=\"" + pb.getProbability() + "\" ";
-            transaction = "transaction=\"" + pb.isTransaction() + "\" ";
+        if (pluginBinding != null) {
+            name_extension = "_h" + pluginBinding.getStub().getId();
+            probability = "probability=\"" + pluginBinding.getProbability() + "\" ";
+            transaction = "transaction=\"" + pluginBinding.isTransaction() + "\" ";
         } else {
             name_extension = "";
             probability = "";
             transaction = "";
         }
 
-        String open_scenario_tag = "<Scenario " + "id=\"m" + map.getId() + name_extension + "\" " + "name=\"" + map.getName() + "\" " + "traceabilityLink=\"" + map.getId() + "\" ";
+        // prepare header
+        String open_scenario_tag = "<Scenario " + "id=\"m" + ucmMap.getId() + name_extension + "\" " + "name=\"" + ucmMap.getName() + "\" " + "traceabilityLink=\"" + ucmMap.getId() + "\" ";
         String close_attributes = ">";
-        // optional attributes
 
+        // prepare footer
         String close_scenario_tag = "</Scenario>";
 
-        // output to file
+        // output header
         ps.print("\n        " + open_scenario_tag + probability + transaction);
 
-        if (map.getDescription() != null) {
-            String descr_attribute = "description=\"" + map.getDescription() + "\" ";
+        // optional attributes
+        if (ucmMap.getDescription() != null) {
+            String descr_attribute = "description=\"" + ucmMap.getDescription() + "\" ";
             ps.print(descr_attribute);
         }
+
+        // output footer
         ps.println(close_attributes);
+
         /*
-         * Create an intermediate map based on original one This map contains references to all PathNodes in the original map as well as references to all the
-         * original connections in the map This intermediate map is implemented as two list; - a node list - a connections list
+         * Create an intermediate map based on original one. This map contains references to all PathNodes in the original map as well as references to all the
+         * original connections in the map. This intermediate map is implemented as two lists; - a node list - a connections list
          */
         CSMDupNodeList dupMaplist = new CSMDupNodeList();
-        dupMaplist.DuplicateHyperEdges(map, warnings);
+        dupMaplist.DuplicateHyperEdges(ucmMap, warnings);
         CSMDupConnectionList dupMapConnList = new CSMDupConnectionList();
-        dupMapConnList.DuplicateConnection(map, dupMaplist);
+        dupMapConnList.DuplicateConnection(ucmMap, dupMaplist);
 
-        // Complete Resource Requests
+        // Add resource information to the intermediate map.
         dupMaplist.computeNodesResources(dupMapConnList);
 
-        // Insert RA/RR/Seq nodes in above list
+        // Insert RA/RR/Seq nodes
         transform(dupMaplist, dupMapConnList, ps, warnings);
 
         // Optional sorting: eases human parsing (reading) of generated XML.
-        // If in doubt, remove or disable. JS
+        // If in doubt, remove or disable.
         sortConnectionList(dupMapConnList);
         CSMDupNodeList dupMaplistSorted = new CSMDupNodeList();
         sortNodeList(dupMapConnList, dupMaplist, dupMaplistSorted);
 
-        // Generate XML tags
-        saveXML(map, ps, dupMaplistSorted, dupMapConnList, warnings);
+        // Generate XML
+        saveXML(ucmMap, ps, dupMaplistSorted, dupMapConnList, warnings);
 
         // Close scenario
         ps.println("        " + close_scenario_tag);
 
-        // Generate sub-maps for probabilistic binding of dynamic stubs
-        outputDynamicStubSubMaps(dupMaplistSorted, map, ps, warnings);
+        // Generate intermediate sub-maps for probabilistic binding of dynamic stubs
+        outputDynamicStubSubMaps(dupMaplistSorted, ucmMap, ps, warnings);
 
         // Generate components
-        for (Iterator iter3 = map.getContRefs().iterator(); iter3.hasNext();) {
+        for (Iterator iter3 = ucmMap.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
             if (!processedComponents.contains(((Component) compRef.getContDef()).getId())) {
@@ -190,7 +241,7 @@ public class Convert implements IURNExport {
         }
 
         // Generate resources
-        for (Iterator res = map.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
+        for (Iterator res = ucmMap.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
             GeneralResource genRes = (GeneralResource) res.next();
             // but ouput each resource only once
             if (!processedResources.contains(genRes.getId())) {
@@ -211,7 +262,22 @@ public class Convert implements IURNExport {
         ps.flush();
     }
 
-    public void outputDynamicStubSubMaps(CSMDupNodeList dupMaplist, UCMmap map, PrintStream ps, Vector warnings) {
+    /**
+     * To convey to CSM scenario to capability of selecting among one of the multiple submaps used by dynamic stubs
+     * (e.g. probabilistic execution), an
+     * intermediate scenario is used.  This intermediate scenario expands each submap possibility into a
+     * CSM branch.
+     * <BR>
+     * <E>WARNING/TODO</E>:  stubs (and submaps) with multiple input or multiple output are currently processed in
+     * a much simplified manner.  At the present time, this is considered to be satisfactory since CSM does
+     * not support more complex refinements than single input, single output ones.
+     *  
+     * @param dupMaplist
+     * @param ucmMap
+     * @param ps
+     * @param warnings
+     */
+    private void outputDynamicStubSubMaps(CSMDupNodeList dupMaplist, UCMmap ucmMap, PrintStream ps, Vector warnings) {
 
         String oneTab = "        ";
         String twoTab = "            ";
@@ -230,7 +296,7 @@ public class Convert implements IURNExport {
                 }
                 steps = steps.trim();
 
-                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + map.getName() + "_" + stub.getName() + "\" >";
+                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + ucmMap.getName() + "_" + stub.getName() + "\" >";
                 ps.println(oneTab + scenario_head);
 
                 /*
@@ -321,7 +387,8 @@ public class Convert implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupNodeList
+     * Sorting of CSMDupNodeList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the
+     * XML generated document.
      * 
      * @param connList
      *            used to visit the nodes
@@ -330,7 +397,7 @@ public class Convert implements IURNExport {
      * @param nodeListSorted
      *            sorted node list
      */
-    public void sortNodeList(CSMDupConnectionList connList, CSMDupNodeList nodeList, CSMDupNodeList nodeListSorted) {
+    private void sortNodeList(CSMDupConnectionList connList, CSMDupNodeList nodeList, CSMDupNodeList nodeListSorted) {
         int indexInNewList;
         int indexInOldList;
         for (int i = 0; i < connList.size(); i++) {
@@ -364,7 +431,7 @@ public class Convert implements IURNExport {
      *            id of the node sought
      * @return index of the node in the list
      */
-    public int findNodeInList(CSMDupNodeList nodeList, String id) {
+    private int findNodeInList(CSMDupNodeList nodeList, String id) {
         boolean found = false;
         int pos = -1;
         for (int i = 0; (i < nodeList.size()) && (!found); i++) {
@@ -378,11 +445,12 @@ public class Convert implements IURNExport {
     }
 
     /**
-     * Sorting of CSMDupConnectionList
+     * Sorting of CSMDupConnectionList is totally optionnal, yet greatly appreciated by humans attempting to comprehend the
+     * XML generated document.
      * 
      * @param connList
      */
-    public void sortConnectionList(CSMDupConnectionList connList) {
+    private void sortConnectionList(CSMDupConnectionList connList) {
         int startSortingAt = 0;
         int lastSorted = 0;
         int startSortingFrom = startSortingAt;
@@ -429,8 +497,11 @@ public class Convert implements IURNExport {
         }
     }
 
-    // adds RA/RR/Seq nodes where necessary in the duplicate map
-    public void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps, Vector warnings) {
+    /**
+     * Once the essence of the UCM map has been converted, the duplicate map is revisited and
+     * ResourceAcquisition and ResourceRelease nodes are added as required.
+     */
+    private void transform(CSMDupNodeList list, CSMDupConnectionList conn_list, PrintStream ps, Vector warnings) {
         ResourceAcquisition ra = new ResourceAcquisition(ps);
         ResourceRelease rr = new ResourceRelease(ps);
         int i = 0;
@@ -442,13 +513,13 @@ public class Convert implements IURNExport {
             rr.releaseResource(curr_node, list, conn_list);
             i++;
         }
-        // eliminate duplicate empty points and add dummy Steps
-        // eliminateAdjacentEmptyPoints(list, conn_list);
         addDummy(list, conn_list, warnings);
     }
 
-    // prints dummy step
-    public void printDummyStep(CSMDupNode node, String id, PrintStream ps, CSMDupConnectionList list) {
+    /**
+     * Print DummyStep
+     */
+    private void printDummyStep(CSMDupNode node, String id, PrintStream ps, CSMDupConnectionList list) {
 
         // initializing attributes
         String name = "Dummy";
@@ -476,13 +547,15 @@ public class Convert implements IURNExport {
         ps.flush();
     }
 
-    // print CSM output for RA and Sequence
-    public void saveXML(UCMmap map, PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Vector warnings) {
+    /**
+     * Output each node of the duplicate map.  Keep an opened eye for anomalies (w.r.t. CSM expectations).
+     */
+    private void saveXML(UCMmap map, PrintStream ps, CSMDupNodeList dupMaplist, CSMDupConnectionList dupMapConnlist, Vector warnings) {
 
         int startPoints = 0;
 
-        for (int b = 0; b < dupMaplist.size(); b++) {
-            CSMDupNode curr_node = dupMaplist.get(b);
+        for (int dupMapListIndex = 0; dupMapListIndex < dupMaplist.size(); dupMapListIndex++) {
+            CSMDupNode curr_node = dupMaplist.get(dupMapListIndex);
             // printing RA
             if (curr_node.getId().startsWith("G1")) {
                 CSMResource resource = curr_node.getResourceToAcquire();
@@ -523,16 +596,13 @@ public class Convert implements IURNExport {
             }
             // print other objects
             else {
-                // initializing attributes dupMaplist.get(b).getNode() no longer works since some
-                // EmptyPoints get here now  and since getNode() returns null for CSMEMPTY.
-                // String curr_node_id0 = dupMaplist.get(b).getNode2().getId();
-                String curr_node_id = dupMaplist.get(b).getId();
+                String curr_node_id = dupMaplist.get(dupMapListIndex).getId();
                 // determine new source and target of all PathConnection types
-                ArrayList source = new ArrayList();
-                ArrayList target = new ArrayList();
+                ArrayList sourcesList = new ArrayList();
+                ArrayList targetsList = new ArrayList();
                 // retrieve list of target/source nodes
-                source = getSources(dupMapConnlist, curr_node_id);
-                target = getTargets(dupMapConnlist, curr_node_id);
+                sourcesList = getSources(dupMapConnlist, curr_node_id);
+                targetsList = getTargets(dupMapConnlist, curr_node_id);
                 PathNode pathnode = curr_node.getNode();
                 /**
                  * Check for presence of too many StartPoint
@@ -544,11 +614,13 @@ public class Convert implements IURNExport {
                  * EmptyPoint of a WaitingPlace
                  */
                 if (curr_node.isPathNode() && (pathnode instanceof EmptyPoint) && (pathnode.getSucc().size() > 1)) {
-                    String target_noBracket = target.toString().substring(1, (target.toString().length() - 1));
+                    // convert the array into a comma-separated list
+                    String target_noBracket = targetsList.toString().substring(1, (targetsList.toString().length() - 1));
+                    // remove the commas
                     String target_noComma =  target_noBracket.replaceAll(",", "");
 
                     String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + source.get(0) + "\" ";
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
                     String epoint_target = "target=\"" + target_noComma + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- EmptyPoint of WaitingPlace -->";
@@ -558,8 +630,8 @@ public class Convert implements IURNExport {
                      */
                 } else if (curr_node.getType() == CSMDupNode.CSMSTEP) {
                     String epoint_attributes = "            <Step id=\"h" + curr_node.getId() + "\" name=\"EmptyPoint\" hostDemand=\"0\" ";
-                    String epoint_source = "predecessor=\"" + source.get(0) + "\" ";
-                    String epoint_target = "successor=\"" + target.get(0) + "\" ";
+                    String epoint_source = "predecessor=\"" + sourcesList.get(0) + "\" ";
+                    String epoint_target = "successor=\"" + targetsList.get(0) + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- EmptyPoint -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
@@ -568,8 +640,8 @@ public class Convert implements IURNExport {
                      */
                 } else if (curr_node.isPathNode() && (pathnode instanceof EndPoint) && ((EndPoint) pathnode).getSucc().size() > 0) {
                     String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + source.get(0) + "\" ";
-                    String epoint_target = "target=\"" + target.get(0) + "\" ";
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
+                    String epoint_target = "target=\"" + targetsList.get(0) + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- EndPoint of a Connect -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
@@ -578,13 +650,13 @@ public class Convert implements IURNExport {
                      */
                 } else if (curr_node.isPathNode() && (pathnode instanceof StartPoint) && ((StartPoint) pathnode).getPred().size() > 0) {
                     String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + source.get(0) + "\" ";
-                    String epoint_target = "target=\"" + target.get(0) + "\" ";
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
+                    String epoint_target = "target=\"" + targetsList.get(0) + "\" ";
                     String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
                     String epoint_end = "/> <!-- StartPoint of a Connect -->";
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 } else {
-                    curr_node.printPathNode(ps, source, target, warnings);
+                    curr_node.printPathNode(ps, sourcesList, targetsList, warnings);
                 }
             }
         } // for
@@ -594,7 +666,7 @@ public class Convert implements IURNExport {
     }
 
     // retrieve list of source nodes
-    public ArrayList getSources(CSMDupConnectionList dupMapConnlist, String edge_id) {
+    private ArrayList getSources(CSMDupConnectionList dupMapConnlist, String edge_id) {
         ArrayList sources = new ArrayList();
         for (int i = 0; i < dupMapConnlist.size(); i++) {
             String add_h = "h";
@@ -615,7 +687,7 @@ public class Convert implements IURNExport {
     } // method
 
     // retrieve list of target nodes
-    public ArrayList getTargets(CSMDupConnectionList dupMapConnlist, String edge_id) {
+    private ArrayList getTargets(CSMDupConnectionList dupMapConnlist, String edge_id) {
         ArrayList targets = new ArrayList();
         for (int i = 0; i < dupMapConnlist.size(); i++) {
             String add_h = "h";
@@ -634,53 +706,8 @@ public class Convert implements IURNExport {
         return targets;
     } // method
 
-    // Eliminate adjacent emptyPoints
-    public void eliminateAdjacentEmptyPoints(CSMDupNodeList node_list, CSMDupConnectionList conn_list) {
-        boolean adj_ep_found = true;
-        while (adj_ep_found) {
-            adj_ep_found = false; // reset loop condition
-            // Scan the list of connections for a connection that has
-            // EmptyPoints as both source and target
-            int conn_list_size = conn_list.size();
-            for (int i = 0; i < conn_list_size; i++) {
-                CSMDupConnection curr_conn = conn_list.get(i);
-                CSMDupNode source = curr_conn.getCSMSource();
-                CSMDupNode target = curr_conn.getCSMTarget();
-                // DO NOT remove EmptyPoint with multiple successors (i.e.
-                // related to Connect, WaitingPlace, Timer or the like)
-                if (source.isPathNode() && (source.getNode() instanceof EmptyPoint) && target.isPathNode() && (target.getNode() instanceof EmptyPoint)
-                        && (target.getNode().getSucc().size() == 1)) {
-                    // find next connection, that has source = 'target'
-                    if (conn_list.existsConnectionForSource(target)) {
-                        CSMDupConnection next_conn = conn_list.getConnectionForSource(target);
-                        CSMDupNode next_target = next_conn.getCSMTarget();
-
-                        // remove 'target' node
-                        node_list.remove(target);
-
-                        // remove curr_conn connection
-                        conn_list.remove(curr_conn);
-                        conn_list_size--;
-
-                        // remove next_conn connection
-                        conn_list.remove(next_conn);
-                        conn_list_size--;
-
-                        // add new connection
-                        conn_list.add(new CSMDupConnection(source, next_target));
-                        conn_list_size++;
-
-                        adj_ep_found = true; // set loop condition
-                    } else {
-                        problems.add(new CsmExportWarning("'last' connection has Empty Point target: " + target, IMarker.SEVERITY_ERROR));
-                    }
-                } // if
-            } // for
-        } // while
-    } // method
-
     // Adds a Dummy responsability in between 2 steps
-    public void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list, Vector warnings) {
+    private void addDummy(CSMDupNodeList node_list, CSMDupConnectionList conn_list, Vector warnings) {
         boolean work_to_do = true;
 
         while (work_to_do) {
@@ -710,7 +737,7 @@ public class Convert implements IURNExport {
                             // do insert a DummyStep after previous node
                             insertDummyStep(node_list, conn_list, curr_conn, source, target);
                             conn_list_size++;
-                            work_to_do = true; // js: we need to start over when adding connections
+                            work_to_do = true; // we need to start over after adding connections
                         }
                         // if necessary, insert a DummyStep before each successor node
                         ArrayList conns = new ArrayList();
@@ -730,7 +757,7 @@ public class Convert implements IURNExport {
                             } else {
                                 insertDummyStep(node_list, conn_list, con, target, nod);
                                 conn_list_size++;
-                                work_to_do = true; // js: we need to start over when adding connections
+                                work_to_do = true; // we need to start over after adding connections
                             }
                         }
                         node_list.retype(target, CSMDupNode.ANDFORK); 
@@ -747,7 +774,7 @@ public class Convert implements IURNExport {
                                 insertDummyStep(node_list, conn_list, next_conn, target, next_target);
                                 conn_list_size++;
                                 node_list.retype(target, CSMDupNode.CSMDUMMY);
-                                work_to_do = true; // js: we need to start over when adding connections next node is a step
+                                work_to_do = true; // we need to start over after adding connections
                             } else if ((next_target.isPathNode() && ((next_target.getType() == CSMDupNode.RESPREF) || (next_target.getType() == CSMDupNode.STUB)))
                                     || ((next_target.getType() == CSMDupNode.RR) || (next_target.getType() == CSMDupNode.RA))
                                     || (next_target.getType() == CSMDupNode.CSMSTEP)) {
@@ -783,7 +810,7 @@ public class Convert implements IURNExport {
                                     insertDummyStep(node_list, conn_list, curr_conn, source, target);
                                     conn_list_size++;
                                     node_list.retype(target, CSMDupNode.CSMEMPTY);
-                                    work_to_do = true; // js: we need to start over when adding connections
+                                    work_to_do = true; // we need to start over after adding connections
                                 }
                                 /**
                                  * an EmptyPoint is preceded by a step and followed by a connection node: convert EmptyPoint to a DummySequence and insert a
@@ -803,7 +830,7 @@ public class Convert implements IURNExport {
                     } // if
                 } // if
 
-                // Throw in an empty point in between to adjacent ResponsibilityRef. NEEDS MAJOR CHECKUP. JS
+                // Throw in an EmptyPoint between adjacent RESPREFs and STUBs.
                 else if (((source.getType() == CSMDupNode.RESPREF) || (source.getType() == CSMDupNode.STUB))
                         && ((target.getType() == CSMDupNode.RESPREF) || (target.getType() == CSMDupNode.STUB))) {
 
@@ -861,7 +888,7 @@ public class Convert implements IURNExport {
      * @param target
      *            node following the Dummy Step
      */
-    public void insertDummyStep(CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
+    private void insertDummyStep(CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
         // create the new node
         CSMDupNode dummy_node = new CSMDupNode(dummy_id);
         dummy_node.setResourcesDownstream(source.getResourcesDownstream());
@@ -875,6 +902,9 @@ public class Convert implements IURNExport {
         conn_list.add(new CSMDupConnection(dummy_node, target));
     }
 
+    /**
+     * This method is required to be able to claim implementing IURNExport but it is currently no implemented.
+     */
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
         // TODO Auto-generated method stub
     }
@@ -885,7 +915,7 @@ public class Convert implements IURNExport {
      * @param warnings
      *            a vector of {@link CsmExportWarning}s to be pushed to the problems view.
      */
-    public static void refreshProblemsView(Vector warnings) {
+    private static void refreshProblemsView(Vector warnings) {
         IWorkbenchWindow[] wbw = PlatformUI.getWorkbench().getWorkbenchWindows();
         UCMNavMultiPageEditor editor = null;
 
@@ -906,7 +936,7 @@ public class Convert implements IURNExport {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-                System.out.println(ex);
+                System.out.println(ex); // or ex.getMessage()?
             }
 
             if (warnings.size() > 0) {
