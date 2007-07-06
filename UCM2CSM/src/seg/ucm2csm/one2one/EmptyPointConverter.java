@@ -27,10 +27,10 @@ public class EmptyPointConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String Object_attributes = "<Sequence id=\"" + "h" + this.emptyPointNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.emptyPointNode.getId() + "\" ";
-        ps.print("            " + Object_attributes + traceabilityLink);
-        String closing_attribute = "/> <!-- EmptyPoint -->";
+        String Object_attributes = "<Sequence id=\"" + "h" + this.emptyPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.emptyPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/> <!-- EmptyPoint -->"; //$NON-NLS-1$
 
         this.pathConnAttribs.OptionalAttributes(this.emptyPointNode, ps, source, target);
 

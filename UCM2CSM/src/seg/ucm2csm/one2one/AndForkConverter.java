@@ -27,11 +27,11 @@ public class AndForkConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String id_attribute = "<Fork id=\"" + "h" + this.andForkNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.andForkNode.getId() + "\" ";
-        ps.print("            " + id_attribute + traceabilityLink);
+        String id_attribute = "<Fork id=\"" + "h" + this.andForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.andForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + id_attribute + traceabilityLink); //$NON-NLS-1$
 
-        String closing_attribute = "/>";
+        String closing_attribute = "/>"; //$NON-NLS-1$
 
         // optional attributes
         this.patthConnAttribs.OptionalAttributes(this.andForkNode, ps, source, target);

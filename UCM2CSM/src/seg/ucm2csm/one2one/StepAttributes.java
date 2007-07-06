@@ -27,7 +27,7 @@ public class StepAttributes {
     }
 
     public static void tracebilityLink(PrintStream ps, PathNode af) {
-        String traceabilityLink = "traceabilityLink=\"" + af.getId() + "\" ";
+        String traceabilityLink = "traceabilityLink=\"" + af.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print(traceabilityLink);
     }
 
@@ -39,8 +39,8 @@ public class StepAttributes {
         String hostDemand_attribute;
         if (pathnode instanceof RespRef) {
             hostDemand = ((RespRef) pathnode).getHostDemand();
-            if ((hostDemand != null) && (hostDemand != "")) {
-                hostDemand_attribute = "hostDemand=\"" + hostDemand + "\" ";
+            if ((hostDemand != null) && (hostDemand != "")) { //$NON-NLS-1$
+                hostDemand_attribute = "hostDemand=\"" + hostDemand + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                 ps.print(hostDemand_attribute);
             }
         }
@@ -60,7 +60,7 @@ public class StepAttributes {
                 if ((compKind == ComponentKind.PROCESS_LITERAL) || (compKind == ComponentKind.AGENT_LITERAL) || (compKind == ComponentKind.TEAM_LITERAL)
                         || (compKind == ComponentKind.OBJECT_LITERAL)) {
                     String comp_id = ((Component) (((ComponentRef) contRef).getContDef())).getId();
-                    String comp_attribute = "component=\"" + "c" + comp_id + "\" ";
+                    String comp_attribute = "component=\"" + "c" + comp_id + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     ps.print(comp_attribute);
                 }
             }
@@ -70,7 +70,7 @@ public class StepAttributes {
     // prints description attribute
     public static void printDescription(PrintStream ps, PathNode pathnode) {
         if (pathnode.getDescription() != null) {
-            String description_attribute = "description=\"" + pathnode.getDescription() + "\" ";
+            String description_attribute = "description=\"" + pathnode.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             ps.print(description_attribute);
         }
     }
@@ -78,17 +78,17 @@ public class StepAttributes {
     // prints repitition count (repCount)
     public static void printRepCount(PrintStream ps, PathNode pathnode) {
         String repCount;
-        String repCount_attribute = "repCount=\"" + "1" + "\" ";
+        String repCount_attribute = "repCount=\"" + "1" + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         if (pathnode instanceof RespRef) {
             repCount = ((RespRef) pathnode).getRepetitionCount();
-            if ((repCount != null) && (repCount != "1")) {
-                repCount_attribute = "repCount=\"" + repCount + "\" ";
+            if ((repCount != null) && (repCount != "1")) { //$NON-NLS-1$
+                repCount_attribute = "repCount=\"" + repCount + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
         if (pathnode instanceof Stub) {
             repCount = ((Stub) pathnode).getRepetitionCount();
-            if ((repCount != null) && (repCount != "1")) {
-                repCount_attribute = "repCount=\"" + repCount + "\" ";
+            if ((repCount != null) && (repCount != "1")) { //$NON-NLS-1$
+                repCount_attribute = "repCount=\"" + repCount + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
         ps.print(repCount_attribute);

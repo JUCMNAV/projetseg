@@ -64,16 +64,16 @@ public class ComponentRefConverter {
         if (((ComponentRef) compRef.getParent()) != null) {
             this.parentCompRef = (ComponentRef) compRef.getParent();
             this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
-            this.parentID += "c" + this.parentCompDef.getId();
+            this.parentID += "c" + this.parentCompDef.getId(); //$NON-NLS-1$
         } else {
-            this.parentID += " ";
+        	this.parentID += " "; //$NON-NLS-1$
         }
 
         // retrieve childrenIDs
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
             this.childrenCompRef = (ComponentRef) iter.next();
             this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
-            this.childrenIDs += "c" + this.childrenCompDef.getId() + " ";
+            this.childrenIDs += "c" + this.childrenCompDef.getId() + " "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -88,13 +88,13 @@ public class ComponentRefConverter {
          * 'cNNN'.
          */
         // if (!activeProcStatusDefined) return;
-        String comp_host = "";
+        String comp_host = ""; //$NON-NLS-1$
         // resources do not exist yet. js
         if (this.compRef.getContDef() != null) {
             if (this.compRef.getContDef() instanceof ComponentRegular) {
                 if (((ComponentRegular) this.compRef.getContDef()).getHost() != null) {
                     ProcessingResource procRes = ((ComponentRegular) this.compRef.getContDef()).getHost();
-                    comp_host = "host=\"" + "r" + procRes.getId() + "\" ";
+                    comp_host = "host=\"" + "r" + procRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
         }
@@ -102,29 +102,30 @@ public class ComponentRefConverter {
         // object attributes --- host attribute to be implemanteds
         String id = ((Component) this.compRef.getContDef()).getId();
         String name = ((Component) this.compRef.getContDef()).getName();
-        String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " ";
-        String traceabilityLink = "traceabilityLink=\"" + this.compRef.getId() + "\" ";
-        String close = "/>";
+        String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        String traceabilityLink = "traceabilityLink=\"" + this.compRef.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String close = "/>"; //$NON-NLS-1$
 
-        String comp_attributes_sub = "sub=\"" + this.childrenIDs + "\" ";
-        String comp_attributes_parent = "parent=\"" + this.parentID + "\" ";
+        String comp_attributes_sub = "sub=\"" + this.childrenIDs + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String comp_attributes_parent = "parent=\"" + this.parentID + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String comp_attributes_active_process;
+
         if (this.activeProcStatusDefined) {
-            comp_attributes_active_process = "isActiveProcess=\"" + this.activeProcess + "\" ";
+            comp_attributes_active_process = "isActiveProcess=\"" + this.activeProcess + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            comp_attributes_active_process = "";
+            comp_attributes_active_process = ""; //$NON-NLS-1$
         }
 
-        ps.print("        " + comp_attributes + traceabilityLink);
-        ps.print(" " + comp_attributes_active_process);
+        ps.print("        " + comp_attributes + traceabilityLink); //$NON-NLS-1$
+        ps.print(" " + comp_attributes_active_process); //$NON-NLS-1$
 
-        if (this.parentID.compareTo(" ") != 0) {
+        if (this.parentID.compareTo(" ") != 0) { //$NON-NLS-1$
             ps.print(comp_attributes_parent);
         }
-        if (this.childrenIDs.compareTo("") != 0) {
+        if (this.childrenIDs.compareTo("") != 0) { //$NON-NLS-1$
             ps.print(comp_attributes_sub);
         }
-        ps.println(" " + close);
+        ps.println(" " + close); //$NON-NLS-1$
         ps.flush();
 
     }

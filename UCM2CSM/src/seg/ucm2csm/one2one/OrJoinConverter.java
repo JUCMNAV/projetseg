@@ -26,10 +26,10 @@ public class OrJoinConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String madatory_attribute = "<Merge id=\"" + "h" + this.orJoinNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.orJoinNode.getId() + "\" ";
-        ps.print("            " + madatory_attribute + traceabilityLink);
-        String closing_attribute = "/>";
+        String madatory_attribute = "<Merge id=\"" + "h" + this.orJoinNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.orJoinNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + madatory_attribute + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/>"; //$NON-NLS-1$
 
         // optional attributes
         this.pathConnAttribs.OptionalAttributes(this.orJoinNode, ps, source, target);

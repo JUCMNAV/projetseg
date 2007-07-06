@@ -29,10 +29,10 @@ public class OutBindingConverter implements AbstractConverter {
         String nextNode = (String) target.get(0);
 
         // object attributes
-        String Object_attributes = "<OutBinding end=\"" + "h" + this.outBinding.getEndPoint().getId() + "\" " + "out=\"" + nextNode + "\"/>";
+        String Object_attributes = "<OutBinding end=\"" + "h" + outBinding.getEndPoint().getId() + "\" " + "out=\"" + nextNode + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
         // output to file
-        ps.println("                     " + Object_attributes);
+        ps.println("                     " + Object_attributes); //$NON-NLS-1$
         ps.flush();
     }
 }

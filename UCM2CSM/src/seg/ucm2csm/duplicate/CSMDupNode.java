@@ -158,51 +158,51 @@ public class CSMDupNode {
     public String getTypeString() {
         String textual;
         if (this.type == RESPREF) {
-            textual = "RESPREF";
+            textual = "RESPREF"; //$NON-NLS-1$
         } else if (this.type == START) {
-            textual = "START";
+            textual = "START"; //$NON-NLS-1$
         } else if (this.type == END) {
-            textual = "END";
+            textual = "END"; //$NON-NLS-1$
         } else if (this.type == EMPTY) {
-            textual = "EMPTY";
+            textual = "EMPTY"; //$NON-NLS-1$
         } else if (this.type == TIMESTAMP) {
-            textual = "TIMESTAMP";
+            textual = "TIMESTAMP"; //$NON-NLS-1$
         } else if (this.type == FAILURE) {
-            textual = "FAILURE";
+            textual = "FAILURE"; //$NON-NLS-1$
         } else if (this.type == ARROW) {
-            textual = "ARROW";
+            textual = "ARROW"; //$NON-NLS-1$
         } else if (this.type == CONNECT) {
-            textual = "CONNECT";
+            textual = "CONNECT"; //$NON-NLS-1$
         } else if (this.type == STUB) {
-            textual = "STUB";
+            textual = "STUB"; //$NON-NLS-1$
         } else if (this.type == ABORT) {
-            textual = "ABORT";
+            textual = "ABORT"; //$NON-NLS-1$
         } else if (this.type == WAIT) {
-            textual = "WAIT";
+            textual = "WAIT"; //$NON-NLS-1$
         } else if (this.type == ORFORK) {
-            textual = "ORFORK";
+            textual = "ORFORK"; //$NON-NLS-1$
         } else if (this.type == ANDFORK) {
-            textual = "ANDFORK";
+            textual = "ANDFORK"; //$NON-NLS-1$
         } else if (this.type == ORJOIN) {
-            textual = "ORJOIN";
+            textual = "ORJOIN"; //$NON-NLS-1$
         } else if (this.type == ANDJOIN) {
-            textual = "ANDJOIN";
+            textual = "ANDJOIN"; //$NON-NLS-1$
         } else if (this.type == LOOP) {
-            textual = "LOOP";
+            textual = "LOOP"; //$NON-NLS-1$
         } else if (this.type == UNDEFINED) {
-            textual = "UNDEFINED";
+            textual = "UNDEFINED"; //$NON-NLS-1$
         } else if (this.type == RA) {
-            textual = "RA";
+            textual = "RA"; //$NON-NLS-1$
         } else if (this.type == RR) {
-            textual = "RR";
+            textual = "RR"; //$NON-NLS-1$
         } else if (this.type == CSMEMPTY) {
-            textual = "CSMEMPTY";
+            textual = "CSMEMPTY"; //$NON-NLS-1$
         } else if (this.type == CSMDUMMY) {
-            textual = "CSMDUMMY";
+            textual = "CSMDUMMY"; //$NON-NLS-1$
         } else if (this.type == CSMSTEP) {
-            textual = "CSMSTEP";
+            textual = "CSMSTEP"; //$NON-NLS-1$
         } else {
-            textual = "NOT DEFINED IN SYSTEM";
+            textual = "NOT DEFINED IN SYSTEM"; //$NON-NLS-1$
         }
         return textual;
     }
@@ -314,7 +314,12 @@ public class CSMDupNode {
      * <BR>
      * TODO: wave limitations
      * 
+<<<<<<< .mine
+     * @param raORrrORseq 
+     * 				node ID, of an RA, RR, Dummy Sequence or Dummy Step
+=======
      * @param raORrrORseq is the node ID of an RA, RR, Dummy Sequence or Dummy Step
+>>>>>>> .r1280
      */
     public CSMDupNode(int raORrrORseq) {
         // RA,RR/Seq/Dummy Step to be inserted
@@ -327,7 +332,7 @@ public class CSMDupNode {
         } else if (raORrrORseq >= 5000 && raORrrORseq < 6000) {
             this.type = CSMDUMMY;
         }
-        this.node_id = "G" + raORrrORseq;
+        this.node_id = "G" + raORrrORseq; //$NON-NLS-1$
     }
 
     // return the id of the node
@@ -417,7 +422,7 @@ public class CSMDupNode {
         }
         // **** There should not remain any unimplemented node type ****
         else {
-            warnings.add(new CsmExportWarning(" Node type not implemented: " + this.node.getClass().getName(), this.node));
+            warnings.add(new CsmExportWarning(Messages.getString("CSMDupNode.NoTypeNotImplemented") + this.node.getClass().getName(), this.node)); //$NON-NLS-1$
         }
     }
 }

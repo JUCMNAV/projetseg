@@ -35,10 +35,10 @@ public class TimerConverter implements AbstractConverter {
             // no other need
             if (target.size() == 1) {
                 // join
-                Object_attributes = "<Join id=\"" + "h" + this.timerNode.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes + traceabilityLink);
-                closing_attribute = "/> <!-- Timer -->";
+                Object_attributes = "<Join id=\"" + "h" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+                closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
                 this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file
@@ -47,35 +47,35 @@ public class TimerConverter implements AbstractConverter {
                 // requires Join; DummyStep; Branch
             } else {
                 // join
-                Object_attributes = "<Join id=\"" + "h" + this.timerNode.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes + traceabilityLink);
-                closing_attribute = "/> <!-- Timer 1/3 -->";
+                Object_attributes = "<Join id=\"" + "h" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+                closing_attribute = "/> <!-- Timer 1/3 -->"; //$NON-NLS-1$
                 ArrayList tgt = new ArrayList();
-                tgt.add("h" + this.timerNode.getId() + "_t");
-                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, tgt);
+                tgt.add("h" + timerNode.getId() + "_t"); //$NON-NLS-1$ //$NON-NLS-2$
+                pathConnAttribs.OptionalAttributes(timerNode, ps, source, tgt);
 
                 // output to file
                 ps.println(closing_attribute);
                 ps.flush();
                 // DummyStep
                 ArrayList tgt2 = new ArrayList();
-                tgt2.add("h" + this.timerNode.getId() + "__t");
-                String Object_attributes2 = "<Step id=\"" + "h" + this.timerNode.getId() + "_t\" name=\"Timer\" predecessor=\"" + "h" + this.timerNode.getId() + "\" successor=\""
-                        + tgt2.get(0) + "\" ";
-                String traceabilityLink2 = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes2 + traceabilityLink2);
-                String closing_attribute2 = "/> <!-- Timer 2/3 -->";
+                tgt2.add("h" + timerNode.getId() + "__t"); //$NON-NLS-1$ //$NON-NLS-2$
+                String Object_attributes2 = "<Step id=\"" + "h" + timerNode.getId() + "_t\" name=\"Timer\" predecessor=\"" + "h" + timerNode.getId() + "\" successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                        + tgt2.get(0) + "\" "; //$NON-NLS-1$
+                String traceabilityLink2 = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes2 + traceabilityLink2); //$NON-NLS-1$
+                String closing_attribute2 = "/> <!-- Timer 2/3 -->"; //$NON-NLS-1$
 
                 // output to file
                 ps.println(closing_attribute2);
                 ps.flush();
 
                 // Branch
-                String Object_attributes3 = "<Branch id=\"" + "h" + this.timerNode.getId() + "__t\" ";
-                String traceabilityLink3 = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes3 + traceabilityLink3);
-                String closing_attribute3 = "/> <!-- Timer 3/3 -->";
+                String Object_attributes3 = "<Branch id=\"" + "h" + timerNode.getId() + "__t\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                String traceabilityLink3 = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes3 + traceabilityLink3); //$NON-NLS-1$
+                String closing_attribute3 = "/> <!-- Timer 3/3 -->"; //$NON-NLS-1$
                 this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, tgt, target);
 
                 // output to file
@@ -86,10 +86,10 @@ public class TimerConverter implements AbstractConverter {
             // replace by a sequence
             if (target.size() == 1) {
                 // sequence
-                Object_attributes = "<Sequence id=\"" + "h" + this.timerNode.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes + traceabilityLink);
-                closing_attribute = "/> <!-- Timer -->";
+                Object_attributes = "<Sequence id=\"" + "h" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+                closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
                 this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file
@@ -98,10 +98,10 @@ public class TimerConverter implements AbstractConverter {
                 // implement as a Branch
             } else {
                 // branch
-                Object_attributes = "<Branch id=\"" + "h" + this.timerNode.getId() + "\" ";
-                traceabilityLink = "traceabilityLink=\"" + this.timerNode.getId() + "\" ";
-                ps.print("            " + Object_attributes + traceabilityLink);
-                closing_attribute = "/> <!-- Timer -->";
+                Object_attributes = "<Branch id=\"" + "h" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+                closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
                 this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
 
                 // output to file

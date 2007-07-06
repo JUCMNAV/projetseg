@@ -27,11 +27,11 @@ public class WaitingPlaceConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String id_attribute = "<Join id=\"" + "h" + this.waitingPlaceNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.waitingPlaceNode.getId() + "\" ";
-        ps.print("            " + id_attribute + traceabilityLink);
+        String id_attribute = "<Join id=\"" + "h" + waitingPlaceNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + waitingPlaceNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + id_attribute + traceabilityLink); //$NON-NLS-1$
 
-        String closing_attribute = "/> <!-- Waiting Place -->";
+        String closing_attribute = "/> <!-- Waiting Place -->"; //$NON-NLS-1$
 
         // optional attributes
         this.pathConnAttribs.OptionalAttributes(this.waitingPlaceNode, ps, source, target);

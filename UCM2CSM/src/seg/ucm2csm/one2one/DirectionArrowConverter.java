@@ -30,10 +30,10 @@ public class DirectionArrowConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String Object_attributes = "<Sequence id=\"" + "h" + this.directionArrowNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.directionArrowNode.getId() + "\" ";
-        ps.print("            " + Object_attributes + traceabilityLink);
-        String closing_attribute = "/> <!-- DirectionArrow -->";
+        String Object_attributes = "<Sequence id=\"" + "h" + this.directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/> <!-- DirectionArrow -->"; //$NON-NLS-1$
 
         this.pathConnAttribs.OptionalAttributes(this.directionArrowNode, ps, source, target);
 

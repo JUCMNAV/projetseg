@@ -90,16 +90,16 @@ public class Convert implements IURNExport {
         this.problems.clear();
 
         // prepare CSM header and footer
-        String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-        String CSM_header = "<CSM:CSMType "
-            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-            + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" "
-            + "name=\"" + urn.getName() + "\" "
-            + "description=\"" + urn.getDescription() + "\" "
-            + "author=\"" + urn.getAuthor() + "\" "
-            + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" "
-            + "version=\"" + urn.getSpecVersion() + "\">";
-        String CSM_footer = "</CSM:CSMType>";
+        String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"; //$NON-NLS-1$
+        String CSM_header = "<CSM:CSMType " //$NON-NLS-1$
+            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " //$NON-NLS-1$
+            + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " //$NON-NLS-1$
+            + "name=\"" + urn.getName() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+            + "description=\"" + urn.getDescription() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+            + "author=\"" + urn.getAuthor() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+            + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+            + "version=\"" + urn.getSpecVersion() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
+        String CSM_footer = "</CSM:CSMType>"; //$NON-NLS-1$
 
         // output header
         ps.println(XML_header);
@@ -119,7 +119,7 @@ public class Convert implements IURNExport {
         ps.flush();
 
         // Reports to Problems view
-        this.problems.add(new CsmExportWarning("CSM export completed. Consult the console for additional schema validation results.", IMarker.SEVERITY_INFO));
+        this.problems.add(new CsmExportWarning(Messages.getString("Convert.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
         refreshProblemsView(this.problems);
 
     }
@@ -131,7 +131,7 @@ public class Convert implements IURNExport {
      * @return the xsd:dateTime equivalent to dateString
      */
     private String convertUcmDateToCsmDate(String dateString) {
-	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz");
+	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz"); //$NON-NLS-1$
 	Date date = Calendar.getInstance().getTime(); // as fallback in case things go wrong
 	try {
 	    date = sdf.parse(dateString);
@@ -142,16 +142,17 @@ public class Convert implements IURNExport {
 	cal.setTime(date);
 	String csmYear = String.valueOf(cal.get(Calendar.YEAR));
 	String month = String.valueOf(cal.get(Calendar.MONTH));
-	String csmMonth = ("0" + month).substring(month.length() - 1);
+	String csmMonth = ("0" + month).substring(month.length() - 1); //$NON-NLS-1$
 	String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-	String csmDay = ("0" + day).substring(day.length() - 1);
+	String csmDay = ("0" + day).substring(day.length() - 1); //$NON-NLS-1$
 	String hour = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
-	String csmHour = ("0" + hour).substring(hour.length() - 1);
+	String csmHour = ("0" + hour).substring(hour.length() - 1); //$NON-NLS-1$
 	String min = String.valueOf(cal.get(Calendar.MINUTE));
-	String csmMin = ("0" + min).substring(min.length() - 1);
+	String csmMin = ("0" + min).substring(min.length() - 1); //$NON-NLS-1$
 	String sec = String.valueOf(cal.get(Calendar.SECOND));
-	String csmSec = ("0" + sec).substring(sec.length() - 1);
-	return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec;
+	String csmSec = ("0" + sec).substring(sec.length() - 1); //$NON-NLS-1$
+	return csmYear + "-" + csmMonth + "-" + csmDay + "T" + csmHour + ":" + csmMin + ":" + csmSec; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+
     }
 
     /**
@@ -170,28 +171,28 @@ public class Convert implements IURNExport {
         // map name will also be plugin binding specific (if given) 
         // and contains probability and transaction
         if (pluginBinding != null) {
-            name_extension = "_h" + pluginBinding.getStub().getId();
-            probability = "probability=\"" + pluginBinding.getProbability() + "\" ";
-            transaction = "transaction=\"" + pluginBinding.isTransaction() + "\" ";
+            name_extension = "_h" + pluginBinding.getStub().getId(); //$NON-NLS-1$
+            probability = "probability=\"" + pluginBinding.getProbability() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+            transaction = "transaction=\"" + pluginBinding.isTransaction() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            name_extension = "";
-            probability = "";
-            transaction = "";
+            name_extension = ""; //$NON-NLS-1$
+            probability = ""; //$NON-NLS-1$
+            transaction = ""; //$NON-NLS-1$
         }
 
         // prepare header
-        String open_scenario_tag = "<Scenario " + "id=\"m" + ucmMap.getId() + name_extension + "\" " + "name=\"" + ucmMap.getName() + "\" " + "traceabilityLink=\"" + ucmMap.getId() + "\" ";
-        String close_attributes = ">";
+        String open_scenario_tag = "<Scenario " + "id=\"m" + ucmMap.getId() + name_extension + "\" " + "name=\"" + ucmMap.getName() + "\" " + "traceabilityLink=\"" + ucmMap.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        String close_attributes = ">"; //$NON-NLS-1$
 
         // prepare footer
-        String close_scenario_tag = "</Scenario>";
+        String close_scenario_tag = "</Scenario>"; //$NON-NLS-1$
 
         // output header
-        ps.print("\n        " + open_scenario_tag + probability + transaction);
+        ps.print("\n        " + open_scenario_tag + probability + transaction); //$NON-NLS-1$
 
         // optional attributes
         if (ucmMap.getDescription() != null) {
-            String descr_attribute = "description=\"" + ucmMap.getDescription() + "\" ";
+            String descr_attribute = "description=\"" + ucmMap.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
             ps.print(descr_attribute);
         }
 
@@ -223,7 +224,7 @@ public class Convert implements IURNExport {
         saveXML(ucmMap, ps, dupMaplistSorted, dupMapConnList, warnings);
 
         // Close scenario
-        ps.println("        " + close_scenario_tag);
+        ps.println("        " + close_scenario_tag); //$NON-NLS-1$
 
         // Generate intermediate sub-maps for probabilistic binding of dynamic stubs
         outputDynamicStubSubMaps(dupMaplistSorted, ucmMap, ps, warnings);
@@ -268,7 +269,7 @@ public class Convert implements IURNExport {
      * intermediate scenario is used.  This intermediate scenario expands each submap possibility into a
      * CSM branch.
      * <BR>
-     * <E>WARNING/TODO</E>:  stubs (and submaps) with multiple input or multiple output are currently processed in
+     * <EM>WARNING/TODO</EM>:  stubs (and submaps) with multiple input or multiple output are currently processed in
      * a much simplified manner.  At the present time, this is considered to be satisfactory since CSM does
      * not support more complex refinements than single input, single output ones.
      *  
@@ -279,8 +280,8 @@ public class Convert implements IURNExport {
      */
     private void outputDynamicStubSubMaps(CSMDupNodeList dupMaplist, UCMmap ucmMap, PrintStream ps, Vector warnings) {
 
-        String oneTab = "        ";
-        String twoTab = "            ";
+        String oneTab = "        "; //$NON-NLS-1$
+        String twoTab = "            "; //$NON-NLS-1$
 
         for (int i = 0; i < dupMaplist.size(); i++) {
             CSMDupNode node = dupMaplist.get(i);
@@ -289,46 +290,46 @@ public class Convert implements IURNExport {
                 Stub stub = (Stub) node.getNode();
 
                 String stubId = stub.getId();
-                String fake_stubId = "fs_" + stubId;
-                String steps = "";
+                String fake_stubId = "fs_" + stubId; //$NON-NLS-1$
+                String steps = ""; //$NON-NLS-1$
                 for (int j = 0; j < stub.getBindings().size(); j++) {
-                    steps = steps + fake_stubId + "_step_" + j + " ";
+                    steps = steps + fake_stubId + "_step_" + j + " "; //$NON-NLS-1$ //$NON-NLS-2$
                 }
                 steps = steps.trim();
 
-                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + ucmMap.getName() + "_" + stub.getName() + "\" >";
+                String scenario_head = "<Scenario id=\"" + fake_stubId + "\" name=\"" + ucmMap.getName() + "_" + stub.getName() + "\" >"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 ps.println(oneTab + scenario_head);
 
                 /*
                  * assuming all bindings have the same cardinality...
                  */
-                String sourceId = "";
+                String sourceId = ""; //$NON-NLS-1$
                 if (stub.getBindings().size() != 0) {
                     for (int j = 0; j < ((PluginBinding) stub.getBindings().get(0)).getIn().size(); j++) {
-                        String startId = fake_stubId + "_start_" + j;
-                        String start = "<Start id=\"" + startId + "\" " + "target=\"" + startId + "_ds1\" />";
-                        String ds1 = "<Step id=\"" + startId + "_ds1\" " + "name=\"dummy1\" " + "predecessor=\"" + startId + "\" " + "successor=\""
-                        + fake_stubId + "_branch\" />";
+                        String startId = fake_stubId + "_start_" + j; //$NON-NLS-1$
+                        String start = "<Start id=\"" + startId + "\" " + "target=\"" + startId + "_ds1\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        String ds1 = "<Step id=\"" + startId + "_ds1\" " + "name=\"dummy1\" " + "predecessor=\"" + startId + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        + fake_stubId + "_branch\" />"; //$NON-NLS-1$
 
                         ps.println(twoTab + start);
                         ps.println(twoTab + ds1);
-                        sourceId = sourceId.concat(startId + "_ds1 ");
+                        sourceId = sourceId.concat(startId + "_ds1 "); //$NON-NLS-1$
                     }
 
                 } else {
-                    warnings.add(new CsmExportWarning("Stub " + stub.getName() + " has no bindings.", stub, IMarker.SEVERITY_ERROR));
-                    sourceId = sourceId.concat(fake_stubId + "_ERROR_NO_BINDING");
+                    warnings.add(new CsmExportWarning("Stub " + stub.getName() + Messages.getString("Convert.HasNoBindings"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
+                    sourceId = sourceId.concat(fake_stubId + "_ERROR_NO_BINDING"); //$NON-NLS-1$
                 }
-                String branch = "<Branch id=\"" + fake_stubId + "_branch\" source=\"" + sourceId + "\" target=\"" + steps + "\" />";
+                String branch = "<Branch id=\"" + fake_stubId + "_branch\" source=\"" + sourceId + "\" target=\"" + steps + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 ps.println(twoTab + branch);
 
                 /*
                  * identifying the sucessors (merge)
                  */
-                String targetId = "";
+                String targetId = ""; //$NON-NLS-1$
                 if (stub.getBindings().size() != 0) {
                     for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
-                        targetId = targetId.concat(fake_stubId + "_merge_" + k + " ");
+                        targetId = targetId.concat(fake_stubId + "_merge_" + k + " "); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 }
 
@@ -337,8 +338,8 @@ public class Convert implements IURNExport {
                     for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
                         PluginBinding binding = (PluginBinding) iter.next();
                         PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
-                        String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " + "name=\"" + binding.getPlugin().getName() + "\" " + "predecessor=\""
-                        + fake_stubId + "_branch\" " + "successor=\"" + targetId + "\" " + "probability=\"" + binding.getProbability() + "\" " + ">";
+                        String step = "<Step id=\"" + fake_stubId + "_step_" + j + "\" " + "name=\"" + binding.getPlugin().getName() + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        + fake_stubId + "_branch\" " + "successor=\"" + targetId + "\" " + "probability=\"" + binding.getProbability() + "\" " + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                         ps.println(twoTab + step);
 
                         // produce Bindings relative to sub-map
@@ -346,39 +347,39 @@ public class Convert implements IURNExport {
                         ArrayList tgt = new ArrayList();
                         if (binding.getIn().size() > 1) {
                             for (int k = 0; k < binding.getIn().size(); k++) {
-                                src.add(fake_stubId + "_start_" + k);
+                                src.add(fake_stubId + "_start_" + k); //$NON-NLS-1$
                             }
                         } else {
-                            src.add(fake_stubId + "_start_0");
+                            src.add(fake_stubId + "_start_0"); //$NON-NLS-1$
                         }
                         if (binding.getOut().size() > 1) {
                             for (int k = 0; k < binding.getOut().size(); k++) {
-                                tgt.add(fake_stubId + "_end_" + k); // for
+                                tgt.add(fake_stubId + "_end_" + k); // for //$NON-NLS-1$
                                 // bind_obj
                             }
                         } else {
-                            tgt.add(fake_stubId + "_end_0");
+                            tgt.add(fake_stubId + "_end_0"); //$NON-NLS-1$
                         }
                         bind_obj.Convert(ps, src, tgt, warnings);
-                        ps.println(twoTab + "</Step>");
+                        ps.println(twoTab + "</Step>"); //$NON-NLS-1$
                         j++;
                     }
                 }
 
                 if (stub.getBindings().size() != 0) {
                     for (int k = 0; k < ((PluginBinding) stub.getBindings().get(0)).getOut().size(); k++) {
-                        String merge = "<Merge id=\"" + fake_stubId + "_merge_" + k + "\" " + "source=\"" + steps + "\" " + "target=\"" + fake_stubId + "_ds2_"
-                        + k + "\" />";
-                        String ds2 = "<Step id=\"" + fake_stubId + "_ds2_" + k + "\" " + "name=\"dummy2\" " + "predecessor=\"" + fake_stubId + "_merge_" + k
-                        + "\" " + "successor=\"" + fake_stubId + "_end_" + k + "\" />";
-                        String end = "<End id=\"" + fake_stubId + "_end_" + k + "\" " + "source=\"" + fake_stubId + "_ds2_" + k + "\" />";
+                        String merge = "<Merge id=\"" + fake_stubId + "_merge_" + k + "\" " + "source=\"" + steps + "\" " + "target=\"" + fake_stubId + "_ds2_" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                        + k + "\" />"; //$NON-NLS-1$
+                        String ds2 = "<Step id=\"" + fake_stubId + "_ds2_" + k + "\" " + "name=\"dummy2\" " + "predecessor=\"" + fake_stubId + "_merge_" + k //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+                        + "\" " + "successor=\"" + fake_stubId + "_end_" + k + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        String end = "<End id=\"" + fake_stubId + "_end_" + k + "\" " + "source=\"" + fake_stubId + "_ds2_" + k + "\" />"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
                         ps.println(twoTab + merge);
                         ps.println(twoTab + ds2);
                         ps.println(twoTab + end);
                     }
                 }
 
-                String scenario_tail = "</Scenario>";
+                String scenario_tail = "</Scenario>"; //$NON-NLS-1$
 
                 ps.println(oneTab + scenario_tail);
             }
@@ -522,28 +523,28 @@ public class Convert implements IURNExport {
     private void printDummyStep(CSMDupNode node, String id, PrintStream ps, CSMDupConnectionList list) {
 
         // initializing attributes
-        String name = "Dummy";
+        String name = "Dummy"; //$NON-NLS-1$
         String successor = list.getTargetForSource(node.getId());
         String predecessor = list.getSourceForTarget(node.getId());
         String dummy_attributes;
-        String hostDemand = "hostDemand=\"0\" ";
+        String hostDemand = "hostDemand=\"0\" "; //$NON-NLS-1$
         // object attributes
-        if (predecessor.startsWith("G") && successor.startsWith("G")) {
-            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" + successor
-            + "\" " + hostDemand + "/>";
-        } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) {
-            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"h" + successor
-            + "\" " + hostDemand + "/>";
-        } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) {
-            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"" + successor
-            + "\" " + hostDemand + "/>";
+        if (predecessor.startsWith("G") && successor.startsWith("G")) { //$NON-NLS-1$ //$NON-NLS-2$
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+        } else if (predecessor.startsWith("G") && !successor.startsWith("!G")) { //$NON-NLS-1$ //$NON-NLS-2$
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"h" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+        } else if (!predecessor.startsWith("!G") && successor.startsWith("G")) { //$NON-NLS-1$ //$NON-NLS-2$
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"h" + successor
-            + "\" " + hostDemand + "/>";
+            dummy_attributes = "<Step id=\"" + id + "\" " + "name=\"" + name + "\" " + "predecessor=\"h" + predecessor + "\" " + "successor=\"h" + successor //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+            + "\" " + hostDemand + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // output to file
-        ps.println("            " + dummy_attributes);
+        ps.println("            " + dummy_attributes); //$NON-NLS-1$
         ps.flush();
     }
 
@@ -557,7 +558,7 @@ public class Convert implements IURNExport {
         for (int dupMapListIndex = 0; dupMapListIndex < dupMaplist.size(); dupMapListIndex++) {
             CSMDupNode curr_node = dupMaplist.get(dupMapListIndex);
             // printing RA
-            if (curr_node.getId().startsWith("G1")) {
+            if (curr_node.getId().startsWith("G1")) { //$NON-NLS-1$
                 CSMResource resource = curr_node.getResourceToAcquire();
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
                 if (resource != null) {
@@ -569,7 +570,7 @@ public class Convert implements IURNExport {
 
             }
             // printing RR
-            else if (curr_node.getId().startsWith("G3")) {
+            else if (curr_node.getId().startsWith("G3")) { //$NON-NLS-1$
                 CSMResource resource = curr_node.getResourceToRelease();
                 ResourceRelease rr = new ResourceRelease(ps);
                 if (resource != null) {
@@ -581,17 +582,17 @@ public class Convert implements IURNExport {
 
             }
             // printing RA_Sequence
-            else if (curr_node.getId().startsWith("G2")) {
+            else if (curr_node.getId().startsWith("G2")) { //$NON-NLS-1$
                 ResourceAcquisition ra = new ResourceAcquisition(ps);
                 ra.acquireEmptyPoint(curr_node, dupMapConnlist);
             }
             // printing RR_Sequence
-            else if (curr_node.getId().startsWith("G4")) {
+            else if (curr_node.getId().startsWith("G4")) { //$NON-NLS-1$
                 ResourceRelease rr = new ResourceRelease(ps);
                 rr.acquireEmptyPoint(curr_node, dupMapConnlist);
             }
             // printing dummy Step
-            else if (curr_node.getId().startsWith("G5")) {
+            else if (curr_node.getId().startsWith("G5")) { //$NON-NLS-1$
                 printDummyStep(curr_node, curr_node.getId(), ps, dupMapConnlist);
             }
             // print other objects
@@ -617,43 +618,43 @@ public class Convert implements IURNExport {
                     // convert the array into a comma-separated list
                     String target_noBracket = targetsList.toString().substring(1, (targetsList.toString().length() - 1));
                     // remove the commas
-                    String target_noComma =  target_noBracket.replaceAll(",", "");
+                    String target_noComma =  target_noBracket.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-                    String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
-                    String epoint_target = "target=\"" + target_noComma + "\" ";
-                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- EmptyPoint of WaitingPlace -->";
+                    String epoint_attributes = "            <Fork id=\"h" + curr_node.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_target = "target=\"" + target_noComma + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_end = "/> <!-- EmptyPoint of WaitingPlace -->"; //$NON-NLS-1$
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                     /**
                      * EmptyPoint turned into DummyStep
                      */
                 } else if (curr_node.getType() == CSMDupNode.CSMSTEP) {
-                    String epoint_attributes = "            <Step id=\"h" + curr_node.getId() + "\" name=\"EmptyPoint\" hostDemand=\"0\" ";
-                    String epoint_source = "predecessor=\"" + sourcesList.get(0) + "\" ";
-                    String epoint_target = "successor=\"" + targetsList.get(0) + "\" ";
-                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- EmptyPoint -->";
+                    String epoint_attributes = "            <Step id=\"h" + curr_node.getId() + "\" name=\"EmptyPoint\" hostDemand=\"0\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_source = "predecessor=\"" + sourcesList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_target = "successor=\"" + targetsList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_end = "/> <!-- EmptyPoint -->"; //$NON-NLS-1$
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                     /**
                      * EndPoint of a Connect
                      */
                 } else if (curr_node.isPathNode() && (pathnode instanceof EndPoint) && ((EndPoint) pathnode).getSucc().size() > 0) {
-                    String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
-                    String epoint_target = "target=\"" + targetsList.get(0) + "\" ";
-                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- EndPoint of a Connect -->";
+                    String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_target = "target=\"" + targetsList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_end = "/> <!-- EndPoint of a Connect -->"; //$NON-NLS-1$
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                     /**
                      * StartPoint of a Connect
                      */
                 } else if (curr_node.isPathNode() && (pathnode instanceof StartPoint) && ((StartPoint) pathnode).getPred().size() > 0) {
-                    String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" ";
-                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" ";
-                    String epoint_target = "target=\"" + targetsList.get(0) + "\" ";
-                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" ";
-                    String epoint_end = "/> <!-- StartPoint of a Connect -->";
+                    String epoint_attributes = "            <Sequence id=\"h" + curr_node.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_source = "source=\"" + sourcesList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_target = "target=\"" + targetsList.get(0) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String traceabilityLink = "traceabilityLink=\"" + pathnode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                    String epoint_end = "/> <!-- StartPoint of a Connect -->"; //$NON-NLS-1$
                     ps.println(epoint_attributes + epoint_source + epoint_target + traceabilityLink + epoint_end);
                 } else {
                     curr_node.printPathNode(ps, sourcesList, targetsList, warnings);
@@ -661,7 +662,7 @@ public class Convert implements IURNExport {
             }
         } // for
         if (startPoints > 1) {
-            warnings.add(new CsmExportWarning("Too many (" + startPoints + ") StartPoint in map " + map.getName(), map, IMarker.SEVERITY_ERROR));
+            warnings.add(new CsmExportWarning(Messages.getString("Convert.TooMany") + startPoints + Messages.getString("Convert.StartPointsInMap") + map.getName(), map, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
@@ -669,11 +670,11 @@ public class Convert implements IURNExport {
     private ArrayList getSources(CSMDupConnectionList dupMapConnlist, String edge_id) {
         ArrayList sources = new ArrayList();
         for (int i = 0; i < dupMapConnlist.size(); i++) {
-            String add_h = "h";
+            String add_h = "h"; //$NON-NLS-1$
             String source_id = dupMapConnlist.get(i).getSourceStr();
             String target_id = add_h.concat(dupMapConnlist.get(i).getTargetStr());
             if (target_id.compareTo(add_h.concat(edge_id)) == 0) {
-                if (source_id.startsWith("G"))
+                if (source_id.startsWith("G")) //$NON-NLS-1$
                     sources.add(source_id);
                 else
                     sources.add(add_h.concat(source_id));
@@ -690,11 +691,11 @@ public class Convert implements IURNExport {
     private ArrayList getTargets(CSMDupConnectionList dupMapConnlist, String edge_id) {
         ArrayList targets = new ArrayList();
         for (int i = 0; i < dupMapConnlist.size(); i++) {
-            String add_h = "h";
+            String add_h = "h"; //$NON-NLS-1$
             String source_id = add_h.concat(dupMapConnlist.get(i).getSourceStr());
             String target_id = dupMapConnlist.get(i).getTargetStr();
             if (source_id.compareTo(add_h.concat(edge_id)) == 0) {
-                if (target_id.startsWith("G"))
+                if (target_id.startsWith("G")) //$NON-NLS-1$
                     targets.add(target_id);
                 else
                     targets.add(add_h.concat(target_id));
@@ -837,12 +838,12 @@ public class Convert implements IURNExport {
                     // create dummy node
                     MapFactoryImpl mfi = new MapFactoryImpl();
                     EmptyPoint ep = mfi.createEmptyPoint();
-                    ep.setName("" + this.emptyPoint_id);
-                    ep.setDescription("" + this.emptyPoint_id);
-                    ep.setId("" + this.emptyPoint_id);
+                    ep.setName("" + this.emptyPoint_id); //$NON-NLS-1$
+                    ep.setDescription("" + this.emptyPoint_id); //$NON-NLS-1$
+                    ep.setId("" + this.emptyPoint_id); //$NON-NLS-1$
                     CSMDupNode ep_node = new CSMDupNode(ep, warnings);
                     ep_node.setType(CSMDupNode.EMPTY);
-                    ep_node.setID("" + this.emptyPoint_id);
+                    ep_node.setID("" + this.emptyPoint_id); //$NON-NLS-1$
                     ep_node.setResourcesDownstream(source.getResourcesDownstream());
                     ep_node.setResourcesUpstream(target.getResourcesUpstream());
                     this.emptyPoint_id++;

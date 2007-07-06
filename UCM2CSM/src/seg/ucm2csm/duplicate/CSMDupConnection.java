@@ -11,7 +11,7 @@ import ucm.map.PathNode;
 
 public class CSMDupConnection {
 
-    private NodeConnection connection;
+	private NodeConnection connection;
 
     private String target_id;
 

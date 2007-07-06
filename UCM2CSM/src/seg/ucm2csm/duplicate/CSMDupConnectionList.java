@@ -277,17 +277,17 @@ public class CSMDupConnectionList {
 
     // for debug - prints source/target of all elements in list
     public void printDupList() {
-        System.out.println("----------Printing duplicate Connection List-------");
-        System.out.println("List size: " + this.connList.size());
+        System.out.println("----------Printing duplicate Connection List-------"); //$NON-NLS-1$
+        System.out.println("List size: " + this.connList.size()); //$NON-NLS-1$
         for (int i = 0; i < this.connList.size(); i++) {
             CSMDupNode source = ((CSMDupConnection) this.connList.get(i)).getCSMSource();
             PathNode sourceNode = source.getNode();
-            String sourceName = sourceNode != null ? " (" + sourceNode.getName() + ") " : "";
+            String sourceName = sourceNode != null ? " (" + sourceNode.getName() + ") " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             CSMDupNode target = ((CSMDupConnection) this.connList.get(i)).getCSMTarget();
             PathNode targetNode = target.getNode();
-            String targetName = targetNode != null ? " (" + targetNode.getName() + ") " : "";
-            System.out.println("Connection " + i + ": " + " Source: " + ((CSMDupConnection) this.connList.get(i)).getSourceStr() + sourceName + " Target: "
-                    + ((CSMDupConnection) this.connList.get(i)).getTargetStr() + targetName);
+            String targetName = targetNode != null ? " (" + targetNode.getName() + ") " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            System.out.println("Connection " + i + ": " + " Source: " + ((CSMDupConnection) this.connList.get(i)).getSourceStr() + sourceName + " Target: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                    + ((CSMDupConnection) connList.get(i)).getTargetStr() + targetName);
         }
     }
 

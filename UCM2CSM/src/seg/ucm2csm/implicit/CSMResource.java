@@ -15,9 +15,7 @@ import urncore.ComponentRegular;
  */
 public class CSMResource {
 
-    private GeneralResource genRes; // components->() +
-    // responsibility->demand->(external
-    // operations)
+    private GeneralResource genRes; // components->() + responsibility->demand->(external operations)
 
     private ComponentRef compRef; // implicit resources
 
@@ -52,14 +50,14 @@ public class CSMResource {
         this.compRef = compRef;
         this.type = this.COMPREF;
         this.name = ((ComponentRegular) compRef.getContDef()).getId();
-        this.quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS
+        this.quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS //$NON-NLS-1$
     }
 
     public CSMResource(ResourceAttribs resAtr) {
         this.resAtr = resAtr;
         this.type = this.RESATR;
         this.name = this.resAtr.getResId();
-        this.quantity = "" + this.resAtr.getRUnits();
+        this.quantity = "" + this.resAtr.getRUnits(); //$NON-NLS-1$
     }
 
     public boolean equivalent(CSMResource compRes) {
@@ -85,27 +83,27 @@ public class CSMResource {
     public String getResourcePrefix() {
         String resType = null;
         if (this.getType() == this.COMPREF) {
-            resType = "c";
+            resType = "c"; //$NON-NLS-1$
         } else if (this.getType() == this.GENRES) {
             if (this.genRes instanceof ExternalOperation) {
-                resType = "e";
+                resType = "e"; //$NON-NLS-1$
             } else if (this.genRes instanceof ProcessingResource) {
-                resType = "r";
+                resType = "r"; //$NON-NLS-1$
             } else if (this.genRes instanceof PassiveResource) {
-                resType = "p";
+                resType = "p"; //$NON-NLS-1$
             } else {
-                resType = "u"; // unforeseen case...
+                resType = "u"; // unforeseen case... //$NON-NLS-1$
             }
         } else if (this.getType() == this.RESATR) {
             // resType = "a";
             if (this.resAtr.getRes() instanceof ExternalOperation) {
-                resType = "e";
+                resType = "e"; //$NON-NLS-1$
             } else if (this.resAtr.getRes() instanceof ProcessingResource) {
-                resType = "r";
+                resType = "r"; //$NON-NLS-1$
             } else if (this.resAtr.getRes() instanceof PassiveResource) {
-                resType = "p";
+                resType = "p"; //$NON-NLS-1$
             } else {
-                resType = "u"; // unforeseen case...
+                resType = "u"; // unforeseen case... //$NON-NLS-1$
             }
         }
         return resType;

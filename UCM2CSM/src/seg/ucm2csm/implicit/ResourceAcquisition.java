@@ -90,26 +90,26 @@ public class ResourceAcquisition {
 
         // object attributes
         String resType = resAttribs.getResourcePrefix();
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + resType + resAttribs.getResource() + "\" " // js
-                + "rUnits=\"" + resAttribs.getQty() + "\" ";
-        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
-        String ra_successor = "successor=\"" + "h" + successor + "\" ";
-        String end_ra = "/>";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + resType + resAttribs.getResource() + "\" " // js //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                + "rUnits=\"" + resAttribs.getQty() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String ra_successor = "successor=\"" + "h" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String end_ra = "/>"; //$NON-NLS-1$
 
         // special naming convention for RR/RA objects
-        if (predecessor.startsWith("G")) {
-            ra_predecessor = "predecessor=\"" + predecessor + "\" ";
+        if (predecessor.startsWith("G")) { //$NON-NLS-1$
+            ra_predecessor = "predecessor=\"" + predecessor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
-        if (successor.startsWith("G")) {
-            ra_successor = "successor=\"" + successor + "\" ";
+        if (successor.startsWith("G")) { //$NON-NLS-1$
+            ra_successor = "successor=\"" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // printing attributes
-        this.ps.print("            " + ra_attributes);
+        this.ps.print("            " + ra_attributes); //$NON-NLS-1$
         this.ps.print(ra_predecessor);
         this.ps.print(ra_successor);
         this.ps.print(end_ra);
-        this.ps.println("");
+        this.ps.println(""); //$NON-NLS-1$
     }
 
     public void acquireComp(String res, CSMDupNode node, CSMDupConnectionList list) {
@@ -119,25 +119,25 @@ public class ResourceAcquisition {
         String predecessor = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + "r" + res + "\" ";
-        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" ";
-        String ra_successor = "successor=\"" + "h" + successor + "\" ";
-        String end_ra = "/>";
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + "r" + res + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String ra_successor = "successor=\"" + "h" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String end_ra = "/>"; //$NON-NLS-1$
 
         // special naming convention for RR/RA objects
-        if (predecessor.startsWith("G")) {
-            ra_predecessor = "predecessor=\"" + predecessor + "\" ";
+        if (predecessor.startsWith("G")) { //$NON-NLS-1$
+            ra_predecessor = "predecessor=\"" + predecessor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
-        if (successor.startsWith("G")) {
-            ra_successor = "successor=\"" + successor + "\" ";
+        if (successor.startsWith("G")) { //$NON-NLS-1$
+            ra_successor = "successor=\"" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // printing attributes
-        this.ps.print("            " + ra_attributes);
+        this.ps.print("            " + ra_attributes); //$NON-NLS-1$
         this.ps.print(ra_predecessor);
         this.ps.print(ra_successor);
         this.ps.print(end_ra);
-        this.ps.println("");
+        this.ps.println(""); //$NON-NLS-1$
     }
 
     // prints XML representation of Dummy EmptyPoint element
@@ -148,25 +148,25 @@ public class ResourceAcquisition {
         String source = list.getSourceForTarget(node.getId());
 
         // object attributes
-        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\" ";
-        String epoint_target = "target=\"h" + target + "\" ";
-        String epoint_source = "source=\"h" + source + "\" ";
-        String epoint_end = "/> <!-- RA-Sequence -->";
+        String epoint_attributes = "<Sequence id=\"" + node.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String epoint_target = "target=\"h" + target + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String epoint_source = "source=\"h" + source + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String epoint_end = "/> <!-- RA-Sequence -->"; //$NON-NLS-1$
 
         // special naming convention for RR/RA objects
-        if (source.startsWith("G")) {
-            epoint_source = "source=\"" + source + "\" ";
+        if (source.startsWith("G")) { //$NON-NLS-1$
+            epoint_source = "source=\"" + source + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
-        if (target.startsWith("G")) {
-            epoint_target = "target=\"" + target + "\" ";
+        if (target.startsWith("G")) { //$NON-NLS-1$
+            epoint_target = "target=\"" + target + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // output to file
-        this.ps.print("            " + epoint_attributes);
+        this.ps.print("            " + epoint_attributes); //$NON-NLS-1$
         this.ps.print(epoint_source);
         this.ps.print(epoint_target);
         this.ps.print(epoint_end);
-        this.ps.println("");
+        this.ps.println(""); //$NON-NLS-1$
         this.ps.flush();
     }
 

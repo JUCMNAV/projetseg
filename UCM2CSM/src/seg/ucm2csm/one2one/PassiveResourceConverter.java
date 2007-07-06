@@ -23,30 +23,34 @@ public class PassiveResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "p" + this.passiveRes.getId() + "\" ";
-        String name = "name=\"" + this.passiveRes.getName() + "\" ";
+        String id = "id=\"" + "p" + passiveRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String name = "name=\"" + passiveRes.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
         String multiplicity;
         String schedPolicy;
-        if (this.passiveRes.getDescription() != null) {
-            description = "description=\"" + this.passiveRes.getDescription() + "\" ";
+
+        if (passiveRes.getDescription() != null) {
+            description = "description=\"" + passiveRes.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
-            description = "";
-        if (this.passiveRes.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + this.passiveRes.getMultiplicity() + "\" ";
+            description = ""; //$NON-NLS-1$
+
+        if (passiveRes.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + passiveRes.getMultiplicity() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            multiplicity = "";
+            multiplicity = ""; //$NON-NLS-1$
         }
-        if (this.passiveRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + this.passiveRes.getSchedPolicy() + "\" ";
+
+        if (passiveRes.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + passiveRes.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            schedPolicy = "";
+            schedPolicy = ""; //$NON-NLS-1$
         }
-        String traceabilityLink = "traceabilityLink=\"" + this.passiveRes.getId() + "\" ";
-        String resStr = "<PassiveResource " + id + name + description + multiplicity + schedPolicy + traceabilityLink + "/>";
+
+        String traceabilityLink = "traceabilityLink=\"" + passiveRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String resStr = "<PassiveResource " + id + name + description + multiplicity + schedPolicy + traceabilityLink + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
 
         // output to file
-        ps.println("        " + resStr);
+        ps.println("        " + resStr); //$NON-NLS-1$
         ps.flush();
     }
 }

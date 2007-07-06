@@ -29,10 +29,10 @@ public class InBindingConverter implements AbstractConverter {
         String previousNode = (String) source.get(0);
 
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + this.inBinding.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>";
+        String Object_attributes = "<InBinding start=\"" + "h" + this.inBinding.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
         // output to file
-        ps.println("                     " + Object_attributes);
+        ps.println("                     " + Object_attributes); //$NON-NLS-1$
         ps.flush();
     }
 }

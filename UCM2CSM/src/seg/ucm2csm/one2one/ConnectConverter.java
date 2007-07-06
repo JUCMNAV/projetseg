@@ -24,20 +24,20 @@ public class ConnectConverter implements AbstractConverter {
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
-        String name = "Connect";
+        String name = "Connect"; //$NON-NLS-1$
         String successor = (String) target.get(0);
         String predecessor = (String) source.get(0);
-        String hostDemand = "hostDemand=\"0\" ";
+        String hostDemand = "hostDemand=\"0\" "; //$NON-NLS-1$
         // at the moment, jUCMNav does not permit to set the description of a
         // Connect
-        String description = ((this.connectNode.getDescription() != null)) ? "description=\"" + this.connectNode.getDescription() + "\" " : "";
+        String description = ((this.connectNode.getDescription() != null)) ? "description=\"" + this.connectNode.getDescription() + "\" " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         // object attributes
-        String Object_attributes = "<Step id=\"" + "h" + this.connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\""
-                + successor + "\" " + hostDemand + description;
-        String traceabilityLink = "traceabilityLink=\"" + this.connectNode.getId() + "\" ";
-        ps.print("            " + Object_attributes + traceabilityLink);
-        String closing_attribute = "/> <!-- Connect -->";
+        String Object_attributes = "<Step id=\"" + "h" + this.connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                + successor + "\" " + hostDemand + description; //$NON-NLS-1$
+        String traceabilityLink = "traceabilityLink=\"" + this.connectNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/> <!-- Connect -->"; //$NON-NLS-1$
 
         // Connect is converted to a Dummy Step pathConnAttribs it's no longer considered a
         // connection

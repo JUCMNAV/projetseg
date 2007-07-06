@@ -48,10 +48,10 @@ public class CSMResourceSet {
             // Add resources commanded by MetaData tied to responsibilities
             for (Iterator md = respref.getMetadata().iterator(); md.hasNext();) {
                 Metadata mdElement = (Metadata) md.next();
-                if (mdElement.getName().equals("RR")) {
+                if (mdElement.getName().equals("RR")) { //$NON-NLS-1$
                     if (md.hasNext()) {
                         Metadata mdValue = (Metadata) md.next();
-                        if (mdValue.getName().equals("Qty")) {
+                        if (mdValue.getName().equals("Qty")) { //$NON-NLS-1$
                             URNspec urn = respref.getRespDef().getUrndefinition().getUrnspec();
                             boolean found = false;
                             for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
@@ -66,21 +66,21 @@ public class CSMResourceSet {
                                 }
                             }
                             if (!found) {
-                                warnings.add(new CsmExportWarning("Released resource (" + mdElement.getValue() + ") not found in metadata of responsibility " + respref.getRespDef().getName() + ". Release skipped.", respref));
+                                warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.ReleasedResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ReleaseSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             }
                             
                         } else {
-                            warnings.add(new CsmExportWarning("Responsibility" + respref.getRespDef().getName()
-                                    + " contains a meta-RR without a subsequent Qty", respref));
+                            warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() //$NON-NLS-1$
+                                    + Messages.getString("CSMResourceSet.ContainsRRnoQty"), respref)); //$NON-NLS-1$
                         }
                     } else {
                         warnings.add(new CsmExportWarning(
-                                "Responsibility" + respref.getRespDef().getName() + " contains a meta-RR without subsequent metadata", respref));
+                                Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRRnoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
                     }
-                } else if (mdElement.getName().equals("RA")) {
+                } else if (mdElement.getName().equals("RA")) { //$NON-NLS-1$
                     if (md.hasNext()) {
                         Metadata mdValue = (Metadata) md.next();
-                        if (mdValue.getName().equals("Qty")) {
+                        if (mdValue.getName().equals("Qty")) { //$NON-NLS-1$
                             URNspec urn = respref.getRespDef().getUrndefinition().getUrnspec();
                             boolean found = false;
                             for (Iterator genRes = urn.getUcmspec().getResources().iterator(); genRes.hasNext();) {
@@ -95,16 +95,16 @@ public class CSMResourceSet {
                                 }
                             }
                             if (!found) {
-                                warnings.add(new CsmExportWarning("Acquired resource (" + mdElement.getValue() + ") not found in metadata of responsibility " + respref.getRespDef().getName() + ". Acquire skipped.", respref));
+                                warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.AcquiredResource") + mdElement.getValue() + Messages.getString("CSMResourceSet.NotFoundInRespMD") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.AcquireSkipped"), respref)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                             }
                         } else {
-                            warnings.add(new CsmExportWarning("Responsibility" + respref.getRespDef().getName()
-                                    + " contains a meta-RA without a subsequent Qty", respref));
+                            warnings.add(new CsmExportWarning(Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() //$NON-NLS-1$
+                                    + Messages.getString("CSMResourceSet.ContainsRANoQty"), respref)); //$NON-NLS-1$
                         }
 
                     } else {
                         warnings.add(new CsmExportWarning(
-                                "Responsibility" + respref.getRespDef().getName() + " contains a meta-RA without subsequent metadata", respref));
+                                Messages.getString("CSMResourceSet.Responsibility") + respref.getRespDef().getName() + Messages.getString("CSMResourceSet.ContainsRANoMD"), respref)); //$NON-NLS-1$ //$NON-NLS-2$
                     }
                 }
             }

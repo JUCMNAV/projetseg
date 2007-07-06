@@ -49,6 +49,6 @@ public class UCM2CSMPlugin extends AbstractUIPlugin {
      * @return the image descriptor
      */
     public static ImageDescriptor getImageDescriptor(String path) {
-        return AbstractUIPlugin.imageDescriptorFromPlugin("UCM2CSM", path);
+        return AbstractUIPlugin.imageDescriptorFromPlugin("UCM2CSM", path); //$NON-NLS-1$
     }
 }

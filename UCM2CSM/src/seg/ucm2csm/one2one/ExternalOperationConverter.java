@@ -22,29 +22,33 @@ public class ExternalOperationConverter implements AbstractConverter {
 
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "e" + this.externalOpn.getId() + "\" ";
-        String name = "name=\"" + this.externalOpn.getName() + "\" ";
+        String id = "id=\"" + "e" + externalOpn.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String name = "name=\"" + externalOpn.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
-        String opTime = "opTime=\"" + this.externalOpn.getOpTime() + "\" ";
+        String opTime = "opTime=\"" + externalOpn.getOpTime() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String multiplicity;
         String schedPolicy;
-        if (this.externalOpn.getDescription() != null) {
-            description = "description=\"" + this.externalOpn.getDescription() + "\" ";
+
+        if (externalOpn.getDescription() != null) {
+            description = "description=\"" + externalOpn.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
-            description = "";
-        if (this.externalOpn.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + this.externalOpn.getMultiplicity() + "\" ";
+            description = ""; //$NON-NLS-1$
+        
+        if (externalOpn.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + externalOpn.getMultiplicity() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            multiplicity = "";
+            multiplicity = ""; //$NON-NLS-1$
         }
-        if (this.externalOpn.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + this.externalOpn.getSchedPolicy() + "\" ";
+
+        if (externalOpn.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + externalOpn.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            schedPolicy = "";
+            schedPolicy = ""; //$NON-NLS-1$
         }
-        String traceabilityLink = "traceabilityLink=\"" + this.externalOpn.getId() + "\" ";
-        String resStr = "<ExternalOperation " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>";
-        ps.println("        " + resStr);
+
+        String traceabilityLink = "traceabilityLink=\"" + externalOpn.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String resStr = "<ExternalOperation " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.println("        " + resStr); //$NON-NLS-1$
         ps.flush();
 
     }

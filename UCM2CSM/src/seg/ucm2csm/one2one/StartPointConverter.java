@@ -28,11 +28,11 @@ public class StartPointConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String mandatory_attributes = "<Start id=\"h" + this.startPointNode.getId() + "\" " + "traceabilityLink=\"" + this.startPointNode.getId() + "\" ";
-        String closing_attribute = "</Start>";
+        String mandatory_attributes = "<Start id=\"h" + startPointNode.getId() + "\" " + "traceabilityLink=\"" + startPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        String closing_attribute = "</Start>"; //$NON-NLS-1$
 
         // common attributes
-        ps.print("            " + mandatory_attributes);
+        ps.print("            " + mandatory_attributes); //$NON-NLS-1$
 
         // optional attributes
         this.pathConnAttribs.OptionalAttributes(this.startPointNode, ps, source, target);
@@ -41,22 +41,22 @@ public class StartPointConverter implements AbstractConverter {
         if (this.startPointNode.getWorkload() != null) {
 
             // decide if workload is open or closed
-            if (this.startPointNode.getWorkload().isClosed()) {
-                String close_wload_attributes = "<ClosedWorkload id=\"w" + this.startPointNode.getWorkload().getId() + "\" " + "population=\""
-                        + this.startPointNode.getWorkload().getPopulation() + "\" " + " ";
-                ps.print("                " + close_wload_attributes);
+            if (startPointNode.getWorkload().isClosed()) {
+                String close_wload_attributes = "<ClosedWorkload id=\"w" + startPointNode.getWorkload().getId() + "\" " + "population=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        + startPointNode.getWorkload().getPopulation() + "\" " + " "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("                " + close_wload_attributes); //$NON-NLS-1$
             } else {
-                String open_wload_attributes = "<OpenWorkload id=\"w" + this.startPointNode.getWorkload().getId() + "\" ";
-                ps.print("                " + open_wload_attributes);
+                String open_wload_attributes = "<OpenWorkload id=\"w" + startPointNode.getWorkload().getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+                ps.print("                " + open_wload_attributes); //$NON-NLS-1$
             }
             // optional workload attributes
             this.workLoadAttribs.workAttributes(this.startPointNode.getWorkload(), ps);
-            String print_attribute = "/>";
+            String print_attribute = "/>"; //$NON-NLS-1$
             ps.println(print_attribute);
         }
 
         // output to file
-        ps.println("            " + closing_attribute);
+        ps.println("            " + closing_attribute); //$NON-NLS-1$
         ps.flush();
     }
 }

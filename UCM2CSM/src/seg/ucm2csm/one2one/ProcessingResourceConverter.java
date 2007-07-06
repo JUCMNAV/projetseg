@@ -22,29 +22,33 @@ public class ProcessingResourceConverter implements AbstractConverter {
 
     // prints XML representation of object to output file -- implement this!!
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
-        String id = "id=\"" + "r" + this.processingRes.getId() + "\" ";
-        String name = "name=\"" + this.processingRes.getName() + "\" ";
+        String id = "id=\"" + "r" + processingRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String name = "name=\"" + processingRes.getName() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String description;
-        String opTime = "opTime=\"" + this.processingRes.getOpTime() + "\" ";
+        String opTime = "opTime=\"" + processingRes.getOpTime() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String multiplicity;
         String schedPolicy;
-        if (this.processingRes.getDescription() != null) {
-            description = "description=\"" + this.processingRes.getDescription() + "\" ";
+
+        if (processingRes.getDescription() != null) {
+            description = "description=\"" + processingRes.getDescription() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else
-            description = "";
-        if (this.processingRes.getMultiplicity() != null) {
-            multiplicity = "multiplicity=\"" + this.processingRes.getMultiplicity() + "\" ";
+            description = ""; //$NON-NLS-1$
+
+        if (processingRes.getMultiplicity() != null) {
+            multiplicity = "multiplicity=\"" + processingRes.getMultiplicity() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            multiplicity = "";
+            multiplicity = ""; //$NON-NLS-1$
         }
-        if (this.processingRes.getSchedPolicy() != null) {
-            schedPolicy = "schedPolicy=\"" + this.processingRes.getSchedPolicy() + "\" ";
+
+        if (processingRes.getSchedPolicy() != null) {
+            schedPolicy = "schedPolicy=\"" + processingRes.getSchedPolicy() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            schedPolicy = "";
+            schedPolicy = ""; //$NON-NLS-1$
         }
-        String traceabilityLink = "traceabilityLink=\"" + this.processingRes.getId() + "\" ";
-        String resStr = "<ProcessingResource " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>";
-        ps.println("        " + resStr);
+
+        String traceabilityLink = "traceabilityLink=\"" + processingRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String resStr = "<ProcessingResource " + id + name + opTime + description + multiplicity + schedPolicy + traceabilityLink + "/>"; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.println("        " + resStr); //$NON-NLS-1$
 
         ps.flush();
     }

@@ -26,10 +26,10 @@ public class OrForkConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String madatory_attribute = "<Branch id=\"" + "h" + this.orForkNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.orForkNode.getId() + "\" ";
-        ps.print("            " + madatory_attribute + traceabilityLink);
-        String closing_attribute = "/>";
+        String madatory_attribute = "<Branch id=\"" + "h" + this.orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        ps.print("            " + madatory_attribute + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/>"; //$NON-NLS-1$
 
         // optional attributes
         this.pathConnAttribs.OptionalAttributes(this.orForkNode, ps, source, target);

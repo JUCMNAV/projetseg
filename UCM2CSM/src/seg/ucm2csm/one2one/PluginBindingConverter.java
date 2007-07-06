@@ -27,13 +27,13 @@ public class PluginBindingConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String object_attributes_head = "<Refinement parent=\"" + "h" + this.pluginBinding.getStub().getId() + "\" " + "sub=\"" + "m" + this.pluginBinding.getPlugin().getId() + "\" ";
-        String object_closing = ">";
+        String object_attributes_head = "<Refinement parent=\"" + "h" + pluginBinding.getStub().getId() + "\" " + "sub=\"" + "m" + pluginBinding.getPlugin().getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+        String object_closing = ">"; //$NON-NLS-1$
 
         String object_attributes = object_attributes_head + object_closing;
 
         // output to file
-        ps.println("                " + object_attributes);
+        ps.println("                " + object_attributes); //$NON-NLS-1$
 
         // get inbindings
         int nthIn;
@@ -61,10 +61,10 @@ public class PluginBindingConverter implements AbstractConverter {
             nthOut++;
         }
 
-        String object_attributes_close = "</Refinement>";
+        String object_attributes_close = "</Refinement>"; //$NON-NLS-1$
 
         // output to file
-        ps.println("                " + object_attributes_close);
+        ps.println("                " + object_attributes_close); //$NON-NLS-1$
         ps.flush();
     }
 

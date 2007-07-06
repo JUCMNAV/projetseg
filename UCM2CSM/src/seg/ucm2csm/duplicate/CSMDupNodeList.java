@@ -60,19 +60,19 @@ public class CSMDupNodeList {
 
     // for debug - prints ids of all elements in list
     public void printDupList() {
-        System.out.println("----------Printing duplicate Node List-------");
-        System.out.println("List size: " + this.length);
+        System.out.println("----------Printing duplicate Node List-------"); //$NON-NLS-1$
+        System.out.println("List size: " + this.length); //$NON-NLS-1$
         String typeName;
         for (int i = 0; i < this.length; i++) {
             int type = this.nodeList[i].getType();
-            typeName = " (" + this.nodeList[i].getTypeString() + ")";
+            typeName = " (" + this.nodeList[i].getTypeString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
             if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.CSMEMPTY) {
                 String id = this.nodeList[i].getId();
-                System.out.println("Index " + i + " id: " + id + typeName);
+                System.out.println("Index " + i + " id: " + id + typeName); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
-                System.out.println("Node : " + this.nodeList[i].getNode());
+                System.out.println("Node : " + this.nodeList[i].getNode()); //$NON-NLS-1$
                 String node_id = this.nodeList[i].getId();
-                System.out.println("Index " + i + " id: " + node_id + typeName);
+                System.out.println("Index " + i + " id: " + node_id + typeName); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
     }

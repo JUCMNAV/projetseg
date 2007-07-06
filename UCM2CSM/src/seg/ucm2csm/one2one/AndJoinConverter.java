@@ -26,11 +26,11 @@ public class AndJoinConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String object_attributes = "<Join id=\"" + "h" + this.andJoinNode.getId() + "\" ";
-        String traceabilityLink = "traceabilityLink=\"" + this.andJoinNode.getId() + "\" ";
+        String object_attributes = "<Join id=\"" + "h" + this.andJoinNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + this.andJoinNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         // output to file
-        ps.print("			" + object_attributes + traceabilityLink);
-        String closing_attribute = "/>";
+        ps.print("			" + object_attributes + traceabilityLink); //$NON-NLS-1$
+        String closing_attribute = "/>"; //$NON-NLS-1$
 
         // optional attributes
         this.pathConnAttribs.OptionalAttributes(this.andJoinNode, ps, source, target);

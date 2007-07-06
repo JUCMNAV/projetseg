@@ -27,31 +27,31 @@ public class ResponsibilityRefConverter implements AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String mandatory_attribute = "<Step id=\"h" + this.respRef.getId() + "\" " + "name=\"" + this.respRef.getRespDef().getName() + "\" " + "predecessor=\""
-                + source.toString().subSequence(1, (source.toString().length() - 1)) + "\" " + "successor=\""
-                + target.toString().subSequence(1, (target.toString().length() - 1)) + "\" ";
-        ps.print("            " + mandatory_attribute);
+        String mandatory_attribute = "<Step id=\"h" + this.respRef.getId() + "\" " + "name=\"" + this.respRef.getRespDef().getName() + "\" " + "predecessor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+                + source.toString().subSequence(1, (source.toString().length() - 1)) + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$
+                + target.toString().subSequence(1, (target.toString().length() - 1)) + "\" "; //$NON-NLS-1$
+        ps.print("            " + mandatory_attribute); //$NON-NLS-1$
 
         // optional attributes
         this.stepAttribs.OptionalAttributes(this.respRef, ps);
 
         if (this.respRef.getRespDef().getDemands().size() == 0) {
-            String closing_attribute = "/>";
+            String closing_attribute = "/>"; //$NON-NLS-1$
             // output to file
             ps.println(closing_attribute);
         } else {
-            String closing_attribute1 = ">";
+            String closing_attribute1 = ">"; //$NON-NLS-1$
             // output to file
             ps.println(closing_attribute1);
             for (Iterator demands = this.respRef.getRespDef().getDemands().iterator(); demands.hasNext();) {
                 Demand demand = (Demand) demands.next();
                 String currentDemandQty = demand.getQuantity();
                 if (currentDemandQty == null)
-                    currentDemandQty = "1";
-                String demand_line = "                  <ExternalDemand demand=\"" + currentDemandQty + "\" extOp=\"e" + demand.getResource().getId() + "\"/>";
+                    currentDemandQty = "1"; //$NON-NLS-1$
+                String demand_line = "                  <ExternalDemand demand=\"" + currentDemandQty + "\" extOp=\"e" + demand.getResource().getId() + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 ps.println(demand_line);
             }
-            String closing_attribute2 = "            </Step>";
+            String closing_attribute2 = "            </Step>"; //$NON-NLS-1$
             // output to file
             ps.println(closing_attribute2);
         }
