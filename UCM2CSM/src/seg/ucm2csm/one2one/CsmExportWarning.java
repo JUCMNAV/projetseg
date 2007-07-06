@@ -24,7 +24,7 @@ public class CsmExportWarning {
      */
     public CsmExportWarning(String msg) {
         this.msg = msg;
-        this.location = null;
+        location = null;
         setWarning();
     }
 
@@ -65,7 +65,7 @@ public class CsmExportWarning {
      */
     public CsmExportWarning(String msg, int severity) {
         this.msg = msg;
-        this.location = null;
+        location = null;
         this.severity = severity;
     }
 
@@ -74,7 +74,7 @@ public class CsmExportWarning {
      * @return the location where this warning cocurred
      */
     public EObject getLocation() {
-        return this.location;
+        return location;
     }
 
     /**
@@ -82,7 +82,7 @@ public class CsmExportWarning {
      * @return the warning message
      */
     public String getMsg() {
-        return this.msg;
+        return msg;
     }
 
     /**
@@ -90,7 +90,7 @@ public class CsmExportWarning {
      * @return the warning's severity; {@link IMarker#SEVERITY_ERROR}, {@link IMarker#SEVERITY_WARNING} or {@link IMarker#SEVERITY_INFO}
      */
     public int getSeverity() {
-        return this.severity;
+        return severity;
     }
 
     /**
@@ -98,7 +98,7 @@ public class CsmExportWarning {
      * 
      */
     public void setError() {
-	this.severity = IMarker.SEVERITY_ERROR;
+	severity = IMarker.SEVERITY_ERROR;
     }
 
     /**
@@ -106,7 +106,7 @@ public class CsmExportWarning {
      * 
      */
     public void setInfo() {
-	this.severity = IMarker.SEVERITY_INFO;
+	severity = IMarker.SEVERITY_INFO;
     }
 
     /**
@@ -114,14 +114,14 @@ public class CsmExportWarning {
      * 
      */
     public void setWarning() {
-	this.severity = IMarker.SEVERITY_WARNING;
+	severity = IMarker.SEVERITY_WARNING;
     }
 
     /**
      * The warning message.
      */
     public String toString() {
-        return this.msg;
+        return msg;
     }
 
 }

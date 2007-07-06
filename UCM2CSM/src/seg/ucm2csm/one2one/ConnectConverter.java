@@ -18,7 +18,7 @@ public class ConnectConverter implements AbstractConverter {
 
     // constructors
     public ConnectConverter(Connect ep) {
-        this.connectNode = ep;
+        connectNode = ep;
     }
 
     // prints XML representation of object to output file
@@ -30,12 +30,12 @@ public class ConnectConverter implements AbstractConverter {
         String hostDemand = "hostDemand=\"0\" "; //$NON-NLS-1$
         // at the moment, jUCMNav does not permit to set the description of a
         // Connect
-        String description = ((this.connectNode.getDescription() != null)) ? "description=\"" + this.connectNode.getDescription() + "\" " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String description = ((connectNode.getDescription() != null)) ? "description=\"" + connectNode.getDescription() + "\" " : ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         // object attributes
-        String Object_attributes = "<Step id=\"" + "h" + this.connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+        String Object_attributes = "<Step id=\"" + "h" + connectNode.getId() + "\" name=\"" + name + "\" " + "predecessor=\"" + predecessor + "\" " + "successor=\"" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
                 + successor + "\" " + hostDemand + description; //$NON-NLS-1$
-        String traceabilityLink = "traceabilityLink=\"" + this.connectNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String traceabilityLink = "traceabilityLink=\"" + connectNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
         String closing_attribute = "/> <!-- Connect -->"; //$NON-NLS-1$
 

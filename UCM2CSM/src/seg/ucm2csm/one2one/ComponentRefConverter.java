@@ -44,36 +44,36 @@ public class ComponentRefConverter {
     // constructors
     public ComponentRefConverter(ComponentRef compRef) {
         this.compRef = compRef;
-        this.compDef = (ComponentRegular) compRef.getContDef();
+        compDef = (ComponentRegular) compRef.getContDef();
 
         // processing active_process
-        this.activeProcess = false;
+        activeProcess = false;
 
         // set is_active_process to true if component is Process or Agent, false
         // if Team or Object, undefined otherwise
-        this.activeProcStatusDefined = false;
-        if ((this.compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (this.compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
-            this.activeProcess = true;
-            this.activeProcStatusDefined = true;
-        } else if ((this.compDef.getKind() == ComponentKind.TEAM_LITERAL) || (this.compDef.getKind() == ComponentKind.OBJECT_LITERAL)) {
-            this.activeProcess = false;
-            this.activeProcStatusDefined = true;
+        activeProcStatusDefined = false;
+        if ((compDef.getKind() == ComponentKind.PROCESS_LITERAL) || (compDef.getKind() == ComponentKind.AGENT_LITERAL)) {
+            activeProcess = true;
+            activeProcStatusDefined = true;
+        } else if ((compDef.getKind() == ComponentKind.TEAM_LITERAL) || (compDef.getKind() == ComponentKind.OBJECT_LITERAL)) {
+            activeProcess = false;
+            activeProcStatusDefined = true;
         }
 
         // initialize parentID only if a reference to the parentID component exists
         if (((ComponentRef) compRef.getParent()) != null) {
-            this.parentCompRef = (ComponentRef) compRef.getParent();
-            this.parentCompDef = (ComponentRegular) this.parentCompRef.getContDef();
-            this.parentID += "c" + this.parentCompDef.getId(); //$NON-NLS-1$
+            parentCompRef = (ComponentRef) compRef.getParent();
+            parentCompDef = (ComponentRegular) parentCompRef.getContDef();
+            parentID += "c" + parentCompDef.getId(); //$NON-NLS-1$
         } else {
-        	this.parentID += " "; //$NON-NLS-1$
+        	parentID += " "; //$NON-NLS-1$
         }
 
         // retrieve childrenIDs
         for (Iterator iter = compRef.getChildren().listIterator(); iter.hasNext();) {
-            this.childrenCompRef = (ComponentRef) iter.next();
-            this.childrenCompDef = (ComponentRegular) this.childrenCompRef.getContDef();
-            this.childrenIDs += "c" + this.childrenCompDef.getId() + " "; //$NON-NLS-1$ //$NON-NLS-2$
+            childrenCompRef = (ComponentRef) iter.next();
+            childrenCompDef = (ComponentRegular) childrenCompRef.getContDef();
+            childrenIDs += "c" + childrenCompDef.getId() + " "; //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -90,28 +90,28 @@ public class ComponentRefConverter {
         // if (!activeProcStatusDefined) return;
         String comp_host = ""; //$NON-NLS-1$
         // resources do not exist yet. js
-        if (this.compRef.getContDef() != null) {
-            if (this.compRef.getContDef() instanceof ComponentRegular) {
-                if (((ComponentRegular) this.compRef.getContDef()).getHost() != null) {
-                    ProcessingResource procRes = ((ComponentRegular) this.compRef.getContDef()).getHost();
+        if (compRef.getContDef() != null) {
+            if (compRef.getContDef() instanceof ComponentRegular) {
+                if (((ComponentRegular) compRef.getContDef()).getHost() != null) {
+                    ProcessingResource procRes = ((ComponentRegular) compRef.getContDef()).getHost();
                     comp_host = "host=\"" + "r" + procRes.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 }
             }
         }
 
         // object attributes --- host attribute to be implemanteds
-        String id = ((Component) this.compRef.getContDef()).getId();
-        String name = ((Component) this.compRef.getContDef()).getName();
+        String id = ((Component) compRef.getContDef()).getId();
+        String name = ((Component) compRef.getContDef()).getName();
         String comp_attributes = "<Component id=\"" + "c" + id + "\" " + "name=\"" + name + "\" " + comp_host + " "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-        String traceabilityLink = "traceabilityLink=\"" + this.compRef.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String traceabilityLink = "traceabilityLink=\"" + compRef.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String close = "/>"; //$NON-NLS-1$
 
-        String comp_attributes_sub = "sub=\"" + this.childrenIDs + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
-        String comp_attributes_parent = "parent=\"" + this.parentID + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String comp_attributes_sub = "sub=\"" + childrenIDs + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String comp_attributes_parent = "parent=\"" + parentID + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String comp_attributes_active_process;
 
-        if (this.activeProcStatusDefined) {
-            comp_attributes_active_process = "isActiveProcess=\"" + this.activeProcess + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        if (activeProcStatusDefined) {
+            comp_attributes_active_process = "isActiveProcess=\"" + activeProcess + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         } else {
             comp_attributes_active_process = ""; //$NON-NLS-1$
         }
@@ -119,10 +119,10 @@ public class ComponentRefConverter {
         ps.print("        " + comp_attributes + traceabilityLink); //$NON-NLS-1$
         ps.print(" " + comp_attributes_active_process); //$NON-NLS-1$
 
-        if (this.parentID.compareTo(" ") != 0) { //$NON-NLS-1$
+        if (parentID.compareTo(" ") != 0) { //$NON-NLS-1$
             ps.print(comp_attributes_parent);
         }
-        if (this.childrenIDs.compareTo("") != 0) { //$NON-NLS-1$
+        if (childrenIDs.compareTo("") != 0) { //$NON-NLS-1$
             ps.print(comp_attributes_sub);
         }
         ps.println(" " + close); //$NON-NLS-1$

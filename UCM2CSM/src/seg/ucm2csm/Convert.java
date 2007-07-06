@@ -87,7 +87,7 @@ public class Convert implements IURNExport {
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
 
         PrintStream ps = new PrintStream(fos);
-        this.problems.clear();
+        problems.clear();
 
         // prepare CSM header and footer
         String XML_header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"; //$NON-NLS-1$
@@ -110,7 +110,7 @@ public class Convert implements IURNExport {
             IURNDiagram diag = (IURNDiagram) iter.next();
             if (diag instanceof UCMmap) {
                 UCMmap map = (UCMmap) diag;
-                exportMap(map, ps, null, this.problems);
+                exportMap(map, ps, null, problems);
             }
         }
         
@@ -119,8 +119,8 @@ public class Convert implements IURNExport {
         ps.flush();
 
         // Reports to Problems view
-        this.problems.add(new CsmExportWarning(Messages.getString("Convert.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
-        refreshProblemsView(this.problems);
+        problems.add(new CsmExportWarning(Messages.getString("Convert.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
+        refreshProblemsView(problems);
 
     }
 
@@ -233,8 +233,8 @@ public class Convert implements IURNExport {
         for (Iterator iter3 = ucmMap.getContRefs().iterator(); iter3.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter3.next();
             // produce components only once (to avoid CSM2LQN to crash)
-            if (!this.processedComponents.contains(((Component) compRef.getContDef()).getId())) {
-        	this.processedComponents.add(((Component) compRef.getContDef()).getId());
+            if (!processedComponents.contains(((Component) compRef.getContDef()).getId())) {
+        	processedComponents.add(((Component) compRef.getContDef()).getId());
                 // generate CSM representation
                 ComponentRefConverter obj = new ComponentRefConverter(compRef);
                 doComponentRefConvert(obj, ps);
@@ -245,8 +245,8 @@ public class Convert implements IURNExport {
         for (Iterator res = ucmMap.getUrndefinition().getUrnspec().getUcmspec().getResources().iterator(); res.hasNext();) {
             GeneralResource genRes = (GeneralResource) res.next();
             // but ouput each resource only once
-            if (!this.processedResources.contains(genRes.getId())) {
-        	this.processedResources.add(genRes.getId());
+            if (!processedResources.contains(genRes.getId())) {
+        	processedResources.add(genRes.getId());
                 if (genRes instanceof ExternalOperation) {
                     ExternalOperationConverter externalOpnCvtr = new ExternalOperationConverter((ExternalOperation) genRes);
                     externalOpnCvtr.Convert(ps, /* source */null, /* target */ null, warnings);
@@ -838,15 +838,15 @@ public class Convert implements IURNExport {
                     // create dummy node
                     MapFactoryImpl mfi = new MapFactoryImpl();
                     EmptyPoint ep = mfi.createEmptyPoint();
-                    ep.setName("" + this.emptyPoint_id); //$NON-NLS-1$
-                    ep.setDescription("" + this.emptyPoint_id); //$NON-NLS-1$
-                    ep.setId("" + this.emptyPoint_id); //$NON-NLS-1$
+                    ep.setName("" + emptyPoint_id); //$NON-NLS-1$
+                    ep.setDescription("" + emptyPoint_id); //$NON-NLS-1$
+                    ep.setId("" + emptyPoint_id); //$NON-NLS-1$
                     CSMDupNode ep_node = new CSMDupNode(ep, warnings);
                     ep_node.setType(CSMDupNode.EMPTY);
-                    ep_node.setID("" + this.emptyPoint_id); //$NON-NLS-1$
+                    ep_node.setID("" + emptyPoint_id); //$NON-NLS-1$
                     ep_node.setResourcesDownstream(source.getResourcesDownstream());
                     ep_node.setResourcesUpstream(target.getResourcesUpstream());
-                    this.emptyPoint_id++;
+                    emptyPoint_id++;
                     node_list.add(ep_node);
 
                     // remove curr_conn connection
@@ -891,10 +891,10 @@ public class Convert implements IURNExport {
      */
     private void insertDummyStep(CSMDupNodeList node_list, CSMDupConnectionList conn_list, CSMDupConnection curr_conn, CSMDupNode source, CSMDupNode target) {
         // create the new node
-        CSMDupNode dummy_node = new CSMDupNode(this.dummy_id);
+        CSMDupNode dummy_node = new CSMDupNode(dummy_id);
         dummy_node.setResourcesDownstream(source.getResourcesDownstream());
         dummy_node.setResourcesUpstream(target.getResourcesUpstream());
-        this.dummy_id++;
+        dummy_id++;
         node_list.add(dummy_node);
         // remove curr_conn connection
         conn_list.remove(curr_conn);

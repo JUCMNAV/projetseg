@@ -19,20 +19,20 @@ public class OrForkConverter implements AbstractConverter {
 
     // constructors
     public OrForkConverter(OrFork of) {
-        this.orForkNode = of;
+        orForkNode = of;
     }
 
     // prints XML representation orForkNode object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String madatory_attribute = "<Branch id=\"" + "h" + this.orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String traceabilityLink = "traceabilityLink=\"" + this.orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String madatory_attribute = "<Branch id=\"" + "h" + orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + orForkNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print("            " + madatory_attribute + traceabilityLink); //$NON-NLS-1$
         String closing_attribute = "/>"; //$NON-NLS-1$
 
         // optional attributes
-        this.pathConnAttribs.OptionalAttributes(this.orForkNode, ps, source, target);
+        pathConnAttribs.OptionalAttributes(orForkNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

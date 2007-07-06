@@ -17,7 +17,7 @@ public class ProcessingResourceConverter implements AbstractConverter {
 
     // constructors
     public ProcessingResourceConverter(ProcessingResource pr) {
-        this.processingRes = pr;
+        processingRes = pr;
     }
 
     // prints XML representation of object to output file -- implement this!!

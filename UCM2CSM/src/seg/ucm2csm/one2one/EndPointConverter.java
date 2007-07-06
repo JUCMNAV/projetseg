@@ -19,19 +19,19 @@ public class EndPointConverter implements AbstractConverter {
 
     // constructors
     public EndPointConverter(EndPoint ep) {
-        this.endPointNode = ep;
+        endPointNode = ep;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
-        String mandatory_attribute = "<End id=\"" + "h" + this.endPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String traceabilityLink = "traceabilityLink=\"" + this.endPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String mandatory_attribute = "<End id=\"" + "h" + endPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + endPointNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print("            " + mandatory_attribute + traceabilityLink); //$NON-NLS-1$
-        String closing_attribute = "/> <!-- EndPoint " + this.endPointNode.getName() + " -->"; //$NON-NLS-1$ //$NON-NLS-2$
+        String closing_attribute = "/> <!-- EndPoint " + endPointNode.getName() + " -->"; //$NON-NLS-1$ //$NON-NLS-2$
 
         // optional attributes
-        this.pathConnAttribs.OptionalAttributes(this.endPointNode, ps, source, target);
+        pathConnAttribs.OptionalAttributes(endPointNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

@@ -23,19 +23,19 @@ public class DirectionArrowConverter implements AbstractConverter {
 
     // constructors
     public DirectionArrowConverter(DirectionArrow ep) {
-        this.directionArrowNode = ep;
+        directionArrowNode = ep;
     }
 
     // prints XML representation of object to output file
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings) {
 
         // object attributes
-        String Object_attributes = "<Sequence id=\"" + "h" + this.directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String traceabilityLink = "traceabilityLink=\"" + this.directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+        String Object_attributes = "<Sequence id=\"" + "h" + directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String traceabilityLink = "traceabilityLink=\"" + directionArrowNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
         String closing_attribute = "/> <!-- DirectionArrow -->"; //$NON-NLS-1$
 
-        this.pathConnAttribs.OptionalAttributes(this.directionArrowNode, ps, source, target);
+        pathConnAttribs.OptionalAttributes(directionArrowNode, ps, source, target);
 
         // output to file
         ps.println(closing_attribute);

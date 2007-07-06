@@ -17,7 +17,7 @@ public class OutBindingConverter implements AbstractConverter {
 
     // constructors
     public OutBindingConverter(OutBinding out_bind) {
-        this.outBinding = out_bind;
+        outBinding = out_bind;
     }
 
     // prints XML representation of object to output file

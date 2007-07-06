@@ -103,11 +103,11 @@ public class ResourceRelease {
         }
 
         // printing attributes
-        this.ps.print("            " + rr_attributes); //$NON-NLS-1$
-        this.ps.print(rr_predecessor);
-        this.ps.print(rr_successor);
-        this.ps.print(end_rr);
-        this.ps.println(""); //$NON-NLS-1$
+        ps.print("            " + rr_attributes); //$NON-NLS-1$
+        ps.print(rr_predecessor);
+        ps.print(rr_successor);
+        ps.print(end_rr);
+        ps.println(""); //$NON-NLS-1$
     }
 
     public void releaseComp(String res, CSMDupNode node, CSMDupConnectionList list) {
@@ -132,11 +132,11 @@ public class ResourceRelease {
         }
 
         // printing attributes
-        this.ps.print("            " + rr_attributes); //$NON-NLS-1$
-        this.ps.print(rr_predecessor);
-        this.ps.print(rr_successor);
-        this.ps.print(end_rr);
-        this.ps.println(""); //$NON-NLS-1$
+        ps.print("            " + rr_attributes); //$NON-NLS-1$
+        ps.print(rr_predecessor);
+        ps.print(rr_successor);
+        ps.print(end_rr);
+        ps.println(""); //$NON-NLS-1$
     }
 
     // prints XML representation of Dummy EmptyPoint element

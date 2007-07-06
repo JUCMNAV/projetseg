@@ -64,12 +64,12 @@ public class StubConverter implements AbstractConverter {
         ps.print("            " + mandatory_attribute); //$NON-NLS-1$
 
         // optional attributes
-        this.stepAttribs.OptionalAttributes(this.stub, ps);
+        stepAttribs.OptionalAttributes(stub, ps);
         ps.println("> <!-- Stub -->"); //$NON-NLS-1$
 
         // Dynamic Stub
-        if (this.stub.isDynamic()) {
-            String stubId = this.stub.getId();
+        if (stub.isDynamic()) {
+            String stubId = stub.getId();
             String fake_stubId = "fs_" + stubId; //$NON-NLS-1$
             String plugBind_head = "<Refinement parent=\"" + "h" + stubId + "\" sub=\"" + fake_stubId + "\" >"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
@@ -84,8 +84,8 @@ public class StubConverter implements AbstractConverter {
              * All bindings should have the same cardinality. We're using the first binding one as "skeleton" for all of them. The proper binding of the maps
              * should be checked. JS
              */
-            if (this.stub.getBindings().size() != 0) {
-                PluginBinding pb = (PluginBinding) this.stub.getBindings().get(0);
+            if (stub.getBindings().size() != 0) {
+                PluginBinding pb = (PluginBinding) stub.getBindings().get(0);
                 int nthIn = 0;
                 for (Iterator inBindingIterator = pb.getIn().iterator(); inBindingIterator.hasNext();) {
                     InBinding ib = (InBinding) inBindingIterator.next();
@@ -109,7 +109,7 @@ public class StubConverter implements AbstractConverter {
             // Static Stub
         } else {
             // process bindings as CSM refinements
-            for (Iterator iter = this.stub.getBindings().iterator(); iter.hasNext();) {
+            for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
                 PluginBinding binding = (PluginBinding) iter.next();
                 PluginBindingConverter bind_obj = new PluginBindingConverter(binding);
                 bind_obj.Convert(ps, source, target, warnings);

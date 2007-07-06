@@ -22,7 +22,7 @@ public class CSMDupNodeList {
     // create list of PathNodes
     public void DuplicateHyperEdges(UCMmap map, Vector warnings) {
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
-            this.nodeList[this.length++] = new CSMDupNode((PathNode) iter.next(), warnings);
+            nodeList[length++] = new CSMDupNode((PathNode) iter.next(), warnings);
         }
     }
 
@@ -30,48 +30,48 @@ public class CSMDupNodeList {
 
     // size of path list
     public int size() {
-        return this.length;
+        return length;
     }
 
     // get node
     public CSMDupNode get(int i) {
-        return this.nodeList[i];
+        return nodeList[i];
     }
 
     // add node at the end of list
     public void add(CSMDupNode node) {
-        this.nodeList[this.length++] = node;
+        nodeList[length++] = node;
     }
 
     // add node at a specific point in map
     public void add(int position, CSMDupNode node) {
-        this.nodeList[position] = node;
+        nodeList[position] = node;
     }
 
     // checks if list is empty
     public boolean isEmpty() {
-        return this.length == 0;
+        return length == 0;
     }
 
     // return a PathNode from the Duplicate Graph
     public PathNode getListNode(int i) {
-        return this.nodeList[i].getNode();
+        return nodeList[i].getNode();
     }
 
     // for debug - prints ids of all elements in list
     public void printDupList() {
         System.out.println("----------Printing duplicate Node List-------"); //$NON-NLS-1$
-        System.out.println("List size: " + this.length); //$NON-NLS-1$
+        System.out.println("List size: " + length); //$NON-NLS-1$
         String typeName;
-        for (int i = 0; i < this.length; i++) {
-            int type = this.nodeList[i].getType();
-            typeName = " (" + this.nodeList[i].getTypeString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+        for (int i = 0; i < length; i++) {
+            int type = nodeList[i].getType();
+            typeName = " (" + nodeList[i].getTypeString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
             if (type == CSMDupNode.RA || type == CSMDupNode.RR || type == CSMDupNode.CSMEMPTY) {
-                String id = this.nodeList[i].getId();
+                String id = nodeList[i].getId();
                 System.out.println("Index " + i + " id: " + id + typeName); //$NON-NLS-1$ //$NON-NLS-2$
             } else {
-                System.out.println("Node : " + this.nodeList[i].getNode()); //$NON-NLS-1$
-                String node_id = this.nodeList[i].getId();
+                System.out.println("Node : " + nodeList[i].getNode()); //$NON-NLS-1$
+                String node_id = nodeList[i].getId();
                 System.out.println("Index " + i + " id: " + node_id + typeName); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
@@ -79,8 +79,8 @@ public class CSMDupNodeList {
 
     // returns the position of the node in the list of dup nodes
     public int getNodeIndex(PathNode node) {
-        for (int i = 0; i < this.length; i++) {
-            if (this.nodeList[i].getNode() == node)
+        for (int i = 0; i < length; i++) {
+            if (nodeList[i].getNode() == node)
                 return i;
         }
         return -1; // not found
@@ -89,35 +89,35 @@ public class CSMDupNodeList {
     // removes a node from the node list (and just one)
     public void remove(CSMDupNode node) {
         boolean found = false;
-        for (int i = 0; i < this.length; i++) {
-            if (this.nodeList[i].getNode() != null) {
-                if (this.nodeList[i].getNode().getId() == node.getId()) {
+        for (int i = 0; i < length; i++) {
+            if (nodeList[i].getNode() != null) {
+                if (nodeList[i].getNode().getId() == node.getId()) {
                     found = true;
                     // this.nodeList.remove(i);
                 } // if
-                if (found && ((i + 1) < this.length)) {
-                    this.nodeList[i] = this.nodeList[i + 1];
+                if (found && ((i + 1) < length)) {
+                    nodeList[i] = nodeList[i + 1];
                 }
             } // if
         } // for
         if (found) {
-            this.length--;
+            length--;
         }
     } // method
 
     public void remove(PathNode node) {
         boolean found = false;
-        for (int i = 0; i < this.length; i++) {
-            if (this.nodeList[i].getNode() == node) {
+        for (int i = 0; i < length; i++) {
+            if (nodeList[i].getNode() == node) {
                 found = true;
                 // this.nodeList.remove(i);
             } // if
-            if (found && ((i + 1) < this.length)) {
-                this.nodeList[i] = this.nodeList[i + 1];
+            if (found && ((i + 1) < length)) {
+                nodeList[i] = nodeList[i + 1];
             }
         } // for
         if (found) {
-            this.length--;
+            length--;
         }
     } // method
 
@@ -188,6 +188,6 @@ public class CSMDupNodeList {
      */
     public void retype(CSMDupNode dupNode, int type) {
 	int nodeIndex = getNodeIndex(dupNode.getNode());
-	this.nodeList[nodeIndex].setType(type);
+	nodeList[nodeIndex].setType(type);
     }
 }

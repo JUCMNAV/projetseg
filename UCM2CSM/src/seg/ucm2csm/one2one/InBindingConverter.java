@@ -17,7 +17,7 @@ public class InBindingConverter implements AbstractConverter {
 
     // constructors
     public InBindingConverter(InBinding in_bind) {
-        this.inBinding = in_bind;
+        inBinding = in_bind;
     }
 
     // prints XML representation of object to output file
@@ -29,7 +29,7 @@ public class InBindingConverter implements AbstractConverter {
         String previousNode = (String) source.get(0);
 
         // object attributes
-        String Object_attributes = "<InBinding start=\"" + "h" + this.inBinding.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+        String Object_attributes = "<InBinding start=\"" + "h" + inBinding.getStartPoint().getId() + "\" " + "in=\"" + previousNode + "\"/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
         // output to file
         ps.println("                     " + Object_attributes); //$NON-NLS-1$

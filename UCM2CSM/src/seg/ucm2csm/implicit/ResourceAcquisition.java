@@ -105,11 +105,11 @@ public class ResourceAcquisition {
         }
 
         // printing attributes
-        this.ps.print("            " + ra_attributes); //$NON-NLS-1$
-        this.ps.print(ra_predecessor);
-        this.ps.print(ra_successor);
-        this.ps.print(end_ra);
-        this.ps.println(""); //$NON-NLS-1$
+        ps.print("            " + ra_attributes); //$NON-NLS-1$
+        ps.print(ra_predecessor);
+        ps.print(ra_successor);
+        ps.print(end_ra);
+        ps.println(""); //$NON-NLS-1$
     }
 
     public void acquireComp(String res, CSMDupNode node, CSMDupConnectionList list) {
@@ -133,11 +133,11 @@ public class ResourceAcquisition {
         }
 
         // printing attributes
-        this.ps.print("            " + ra_attributes); //$NON-NLS-1$
-        this.ps.print(ra_predecessor);
-        this.ps.print(ra_successor);
-        this.ps.print(end_ra);
-        this.ps.println(""); //$NON-NLS-1$
+        ps.print("            " + ra_attributes); //$NON-NLS-1$
+        ps.print(ra_predecessor);
+        ps.print(ra_successor);
+        ps.print(end_ra);
+        ps.println(""); //$NON-NLS-1$
     }
 
     // prints XML representation of Dummy EmptyPoint element
@@ -162,12 +162,12 @@ public class ResourceAcquisition {
         }
 
         // output to file
-        this.ps.print("            " + epoint_attributes); //$NON-NLS-1$
-        this.ps.print(epoint_source);
-        this.ps.print(epoint_target);
-        this.ps.print(epoint_end);
-        this.ps.println(""); //$NON-NLS-1$
-        this.ps.flush();
+        ps.print("            " + epoint_attributes); //$NON-NLS-1$
+        ps.print(epoint_source);
+        ps.print(epoint_target);
+        ps.print(epoint_end);
+        ps.println(""); //$NON-NLS-1$
+        ps.flush();
     }
 
     // inserts RA and Empty Points where necessary in the duplicate map

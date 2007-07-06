@@ -18,7 +18,7 @@ public class PassiveResourceConverter implements AbstractConverter {
 
     // constructors
     public PassiveResourceConverter(PassiveResource genRes) {
-        this.passiveRes = genRes;
+        passiveRes = genRes;
     }
 
     // prints XML representation of object to output file

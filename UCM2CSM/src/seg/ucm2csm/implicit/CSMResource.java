@@ -29,10 +29,10 @@ public class CSMResource {
 
     public final int RESATR = 3;
 
-    private int type = this.UNKNOWN;
+    private int type = UNKNOWN;
 
     public int getType() {
-        return this.type;
+        return type;
     }
 
     private String name;
@@ -41,66 +41,66 @@ public class CSMResource {
 
     public CSMResource(GeneralResource genRes) {
         this.genRes = genRes;
-        this.type = this.GENRES;
-        this.name = genRes.getId();
-        this.quantity = this.genRes.getMultiplicity();
+        type = GENRES;
+        name = genRes.getId();
+        quantity = this.genRes.getMultiplicity();
     }
 
     public CSMResource(ComponentRef compRef) {
         this.compRef = compRef;
-        this.type = this.COMPREF;
-        this.name = ((ComponentRegular) compRef.getContDef()).getId();
-        this.quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS //$NON-NLS-1$
+        type = COMPREF;
+        name = ((ComponentRegular) compRef.getContDef()).getId();
+        quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS //$NON-NLS-1$
     }
 
     public CSMResource(ResourceAttribs resAtr) {
         this.resAtr = resAtr;
-        this.type = this.RESATR;
-        this.name = this.resAtr.getResId();
-        this.quantity = "" + this.resAtr.getRUnits(); //$NON-NLS-1$
+        type = RESATR;
+        name = this.resAtr.getResId();
+        quantity = "" + this.resAtr.getRUnits(); //$NON-NLS-1$
     }
 
     public boolean equivalent(CSMResource compRes) {
-        return this.name == compRes.name; // TODO: should this be stronger? js
+        return name == compRes.name; // TODO: should this be stronger? js
     }
 
     public String getResource() {
-        return this.name;
+        return name;
     }
 
     public String getQty() {
-        return this.quantity;
+        return quantity;
     }
 
     public boolean isAcquire() {
-        return !((this.resAtr != null) && (this.resAtr.isRelease()));
+        return !((resAtr != null) && (resAtr.isRelease()));
     }
 
     public boolean isRelease() {
-        return !((this.resAtr != null) && (this.resAtr.isAcquire()));
+        return !((resAtr != null) && (resAtr.isAcquire()));
     }
 
     public String getResourcePrefix() {
         String resType = null;
-        if (this.getType() == this.COMPREF) {
+        if (getType() == COMPREF) {
             resType = "c"; //$NON-NLS-1$
-        } else if (this.getType() == this.GENRES) {
-            if (this.genRes instanceof ExternalOperation) {
+        } else if (getType() == GENRES) {
+            if (genRes instanceof ExternalOperation) {
                 resType = "e"; //$NON-NLS-1$
-            } else if (this.genRes instanceof ProcessingResource) {
+            } else if (genRes instanceof ProcessingResource) {
                 resType = "r"; //$NON-NLS-1$
-            } else if (this.genRes instanceof PassiveResource) {
+            } else if (genRes instanceof PassiveResource) {
                 resType = "p"; //$NON-NLS-1$
             } else {
                 resType = "u"; // unforeseen case... //$NON-NLS-1$
             }
-        } else if (this.getType() == this.RESATR) {
+        } else if (getType() == RESATR) {
             // resType = "a";
-            if (this.resAtr.getRes() instanceof ExternalOperation) {
+            if (resAtr.getRes() instanceof ExternalOperation) {
                 resType = "e"; //$NON-NLS-1$
-            } else if (this.resAtr.getRes() instanceof ProcessingResource) {
+            } else if (resAtr.getRes() instanceof ProcessingResource) {
                 resType = "r"; //$NON-NLS-1$
-            } else if (this.resAtr.getRes() instanceof PassiveResource) {
+            } else if (resAtr.getRes() instanceof PassiveResource) {
                 resType = "p"; //$NON-NLS-1$
             } else {
                 resType = "u"; // unforeseen case... //$NON-NLS-1$

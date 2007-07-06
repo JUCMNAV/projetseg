@@ -20,7 +20,7 @@ public class WaitingPlaceConverter implements AbstractConverter {
 
     // constructors
     public WaitingPlaceConverter(WaitingPlace af) {
-        this.waitingPlaceNode = af;
+        waitingPlaceNode = af;
     }
 
     // prints XML representation of object to output file
@@ -34,7 +34,7 @@ public class WaitingPlaceConverter implements AbstractConverter {
         String closing_attribute = "/> <!-- Waiting Place -->"; //$NON-NLS-1$
 
         // optional attributes
-        this.pathConnAttribs.OptionalAttributes(this.waitingPlaceNode, ps, source, target);
+        pathConnAttribs.OptionalAttributes(waitingPlaceNode, ps, source, target);
 
         ps.println(closing_attribute);
         ps.flush();

@@ -20,7 +20,7 @@ public class TimerConverter implements AbstractConverter {
 
     // constructors
     public TimerConverter(Timer ep) {
-        this.timerNode = ep;
+        timerNode = ep;
     }
 
     // prints XML representation of object to output file
@@ -39,7 +39,7 @@ public class TimerConverter implements AbstractConverter {
                 traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                 ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
                 closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
-                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
+                pathConnAttribs.OptionalAttributes(timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);
@@ -76,7 +76,7 @@ public class TimerConverter implements AbstractConverter {
                 String traceabilityLink3 = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                 ps.print("            " + Object_attributes3 + traceabilityLink3); //$NON-NLS-1$
                 String closing_attribute3 = "/> <!-- Timer 3/3 -->"; //$NON-NLS-1$
-                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, tgt, target);
+                pathConnAttribs.OptionalAttributes(timerNode, ps, tgt, target);
 
                 // output to file
                 ps.println(closing_attribute3);
@@ -90,7 +90,7 @@ public class TimerConverter implements AbstractConverter {
                 traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                 ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
                 closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
-                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
+                pathConnAttribs.OptionalAttributes(timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);
@@ -102,7 +102,7 @@ public class TimerConverter implements AbstractConverter {
                 traceabilityLink = "traceabilityLink=\"" + timerNode.getId() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
                 ps.print("            " + Object_attributes + traceabilityLink); //$NON-NLS-1$
                 closing_attribute = "/> <!-- Timer -->"; //$NON-NLS-1$
-                this.pathConnAttribs.OptionalAttributes(this.timerNode, ps, source, target);
+                pathConnAttribs.OptionalAttributes(timerNode, ps, source, target);
 
                 // output to file
                 ps.println(closing_attribute);

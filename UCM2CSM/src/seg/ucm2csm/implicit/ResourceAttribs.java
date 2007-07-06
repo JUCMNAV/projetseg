@@ -22,10 +22,10 @@ public class ResourceAttribs {
 
     private final int BOTH = 0; // default
 
-    private int usage = this.BOTH;
+    private int usage = BOTH;
 
     public ResourceAttribs(GeneralResource genRes) {
-        this.resource = genRes;
+        resource = genRes;
     }
 
     public ResourceAttribs(String name) {
@@ -33,15 +33,15 @@ public class ResourceAttribs {
     }
 
     public String getResId() {
-        return (this.name != null) ? this.name : this.resource.getId();
+        return (name != null) ? name : resource.getId();
     }
 
     public void setRes(GeneralResource genRes) {
-        this.resource = genRes;
+        resource = genRes;
     }
 
     public GeneralResource getRes() {
-        return this.resource;
+        return resource;
     }
 
     /**
@@ -50,15 +50,15 @@ public class ResourceAttribs {
      * 		number of resources
      */
     public void setRUnits(String qty) {
-        this.rUnits = qty;
+        rUnits = qty;
     }
 
     public String getRUnits() {
-        return this.rUnits;
+        return rUnits;
     }
 
     public void setAcquire() {
-        this.usage = this.ACQUIRE;
+        usage = ACQUIRE;
     }
 
     /**
@@ -66,11 +66,11 @@ public class ResourceAttribs {
      * @return TRUE if this resource deals with ACQUISITION
      */
     public boolean isAcquire() {
-        return (this.usage == this.ACQUIRE) || (this.usage == this.BOTH);
+        return (usage == ACQUIRE) || (usage == BOTH);
     }
 
     public void setRelease() {
-        this.usage = this.RELEASE;
+        usage = RELEASE;
     }
 
     /**
@@ -78,6 +78,6 @@ public class ResourceAttribs {
      * @return TRUE if this resource deals with RELEASE
      */
     public boolean isRelease() {
-        return (this.usage == this.RELEASE) || (this.usage == this.BOTH);
+        return (usage == RELEASE) || (usage == BOTH);
     }
 }

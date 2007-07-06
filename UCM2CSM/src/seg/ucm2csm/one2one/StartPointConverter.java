@@ -21,7 +21,7 @@ public class StartPointConverter implements AbstractConverter {
 
     // constructors
     public StartPointConverter(StartPoint sp) {
-        this.startPointNode = sp;
+        startPointNode = sp;
     }
 
     // prints XML representation of object to output file
@@ -35,10 +35,10 @@ public class StartPointConverter implements AbstractConverter {
         ps.print("            " + mandatory_attributes); //$NON-NLS-1$
 
         // optional attributes
-        this.pathConnAttribs.OptionalAttributes(this.startPointNode, ps, source, target);
+        pathConnAttribs.OptionalAttributes(startPointNode, ps, source, target);
 
         // processing workload
-        if (this.startPointNode.getWorkload() != null) {
+        if (startPointNode.getWorkload() != null) {
 
             // decide if workload is open or closed
             if (startPointNode.getWorkload().isClosed()) {
@@ -50,7 +50,7 @@ public class StartPointConverter implements AbstractConverter {
                 ps.print("                " + open_wload_attributes); //$NON-NLS-1$
             }
             // optional workload attributes
-            this.workLoadAttribs.workAttributes(this.startPointNode.getWorkload(), ps);
+            workLoadAttribs.workAttributes(startPointNode.getWorkload(), ps);
             String print_attribute = "/>"; //$NON-NLS-1$
             ps.println(print_attribute);
         }

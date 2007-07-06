@@ -17,7 +17,7 @@ public class ExternalOperationConverter implements AbstractConverter {
 
     // constructors
     public ExternalOperationConverter(ExternalOperation pr) {
-        this.externalOpn = pr;
+        externalOpn = pr;
     }
 
     // prints XML representation of object to output file -- implement this!!
