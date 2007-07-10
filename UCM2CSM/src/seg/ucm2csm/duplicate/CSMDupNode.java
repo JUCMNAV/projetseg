@@ -314,12 +314,8 @@ public class CSMDupNode {
      * <BR>
      * TODO: wave limitations
      * 
-<<<<<<< .mine
      * @param raORrrORseq 
      * 				node ID, of an RA, RR, Dummy Sequence or Dummy Step
-=======
-     * @param raORrrORseq is the node ID of an RA, RR, Dummy Sequence or Dummy Step
->>>>>>> .r1280
      */
     public CSMDupNode(int raORrrORseq) {
         // RA,RR/Seq/Dummy Step to be inserted
