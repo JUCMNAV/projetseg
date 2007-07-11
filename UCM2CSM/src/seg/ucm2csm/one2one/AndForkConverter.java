@@ -7,7 +7,7 @@ import java.util.Vector;
 import ucm.map.AndFork;
 
 /**
- * Creates the CSM representation(And-Fork) of the AndFork object.
+ * Produces the CSM Fork representation of the UCM AndFork construct.
  * 
  * @see seg.ucm2csm.one2one
  */

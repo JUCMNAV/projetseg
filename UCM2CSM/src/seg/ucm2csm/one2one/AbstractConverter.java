@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 /**
- * It provides a convert method for all UCM to CSM Explicit Mappings.
+ * Interface AbstractConverter provides a uniform conversion method for all explicit mappings from UCM to CSM.
  * 
  * @see seg.ucm2csm.one2one
  */

@@ -121,7 +121,7 @@ public class CSMResourceSet {
     }
 
     public void remove(int n) {
-        if (n < resources_count) { // TODO: replace with assert? JS
+        if (n < resources_count) { // TODO: look into replacing test with assert?
             for (int i = 0; i < resources_count; i++) {
                 if (i > n) {
                     resources[i - 1] = resources[i];
@@ -134,14 +134,22 @@ public class CSMResourceSet {
     }
 
     /**
-     * Returns the hierarchy of containing componentRef
+     * Registers a resource to be managed for each of the following cases:
+     * <UL>
+     * <LI>UCM ComponentRegular of kind Team, Object, Process and Agent
+     * <LI>ProcessingResource bound to a UCM ComponentRegular
+     * <LI>PassiveResource bound to a UCM ComponentElement
+     * </UL>
      * 
      * @param compRef
      * @param resourcesIn
      */
     public void getContainingComponentsAndResources(ComponentRef compRef, CSMResource[] resourcesIn) {
-        if (compRef != null) {
+	if (compRef != null) {
+	    // In order to obtain outermost precedence component-wise, traversal is processed
+	    // using a head recursion approach
             getContainingComponentsAndResources((ComponentRef) compRef.getParent(), resourcesIn);
+            // TYPE:  UCM ComponentRegular of kind Team, Object, Process and Agent
             if (compRef.getContDef() instanceof ComponentRegular) {
                 // TODO: check that only ComponentRegular has a *kind* ?
                 if (((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.TEAM_LITERAL)
@@ -150,12 +158,12 @@ public class CSMResourceSet {
                         || ((ComponentRegular) compRef.getContDef()).getKind().equals(ComponentKind.AGENT_LITERAL)) {
                     resourcesIn[resources_count++] = new CSMResource(compRef);
                 }
-                // Active Processing Resources do *NOT* get Acquired nor Released
-                // Passive Resources do get Acquired and Released
-                // TODO: should this be from ComponentElement? js
+                // TYPE: ProcessingResource bound to a UCM ComponentRegular
                 if (((ComponentRegular) compRef.getContDef()).getResource() != null) {
                     resourcesIn[resources_count++] = new CSMResource(((ComponentRegular) compRef.getContDef()).getResource());
                 }
+            // Possibly a futile test (because ComponentElement seem inexistent...).  Nevertheless...
+            // TYPE: PassiveResource bound to a UCM ComponentElement
             } else if (compRef.getContDef() instanceof ComponentElement) {
                 if (((ComponentElement) compRef.getContDef()).getResource() != null) {
                     resourcesIn[resources_count++] = new CSMResource(((ComponentElement) compRef.getContDef()).getResource());
@@ -199,11 +207,12 @@ public class CSMResourceSet {
     }
 
     /**
-     * Returns elements of the object which are not in the second one
+     * Returns elements of this CSMResourceSet which are not in (CSMResourceSet) second
      * 
      * @param second
+     * 		CSMResourceSet of which the elements should be removed from this
      * @return
-     * 		elements of this not contained in second
+     * 		CSMResourceSet == this - second
      */
     public CSMResourceSet minus(CSMResourceSet second) {
         CSMResource[] curMinusSecond = new CSMResource[RESLIMIT];

@@ -46,11 +46,19 @@ public class CSMResource {
         quantity = this.genRes.getMultiplicity();
     }
 
+    /**
+     * A CSM Resource implicitly derived from a UCM Component.
+     * <BR><BR>
+     * <EM>NB: the <B>quantity</B> attribute is currently set according to the replication factor of the
+     * component.  This is an implementation choice.  An alternative could be to use a fixed value
+     * (e.g. '1').</EM>
+     * @param compRef
+     */
     public CSMResource(ComponentRef compRef) {
         this.compRef = compRef;
         type = COMPREF;
         name = ((ComponentRegular) compRef.getContDef()).getId();
-        quantity = "" + this.compRef.getReplicationFactor(); // TODO: or "1" as suggested by Murray. JS //$NON-NLS-1$
+        quantity = "" + this.compRef.getReplicationFactor(); //$NON-NLS-1$
     }
 
     public CSMResource(ResourceAttribs resAtr) {
@@ -61,7 +69,7 @@ public class CSMResource {
     }
 
     public boolean equivalent(CSMResource compRes) {
-        return name == compRes.name; // TODO: should this be stronger? js
+        return name == compRes.name; // TODO: should this be stronger?
     }
 
     public String getResource() {

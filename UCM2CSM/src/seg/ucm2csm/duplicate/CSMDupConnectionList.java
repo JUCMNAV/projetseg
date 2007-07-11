@@ -15,7 +15,7 @@ import ucm.map.UCMmap;
 
 public class CSMDupConnectionList {
     // will contain CSMDupConnection
-    ArrayList connList = new ArrayList(1000); // js: limitation
+    ArrayList connList = new ArrayList(1000); // TODO: wave limitation
 
     // create list of NodeConnections
     public void DuplicateConnection(UCMmap map, CSMDupNodeList dupNodeList) {
@@ -107,7 +107,7 @@ public class CSMDupConnectionList {
         return null;
     }
 
-    // returns the target of a given source. js
+    // returns the target of a given source.
     public CSMDupNode getTargetforSourceTowardNode(PathNode source, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
             if ((((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source.getId()) {
@@ -128,7 +128,7 @@ public class CSMDupConnectionList {
         return null;
     }
 
-    // returns the target of a given source. js
+    // returns the target of a given source.
     public CSMDupNode getTargetForSourceTowardNode(String source, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
             if ((((CSMDupConnection) connList.get(i)).getCSMSource()).getId() == source) {
@@ -143,7 +143,7 @@ public class CSMDupConnectionList {
         return null;
     }
 
-    // returns the source of a given target. js
+    // returns the source of a given target.
     public CSMDupNode getSourceForTargetTowardNode(PathNode target, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
             if ((((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target.getId()) {
@@ -164,7 +164,7 @@ public class CSMDupConnectionList {
         return null;
     }
 
-    // returns the source of a given target. js
+    // returns the source of a given target.
     public CSMDupNode getSourceForTargetTowardNode(String target, PathNode destination) {
         for (int i = 0; i < connList.size(); i++) {
             if ((((CSMDupConnection) connList.get(i)).getCSMTarget()).getId() == target) {

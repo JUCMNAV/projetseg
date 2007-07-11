@@ -18,9 +18,9 @@ import ucm.map.PathNode;
 public class ResourceRelease {
 
     // RR and Empty Point IDs
-    static int rr_id = 3000; // limitation. js
+    static int rr_id = 3000; // TODO:  wave limitation.
 
-    static int seq_id = 4000; // limitation. js
+    static int seq_id = 4000; // TODO:  wave limitation.
 
     PrintStream ps;
 
@@ -197,7 +197,7 @@ public class ResourceRelease {
             conn_map.add(new CSMDupConnection(e_node, rr_node));
             // add an empty point if immediatly followed by RR/RA/RESPREF node
             if ((target.getType() == CSMDupNode.RR) || (target.getType() == CSMDupNode.RA) || (target.getType() == CSMDupNode.RESPREF)
-                    || (target.getType() == CSMDupNode.STUB)) { // js
+                    || (target.getType() == CSMDupNode.STUB)) {
                 // create empty point and insert it in duplicate map
                 CSMDupNode e2_node = new CSMDupNode(++seq_id);
                 e2_node.setResourcesDownstream(usedResources);

@@ -21,9 +21,9 @@ import ucm.map.StartPoint;
 public class ResourceAcquisition {
 
     // RA and Empty Point IDs
-    static int ra_id = 1000; // limitation. js
+    static int ra_id = 1000; // TODO:  wave limitation.
 
-    static int seq_id = 2000; // limitation. js
+    static int seq_id = 2000; // TODO:  wave limitation.
 
     PrintStream ps;
 
@@ -90,7 +90,7 @@ public class ResourceAcquisition {
 
         // object attributes
         String resType = resAttribs.getResourcePrefix();
-        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + resType + resAttribs.getResource() + "\" " // js //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        String ra_attributes = "<ResourceAcquire id=\"" + node.getId() + "\" " + "acquire=\"" + resType + resAttribs.getResource() + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
                 + "rUnits=\"" + resAttribs.getQty() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
         String ra_predecessor = "predecessor=\"" + "h" + predecessor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         String ra_successor = "successor=\"" + "h" + successor + "\" "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

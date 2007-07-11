@@ -84,8 +84,8 @@ public class StubConverter implements AbstractConverter {
             ps.println(threeTab + plugBind_head);
 
             /**
-             * All bindings should have the same cardinality. We're using the first binding one as "skeleton" for all of them. The proper binding of the maps
-             * should be checked. JS
+             * TODO:  All bindings should have the same cardinality. We're using the first binding as "skeleton" for all of them. The proper binding of the maps
+             * should be checked.
              */
             if (stub.getBindings().size() != 0) {
                 PluginBinding pb = (PluginBinding) stub.getBindings().get(0);

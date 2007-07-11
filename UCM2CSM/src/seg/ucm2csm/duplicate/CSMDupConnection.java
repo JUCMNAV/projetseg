@@ -35,8 +35,8 @@ public class CSMDupConnection {
         connection = null;
         source_id = source;
         target_id = target;
-        source_node = null; // js
-        target_node = null; // js
+        source_node = null;
+        target_node = null;
     }
 
     public CSMDupConnection(PathNode source, String target, CSMDupNodeList dupNodeList) {
@@ -44,7 +44,7 @@ public class CSMDupConnection {
         source_id = source.getId();
         target_id = target;
         source_node = dupNodeList.get(dupNodeList.getNodeIndex(source));
-        target_node = null; // js
+        target_node = null;
     }
 
     public CSMDupConnection(PathNode source, CSMDupNode target, CSMDupNodeList dupNodeList) {
@@ -67,7 +67,7 @@ public class CSMDupConnection {
         connection = null;
         source_id = source;
         target_id = target.getId();
-        source_node = null; // js
+        source_node = null;
         target_node = dupNodeList.get(dupNodeList.getNodeIndex(target));
     }
 
