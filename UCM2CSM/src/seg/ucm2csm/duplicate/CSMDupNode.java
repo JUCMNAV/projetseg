@@ -5,6 +5,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.eclipse.core.resources.IMarker;
+
 import seg.ucm2csm.implicit.CSMResource;
 import seg.ucm2csm.implicit.CSMResourceSet;
 import seg.ucm2csm.one2one.AbstractConverter;
@@ -415,10 +417,9 @@ public class CSMDupNode {
         } else if (node instanceof WaitingPlace) {
             WaitingPlaceConverter obj = new WaitingPlaceConverter((WaitingPlace) node);
             doConvert(obj, ps, source, target, warnings);
-        }
-        // **** There should not remain any unimplemented node type ****
-        else {
-            warnings.add(new CsmExportWarning(Messages.getString("CSMDupNode.NoTypeNotImplemented") + node.getClass().getName(), node)); //$NON-NLS-1$
+        } else {
+            // Reaching this part would indicate that some major processing is missing 
+            warnings.add(new CsmExportWarning(Messages.getString("CSMDupNode.NoTypeNotImplemented") + node.getClass().getName(), node, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
         }
     }
 }

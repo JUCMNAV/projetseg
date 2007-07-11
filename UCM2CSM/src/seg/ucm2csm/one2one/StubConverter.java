@@ -42,17 +42,20 @@ public class StubConverter implements AbstractConverter {
         String predecessorWithCommas = (String) source.toString().subSequence(1, (source.toString().length() - 1));
         String predecessor = predecessorWithCommas.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
         if (stub.getPred().size() > 1) {
-            warnings.add(new CsmExportWarning(Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasMoreThanOnePredecessor"), stub)); //$NON-NLS-1$ //$NON-NLS-2$
+            // more than one (1) incoming branch is not CSM-compliant
+            warnings.add(new CsmExportWarning(Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasMoreThanOnePredecessor"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         String successorWithCommas = (String) target.toString().subSequence(1, (target.toString().length() - 1));
         String successor = successorWithCommas.replaceAll(",", ""); //$NON-NLS-1$ //$NON-NLS-2$
         if (stub.getSucc().size() > 1) {
-            warnings.add(new CsmExportWarning(Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasMoreThanOneSuccessor"), stub)); //$NON-NLS-1$ //$NON-NLS-2$
+            // more than one (1) outging branch is not CSM-compliant
+            warnings.add(new CsmExportWarning(Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasMoreThanOneSuccessor"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         String name = null;
         if (stub.getBindings().size() == 0) {
+            // incomplete bindings will generate invalid (inexisting) XML IDREFS
             warnings.add(new CsmExportWarning(Messages.getString("StubConverter.Stub") + stub.getName() + Messages.getString("StubConverter.HasNoBindings"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
             name = stub.isDynamic() ? stub.getName() : stub.getName() + "/" + "ERROR_NO_BINDING"; //$NON-NLS-1$ //$NON-NLS-2$
         } else {

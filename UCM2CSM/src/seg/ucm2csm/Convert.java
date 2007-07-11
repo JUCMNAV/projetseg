@@ -317,6 +317,7 @@ public class Convert implements IURNExport {
                     }
 
                 } else {
+                    // incomplete bindings will generate invalid (inexisting) XML IDREFS
                     warnings.add(new CsmExportWarning("Stub " + stub.getName() + Messages.getString("Convert.HasNoBindings"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
                     sourceId = sourceId.concat(fake_stubId + "_ERROR_NO_BINDING"); //$NON-NLS-1$
                 }
@@ -662,7 +663,8 @@ public class Convert implements IURNExport {
             }
         } // for
         if (startPoints > 1) {
-            warnings.add(new CsmExportWarning(Messages.getString("Convert.TooMany") + startPoints + Messages.getString("Convert.StartPointsInMap") + map.getName(), map, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
+            // The current CSM viewer release does not handle multi-START well so a courtesy warning is issued
+            warnings.add(new CsmExportWarning(Messages.getString("Convert.TooMany") + startPoints + Messages.getString("Convert.StartPointsInMap") + map.getName(), map)); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
