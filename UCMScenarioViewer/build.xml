@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.site.UCMScenarioViewer" default="build.jars" basedir=".">
+
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="logExtension" value=".log"/>
+	<property name="compilerArg" value=""/>
+	<property name="javacSource" value="1.3"/>
+	<property name="javacTarget" value="1.2"/>
+	<path id="path_bootclasspath">
+		<fileset dir="${java.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<property name="bootclasspath" refid="path_bootclasspath"/>
+	<property name="bundleJavacSource" value="${javacSource}"/>
+	<property name="bundleJavacTarget" value="${javacTarget}"/>
+	<property name="bundleBootClasspath" value="${bootclasspath}"/>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/com.site.UCMScenarioViewer">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: com.site.UCMScenarioViewer for an update site.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<zip destfile="${plugin.destination}/com.site.UCMScenarioViewer_1.1.0.jar" basedir="${temp.folder}/com.site.UCMScenarioViewer_1.1.0" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="UCMScenarioViewer.jar" depends="init" unless="UCMScenarioViewer.jar" description="Create jar: com.site.UCMScenarioViewer UCMScenarioViewer.jar.">
+		<delete dir="${temp.folder}/UCMScenarioViewer.jar.bin"/>
+		<mkdir dir="${temp.folder}/UCMScenarioViewer.jar.bin"/>
+		<path id="UCMScenarioViewer.jar.classpath">
+			<pathelement path="../../plugins/org.eclipse.ui_3.2.1.M20061108.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.osgi_3.2.2.R32x_v20070118.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.common_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.jobs_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.1.R32x_v20060907/runtime_registry_compatibility.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.1.R32x_v20060907"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.registry_3.2.1.R32x_v20060814.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.preferences_3.2.1.R32x_v20060717.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.1.R32x_v20060907/@dot"/>
+			<pathelement path="../../plugins/org.eclipse.core.contenttype_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.auth_3.2.0.v20060601.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt_3.2.2.v3236b.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt.win32.win32.x86_3.2.2.v3236.jar"/>
+			<pathelement path="../../plugins/org.eclipse.jface_3.2.2.M20061214-1200.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.commands_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench_3.2.2.M20070119-0800.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20060605-1400/@dot"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20060605-1400/compatibility.jar"/>
+			<pathelement path="../../plugins/com.ibm.icu_3.4.5.20061213.jar"/>
+			<pathelement path="../../plugins/org.eclipse.help_3.2.2.R322_v20061213.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.expressions_3.2.2.r322_v20070109a.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources_3.2.2.R32x_v20061218.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources.compatibility_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources.win32_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.1.100.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.configurator_3.2.2.R32x_v20070111.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ant.core_3.1.100.v20060531.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.variables_3.1.100.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.filesystem_1.0.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.filesystem.win32.x86_1.0.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.views_3.2.1.M20060906-0800.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.ide_3.2.1.M20060915-1030.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.win32_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.core_3.2.3.R32x_v20070118.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.core.win32_3.2.2.R32x_v20061214.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.ui_3.2.2.R32x_v20070111.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.forms_3.2.0.v20060602.jar"/>
+			<pathelement path="../../plugins/org.eclipse.draw2d_3.2.2.v20070208.jar"/>
+			<pathelement path="../../plugins/org.eclipse.gef_3.2.2.v20070208.jar"/>
+			<pathelement path="../seg.jUCMNav/bin/"/>
+			<pathelement path="../seg.jUCMNav/jUCMNav.jar"/>
+			<pathelement path="../seg.jUCMNav/bin"/>
+			<pathelement path="../seg.jUCMNav/lib/jdom.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore_2.2.1.v200609210005.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.common_2.2.1.v200609210005.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.2.1.v200609210005.jar"/>
+			<pathelement path="../../plugins/org.junit_3.8.1/junit.jar"/>
+		</path>
+		<!-- compile the source code -->
+		<javac destdir="${temp.folder}/UCMScenarioViewer.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<compilerarg line="${compilerArg}" compiler="${build.compiler}"/>
+			<classpath refid="UCMScenarioViewer.jar.classpath" />
+			<src path="src/"			/>
+			<compilerarg value="@${basedir}/javaCompiler.UCMScenarioViewer.jar.args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+			<compilerarg line="-log '${temp.folder}/UCMScenarioViewer.jar.bin${logExtension}'" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+		</javac>
+		<!-- Copy necessary resources -->
+		<copy todir="${temp.folder}/UCMScenarioViewer.jar.bin" failonerror="true" overwrite="false">
+			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
+		</copy>
+		<mkdir dir="${build.result.folder}"/>
+		<jar destfile="${build.result.folder}/UCMScenarioViewer.jar" basedir="${temp.folder}/UCMScenarioViewer.jar.bin"/>
+		<delete dir="${temp.folder}/UCMScenarioViewer.jar.bin"/>
+	</target>
+
+	<target name="UCMScenarioViewersrc.zip" depends="init" unless="UCMScenarioViewersrc.zip">
+		<mkdir dir="${build.result.folder}"/>
+		<zip destfile="${build.result.folder}/UCMScenarioViewersrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/" includes="**/*.java"			/>
+		</zip>
+	</target>
+
+	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: com.site.UCMScenarioViewer.">
+		<available property="UCMScenarioViewer.jar" file="${build.result.folder}/UCMScenarioViewer.jar"/>
+		<antcall target="UCMScenarioViewer.jar"/>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="UCMScenarioViewersrc.zip" file="${build.result.folder}/UCMScenarioViewersrc.zip"/>
+		<antcall target="UCMScenarioViewersrc.zip"/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0"/>
+		<copy todir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0" failonerror="true" overwrite="false">
+			<fileset dir="${build.result.folder}" includes="UCMScenarioViewer.jar"			/>
+		</copy>
+		<copy todir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0" failonerror="true" overwrite="false">
+			<fileset dir="${basedir}" includes="plugin.xml,UCMScenarioViewer.jar,META-INF/,icons/"			/>
+		</copy>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0"/>
+		<copy file="${build.result.folder}/UCMScenarioViewersrc.zip" todir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0" failonerror="false" overwrite="false"/>
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0"/>
+		<copy file="${temp.folder}/UCMScenarioViewer.jar.bin${logExtension}" todir="${destination.temp.folder}/com.site.UCMScenarioViewer_1.1.0" failonerror="false" overwrite="false"/>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: com.site.UCMScenarioViewer of all the zips, jars and logs created.">
+		<delete file="${build.result.folder}/UCMScenarioViewer.jar"/>
+		<delete file="${build.result.folder}/UCMScenarioViewersrc.zip"/>
+		<delete file="${plugin.destination}/com.site.UCMScenarioViewer_1.1.0.jar"/>
+		<delete file="${plugin.destination}/com.site.UCMScenarioViewer_1.1.0.zip"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="C:/jason/eclipse/workspace/com.site.UCMScenarioViewer" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: com.site.UCMScenarioViewer.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}" includes="**/*.bin${logExtension}"			/>
+		</delete>
+		<zip destfile="${plugin.destination}/com.site.UCMScenarioViewer_1.1.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+</project>
