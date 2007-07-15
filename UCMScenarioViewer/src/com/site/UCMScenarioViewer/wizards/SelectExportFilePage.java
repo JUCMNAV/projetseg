@@ -69,9 +69,9 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     private Button browseButton;
     private Group group;
     private Button bmp;
-    private Button gif;
+    private Button png;
     private Button jpeg;
-    private int fileType = 0;
+    private int fileType = 1;
 
     public SelectExportFilePage(Shell shell) {
         super("selectDiagramTypeAndFilePage", TITLE, Helper.EXPORT_WIZARD_BANNER);
@@ -115,7 +115,7 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
             if (fileType == 0)
             	il.save(fileField.getText(), SWT.IMAGE_BMP_RLE);
             else if (fileType == 1)
-            	il.save(fileField.getText(), SWT.IMAGE_GIF);
+            	il.save(fileField.getText(), SWT.IMAGE_PNG);
             else if (fileType == 2)
             	il.save(fileField.getText(), SWT.IMAGE_JPEG);
         } catch (Exception e) {
@@ -189,15 +189,15 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     	group.setText("Image file formats:"); 
     	group.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
+    	png = new Button(group,SWT.RADIO);
+    	png.setText(".PNG format file");
+    	png.addSelectionListener(this);
+    	png.setSelection(true);
+    	
     	bmp = new Button(group,SWT.RADIO);
     	bmp.setText(".BMP format file");
     	bmp.addSelectionListener(this);
-    	bmp.setSelection(true);
 
-/*    	gif = new Button(group,SWT.RADIO);
-    	gif.setText(".GIF format file");
-    	gif.addSelectionListener(this);
-*/    	
     	jpeg = new Button(group, SWT.RADIO);
     	jpeg.setText(".JPEG format file");
     	jpeg.addSelectionListener(this);
@@ -274,7 +274,7 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     	if( e.getSource() == bmp ){
     		fileType = 0;
     		setFileExtension();
-    	} else if (e.getSource() == gif){
+    	} else if (e.getSource() == png){
     		fileType = 1;
     		setFileExtension();
     	}
@@ -291,11 +291,11 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     }
     
     private String getFileExtension() {
-    	if (fileType == 1)
-    		return ".gif";
+    	if (fileType == 0)
+    		return ".bmp";
     	if (fileType == 2)
     		return ".jpeg";
-    	return ".bmp";
+    	return ".png";
     }
 
     /**
