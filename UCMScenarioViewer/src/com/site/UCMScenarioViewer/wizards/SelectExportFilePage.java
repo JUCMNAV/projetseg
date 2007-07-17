@@ -71,7 +71,7 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     private Button bmp;
     private Button png;
     private Button jpeg;
-    private int fileType = 1;
+    private int fileType = 0; // .bmp by default
 
     public SelectExportFilePage(Shell shell) {
         super("selectDiagramTypeAndFilePage", TITLE, Helper.EXPORT_WIZARD_BANNER);
@@ -191,12 +191,16 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
 
     	png = new Button(group,SWT.RADIO);
     	png.setText(".PNG format file");
-    	png.addSelectionListener(this);
-    	png.setSelection(true);
+    	// FIXME For 3.3 only... Enable this and set default filetype back to PNG
+    	//png.addSelectionListener(this);
+    	//png.setSelection(true);
+    	png.setEnabled(false);
     	
     	bmp = new Button(group,SWT.RADIO);
     	bmp.setText(".BMP format file");
     	bmp.addSelectionListener(this);
+    	bmp.setSelection(true);
+
 
     	jpeg = new Button(group, SWT.RADIO);
     	jpeg.setText(".JPEG format file");
