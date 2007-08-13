@@ -61,6 +61,10 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     private static final String INVALID_PATH_ERROR = "Selected path is invalid";
     private static final String CANT_WRITE_ERROR = "Can't overwrite selected file";
     private static final String NOT_SELECTED_ERROR = "Diagram is not selected";
+    
+    private static final int PNG_TYPE = 0;
+    private static final int BMP_TYPE = 1;
+    private static final int JPG_TYPE = 2;
 
     private UCMScenarioViewer viewer;
     private Shell shell;
@@ -68,10 +72,10 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     private Text fileField;
     private Button browseButton;
     private Group group;
-    private Button bmp;
     private Button png;
+    private Button bmp;
     private Button jpeg;
-    private int fileType = 0; // .bmp by default
+    private int fileType = PNG_TYPE; // .png by default
 
     public SelectExportFilePage(Shell shell) {
         super("selectDiagramTypeAndFilePage", TITLE, Helper.EXPORT_WIZARD_BANNER);
@@ -112,11 +116,11 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
             // save image to file
             ImageLoader il = new ImageLoader();
             il.data = new ImageData[]{img.getImageData()};
-            if (fileType == 0)
-            	il.save(fileField.getText(), SWT.IMAGE_BMP_RLE);
-            else if (fileType == 1)
+            if (fileType == PNG_TYPE)
             	il.save(fileField.getText(), SWT.IMAGE_PNG);
-            else if (fileType == 2)
+            else if (fileType == BMP_TYPE)
+            	il.save(fileField.getText(), SWT.IMAGE_BMP_RLE);
+            else if (fileType == JPG_TYPE)
             	il.save(fileField.getText(), SWT.IMAGE_JPEG);
         } catch (Exception e) {
             MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
@@ -190,17 +194,13 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     	group.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
     	png = new Button(group,SWT.RADIO);
-    	png.setText(".PNG format file");
-    	// FIXME For 3.3 only... Enable this and set default filetype back to PNG
-    	//png.addSelectionListener(this);
-    	//png.setSelection(true);
-    	png.setEnabled(false);
+    	png.setText(".PNG format file (best results for Web and printed documents)");
+    	png.addSelectionListener(this);
+    	png.setSelection(true);
     	
     	bmp = new Button(group,SWT.RADIO);
     	bmp.setText(".BMP format file");
     	bmp.addSelectionListener(this);
-    	bmp.setSelection(true);
-
 
     	jpeg = new Button(group, SWT.RADIO);
     	jpeg.setText(".JPEG format file");
@@ -275,15 +275,15 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(SelectionEvent)
      */
     public void widgetSelected(SelectionEvent e) {
-    	if( e.getSource() == bmp ){
-    		fileType = 0;
+    	if( e.getSource() == png ){
+    		fileType = PNG_TYPE;
     		setFileExtension();
-    	} else if (e.getSource() == png){
-    		fileType = 1;
+    	} else if (e.getSource() == bmp){
+    		fileType = BMP_TYPE;
     		setFileExtension();
     	}
     	else {
-    		fileType = 2;
+    		fileType = JPG_TYPE;
     		setFileExtension();
     	}
     }
@@ -295,11 +295,11 @@ public class SelectExportFilePage extends WizardPage implements SelectionListene
     }
     
     private String getFileExtension() {
-    	if (fileType == 0)
+    	if (fileType == PNG_TYPE)
+    		return ".png";
+    	if (fileType == BMP_TYPE)
     		return ".bmp";
-    	if (fileType == 2)
-    		return ".jpeg";
-    	return ".png";
+    	return ".jpg";
     }
 
     /**
