@@ -66,11 +66,10 @@ public class SetTimer extends DoElement {
 	public int getXdimension() {
 		if (getWidth() < 0) {
 			int maxX = getMaxLabel().getTextBounds().width;
-			//int standardX = getStandardLabel().getTextBounds().width;
 			int labelX = getLabel().getTextBounds().width; 
 			int dimX = 2*DefaultFigureSize.TEXT_PADDING;
-			if (labelX + 2*getYdimension() <= maxX/2) {
-				dimX += labelX + 2*getYdimension();
+			if (labelX <= maxX/2) {
+				dimX += labelX;
 			}
 			else {
 				dimX += maxX/2;

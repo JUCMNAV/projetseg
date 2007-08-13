@@ -17,8 +17,7 @@ public class ChangeFontCommand extends Command {
 	private FontData oldFont = UCMScenarioViewer.getApplicationFont().getFontData()[0];
 	
 
-	public ChangeFontCommand(FontData oldFont, FontData newFont) {
-		this.oldFont = oldFont;
+	public ChangeFontCommand(FontData newFont) {
 		this.newFont = newFont;
 	}
 	

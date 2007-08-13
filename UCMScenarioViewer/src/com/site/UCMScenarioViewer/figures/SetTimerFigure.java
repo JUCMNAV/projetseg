@@ -41,24 +41,29 @@ public class SetTimerFigure extends Figure implements ITimerFigure {
 		removeAll();
 		
 		Rectangle r = getBounds();
-		setBounds(new Rectangle(r.x, r.y, r.width/2, r.height));
-		r = getBounds();
-
-		label.setFont(getFont());
+		int rx=r.x;
+		int ry=r.y;
+		int rw=r.width;
+		int rh=r.height;
+		
 		label.setText(name);
-		//int labelY = label.getTextBounds().height;
-		label.setBounds(new Rectangle(r.x + DefaultFigureSize.TEXT_PADDING, 
-				r.y, r.width - 2*r.height - DefaultFigureSize.TEXT_PADDING, r.height));
+		label.setFont(getFont());
+		int labelWidth = label.getTextBounds().width;
+
+		setBounds(new Rectangle(rx + rw/2 - 3*rh/2 - 1 , ry, labelWidth + 2*DefaultFigureSize.TEXT_PADDING + 3*rh/2 + 1, rh));
+		r = getBounds();
+		
+		label.setBounds(new Rectangle(r.x + 3*rh/2 + 1 + DefaultFigureSize.TEXT_PADDING, ry, labelWidth + DefaultFigureSize.TEXT_PADDING, rh));
 
 		line = new Polyline();
-		line.addPoint(new Point(r.right() -  3*(2*r.height)/4, r.y + r.height/2));
-		line.addPoint(new Point(r.right(), r.y + r.height/2));
+		line.addPoint(new Point(r.x + 3*rh/8, r.y + rh/2));
+		line.addPoint(new Point(r.x + 3*rh/2, r.y + rh/2));
 
 		fig = new Polygon();
-		fig.addPoint(new Point(r.right() - 2*r.height, r.y));
-		fig.addPoint(new Point(r.right() - r.height, r.bottom()));
-		fig.addPoint(new Point(r.right() - 2*r.height, r.bottom()));
-		fig.addPoint(new Point(r.right() - r.height, r.y));
+		fig.addPoint(new Point(r.x, r.y));
+		fig.addPoint(new Point(r.x + 3*rh/4, r.bottom()));
+		fig.addPoint(new Point(r.x, r.bottom()));
+		fig.addPoint(new Point(r.x + 3*rh/4, r.y));
 		fig.setLineWidth(3);
 		
 		add(line);

@@ -14,29 +14,15 @@ import com.site.UCMScenarioViewer.utils.Helper;
 
 /**
  * @author oboyk022
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class StartEndMessage extends DoElement {
 
-	/**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
-    /**
-	 * 
-	 */
 	public StartEndMessage() {
 		super();
 	}
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param owner
-	 */
 	public StartEndMessage(String id, String name, LifeLine owner) {
 		super(id, name, owner);
 	}
@@ -66,11 +52,10 @@ public class StartEndMessage extends DoElement {
 	public int getXdimension() {
 		if (getWidth() < 0) {
 			int maxX = getMaxLabel().getTextBounds().width;
-			//int standardX = getStandardLabel().getTextBounds().width;
 			int labelX = getLabel().getTextBounds().width; 
 			int dimX = 2*DefaultFigureSize.TEXT_PADDING;
-			if (labelX + getYdimension() <= maxX/2) {
-					dimX += labelX + getYdimension();
+			if (labelX <= maxX/2) {
+					dimX += labelX;
 			}
 			else {
 				dimX += maxX/2;
@@ -87,7 +72,7 @@ public class StartEndMessage extends DoElement {
 	public int getYdimension() {
 		if (getHeight() < 0) {
 			int dimY = 0;
-			dimY = getLabel().getTextBounds().height * 3;
+			dimY = getLabel().getTextBounds().height * 2;
 			setHeight(dimY);
 		}
 		return getHeight();

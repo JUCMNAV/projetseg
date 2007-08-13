@@ -34,12 +34,12 @@ public class LifeLineFigure extends Figure {
 		add(headL);
 		add(label);
 	}
-	
+
 	public void setTextAndStyle(String name, int headY) {
 		remove(headL);
 		remove(tailL);
 		remove(label);
-		
+
 		this.headY = headY;
 		Rectangle r = getBounds();
 
@@ -53,20 +53,26 @@ public class LifeLineFigure extends Figure {
 		headL.addPoint(new Point(r.right(), r.y + headY));
 		headL.addPoint(new Point(r.x, r.y + headY));
 		headL.setLineWidth(4);
-		
+
 		tailL = new Polygon();
-		tailL.addPoint(new Point(r.x + r.width/4, r.bottom() - DefaultFigureSize.LIFELINE_TAIL_HEIGHT));
-		tailL.addPoint(new Point(r.right() - r.width/4, r.bottom() - DefaultFigureSize.LIFELINE_TAIL_HEIGHT));
-		tailL.addPoint(new Point(r.right() - r.width/4, r.bottom() - 1));
-		tailL.addPoint(new Point(r.x + r.width/4, r.bottom() - 1));
-		tailL.setFill(true);
+		int tailWidth = 0;
+		if (r.width > 140)
+			tailWidth = Math.max(r.width/4, 20);
+		else if (r.width > 100)
+			tailWidth = Math.max(r.width/4, 10);
+		tailL.addPoint(new Point(r.x + tailWidth, r.bottom() - DefaultFigureSize.LIFELINE_TAIL_HEIGHT));
+		tailL.addPoint(new Point(r.right() - tailWidth, r.bottom() - DefaultFigureSize.LIFELINE_TAIL_HEIGHT));
+		tailL.addPoint(new Point(r.right() - tailWidth, r.bottom() - 1));
+		tailL.addPoint(new Point(r.x + tailWidth, r.bottom() - 1));
 		tailL.setBackgroundColor(ColorConstants.gray);
-		
+		tailL.setFill(true);
+		tailL.setLineWidth(2);
+
 		add(tailL);
 		add(headL);
 		add(label);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.draw2d.IFigure#paint(org.eclipse.draw2d.Graphics)
 	 */
@@ -77,5 +83,5 @@ public class LifeLineFigure extends Figure {
 				getBounds().bottom());
 		super.paint(graphics);
 	}
-	
+
 }

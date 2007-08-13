@@ -91,7 +91,7 @@ public class Message extends SequenceElement {
 	 */
 	public int getYdimension() {
 		if (source == target)
-			return 3*getLabel().getTextBounds().height;
+			return 2*getLabel().getTextBounds().height;
 		return DefaultFigureSize.MESSAGE_THICKNESS;
 	}
 	

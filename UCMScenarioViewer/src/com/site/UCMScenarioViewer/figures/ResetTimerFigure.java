@@ -21,7 +21,7 @@ import com.site.UCMScenarioViewer.utils.DefaultFigureSize;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ResetTimerFigure extends Figure implements ITimerFigure {
-	
+
 	private Label label = new Label();
 	private Polyline cross1 = new Polyline();
 	private Polyline cross2 = new Polyline();
@@ -37,35 +37,41 @@ public class ResetTimerFigure extends Figure implements ITimerFigure {
 		add(cross2);
 		add(line);
 	}
-	
+
 	protected Polyline getLineSegment() {
 		return line;
 	}
-	
+
 	public void setPolylines(String name) {
 		removeAll();
-		
+
 		Rectangle r = getBounds();
-		setBounds(new Rectangle(r.x, r.y, r.width/2, r.height));
+		int rx=r.x;
+		int ry=r.y;
+		int rw=r.width;
+		int rh=r.height;
+
+		label.setText(name);
+		label.setFont(getFont());
+		int labelWidth = label.getTextBounds().width;
+
+		setBounds(new Rectangle(rx + rw/2 - 3*rh/2 - 1 , ry, labelWidth + 2*DefaultFigureSize.TEXT_PADDING + 3*rh/2 + 1, rh));
 		r = getBounds();
 
-		label.setFont(getFont());
-		label.setText(name);
-		label.setBounds(new Rectangle(r.x + DefaultFigureSize.TEXT_PADDING, 
-				r.y, r.width - 2*r.height - DefaultFigureSize.TEXT_PADDING, r.height));
+		label.setBounds(new Rectangle(r.x + 3*rh/2 + 1 + DefaultFigureSize.TEXT_PADDING, ry, labelWidth + DefaultFigureSize.TEXT_PADDING, rh));
 
 		line = new Polyline();
-		line.addPoint(new Point(r.right() -  3*(2*r.height)/4, r.bottom() - r.height/2));
-		line.addPoint(new Point(r.right(), r.y + r.height/2));
+		line.addPoint(new Point(r.x + 3*rh/8, r.y + rh/2));
+		line.addPoint(new Point(r.x + 3*rh/2, r.y + rh/2));
 
 		cross1 = new Polyline();
-		cross1.addPoint(new Point(r.right() - 2*r.height, r.y));
-		cross1.addPoint(new Point(r.right() - r.height, r.bottom()));
+		cross1.addPoint(new Point(r.x + 3*rh/4, r.y));
+		cross1.addPoint(new Point(r.x, r.bottom()));
 		cross1.setLineWidth(3);
 
 		cross2 = new Polyline();
-		cross2.addPoint(new Point(r.right() - r.height, r.y));
-		cross2.addPoint(new Point(r.right() - 2*r.height, r.bottom()));
+		cross2.addPoint(new Point(r.x, r.y));
+		cross2.addPoint(new Point(r.x + 3*rh/4, r.bottom()));
 		cross2.setLineWidth(3);
 
 		add(line);
@@ -73,5 +79,5 @@ public class ResetTimerFigure extends Figure implements ITimerFigure {
 		add(cross2);
 		add(label);
 	}
-	
+
 }

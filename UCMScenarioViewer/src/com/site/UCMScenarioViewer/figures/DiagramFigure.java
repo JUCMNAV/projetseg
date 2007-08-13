@@ -38,11 +38,7 @@ public class DiagramFigure extends Figure {
 	 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure, org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
 	 */
 	public void paint(Graphics graphics) {
-		//Rectangle r = nameLabel.getTextBounds();
 		graphics.fillString(name, 10, 10);
-		
-/*		nameLabel.setLocation(new Point(10, 10));
-		nameLabel.paint(graphics);
-*/	}
+	}
 
 }

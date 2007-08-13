@@ -6,6 +6,7 @@
  */
 package com.site.UCMScenarioViewer.figures;
 
+
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
@@ -41,19 +42,25 @@ public class StartEndFigure extends Figure {
 		removeAll();
 		
 		Rectangle r = getBounds();
-		setBounds(new Rectangle(r.x, r.y, r.width/2, r.height));
-		r = getBounds();
+		int rx=r.x;
+		int ry=r.y;
+		int rw=r.width;
+		int rh=r.height;
 		
 		label.setText(name);
 		label.setFont(getFont());
-		label.setBounds(new Rectangle(r.x + DefaultFigureSize.TEXT_PADDING, 
-				r.y, r.width - r.height - DefaultFigureSize.TEXT_PADDING, r.height));
+		int labelWidth = label.getTextBounds().width;
+
+		setBounds(new Rectangle(rx + rw/2 - rh - 1 , ry, labelWidth + 2*DefaultFigureSize.TEXT_PADDING + rh + 1, rh));
+		r = getBounds();
+		
+		label.setBounds(new Rectangle(r.x + rh + 1 + DefaultFigureSize.TEXT_PADDING, ry, labelWidth + DefaultFigureSize.TEXT_PADDING, rh));
 		
 		msg = new Polyline(); 
-		msg.addPoint(new Point(r.right(), r.y));
-		msg.addPoint(new Point(r.right() - r.height, r.y));
-		msg.addPoint(new Point(r.right() - r.height, r.bottom() - arrow.getSize().height/2 -1));
-		msg.addPoint(new Point(r.right(), r.bottom() - arrow.getSize().height/2 -1));
+		msg.addPoint(new Point(r.x + r.height, r.y));
+		msg.addPoint(new Point(r.x, r.y));
+		msg.addPoint(new Point(r.x, r.bottom() - arrow.getSize().height/2 -1));
+		msg.addPoint(new Point(r.x + r.height, r.bottom() - arrow.getSize().height/2 -1));
 		msg.setLineWidth(DefaultFigureSize.MESSAGE_THICKNESS);
 				
 		arrow.setLocation(msg.getEnd());

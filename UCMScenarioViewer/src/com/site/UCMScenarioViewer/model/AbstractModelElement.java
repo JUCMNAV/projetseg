@@ -24,7 +24,7 @@ import com.site.UCMScenarioViewer.utils.DefaultFigureSize;
 import com.site.UCMScenarioViewer.utils.Properties;
 
 /**
- * Root model class; containts basic functionality shared by all model elements.
+ * Root model class; contains basic functionality shared by all model elements.
  * 
  * @author Sasha
  *
@@ -53,13 +53,13 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	 * Font size
 	 * Comment for <code>fontSize</code>
 	 */
-	protected int fontSize = 12;
+	protected int fontSize = 10; // DA: Used to be 12
 	 
 	/**
 	 * Font Style
 	 * Comment for <code>fontStyle</code>
 	 */
-	protected int fontStyle = org.eclipse.swt.SWT.CANCEL;
+	protected int fontStyle = org.eclipse.swt.SWT.NONE; // DA: Used to be CANCEL
 	 
 	/**
 	 * Parent of this element
@@ -245,7 +245,7 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	/**
 	 * Obtains the coordinates of elemnt's figure 
 	 * @return <code>org.eclipse.draw2d.Point</code> for the element's figure - 
-	 * the coordibates of element's figure
+	 * the coordinates of element's figure
 	 */
 	public Point getInitialLocation() {
 		return new Point(getXcoordinate(), getYcoordinate());
@@ -492,7 +492,7 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	}
 	
 	/**
-	 * Changes this element's and its childrens' font parameters.
+	 * Changes this element's and its children's font parameters.
 	 * 
 	 * @param name - new font's name/type
 	 * @param size - new font's size
@@ -513,7 +513,7 @@ public abstract class AbstractModelElement implements Serializable, IPropertySou
 	 * @return <code>int</code> number
 	 */
 	protected int getYSpacing() {
-		// The spacing = Doubled height of the text of largest label possible
-		return (int) 2 * getMaxLabel().getTextBounds().height;
+		// The spacing = constant x height of the text of largest label possible
+		return (int) (1.5 * getMaxLabel().getTextBounds().height);
 	}
 }

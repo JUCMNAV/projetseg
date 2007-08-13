@@ -94,13 +94,13 @@ public class UCMScenarioViewer extends GraphicalEditor {
     
     public static Font getApplicationFont() {
         if (applicationFont == null) {
-            applicationFont = new Font(null, "", 12, org.eclipse.swt.SWT.CANCEL);
+            applicationFont = new Font(null, "", 10, org.eclipse.swt.SWT.CANCEL);
         }
         return applicationFont;
     }
     public static Font getLargerApplicationFont() {
         if (largerApplicationFont == null) {
-            largerApplicationFont = new Font(null, "", 16, org.eclipse.swt.SWT.CANCEL);
+            largerApplicationFont = new Font(null, "", 12, org.eclipse.swt.SWT.CANCEL);
         }
         return largerApplicationFont;
     }
@@ -114,7 +114,7 @@ public class UCMScenarioViewer extends GraphicalEditor {
         if (largerApplicationFont!=null)
         	if(!largerApplicationFont.isDisposed())
         		largerApplicationFont.dispose();
-        largerApplicationFont = new Font(null, newFont.getName(), newFont.getHeight()+4, newFont.getStyle());
+        largerApplicationFont = new Font(null, newFont.getName(), newFont.getHeight()+ 2, newFont.getStyle());
         
     }
     
@@ -697,7 +697,7 @@ public class UCMScenarioViewer extends GraphicalEditor {
 				if (!editorSaving) {
 					// the file was overwritten somehow (could have been
 					// replaced by another
-					// version in the respository)
+					// version in the repository)
 					final IFile newFile = ResourcesPlugin.getWorkspace()
 							.getRoot().getFile(delta.getFullPath());
 					Display display = getSite().getShell().getDisplay();
