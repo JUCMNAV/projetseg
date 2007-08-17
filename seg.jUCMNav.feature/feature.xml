@@ -2,7 +2,7 @@
 <feature
       id="seg.jUCMNav"
       label="jUCMNav: URN Editor (UCM and GRL)"
-      version="2.4.1"
+      version="3.0.0"
       provider-name="UseCaseMaps.ORG">
 
    <description url="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/WebHome">
