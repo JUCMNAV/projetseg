@@ -28,6 +28,12 @@
 		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true" timeout="900000">
 			<arg line="-noclean jUCMNav" />
 		</exec>
+
+		<delete>
+		  <fileset dir="build/">
+			<include name="seg.jUCMNav_*.zip" />
+		  </fileset>
+		</delete>
     </target>
 
     <target name="build-noupdate">
