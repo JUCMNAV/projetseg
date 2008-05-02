@@ -2,7 +2,7 @@
 <feature
       id="seg.jUCMNav"
       label="jUCMNav: URN Editor (UCM and GRL)"
-      version="3.0.0"
+      version="3.1.0"
       provider-name="UseCaseMaps.ORG">
 
    <description url="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/WebHome">
@@ -110,20 +110,20 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="seg.jUCMNav.UCEd"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.2"
          unpack="false"/>
 
    <plugin
          id="seg.jUCMNav"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.1.0"
          unpack="false"/>
 
    <plugin
          id="com.site.UCMScenarioViewer"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="1.2.0"/>
 
 </feature>
