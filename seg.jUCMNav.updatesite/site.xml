@@ -24,5 +24,8 @@
    <feature url="features/seg.jUCMNav_3.0.0.jar" id="seg.jUCMNav" version="3.0.0">
       <category name="UseCaseMaps.Org"/>
    </feature>
+   <feature url="features/seg.jUCMNav_3.1.0.jar" id="seg.jUCMNav" version="3.1.0">
+      <category name="UseCaseMaps.Org"/>
+   </feature>
    <category-def name="UseCaseMaps.Org" label="UseCaseMaps.Org"/>
 </site>
