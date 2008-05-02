@@ -108,6 +108,9 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
   <requires>
+     <import feature="org.eclipse.platform"/>
+     <import feature="org.eclipse.jdt"/> 
+     <import feature="org.eclipse.rcp"/>
      <import feature="org.eclipse.gef"/>
      <import feature="org.eclipse.emf.ecore"/>
      <import feature="org.eclipse.ocl"/>
