@@ -2,17 +2,16 @@
 <feature
       id="seg.jUCMNav"
       label="jUCMNav: URN Editor (UCM and GRL)"
-      version="3.2.1"
+      version="3.0.0"
       provider-name="UseCaseMaps.ORG">
 
    <description url="http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/WebHome">
-      jUCMNav is a graphical editor for the User Requirements Notation (URN),
-      which includes both the Use Case Map (UCM) notation and the 
-      Goal-oriented Requirement Language (GRL).
+      jUCMNav is a graphical editor for both the Use Case Map (UCM)
+notation and the Goal-Oriented Requirements Language (GRL).
    </description>
 
-   <copyright url="jUCMNav is a graphical editor for the User Requirements Notation (URN)">
-      Copyright (c) 2005-2008 UseCaseMaps.org
+   <copyright url="jUCMNav is a graphical editor for the Use Case Map (UCM) notation">
+      Copyright (c) 2006 UseCaseMaps.org
    </copyright>
 
    <license url="http://www.eclipse.org/org/documents/epl-v10.php">
@@ -107,15 +106,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <update label="jUCMNav: URN Editor (UCM and GRL)" url="http://jucmnav.softwareengineering.ca/jucmnav/updatesite/site.xml"/>
    </url>
 
-  <requires>
-     <import feature="org.eclipse.platform"/>
-     <import feature="org.eclipse.jdt"/> 
-     <import feature="org.eclipse.rcp"/>
-     <import feature="org.eclipse.gef"/>
-     <import feature="org.eclipse.emf.ecore"/>
-     <import feature="org.eclipse.ocl"/>
-  </requires> 
-
    <plugin
          id="seg.jUCMNav.UCEd"
          download-size="0"
@@ -127,7 +117,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="seg.jUCMNav"
          download-size="0"
          install-size="0"
-         version="3.2.1"
+         version="3.0.0"
          unpack="false"/>
 
    <plugin
