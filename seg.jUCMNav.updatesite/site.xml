@@ -30,7 +30,10 @@
    <feature url="features/seg.jUCMNav_3.2.0.jar" id="seg.jUCMNav" version="3.2.0">
       <category name="UseCaseMaps.Org"/>
    </feature>
-   <feature url="features/seg.jUCMNav_3.2.1.jar" id="seg.jUCMNav" version="3.2.1">
+      <feature url="features/seg.jUCMNav_3.2.1.jar" id="seg.jUCMNav" version="3.2.1">
+      <category name="UseCaseMaps.Org"/>
+   </feature>
+   <feature url="features/seg.jUCMNav_4.0.0.jar" id="seg.jUCMNav" version="4.0.0">
       <category name="UseCaseMaps.Org"/>
    </feature>
    <category-def name="UseCaseMaps.Org" label="UseCaseMaps.Org"/>
