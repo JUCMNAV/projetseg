@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<IntermediateWorkflow:Model xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:IntermediateWorkflow="platform:/resource/UrnToRam/metamodel/IntermediateWorkflow.ecore#/"
+    xsi:schemaLocation="platform:/resource/UrnToRam/metamodel/IntermediateWorkflow.ecore#/ ../metamodel/IntermediateWorkflow.ecore#/1">
+      <Workflows Name="Simple" StartNodes="//@Workflows.0/@Nodes.0">
+    <Nodes xsi:type="IntermediateWorkflow:Input" Name="In" Succs="//@Workflows.0/@NodeConnections.0" InputName="InData"/>
+    <Nodes xsi:type="IntermediateWorkflow:CustomizableSequence" Name="Processing" Preds="//@Workflows.0/@NodeConnections.0" Succs="//@Workflows.0/@NodeConnections.1" OutputName=""/>
+    <Nodes xsi:type="IntermediateWorkflow:CustomizableSequence" Name="Out" Preds="//@Workflows.0/@NodeConnections.1" OutputName="OutData"/>
+    <NodeConnections Source="//@Workflows.0/@Nodes.0" Target="//@Workflows.0/@Nodes.1"/>
+    <NodeConnections Source="//@Workflows.0/@Nodes.1" Target="//@Workflows.0/@Nodes.2"/>
+  </Workflows>
+</IntermediateWorkflow:Model>

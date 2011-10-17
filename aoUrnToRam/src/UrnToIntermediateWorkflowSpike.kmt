@@ -1,0 +1,174 @@
+package aoUrnToRam;
+
+require kermeta
+require "http:///oneurn.ecore"
+require "http:///intermediateWorkflow.ecore"
+
+using kermeta::persistence
+using kermeta::standard
+using kermeta::persistence
+using kermeta::standard
+using oneurn::urn
+using oneurn::ucm
+using oneurn::ucm::map
+using oneurn::urncore
+using oneurn::ucm::scenario
+using intermediateWorkflow
+
+class UrnToIntermediateWorkflowSpike
+{
+	operation convert(source:String,destination:String) is do
+		var urnSpec : URNspec init loadUrnSpec(source)
+		var model: Model init parseUrnSpec(urnSpec)
+		saveintermediateWorkflowModel(model,destination)
+	end
+	
+	operation parseUrnSpec(urnSpec : URNspec): Model is do
+		var model : Model init Model.new
+		urnSpec.urndef.specDiagrams.each{specDiagram|
+			var workflow: Workflow init parseUCMmap(specDiagram.asType(UCMmap))
+			model.workflows.add(workflow)	
+		}
+		result:=model
+	end
+	
+	operation parseUCMmap(ucmMap:UCMmap): Workflow is do
+		var workflow:Workflow init Workflow.new
+		workflow.name:=ucmMap.name		
+		
+		var currentPathNode:PathNode init ucmMap.nodes.select{n|n.isInstanceOf(StartPoint)}.one().asType(PathNode)
+		var previousNode:Node
+		
+		from currentPathNode
+		until currentPathNode.isInstanceOf(EndPoint)
+		loop
+		    var currentRespRef:RespRef
+		    currentRespRef?=currentPathNode
+		    
+			if (currentRespRef.isVoid==false) then
+				parseResponsibility(currentRespRef.respDef).each{currentNode|
+					workflow.nodes.add(currentNode)
+					linkNode(currentNode,previousNode,workflow)
+					previousNode:=currentNode
+				}
+			end
+			currentPathNode:=currentPathNode.succ.one().target.asType(PathNode)
+		end
+		result:=workflow
+	end
+	
+	operation linkNode(currentNode:Node, previousNode:Node, workflow:Workflow) is do
+		if(previousNode.isVoid==false) then
+			var nodeConnection:intermediateWorkflow::NodeConnection init intermediateWorkflow::NodeConnection.new
+			nodeConnection.source:=previousNode
+			nodeConnection.target:=currentNode
+			workflow.nodeConnections.add(nodeConnection)
+		else
+			workflow.startNodes.add(currentNode)
+		end
+	end
+	
+	operation parseResponsibility(responsibility:Responsibility): set Node[0..2] is do
+	
+		var nodes:set Node[0..2] init Set<Node>.new
+		var inOutExpression:InOutExpression init InOutExpression.new
+		inOutExpression.constructFromResponsibility(responsibility)
+		
+		if(inOutExpression.hasIn) then
+			nodes.add(parseResponsibilityAsInput(inOutExpression))
+		end		
+		if(inOutExpression.hasIn==false or
+		   (inOutExpression.hasIn==true and inOutExpression.hasOut)) then
+			nodes.add(parseResponsibilityAsCustomizableSequence(responsibility, inOutExpression))
+		end
+		
+		result:=nodes
+	end
+	
+	operation parseResponsibilityAsInput(inOutExpression:InOutExpression): Input is do
+		var input:Input init Input.new
+		input.name:=inOutExpression.in
+		input.inputName:=inOutExpression.in+"Data"//stle: Not a URN to Intermediate Workflow concept, must be in Intermediate Workflow to RAM
+		result:=input
+	end
+
+	operation parseResponsibilityAsCustomizableSequence(responsibility:Responsibility, inOutExpression:InOutExpression): CustomizableSequence is do
+		var customizableSequence:CustomizableSequence init CustomizableSequence.new
+		if(inOutExpression.hasOut) then
+			customizableSequence.name:=inOutExpression.out
+			customizableSequence.outputName:=inOutExpression.out+"Data"//stle: Not a URN to Intermediate Workflow concept, must be in Intermediate Workflow to RAM
+		else
+			customizableSequence.name:=responsibility.name
+		end
+		result:=customizableSequence
+	end
+    
+    operation loadUrnSpec(uri : String) : URNspec is do
+     	var repository : EMFRepository
+     	repository := EMFRepository.new
+    	var resource : Resource init repository.getResource(uri)
+    	resource.load
+    	result ?= resource.one
+    end
+
+    operation saveintermediateWorkflowModel(model: Model, uri : String) is do
+    	var repository : EMFRepository
+    	repository := EMFRepository.new
+    	var resource : Resource init repository.createResource(
+	       uri,
+	       "http:///intermediateWorkflow.ecore")
+    	resource.add(model)
+    	resource.save()
+    end
+}
+
+class InOutExpression
+{
+	attribute out:String
+	attribute in:String
+	attribute outKeyword:String
+	attribute inKeyword:String
+	
+	property readonly hasOut : Boolean 
+	getter is do
+		result := not out.isVoid
+	end
+		
+	property readonly hasIn : Boolean 
+	getter is do
+		result := not in.isVoid
+	end	
+
+	operation constructFromResponsibility(responsibility:Responsibility) is do
+	
+		var metadata:Metadata init responsibility.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+		construct(if metadata.isVoid then "" else metadata.valueWorkAround end)
+	end
+
+	operation construct(expression:String) is do
+		outKeyword:="out "
+		inKeyword:="in "
+	
+	//stle: need validation: RegEx would be better
+		if(expression.toLowerCase().indexOf(outKeyword)==0) then
+			expression:=expression.substring(outKeyword.size(), expression.size())		
+			var index:Integer init expression.indexOf(" ")	
+					
+			if(index==-1) then
+				out:=expression
+				expression:=""			
+			else
+				out:=expression.substring(0, index)
+				expression:=expression.substring(index+1, expression.size())				
+			end
+		end	
+		if(expression.toLowerCase().indexOf(inKeyword)==0) then
+			in:=expression.substring(inKeyword.size(), expression.size())
+		end
+		
+	end
+} 
+
+
+
+
