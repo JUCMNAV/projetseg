@@ -3,7 +3,7 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "UrnToIntermediateWorkflowSpike.kmt"
+require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
 
 using kermeta::standard
 using kermeta::kunit

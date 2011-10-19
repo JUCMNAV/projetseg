@@ -1,0 +1,127 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToRam/iwToRam.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using iw
+using ramstructural
+
+class IwToRamBuildTestCase inherits TestCase
+{
+	operation createIwInput():IwInput is do
+		var res:IwInput init IwInput.new
+		res.name:="a"
+		result:=res
+	end
+	
+	operation createIwProcessingNode():IwProcessingNode is do
+		var res:IwProcessingNode init IwProcessingNode.new
+		res.name:="a"
+		result:=res
+	end
+	
+	operation createIwOutput():IwOutput is do
+		var res:IwOutput init IwOutput.new
+		res.name:="a"
+		result:=res
+	end
+
+	operation testBuildInput() is do
+		var actual:IwInput init createIwInput()
+		actual.build()
+		
+		assert(actual.ramClasses.size==1)
+		var ramInputData:Class init actual.ramClasses.at(0)
+
+		//stle: checking type is useless since will crash at the previous call anyway if type exception
+		assertIsNonVoidInstanceOf(Class,ramInputData)
+		assertStringEqual("a"+"Input",ramInputData.name)
+	end
+	
+	operation testBuildOut() is do
+		var actual:IwOutput init createIwOutput()
+		actual.build()
+		
+		assert(actual.ramClasses.size==2)
+		var ramOutputData:Class init actual.ramClasses.at(0)
+		assertIsNonVoidInstanceOf(Class,ramOutputData)
+		assertStringEqual("a"+"Output",ramOutputData.name)
+		
+		var ramCustomizableSequence:Class init actual.ramClasses.at(1)
+		assertIsNonVoidInstanceOf(Class,ramCustomizableSequence)
+		assertStringEqual("a",ramCustomizableSequence.name)
+	end
+
+	operation testBuildProcessingNode() is do
+		var actual:IwProcessingNode init createIwProcessingNode()
+		actual.build()
+
+		var ramCustomizableSequence:Class init actual.ramClasses.at(0)
+		assertIsNonVoidInstanceOf(Class,ramCustomizableSequence)
+		assertStringEqual("a",ramCustomizableSequence.name)
+	end
+	
+	operation testBuildWorkflow() is do
+		var actual:IwWorkflow init IwWorkflow.new
+		actual.name:="a"
+		actual.build()
+		assertIsNonVoidInstanceOf(Aspect,actual.ramAspect)
+		//stle: aspect is name of workflow for now, wait until steps get implemented
+		assertStringEqual("a",actual.ramAspect.name)
+		assertIsNonVoidInstanceOf(ClassDiagram,actual.ramAspect.structuralView)
+		assertIsNonVoidInstanceOf(AspectInterface,actual.ramAspect.interface)
+	end
+
+	operation testBuildOneNodeFromWorkflow() is do
+		var actual:IwWorkflow init IwWorkflow.new
+		actual.nodes.add(createIwProcessingNode())
+		actual.build()
+		assert(actual.nodes.one.ramClasses.size==1)
+	end
+	
+	operation testBuildManyNodeFromWorkflow() is do
+		var actual:IwWorkflow init IwWorkflow.new
+		actual.nodes.add(createIwInput())
+		actual.nodes.add(createIwProcessingNode())
+		actual.nodes.add(createIwProcessingNode())
+		actual.nodes.add(createIwOutput())
+		actual.build()
+		
+		//stle: reusable sum or count functions
+		var ramClassCount:Integer init 0
+		actual.nodes.each{node|
+			ramClassCount:=ramClassCount+node.ramClasses.size}
+		
+		//stle: refact assert
+		assertWithMsg(ramClassCount==1+1+1+2,ramClassCount.toString())
+	end
+	
+
+
+	/*	
+	operation testInputMapping() is do
+	//stle: wrong not one mapping per input
+	
+		var input:IwInput init IwInput.new
+		input.build()
+		input.buildMapping()
+		assertStringEqual(input.mapping.sourceModelElement,"|InputData")
+		assert(input.mapping.maps.contains(input.ramClass))
+	end
+	*/
+
+	//stle: more verbrose on assertion
+
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+}
