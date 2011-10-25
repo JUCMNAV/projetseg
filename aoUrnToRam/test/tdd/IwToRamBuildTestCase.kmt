@@ -11,6 +11,7 @@ using ramstructural
 
 class IwToRamBuildTestCase inherits TestCase
 {
+
 	operation createIwInput():IwInput is do
 		var res:IwInput init IwInput.new
 		res.name:="a"
@@ -34,11 +35,9 @@ class IwToRamBuildTestCase inherits TestCase
 		actual.build()
 		
 		assert(actual.ramClasses.size==1)
-		var ramInputData:Class init actual.ramClasses.at(0)
-
-		//stle: checking type is useless since will crash at the previous call anyway if type exception
-		assertIsNonVoidInstanceOf(Class,ramInputData)
-		assertStringEqual("a"+"Input",ramInputData.name)
+		assert(actual.ramMappings.size==1)
+		assertStringEqual("a"+"Input",actual.ramInput.name)
+		assertStringEqual("|InputData",actual.ramInputMapping.sourceModelElement)
 	end
 	
 	operation testBuildOut() is do
@@ -68,39 +67,49 @@ class IwToRamBuildTestCase inherits TestCase
 		var actual:IwWorkflow init IwWorkflow.new
 		actual.name:="a"
 		actual.build()
+		
 		assertIsNonVoidInstanceOf(Aspect,actual.ramAspect)
 		//stle: aspect is name of workflow for now, wait until steps get implemented
 		assertStringEqual("a",actual.ramAspect.name)
 		assertIsNonVoidInstanceOf(ClassDiagram,actual.ramAspect.structuralView)
 		assertIsNonVoidInstanceOf(AspectInterface,actual.ramAspect.interface)
+		
+		assertIsNonVoidInstanceOf(Instantiation,actual.ramReactiveWorkflowInstantiation)
+		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
 
-	operation testBuildOneNodeFromWorkflow() is do
+	operation testLinkInputFromWorkflow() is do
 		var actual:IwWorkflow init IwWorkflow.new
-		actual.nodes.add(createIwProcessingNode())
+		
+		var iwInput:IwInput init createIwInput()
+		actual.nodes.add(iwInput)
 		actual.build()
-		assert(actual.nodes.one.ramClasses.size==1)
+		actual.link()
+		
+		assert(actual.ramStructuralView.classes.size==1)
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==1)
+		
+		//stle: wrong implementation of mapping, |InputData can map to multiple ramInputClass
+		
+		//stle why passed before?, test both direction of asso?
+		//stle: remove one
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.one().maps.exists{mappableElement|
+			mappableElement==iwInput.ramInput})
+		
 	end
 	
-	operation testBuildManyNodeFromWorkflow() is do
+	operation testLinkManyNodeFromWorkflow() is do
 		var actual:IwWorkflow init IwWorkflow.new
 		actual.nodes.add(createIwInput())
-		actual.nodes.add(createIwProcessingNode())
-		actual.nodes.add(createIwProcessingNode())
+		2.times{i|actual.nodes.add(createIwProcessingNode())}
 		actual.nodes.add(createIwOutput())
+		
 		actual.build()
+		actual.link()
 		
-		//stle: reusable sum or count functions
-		var ramClassCount:Integer init 0
-		actual.nodes.each{node|
-			ramClassCount:=ramClassCount+node.ramClasses.size}
-		
-		//stle: refact assert
-		assertWithMsg(ramClassCount==1+1+1+2,ramClassCount.toString())
+		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 	
-
-
 	/*	
 	operation testInputMapping() is do
 	//stle: wrong not one mapping per input

@@ -8,35 +8,74 @@ using kermeta::standard
 using ramstructural
 
 aspect class IwWorkflow {
-	attribute ramAspect:Aspect
+	reference ramAspect:Aspect
+	reference ramReactiveWorkflowInstantiation:Instantiation
 	
+	property readonly ramStructuralView : ClassDiagram
+	getter is do
+		result := ramAspect.structuralView
+	end
+
 	operation build() is do
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
 		ramAspect.structuralView:=ClassDiagram.new
 		ramAspect.interface:=AspectInterface.new
+		
+		ramReactiveWorkflowInstantiation:=Instantiation.new
+		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
+		
 		nodes.each{
 			node|node.build()
+		}
+	end
+	
+	operation link() is do
+		nodes.each{
+			node|node.link(self)
 		}
 	end
 }
 
 aspect class IwNode {
 	//ordered because want standard order in the RAM model
-	attribute ramClasses: oset Class[0..*]
+	reference ramClasses: oset Class[0..*]
+	reference ramMappings: oset Mapping[0..*]
 	
-	operation addClass(name:String) is do
+	operation addClass(name:String):Class is do
 		var ramClass:Class init Class.new
 		ramClass.name:=name
 		ramClasses.add(ramClass)
+		result:=ramClass
+	end
+	
+	operation addMapping(sourceModelElement:String):Mapping is do
+		var ramMapping:Mapping init Mapping.new
+		ramMapping.sourceModelElement:=sourceModelElement
+		ramMappings.add(ramMapping)
+		result:=ramMapping
 	end
 	
 	operation build() is abstract
+	
+	operation link(workflow:IwWorkflow) is do
+		workflow.ramStructuralView.classes.addAll(ramClasses)
+		workflow.ramReactiveWorkflowInstantiation.mappings.addAll(ramMappings)	
+	end
 }
 
 aspect class IwInput {
+	reference ramInput:Class
+	reference ramInputMapping:Mapping
+
 	method build() is do
-		addClass(self.name+"Input")
+		ramInput:=addClass(self.name+"Input")
+		ramInputMapping:=addMapping("|InputData")
+	end
+	
+	method link(workflow:IwWorkflow) is do
+		super(workflow)
+		ramInputMapping.maps.add(ramInput)
 	end
 }
 
