@@ -6,6 +6,9 @@ require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 
+require "platform:/resource/aoUrnToRam/test/tdd/urnToIw/BuildTestCase.kmt"
+
+
 require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
 require "platform:/resource/aoUrnToRam/src/IntermediateWorkflowToRamSpike.kmt"
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
@@ -13,6 +16,7 @@ require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 using kermeta::standard
 using kermeta::kunit
 using aoUrnToRam
+using kermeta::language::structure
 
 class Main
 {
@@ -21,13 +25,57 @@ class Main
 		launchIntegrationTests()
     end
 
-    operation launchTddTests() : Void is do 
-	    var testSuite:TestSuite init TestSuite.new
-		testSuite.addAllTestCasesFrom(IwToRamBuildTestCase)
-		testSuite.addAllTestCasesFrom(IwToRamLinkTestCase)
+	property readonly IwToRamTestSuite : oset OrderedSet<Class>
+	getter is do
+		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
 		
+		testClasses.add(IwToRamBuildTestCase)
+		testClasses.add(IwToRamLinkTestCase)
+		
+		result := testClasses
+	end
+	
+	property readonly UrnToIwTestSuite : OrderedSet<Class>
+	getter is do
+		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
+		
+		testClasses.add(UrnToIwBuildTestCase)
+		
+		result := testClasses
+	end
+    
+    operation launchTddTests() : Void is do 
+    	var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
+    	testClasses.addAll(UrnToIwTestSuite)
+    	testClasses.addAll(IwToRamTestSuite)
+		runTestClasses(testClasses)
+    end
+
+
+    operation launchUrnToIwTddTests() : Void is do 
+		runTestClasses(UrnToIwTestSuite)
+    end
+
+    operation launchIwToRamTddTests() : Void is do
+    	runTestClasses(IwToRamTestSuite) 
+    end
+	
+	operation launchSpecificTest() : Void is do
+		var testCase : TestCase init IwToRamBuildTestCase.new.setTestMethodName("testBuildInput")
+		runTest(testCase)
+    end
+    
+    operation runTestClasses(testClasses:OrderedSet<Class>) is do
+    	var testSuite:TestSuite init TestSuite.new
+    	testClasses.each{testClass|
+    		testSuite.addAllTestCasesFrom(testClass)
+    	}
+		runTest(testSuite)
+    end
+    
+    operation runTest(test:Test) is do
 		var testRunner : TestRunner init TestRunner.new
-		testRunner.runTest(testSuite)
+		testRunner.runTest(test)
 		testRunner.printTestResult
 		
 		var pass:Boolean init testRunner.log.failures.size==0 and
@@ -37,7 +85,7 @@ class Main
 		stdio.writeln("----")
     end
     
-	operation launchIntegrationTests() : Void is do
+    operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
 	
 		var firstTrans:UrnToIntermediateWorkflowSpike init UrnToIntermediateWorkflowSpike.new
@@ -55,21 +103,6 @@ class Main
 		
 		stdio.writeln("End")
 	end
-	
-	operation launchSpecificTest() : Void is do
-		var testCase : TestCase init IwToRamBuildTestCase.new.setTestMethodName("testBuildInput")
-	
-		var testRunner : TestRunner init TestRunner.new
-		testRunner.runTest(testCase)
-		testRunner.printTestResult
-		
-		var pass:Boolean init testRunner.log.failures.size==0 and
-   					  testRunner.log.errors.size==0
-		
-		
-		stdio.write("Specific Test: ")
-		stdio.writeln(if pass then "PASS" else "FAIL" end)
-    end
 	
      
 }
