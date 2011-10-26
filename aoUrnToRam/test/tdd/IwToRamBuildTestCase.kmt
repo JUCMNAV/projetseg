@@ -2,7 +2,8 @@ package aoUrnToRam::Test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
-require "platform:/resource/aoUrnToRam/src/iwToRam/iwToRam.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -11,6 +12,9 @@ using ramstructural
 
 class IwToRamBuildTestCase inherits TestCase
 {
+	operation createWorkflow():IwWorkflow is do
+		result:=IwWorkflow.new
+	end
 
 	operation createIwInput():IwInput is do
 		var res:IwInput init IwInput.new
@@ -64,7 +68,7 @@ class IwToRamBuildTestCase inherits TestCase
 	end
 	
 	operation testBuildWorkflow() is do
-		var actual:IwWorkflow init IwWorkflow.new
+		var actual:IwWorkflow init createWorkflow()
 		actual.name:="a"
 		actual.build()
 		
@@ -78,8 +82,17 @@ class IwToRamBuildTestCase inherits TestCase
 		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
 
+	operation testLinkWorkflow() is do
+		var actual:IwWorkflow init createWorkflow()
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramStructuralView.instantiations.size==1)
+	end
+
+
 	operation testLinkInputFromWorkflow() is do
-		var actual:IwWorkflow init IwWorkflow.new
+		var actual:IwWorkflow init createWorkflow()
 		
 		var iwInput:IwInput init createIwInput()
 		actual.nodes.add(iwInput)
@@ -97,9 +110,10 @@ class IwToRamBuildTestCase inherits TestCase
 			mappableElement==iwInput.ramInput})
 		
 	end
-	
+
+//stle: should we remove this test?	
 	operation testLinkManyNodeFromWorkflow() is do
-		var actual:IwWorkflow init IwWorkflow.new
+		var actual:IwWorkflow init createWorkflow()
 		actual.nodes.add(createIwInput())
 		2.times{i|actual.nodes.add(createIwProcessingNode())}
 		actual.nodes.add(createIwOutput())
@@ -109,21 +123,9 @@ class IwToRamBuildTestCase inherits TestCase
 		
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
-	
-	/*	
-	operation testInputMapping() is do
-	//stle: wrong not one mapping per input
-	
-		var input:IwInput init IwInput.new
-		input.build()
-		input.buildMapping()
-		assertStringEqual(input.mapping.sourceModelElement,"|InputData")
-		assert(input.mapping.maps.contains(input.ramClass))
-	end
-	*/
 
+	
 	//stle: more verbrose on assertion
-
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
 		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
 		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")

@@ -1,0 +1,18 @@
+package iw;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
+
+using kermeta::standard
+using ramstructural
+
+aspect class IwModel {
+	operation toRam():Aspect is do
+		//stle: multiple workflows not handled yet
+		var workflow:IwWorkflow init workflows.one()
+		workflow.build()
+		workflow.link()
+		result := workflow.ramAspect
+	end
+}

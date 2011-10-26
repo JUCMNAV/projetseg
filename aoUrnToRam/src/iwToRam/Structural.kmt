@@ -1,0 +1,29 @@
+package iw;
+
+require kermeta
+require "http:///iw.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+
+using kermeta::standard
+using ramstructural
+
+aspect class IwWorkflow {
+	reference ramAspect:Aspect
+	reference ramReactiveWorkflowInstantiation:Instantiation
+	
+	property readonly ramStructuralView : ClassDiagram
+	getter is do
+		result := ramAspect.structuralView
+	end
+}
+
+aspect class IwNode {
+	//ordered because want standard order in the RAM model
+	reference ramClasses: oset Class[0..*]
+	reference ramMappings: oset Mapping[0..*]
+}
+
+aspect class IwInput {
+	reference ramInput:Class
+	reference ramInputMapping:Mapping
+}

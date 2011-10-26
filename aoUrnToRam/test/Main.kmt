@@ -6,6 +6,7 @@ require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/IwToRamBuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
 require "platform:/resource/aoUrnToRam/src/IntermediateWorkflowToRamSpike.kmt"
+require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -33,12 +34,20 @@ class Main
     
 	operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
-		
+/*		
 		var firstTrans:UrnToIntermediateWorkflowSpike init UrnToIntermediateWorkflowSpike.new
 		firstTrans.convert("platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm","platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi")
-		
+
 		var secondTrans:IntermediateWorkflowToRamSpike init IntermediateWorkflowToRamSpike.new
 		secondTrans.convert("platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi","platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual.xmi")
+*/		
+
+		var secondTransRefactored:AoUrnToRamTransformation init AoUrnToRamTransformation.new
+		secondTransRefactored.transform(
+				"platform:/resource/aoUrnToRam/test/integration/model/IwSimpleWorkflow_Actual.xmi",
+				"platform:/resource/aoUrnToRam/test/integration/model/IwSimpleRam_Actual.xmi",
+				true
+				)
 		
 		stdio.writeln("End")
 	end

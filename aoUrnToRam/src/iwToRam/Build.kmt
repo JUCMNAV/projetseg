@@ -1,21 +1,12 @@
 package iw;
 
 require kermeta
-require "http:///iw.ecore"
-require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
 
 using kermeta::standard
 using ramstructural
 
 aspect class IwWorkflow {
-	reference ramAspect:Aspect
-	reference ramReactiveWorkflowInstantiation:Instantiation
-	
-	property readonly ramStructuralView : ClassDiagram
-	getter is do
-		result := ramAspect.structuralView
-	end
-
 	operation build() is do
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
@@ -29,19 +20,9 @@ aspect class IwWorkflow {
 			node|node.build()
 		}
 	end
-	
-	operation link() is do
-		nodes.each{
-			node|node.link(self)
-		}
-	end
 }
 
 aspect class IwNode {
-	//ordered because want standard order in the RAM model
-	reference ramClasses: oset Class[0..*]
-	reference ramMappings: oset Mapping[0..*]
-	
 	operation addClass(name:String):Class is do
 		var ramClass:Class init Class.new
 		ramClass.name:=name
@@ -57,25 +38,12 @@ aspect class IwNode {
 	end
 	
 	operation build() is abstract
-	
-	operation link(workflow:IwWorkflow) is do
-		workflow.ramStructuralView.classes.addAll(ramClasses)
-		workflow.ramReactiveWorkflowInstantiation.mappings.addAll(ramMappings)	
-	end
 }
 
 aspect class IwInput {
-	reference ramInput:Class
-	reference ramInputMapping:Mapping
-
 	method build() is do
 		ramInput:=addClass(self.name+"Input")
 		ramInputMapping:=addMapping("|InputData")
-	end
-	
-	method link(workflow:IwWorkflow) is do
-		super(workflow)
-		ramInputMapping.maps.add(ramInput)
 	end
 }
 
