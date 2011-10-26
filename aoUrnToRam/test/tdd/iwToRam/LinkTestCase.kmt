@@ -1,0 +1,75 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using iw
+using ramstructural
+
+class IwToRamLinkTestCase inherits TestCase
+{
+	attribute factory:IwTestFactory
+
+	method setUp() is do
+		factory:=IwTestFactory.new
+	end
+
+	operation testLinkWorkflow() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramStructuralView.instantiations.size==1)
+	end
+
+
+	operation testLinkInputFromWorkflow() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		
+		var iwInput:IwInput init factory.createIwInput()
+		actual.nodes.add(iwInput)
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramStructuralView.classes.size==1)
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==1)
+		
+		//stle: wrong implementation of mapping, |InputData can map to multiple ramInputClass
+		
+		//stle why passed before?, test both direction of asso?
+		//stle: remove one
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.one().maps.exists{mappableElement|
+			mappableElement==iwInput.ramInput})
+		
+	end
+
+//stle: should we remove this test?	
+	operation testLinkManyNodeFromWorkflow() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		actual.nodes.add(factory.createIwInput())
+		2.times{i|actual.nodes.add(factory.createIwProcessingNode())}
+		actual.nodes.add(factory.createIwOutput())
+		
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramStructuralView.classes.size==1+1+1+2)
+	end
+	
+		//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+}

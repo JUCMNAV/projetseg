@@ -1,0 +1,36 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using iw
+using ramstructural
+
+class IwTestFactory
+{
+	operation createWorkflow():IwWorkflow is do
+		result:=IwWorkflow.new
+	end
+
+	operation createIwInput():IwInput is do
+		var res:IwInput init IwInput.new
+		res.name:="a"
+		result:=res
+	end
+	
+	operation createIwProcessingNode():IwProcessingNode is do
+		var res:IwProcessingNode init IwProcessingNode.new
+		res.name:="a"
+		result:=res
+	end
+	
+	operation createIwOutput():IwOutput is do
+		var res:IwOutput init IwOutput.new
+		res.name:="a"
+		result:=res
+	end
+}

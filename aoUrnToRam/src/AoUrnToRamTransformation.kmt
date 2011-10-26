@@ -13,11 +13,11 @@ using ramstructural
 class AoUrnToRamTransformation
 {
 	operation transform(source:String,destination:String, outputIntermediateWorkflow:Boolean) is do
-		var repository:ModelRepository<IwModel> init ModelRepository<IwModel>.new
-		var model : IwModel init repository.load(source)
+//		var repository:ModelRepository<IwModel> init ModelRepository<IwModel>.new
+		var model : IwModel init ModelRepository<IwModel>.new.load(source)
 
-		var repository2:ModelRepository<Aspect> init ModelRepository<Aspect>.new
-		repository2.save(model.toRam(),destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+//		var repository2:ModelRepository<Aspect> init ModelRepository<Aspect>.new
+		ModelRepository<Aspect>.new.save(model.toRam(),destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 	end
 }
 
