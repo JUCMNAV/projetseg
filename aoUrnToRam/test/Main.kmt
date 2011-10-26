@@ -6,6 +6,7 @@ require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 
+require "platform:/resource/aoUrnToRam/test/tdd/urnToIw/InOutExpressionTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/urnToIw/BuildTestCase.kmt"
 
 
@@ -25,21 +26,22 @@ class Main
 		launchIntegrationTests()
     end
 
+	property readonly UrnToIwTestSuite : OrderedSet<Class>
+	getter is do
+		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
+		
+		testClasses.add(InOutExpressionTestCase)
+		testClasses.add(UrnToIwBuildTestCase)
+		
+		result := testClasses
+	end
+	
 	property readonly IwToRamTestSuite : oset OrderedSet<Class>
 	getter is do
 		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
 		
 		testClasses.add(IwToRamBuildTestCase)
 		testClasses.add(IwToRamLinkTestCase)
-		
-		result := testClasses
-	end
-	
-	property readonly UrnToIwTestSuite : OrderedSet<Class>
-	getter is do
-		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
-		
-		testClasses.add(UrnToIwBuildTestCase)
 		
 		result := testClasses
 	end
@@ -50,7 +52,6 @@ class Main
     	testClasses.addAll(IwToRamTestSuite)
 		runTestClasses(testClasses)
     end
-
 
     operation launchUrnToIwTddTests() : Void is do 
 		runTestClasses(UrnToIwTestSuite)

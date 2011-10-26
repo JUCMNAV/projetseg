@@ -1,5 +1,3 @@
-@mainClass "aoUrnToRam::Test::Main" 
-@mainOperation "main"
 package aoUrnToRam::Test;
 
 require kermeta
@@ -8,21 +6,6 @@ require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
 using kermeta::standard
 using kermeta::kunit
 using aoUrnToRam
-
-class Main
-{
-    operation main() : Void is do 
-	    var testRunner : TestRunner init TestRunner.new
-		testRunner.run(InOutExpressionTestCase)
-		testRunner.printTestResult
-		
-		var pass:Boolean init testRunner.log.failures.size==0 and
-		   					  testRunner.log.errors.size==0
-		stdio.writeln("----")
-		stdio.writeln(if pass then "PASS" else "FAIL" end)
-		stdio.writeln("----")
-    end 
-}
 
 class InOutExpressionTestCase inherits TestCase
 {
