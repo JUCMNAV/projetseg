@@ -13,30 +13,32 @@ using ramstructural
 class AoUrnToRamTransformation
 {
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
-		var urnSpec:URNspec init ModelRepository<URNspec>.new.load(source)
+		var repository:ModelRepository init ModelRepository.new
+	
+		var urnSpec:URNspec 
+		urnSpec?=repository.load(source)
+		
 		var iwModel:IwModel init urnSpec.toIw
 		if(optional_intermediate.isVoid==false)then
-			ModelRepository<IwModel>.new.save(iwModel,optional_intermediate,"http:///intermediateWorkflow.ecore")
+			repository.save(iwModel,optional_intermediate,"http:///intermediateWorkflow.ecore")
 		end
+		
 		var ramAspect:Aspect init iwModel.toRam
-		ModelRepository<Aspect>.new.save(ramAspect,destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+		repository.save(ramAspect,destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 	end
 }
 
-//stle: try to use multiple inheritance. Then, package so, it can be reused
-class ModelRepository<T>
+class ModelRepository
 {
-     operation load(uri : String) : T is do
-     	var repository : EMFRepository
-     	repository := EMFRepository.new
+     operation load(uri : String) : Object is do
+     	var repository : EMFRepository init EMFRepository.new 
     	var resource : Resource init repository.getResource(uri)
     	resource.load
-    	result ?= resource.one
+    	result:=resource.one
     end
 
-    operation save(model: T, modelUri : String, metamodelUri: String) is do
-    	var repository : EMFRepository
-    	repository := EMFRepository.new
+    operation save(model: Object, modelUri : String, metamodelUri: String) is do
+		var repository : EMFRepository init EMFRepository.new
     	var resource : Resource init repository.createResource(modelUri,metamodelUri)
     	resource.add(model)
     	resource.save()
