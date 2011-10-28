@@ -1,14 +1,11 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
+require "http:///intermediateWorkflow.ecore"
 
 using kermeta::standard
 using kermeta::kunit
-using iw
-using ramstructural
+using intermediateWorkflow
 
 class IwTestFactory
 {

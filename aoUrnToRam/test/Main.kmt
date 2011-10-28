@@ -6,12 +6,10 @@ require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 
-require "platform:/resource/aoUrnToRam/test/tdd/urnToIw/InOutExpressionTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/urnToIw/BuildTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
 
-
-require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
-require "platform:/resource/aoUrnToRam/src/IntermediateWorkflowToRamSpike.kmt"
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
 using kermeta::standard
@@ -26,17 +24,18 @@ class Main
 		launchIntegrationTests()
     end
 
-	property readonly UrnToIwTestSuite : OrderedSet<Class>
+	property readonly aoUrnToIwTestSuite : OrderedSet<Class>
 	getter is do
 		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
 		
 		testClasses.add(InOutExpressionTestCase)
-		testClasses.add(UrnToIwBuildTestCase)
+		testClasses.add(AoUrnToIwBuildTestCase)
+		testClasses.add(AoUrnToIwLinkTestCase)
 		
 		result := testClasses
 	end
 	
-	property readonly IwToRamTestSuite : oset OrderedSet<Class>
+	property readonly iwToRamTestSuite : oset OrderedSet<Class>
 	getter is do
 		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
 		
@@ -48,21 +47,21 @@ class Main
     
     operation launchTddTests() : Void is do 
     	var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
-    	testClasses.addAll(UrnToIwTestSuite)
-    	testClasses.addAll(IwToRamTestSuite)
+    	testClasses.addAll(aoUrnToIwTestSuite)
+    	testClasses.addAll(iwToRamTestSuite)
 		runTestClasses(testClasses)
     end
 
-    operation launchUrnToIwTddTests() : Void is do 
-		runTestClasses(UrnToIwTestSuite)
+    operation launchAoUrnToIwTddTests() : Void is do 
+		runTestClasses(aoUrnToIwTestSuite)
     end
 
     operation launchIwToRamTddTests() : Void is do
-    	runTestClasses(IwToRamTestSuite) 
+    	runTestClasses(iwToRamTestSuite) 
     end
 	
 	operation launchSpecificTest() : Void is do
-		var testCase : TestCase init IwToRamBuildTestCase.new.setTestMethodName("testBuildInput")
+		var testCase : TestCase init AoUrnToIwLinkTestCase.new.setTestMethodName("testOutInRespRefChained")
 		runTest(testCase)
     end
     
@@ -88,22 +87,11 @@ class Main
     
     operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
-	
-		var firstTrans:UrnToIntermediateWorkflowSpike init UrnToIntermediateWorkflowSpike.new
-		firstTrans.convert("platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm","platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi")
-
-		var secondTrans:IntermediateWorkflowToRamSpike init IntermediateWorkflowToRamSpike.new
-		secondTrans.convert("platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi","platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual.xmi")
-
-		var secondTransRefactored:AoUrnToRamTransformation init AoUrnToRamTransformation.new
-		secondTransRefactored.transform(
-				"platform:/resource/aoUrnToRam/test/integration/model/IwSimpleWorkflow_Actual.xmi",
-				"platform:/resource/aoUrnToRam/test/integration/model/IwSimpleRam_Actual.xmi",
-				true
-				)
-		
+		AoUrnToRamTransformation.new.transform(
+			"platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual.xmi",
+			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
+		)
 		stdio.writeln("End")
 	end
-	
-     
 }

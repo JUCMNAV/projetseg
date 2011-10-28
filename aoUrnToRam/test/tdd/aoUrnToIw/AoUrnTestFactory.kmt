@@ -1,0 +1,69 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "http:///oneurn.ecore"
+
+using kermeta::standard
+using oneurn::urn
+using oneurn::ucm::map
+using oneurn::urncore
+
+class AoUrnTestFactory
+{
+	operation createRespRef(name:String,ramExpression:String):RespRef is do
+		var respRef:RespRef init RespRef.new
+		respRef.respDef:=createResponsibility(name,ramExpression)
+		result:=respRef
+	end
+
+	operation createResponsibility(name:String,ramExpression:String):Responsibility is do
+		var responsibility:Responsibility init Responsibility.new
+		responsibility.name:=optionalString(name)
+		
+		if(ramExpression.isVoid==false) then
+			var ramMetadata:Metadata init Metadata.new
+			ramMetadata.name:="ram"
+			ramMetadata.valueWorkAround:=ramExpression
+			responsibility.metadata.add(ramMetadata)
+		end
+		 
+		result:=responsibility
+	end
+	
+	operation createUcmMap(name:String):UCMmap is do
+		var ucmMap:UCMmap init UCMmap.new
+		ucmMap.name:=optionalString(name)
+		result:=ucmMap 
+	end
+
+	operation createUrnSpec():URNspec is do
+		var urnSpec:URNspec init URNspec.new
+		urnSpec.urndef:=URNdefinition.new
+		result:=urnSpec
+	end
+
+	operation createUrnSpecWithUcmMaps(numOfUcmMaps:Integer):URNspec is do
+		var urnSpec:URNspec init createUrnSpec
+		numOfUcmMaps.times{i|
+			urnSpec.urndef.specDiagrams.add(createUcmMap(void))
+		}
+		result:=urnSpec
+	end
+	
+	operation createStartPoint():StartPoint is do
+		result:=StartPoint.new
+	end
+	
+	operation createNodeConnection(source:IURNNode,target:IURNNode):NodeConnection is do
+		var connection:NodeConnection init NodeConnection.new
+		connection.source:=source
+		connection.target:=target 
+		result:=connection
+	end
+	
+	
+	//rethink about that, will still need to update factory method signature if numOfOptional param changes
+	operation optionalString(val:String):String is do
+		result:=if val.isVoid then "NotSet" else val end
+	end
+}

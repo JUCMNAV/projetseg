@@ -1,11 +1,11 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/src/UrnToIntermediateWorkflowSpike.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Structural.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using aoUrnToRam
+using oneurn::ucm::map
 
 class InOutExpressionTestCase inherits TestCase
 {

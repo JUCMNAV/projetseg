@@ -7,7 +7,7 @@ require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using iw
+using intermediateWorkflow
 using ramstructural
 
 class IwToRamLinkTestCase inherits TestCase
@@ -47,7 +47,6 @@ class IwToRamLinkTestCase inherits TestCase
 		
 	end
 
-//stle: should we remove this test?	
 	operation testLinkManyNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createWorkflow()
 		actual.nodes.add(factory.createIwInput())
@@ -57,6 +56,8 @@ class IwToRamLinkTestCase inherits TestCase
 		actual.build()
 		actual.link()
 		
+		//stle: assert link as well
+		//stle: One kind of assert per test
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 	

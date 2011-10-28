@@ -1,0 +1,63 @@
+package oneurn;
+
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Structural.kmt"
+
+using kermeta::standard
+using oneurn::urncore
+using intermediateWorkflow
+
+package ucm{
+package map{
+
+	aspect class UCMmap{
+		operation build() is do
+			iwWorkflow:=IwWorkflow.new
+			iwWorkflow.name:=name
+			respRefs.each{respRef|respRef.build}
+		end
+	
+	}
+	
+	aspect class RespRef {
+		operation build() is do
+			if(inOutExpression.hasIn==false and inOutExpression.hasOut==false) then
+				addIwProcessingNode
+			else
+				if(inOutExpression.hasOut) then
+					addIwOutputNode
+				end 
+				if(inOutExpression.hasIn) then
+					addIwInputNode
+				end
+			end 
+		end
+		
+		operation addIwProcessingNode() is do
+			var iwProcessingNode:IwProcessingNode init IwProcessingNode.new
+			iwProcessingNode.name:=respDef.name
+			iwNodes.add(iwProcessingNode)
+		end
+		
+		operation addIwInputNode() is do
+			var iwInputNode:IwInput init IwInput.new
+			iwInputNode.name:=inOutExpression.in
+			iwNodes.add(iwInputNode)
+		end
+		
+		operation addIwOutputNode() is do
+			var iwOutputNode:IwOutput init IwOutput.new
+			iwOutputNode.name:=inOutExpression.out
+			iwNodes.add(iwOutputNode)
+		end
+	}
+}
+}
+
+package urn{
+	aspect class URNspec{
+		operation build() is do
+			iwModel:=IwModel.new
+			ucmMaps.each{ucmMap|ucmMap.build}
+		end
+	}
+}

@@ -1,0 +1,114 @@
+package oneurn;
+
+require kermeta
+require "http:///oneurn.ecore"
+require "http:///intermediateWorkflow.ecore"
+
+using kermeta::standard
+using oneurn::urncore
+using intermediateWorkflow
+
+package ucm{
+package map{
+
+	aspect class UCMmap{
+		reference iwWorkflow: IwWorkflow
+		
+		property readonly respRefs : seq RespRef[0..*]
+		getter is do
+			//stle: DRY
+			//stle: refactor for reuse
+			result:=nodes.select{node|node.isInstanceOf(RespRef)}
+				 .collect{node|node.asType(RespRef)}
+		end
+	}
+	
+	aspect class RespRef {
+		reference iwNodes: oset IwNode[0..2]
+		reference iwSuccs: oset IwNodeConnection[0..*]
+		
+		property readonly inOutExpression : InOutExpression
+		getter is do
+			var metadata:Metadata init respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+			var inOutExpression:InOutExpression init InOutExpression.new
+			inOutExpression.construct(if metadata.isVoid then "" else metadata.valueWorkAround end)
+			result:=inOutExpression
+		end
+		
+		//stle: add caching
+		//stle: refactor when common base is available
+		property readonly succIwNode : IwNode
+		getter is do
+			if(succ.size==0) then
+				result:=void
+			else
+				var target:IURNNode init succ.one.target
+	
+				//stle: cast switch smells bad, move down to base class
+				if(target.isInstanceOf(RespRef)) then
+					var targetAsRespRef:RespRef init target.asType(RespRef)
+					result:=targetAsRespRef.iwNodes.first
+				else
+					result:=void
+				end
+			end
+		end
+		
+	}
+	
+	class InOutExpression
+	{
+		attribute out:String
+		attribute in:String
+		attribute outKeyword:String
+		attribute inKeyword:String
+		
+		property readonly hasOut : Boolean 
+		getter is do
+			result := not out.isVoid
+		end
+			
+		property readonly hasIn : Boolean 
+		getter is do
+			result := not in.isVoid
+		end	
+	
+		operation construct(expression:String) is do
+			outKeyword:="out "
+			inKeyword:="in "
+		
+		//stle: need validation: RegEx would be better
+			if(expression.toLowerCase().indexOf(outKeyword)==0) then
+				expression:=expression.substring(outKeyword.size(), expression.size())		
+				var index:Integer init expression.indexOf(" ")	
+						
+				if(index==-1) then
+					out:=expression
+					expression:=""			
+				else
+					out:=expression.substring(0, index)
+					expression:=expression.substring(index+1, expression.size())				
+				end
+			end	
+			if(expression.toLowerCase().indexOf(inKeyword)==0) then
+				in:=expression.substring(inKeyword.size(), expression.size())
+			end
+			
+		end
+	} 
+}	
+}
+
+package urn{
+	aspect class URNspec{
+		reference iwModel: IwModel
+		
+		property readonly ucmMaps : seq UCMmap[0..*]
+		getter is do
+			//stle: DRY
+			result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
+							            .collect{specDiagram|specDiagram.asType(UCMmap)}
+		end
+	}
+}
+}

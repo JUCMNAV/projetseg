@@ -1,0 +1,87 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/AoUrnTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Build.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urn
+using oneurn::ucm::map
+using oneurn::urncore
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class AoUrnToIwBuildTestCase inherits TestCase
+{
+	attribute factory:AoUrnTestFactory
+
+	method setUp() is do
+		factory:=AoUrnTestFactory.new
+	end
+
+	operation testBuildRespRef_NoInOut() is do
+		var respRef:RespRef init factory.createRespRef("theRespName",void)
+		respRef.build
+	
+		assertIsNonVoidInstanceOf(IwProcessingNode, respRef.iwNodes.one)
+		assertStringEqual("theRespName",respRef.iwNodes.one.name)
+	end
+	
+	operation testBuildRespRef_In() is do
+		var respRef:RespRef init factory.createRespRef("theRespName","in theInputName")
+		respRef.build
+	
+		assertIsNonVoidInstanceOf(IwInput, respRef.iwNodes.one)
+		assertStringEqual("theInputName",respRef.iwNodes.one.name)
+	end
+
+	operation testBuildRespRef_Out() is do
+		var respRef:RespRef init factory.createRespRef("theRespName","out theOutputName")
+		respRef.build
+	
+		assertIsNonVoidInstanceOf(IwOutput, respRef.iwNodes.one)
+		assertStringEqual("theOutputName",respRef.iwNodes.one.name)
+	end
+	
+	operation testBuildRespRef_InOut() is do
+		var respRef:RespRef init factory.createRespRef("theRespName","out theOutputName in theInputName")
+		respRef.build
+	
+		assertIsNonVoidInstanceOf(IwOutput, respRef.iwNodes.at(0))
+		assertStringEqual("theOutputName",respRef.iwNodes.at(0).name)
+		
+		assertIsNonVoidInstanceOf(IwInput, respRef.iwNodes.at(1))
+		assertStringEqual("theInputName",respRef.iwNodes.at(1).name)
+	end
+	
+	operation testBuildUcmMap() is do
+		var ucmMap:UCMmap init factory.createUcmMap("theUcmMapName")
+		ucmMap.build()
+	
+		assertIsNonVoidInstanceOf(IwWorkflow, ucmMap.iwWorkflow)
+		assertStringEqual("theUcmMapName",ucmMap.iwWorkflow.name)
+	end
+	
+	operation testBuildUnrSpec() is do
+		var urnSpec:URNspec init factory.createUrnSpec
+		urnSpec.build()
+	
+		assertIsNonVoidInstanceOf(IwModel, urnSpec.iwModel)
+	end
+
+	
+	//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+}

@@ -6,7 +6,7 @@ require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using iw
+using intermediateWorkflow
 using ramstructural
 
 

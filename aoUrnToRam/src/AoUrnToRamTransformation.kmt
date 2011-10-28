@@ -1,23 +1,25 @@
 package aoUrnToRam;
 
 require kermeta
-require "http:///iw.ecore"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Transformation.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/Transformation.kmt"
-require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
 
 using kermeta::persistence
 using kermeta::standard
-using iw
+using oneurn::urn
+using intermediateWorkflow
 using ramstructural
 
 class AoUrnToRamTransformation
 {
-	operation transform(source:String,destination:String, outputIntermediateWorkflow:Boolean) is do
-//		var repository:ModelRepository<IwModel> init ModelRepository<IwModel>.new
-		var model : IwModel init ModelRepository<IwModel>.new.load(source)
-
-//		var repository2:ModelRepository<Aspect> init ModelRepository<Aspect>.new
-		ModelRepository<Aspect>.new.save(model.toRam(),destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+	operation transform(source:String,destination:String, optional_intermediate:String) is do
+		var urnSpec:URNspec init ModelRepository<URNspec>.new.load(source)
+		var iwModel:IwModel init urnSpec.toIw
+		if(optional_intermediate.isVoid==false)then
+			ModelRepository<IwModel>.new.save(iwModel,optional_intermediate,"http:///intermediateWorkflow.ecore")
+		end
+		var ramAspect:Aspect init iwModel.toRam
+		ModelRepository<Aspect>.new.save(ramAspect,destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 	end
 }
 

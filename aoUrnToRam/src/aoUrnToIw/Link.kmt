@@ -1,0 +1,69 @@
+package oneurn;
+
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Structural.kmt"
+
+using kermeta::standard
+using oneurn::urncore
+using intermediateWorkflow
+
+package ucm{
+package map{
+
+	aspect class UCMmap{
+		operation link() is do
+			//stle: cast collectoin
+		
+			respRefs.select{respRef|
+				respRef.pred.exists{nodeConnection|nodeConnection.source.isInstanceOf(StartPoint)}
+			}.each{startRespRef|
+				iwWorkflow.startNodes.add(startRespRef.iwNodes.at(0))
+			}
+			
+			respRefs.each{respRef|
+				iwWorkflow.nodes.addAll(respRef.iwNodes)
+				respRef.link
+				iwWorkflow.nodeConnections.addAll(respRef.iwSuccs) //namming is not intuitive
+			}
+		end
+	
+	}
+	
+	aspect class RespRef {
+		operation link() is do
+			linkOutIn
+			linkSuccs
+		end
+
+		operation linkOutIn() is do
+			if(iwNodes.size==2) then
+				linkTwoNodes(iwNodes.first,iwNodes.last)
+			end
+		end
+		
+		operation linkSuccs() is do
+			if(succIwNode.isVoid==false) then
+				linkTwoNodes(iwNodes.last,succIwNode)
+			end
+		end
+		
+		operation linkTwoNodes(source:IwNode, target:IwNode) is do
+			var connection:IwNodeConnection init IwNodeConnection.new
+			connection.source:=source
+			connection.target:=target
+			iwSuccs.add(connection)
+		end
+	}
+}
+}
+
+package urn{
+
+	aspect class URNspec{
+		operation link() is do
+			ucmMaps.each{ucmMap|
+				iwModel.workflows.add(ucmMap.iwWorkflow)
+				ucmMap.link
+			}
+		end
+	}
+}	

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ramstructural:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ramstructural="platform:/resource/UrnToRam/metamodel/RAMStructural.ecore" name="SpikeStep">
+<ramstructural:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ramstructural="platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore" name="Simple">
+  <interface/>
   <structuralView>
     <instantiations externalAspect="ReactiveWorkflow">
       <mappings sourceModelElement="|InputData" maps="//@structuralView/@classes.0"/>
     </instantiations>
-    <classes name="InData"/>
+    <classes name="InInput"/>
     <classes name="Processing"/>
-    <classes name="OutData"/>
+    <classes name="OutOutput"/>
     <classes name="Out"/>
   </structuralView>
 </ramstructural:Aspect>

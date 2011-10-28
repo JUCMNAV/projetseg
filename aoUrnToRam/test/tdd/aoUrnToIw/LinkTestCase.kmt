@@ -1,0 +1,178 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/AoUrnTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Build.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Link.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urn
+using oneurn::ucm::map
+using oneurn::urncore
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class AoUrnToIwLinkTestCase inherits TestCase
+{
+	attribute factory:AoUrnTestFactory
+
+	method setUp() is do
+		factory:=AoUrnTestFactory.new
+	end
+
+	operation testLinkUnrSpec() is do
+		//stle: need parametrizable tests
+		var params:Integer[0..*] init OrderedSet<Integer>.new
+		params.add(0)
+		params.add(1)
+		params.add(3)
+		
+		params.each{numOfUcmMaps|parametrizableTestLinkUnrSpec(numOfUcmMaps)}
+	end
+
+	operation parametrizableTestLinkUnrSpec(numOfUcmMaps:Integer) is do
+		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(numOfUcmMaps)
+		urnSpec.build
+		urnSpec.link
+		
+		assert(urnSpec.iwModel.workflows.size==numOfUcmMaps)
+	end
+	
+
+	operation testLinkUcmMap_NoResponsibility() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodes.size==0)
+	end
+	
+	operation testLinkUcmMap_OneResponsibility() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodes.size==1)
+	end
+	
+	operation testLinkUcmMap_ManyResponsibilities() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createRespRef(void, ""))
+		ucmMap.nodes.add(factory.createRespRef(void, "in a"))
+		ucmMap.nodes.add(factory.createRespRef(void, "out b"))
+		ucmMap.nodes.add(factory.createRespRef(void, "out c in d"))
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodes.size==5)
+	end
+	
+	//stle: do multiplicity when more than one start per workflow allowed
+	operation testLinkUcmMap_StartResponsibility() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createStartPoint)
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
+				
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.startNodes.size==1)
+	end
+
+	operation testLinkUcmMap_NoNodeConnection() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodeConnections.size==0)
+	end
+
+	operation testLinkUcmMap_OneNodeConnection() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1)))
+		
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
+	end
+
+	operation testLinkUcmMap_ManyNodeConnection() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.nodes.add(factory.createRespRef(void, "out c in d"))
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1)))
+		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2)))
+		
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodeConnections.size==3)
+	end
+	
+	
+	operation testLinkTwoRespRefTogether() is do
+		var source:RespRef init factory.createRespRef("theSource",void)
+		var target:RespRef init factory.createRespRef("theTarget",void)
+		factory.createNodeConnection(source,target)
+
+		source.build
+		target.build
+		source.link
+		
+		assertOneNodeConnection(source.iwNodes.one,target.iwNodes.one)
+	end
+	
+	operation testOutInRespRefAlone() is do
+		var respRef:RespRef init factory.createRespRef("theRespRef","out theSource in theTarget")
+
+		respRef.build
+		respRef.link
+
+		assertOneNodeConnection(respRef.iwNodes.at(0),respRef.iwNodes.at(1))
+	end
+	
+	operation testOutInRespRefChained() is do
+		var first:RespRef init factory.createRespRef(void,"out a in b")
+		var second:RespRef init factory.createRespRef(void,"out c in d")
+		factory.createNodeConnection(first,second)
+
+		first.build
+		second.build
+		first.link
+
+		assertOneNodeConnection(first.iwNodes.last,second.iwNodes.first)
+	end
+	
+	
+	operation assertOneNodeConnection(source:IwNode, target:IwNode) is do
+		assert(source.succs.size==1)
+		assert(source.succs.one.target.name==target.name)
+		assert(target.preds.size==1)
+		assert(target.preds.one.source.name==source.name)
+	end
+	
+	//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+}
