@@ -8,7 +8,6 @@ using ramstructural
 
 aspect class IwModel {
 	operation build() is do
-		//stle: multiple workflows not handled yet
 		workflows.each{workflow|
 			workflow.build
 		}

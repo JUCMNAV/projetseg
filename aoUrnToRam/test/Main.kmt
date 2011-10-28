@@ -35,7 +35,7 @@ class Main
 		result := testClasses
 	end
 	
-	property readonly iwToRamTestSuite : oset OrderedSet<Class>
+	property readonly iwToRamTestSuite : OrderedSet<Class>
 	getter is do
 		var testClasses : OrderedSet<Class> init OrderedSet<Class>.new
 		
@@ -89,7 +89,7 @@ class Main
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
 			"platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm",
-			"platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual.xmi",
+			"platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual_",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)
 		stdio.writeln("End")

@@ -8,11 +8,10 @@ using kermeta::standard
 using ramstructural
 
 aspect class IwModel {
-	operation toRam():Aspect is do
+	operation toRam():Aspect[0..*] is do
 		build
 		link
 		
-		//stle: multiple workflows not handled yet
-		result := workflows.one.ramAspect
+		result := ramAspects
 	end
 }

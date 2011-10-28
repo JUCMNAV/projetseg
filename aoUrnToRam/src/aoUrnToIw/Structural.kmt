@@ -38,8 +38,8 @@ package map{
 	}
 	
 	aspect class RespRef {
-		reference iwNodes: oset IwNode[0..2]
-		reference iwSuccs: oset IwNodeConnection[0..*]
+		reference iwNodes: IwNode[0..2]
+		reference iwSuccs: IwNodeConnection[0..*]
 		
 		property readonly inOutExpression : InOutExpression
 		getter is do

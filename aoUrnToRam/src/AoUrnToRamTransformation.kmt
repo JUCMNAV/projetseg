@@ -23,8 +23,9 @@ class AoUrnToRamTransformation
 			repository.save(iwModel,optional_intermediate,"http:///intermediateWorkflow.ecore")
 		end
 		
-		var ramAspect:Aspect init iwModel.toRam
-		repository.save(ramAspect,destination,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+		iwModel.toRam.each{ramAspect|
+			repository.save(ramAspect,destination+ramAspect.name+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+		}
 	end
 }
 

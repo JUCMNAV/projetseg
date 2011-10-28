@@ -9,6 +9,12 @@ using intermediateWorkflow
 
 class IwTestFactory
 {
+	operation createIwModelWithWorkflows(numOfWorkflows:Integer):IwModel is do
+		var iwModel:IwModel init IwModel.new
+		numOfWorkflows.times{i| iwModel.workflows.add(IwWorkflow.new)}
+		result:=iwModel
+	end
+
 	operation createWorkflow():IwWorkflow is do
 		result:=IwWorkflow.new
 	end

@@ -7,6 +7,11 @@ require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
 using kermeta::standard
 using ramstructural
 
+aspect class IwModel {
+	reference ramAspects:Aspect[0..*]
+}
+
+
 aspect class IwWorkflow {
 	reference ramAspect:Aspect
 	reference ramReactiveWorkflowInstantiation:Instantiation
@@ -19,8 +24,8 @@ aspect class IwWorkflow {
 
 aspect class IwNode {
 	//ordered because want standard order in the RAM model
-	reference ramClasses: oset Class[0..*]
-	reference ramMappings: oset Mapping[0..*]
+	reference ramClasses: Class[0..*]
+	reference ramMappings: Mapping[0..*]
 }
 
 aspect class IwInput {
