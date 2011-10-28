@@ -6,25 +6,49 @@ require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
 using kermeta::standard
 using ramstructural
 
-aspect class IwWorkflow {
+aspect class IwModel {
 	operation link() is do
-		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
-		nodes.each{
-			node|node.link(self)
+		//stle: multiple workflows not handled yet
+		workflows.each{workflow|
+			workflow.link
 		}
 	end
 }
 
+aspect class IwWorkflow {
+	operation link() is do
+		nodes.each{node|node.link()}
+		
+		addClasses
+		addMappings
+		addInstantiations
+	end
+	
+	operation addClasses() is do
+		nodes.each{node|
+			ramStructuralView.classes.addAll(node.ramClasses)
+		}
+	end
+	
+	operation addMappings() is do
+		nodes.each{node|
+			ramReactiveWorkflowInstantiation.mappings.addAll(node.ramMappings)
+		}
+	end
+	
+	operation addInstantiations() is do
+		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
+	end
+}
+
 aspect class IwNode {
-	operation link(workflow:IwWorkflow) is do
-		workflow.ramStructuralView.classes.addAll(ramClasses)
-		workflow.ramReactiveWorkflowInstantiation.mappings.addAll(ramMappings)	
+	operation link() is do
 	end
 }
 
 aspect class IwInput {
-	method link(workflow:IwWorkflow) is do
-		super(workflow)
+	method link() is do
+		super()
 		ramInputMapping.maps.add(ramInput)
 	end
 }

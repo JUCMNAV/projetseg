@@ -6,8 +6,21 @@ require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
 using kermeta::standard
 using ramstructural
 
+aspect class IwModel {
+	operation build() is do
+		//stle: multiple workflows not handled yet
+		workflows.each{workflow|
+			workflow.build
+		}
+	end
+}
+
 aspect class IwWorkflow {
 	operation build() is do
+		nodes.each{
+			node|node.build()
+		}
+	
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
 		ramAspect.structuralView:=ClassDiagram.new
@@ -15,14 +28,12 @@ aspect class IwWorkflow {
 		
 		ramReactiveWorkflowInstantiation:=Instantiation.new
 		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
-		
-		nodes.each{
-			node|node.build()
-		}
 	end
 }
 
 aspect class IwNode {
+	operation build() is abstract
+	
 	operation addClass(name:String):Class is do
 		var ramClass:Class init Class.new
 		ramClass.name:=name
@@ -36,8 +47,6 @@ aspect class IwNode {
 		ramMappings.add(ramMapping)
 		result:=ramMapping
 	end
-	
-	operation build() is abstract
 }
 
 aspect class IwInput {

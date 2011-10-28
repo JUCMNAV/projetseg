@@ -6,26 +6,59 @@ using kermeta::standard
 using oneurn::urncore
 using intermediateWorkflow
 
+package urn{
+
+	aspect class URNspec{
+		operation link() is do
+			ucmMaps.each{ucmMap|
+				ucmMap.link
+			}
+			
+			addWorkflows
+		end
+		
+		operation addWorkflows() is do
+			ucmMaps.each{ucmMap|
+				iwModel.workflows.add(ucmMap.iwWorkflow)
+			}
+		end
+	}
+}	
+
 package ucm{
 package map{
 
 	aspect class UCMmap{
 		operation link() is do
-			//stle: cast collectoin
+			respRefs.each{respRef|
+				respRef.link
+			}
+			
+			addNodes
+			addNodeConnections
+			addStartNodes
+		end
 		
+		operation addNodes() is do
+			respRefs.each{respRef|
+				iwWorkflow.nodes.addAll(respRef.iwNodes)
+			}
+		end
+		
+		operation addNodeConnections() is do
+			respRefs.each{respRef|
+				iwWorkflow.nodeConnections.addAll(respRef.iwSuccs) //stle: namming is not intuitive
+			}
+		end
+		
+		operation addStartNodes() is do
+			//stle: cast collectoin
 			respRefs.select{respRef|
 				respRef.pred.exists{nodeConnection|nodeConnection.source.isInstanceOf(StartPoint)}
 			}.each{startRespRef|
 				iwWorkflow.startNodes.add(startRespRef.iwNodes.at(0))
 			}
-			
-			respRefs.each{respRef|
-				iwWorkflow.nodes.addAll(respRef.iwNodes)
-				respRef.link
-				iwWorkflow.nodeConnections.addAll(respRef.iwSuccs) //namming is not intuitive
-			}
 		end
-	
 	}
 	
 	aspect class RespRef {
@@ -56,14 +89,3 @@ package map{
 }
 }
 
-package urn{
-
-	aspect class URNspec{
-		operation link() is do
-			ucmMaps.each{ucmMap|
-				iwModel.workflows.add(ucmMap.iwWorkflow)
-				ucmMap.link
-			}
-		end
-	}
-}	

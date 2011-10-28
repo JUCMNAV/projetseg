@@ -6,14 +6,25 @@ using kermeta::standard
 using oneurn::urncore
 using intermediateWorkflow
 
+package urn{
+	aspect class URNspec{
+		operation build() is do
+			ucmMaps.each{ucmMap|ucmMap.build}
+		
+			iwModel:=IwModel.new
+		end
+	}
+}
+
 package ucm{
 package map{
 
 	aspect class UCMmap{
 		operation build() is do
+			respRefs.each{respRef|respRef.build}
+
 			iwWorkflow:=IwWorkflow.new
 			iwWorkflow.name:=name
-			respRefs.each{respRef|respRef.build}
 		end
 	
 	}
@@ -53,11 +64,3 @@ package map{
 }
 }
 
-package urn{
-	aspect class URNspec{
-		operation build() is do
-			iwModel:=IwModel.new
-			ucmMaps.each{ucmMap|ucmMap.build}
-		end
-	}
-}

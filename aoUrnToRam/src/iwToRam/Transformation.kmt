@@ -9,10 +9,10 @@ using ramstructural
 
 aspect class IwModel {
 	operation toRam():Aspect is do
+		build
+		link
+		
 		//stle: multiple workflows not handled yet
-		var workflow:IwWorkflow init workflows.one()
-		workflow.build()
-		workflow.link()
-		result := workflow.ramAspect
+		result := workflows.one.ramAspect
 	end
 }

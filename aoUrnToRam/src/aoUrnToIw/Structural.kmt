@@ -8,6 +8,20 @@ using kermeta::standard
 using oneurn::urncore
 using intermediateWorkflow
 
+package urn{
+	aspect class URNspec{
+		reference iwModel: IwModel
+		
+		property readonly ucmMaps : seq UCMmap[0..*]
+		getter is do
+			//stle: DRY
+			result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
+							            .collect{specDiagram|specDiagram.asType(UCMmap)}
+		end
+	}
+}
+
+
 package ucm{
 package map{
 
@@ -97,18 +111,4 @@ package map{
 		end
 	} 
 }	
-}
-
-package urn{
-	aspect class URNspec{
-		reference iwModel: IwModel
-		
-		property readonly ucmMaps : seq UCMmap[0..*]
-		getter is do
-			//stle: DRY
-			result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
-							            .collect{specDiagram|specDiagram.asType(UCMmap)}
-		end
-	}
-}
 }
