@@ -45,7 +45,7 @@ package map{
 		getter is do
 			var metadata:Metadata init respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
 			var inOutExpression:InOutExpression init InOutExpression.new
-			inOutExpression.construct(if metadata.isVoid then "" else metadata.valueWorkAround end)
+			inOutExpression.construct(if metadata.isVoid then "" else metadata.~value end)
 			result:=inOutExpression
 		end
 		

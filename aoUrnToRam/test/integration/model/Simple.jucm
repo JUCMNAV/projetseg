@@ -15,11 +15,11 @@
   </grlspec>
   <urndef>
     <responsibilities id="28" name="inResp" respRefs="//@urndef/@specDiagrams.0/@nodes.2">
-      <metadata name="RAM" valueWorkAround="in In"/>
+      <metadata name="RAM" value="in In"/>
     </responsibilities>
     <responsibilities id="30" name="Processing" respRefs="//@urndef/@specDiagrams.0/@nodes.3"/>
     <responsibilities id="32" name="outResp" respRefs="//@urndef/@specDiagrams.0/@nodes.4">
-      <metadata name="RAM" valueWorkAround="out Out"/>
+      <metadata name="RAM" value="out Out"/>
     </responsibilities>
     <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="Simple">
       <nodes xsi:type="ucm.map:StartPoint" id="21" name="StartPoint21" x="2" y="187" succ="//@urndef/@specDiagrams.0/@connections.0">

@@ -228,7 +228,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Metadata">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueWorkAround" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Concern" eSuperTypes="#//urncore/URNmodelElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
@@ -288,7 +288,7 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalParam1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalParam2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="externalDelay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueWorkAround" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="coeffVarSeq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="population" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//ucm/performance/TimeUnit"
@@ -597,7 +597,7 @@
             eType="#//ucm/scenario/Variable" eOpposite="#//ucm/scenario/Variable/enumerationType"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Initialization">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueWorkAround" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDef" lowerBound="1"
             eType="#//ucm/scenario/ScenarioDef" transient="true" eOpposite="#//ucm/scenario/ScenarioDef/initializations"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"

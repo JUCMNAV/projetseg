@@ -6,6 +6,7 @@ require "platform:/resource/aoUrnToRam/src/iwToRam/Transformation.kmt"
 
 using kermeta::persistence
 using kermeta::standard
+using kermeta::io
 using oneurn::urn
 using intermediateWorkflow
 using ramstructural
@@ -38,11 +39,20 @@ class ModelRepository
     	result:=resource.one
     end
 
+//stle to avoid registering manually all the time    	
+//        repository.registerEcoreFile("platform:/resource/fr.irisa.triskell.kermeta.samples/class2RDBMS/metamodels/RDBMSMM.ecore")
+
     operation save(model: Object, modelUri : String, metamodelUri: String) is do
+    	fileDoesNotExistWorkAround(modelUri)
+    
 		var repository : EMFRepository init EMFRepository.new
     	var resource : Resource init repository.createResource(modelUri,metamodelUri)
-    	resource.add(model)
+    	resource.instances.add(model)
     	resource.save()
+    end
+    
+    operation fileDoesNotExistWorkAround(modelUri:String) is do
+		FileIO.new.writeTextFile(modelUri, "")
     end
 }
 

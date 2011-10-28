@@ -23,7 +23,7 @@ class AoUrnTestFactory
 		if(ramExpression.isVoid==false) then
 			var ramMetadata:Metadata init Metadata.new
 			ramMetadata.name:="ram"
-			ramMetadata.valueWorkAround:=ramExpression
+			ramMetadata.~value:=ramExpression
 			responsibility.metadata.add(ramMetadata)
 		end
 		 
