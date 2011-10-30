@@ -61,7 +61,7 @@ class Main
     end
 	
 	operation launchSpecificTest() : Void is do
-		var testCase : TestCase init AoUrnToIwLinkTestCase.new.setTestMethodName("testOutInRespRefChained")
+		var testCase : TestCase init AoUrnToIwLinkTestCase.new.setTestMethodName("testLinkOutInEndPoint")
 		runTest(testCase)
     end
     

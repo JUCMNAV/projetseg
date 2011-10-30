@@ -10,6 +10,19 @@ using oneurn::urncore
 
 class AoUrnTestFactory
 {
+	operation createEndPoint(name:String,ramExpression:String):EndPoint is do
+		var endPoint:EndPoint init EndPoint.new
+		endPoint.name:=optionalString(name)
+		addRamMetadata(endPoint,ramExpression)
+		result:=endPoint
+	end
+
+	operation createStartPoint(ramExpression:String):StartPoint is do
+		var startPoint:StartPoint init StartPoint.new
+		addRamMetadata(startPoint,ramExpression)
+		result:=startPoint
+	end
+
 	operation createRespRef(name:String,ramExpression:String):RespRef is do
 		var respRef:RespRef init RespRef.new
 		respRef.respDef:=createResponsibility(name,ramExpression)
@@ -19,15 +32,17 @@ class AoUrnTestFactory
 	operation createResponsibility(name:String,ramExpression:String):Responsibility is do
 		var responsibility:Responsibility init Responsibility.new
 		responsibility.name:=optionalString(name)
-		
+		addRamMetadata(responsibility,ramExpression)
+		result:=responsibility
+	end
+	
+	operation addRamMetadata(element:URNmodelElement, ramExpression:String) is do
 		if(ramExpression.isVoid==false) then
 			var ramMetadata:Metadata init Metadata.new
 			ramMetadata.name:="ram"
 			ramMetadata.~value:=ramExpression
-			responsibility.metadata.add(ramMetadata)
+			element.metadata.add(ramMetadata)
 		end
-		 
-		result:=responsibility
 	end
 	
 	operation createUcmMap(name:String):UCMmap is do
@@ -49,11 +64,7 @@ class AoUrnTestFactory
 		}
 		result:=urnSpec
 	end
-	
-	operation createStartPoint():StartPoint is do
-		result:=StartPoint.new
-	end
-	
+
 	operation createNodeConnection(source:IURNNode,target:IURNNode):NodeConnection is do
 		var connection:NodeConnection init NodeConnection.new
 		connection.source:=source

@@ -12,7 +12,7 @@ class InOutExpressionTestCase inherits TestCase
     attribute inOutExpression:InOutExpression 
      
 	method setUp() is do
-		inOutExpression:=InOutExpression.new
+		inOutExpression:=InOutExpression.new//stle: test factory and impl contruct 
 	end
 
 	operation testIn() is do

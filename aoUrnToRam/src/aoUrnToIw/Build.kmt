@@ -21,34 +21,23 @@ package map{
 
 	aspect class UCMmap{
 		operation build() is do
-			respRefs.each{respRef|respRef.build}
+			pathNodes.each{pathNode|pathNode.build}
 
 			iwWorkflow:=IwWorkflow.new
 			iwWorkflow.name:=name
 		end
-	
 	}
 	
-	aspect class RespRef {
-		operation build() is do
-			if(inOutExpression.hasIn==false and inOutExpression.hasOut==false) then
-				addIwProcessingNode
-			else
-				if(inOutExpression.hasOut) then
-					addIwOutputNode
-				end 
-				if(inOutExpression.hasIn) then
-					addIwInputNode
-				end
+	aspect class PathNode {
+		operation build() is do	
+			if(inOutExpression.hasOut) then
+				addIwOutputNode
 			end 
+			if(inOutExpression.hasIn) then
+				addIwInputNode
+			end
 		end
-		
-		operation addIwProcessingNode() is do
-			var iwProcessingNode:IwProcessingNode init IwProcessingNode.new
-			iwProcessingNode.name:=respDef.name
-			iwNodes.add(iwProcessingNode)
-		end
-		
+	
 		operation addIwInputNode() is do
 			var iwInputNode:IwInput init IwInput.new
 			iwInputNode.name:=inOutExpression.in
@@ -59,6 +48,35 @@ package map{
 			var iwOutputNode:IwOutput init IwOutput.new
 			iwOutputNode.name:=inOutExpression.out
 			iwNodes.add(iwOutputNode)
+		end
+	}
+	
+	
+	aspect class RespRef {
+		method build() is do
+			super()
+			if(iwNodes.size==0) then
+				addIwProcessingNode
+			end 
+		end
+		
+		operation addIwProcessingNode() is do
+			var iwProcessingNode:IwProcessingNode init IwProcessingNode.new
+			iwProcessingNode.name:=respDef.name
+			iwNodes.add(iwProcessingNode)
+		end
+	}
+	
+	aspect class EndPoint {
+		method build() is do
+			super()
+			addIwEndPoint
+		end
+
+		operation addIwEndPoint() is do
+			var iwEndpoint:IwEndPoint init IwEndPoint.new
+			iwEndpoint.name:=name
+			iwNodes.add(iwEndpoint)
 		end
 	}
 }

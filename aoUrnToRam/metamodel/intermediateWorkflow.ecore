@@ -45,6 +45,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwProcessingNode" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutput" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwEndPoint" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
     <eClassifiers xsi:type="ecore:EDataType" name="_KermetaSpecialTypesAlias_" instanceClassName="java.lang.Object"/>
   </ecore:EPackage>

@@ -28,47 +28,61 @@ package map{
 	aspect class UCMmap{
 		reference iwWorkflow: IwWorkflow
 		
-		property readonly respRefs : seq RespRef[0..*]
+		property readonly pathNodes : seq PathNode[0..*]
 		getter is do
 			//stle: DRY
 			//stle: refactor for reuse
-			result:=nodes.select{node|node.isInstanceOf(RespRef)}
-				 .collect{node|node.asType(RespRef)}
+			result:=nodes.select{node|node.isInstanceOf(PathNode)}
+				 .collect{node|node.asType(PathNode)}
+		end
+
+		property readonly startPoints : seq StartPoint[0..*]
+		getter is do
+			//stle: DRY
+			//stle: refactor for reuse
+			result:=nodes.select{node|node.isInstanceOf(StartPoint)}
+				 .collect{node|node.asType(StartPoint)}
 		end
 	}
 	
-	aspect class RespRef {
+	aspect class PathNode {
 		reference iwNodes: IwNode[0..2]
 		reference iwSuccs: IwNodeConnection[0..*]
-		
+	
 		property readonly inOutExpression : InOutExpression
 		getter is do
-			var metadata:Metadata init respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+			var ramMetadata:Metadata init getRamMetadata()
 			var inOutExpression:InOutExpression init InOutExpression.new
-			inOutExpression.construct(if metadata.isVoid then "" else metadata.~value end)
+			inOutExpression.construct(if ramMetadata.isVoid then "" else ramMetadata.~value end)
 			result:=inOutExpression
 		end
 		
+		operation getRamMetadata():Metadata is do
+			result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+		end
+		
 		//stle: add caching
-		//stle: refactor when common base is available
 		property readonly succIwNode : IwNode
 		getter is do
 			if(succ.size==0) then
 				result:=void
 			else
-				var target:IURNNode init succ.one.target
-	
-				//stle: cast switch smells bad, move down to base class
-				if(target.isInstanceOf(RespRef)) then
-					var targetAsRespRef:RespRef init target.asType(RespRef)
-					result:=targetAsRespRef.iwNodes.first
-				else
-					result:=void
-				end
+				var target:PathNode init succ.one.target.asType(PathNode)
+				result:=target.iwNodes.first
 			end
 		end
-		
 	}
+	
+	aspect class RespRef {
+		method getRamMetadata():Metadata is do
+			result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+		end
+	}
+	
+	aspect class StartPoint {
+		reference iwStartNode:IwNode
+	}
+	
 	
 	class InOutExpression
 	{

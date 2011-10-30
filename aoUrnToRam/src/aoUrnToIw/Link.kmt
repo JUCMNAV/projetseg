@@ -30,9 +30,7 @@ package map{
 
 	aspect class UCMmap{
 		operation link() is do
-			respRefs.each{respRef|
-				respRef.link
-			}
+			pathNodes.each{pathNode|pathNode.link}
 			
 			addNodes
 			addNodeConnections
@@ -40,41 +38,39 @@ package map{
 		end
 		
 		operation addNodes() is do
-			respRefs.each{respRef|
-				iwWorkflow.nodes.addAll(respRef.iwNodes)
+			pathNodes.each{pathNode|
+				iwWorkflow.nodes.addAll(pathNode.iwNodes)
 			}
 		end
 		
 		operation addNodeConnections() is do
-			respRefs.each{respRef|
-				iwWorkflow.nodeConnections.addAll(respRef.iwSuccs) //stle: namming is not intuitive
+			pathNodes.each{pathNode|
+				iwWorkflow.nodeConnections.addAll(pathNode.iwSuccs) //stle: namming is not intuitive
 			}
 		end
 		
 		operation addStartNodes() is do
-			//stle: cast collectoin
-			respRefs.select{respRef|
-				respRef.pred.exists{nodeConnection|nodeConnection.source.isInstanceOf(StartPoint)}
-			}.each{startRespRef|
-				iwWorkflow.startNodes.add(startRespRef.iwNodes.at(0))
-			}
+			iwWorkflow.startNodes.addAll(
+				startPoints.collect{startPoint|startPoint.iwStartNode}
+			)	
 		end
 	}
 	
-	aspect class RespRef {
+	aspect class PathNode {
 		operation link() is do
-			linkOutIn
+			linkInternal
 			linkSuccs
 		end
 
-		operation linkOutIn() is do
-			if(iwNodes.size==2) then
-				linkTwoNodes(iwNodes.first,iwNodes.last)
-			end
+		operation linkInternal() is do
+			var numOfInternalLinks:Integer init iwNodes.size-1 //-1 because last internal node has no outcoming internal link
+			numOfInternalLinks.times{i|
+				linkTwoNodes(iwNodes.at(i),iwNodes.at(i+1))
+			}
 		end
 		
 		operation linkSuccs() is do
-			if(succIwNode.isVoid==false) then
+			if(iwNodes.size>0 and succIwNode.isVoid==false) then
 				linkTwoNodes(iwNodes.last,succIwNode)
 			end
 		end
@@ -84,6 +80,17 @@ package map{
 			connection.source:=source
 			connection.target:=target
 			iwSuccs.add(connection)
+		end
+	}
+	
+	aspect class StartPoint {
+		method link() is do
+			super()
+			if(iwNodes.size>0) then
+				iwStartNode:=iwNodes.first
+			else
+				iwStartNode:=succIwNode
+			end
 		end
 	}
 }

@@ -40,3 +40,7 @@ class IwProcessingNode inherits IwNode
 class IwOutput inherits IwNode
 {
 }
+
+class IwEndPoint inherits IwNode
+{
+}

@@ -69,11 +69,32 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		
 		assert(ucmMap.iwWorkflow.nodes.size==5)
 	end
+
+	operation testLinkStartPoint_Internal() is do
+		var actual:StartPoint init factory.createStartPoint("in theInput")
+				
+		actual.build
+		actual.link
+		
+		assertStringEqual("theInput",actual.iwStartNode.name)
+	end
 	
-	//stle: do multiplicity when more than one start per workflow allowed
-	operation testLinkUcmMap_StartResponsibility() is do
+	operation testLinkStartPoint_succPathNode() is do
+		var actual:StartPoint init factory.createStartPoint(void)
+		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
+		factory.createNodeConnection(actual,endPoint)
+				
+		actual.build
+		endPoint.build
+		actual.link
+		
+		assertStringEqual("theEndPoint",actual.iwStartNode.name)
+	end
+	
+
+	operation testLinkUcmMap_OneStartPoint() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
-		ucmMap.nodes.add(factory.createStartPoint)
+		ucmMap.nodes.add(factory.createStartPoint(void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 				
@@ -81,6 +102,22 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.link
 		
 		assert(ucmMap.iwWorkflow.startNodes.size==1)
+	end
+	
+	
+	operation testLinkUcmMap_ManyStartPoint() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		//first start
+		ucmMap.nodes.add(factory.createStartPoint(void))
+		ucmMap.nodes.add(factory.createRespRef(void, void))
+		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
+		//second start
+		ucmMap.nodes.add(factory.createStartPoint("out theOutput"))
+				
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.startNodes.size==2)
 	end
 
 	operation testLinkUcmMap_NoNodeConnection() is do
@@ -121,8 +158,32 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.nodeConnections.size==3)
 	end
 	
-	
-	operation testLinkTwoRespRefTogether() is do
+	//stle: rename tests	
+	//stle: only on customer
+	operation testPathNodeLink_ZeroToZero() is do
+	end 	
+
+	operation testPathNodeLink_ZeroToOne() is do
+		var source:StartPoint init factory.createStartPoint(void)
+		var target:RespRef init factory.createRespRef("theTarget",void)
+		factory.createNodeConnection(source,target)
+
+		source.build
+		target.build
+		source.link
+		
+		assert(target.iwNodes.first.preds.size==0)
+	end 	
+
+	operation testPathNodeLink_OneToZero() is do
+		var source:EndPoint init factory.createEndPoint(void,void)
+		source.build
+		source.link
+		
+		assert(source.iwNodes.last.succs.size==0)
+	end
+
+	operation testPathNodeLink_OneToOne() is do
 		var source:RespRef init factory.createRespRef("theSource",void)
 		var target:RespRef init factory.createRespRef("theTarget",void)
 		factory.createNodeConnection(source,target)
@@ -131,36 +192,64 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		target.build
 		source.link
 		
-		assertOneNodeConnection(source.iwNodes.one,target.iwNodes.one)
-	end
-	
-	operation testOutInRespRefAlone() is do
+		assertOnePathNodeConnection(source,target)
+	end 	
+
+	operation testPathNodeLink_ManyToMany() is do
+		var source:RespRef init factory.createRespRef(void,"out a in b")
+		var target:RespRef init factory.createRespRef(void,"out c in d")
+		factory.createNodeConnection(source,target)
+
+		source.build
+		target.build
+		source.link
+
+		assertOnePathNodeConnection(source,target)
+	end 	
+
+
+	operation testLinkOutInPathNode() is do
 		var respRef:RespRef init factory.createRespRef("theRespRef","out theSource in theTarget")
 
 		respRef.build
 		respRef.link
 
-		assertOneNodeConnection(respRef.iwNodes.at(0),respRef.iwNodes.at(1))
+		assertOneInternalNodeConnection(respRef,0,1)
 	end
 	
-	operation testOutInRespRefChained() is do
-		var first:RespRef init factory.createRespRef(void,"out a in b")
-		var second:RespRef init factory.createRespRef(void,"out c in d")
-		factory.createNodeConnection(first,second)
+	operation testLinkOutInEndPoint() is do
+		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
 
-		first.build
-		second.build
-		first.link
+		actual.build
+		actual.link
 
-		assertOneNodeConnection(first.iwNodes.last,second.iwNodes.first)
+		assertOneInternalNodeConnection(actual,0,1)
+		assertOneInternalNodeConnection(actual,1,2)
 	end
 	
+
+	operation assertOneInternalNodeConnection(pathNode:PathNode, source:Integer, target:Integer) is do
+		assertOneIwNodeConnection(
+			pathNode.iwNodes.at(source),
+			pathNode.iwNodes.at(target)
+		)
+	end
 	
-	operation assertOneNodeConnection(source:IwNode, target:IwNode) is do
-		assert(source.succs.size==1)
-		assert(source.succs.one.target.name==target.name)
-		assert(target.preds.size==1)
-		assert(target.preds.one.source.name==source.name)
+	operation assertOnePathNodeConnection(source:PathNode, target:PathNode) is do
+		assertOneIwNodeConnection(
+			source.iwNodes.last,
+			target.iwNodes.first
+		)
+	end
+	
+	operation assertOneIwNodeConnection(source:IwNode, target:IwNode) is do
+		var succs:IwNodeConnection[0..*] init source.succs
+		var preds:IwNodeConnection[0..*] init target.preds
+
+		assertObjectEqual(1,succs.size)
+		assertObjectEqual(target.name,succs.one.target.name)
+		assertObjectEqual(1,preds.size)
+		assertObjectEqual(source.name,preds.one.source.name)
 	end
 	
 	//stle: dry
@@ -168,6 +257,12 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
 		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
 		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+
+	operation assertObjectEqual(expected:Object, actual:Object) is do
+	//stle: check for void and type
+		assertWithMsg(expected==actual,"ObjectEqual-> expected:\""+expected.toString+"\" actual:\""+actual.toString+"\"")
 	end
 
 	

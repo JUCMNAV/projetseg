@@ -47,7 +47,7 @@ class ModelRepository
     
 		var repository : EMFRepository init EMFRepository.new
     	var resource : Resource init repository.createResource(modelUri,metamodelUri)
-    	resource.instances.add(model)
+    	resource.add(model)
     	resource.save()
     end
     

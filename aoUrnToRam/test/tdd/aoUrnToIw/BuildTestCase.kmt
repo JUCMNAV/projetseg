@@ -21,41 +21,70 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		factory:=AoUrnTestFactory.new
 	end
 
-	operation testBuildRespRef_NoInOut() is do
-		var respRef:RespRef init factory.createRespRef("theRespName",void)
-		respRef.build
+	operation testBuildPathNode_NoInOut() is do
+		var actual:StartPoint init factory.createStartPoint(void)
+		actual.build
 	
-		assertIsNonVoidInstanceOf(IwProcessingNode, respRef.iwNodes.one)
-		assertStringEqual("theRespName",respRef.iwNodes.one.name)
+		assert(actual.iwNodes.size==0)
 	end
 	
-	operation testBuildRespRef_In() is do
-		var respRef:RespRef init factory.createRespRef("theRespName","in theInputName")
-		respRef.build
+	operation testBuildPathNode_In() is do
+		var actual:StartPoint init factory.createStartPoint("in theInputName")
+		actual.build
 	
-		assertIsNonVoidInstanceOf(IwInput, respRef.iwNodes.one)
-		assertStringEqual("theInputName",respRef.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.one)
+		assertStringEqual("theInputName",actual.iwNodes.one.name)
 	end
 
-	operation testBuildRespRef_Out() is do
-		var respRef:RespRef init factory.createRespRef("theRespName","out theOutputName")
-		respRef.build
+	operation testBuildPathNode_Out() is do
+		var actual:StartPoint init factory.createStartPoint("out theOutputName")
+		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOutput, respRef.iwNodes.one)
-		assertStringEqual("theOutputName",respRef.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.one)
+		assertStringEqual("theOutputName",actual.iwNodes.one.name)
 	end
 	
-	operation testBuildRespRef_InOut() is do
-		var respRef:RespRef init factory.createRespRef("theRespName","out theOutputName in theInputName")
-		respRef.build
+	operation testBuildPathNode_InOut() is do
+		var actual:StartPoint init factory.createStartPoint("out theOutputName in theInputName")
+		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOutput, respRef.iwNodes.at(0))
-		assertStringEqual("theOutputName",respRef.iwNodes.at(0).name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
 		
-		assertIsNonVoidInstanceOf(IwInput, respRef.iwNodes.at(1))
-		assertStringEqual("theInputName",respRef.iwNodes.at(1).name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
+		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+	end
+
+	operation testBuildRespRef_NoInOut() is do
+		var actual:RespRef init factory.createRespRef("theRespName",void)
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwProcessingNode, actual.iwNodes.one)
+		assertStringEqual("theRespName",actual.iwNodes.one.name)
 	end
 	
+	operation testBuildEndPoint_NoInOut() is do
+		var actual:EndPoint init factory.createEndPoint("theEndPoint",void)
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes.one)
+		assertStringEqual("theEndPoint",actual.iwNodes.one.name)
+	end
+
+	operation testBuildEndPoint_InOut() is do
+		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
+		
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
+		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+		
+		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes.at(2))
+		assertStringEqual("theEndPoint",actual.iwNodes.at(2).name)
+	end
+
 	operation testBuildUcmMap() is do
 		var ucmMap:UCMmap init factory.createUcmMap("theUcmMapName")
 		ucmMap.build()
@@ -70,7 +99,6 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	
 		assertIsNonVoidInstanceOf(IwModel, urnSpec.iwModel)
 	end
-
 	
 	//stle: dry
 	//stle: more verbrose on assertion
