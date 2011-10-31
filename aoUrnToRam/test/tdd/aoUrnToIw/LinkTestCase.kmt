@@ -133,7 +133,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
-		
+
 		ucmMap.build
 		ucmMap.link
 		
@@ -220,8 +220,57 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		source.link
 
 		assertOnePathNodeConnection(source,target)
+	end
+
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testPathNodeLink_TransitiveToOne() is do
+		var source:StartPoint init factory.createStartPoint("in theStart")
+		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
+		var target:RespRef init factory.createRespRef("theTarget",void)
+		factory.createNodeConnection(source,outsideSystem)
+		factory.createNodeConnection(outsideSystem,target)
+	
+		source.build
+		outsideSystem.build
+		target.build
+		source.link
+		
+		assertOnePathNodeConnection(source,target)
+	end
+
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testPathNodeLink_TransitiveToNone() is do
+		var source:StartPoint init factory.createStartPoint("in theStart")
+		var outsideSystem1:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
+		var outsideSystem2:RespRef init factory.createRespRefGeneric("theSecondToSkip",void,false)
+
+		factory.createNodeConnection(source,outsideSystem1)
+		factory.createNodeConnection(outsideSystem1,outsideSystem2)
+	
+		source.build
+		outsideSystem1.build
+		outsideSystem2.build
+		source.link
+		
+		assert(source.iwNodes.last.succs.size==0)
 	end 	
 
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testLinkUcmMap_OneTransitiveConnection() is do
+		var ucmMap:UCMmap init factory.createUcmMap(void)
+		ucmMap.nodes.add(factory.createStartPoint("in theStart"))
+		ucmMap.nodes.add(factory.createRespRefGeneric("theOneToSkip",void,false))
+		ucmMap.nodes.add(factory.createRespRef("theTarget",void))
+		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
+		factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2))
+		
+		ucmMap.build
+		ucmMap.link
+		
+		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
+	end
+	
+	 	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkOutInPathNode() is do

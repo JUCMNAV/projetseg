@@ -68,7 +68,11 @@ package map{
 				result:=void
 			else
 				var target:PathNode init succ.one.target.asType(PathNode)
-				result:=target.iwNodes.first
+				if(target.iwNodes.size==0)then
+					result:=target.succIwNode
+				else
+					result:=target.iwNodes.first
+				end
 			end
 		end
 	}

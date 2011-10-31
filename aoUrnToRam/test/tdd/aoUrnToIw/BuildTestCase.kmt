@@ -21,12 +21,21 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		factory:=AoUrnTestFactory.new
 	end
 	
-	operation testBuildRespRef_NoInOut_OutsideSystemComponent() is do	
+	operation testBuildRespRef_NotInComponent() is do	
 		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
 		
 		actual.build
 		assert(actual.iwNodes.size==0)
 	end
+	
+	operation testBuildRespRef_InActorComponent() is do	
+		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
+		actual.contRef:=factory.createComponentRef("theActor",ComponentKind.Actor)
+		
+		actual.build
+		assert(actual.iwNodes.size==0)
+	end
+	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildPathNode_NoInOut() is do
