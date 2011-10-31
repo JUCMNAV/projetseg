@@ -46,20 +46,20 @@ aspect class IwWorkflow {
 		
 		nodes.each{node|
 			node.ramClasses_PerSourceModelElement.keys.each{sourceModelElement|
-				createMappingOnFirstTime(mappings,sourceModelElement)
 				var ramClass:Class init node.ramClasses_PerSourceModelElement.getValue(sourceModelElement) 
-				mappings.getValue(sourceModelElement).maps.add(ramClass)
+				getMapping(mappings,sourceModelElement).maps.add(ramClass)
 			}
 		}
 	end
 	
-	operation createMappingOnFirstTime(mappings: Hashtable<String, Mapping>,sourceModelElement:String) is do
+	operation getMapping(mappings: Hashtable<String, Mapping>,sourceModelElement:String):Mapping is do
 		if(mappings.containsKey(sourceModelElement)==false) then
 			var mapping:Mapping init Mapping.new
 			mapping.sourceModelElement:=sourceModelElement
 			mappings.put(sourceModelElement,mapping)
 			ramReactiveWorkflowInstantiation.mappings.add(mapping)
 		end
+		result:=mappings.getValue(sourceModelElement)
 	end
 	
 }
