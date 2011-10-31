@@ -5,6 +5,7 @@ require "http:///intermediateWorkflow.ecore"
 require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
 
 using kermeta::standard
+using kermeta::utils
 using ramstructural
 
 aspect class IwModel {
@@ -23,12 +24,38 @@ aspect class IwWorkflow {
 }
 
 aspect class IwNode {
-	//ordered because want standard order in the RAM model
-	reference ramClasses: Class[0..*]
-	reference ramMappings: Mapping[0..*]
+	reference ramClasses_PerSourceModelElement: Hashtable<String, Class>
+
+	property INPUT_SUFFIX : String getter is do result := "Input" end
+	property OUTPUT_SUFFIX : String getter is do result := "Output" end
+
+	property INPUT_DATA : String getter is do result := "|InputData" end
+	property CUSTOMIZABLE_SEQUENCE : String getter is do result := "CustomizableSequence" end
+	property OUTPUT_DATA : String getter is do result := "|OutputData" end
 }
 
-aspect class IwInput {
-	reference ramInput:Class
-	reference ramInputMapping:Mapping
+aspect class IwInput{
+	property ramInputData : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(INPUT_DATA)
+	end
+}
+
+aspect class IwProcessingNode{
+	property ramCustomizableSequence : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_SEQUENCE)
+	end
+}
+
+aspect class IwOutput{
+	property ramCustomizableSequence : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_SEQUENCE)
+	end
+
+	property ramOutputData : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(OUTPUT_DATA)
+	end
 }

@@ -18,6 +18,63 @@ class IwToRamLinkTestCase inherits TestCase
 		factory:=IwTestFactory.new
 	end
 
+	operation testLinkMapping_None() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==0)
+	end
+
+	operation testLinkMapping_ManySameSourceModelElement() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		3.times{i|actual.nodes.add(factory.createIwInput())} 
+
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==1)
+		var inputDataMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.one
+		
+		//stle: dry between test and impl 
+		assertStringEqual("|InputData",inputDataMapping.sourceModelElement)
+		assert(inputDataMapping.maps.size==3)
+
+		actual.nodes.each{iwNode|
+						assert(inputDataMapping.maps.exists{map|
+															map.oid==iwNode.asType(IwInput).ramInputData.oid}
+						)
+		}
+	end
+	
+	operation testLinkMapping_ManyDifferentSourceModelElement() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		var iwInput:IwInput init factory.createIwInput()
+		var iwOutput:IwOutput init factory.createIwOutput()
+		actual.nodes.add(iwInput)
+		actual.nodes.add(iwOutput)
+		
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==3)
+		
+		//stle: dry between test and impl 
+		var inputDataMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="|InputData"}.one
+		assert(inputDataMapping.maps.size==1)
+		assert(inputDataMapping.maps.one.oid==iwInput.ramInputData.oid)
+		
+		var customizableSequenceMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="CustomizableSequence"}.one
+		assert(customizableSequenceMapping.maps.size==1)
+		assert(customizableSequenceMapping.maps.one.oid==iwOutput.ramCustomizableSequence.oid)
+
+		var outputDataMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="|OutputData"}.one
+		assert(outputDataMapping.maps.size==1)
+		assert(outputDataMapping.maps.one.oid==iwOutput.ramOutputData.oid)
+	end
+	
+
 	operation testLinkWorkflow() is do
 		var actual:IwWorkflow init factory.createWorkflow()
 		actual.build()
@@ -26,26 +83,25 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.instantiations.size==1)
 	end
 
-
-	operation testLinkInputFromWorkflow() is do
+	operation testLinkNoNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createWorkflow()
 		
-		var iwInput:IwInput init factory.createIwInput()
-		actual.nodes.add(iwInput)
+		actual.build()
+		actual.link()
+		
+		assert(actual.ramStructuralView.classes.size==0)
+	end
+
+	operation testLinkOneNodeFromWorkflow() is do
+		var actual:IwWorkflow init factory.createWorkflow()
+		actual.nodes.add(factory.createIwInput())
+		
 		actual.build()
 		actual.link()
 		
 		assert(actual.ramStructuralView.classes.size==1)
-		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==1)
-		
-		//stle: wrong implementation of mapping, |InputData can map to multiple ramInputClass
-		
-		//stle why passed before?, test both direction of asso?
-		//stle: remove one
-		assert(actual.ramReactiveWorkflowInstantiation.mappings.one().maps.exists{mappableElement|
-			mappableElement==iwInput.ramInput})
-		
 	end
+
 
 	operation testLinkManyNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createWorkflow()
@@ -61,7 +117,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 
-	operation TestLinkIwModel_nWorkflows(numOfWorkflows:Integer) is do
+	operation testLinkIwModel_nWorkflows() is do
 		//stle: need parametrizable tests
 		var params:Integer[0..*] init OrderedSet<Integer>.new
 		params.add(0)

@@ -4,6 +4,7 @@ require kermeta
 require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
 
 using kermeta::standard
+using kermeta::utils
 using ramstructural
 
 aspect class IwModel {
@@ -24,38 +25,42 @@ aspect class IwModel {
 
 aspect class IwWorkflow {
 	operation link() is do
-		nodes.each{node|node.link()}
-		
 		addClasses
-		addMappings
 		addInstantiations
 	end
 	
 	operation addClasses() is do
 		nodes.each{node|
-			ramStructuralView.classes.addAll(node.ramClasses)
-		}
-	end
-	
-	operation addMappings() is do
-		nodes.each{node|
-			ramReactiveWorkflowInstantiation.mappings.addAll(node.ramMappings)
+			node.ramClasses_PerSourceModelElement.values.each{ramClass|
+				ramStructuralView.classes.add(ramClass)
+			}
 		}
 	end
 	
 	operation addInstantiations() is do
 		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
+		addReactiveWorkflowMappings
 	end
-}
-
-aspect class IwNode {
-	operation link() is do
+	
+	operation addReactiveWorkflowMappings() is do
+		var mappings: Hashtable<String, Mapping> init Hashtable<String, Mapping>.new 
+		
+		nodes.each{node|
+			node.ramClasses_PerSourceModelElement.keys.each{sourceModelElement|
+				createMappingOnFirstTime(mappings,sourceModelElement)
+				var ramClass:Class init node.ramClasses_PerSourceModelElement.getValue(sourceModelElement) 
+				mappings.getValue(sourceModelElement).maps.add(ramClass)
+			}
+		}
 	end
-}
-
-aspect class IwInput {
-	method link() is do
-		super()
-		ramInputMapping.maps.add(ramInput)
+	
+	operation createMappingOnFirstTime(mappings: Hashtable<String, Mapping>,sourceModelElement:String) is do
+		if(mappings.containsKey(sourceModelElement)==false) then
+			var mapping:Mapping init Mapping.new
+			mapping.sourceModelElement:=sourceModelElement
+			mappings.put(sourceModelElement,mapping)
+			ramReactiveWorkflowInstantiation.mappings.add(mapping)
+		end
 	end
+	
 }

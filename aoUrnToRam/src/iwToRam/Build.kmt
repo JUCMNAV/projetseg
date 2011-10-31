@@ -4,6 +4,7 @@ require kermeta
 require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
 
 using kermeta::standard
+using kermeta::utils
 using ramstructural
 
 aspect class IwModel {
@@ -31,40 +32,36 @@ aspect class IwWorkflow {
 }
 
 aspect class IwNode {
-	operation build() is abstract
-	
-	operation addClass(name:String):Class is do
-		var ramClass:Class init Class.new
-		ramClass.name:=name
-		ramClasses.add(ramClass)
-		result:=ramClass
+	operation build() is do
+		ramClasses_PerSourceModelElement:=Hashtable<String, Class>.new
 	end
 	
-	operation addMapping(sourceModelElement:String):Mapping is do
-		var ramMapping:Mapping init Mapping.new
-		ramMapping.sourceModelElement:=sourceModelElement
-		ramMappings.add(ramMapping)
-		result:=ramMapping
+	operation addClass(sourceModelElement:String, name:String) is do
+		var ramClass:Class init Class.new
+		ramClass.name:=name
+		ramClasses_PerSourceModelElement.put(sourceModelElement,ramClass)
 	end
 }
 
 aspect class IwInput {
 	method build() is do
-		ramInput:=addClass(self.name+"Input")
-		ramInputMapping:=addMapping("|InputData")
+		super()
+		addClass(INPUT_DATA,self.name+"Input")
 	end
 }
 
 aspect class IwOutput {
 	method build() is do
-		addClass(self.name+"Output")
-		addClass(self.name)
+		super()
+		addClass(OUTPUT_DATA,self.name+"Output")
+		addClass(CUSTOMIZABLE_SEQUENCE,self.name)
 	end
 }
 
 aspect class IwProcessingNode {
 	method build() is do
-		addClass(self.name)
+		super()
+		addClass(CUSTOMIZABLE_SEQUENCE,self.name)
 	end
 }
 

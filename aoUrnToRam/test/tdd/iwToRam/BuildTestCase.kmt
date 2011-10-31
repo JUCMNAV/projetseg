@@ -22,33 +22,30 @@ class IwToRamBuildTestCase inherits TestCase
 		var actual:IwInput init factory.createIwInput()
 		actual.build()
 		
-		assert(actual.ramClasses.size==1)
-		assert(actual.ramMappings.size==1)
-		assertStringEqual("a"+"Input",actual.ramInput.name)
-		assertStringEqual("|InputData",actual.ramInputMapping.sourceModelElement)
+		assert(actual.ramClasses_PerSourceModelElement.size==1)
+		assertClassProperlyBuilt(actual.ramInputData,"a"+actual.INPUT_SUFFIX)
 	end
 	
 	operation testBuildOut() is do
 		var actual:IwOutput init factory.createIwOutput()
 		actual.build()
 		
-		assert(actual.ramClasses.size==2)
-		var ramOutputData:Class init actual.ramClasses.at(0)
-		assertIsNonVoidInstanceOf(Class,ramOutputData)
-		assertStringEqual("a"+"Output",ramOutputData.name)
-		
-		var ramCustomizableSequence:Class init actual.ramClasses.at(1)
-		assertIsNonVoidInstanceOf(Class,ramCustomizableSequence)
-		assertStringEqual("a",ramCustomizableSequence.name)
+		assert(actual.ramClasses_PerSourceModelElement.size==2)
+		assertClassProperlyBuilt(actual.ramOutputData,"a"+actual.OUTPUT_SUFFIX)
+		assertClassProperlyBuilt(actual.ramCustomizableSequence,"a")
 	end
 
 	operation testBuildProcessingNode() is do
 		var actual:IwProcessingNode init factory.createIwProcessingNode()
 		actual.build()
 
-		var ramCustomizableSequence:Class init actual.ramClasses.at(0)
-		assertIsNonVoidInstanceOf(Class,ramCustomizableSequence)
-		assertStringEqual("a",ramCustomizableSequence.name)
+		assert(actual.ramClasses_PerSourceModelElement.size==1)
+		assertClassProperlyBuilt(actual.ramCustomizableSequence,"a")
+	end
+	
+	operation assertClassProperlyBuilt(ramClass:Class,name:String) is do
+		assertIsNonVoidInstanceOf(Class,ramClass)
+		assertStringEqual(name,ramClass.name)
 	end
 	
 	operation testBuildWorkflow() is do
