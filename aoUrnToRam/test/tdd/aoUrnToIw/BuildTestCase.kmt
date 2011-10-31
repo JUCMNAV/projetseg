@@ -20,14 +20,16 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	method setUp() is do
 		factory:=AoUrnTestFactory.new
 	end
-	
+
+	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testBuildRespRef_NotInComponent() is do	
 		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
 		
 		actual.build
 		assert(actual.iwNodes.size==0)
 	end
-	
+
+	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testBuildRespRef_InActorComponent() is do	
 		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
 		actual.contRef:=factory.createComponentRef("theActor",ComponentKind.Actor)
