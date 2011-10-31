@@ -4,12 +4,43 @@ require kermeta
 require "http:///oneurn.ecore"
 
 using kermeta::standard
+using kermeta::utils
+using kermeta::exceptions
 using oneurn::urn
 using oneurn::ucm::map
 using oneurn::urncore
 
 class AoUrnTestFactory
 {
+	reference components_PerName: Hashtable<String, Component>
+
+	operation createSystemComponentRef():ComponentRef is do
+		result:=createComponentRef("system",ComponentKind.Object)
+	end
+	
+	operation createComponentRef(name:String,kind:ComponentKind):ComponentRef is do
+		result:=ComponentRef.new
+		result.contDef:=getComponents(name,kind)
+	end
+
+	operation getComponents(name:String,kind:ComponentKind):Component is do
+		if(components_PerName.isVoid) then
+			components_PerName:=Hashtable<String, Component>.new
+		end
+		
+		if(components_PerName.containsKey(name)==false) then
+			var component:Component init Component.new
+			component.name:=name
+			component.kind:=kind
+			components_PerName.put(name,component)
+		end
+		result:=components_PerName.getValue(name)
+		if(result.kind!=kind) then
+			//stle: proper exception
+			raise Exception.new
+		end
+	end
+
 	operation createEndPoint(name:String,ramExpression:String):EndPoint is do
 		var endPoint:EndPoint init EndPoint.new
 		endPoint.name:=optionalString(name)
@@ -24,8 +55,15 @@ class AoUrnTestFactory
 	end
 
 	operation createRespRef(name:String,ramExpression:String):RespRef is do
+		result:=createRespRefGeneric(name,ramExpression,true)
+	end
+	
+	operation createRespRefGeneric(name:String,ramExpression:String,insideSystem:Boolean):RespRef is do
 		var respRef:RespRef init RespRef.new
 		respRef.respDef:=createResponsibility(name,ramExpression)
+		if(insideSystem) then 
+			respRef.contRef:=createSystemComponentRef
+		end
 		result:=respRef
 	end
 

@@ -74,6 +74,18 @@ package map{
 	}
 	
 	aspect class RespRef {
+		property readonly isSystemComponentRef : Boolean 
+		getter is do
+			result:=false
+			var component:Component
+			if(contRef.isVoid==false) then
+				component?=contRef.contDef
+				if(component.isVoid==false) then
+					result:=component.kind==ComponentKind.Object and component.name.toLowerCase=="system"
+				end
+			end			
+		end	
+	
 		method getRamMetadata():Metadata is do
 			result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
 		end

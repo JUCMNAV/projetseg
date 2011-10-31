@@ -55,8 +55,10 @@ package map{
 	aspect class RespRef {
 		method build() is do
 			super()
-			if(iwNodes.size==0) then
-				addIwProcessingNode
+			if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
+				if(isSystemComponentRef) then
+					addIwProcessingNode
+				end
 			end 
 		end
 		
