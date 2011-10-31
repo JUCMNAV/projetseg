@@ -21,13 +21,15 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		factory:=AoUrnTestFactory.new
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildPathNode_NoInOut() is do
 		var actual:StartPoint init factory.createStartPoint(void)
 		actual.build
 	
 		assert(actual.iwNodes.size==0)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildPathNode_In() is do
 		var actual:StartPoint init factory.createStartPoint("in theInputName")
 		actual.build
@@ -36,6 +38,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertStringEqual("theInputName",actual.iwNodes.one.name)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildPathNode_Out() is do
 		var actual:StartPoint init factory.createStartPoint("out theOutputName")
 		actual.build
@@ -43,7 +46,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.one)
 		assertStringEqual("theOutputName",actual.iwNodes.one.name)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildPathNode_InOut() is do
 		var actual:StartPoint init factory.createStartPoint("out theOutputName in theInputName")
 		actual.build
@@ -55,6 +59,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildRespRef_NoInOut() is do
 		var actual:RespRef init factory.createRespRef("theRespName",void)
 		actual.build
@@ -62,7 +67,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwProcessingNode, actual.iwNodes.one)
 		assertStringEqual("theRespName",actual.iwNodes.one.name)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildEndPoint_NoInOut() is do
 		var actual:EndPoint init factory.createEndPoint("theEndPoint",void)
 		actual.build
@@ -71,6 +77,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertStringEqual("theEndPoint",actual.iwNodes.one.name)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildEndPoint_InOut() is do
 		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
 		actual.build
@@ -85,6 +92,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertStringEqual("theEndPoint",actual.iwNodes.at(2).name)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildUcmMap() is do
 		var ucmMap:UCMmap init factory.createUcmMap("theUcmMapName")
 		ucmMap.build()
@@ -92,7 +100,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwWorkflow, ucmMap.iwWorkflow)
 		assertStringEqual("theUcmMapName",ucmMap.iwWorkflow.name)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildUnrSpec() is do
 		var urnSpec:URNspec init factory.createUrnSpec
 		urnSpec.build()

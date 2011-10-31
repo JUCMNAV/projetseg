@@ -18,6 +18,7 @@ class IwToRamBuildTestCase inherits TestCase
 		factory:=IwTestFactory.new
 	end
 	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildInput() is do
 		var actual:IwInput init factory.createIwInput()
 		actual.build()
@@ -25,7 +26,8 @@ class IwToRamBuildTestCase inherits TestCase
 		assert(actual.ramClasses_PerSourceModelElement.size==1)
 		assertClassProperlyBuilt(actual.ramInputData,"a"+actual.INPUT_SUFFIX)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildOut() is do
 		var actual:IwOutput init factory.createIwOutput()
 		actual.build()
@@ -35,6 +37,7 @@ class IwToRamBuildTestCase inherits TestCase
 		assertClassProperlyBuilt(actual.ramCustomizableSequence,"a")
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildProcessingNode() is do
 		var actual:IwProcessingNode init factory.createIwProcessingNode()
 		actual.build()
@@ -47,7 +50,8 @@ class IwToRamBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(Class,ramClass)
 		assertStringEqual(name,ramClass.name)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.name:="a"

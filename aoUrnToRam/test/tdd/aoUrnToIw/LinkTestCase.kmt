@@ -22,6 +22,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		factory:=AoUrnTestFactory.new
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUnrSpec() is do
 		//stle: need parametrizable tests
 		var params:Integer[0..*] init OrderedSet<Integer>.new
@@ -41,6 +42,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_NoResponsibility() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.build
@@ -48,7 +50,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		
 		assert(ucmMap.iwWorkflow.nodes.size==0)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_OneResponsibility() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, void))
@@ -57,7 +60,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		
 		assert(ucmMap.iwWorkflow.nodes.size==1)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_ManyResponsibilities() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, ""))
@@ -70,6 +74,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.nodes.size==5)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkStartPoint_Internal() is do
 		var actual:StartPoint init factory.createStartPoint("in theInput")
 				
@@ -78,7 +83,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		
 		assertStringEqual("theInput",actual.iwStartNode.name)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkStartPoint_succPathNode() is do
 		var actual:StartPoint init factory.createStartPoint(void)
 		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
@@ -92,6 +98,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_OneStartPoint() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createStartPoint(void))
@@ -104,7 +111,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.startNodes.size==1)
 	end
 	
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_ManyStartPoint() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		//first start
@@ -120,6 +128,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.startNodes.size==2)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_NoNodeConnection() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, void))
@@ -131,6 +140,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.nodeConnections.size==0)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_OneNodeConnection() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, void))
@@ -143,6 +153,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_ManyNodeConnection() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 
@@ -163,6 +174,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	operation testPathNodeLink_ZeroToZero() is do
 	end 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_ZeroToOne() is do
 		var source:StartPoint init factory.createStartPoint(void)
 		var target:RespRef init factory.createRespRef("theTarget",void)
@@ -175,6 +187,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(target.iwNodes.first.preds.size==0)
 	end 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_OneToZero() is do
 		var source:EndPoint init factory.createEndPoint(void,void)
 		source.build
@@ -183,6 +196,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(source.iwNodes.last.succs.size==0)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_OneToOne() is do
 		var source:RespRef init factory.createRespRef("theSource",void)
 		var target:RespRef init factory.createRespRef("theTarget",void)
@@ -195,6 +209,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertOnePathNodeConnection(source,target)
 	end 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_ManyToMany() is do
 		var source:RespRef init factory.createRespRef(void,"out a in b")
 		var target:RespRef init factory.createRespRef(void,"out c in d")
@@ -208,6 +223,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end 	
 
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkOutInPathNode() is do
 		var respRef:RespRef init factory.createRespRef("theRespRef","out theSource in theTarget")
 
@@ -216,7 +232,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 
 		assertOneInternalNodeConnection(respRef,0,1)
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkOutInEndPoint() is do
 		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
 

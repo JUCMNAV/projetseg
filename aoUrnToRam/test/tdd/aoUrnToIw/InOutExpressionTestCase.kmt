@@ -15,6 +15,7 @@ class InOutExpressionTestCase inherits TestCase
 		inOutExpression:=InOutExpression.new//stle: test factory and impl contruct 
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testIn() is do
 		inOutExpression.construct("in myInput")	
 		assert(inOutExpression.hasOut==false)
@@ -22,13 +23,15 @@ class InOutExpressionTestCase inherits TestCase
 		assert(inOutExpression.in=="myInput")
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testOut() is do
 		inOutExpression.construct("out myOutput")
 		assert(inOutExpression.hasOut==true)
 		assert(inOutExpression.out=="myOutput")
 		assert(inOutExpression.hasIn==false)	
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBoth() is do
 		inOutExpression.construct("out myOutput in myInput")
 		

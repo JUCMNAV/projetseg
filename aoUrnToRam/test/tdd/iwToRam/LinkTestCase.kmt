@@ -18,6 +18,7 @@ class IwToRamLinkTestCase inherits TestCase
 		factory:=IwTestFactory.new
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_None() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 
@@ -27,6 +28,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==0)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_ManySameSourceModelElement() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		3.times{i|actual.nodes.add(factory.createIwInput())} 
@@ -47,7 +49,8 @@ class IwToRamLinkTestCase inherits TestCase
 						)
 		}
 	end
-	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_ManyDifferentSourceModelElement() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		var iwInput:IwInput init factory.createIwInput()
@@ -81,6 +84,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 	
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.build()
@@ -89,6 +93,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.instantiations.size==1)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkNoNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		
@@ -98,6 +103,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.classes.size==0)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkOneNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.nodes.add(factory.createIwInput())
@@ -109,6 +115,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkManyNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.nodes.add(factory.createIwInput())
@@ -121,6 +128,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkIwModel_nWorkflows() is do
 		//stle: need parametrizable tests
 		var params:Integer[0..*] init OrderedSet<Integer>.new
@@ -146,6 +154,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramAspects.size==numOfWorkflows)
 	end
 
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkIwModel_FilterOutWorkflowWithoutAnyClasses() is do
 		var actual:IwModel init factory.createIwModel
 		actual.workflows.add(factory.createIwWorkflow)

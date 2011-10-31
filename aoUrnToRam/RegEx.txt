@@ -1,0 +1,3 @@
+//To annotate test with feature
+(^[\s\t]*\n)([\s\t]*)(operation test)
+\n\2@feature "FEATURE_ID_HERE"\n\2\3
