@@ -49,7 +49,7 @@ class IwToRamBuildTestCase inherits TestCase
 	end
 	
 	operation testBuildWorkflow() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.name:="a"
 		actual.build()
 		

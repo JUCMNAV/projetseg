@@ -19,7 +19,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	operation testLinkMapping_None() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 
 		actual.build()
 		actual.link()
@@ -28,7 +28,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	operation testLinkMapping_ManySameSourceModelElement() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		3.times{i|actual.nodes.add(factory.createIwInput())} 
 
 		actual.build()
@@ -49,7 +49,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 	
 	operation testLinkMapping_ManyDifferentSourceModelElement() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		var iwInput:IwInput init factory.createIwInput()
 		var iwOutput:IwOutput init factory.createIwOutput()
 		actual.nodes.add(iwInput)
@@ -60,23 +60,29 @@ class IwToRamLinkTestCase inherits TestCase
 		
 		assert(actual.ramReactiveWorkflowInstantiation.mappings.size==3)
 		
-		//stle: dry between test and impl 
-		var inputDataMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="|InputData"}.one
-		assert(inputDataMapping.maps.size==1)
-		assert(inputDataMapping.maps.one.oid==iwInput.ramInputData.oid)
-		
-		var customizableSequenceMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="CustomizableSequence"}.one
-		assert(customizableSequenceMapping.maps.size==1)
-		assert(customizableSequenceMapping.maps.one.oid==iwOutput.ramCustomizableSequence.oid)
+		//stle: dry between test and impl
+		var mappings:Mapping[0..*] init actual.ramReactiveWorkflowInstantiation.mappings  
+		assertSingleMapping(
+			mappings.select{mapping|mapping.sourceModelElement=="|InputData"}.one,
+			iwInput.ramInputData)
 
-		var outputDataMapping:Mapping init actual.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="|OutputData"}.one
-		assert(outputDataMapping.maps.size==1)
-		assert(outputDataMapping.maps.one.oid==iwOutput.ramOutputData.oid)
+		assertSingleMapping(
+			mappings.select{mapping|mapping.sourceModelElement=="CustomizableSequence"}.one,
+			iwOutput.ramCustomizableSequence)
+
+		assertSingleMapping(
+			mappings.select{mapping|mapping.sourceModelElement=="|OutputData"}.one,
+			iwOutput.ramOutputData)
+	end
+	
+	operation assertSingleMapping(mapping:Mapping,target:Class) is do
+		assert(mapping.maps.size==1)
+		assert(mapping.maps.one.oid==target.oid)
 	end
 	
 
 	operation testLinkWorkflow() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.build()
 		actual.link()
 		
@@ -84,7 +90,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	operation testLinkNoNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		
 		actual.build()
 		actual.link()
@@ -93,7 +99,7 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	operation testLinkOneNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.nodes.add(factory.createIwInput())
 		
 		actual.build()
@@ -104,7 +110,7 @@ class IwToRamLinkTestCase inherits TestCase
 
 
 	operation testLinkManyNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createWorkflow()
+		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.nodes.add(factory.createIwInput())
 		2.times{i|actual.nodes.add(factory.createIwProcessingNode())}
 		actual.nodes.add(factory.createIwOutput())
@@ -112,8 +118,6 @@ class IwToRamLinkTestCase inherits TestCase
 		actual.build()
 		actual.link()
 		
-		//stle: assert link as well
-		//stle: One kind of assert per test
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 
@@ -129,13 +133,28 @@ class IwToRamLinkTestCase inherits TestCase
 
 	
 	operation parametrizableTestLinkIwModel_nWorkflows(numOfWorkflows:Integer) is do
-		var actual:IwModel init factory.createIwModelWithWorkflows(numOfWorkflows)
+		var actual:IwModel init factory.createIwModel
+		numOfWorkflows.times{i| 
+			var workflow:IwWorkflow init factory.createIwWorkflow
+			workflow.nodes.add(factory.createIwProcessingNode())
+			actual.workflows.add(workflow)
+		}
+		
 		actual.build
 		actual.link
 		
 		assert(actual.ramAspects.size==numOfWorkflows)
 	end
 
+	operation testLinkIwModel_FilterOutWorkflowWithoutAnyClasses() is do
+		var actual:IwModel init factory.createIwModel
+		actual.workflows.add(factory.createIwWorkflow)
+
+		actual.build
+		actual.link
+		
+		assert(actual.ramAspects.size==0)
+	end
 	
 	
 		//stle: dry

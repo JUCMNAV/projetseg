@@ -17,9 +17,8 @@ aspect class IwModel {
 	end
 	
 	operation addAspects() is do
-		ramAspects.addAll(
-			workflows.collect{workflow|workflow.ramAspect}
-		)
+		workflows.select{workflow|workflow.ramAspect.structuralView.classes.size>0}
+				 .each{workflow|ramAspects.add(workflow.ramAspect)}
 	end
 }
 
