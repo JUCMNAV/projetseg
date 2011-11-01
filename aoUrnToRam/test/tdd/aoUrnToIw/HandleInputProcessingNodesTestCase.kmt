@@ -21,14 +21,17 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 
 	//stle: how do we manage obvious test: foreach in IwModel to call handleInputProcessing node on each workflow?
 
+	@feature "FeaHandleTwoInputsInARow"
 	operation testWorkflowHandleInputProcessingNodes_0() is do
 		parametrizedTestWorkflowHandleInputProcessingNodes(0)
 	end
-	
+
+	@feature "FeaHandleTwoInputsInARow"
 	operation testWorkflowHandleInputProcessingNodes_1() is do
 		parametrizedTestWorkflowHandleInputProcessingNodes(1)
 	end
-	
+
+	@feature "FeaHandleTwoInputsInARow"
 	operation testWorkflowHandleInputProcessingNodes_3() is do
 		parametrizedTestWorkflowHandleInputProcessingNodes(3)
 	end
@@ -56,15 +59,18 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	end
 	
 
-	
+
+	@feature "FeaHandleTwoInputsInARow"
 	operation testhandleInputProcessingNodes_Input_EndPoint() is do
 		parametrizableTesthandleInputProcessingNodes(factory.createIwEndPoint)
 	end
-	
+
+	@feature "FeaHandleTwoInputsInARow"
 	operation testhandleInputProcessingNodes_Input_Input() is do
 		parametrizableTesthandleInputProcessingNodes(factory.createIwInput)
 	end
-	
+
+	@feature "FeaHandleTwoInputsInARow"
 	operation testhandleInputProcessingNodes_Input_Processing() is do
 		var input:IwInput init factory.createIwInput
 		var processingNode:IwProcessingNode init factory.createIwProcessingNode

@@ -3,6 +3,7 @@ package oneurn::urn;
 require kermeta
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Build.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Link.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/HandleInputProcessingNodes.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
@@ -11,6 +12,7 @@ aspect class URNspec{
 	operation toIw():IwModel is do
 		build
 		link
+		iwModel.handleInputProcessingNodes
 		result := iwModel
 	end
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore">
-  <workflows name="Simple" startNodes="//@workflows.0/@nodes.0">
+  <workflows name="Simple" startNodes="//@workflows.0/@nodes.1">
+    <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EndPoint23" preds="//@workflows.0/@nodeConnections.2"/>
     <nodes xsi:type="intermediateWorkflow:IwInput" name="In" succs="//@workflows.0/@nodeConnections.0"/>
     <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="Processing" preds="//@workflows.0/@nodeConnections.0" succs="//@workflows.0/@nodeConnections.1"/>
-    <nodes xsi:type="intermediateWorkflow:IwOutput" name="Out" preds="//@workflows.0/@nodeConnections.1"/>
-    <nodeConnections source="//@workflows.0/@nodes.0" target="//@workflows.0/@nodes.1"/>
+    <nodes xsi:type="intermediateWorkflow:IwOutput" name="Out" preds="//@workflows.0/@nodeConnections.1" succs="//@workflows.0/@nodeConnections.2"/>
     <nodeConnections source="//@workflows.0/@nodes.1" target="//@workflows.0/@nodes.2"/>
+    <nodeConnections source="//@workflows.0/@nodes.2" target="//@workflows.0/@nodes.3"/>
+    <nodeConnections source="//@workflows.0/@nodes.3" target="//@workflows.0/@nodes.0"/>
   </workflows>
 </intermediateWorkflow:IwModel>

@@ -4,6 +4,8 @@
   <structuralView>
     <instantiations externalAspect="ReactiveWorkflow">
       <mappings sourceModelElement="|InputData" maps="//@structuralView/@classes.0"/>
+      <mappings sourceModelElement="CustomizableSequence" maps="//@structuralView/@classes.1 //@structuralView/@classes.3"/>
+      <mappings sourceModelElement="|OutputData" maps="//@structuralView/@classes.2"/>
     </instantiations>
     <classes name="InInput"/>
     <classes name="Processing"/>
