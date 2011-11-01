@@ -1,0 +1,59 @@
+package intermediateWorkflow;
+
+require kermeta
+require "http:///intermediateWorkflow.ecore"
+
+using kermeta::standard
+using kermeta::utils
+
+aspect class IwModel {
+}
+
+aspect class IwWorkflow {
+	property readonly iwInputs: seq IwInput[0..*]
+	getter is do
+		//stle: DRY
+		result:= nodes.select{node|node.isInstanceOf(IwInput)}
+						            .collect{node|node.asType(IwInput)}
+	end
+
+
+	operation handleInputProcessingNodes() is do
+		iwInputs.each{iwInput|
+			iwInput.handleInputProcessingNodes
+		}
+		
+		iwInputs.each{iwInput|
+			if(iwInput.inputProcessingNode.isVoid==false) then
+				nodes.add(iwInput.inputProcessingNode)
+				nodeConnections.add(iwInput.inputProcessingNode.succs.one)
+			end
+		}
+	end
+}
+
+
+aspect class IwInput {
+	reference inputProcessingNode:IwProcessingNode
+
+	operation handleInputProcessingNodes() is do
+		var target:IwNode init succs.one.target
+		if(target.isInstanceOf(IwEndPoint) or target.isInstanceOf(IwInput)) then
+			inputProcessingNode:=IwProcessingNode.new
+			inputProcessingNode.name:="Process"+name
+			
+			succs.one.target:=inputProcessingNode
+			createIwNodeConnection(inputProcessingNode,target)
+		end
+	end
+	
+	//stle: dry between iut and test
+	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
+		result:=IwNodeConnection.new
+		result.source:=source
+		result.target:=target
+	end
+}
+
+
+

@@ -46,14 +46,14 @@ aspect class IwNode {
 aspect class IwInput {
 	method build() is do
 		super()
-		addClass(INPUT_DATA,self.name+"Input")
+		addClass(INPUT_DATA,self.name+INPUT_SUFFIX)
 	end
 }
 
 aspect class IwOutput {
 	method build() is do
 		super()
-		addClass(OUTPUT_DATA,self.name+"Output")
+		addClass(OUTPUT_DATA,self.name+OUTPUT_SUFFIX)
 		addClass(CUSTOMIZABLE_SEQUENCE,self.name)
 	end
 }

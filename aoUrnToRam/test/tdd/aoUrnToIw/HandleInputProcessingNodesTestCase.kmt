@@ -1,0 +1,123 @@
+package aoUrnToRam::Test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/HandleInputProcessingNodes.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class HandleInputProcessingNodesTestCase inherits TestCase
+{
+	attribute factory:IwTestFactory
+
+	method setUp() is do
+		factory:=IwTestFactory.new
+	end
+
+	//stle: how do we manage obvious test: foreach in IwModel to call handleInputProcessing node on each workflow?
+
+	operation testWorkflowHandleInputProcessingNodes_0() is do
+		parametrizedTestWorkflowHandleInputProcessingNodes(0)
+	end
+	
+	operation testWorkflowHandleInputProcessingNodes_1() is do
+		parametrizedTestWorkflowHandleInputProcessingNodes(1)
+	end
+	
+	operation testWorkflowHandleInputProcessingNodes_3() is do
+		parametrizedTestWorkflowHandleInputProcessingNodes(3)
+	end
+	
+	
+	operation parametrizedTestWorkflowHandleInputProcessingNodes(numOfConsecutiveInputs:Integer) is do
+		var actual:IwWorkflow init factory.createIwWorkflow()
+		numOfConsecutiveInputs.times{i|
+			actual.nodes.add(factory.createIwInput())
+		}
+		actual.nodes.add(factory.createIwEndPoint())
+		numOfConsecutiveInputs.times{i|
+			actual.nodeConnections.add(
+				factory.createIwNodeConnection(actual.nodes.at(i),actual.nodes.at(i+1))
+			)
+		}
+		
+		actual.handleInputProcessingNodes		
+	
+		var numOfNodesPerInputs:Integer init 2
+		var numOfConnectionsPerInputs:Integer init 2
+		var numOfEndPoints:Integer init 1
+		assertObjectEqual(numOfConsecutiveInputs*numOfNodesPerInputs+numOfEndPoints, actual.nodes.size)
+		assertObjectEqual(numOfConsecutiveInputs*numOfConnectionsPerInputs, actual.nodeConnections.size)
+	end
+	
+
+	
+	operation testhandleInputProcessingNodes_Input_EndPoint() is do
+		parametrizableTesthandleInputProcessingNodes(factory.createIwEndPoint)
+	end
+	
+	operation testhandleInputProcessingNodes_Input_Input() is do
+		parametrizableTesthandleInputProcessingNodes(factory.createIwInput)
+	end
+	
+	operation testhandleInputProcessingNodes_Input_Processing() is do
+		var input:IwInput init factory.createIwInput
+		var processingNode:IwProcessingNode init factory.createIwProcessingNode
+		factory.createIwNodeConnection(input,processingNode)
+
+		input.handleInputProcessingNodes		
+	
+		assertOneIwNodeConnection(input,processingNode)
+	end
+	
+	
+	operation parametrizableTesthandleInputProcessingNodes(nonProcessingNode:IwNode) is do
+		var input:IwInput init factory.createIwInput
+		factory.createIwNodeConnection(input,nonProcessingNode)
+
+		input.handleInputProcessingNodes		
+	
+		var inputProcessing:IwProcessingNode init input.succs.one.target.asType(IwProcessingNode)
+		//stle: dry between iut and test
+		assert(inputProcessing.name=="Process"+input.name)
+		assertOneIwNodeConnection(input,inputProcessing)
+		assertOneIwNodeConnection(inputProcessing,nonProcessingNode)
+	end 	
+	 	
+
+	//stle:dry with LinkTestCase
+	operation assertOneIwNodeConnection(source:IwNode, target:IwNode) is do
+		var succs:IwNodeConnection[0..*] init source.succs
+		var preds:IwNodeConnection[0..*] init target.preds
+
+		assertObjectEqual(1,succs.size)
+		assertObjectEqual(target.name,succs.one.target.name)
+		assertObjectEqual(1,preds.size)
+		assertObjectEqual(source.name,preds.one.source.name)
+	end
+
+	
+	//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+	operation assertObjectEqual(expected:Object, actual:Object) is do
+	//stle: check for void and type
+		assertWithMsg(expected==actual,"ObjectEqual-> expected:\""+expected.toString+"\" actual:\""+actual.toString+"\"")
+	end
+	
+	
+}

@@ -9,6 +9,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/HandleInputProcessingNodesTestCase.kmt"
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
@@ -31,6 +32,7 @@ class Main
 		testClasses.add(InOutExpressionTestCase)
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
+		testClasses.add(HandleInputProcessingNodesTestCase)
 		
 		result := testClasses
 	end
@@ -61,7 +63,8 @@ class Main
     end
 	
 	operation launchSpecificTest() : Void is do
-		var testCase : TestCase init AoUrnToIwLinkTestCase.new.setTestMethodName("testLinkOutInEndPoint")
+	
+		var testCase : TestCase init HandleInputProcessingNodesTestCase.new.setTestMethodName("testWorkflowHandleInputProcessingNodes_One()")
 		runTest(testCase)
     end
     
