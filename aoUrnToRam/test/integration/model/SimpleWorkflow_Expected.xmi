@@ -9,4 +9,38 @@
     <nodeConnections source="//@workflows.0/@nodes.2" target="//@workflows.0/@nodes.3"/>
     <nodeConnections source="//@workflows.0/@nodes.3" target="//@workflows.0/@nodes.0"/>
   </workflows>
+  <workflows name="ToBeIgnored" startNodes="//@workflows.1/@nodes.0">
+    <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EndPoint39"/>
+  </workflows>
+  <workflows name="All features" startNodes="//@workflows.2/@nodes.4 //@workflows.2/@nodes.5 //@workflows.2/@nodes.10">
+    <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="e1" preds="//@workflows.2/@nodeConnections.2"/>
+    <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="4" preds="//@workflows.2/@nodeConnections.1" succs="//@workflows.2/@nodeConnections.0"/>
+    <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="3" preds="//@workflows.2/@nodeConnections.3" succs="//@workflows.2/@nodeConnections.1"/>
+    <nodes xsi:type="intermediateWorkflow:IwOutput" name="theOutput" preds="//@workflows.2/@nodeConnections.0" succs="//@workflows.2/@nodeConnections.2"/>
+    <nodes xsi:type="intermediateWorkflow:IwInput" name="theInput" succs="//@workflows.2/@nodeConnections.3"/>
+    <nodes xsi:type="intermediateWorkflow:IwOutput" name="startOut" succs="//@workflows.2/@nodeConnections.4"/>
+    <nodes xsi:type="intermediateWorkflow:IwInput" name="startIn" preds="//@workflows.2/@nodeConnections.4" succs="//@workflows.2/@nodeConnections.5"/>
+    <nodes xsi:type="intermediateWorkflow:IwOutput" name="endOut" preds="//@workflows.2/@nodeConnections.5" succs="//@workflows.2/@nodeConnections.6"/>
+    <nodes xsi:type="intermediateWorkflow:IwInput" name="endIn" preds="//@workflows.2/@nodeConnections.6" succs="//@workflows.2/@nodeConnections.7"/>
+    <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="e2" preds="//@workflows.2/@nodeConnections.10"/>
+    <nodes xsi:type="intermediateWorkflow:IwInput" name="firstIn" succs="//@workflows.2/@nodeConnections.8"/>
+    <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="NoInputUntilTheEnd" preds="//@workflows.2/@nodeConnections.12"/>
+    <nodes xsi:type="intermediateWorkflow:IwInput" name="secondIn" preds="//@workflows.2/@nodeConnections.11" succs="//@workflows.2/@nodeConnections.9"/>
+    <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="ProcessendIn" preds="//@workflows.2/@nodeConnections.7" succs="//@workflows.2/@nodeConnections.10"/>
+    <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="ProcessfirstIn" preds="//@workflows.2/@nodeConnections.8" succs="//@workflows.2/@nodeConnections.11"/>
+    <nodes xsi:type="intermediateWorkflow:IwProcessingNode" name="ProcesssecondIn" preds="//@workflows.2/@nodeConnections.9" succs="//@workflows.2/@nodeConnections.12"/>
+    <nodeConnections source="//@workflows.2/@nodes.1" target="//@workflows.2/@nodes.3"/>
+    <nodeConnections source="//@workflows.2/@nodes.2" target="//@workflows.2/@nodes.1"/>
+    <nodeConnections source="//@workflows.2/@nodes.3" target="//@workflows.2/@nodes.0"/>
+    <nodeConnections source="//@workflows.2/@nodes.4" target="//@workflows.2/@nodes.2"/>
+    <nodeConnections source="//@workflows.2/@nodes.5" target="//@workflows.2/@nodes.6"/>
+    <nodeConnections source="//@workflows.2/@nodes.6" target="//@workflows.2/@nodes.7"/>
+    <nodeConnections source="//@workflows.2/@nodes.7" target="//@workflows.2/@nodes.8"/>
+    <nodeConnections source="//@workflows.2/@nodes.8" target="//@workflows.2/@nodes.13"/>
+    <nodeConnections source="//@workflows.2/@nodes.10" target="//@workflows.2/@nodes.14"/>
+    <nodeConnections source="//@workflows.2/@nodes.12" target="//@workflows.2/@nodes.15"/>
+    <nodeConnections source="//@workflows.2/@nodes.13" target="//@workflows.2/@nodes.9"/>
+    <nodeConnections source="//@workflows.2/@nodes.14" target="//@workflows.2/@nodes.12"/>
+    <nodeConnections source="//@workflows.2/@nodes.15" target="//@workflows.2/@nodes.11"/>
+  </workflows>
 </intermediateWorkflow:IwModel>

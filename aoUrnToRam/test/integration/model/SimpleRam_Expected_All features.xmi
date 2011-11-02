@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ramstructural:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ramstructural="platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore" name="All features">
+  <interface/>
+  <structuralView>
+    <instantiations externalAspect="ReactiveWorkflow">
+      <mappings sourceModelElement="CustomizableSequence" maps="//@structuralView/@classes.0 //@structuralView/@classes.1 //@structuralView/@classes.3 //@structuralView/@classes.6 //@structuralView/@classes.9 //@structuralView/@classes.13 //@structuralView/@classes.14 //@structuralView/@classes.15"/>
+      <mappings sourceModelElement="|OutputData" maps="//@structuralView/@classes.2 //@structuralView/@classes.5 //@structuralView/@classes.8"/>
+      <mappings sourceModelElement="|InputData" maps="//@structuralView/@classes.4 //@structuralView/@classes.7 //@structuralView/@classes.10 //@structuralView/@classes.11 //@structuralView/@classes.12"/>
+    </instantiations>
+    <classes name="4"/>
+    <classes name="3"/>
+    <classes name="theOutputOutput"/>
+    <classes name="theOutput"/>
+    <classes name="theInputInput"/>
+    <classes name="startOutOutput"/>
+    <classes name="startOut"/>
+    <classes name="startInInput"/>
+    <classes name="endOutOutput"/>
+    <classes name="endOut"/>
+    <classes name="endInInput"/>
+    <classes name="firstInInput"/>
+    <classes name="secondInInput"/>
+    <classes name="ProcessendIn"/>
+    <classes name="ProcessfirstIn"/>
+    <classes name="ProcesssecondIn"/>
+  </structuralView>
+</ramstructural:Aspect>
