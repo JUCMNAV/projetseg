@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.kermeta.debug.runConfiguration">
+<launchConfiguration type="org.kermeta.debug.constraintConfiguration">
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_ARGUMENTS" value=""/>
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_CLASSQNAME" value="aoUrnToRam::Test::Main"/>
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_FILENAME" value="/aoUrnToRam/test/Main.kmt"/>
