@@ -26,10 +26,10 @@ aspect class IwWorkflow {
 	operation link() is do
 		addClasses
 		addInstantiations
-		addNodeConnections
+		linkNodeConnections
 	end
 
-	operation addNodeConnections() is do
+	operation linkNodeConnections() is do
 		nodeConnections.each{nodeConnection|nodeConnection.link(self)}
 	end
 

@@ -275,7 +275,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertInternalNodeConnection(actual,0,1)
 		assertInternalNodeConnection(actual,1,2)
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testOrForkLink_2Branchs2Targets() is do
 		var source:OrFork init factory.createOrFork("theOrFork",void)
 		var targetA:RespRef init factory.createRespRef("theTargetA",void)
@@ -292,7 +293,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
 		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testOrForkLink_2Branchs1Targets() is do
 		var source:OrFork init factory.createOrFork("theOrFork",void)
 		var target:RespRef init factory.createRespRef("theTargetA",void)
@@ -307,7 +309,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchA")
 		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchB")
 	end 	
-	 	
+
+	@feature "FeaTransformOrFork"
 	operation testOrForkLink_ManyBranchs() is do
 		var source:OrFork init factory.createOrFork("theOrFork",void)
 		var targetA:RespRef init factory.createRespRef("theTargetA",void)

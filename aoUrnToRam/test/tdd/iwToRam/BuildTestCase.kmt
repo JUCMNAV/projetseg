@@ -62,7 +62,8 @@ class IwToRamBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(Instantiation,actual.ramReactiveWorkflowInstantiation)
 		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testBuildIwNodeConnection_WithConditions() is do
 		var source:IwOrFork init factory.createIwOrFork
 		source.name:="theOrFork"
@@ -71,7 +72,8 @@ class IwToRamBuildTestCase inherits TestCase
 
 		assertClassProperlyBuilt(actual.ramCondition,"theOrFork_theBranch")
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testBuildIwNodeConnection_WithoutConditions() is do
 		var source:IwProcessingNode init factory.createIwProcessingNode
 		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,void)

@@ -166,7 +166,8 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 	
 
-	
+
+	@feature "FeaTransformOrFork"
 	operation testLinkNodeConnection_WithCondition() is do
 		var workflow:IwWorkflow init factory.createIwWorkflow()
 		var source:IwOrFork init factory.createIwOrFork
@@ -191,7 +192,8 @@ class IwToRamLinkTestCase inherits TestCase
 		//stle: add .single to collection class (three strike OUT!)
 		assert(actual.ramCondition.oid==mapping.maps.one.oid)
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testLinkNodeConnection_WithoutCondition() is do
 		var workflow:IwWorkflow init factory.createIwWorkflow()
 		var actual:IwNodeConnection init factory.createIwNodeConnection(factory.createIwProcessingNode,factory.createIwProcessingNode,void)

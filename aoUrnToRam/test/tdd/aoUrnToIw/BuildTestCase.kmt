@@ -126,7 +126,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	
 		assertIsNonVoidInstanceOf(IwModel, urnSpec.iwModel)
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testBuildOrFork_NoInOut() is do
 		var actual:OrFork init factory.createOrFork("theOrFork",void)
 		actual.build
@@ -134,7 +135,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes.one)
 		assertStringEqual("theOrFork",actual.iwNodes.one.name)
 	end
-	
+
+	@feature "FeaTransformOrFork"
 	operation testBuildOrFork_InOut() is do
 		var actual:OrFork init factory.createOrFork("theOrFork","out theOutputName in theInputName")
 		actual.build
