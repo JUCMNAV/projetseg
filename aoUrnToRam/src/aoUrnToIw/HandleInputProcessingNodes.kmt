@@ -40,7 +40,10 @@ aspect class IwInput {
 
 	operation handleInputProcessingNodes() is do
 		var target:IwNode init succs.one.target
-		if(target.isInstanceOf(IwEndPoint) or target.isInstanceOf(IwInput)) then
+		if(target.isInstanceOf(IwEndPoint) or 
+		   target.isInstanceOf(IwInput) or
+		   target.isInstanceOf(IwOrFork) 
+		) then
 			inputProcessingNode:=IwProcessingNode.new
 			inputProcessingNode.name:="Process"+name
 			

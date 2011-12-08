@@ -69,6 +69,11 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	operation testhandleInputProcessingNodes_Input_Input() is do
 		parametrizableTesthandleInputProcessingNodes(factory.createIwInput)
 	end
+	
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testhandleInputProcessingNodes_Input_OrFork() is do
+		parametrizableTesthandleInputProcessingNodes(factory.createIwOrFork)
+	end
 
 	@feature "FeaHandleTwoInputsInARow"
 	operation testhandleInputProcessingNodes_Input_Processing() is do
