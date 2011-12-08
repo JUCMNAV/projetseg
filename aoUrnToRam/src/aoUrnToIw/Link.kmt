@@ -65,20 +65,27 @@ package map{
 		operation linkInternal() is do
 			var numOfInternalLinks:Integer init iwNodes.size-1 //-1 because last internal node has no outcoming internal link
 			numOfInternalLinks.times{i|
-				linkTwoNodes(iwNodes.at(i),iwNodes.at(i+1))
+				linkTwoNodes(iwNodes.at(i),iwNodes.at(i+1),void)
 			}
 		end
 		
 		operation linkSuccs() is do
-			if(iwNodes.size>0 and succIwNode.isVoid==false) then
-				linkTwoNodes(iwNodes.last,succIwNode)
+			if(iwNodes.isEmpty==false) then
+				var source:IwNode init iwNodes.last
+		
+				succ.each{theSucc|
+					var nodeConnection:NodeConnection init theSucc.asType(NodeConnection)
+					linkTwoNodes(source,nodeConnection.IwSingleTarget,nodeConnection.IwConditionName)
+				}
 			end
 		end
 		
-		operation linkTwoNodes(source:IwNode, target:IwNode) is do
+		//IwNodeConnection is an association class;thus, it is built in the linking process
+		operation linkTwoNodes(source:IwNode, target:IwNode, conditionName:String) is do
 			var connection:IwNodeConnection init IwNodeConnection.new
 			connection.source:=source
 			connection.target:=target
+			connection.conditionName:=conditionName
 			iwSuccs.add(connection)
 		end
 	}
@@ -86,10 +93,10 @@ package map{
 	aspect class StartPoint {
 		method link() is do
 			super()
-			if(iwNodes.size>0) then
-				iwStartNode:=iwNodes.first
+			if(iwNodes.empty) then
+				iwStartNode:=succ.one.asType(NodeConnection).IwSingleTarget
 			else
-				iwStartNode:=succIwNode
+				iwStartNode:=iwNodes.first
 			end
 		end
 	}

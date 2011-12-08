@@ -37,6 +37,11 @@
           eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/source"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwNodeConnection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionName" eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/succs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"
@@ -46,6 +51,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="IwProcessingNode" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwEndPoint" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
     <eClassifiers xsi:type="ecore:EDataType" name="_KermetaSpecialTypesAlias_" instanceClassName="java.lang.Object"/>
   </ecore:EPackage>

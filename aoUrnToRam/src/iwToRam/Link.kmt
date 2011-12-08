@@ -26,7 +26,13 @@ aspect class IwWorkflow {
 	operation link() is do
 		addClasses
 		addInstantiations
+		addNodeConnections
 	end
+
+	operation addNodeConnections() is do
+		nodeConnections.each{nodeConnection|nodeConnection.link(self)}
+	end
+
 	
 	operation addClasses() is do
 		nodes.each{node|
@@ -62,4 +68,32 @@ aspect class IwWorkflow {
 		result:=mappings.getValue(sourceModelElement)
 	end
 	
+	
+	
+	
+	operation addRamClass(ramClass:Class) is do
+		ramStructuralView.classes.add(ramClass)
+	end
+	
+	operation mapRamClass(sourceModelElement:String,ramClass:Class) is do
+		//stle:single again
+		var mapping:Mapping init ramReactiveWorkflowInstantiation.mappings.select
+								{mapping|mapping.sourceModelElement==sourceModelElement}.one  
+		if(mapping.isVoid) then
+			mapping:=Mapping.new
+			mapping.sourceModelElement:=sourceModelElement
+			ramReactiveWorkflowInstantiation.mappings.add(mapping)
+		end
+		mapping.maps.add(ramClass)
+	end
 }
+
+aspect class IwNodeConnection {
+	operation link(workflow:IwWorkflow) is do
+		if(ramCondition.isVoid==false) then
+			workflow.addRamClass(ramCondition)
+			workflow.mapRamClass("Condition",ramCondition)
+		end
+	end
+}
+

@@ -127,6 +127,31 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwModel, urnSpec.iwModel)
 	end
 	
+	operation testBuildOrFork_NoInOut() is do
+		var actual:OrFork init factory.createOrFork("theOrFork",void)
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes.one)
+		assertStringEqual("theOrFork",actual.iwNodes.one.name)
+	end
+	
+	operation testBuildOrFork_InOut() is do
+		var actual:OrFork init factory.createOrFork("theOrFork","out theOutputName in theInputName")
+		actual.build
+
+		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes.at(0))
+		assertStringEqual("theOrFork",actual.iwNodes.at(0).name)
+	
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(1))
+		assertStringEqual("theOutputName",actual.iwNodes.at(1).name)
+		
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(2))
+		assertStringEqual("theInputName",actual.iwNodes.at(2).name)
+	end
+	
+	
+	
+	
 	//stle: dry
 	//stle: more verbrose on assertion
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do

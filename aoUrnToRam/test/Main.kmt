@@ -64,7 +64,7 @@ class Main
 	
 	operation launchSpecificTest() : Void is do
 	
-		var testCase : TestCase init HandleInputProcessingNodesTestCase.new.setTestMethodName("testWorkflowHandleInputProcessingNodes_One()")
+		var testCase : TestCase init IwToRamBuildTestCase.new.setTestMethodName("testBuildIwNodeConnection_WithoutConditions()")
 		runTest(testCase)
     end
     
@@ -91,7 +91,7 @@ class Main
     operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
-			"platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/OrFork.jucm",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual_",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)

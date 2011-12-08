@@ -25,6 +25,7 @@ abstract class IwNode
 }
 
 class IwNodeConnection{
+	attribute conditionName:String
 	reference source : IwNode#succs
 	reference target : IwNode#preds
 }
@@ -42,5 +43,9 @@ class IwOutput inherits IwNode
 }
 
 class IwEndPoint inherits IwNode
+{
+}
+
+class IwOrFork inherits IwNode
 {
 }

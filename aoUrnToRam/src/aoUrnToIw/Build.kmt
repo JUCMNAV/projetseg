@@ -81,6 +81,21 @@ package map{
 			iwNodes.add(iwEndpoint)
 		end
 	}
+	
+	aspect class OrFork {
+		method build() is do
+			addIwOrFork
+			super()
+		end
+
+		//stle: dry
+		operation addIwOrFork() is do
+			var iwOrFork:IwOrFork init IwOrFork.new
+			iwOrFork.name:=name
+			iwNodes.add(iwOrFork)
+		end
+	}
+	
 }
 }
 

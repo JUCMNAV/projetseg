@@ -40,9 +40,16 @@ class IwTestFactory
 		result.name:="a"
 	end
 	
-	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
+	operation createIwOrFork():IwOrFork is do
+		result:= IwOrFork.new
+		result.name:="a"
+	end
+	
+	
+	operation createIwNodeConnection(source:IwNode,target:IwNode,conditionName:String):IwNodeConnection is do
 		result:=IwNodeConnection.new
 		result.source:=source
 		result.target:=target
+		result.conditionName:=conditionName
 	end
 }

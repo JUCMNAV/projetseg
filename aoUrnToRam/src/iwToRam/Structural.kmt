@@ -30,8 +30,8 @@ aspect class IwNode {
 	property OUTPUT_SUFFIX : String getter is do result := "Output" end
 
 	property INPUT_DATA : String getter is do result := "|InputData" end
-	property CUSTOMIZABLE_SEQUENCE : String getter is do result := "CustomizableSequence" end
-	property OUTPUT_DATA : String getter is do result := "|OutputData" end
+	property CUSTOMIZABLE_NODE : String getter is do result := "|CustomizableNode" end
+	property OUTPUT_DATA : String getter is do result := "OutputData" end
 }
 
 aspect class IwInput{
@@ -42,20 +42,24 @@ aspect class IwInput{
 }
 
 aspect class IwProcessingNode{
-	property ramCustomizableSequence : Class
+	property ramCustomizableNode : Class
 	getter is do
-		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_SEQUENCE)
+		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_NODE)
 	end
 }
 
 aspect class IwOutput{
-	property ramCustomizableSequence : Class
+	property ramCustomizableNode : Class
 	getter is do
-		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_SEQUENCE)
+		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_NODE)
 	end
 
 	property ramOutputData : Class
 	getter is do
 		result := ramClasses_PerSourceModelElement.getValue(OUTPUT_DATA)
 	end
+}
+
+aspect class IwNodeConnection{
+	reference ramCondition : Class
 }

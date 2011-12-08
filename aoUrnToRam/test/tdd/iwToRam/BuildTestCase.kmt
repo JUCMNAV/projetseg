@@ -34,7 +34,7 @@ class IwToRamBuildTestCase inherits TestCase
 		
 		assert(actual.ramClasses_PerSourceModelElement.size==2)
 		assertClassProperlyBuilt(actual.ramOutputData,"a"+actual.OUTPUT_SUFFIX)
-		assertClassProperlyBuilt(actual.ramCustomizableSequence,"a")
+		assertClassProperlyBuilt(actual.ramCustomizableNode,"a")
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -43,13 +43,9 @@ class IwToRamBuildTestCase inherits TestCase
 		actual.build()
 
 		assert(actual.ramClasses_PerSourceModelElement.size==1)
-		assertClassProperlyBuilt(actual.ramCustomizableSequence,"a")
+		assertClassProperlyBuilt(actual.ramCustomizableNode,"a")
 	end
 	
-	operation assertClassProperlyBuilt(ramClass:Class,name:String) is do
-		assertIsNonVoidInstanceOf(Class,ramClass)
-		assertStringEqual(name,ramClass.name)
-	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildWorkflow() is do
@@ -66,6 +62,30 @@ class IwToRamBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(Instantiation,actual.ramReactiveWorkflowInstantiation)
 		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
+	
+	operation testBuildIwNodeConnection_WithConditions() is do
+		var source:IwOrFork init factory.createIwOrFork
+		source.name:="theOrFork"
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,"theBranch")
+		actual.build()
+
+		assertClassProperlyBuilt(actual.ramCondition,"theOrFork_theBranch")
+	end
+	
+	operation testBuildIwNodeConnection_WithoutConditions() is do
+		var source:IwProcessingNode init factory.createIwProcessingNode
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,void)
+	
+		actual.build()
+	
+		assert(actual.ramCondition.isVoid)
+	end
+	
+	operation assertClassProperlyBuilt(ramClass:Class,name:String) is do
+		assertIsNonVoidInstanceOf(Class,ramClass)
+		assertStringEqual(name,ramClass.name)
+	end
+	
 	
 	//stle: dry
 	//stle: more verbrose on assertion

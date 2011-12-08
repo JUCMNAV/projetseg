@@ -45,7 +45,7 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 		actual.nodes.add(factory.createIwEndPoint())
 		numOfConsecutiveInputs.times{i|
 			actual.nodeConnections.add(
-				factory.createIwNodeConnection(actual.nodes.at(i),actual.nodes.at(i+1))
+				factory.createIwNodeConnection(actual.nodes.at(i),actual.nodes.at(i+1),void)
 			)
 		}
 		
@@ -74,7 +74,7 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	operation testhandleInputProcessingNodes_Input_Processing() is do
 		var input:IwInput init factory.createIwInput
 		var processingNode:IwProcessingNode init factory.createIwProcessingNode
-		factory.createIwNodeConnection(input,processingNode)
+		factory.createIwNodeConnection(input,processingNode,void)
 
 		input.handleInputProcessingNodes		
 	
@@ -84,7 +84,7 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	
 	operation parametrizableTesthandleInputProcessingNodes(nonProcessingNode:IwNode) is do
 		var input:IwInput init factory.createIwInput
-		factory.createIwNodeConnection(input,nonProcessingNode)
+		factory.createIwNodeConnection(input,nonProcessingNode,void)
 
 		input.handleInputProcessingNodes		
 	

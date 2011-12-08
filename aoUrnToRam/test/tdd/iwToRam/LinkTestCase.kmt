@@ -70,11 +70,11 @@ class IwToRamLinkTestCase inherits TestCase
 			iwInput.ramInputData)
 
 		assertSingleMapping(
-			mappings.select{mapping|mapping.sourceModelElement=="CustomizableSequence"}.one,
-			iwOutput.ramCustomizableSequence)
+			mappings.select{mapping|mapping.sourceModelElement=="|CustomizableNode"}.one,
+			iwOutput.ramCustomizableNode)
 
 		assertSingleMapping(
-			mappings.select{mapping|mapping.sourceModelElement=="|OutputData"}.one,
+			mappings.select{mapping|mapping.sourceModelElement=="OutputData"}.one,
 			iwOutput.ramOutputData)
 	end
 	
@@ -163,6 +163,45 @@ class IwToRamLinkTestCase inherits TestCase
 		actual.link
 		
 		assert(actual.ramAspects.size==0)
+	end
+	
+
+	
+	operation testLinkNodeConnection_WithCondition() is do
+		var workflow:IwWorkflow init factory.createIwWorkflow()
+		var source:IwOrFork init factory.createIwOrFork
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,"theBranch")
+		workflow.build
+		actual.build
+		
+		actual.link(workflow)
+		
+		//stle: add .single to collection class
+		assert(workflow.ramStructuralView.classes.size==1)
+		assert(workflow.ramStructuralView.classes.contains(actual.ramCondition))
+		
+		//stle: add .single to collection class
+		assert(workflow.ramReactiveWorkflowInstantiation.mappings.size==1)
+		var mapping:Mapping init workflow.ramReactiveWorkflowInstantiation.mappings.one
+		
+		//stle: dry between test and impl :Condition
+		assertStringEqual("Condition",mapping.sourceModelElement)
+		assert(mapping.maps.size==1)
+		
+		//stle: add .single to collection class (three strike OUT!)
+		assert(actual.ramCondition.oid==mapping.maps.one.oid)
+	end
+	
+	operation testLinkNodeConnection_WithoutCondition() is do
+		var workflow:IwWorkflow init factory.createIwWorkflow()
+		var actual:IwNodeConnection init factory.createIwNodeConnection(factory.createIwProcessingNode,factory.createIwProcessingNode,void)
+		workflow.build
+		actual.build
+		
+		actual.link(workflow)
+		
+		assert(workflow.ramStructuralView.classes.size==0)
+		assert(workflow.ramReactiveWorkflowInstantiation.mappings.size==0)
 	end
 	
 	

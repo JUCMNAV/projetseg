@@ -47,6 +47,14 @@ class AoUrnTestFactory
 		addRamMetadata(endPoint,ramExpression)
 		result:=endPoint
 	end
+	
+	operation createOrFork(name:String,ramExpression:String):OrFork is do
+		var orFork:OrFork init OrFork.new
+		orFork.name:=optionalString(name)
+		addRamMetadata(orFork,ramExpression)
+		result:=orFork
+	end
+	
 
 	operation createStartPoint(ramExpression:String):StartPoint is do
 		var startPoint:StartPoint init StartPoint.new
@@ -107,6 +115,14 @@ class AoUrnTestFactory
 		var connection:NodeConnection init NodeConnection.new
 		connection.source:=source
 		connection.target:=target 
+		result:=connection
+	end
+
+	operation createConditionalNodeConnection(source:IURNNode,target:IURNNode, conditionLabel:String):NodeConnection is do
+		var connection:NodeConnection init createNodeConnection(source,target)
+		var condition:Condition init Condition.new
+		condition.label:=conditionLabel
+		connection.condition:=condition
 		result:=connection
 	end
 	

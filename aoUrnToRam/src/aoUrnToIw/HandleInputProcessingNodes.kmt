@@ -49,7 +49,7 @@ aspect class IwInput {
 		end
 	end
 	
-	//stle: dry between iut and test
+	//stle: dry between iut and test and link
 	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
 		result:=IwNodeConnection.new
 		result.source:=source

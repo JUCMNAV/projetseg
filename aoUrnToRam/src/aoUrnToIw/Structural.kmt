@@ -60,19 +60,24 @@ package map{
 		operation getRamMetadata():Metadata is do
 			result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
 		end
-		
-		//stle: add caching
-		property readonly succIwNode : IwNode
+	}
+	
+	aspect class NodeConnection{
+		property readonly IwConditionName : String
 		getter is do
-			if(succ.size==0) then
-				result:=void
+			if(condition.isVoid==false) then
+				result:=condition.label
 			else
-				var target:PathNode init succ.one.target.asType(PathNode)
-				if(target.iwNodes.size==0)then
-					result:=target.succIwNode
-				else
-					result:=target.iwNodes.first
-				end
+				result:=void
+			end
+		end
+		
+		property readonly IwSingleTarget : IwNode
+		getter is do
+			if(target.asType(PathNode).iwNodes.isEmpty==false) then
+				result:=target.asType(PathNode).iwNodes.first
+			else
+				result:=target.succ.one.asType(NodeConnection).IwSingleTarget
 			end
 		end
 	}

@@ -206,7 +206,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		target.build
 		source.link
 		
-		assertOnePathNodeConnection(source,target)
+		assertPathNodeConnection(source,target)
 	end 	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -219,11 +219,11 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		target.build
 		source.link
 
-		assertOnePathNodeConnection(source,target)
+		assertPathNodeConnection(source,target)
 	end
 
 	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testPathNodeLink_TransitiveToOne() is do
+	operation testPathNodeLink_Transitive_Link() is do
 		var source:StartPoint init factory.createStartPoint("in theStart")
 		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
 		var target:RespRef init factory.createRespRef("theTarget",void)
@@ -235,25 +235,8 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		target.build
 		source.link
 		
-		assertOnePathNodeConnection(source,target)
+		assertPathNodeConnection(source,target)
 	end
-
-	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testPathNodeLink_TransitiveToNone() is do
-		var source:StartPoint init factory.createStartPoint("in theStart")
-		var outsideSystem1:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
-		var outsideSystem2:RespRef init factory.createRespRefGeneric("theSecondToSkip",void,false)
-
-		factory.createNodeConnection(source,outsideSystem1)
-		factory.createNodeConnection(outsideSystem1,outsideSystem2)
-	
-		source.build
-		outsideSystem1.build
-		outsideSystem2.build
-		source.link
-		
-		assert(source.iwNodes.last.succs.size==0)
-	end 	
 
 	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testLinkUcmMap_OneTransitiveConnection() is do
@@ -279,7 +262,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		respRef.build
 		respRef.link
 
-		assertOneInternalNodeConnection(respRef,0,1)
+		assertInternalNodeConnection(respRef,0,1)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -289,35 +272,93 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		actual.build
 		actual.link
 
-		assertOneInternalNodeConnection(actual,0,1)
-		assertOneInternalNodeConnection(actual,1,2)
+		assertInternalNodeConnection(actual,0,1)
+		assertInternalNodeConnection(actual,1,2)
 	end
+	
+	operation testOrForkLink_2Branchs2Targets() is do
+		var source:OrFork init factory.createOrFork("theOrFork",void)
+		var targetA:RespRef init factory.createRespRef("theTargetA",void)
+		var targetB:RespRef init factory.createRespRef("theTargetB",void)
+		factory.createConditionalNodeConnection(source,targetA,"branchA")
+		factory.createConditionalNodeConnection(source,targetB,"branchB")
+
+		source.build
+		targetA.build
+		targetB.build
+		source.link
+		
+		assertObjectEqual(2,source.iwNodes.last.succs.size)
+		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
+		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
+	end
+	
+	operation testOrForkLink_2Branchs1Targets() is do
+		var source:OrFork init factory.createOrFork("theOrFork",void)
+		var target:RespRef init factory.createRespRef("theTargetA",void)
+		factory.createConditionalNodeConnection(source,target,"branchA")
+		factory.createConditionalNodeConnection(source,target,"branchB")
+
+		source.build
+		target.build
+		source.link
+		
+		assertObjectEqual(2,source.iwNodes.last.succs.size)
+		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchA")
+		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchB")
+	end 	
+	 	
+	operation testOrForkLink_ManyBranchs() is do
+		var source:OrFork init factory.createOrFork("theOrFork",void)
+		var targetA:RespRef init factory.createRespRef("theTargetA",void)
+		var targetB:RespRef init factory.createRespRef("theTargetB",void)
+		var targetC:RespRef init factory.createRespRef("theTargetC",void)
+		factory.createConditionalNodeConnection(source,targetA,"branchA")
+		factory.createConditionalNodeConnection(source,targetB,"branchB")
+		factory.createConditionalNodeConnection(source,targetC,"branchC")
+
+		source.build
+		targetA.build
+		targetB.build
+		targetC.build
+		source.link
+		
+		assertObjectEqual(3,source.iwNodes.last.succs.size)
+		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
+		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
+		assertSingleConditionalPathNodeConnectionBetween(source,targetC,"branchC")
+	end 	
+	
 	
 
-	operation assertOneInternalNodeConnection(pathNode:PathNode, source:Integer, target:Integer) is do
-		assertOneIwNodeConnection(
-			pathNode.iwNodes.at(source),
-			pathNode.iwNodes.at(target)
-		)
-	end
-	
-	operation assertOnePathNodeConnection(source:PathNode, target:PathNode) is do
-		assertOneIwNodeConnection(
-			source.iwNodes.last,
-			target.iwNodes.first
-		)
-	end
-	
-	operation assertOneIwNodeConnection(source:IwNode, target:IwNode) is do
-		var succs:IwNodeConnection[0..*] init source.succs
-		var preds:IwNodeConnection[0..*] init target.preds
 
-		assertObjectEqual(1,succs.size)
-		assertObjectEqual(target.name,succs.one.target.name)
-		assertObjectEqual(1,preds.size)
-		assertObjectEqual(source.name,preds.one.source.name)
+
+	operation assertInternalNodeConnection(pathNode:PathNode, source:Integer, target:Integer) is do
+		assertNodeConnection(pathNode.iwNodes.at(source),
+							 pathNode.iwNodes.at(target))
 	end
 	
+	operation assertPathNodeConnection(source:PathNode, target:PathNode) is do
+		assertNodeConnection(source.iwNodes.last,
+							 target.iwNodes.first)
+	end
+	
+	operation assertNodeConnection(source:IwNode, target:IwNode) is do
+		assertObjectEqual(1,source.succs.size)
+		assert(source.succs.exists{succ|succ.target==target}) 
+	end
+	
+	operation assertSingleConditionalPathNodeConnectionBetween(source:PathNode, target:PathNode, conditionName:String) is do
+		var sourceIwNode:IwNode init source.iwNodes.last
+		var targetIwNode:IwNode init target.iwNodes.first
+		
+		var numOfConnection:Integer init sourceIwNode.succs.select{succ|
+										succ.target==targetIwNode and succ.conditionName==conditionName}.size
+		assertObjectEqual(1,numOfConnection) 
+	end
+	
+	
+
 	//stle: dry
 	//stle: more verbrose on assertion
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do

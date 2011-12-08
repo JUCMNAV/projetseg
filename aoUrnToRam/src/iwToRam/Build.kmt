@@ -20,6 +20,11 @@ aspect class IwWorkflow {
 		nodes.each{
 			node|node.build()
 		}
+		
+		nodeConnections.each{nodeConnection|
+			nodeConnection.build
+		}
+		
 	
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
@@ -54,15 +59,24 @@ aspect class IwOutput {
 	method build() is do
 		super()
 		addClass(OUTPUT_DATA,self.name+OUTPUT_SUFFIX)
-		addClass(CUSTOMIZABLE_SEQUENCE,self.name)
+		addClass(CUSTOMIZABLE_NODE,self.name)
 	end
 }
 
 aspect class IwProcessingNode {
 	method build() is do
 		super()
-		addClass(CUSTOMIZABLE_SEQUENCE,self.name)
+		addClass(CUSTOMIZABLE_NODE,self.name)
 	end
 }
 
+aspect class IwNodeConnection {
+	operation build() is do
+		if(conditionName.isVoid==false) then
+			//stle: will need factory at some point
+			ramCondition:=Class.new
+			ramCondition.name:=source.name+"_"+conditionName
+		end
+	end
+}
 
