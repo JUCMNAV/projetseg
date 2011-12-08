@@ -348,7 +348,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	
 	operation assertNodeConnection(source:IwNode, target:IwNode) is do
 		assertObjectEqual(1,source.succs.size)
-		assert(source.succs.exists{succ|succ.target==target}) 
+		assert(source.succs.exists{succ|succ.target.oid==target.oid}) 
 	end
 	
 	operation assertSingleConditionalPathNodeConnectionBetween(source:PathNode, target:PathNode, conditionName:String) is do
@@ -356,7 +356,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var targetIwNode:IwNode init target.iwNodes.first
 		
 		var numOfConnection:Integer init sourceIwNode.succs.select{succ|
-										succ.target==targetIwNode and succ.conditionName==conditionName}.size
+										succ.target.oid==targetIwNode.oid and succ.conditionName==conditionName}.size
 		assertObjectEqual(1,numOfConnection) 
 	end
 	
