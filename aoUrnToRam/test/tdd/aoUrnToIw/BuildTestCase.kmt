@@ -152,13 +152,15 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	end
 
 
+	@feature "FeaTransformOrJoin"
 	operation testBuildOrJoin_NoInOut() is do
 		var actual:OrJoin init factory.createOrJoin(void)
 		actual.build
 	
 		assert(0==actual.iwNodes.size)
 	end
-	
+
+	@feature "FeaTransformOrJoin"
 	operation testBuildOrJoin_InOut() is do
 		var actual:OrJoin init factory.createOrJoin("out theOutputName in theInputName")
 		actual.build
