@@ -277,7 +277,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformOrFork"
-	operation testOrForkLink_2Branchs2Targets() is do
+	operation testOrForkLink_2Branchs() is do
 		var source:OrFork init factory.createOrFork("theOrFork",void)
 		var targetA:RespRef init factory.createRespRef("theTargetA",void)
 		var targetB:RespRef init factory.createRespRef("theTargetB",void)
@@ -293,22 +293,6 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
 		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
 	end
-
-	@feature "FeaTransformOrFork"
-	operation testOrForkLink_2Branchs1Targets() is do
-		var source:OrFork init factory.createOrFork("theOrFork",void)
-		var target:RespRef init factory.createRespRef("theTargetA",void)
-		factory.createConditionalNodeConnection(source,target,"branchA")
-		factory.createConditionalNodeConnection(source,target,"branchB")
-
-		source.build
-		target.build
-		source.link
-		
-		assertObjectEqual(2,source.iwNodes.last.succs.size)
-		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchA")
-		assertSingleConditionalPathNodeConnectionBetween(source,target,"branchB")
-	end 	
 
 	@feature "FeaTransformOrFork"
 	operation testOrForkLink_ManyBranchs() is do
@@ -331,8 +315,52 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
 		assertSingleConditionalPathNodeConnectionBetween(source,targetC,"branchC")
 	end 	
-	
-	
+
+	@feature "FeaTransformOrJoin"
+	operation testOrJoinLink_2Branchs() is do
+		var sourceA:RespRef init factory.createRespRef("theSourceA",void)
+		var sourceB:RespRef init factory.createRespRef("theSourceB",void)
+		var target:OrJoin init factory.createOrJoin("in joinInput")
+		
+		factory.createNodeConnection(sourceA,target)
+		factory.createNodeConnection(sourceB,target)
+		
+		sourceA.build
+		sourceB.build
+		target.build
+		sourceA.link
+		sourceB.link
+		//stle: OrJoin link like any other node, will be tested when testing liskov by base test class. For now it is assumed to be true.
+		
+		assertObjectEqual(2,target.iwNodes.first.preds.size)
+		assertPathNodeConnection(sourceA,target)
+		assertPathNodeConnection(sourceB,target)
+	end 	
+
+	@feature "FeaTransformOrJoin"
+	operation testOrJoinLink_ManyBranchs() is do
+		var sourceA:RespRef init factory.createRespRef("theSourceA",void)
+		var sourceB:RespRef init factory.createRespRef("theSourceB",void)
+		var sourceC:RespRef init factory.createRespRef("theSourceC",void)
+		var target:OrJoin init factory.createOrJoin("in joinInput")
+		
+		factory.createNodeConnection(sourceA,target)
+		factory.createNodeConnection(sourceB,target)
+		factory.createNodeConnection(sourceC,target)
+		
+		sourceA.build
+		sourceB.build
+		sourceC.build
+		target.build
+		sourceA.link
+		sourceB.link
+		sourceC.link
+		
+		assertObjectEqual(3,target.iwNodes.first.preds.size)
+		assertPathNodeConnection(sourceA,target)
+		assertPathNodeConnection(sourceB,target)
+		assertPathNodeConnection(sourceC,target)
+	end 	
 
 
 

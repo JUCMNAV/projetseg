@@ -150,7 +150,25 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(2))
 		assertStringEqual("theInputName",actual.iwNodes.at(2).name)
 	end
+
+
+	operation testBuildOrJoin_NoInOut() is do
+		var actual:OrJoin init factory.createOrJoin(void)
+		actual.build
 	
+		assert(0==actual.iwNodes.size)
+	end
+	
+	operation testBuildOrJoin_InOut() is do
+		var actual:OrJoin init factory.createOrJoin("out theOutputName in theInputName")
+		actual.build
+
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
+		
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
+		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+	end
 	
 	
 	

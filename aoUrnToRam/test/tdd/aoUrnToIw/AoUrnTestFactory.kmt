@@ -54,7 +54,12 @@ class AoUrnTestFactory
 		addRamMetadata(orFork,ramExpression)
 		result:=orFork
 	end
-	
+
+	operation createOrJoin(ramExpression:String):OrJoin is do
+		var orJoin:OrJoin init OrJoin.new
+		addRamMetadata(orJoin,ramExpression)
+		result:=orJoin
+	end
 
 	operation createStartPoint(ramExpression:String):StartPoint is do
 		var startPoint:StartPoint init StartPoint.new
