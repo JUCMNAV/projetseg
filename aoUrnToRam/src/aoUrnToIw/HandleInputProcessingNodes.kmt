@@ -8,7 +8,9 @@ using kermeta::utils
 
 aspect class IwModel {
 	operation handleInputProcessingNodes() is do
-		workflows.each{workflow|workflow.handleInputProcessingNodes}
+		concerns.each{concern|
+			concern.workflows.each{workflow|workflow.handleInputProcessingNodes}
+		}
 	end
 }
 

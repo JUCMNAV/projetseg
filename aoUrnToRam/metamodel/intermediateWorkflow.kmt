@@ -6,7 +6,13 @@ require kermeta
 using kermeta::standard
 
 class IwModel{
-	attribute workflows : IwWorkflow[0..*]
+	attribute concerns : IwConcern[0..*]
+}
+
+class IwConcern 
+{
+	attribute name : String
+	attribute workflows : IwWorkflow[1..*]
 }
 
 class IwWorkflow 

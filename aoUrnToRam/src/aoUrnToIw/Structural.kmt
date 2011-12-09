@@ -18,6 +18,40 @@ package urn{
 			result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
 							            .collect{specDiagram|specDiagram.asType(UCMmap)}
 		end
+		
+		property readonly concerns : oset Concern[0..*]
+		getter is do
+			result:= urndef.concerns
+		end
+		
+		reference _iwWithoutConcern:IwConcern
+		property readonly iwWithoutConcern:IwConcern
+		getter is do
+			if(_iwWithoutConcern.isVoid) then
+				//stle: facotry or init
+				_iwWithoutConcern:=IwConcern.new
+				_iwWithoutConcern.name:="WithoutConcern"
+			end
+			
+			result:=_iwWithoutConcern
+		end
+				
+		
+	}
+}
+
+package urncore{
+	aspect class Concern{
+		reference _iwConcern:IwConcern
+		
+		property readonly iwConcern:IwConcern
+		getter is do
+			if(_iwConcern.isVoid) then
+				_iwConcern:=IwConcern.new
+				_iwConcern.name:=name
+			end
+			result:=_iwConcern
+		end
 	}
 }
 

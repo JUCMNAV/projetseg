@@ -128,6 +128,7 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 
+/*stle: will reenable once Concern are managed in IwToRam
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkIwModel_nWorkflows() is do
 		//stle: need parametrizable tests
@@ -163,7 +164,7 @@ class IwToRamLinkTestCase inherits TestCase
 		actual.link
 		
 		assert(actual.ramAspects.size==0)
-	end
+	end*/
 	
 
 

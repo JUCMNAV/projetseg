@@ -64,7 +64,7 @@ class Main
 	
 	operation launchSpecificTest() : Void is do
 	
-		var testCase : TestCase init IwToRamBuildTestCase.new.setTestMethodName("testBuildIwNodeConnection_WithoutConditions()")
+		var testCase : TestCase init AoUrnToIwBuildTestCase.new.setTestMethodName("testBuildRespRef_NotInComponent()")
 		runTest(testCase)
     end
     

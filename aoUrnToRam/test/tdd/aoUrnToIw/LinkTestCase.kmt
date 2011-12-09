@@ -23,30 +23,10 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkUnrSpec() is do
-		//stle: need parametrizable tests
-		var params:Integer[0..*] init OrderedSet<Integer>.new
-		params.add(0)
-		params.add(1)
-		params.add(3)
-		
-		params.each{numOfUcmMaps|parametrizableTestLinkUnrSpec(numOfUcmMaps)}
-	end
-
-	operation parametrizableTestLinkUnrSpec(numOfUcmMaps:Integer) is do
-		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(numOfUcmMaps)
-		urnSpec.build
-		urnSpec.link
-		
-		assert(urnSpec.iwModel.workflows.size==numOfUcmMaps)
-	end
-	
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_NoResponsibility() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodes.size==0)
 	end
@@ -56,7 +36,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodes.size==1)
 	end
@@ -69,7 +49,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.nodes.add(factory.createRespRef(void, "out b"))
 		ucmMap.nodes.add(factory.createRespRef(void, "out c in d"))
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodes.size==5)
 	end
@@ -106,7 +86,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 				
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.startNodes.size==1)
 	end
@@ -123,7 +103,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.nodes.add(factory.createStartPoint("out theOutput"))
 				
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.startNodes.size==2)
 	end
@@ -135,7 +115,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodeConnections.size==0)
 	end
@@ -148,7 +128,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1)))
 		
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
 	end
@@ -164,7 +144,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2)))
 		
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodeConnections.size==3)
 	end
@@ -248,7 +228,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2))
 		
 		ucmMap.build
-		ucmMap.link
+		ucmMap.linkChildren
 		
 		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
 	end
@@ -386,6 +366,64 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var numOfConnection:Integer init sourceIwNode.succs.select{succ|
 										succ.target.oid==targetIwNode.oid and succ.conditionName==conditionName}.size
 		assertObjectEqual(1,numOfConnection) 
+	end
+
+
+	operation testLinkUcmMap_OneWithConcern() is do
+		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(1)
+		var concern:Concern init factory.createConcern("theConcern")
+		var ucmMap:UCMmap init urnSpec.ucmMaps.one
+		ucmMap.concern:=concern
+
+		urnSpec.build
+		urnSpec.linkChildren
+		
+		assert(urnSpec.iwModel.concerns.size==1)
+		assert(urnSpec.iwModel.concerns.contains(concern.iwConcern))
+
+		assert(concern.iwConcern.workflows.size==1)
+		assert(concern.iwConcern.workflows.contains(ucmMap.iwWorkflow))
+	end
+
+	operation testLinkUcmMap_ZeroWithoutConcern() is do
+		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(0)
+
+		urnSpec.build
+		urnSpec.linkChildren
+		
+		assert(urnSpec.iwModel.concerns.size==0)
+	end
+	
+	operation testLinkUcmMap_OneWithoutConcern() is do
+		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(1)
+		var ucmMap:UCMmap init urnSpec.ucmMaps.one
+
+		urnSpec.build
+		urnSpec.linkChildren
+		
+		assert(urnSpec.iwModel.concerns.size==1)
+		assert(urnSpec.iwModel.concerns.contains(urnSpec.iwWithoutConcern))
+
+		assert(urnSpec.iwWithoutConcern.workflows.size==1)
+		assert(urnSpec.iwWithoutConcern.workflows.contains(ucmMap.iwWorkflow))
+	end
+	
+	
+	//stle: what to do with the 0..many repetition?
+	operation testLinkUcmMap_ManyWithoutConcern() is do
+		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(2)
+		var ucmMapA:UCMmap init urnSpec.ucmMaps.at(0)
+		var ucmMapB:UCMmap init urnSpec.ucmMaps.at(1)
+
+		urnSpec.build
+		urnSpec.linkChildren
+		
+		assert(urnSpec.iwModel.concerns.size==1)
+		assert(urnSpec.iwModel.concerns.contains(urnSpec.iwWithoutConcern))
+
+		assert(urnSpec.iwWithoutConcern.workflows.size==2)
+		assert(urnSpec.iwWithoutConcern.workflows.contains(ucmMapA.iwWorkflow))
+		assert(urnSpec.iwWithoutConcern.workflows.contains(ucmMapB.iwWorkflow))
 	end
 	
 	

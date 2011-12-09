@@ -95,6 +95,12 @@ class AoUrnTestFactory
 			element.metadata.add(ramMetadata)
 		end
 	end
+
+	operation createConcern(name:String):Concern is do
+		var concern:Concern init Concern.new
+		concern.name:=optionalString(name)
+		result:=concern 
+	end
 	
 	operation createUcmMap(name:String):UCMmap is do
 		var ucmMap:UCMmap init UCMmap.new

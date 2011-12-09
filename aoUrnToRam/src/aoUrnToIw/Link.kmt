@@ -10,17 +10,28 @@ package urn{
 
 	aspect class URNspec{
 		operation link() is do
-			ucmMaps.each{ucmMap|
-				ucmMap.link
-			}
-			
-			addWorkflows
+			linkChildren
 		end
 		
-		operation addWorkflows() is do
-			ucmMaps.each{ucmMap|
-				iwModel.workflows.add(ucmMap.iwWorkflow)
-			}
+		operation linkChildren() is do
+			ucmMaps.each{ucmMap|ucmMap.link(self)}
+		end
+
+		operation getIwConcern(concern:Concern):IwConcern is do
+			if(concern.isVoid) then
+				result:=iwWithoutConcern
+			else
+				result:=concern.iwConcern
+			end
+		end
+		
+		operation addIwWorflowRefact(concern:Concern,iwWorkflow:IwWorkflow) is do
+			var iwConcern:IwConcern init getIwConcern(concern)
+
+			if(iwModel.concerns.contains(iwConcern)==false)then
+				iwModel.concerns.add(iwConcern)
+			end
+			iwConcern.workflows.add(iwWorkflow)
 		end
 	}
 }	
@@ -29,14 +40,19 @@ package ucm{
 package map{
 
 	aspect class UCMmap{
-		operation link() is do
+		operation link(urnSpec:URNspec) is do
+			urnSpec.addIwWorflowRefact(concern,iwWorkflow)
+			linkChildren
+		end
+		
+		operation linkChildren() is do
 			pathNodes.each{pathNode|pathNode.link}
 			
 			addNodes
 			addNodeConnections
 			addStartNodes
 		end
-		
+
 		operation addNodes() is do
 			pathNodes.each{pathNode|
 				iwWorkflow.nodes.addAll(pathNode.iwNodes)

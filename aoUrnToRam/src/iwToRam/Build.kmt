@@ -9,11 +9,16 @@ using ramstructural
 
 aspect class IwModel {
 	operation build() is do
-		workflows.each{workflow|
-			workflow.build
-		}
+		concerns.each{concern|concern.build}
 	end
 }
+
+aspect class IwConcern {
+	operation build() is do
+		workflows.each{workflow|workflow.build}
+	end
+}
+
 
 aspect class IwWorkflow {
 	operation build() is do

@@ -10,7 +10,6 @@ package urn{
 	aspect class URNspec{
 		operation build() is do
 			ucmMaps.each{ucmMap|ucmMap.build}
-		
 			iwModel:=IwModel.new
 		end
 	}

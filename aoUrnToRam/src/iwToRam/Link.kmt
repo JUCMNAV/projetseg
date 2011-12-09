@@ -9,16 +9,14 @@ using ramstructural
 
 aspect class IwModel {
 	operation link() is do
-		workflows.each{workflow|
-			workflow.link
-		}
+/*		workflows.each{workflow|workflow.link}
 		
-		addAspects
+		addAspects*/
 	end
 	
 	operation addAspects() is do
-		workflows.select{workflow|workflow.ramAspect.structuralView.classes.size>0}
-				 .each{workflow|ramAspects.add(workflow.ramAspect)}
+/*		workflows.select{workflow|workflow.ramAspect.structuralView.classes.size>0}
+				 .each{workflow|ramAspects.add(workflow.ramAspect)}*/
 	end
 }
 
@@ -90,6 +88,7 @@ aspect class IwWorkflow {
 
 aspect class IwNodeConnection {
 	operation link(workflow:IwWorkflow) is do
+		//stle: build on the fly to avoid duplicating conditions
 		if(ramCondition.isVoid==false) then
 			workflow.addRamClass(ramCondition)
 			workflow.mapRamClass("Condition",ramCondition)

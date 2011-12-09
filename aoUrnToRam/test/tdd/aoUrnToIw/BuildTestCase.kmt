@@ -173,6 +173,23 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	end
 	
 	
+	operation testBuildConcern() is do
+		var concern:Concern init factory.createConcern("theConcern")
+	
+		assertIsNonVoidInstanceOf(IwConcern, concern.iwConcern)
+		assertStringEqual("theConcern",concern.iwConcern.name)
+	end
+	
+	operation testBuildWithoutConcern() is do
+		var urnSpec:URNspec init factory.createUrnSpec
+	
+		assertIsNonVoidInstanceOf(IwConcern, urnSpec.iwWithoutConcern)
+		assertStringEqual("WithoutConcern",urnSpec.iwWithoutConcern.name)
+	end
+	
+	
+	//stle: later, test that container call components. Mayber always test two levels. i.e Root/UcmMap,UcmMap/Node,etc...
+	
 	
 	//stle: dry
 	//stle: more verbrose on assertion
