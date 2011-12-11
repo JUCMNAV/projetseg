@@ -40,7 +40,7 @@ class IwInput inherits IwNode
 {
 }
 
-class IwProcessingNode inherits IwNode
+class IwCustomizableNode inherits IwNode
 {
 }
 

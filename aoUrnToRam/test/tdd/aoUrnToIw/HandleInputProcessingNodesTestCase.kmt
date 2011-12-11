@@ -45,7 +45,7 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 		actual.nodes.add(factory.createIwEndPoint())
 		numOfConsecutiveInputs.times{i|
 			actual.nodeConnections.add(
-				factory.createIwNodeConnection(actual.nodes.at(i),actual.nodes.at(i+1),void)
+				factory.createIwNodeConnection(actual.nodes.at(i),actual.nodes.at(i+1))
 			)
 		}
 		
@@ -78,8 +78,8 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	@feature "FeaHandleTwoInputsInARow"
 	operation testhandleInputProcessingNodes_Input_Processing() is do
 		var input:IwInput init factory.createIwInput
-		var processingNode:IwProcessingNode init factory.createIwProcessingNode
-		factory.createIwNodeConnection(input,processingNode,void)
+		var processingNode:IwCustomizableNode init factory.createIwCustomizableNode
+		factory.createIwNodeConnection(input,processingNode)
 
 		input.handleInputProcessingNodes		
 	
@@ -89,11 +89,11 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	
 	operation parametrizableTesthandleInputProcessingNodes(nonProcessingNode:IwNode) is do
 		var input:IwInput init factory.createIwInput
-		factory.createIwNodeConnection(input,nonProcessingNode,void)
+		factory.createIwNodeConnection(input,nonProcessingNode)
 
 		input.handleInputProcessingNodes		
 	
-		var inputProcessing:IwProcessingNode init input.succs.one.target.asType(IwProcessingNode)
+		var inputProcessing:IwCustomizableNode init input.succs.one.target.asType(IwCustomizableNode)
 		//stle: dry between iut and test
 		assert(inputProcessing.name=="Process"+input.name)
 		assertOneIwNodeConnection(input,inputProcessing)

@@ -11,6 +11,7 @@ using intermediateWorkflow
 package urn{
 	aspect class URNspec{
 		reference iwModel: IwModel
+		reference _iwWithoutConcern:IwConcern
 		
 		property readonly ucmMaps : seq UCMmap[0..*]
 		getter is do
@@ -24,19 +25,18 @@ package urn{
 			result:= urndef.concerns
 		end
 		
-		reference _iwWithoutConcern:IwConcern
 		property readonly iwWithoutConcern:IwConcern
 		getter is do
+			buildIwWithoutConcernOnDemand			
+			result:=_iwWithoutConcern
+		end
+		
+		operation buildIwWithoutConcernOnDemand() is do
 			if(_iwWithoutConcern.isVoid) then
-				//stle: facotry or init
 				_iwWithoutConcern:=IwConcern.new
 				_iwWithoutConcern.name:="WithoutConcern"
 			end
-			
-			result:=_iwWithoutConcern
 		end
-				
-		
 	}
 }
 
@@ -46,11 +46,15 @@ package urncore{
 		
 		property readonly iwConcern:IwConcern
 		getter is do
+			buildIwConcernOnDemand
+			result:=_iwConcern
+		end
+		
+		operation buildIwConcernOnDemand() is do
 			if(_iwConcern.isVoid) then
 				_iwConcern:=IwConcern.new
 				_iwConcern.name:=name
 			end
-			result:=_iwConcern
 		end
 	}
 }

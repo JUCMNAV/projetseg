@@ -10,13 +10,9 @@ package urn{
 
 	aspect class URNspec{
 		operation link() is do
-			linkChildren
-		end
-		
-		operation linkChildren() is do
 			ucmMaps.each{ucmMap|ucmMap.link(self)}
 		end
-
+		
 		operation getIwConcern(concern:Concern):IwConcern is do
 			if(concern.isVoid) then
 				result:=iwWithoutConcern

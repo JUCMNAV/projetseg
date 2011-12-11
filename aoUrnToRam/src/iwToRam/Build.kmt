@@ -15,12 +15,18 @@ aspect class IwModel {
 
 aspect class IwConcern {
 	operation build() is do
-		workflows.each{workflow|workflow.build}
+		workflows.each{workflow|
+			workflow.build()
+			workflow.buildConcern(self)
+		}
 	end
 }
 
-
 aspect class IwWorkflow {
+	operation buildConcern(concern:IwConcern) is do
+		ramAspect.workspaceDirectory:=concern.name
+	end
+
 	operation build() is do
 		nodes.each{
 			node|node.build()
@@ -29,7 +35,6 @@ aspect class IwWorkflow {
 		nodeConnections.each{nodeConnection|
 			nodeConnection.build
 		}
-		
 	
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
@@ -68,7 +73,7 @@ aspect class IwOutput {
 	end
 }
 
-aspect class IwProcessingNode {
+aspect class IwCustomizableNode {
 	method build() is do
 		super()
 		addClass(CUSTOMIZABLE_NODE,self.name)

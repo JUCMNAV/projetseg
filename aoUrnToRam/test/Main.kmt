@@ -20,10 +20,10 @@ using kermeta::language::structure
 
 class Main
 {
-    operation main() : Void is do 
-		launchTddTests() 
+    operation main() : Void is do
+    	launchTddTests() 
 		launchIntegrationTests()
-    end
+	end
 
 	property readonly aoUrnToIwTestSuite : OrderedSet<Class>
 	getter is do
@@ -63,7 +63,6 @@ class Main
     end
 	
 	operation launchSpecificTest() : Void is do
-	
 		var testCase : TestCase init AoUrnToIwBuildTestCase.new.setTestMethodName("testBuildRespRef_NotInComponent()")
 		runTest(testCase)
     end
@@ -92,7 +91,7 @@ class Main
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
 			"platform:/resource/aoUrnToRam/test/integration/model/OrFork.jucm",
-			"platform:/resource/aoUrnToRam/test/integration/model/SimpleRam_Actual_",
+			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)
 		stdio.writeln("End")

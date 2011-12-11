@@ -21,73 +21,91 @@ class IwToRamBuildTestCase inherits TestCase
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildInput() is do
 		var actual:IwInput init factory.createIwInput()
+		
 		actual.build()
 		
 		assert(actual.ramClasses_PerSourceModelElement.size==1)
-		assertClassProperlyBuilt(actual.ramInputData,"a"+actual.INPUT_SUFFIX)
+		assertClassProperlyBuilt(actual.name+actual.INPUT_SUFFIX,actual.ramInputData)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildOut() is do
 		var actual:IwOutput init factory.createIwOutput()
+		
 		actual.build()
 		
 		assert(actual.ramClasses_PerSourceModelElement.size==2)
-		assertClassProperlyBuilt(actual.ramOutputData,"a"+actual.OUTPUT_SUFFIX)
-		assertClassProperlyBuilt(actual.ramCustomizableNode,"a")
+		assertClassProperlyBuilt(actual.name+actual.OUTPUT_SUFFIX,actual.ramOutputData)
+		assertClassProperlyBuilt(actual.name,actual.ramCustomizableNode)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuildProcessingNode() is do
-		var actual:IwProcessingNode init factory.createIwProcessingNode()
+	operation testBuildCustomizableNode() is do
+		var actual:IwCustomizableNode init factory.createIwCustomizableNode()
+		
 		actual.build()
 
 		assert(actual.ramClasses_PerSourceModelElement.size==1)
-		assertClassProperlyBuilt(actual.ramCustomizableNode,"a")
+		assertClassProperlyBuilt(actual.name,actual.ramCustomizableNode)
 	end
-	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildWorkflow() is do
+		var concern:IwConcern init factory.createIwConcern()
 		var actual:IwWorkflow init factory.createIwWorkflow()
-		actual.name:="a"
-		actual.build()
+
+		actual.build
 		
 		assertIsNonVoidInstanceOf(Aspect,actual.ramAspect)
 		//stle: aspect is name of workflow for now, wait until steps get implemented
-		assertStringEqual("a",actual.ramAspect.name)
+		assertStringEqual(actual.name,actual.ramAspect.name)
+		
 		assertIsNonVoidInstanceOf(ClassDiagram,actual.ramAspect.structuralView)
 		assertIsNonVoidInstanceOf(AspectInterface,actual.ramAspect.interface)
-		
 		assertIsNonVoidInstanceOf(Instantiation,actual.ramReactiveWorkflowInstantiation)
+		//stle:dry with iut
 		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
 
 	@feature "FeaTransformOrFork"
 	operation testBuildIwNodeConnection_WithConditions() is do
 		var source:IwOrFork init factory.createIwOrFork
-		source.name:="theOrFork"
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,"theBranch")
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
+		actual.conditionName:="theBranch"
+		
 		actual.build()
 
-		assertClassProperlyBuilt(actual.ramCondition,"theOrFork_theBranch")
+		assertClassProperlyBuilt("theOrFork_theBranch", actual.ramCondition)
 	end
 
 	@feature "FeaTransformOrFork"
 	operation testBuildIwNodeConnection_WithoutConditions() is do
-		var source:IwProcessingNode init factory.createIwProcessingNode
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,void)
+		var source:IwCustomizableNode init factory.createIwCustomizableNode
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
 	
 		actual.build()
 	
 		assert(actual.ramCondition.isVoid)
 	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testBuildConcern() is do
+		//stle: again an ugly workaround to avoid dependency chain (complex to setup)
+		var concern:IwConcern init factory.createIwConcern()
+		var actual:IwWorkflow init factory.createIwWorkflow() 
 	
-	operation assertClassProperlyBuilt(ramClass:Class,name:String) is do
-		assertIsNonVoidInstanceOf(Class,ramClass)
-		assertStringEqual(name,ramClass.name)
+		actual.build
+		actual.buildConcern(concern)
+		
+		//stle: aspect is name of workflow for now, wait until steps get implemented
+		assertStringEqual(concern.name+"/"+actual.name,actual.ramAspect.workspacePath)
 	end
 	
+	
+	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
+		assertIsNonVoidInstanceOf(Class,ramClass)
+		assertStringEqual(expectedName,ramClass.name)
+	end
 	
 	//stle: dry
 	//stle: more verbrose on assertion

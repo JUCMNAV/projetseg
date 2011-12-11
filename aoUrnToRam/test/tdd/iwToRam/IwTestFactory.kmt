@@ -13,43 +13,45 @@ class IwTestFactory
 		result:=IwModel.new
 	end
 
+	operation createIwConcern():IwConcern is do
+		result:=IwConcern.new
+		result.name:=  "theConcern"
+	end
+
 	operation createIwWorkflow():IwWorkflow is do
 		result:=IwWorkflow.new
+		result.name:="theWorkflow"
 	end
 
 	operation createIwInput():IwInput is do
-		var res:IwInput init IwInput.new
-		res.name:="a"
-		result:=res
+		result:=IwInput.new
+		result.name:="theInput"
 	end
 	
-	operation createIwProcessingNode():IwProcessingNode is do
-		var res:IwProcessingNode init IwProcessingNode.new
-		res.name:="a"
-		result:=res
+	operation createIwCustomizableNode():IwCustomizableNode is do
+		result:=IwCustomizableNode.new
+		result.name:="theCustomizableNode"
 	end
 	
 	operation createIwOutput():IwOutput is do
-		var res:IwOutput init IwOutput.new
-		res.name:="a"
-		result:=res
+		result:=IwOutput.new
+		result.name:="theOutput"
 	end
 	
 	operation createIwEndPoint():IwEndPoint is do
-		result:= IwEndPoint.new
-		result.name:="a"
+		result:=IwEndPoint.new
+		result.name:="theEndPoint"
 	end
 	
 	operation createIwOrFork():IwOrFork is do
-		result:= IwOrFork.new
-		result.name:="a"
+		result:=IwOrFork.new
+		result.name:="theOrFork"
 	end
 	
-	
-	operation createIwNodeConnection(source:IwNode,target:IwNode,conditionName:String):IwNodeConnection is do
+	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
+		
 		result:=IwNodeConnection.new
 		result.source:=source
 		result.target:=target
-		result.conditionName:=conditionName
 	end
 }

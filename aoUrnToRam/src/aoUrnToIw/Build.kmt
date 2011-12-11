@@ -56,15 +56,15 @@ package map{
 			super()
 			if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
 				if(isSystemComponentRef) then
-					addIwProcessingNode
+					addIwCustomizableNode
 				end
 			end 
 		end
 		
-		operation addIwProcessingNode() is do
-			var iwProcessingNode:IwProcessingNode init IwProcessingNode.new
-			iwProcessingNode.name:=respDef.name
-			iwNodes.add(iwProcessingNode)
+		operation addIwCustomizableNode() is do
+			var IwCustomizableNode:IwCustomizableNode init IwCustomizableNode.new
+			IwCustomizableNode.name:=respDef.name
+			iwNodes.add(IwCustomizableNode)
 		end
 	}
 	

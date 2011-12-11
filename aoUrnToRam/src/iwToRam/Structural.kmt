@@ -2,7 +2,7 @@ package intermediateWorkflow;
 
 require kermeta
 require "http:///intermediateWorkflow.ecore"
-require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/RamStructuralExtension.kmt"
 
 using kermeta::standard
 using kermeta::utils
@@ -41,7 +41,7 @@ aspect class IwInput{
 	end
 }
 
-aspect class IwProcessingNode{
+aspect class IwCustomizableNode{
 	property ramCustomizableNode : Class
 	getter is do
 		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_NODE)

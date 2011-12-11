@@ -38,7 +38,7 @@ aspect class IwWorkflow {
 
 
 aspect class IwInput {
-	reference inputProcessingNode:IwProcessingNode
+	reference inputProcessingNode:IwCustomizableNode
 
 	operation handleInputProcessingNodes() is do
 		var target:IwNode init succs.one.target
@@ -46,7 +46,7 @@ aspect class IwInput {
 		   target.isInstanceOf(IwInput) or
 		   target.isInstanceOf(IwOrFork) 
 		) then
-			inputProcessingNode:=IwProcessingNode.new
+			inputProcessingNode:=IwCustomizableNode.new
 			inputProcessingNode.name:="Process"+name
 			
 			succs.one.target:=inputProcessingNode

@@ -119,7 +119,7 @@ class IwToRamLinkTestCase inherits TestCase
 	operation testLinkManyNodeFromWorkflow() is do
 		var actual:IwWorkflow init factory.createIwWorkflow()
 		actual.nodes.add(factory.createIwInput())
-		2.times{i|actual.nodes.add(factory.createIwProcessingNode())}
+		2.times{i|actual.nodes.add(factory.createIwCustomizableNode())}
 		actual.nodes.add(factory.createIwOutput())
 		
 		actual.build()
@@ -128,7 +128,6 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramStructuralView.classes.size==1+1+1+2)
 	end
 
-/*stle: will reenable once Concern are managed in IwToRam
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkIwModel_nWorkflows() is do
 		//stle: need parametrizable tests
@@ -143,10 +142,12 @@ class IwToRamLinkTestCase inherits TestCase
 	
 	operation parametrizableTestLinkIwModel_nWorkflows(numOfWorkflows:Integer) is do
 		var actual:IwModel init factory.createIwModel
+		var concern:IwConcern init factory.createIwConcern
+		actual.concerns.add(concern)
 		numOfWorkflows.times{i| 
 			var workflow:IwWorkflow init factory.createIwWorkflow
-			workflow.nodes.add(factory.createIwProcessingNode())
-			actual.workflows.add(workflow)
+			workflow.nodes.add(factory.createIwCustomizableNode())
+			concern.workflows.add(workflow)
 		}
 		
 		actual.build
@@ -158,21 +159,22 @@ class IwToRamLinkTestCase inherits TestCase
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkIwModel_FilterOutWorkflowWithoutAnyClasses() is do
 		var actual:IwModel init factory.createIwModel
-		actual.workflows.add(factory.createIwWorkflow)
+		var concern:IwConcern init factory.createIwConcern
+		actual.concerns.add(concern)
+		concern.workflows.add(factory.createIwWorkflow)
 
 		actual.build
 		actual.link
 		
 		assert(actual.ramAspects.size==0)
-	end*/
-	
-
+	end
 
 	@feature "FeaTransformOrFork"
 	operation testLinkNodeConnection_WithCondition() is do
 		var workflow:IwWorkflow init factory.createIwWorkflow()
 		var source:IwOrFork init factory.createIwOrFork
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwProcessingNode,"theBranch")
+		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
+		actual.conditionName:="theBranch"
 		workflow.build
 		actual.build
 		
@@ -197,7 +199,7 @@ class IwToRamLinkTestCase inherits TestCase
 	@feature "FeaTransformOrFork"
 	operation testLinkNodeConnection_WithoutCondition() is do
 		var workflow:IwWorkflow init factory.createIwWorkflow()
-		var actual:IwNodeConnection init factory.createIwNodeConnection(factory.createIwProcessingNode,factory.createIwProcessingNode,void)
+		var actual:IwNodeConnection init factory.createIwNodeConnection(factory.createIwCustomizableNode,factory.createIwCustomizableNode)
 		workflow.build
 		actual.build
 		

@@ -25,7 +25,7 @@ class AoUrnToRamTransformation
 		end
 		
 		iwModel.toRam.each{ramAspect|
-			repository.save(ramAspect,destination+ramAspect.name+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+			repository.save(ramAspect,Path.new.combine(destination,ramAspect.workspacePath)+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 		}
 	end
 }

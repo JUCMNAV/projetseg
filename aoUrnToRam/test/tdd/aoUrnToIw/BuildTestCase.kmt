@@ -82,7 +82,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:RespRef init factory.createRespRef("theRespName",void)
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwProcessingNode, actual.iwNodes.one)
+		assertIsNonVoidInstanceOf(IwCustomizableNode, actual.iwNodes.one)
 		assertStringEqual("theRespName",actual.iwNodes.one.name)
 	end
 
@@ -172,14 +172,16 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
 	end
 	
-	
+
+	@feature "FeaNamingofRAMConcern"
 	operation testBuildConcern() is do
 		var concern:Concern init factory.createConcern("theConcern")
 	
 		assertIsNonVoidInstanceOf(IwConcern, concern.iwConcern)
 		assertStringEqual("theConcern",concern.iwConcern.name)
 	end
-	
+
+	@feature "FeaNamingofRAMConcern"
 	operation testBuildWithoutConcern() is do
 		var urnSpec:URNspec init factory.createUrnSpec
 	

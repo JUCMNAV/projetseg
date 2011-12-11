@@ -369,6 +369,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 
 
+	@feature "FeaNamingofRAMConcern"
 	operation testLinkUcmMap_OneWithConcern() is do
 		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(1)
 		var concern:Concern init factory.createConcern("theConcern")
@@ -376,7 +377,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.concern:=concern
 
 		urnSpec.build
-		urnSpec.linkChildren
+		urnSpec.link
 		
 		assert(urnSpec.iwModel.concerns.size==1)
 		assert(urnSpec.iwModel.concerns.contains(concern.iwConcern))
@@ -385,21 +386,23 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(concern.iwConcern.workflows.contains(ucmMap.iwWorkflow))
 	end
 
+	@feature "FeaNamingofRAMConcern"
 	operation testLinkUcmMap_ZeroWithoutConcern() is do
 		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(0)
 
 		urnSpec.build
-		urnSpec.linkChildren
+		urnSpec.link
 		
 		assert(urnSpec.iwModel.concerns.size==0)
 	end
-	
+
+	@feature "FeaNamingofRAMConcern"
 	operation testLinkUcmMap_OneWithoutConcern() is do
 		var urnSpec:URNspec init factory.createUrnSpecWithUcmMaps(1)
 		var ucmMap:UCMmap init urnSpec.ucmMaps.one
 
 		urnSpec.build
-		urnSpec.linkChildren
+		urnSpec.link
 		
 		assert(urnSpec.iwModel.concerns.size==1)
 		assert(urnSpec.iwModel.concerns.contains(urnSpec.iwWithoutConcern))
@@ -416,7 +419,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var ucmMapB:UCMmap init urnSpec.ucmMaps.at(1)
 
 		urnSpec.build
-		urnSpec.linkChildren
+		urnSpec.link
 		
 		assert(urnSpec.iwModel.concerns.size==1)
 		assert(urnSpec.iwModel.concerns.contains(urnSpec.iwWithoutConcern))
