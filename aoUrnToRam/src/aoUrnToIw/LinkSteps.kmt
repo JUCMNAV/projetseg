@@ -1,0 +1,118 @@
+package intermediateWorkflow;
+
+require kermeta
+require "http:///intermediateWorkflow.ecore"
+
+using kermeta::standard
+using kermeta::utils
+
+aspect class IwModel {
+	operation linkSteps() is do
+		concerns.each{concern|concern.linkSteps}
+	end
+}
+
+aspect class IwConcern {
+	operation linkSteps() is do
+		workflows.each{workflow|workflow.linkSteps(self)}
+	end
+}
+
+aspect class IwWorkflow {
+	operation linkSteps(concern:IwConcern) is do
+		startNodes.each{node|node.linkStepFromStartNode}
+	end
+	
+	property readonly concern:IwConcern
+	getter is do
+		result?=container
+	end
+}
+
+aspect class IwNode {
+	operation linkStepFromStartNode() is do
+		if(isUnexplored) then
+			step_DeepFirstSearch(void)
+		end
+	end
+	
+	operation step_DeepFirstSearch(currentStep:IwStep) is do
+		if(isUnexplored) then
+			explore(currentStep)
+		else
+			if(isPartOfStep(currentStep)==false) then
+				currentStep.merge(step)
+			end
+		end
+	end
+
+	operation explore(currentStep:IwStep) is do
+		step:=currentStep
+		targets.each{target|target.step_DeepFirstSearch(step)}
+	end
+	
+	operation isPartOfStep(currentStep:IwStep):Boolean is do
+		result:=step.oid==currentStep.oid
+	end
+	
+	property readonly isUnexplored : Boolean
+	getter is do
+		result:= step.isVoid
+	end
+	
+	//stle:reusable
+	property readonly targets:IwNode[0..*]
+	getter is do
+		result:=OrderedSet<IwNode>.new
+		succs.each{succ|result.add(succ.target)}
+	end
+
+	property readonly workflow:IwWorkflow
+	getter is do
+		result?=container
+	end
+	
+	property readonly concern:IwConcern
+	getter is do
+		result:=workflow.concern
+	end
+}
+
+aspect class IwStep {
+	operation merge(stepToMerge:IwStep) is do
+		mergeName(stepToMerge)
+		nodes.addAll(stepToMerge.nodes)
+		concern.steps.remove(stepToMerge)
+	end
+	
+	operation mergeName(stepToMerge:IwStep) is do
+		if(name<stepToMerge.name) then
+			name:=combineName(name,stepToMerge.name)
+		else
+			name:=combineName(stepToMerge.name,name)
+		end
+	end
+	
+	operation combineName(name1:String,name2:String):String is do
+		result:=name1+"_"+name2
+	end
+	
+	property readonly concern:IwConcern
+	getter is do
+		result?=container
+	end
+}
+
+
+aspect class IwInput {
+	method explore(currentStep:IwStep) is do
+		currentStep:=IwStep.new
+		currentStep.name:=name
+		concern.steps.add(currentStep)
+		super(currentStep)
+	end
+
+}
+
+
+

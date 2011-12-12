@@ -10,6 +10,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCas
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/HandleInputProcessingNodesTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkStepsTestCase.kmt"
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
@@ -17,6 +18,9 @@ using kermeta::standard
 using kermeta::kunit
 using aoUrnToRam
 using kermeta::language::structure
+using kermeta::exceptions
+
+using intermediateWorkflow
 
 class Main
 {
@@ -33,7 +37,8 @@ class Main
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
 		testClasses.add(HandleInputProcessingNodesTestCase)
-		
+		testClasses.add(linkStepsTestCase)
+
 		result := testClasses
 	end
 	
@@ -63,8 +68,24 @@ class Main
     end
 	
 	operation launchSpecificTest() : Void is do
-		var testCase : TestCase init AoUrnToIwBuildTestCase.new.setTestMethodName("testBuildRespRef_NotInComponent()")
-		runTest(testCase)
+		
+		var pass:Boolean init false
+		do
+			specificTest_NoKUnitToAllowDebugging
+			pass:=true
+			rescue (failure : AssertionFailedError)
+				stdio.writeln("Failure")
+				stdio.writeln(failure.message)
+			rescue (error : Exception)
+				stdio.writeln("Error")
+				stdio.writeln(error.message)
+		end
+		writePassFail(pass)
+    end
+    
+    operation specificTest_NoKUnitToAllowDebugging() : Void is do
+//		var test:linkStepsTestCase init linkStepsTestCase.new
+//		test.setUp
     end
     
     operation runTestClasses(testClasses:OrderedSet<Class>) is do
@@ -82,10 +103,14 @@ class Main
 		
 		var pass:Boolean init testRunner.log.failures.size==0 and
 		   					  testRunner.log.errors.size==0
+		writePassFail(pass)
+    end
+    
+	operation writePassFail(pass:Boolean) is do
 		stdio.writeln("----")
 		stdio.writeln(if pass then "PASS" else "FAIL" end)
 		stdio.writeln("----")
-    end
+	end
     
     operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")

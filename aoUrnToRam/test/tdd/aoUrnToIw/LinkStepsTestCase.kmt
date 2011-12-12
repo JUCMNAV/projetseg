@@ -1,0 +1,252 @@
+package aoUrnToRam::Test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/LinkSteps.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class linkStepsTestCase inherits TestCase
+{
+	reference factory:IwTestFactory
+	reference concern:IwConcern
+    reference workflow:IwWorkflow
+    reference input1:IwInput
+    reference customizableNode1:IwCustomizableNode
+    reference endPoint1:IwEndPoint 
+	
+	method setUp() is do
+		factory:=IwTestFactory.new
+		concern:= factory.createIwConcern
+    	workflow:=factory.createIwWorkflow
+    	concern.workflows.add(workflow)
+		input1:=factory.createIwInput
+		workflow.nodes.add(input1)
+		workflow.startNodes.add(input1)
+		customizableNode1:=factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode1)
+		factory.createIwNodeConnection(input1,customizableNode1)
+		endPoint1:=factory.createIwEndPoint
+		workflow.nodes.add(endPoint1)
+	end
+
+	operation testLinkSteps_OneStep_Minimal() is do
+		factory.createIwNodeConnection(customizableNode1,endPoint1)		
+		
+		concern.linkSteps
+		
+		assertObjectEqual(1,concern.steps.size)
+		assertStep_OneInputNode(3,input1,concern.steps.one)
+	end
+	
+	operation testLinkSteps_OneStep_ControlFlow() is do
+		var orFork:IwOrFork init factory.createIwOrFork
+		workflow.nodes.add(orFork)
+		factory.createIwNodeConnection(customizableNode1,orFork)
+		factory.createIwNodeConnection(orFork,endPoint1)
+		var endPoint2:IwEndPoint init factory.createIwEndPoint
+		workflow.nodes.add(endPoint1)
+		factory.createIwNodeConnection(orFork,endPoint2)
+		
+		concern.linkSteps
+		
+		assertObjectEqual(1,concern.steps.size)
+		assertStep_OneInputNode(5,input1,concern.steps.one)
+	end
+	
+	operation testLinkSteps_OneStep_Loop() is do
+		var orFork:IwOrFork init factory.createIwOrFork
+		workflow.nodes.add(orFork)
+		factory.createIwNodeConnection(customizableNode1,orFork)
+		factory.createIwNodeConnection(orFork,input1)
+		factory.createIwNodeConnection(orFork,endPoint1)
+		
+		concern.linkSteps
+		
+		assertObjectEqual(1,concern.steps.size)
+		assertStep_OneInputNode(4,input1,concern.steps.one)
+	end
+	
+	operation testLinkSteps_TwoSteps_Sequence() is do
+		//step2
+		var input2:IwInput init factory.createIwInput
+		workflow.nodes.add(input2)
+		factory.createIwNodeConnection(customizableNode1,input2)
+		var customizableNode2:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode2)
+		factory.createIwNodeConnection(input2,customizableNode2)
+		factory.createIwNodeConnection(customizableNode2,endPoint1)
+		
+		concern.linkSteps
+		
+		assertObjectEqual(2,concern.steps.size)
+		assertStep_OneInputNode(2,input1,concern.steps.at(0))
+		assertStep_OneInputNode(3,input2,concern.steps.at(1))
+	end
+	
+	operation testLinkSteps_TwoSteps_Branch() is do
+		//step 1
+		var orFork:IwOrFork init factory.createIwOrFork
+		workflow.nodes.add(orFork)
+		factory.createIwNodeConnection(customizableNode1,orFork)
+		factory.createIwNodeConnection(orFork,endPoint1)
+		//step2
+		var input2:IwInput init factory.createIwInput
+		workflow.nodes.add(input2)
+		factory.createIwNodeConnection(orFork,input2)
+		var customizableNode2:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode2)
+		factory.createIwNodeConnection(input2,customizableNode2)
+		var endPoint2:IwEndPoint init factory.createIwEndPoint
+		workflow.nodes.add(endPoint1)
+		factory.createIwNodeConnection(customizableNode2,endPoint2)
+	
+		concern.linkSteps
+		
+		assertObjectEqual(2,concern.steps.size)
+		assertStep_OneInputNode(4,input1,concern.steps.at(0))
+		assertStep_OneInputNode(3,input2,concern.steps.at(1))
+	end
+	
+	operation testLinkSteps_TwoSteps_TwoStartNodes() is do
+		//step 1
+		factory.createIwNodeConnection(customizableNode1,endPoint1)
+		//step2
+		var input2:IwInput init factory.createIwInput
+		workflow.nodes.add(input2)
+		workflow.startNodes.add(input2)
+		var customizableNode2:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode2)
+		factory.createIwNodeConnection(input2,customizableNode2)
+		var endPoint2:IwEndPoint init factory.createIwEndPoint
+		workflow.nodes.add(endPoint2)
+		factory.createIwNodeConnection(customizableNode2,endPoint2)
+	
+		concern.linkSteps
+		
+		assertObjectEqual(2,concern.steps.size)
+		assertStep_OneInputNode(3,input1,concern.steps.at(0))
+		assertStep_OneInputNode(3,input2,concern.steps.at(1))
+	end
+	
+	operation testLinkSteps_OneSteps_Merge_TwoStartNodes() is do
+		var input2:IwInput init factory.createIwInput
+		input2.name:="a"//stle can be done by factory
+		workflow.nodes.add(input2)
+		workflow.startNodes.add(input2)
+		factory.createIwNodeConnection(input2,customizableNode1)
+		factory.createIwNodeConnection(customizableNode1,endPoint1)
+	
+		concern.linkSteps
+		
+		//validate alphabetical order for step name
+		var expectedInputNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new
+		expectedInputNodes.add(input2)
+		expectedInputNodes.add(input1)
+		
+		assertObjectEqual(1,concern.steps.size)
+		assertStep_ManyInputNodes(4,expectedInputNodes,concern.steps.one)
+	end
+
+	operation testLinkSteps_TwoSteps_Merge_Loop() is do
+		var input2:IwInput init factory.createIwInput
+		workflow.nodes.add(input2)
+		factory.createIwNodeConnection(customizableNode1,input2)
+		var customizableNode2:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode2)
+		factory.createIwNodeConnection(input2,customizableNode2)
+		var orFork:IwOrFork init factory.createIwOrFork
+		workflow.nodes.add(orFork)
+		factory.createIwNodeConnection(customizableNode2,orFork)
+		factory.createIwNodeConnection(orFork,input1)		
+		factory.createIwNodeConnection(orFork,endPoint1)
+		
+		concern.linkSteps
+		
+		var expectedInputNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new
+		expectedInputNodes.add(input1)
+		expectedInputNodes.add(input2)
+		
+		assertObjectEqual(1,concern.steps.size)
+		assertStep_ManyInputNodes(6,expectedInputNodes,concern.steps.one)
+	end
+	
+	operation testLinkSteps_TwoSteps_Merge_LoopLastInput() is do
+		//step2
+		var input2:IwInput init factory.createIwInput
+		workflow.nodes.add(input2)
+		factory.createIwNodeConnection(customizableNode1,input2)
+		var customizableNode2:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode2)
+		factory.createIwNodeConnection(input2,customizableNode2)
+		//last loop input (will be merged)
+		var input3:IwInput init factory.createIwInput
+		workflow.nodes.add(input3)
+		factory.createIwNodeConnection(customizableNode2,input3)
+		var customizableNode3:IwCustomizableNode init factory.createIwCustomizableNode
+		workflow.nodes.add(customizableNode3)
+		factory.createIwNodeConnection(input3,customizableNode3)
+		var orFork:IwOrFork init factory.createIwOrFork
+		workflow.nodes.add(orFork)
+		factory.createIwNodeConnection(customizableNode3,orFork)
+		factory.createIwNodeConnection(orFork,input1)		
+		factory.createIwNodeConnection(orFork,endPoint1)
+		
+		concern.linkSteps
+		
+		var expectedInputNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new
+		expectedInputNodes.add(input1)
+		expectedInputNodes.add(input3)
+		
+		assertObjectEqual(2,concern.steps.size)
+		assertStep_OneInputNode(2,input2,concern.steps.at(0))
+		assertStep_ManyInputNodes(6,expectedInputNodes,concern.steps.at(1))
+	end
+	
+
+	operation assertStep_OneInputNode(expectedNumOfNodes:Integer,expectedInputNode:IwNode, actualStep:IwStep ) is do
+		var expectedInputNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new
+		expectedInputNodes.add(expectedInputNode)
+		assertStep_ManyInputNodes(expectedNumOfNodes,expectedInputNodes,actualStep)
+	end
+	
+	operation assertStep_ManyInputNodes(expectedNumOfNodes:Integer,expectedInputNodes:OrderedSet<IwNode>, actualStep:IwStep ) is do
+		assertObjectEqual(expectedNumOfNodes,actualStep.nodes.size)
+		expectedInputNodes.each{expectedInputNode|
+			assert(actualStep.nodes.contains(expectedInputNode))
+		}
+		assertObjectEqual(getExpectedStepName(expectedInputNodes),actualStep.name)
+	end
+	
+	operation getExpectedStepName(expectedInputNodes:OrderedSet<IwNode>):String is do
+		result:=""
+		expectedInputNodes.each{expectedInputNode|
+			if(result!="") then
+				result:=result+"_"
+			end
+			result:=result+expectedInputNode.name
+		}
+	end
+	
+	//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+	operation assertObjectEqual(expected:Object, actual:Object) is do
+	//stle: check for void and type
+		assertWithMsg(expected==actual,"ObjectEqual-> expected:\""+expected.toString+"\" actual:\""+actual.toString+"\"")
+	end
+}

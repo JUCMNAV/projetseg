@@ -20,6 +20,17 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="workflows" lowerBound="1"
           upperBound="-1" eType="#/1/IwWorkflow" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" lowerBound="1"
+          upperBound="-1" eType="#/1/IwStep" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IwStep">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1"
+          upperBound="-1" eType="#/1/IwNode" eOpposite="#/1/IwNode/step"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwWorkflow">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#/1/String">
@@ -44,6 +55,8 @@
           eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/target"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="succs" upperBound="-1"
           eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="step" eType="#/1/IwStep"
+          eOpposite="#/1/IwStep/nodes"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwNodeConnection">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionName" eType="#/1/String">

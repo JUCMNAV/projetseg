@@ -13,6 +13,13 @@ class IwConcern
 {
 	attribute name : String
 	attribute workflows : IwWorkflow[1..*]
+	attribute steps:IwStep[1..*]
+}
+
+class IwStep
+{
+	attribute name : String
+	reference nodes : IwNode[1..*]#step 
 }
 
 class IwWorkflow 
@@ -28,6 +35,7 @@ abstract class IwNode
 	attribute name : String
 	reference preds : IwNodeConnection[0..*]#target
 	reference succs : IwNodeConnection[0..*]#source
+	reference step : IwStep#nodes
 }
 
 class IwNodeConnection{
