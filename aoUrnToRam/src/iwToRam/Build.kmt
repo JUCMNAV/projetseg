@@ -15,27 +15,19 @@ aspect class IwModel {
 
 aspect class IwConcern {
 	operation build() is do
-		workflows.each{workflow|
-			workflow.build()
-			workflow.buildConcern(self)
+		steps.each{step|
+			step.build()
+			step.buildConcern(self)
 		}
 	end
 }
 
-aspect class IwWorkflow {
+aspect class IwStep {
 	operation buildConcern(concern:IwConcern) is do
 		ramAspect.workspaceDirectory:=concern.name
 	end
 
 	operation build() is do
-		nodes.each{
-			node|node.build()
-		}
-		
-		nodeConnections.each{nodeConnection|
-			nodeConnection.build
-		}
-	
 		ramAspect:=Aspect.new
 		ramAspect.name:=self.name
 		ramAspect.structuralView:=ClassDiagram.new
@@ -43,6 +35,8 @@ aspect class IwWorkflow {
 		
 		ramReactiveWorkflowInstantiation:=Instantiation.new
 		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
+		
+		nodes.each{node|node.build()}
 	end
 }
 
@@ -79,14 +73,3 @@ aspect class IwCustomizableNode {
 		addClass(CUSTOMIZABLE_NODE,self.name)
 	end
 }
-
-aspect class IwNodeConnection {
-	operation build() is do
-		if(conditionName.isVoid==false) then
-			//stle: will need factory at some point
-			ramCondition:=Class.new
-			ramCondition.name:=source.name+"_"+conditionName
-		end
-	end
-}
-

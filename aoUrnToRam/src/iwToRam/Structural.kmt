@@ -12,8 +12,7 @@ aspect class IwModel {
 	reference ramAspects:Aspect[0..*]
 }
 
-
-aspect class IwWorkflow {
+aspect class IwStep {
 	reference ramAspect:Aspect
 	reference ramReactiveWorkflowInstantiation:Instantiation
 	
@@ -61,5 +60,6 @@ aspect class IwOutput{
 }
 
 aspect class IwNodeConnection{
+	reference ramConditions_PerSourceModelElement: Hashtable<String, Class>
 	reference ramCondition : Class
 }

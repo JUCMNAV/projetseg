@@ -20,7 +20,7 @@ class IwToRamLinkTestCase inherits TestCase
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_None() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+		var actual:IwStep init factory.createIwStep()
 
 		actual.build()
 		actual.link()
@@ -30,7 +30,7 @@ class IwToRamLinkTestCase inherits TestCase
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_ManySameSourceModelElement() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+		var actual:IwStep init factory.createIwStep()
 		3.times{i|actual.nodes.add(factory.createIwInput())} 
 
 		actual.build()
@@ -52,7 +52,7 @@ class IwToRamLinkTestCase inherits TestCase
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkMapping_ManyDifferentSourceModelElement() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+		var actual:IwStep init factory.createIwStep()
 		var iwInput:IwInput init factory.createIwInput()
 		var iwOutput:IwOutput init factory.createIwOutput()
 		actual.nodes.add(iwInput)
@@ -85,8 +85,8 @@ class IwToRamLinkTestCase inherits TestCase
 	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkWorkflow() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+	operation testLinkStep() is do
+		var actual:IwStep init factory.createIwStep()
 		actual.build()
 		actual.link()
 		
@@ -94,8 +94,8 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkNoNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+	operation testLinkNoNodeFromStep() is do
+		var actual:IwStep init factory.createIwStep()
 		
 		actual.build()
 		actual.link()
@@ -104,8 +104,8 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkOneNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+	operation testLinkOneNodeFromStep() is do
+		var actual:IwStep init factory.createIwStep()
 		actual.nodes.add(factory.createIwInput())
 		
 		actual.build()
@@ -116,8 +116,8 @@ class IwToRamLinkTestCase inherits TestCase
 
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkManyNodeFromWorkflow() is do
-		var actual:IwWorkflow init factory.createIwWorkflow()
+	operation testLinkManyNodeFromStep() is do
+		var actual:IwStep init factory.createIwStep()
 		actual.nodes.add(factory.createIwInput())
 		2.times{i|actual.nodes.add(factory.createIwCustomizableNode())}
 		actual.nodes.add(factory.createIwOutput())
@@ -129,39 +129,39 @@ class IwToRamLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkIwModel_nWorkflows() is do
+	operation testLinkIwModel_nSteps() is do
 		//stle: need parametrizable tests
 		var params:Integer[0..*] init OrderedSet<Integer>.new
 		params.add(0)
 		params.add(1)
 		params.add(3)
 		
-		params.each{param|parametrizableTestLinkIwModel_nWorkflows(param)}
+		params.each{param|parametrizableTestLinkIwModel_nSteps(param)}
 	end
 
 	
-	operation parametrizableTestLinkIwModel_nWorkflows(numOfWorkflows:Integer) is do
+	operation parametrizableTestLinkIwModel_nSteps(numOfSteps:Integer) is do
 		var actual:IwModel init factory.createIwModel
 		var concern:IwConcern init factory.createIwConcern
 		actual.concerns.add(concern)
-		numOfWorkflows.times{i| 
-			var workflow:IwWorkflow init factory.createIwWorkflow
-			workflow.nodes.add(factory.createIwCustomizableNode())
-			concern.workflows.add(workflow)
+		numOfSteps.times{i| 
+			var step:IwStep init factory.createIwStep
+			step.nodes.add(factory.createIwCustomizableNode())
+			concern.steps.add(step)
 		}
 		
 		actual.build
 		actual.link
 		
-		assert(actual.ramAspects.size==numOfWorkflows)
+		assert(actual.ramAspects.size==numOfSteps)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkIwModel_FilterOutWorkflowWithoutAnyClasses() is do
+	operation testLinkIwModel_FilterOutStepWithoutAnyClasses() is do
 		var actual:IwModel init factory.createIwModel
 		var concern:IwConcern init factory.createIwConcern
 		actual.concerns.add(concern)
-		concern.workflows.add(factory.createIwWorkflow)
+		concern.steps.add(factory.createIwStep)
 
 		actual.build
 		actual.link
@@ -169,48 +169,39 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramAspects.size==0)
 	end
 
+	//stle: does build/link really makes life easier?
 	@feature "FeaTransformOrFork"
-	operation testLinkNodeConnection_WithCondition() is do
-		var workflow:IwWorkflow init factory.createIwWorkflow()
-		var source:IwOrFork init factory.createIwOrFork
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
-		actual.conditionName:="theBranch"
-		workflow.build
-		actual.build
+	operation testLinkIwFork() is do
+		var step:IwStep init factory.createIwStep()
+		var actual:IwOrFork init factory.createIwOrFork
+		step.nodes.add(actual)
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch1"
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch2"
+	
+		step.build
+		step.link
 		
-		actual.link(workflow)
+		//stle: to many assert in one tests, but how to improve?
+		//stle: add .single to collection class
+		//properly built
+		var actualRamCondition:Class init step.ramStructuralView.classes.one 
+		assertClassProperlyBuilt("theOrFork_theBranch1", actualRamCondition)
+		
+		//properly linked
+		assert(step.ramStructuralView.classes.size==2)
+		assert(step.ramStructuralView.classes.contains(actualRamCondition))
 		
 		//stle: add .single to collection class
-		assert(workflow.ramStructuralView.classes.size==1)
-		assert(workflow.ramStructuralView.classes.contains(actual.ramCondition))
-		
-		//stle: add .single to collection class
-		assert(workflow.ramReactiveWorkflowInstantiation.mappings.size==1)
-		var mapping:Mapping init workflow.ramReactiveWorkflowInstantiation.mappings.one
+		assert(step.ramReactiveWorkflowInstantiation.mappings.size==1)
+		var mapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.one
 		
 		//stle: dry between test and impl :Condition
 		assertStringEqual("Condition",mapping.sourceModelElement)
-		assert(mapping.maps.size==1)
-		
-		//stle: add .single to collection class (three strike OUT!)
-		assert(actual.ramCondition.oid==mapping.maps.one.oid)
+		assert(mapping.maps.size==2)
+		assert(mapping.maps.contains(actualRamCondition))
 	end
 
-	@feature "FeaTransformOrFork"
-	operation testLinkNodeConnection_WithoutCondition() is do
-		var workflow:IwWorkflow init factory.createIwWorkflow()
-		var actual:IwNodeConnection init factory.createIwNodeConnection(factory.createIwCustomizableNode,factory.createIwCustomizableNode)
-		workflow.build
-		actual.build
-		
-		actual.link(workflow)
-		
-		assert(workflow.ramStructuralView.classes.size==0)
-		assert(workflow.ramReactiveWorkflowInstantiation.mappings.size==0)
-	end
-	
-	
-		//stle: dry
+	//stle: dry
 	//stle: more verbrose on assertion
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
 		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
@@ -221,5 +212,11 @@ class IwToRamLinkTestCase inherits TestCase
 	operation assertStringEqual(expected:String, actual:String) is do
 		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
 	end
+	
+	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
+		assertIsNonVoidInstanceOf(Class,ramClass)
+		assertStringEqual(expectedName,ramClass.name)
+	end
+	
 	
 }

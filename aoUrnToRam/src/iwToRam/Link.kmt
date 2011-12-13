@@ -15,30 +15,25 @@ aspect class IwModel {
 	
 	operation addAspects() is do
 		concerns.each{concern|
-			concern.workflows.select{workflow|workflow.ramAspect.structuralView.classes.size>0}
-				 			 .each{workflow|ramAspects.add(workflow.ramAspect)}
+			concern.steps.select{step|step.ramAspect.structuralView.classes.size>0}
+				 			 .each{step|ramAspects.add(step.ramAspect)}
 		}
 	end
 }
 
 aspect class IwConcern {
 	operation link() is do
-		workflows.each{workflow|workflow.link}
+		steps.each{step|step.link}
 	end
 }
 
-aspect class IwWorkflow {
+aspect class IwStep {
 	operation link() is do
 		addClasses
 		addInstantiations
-		linkNodeConnections
+		nodes.each{node|node.link}
 	end
 
-	operation linkNodeConnections() is do
-		nodeConnections.each{nodeConnection|nodeConnection.link(self)}
-	end
-
-	
 	operation addClasses() is do
 		nodes.each{node|
 			node.ramClasses_PerSourceModelElement.values.each{ramClass|
@@ -73,9 +68,6 @@ aspect class IwWorkflow {
 		result:=mappings.getValue(sourceModelElement)
 	end
 	
-	
-	
-	
 	operation addRamClass(ramClass:Class) is do
 		ramStructuralView.classes.add(ramClass)
 	end
@@ -93,13 +85,19 @@ aspect class IwWorkflow {
 	end
 }
 
-aspect class IwNodeConnection {
-	operation link(workflow:IwWorkflow) is do
-		//stle: build on the fly to avoid duplicating conditions
-		if(ramCondition.isVoid==false) then
-			workflow.addRamClass(ramCondition)
-			workflow.mapRamClass("Condition",ramCondition)
-		end
+aspect class IwNode {
+	operation link() is do
+		//stle: empty default for now, abstract later
 	end
 }
 
+aspect class IwOrFork {
+	method link() is do
+		succs.each{succ|
+			var ramCondition:Class init Class.new
+			ramCondition.name:=name+"_"+succ.conditionName
+			step.addRamClass(ramCondition)
+			step.mapRamClass("Condition",ramCondition)
+		}
+	end
+}

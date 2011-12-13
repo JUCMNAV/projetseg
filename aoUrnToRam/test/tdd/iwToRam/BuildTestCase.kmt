@@ -51,8 +51,7 @@ class IwToRamBuildTestCase inherits TestCase
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildWorkflow() is do
-		var concern:IwConcern init factory.createIwConcern()
-		var actual:IwWorkflow init factory.createIwWorkflow()
+		var actual:IwStep init factory.createIwStep()
 
 		actual.build
 		
@@ -67,38 +66,16 @@ class IwToRamBuildTestCase inherits TestCase
 		assertStringEqual("ReactiveWorkflow",actual.ramReactiveWorkflowInstantiation.externalAspect)
 	end
 
-	@feature "FeaTransformOrFork"
-	operation testBuildIwNodeConnection_WithConditions() is do
-		var source:IwOrFork init factory.createIwOrFork
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
-		actual.conditionName:="theBranch"
-		
-		actual.build()
-
-		assertClassProperlyBuilt("theOrFork_theBranch", actual.ramCondition)
-	end
-
-	@feature "FeaTransformOrFork"
-	operation testBuildIwNodeConnection_WithoutConditions() is do
-		var source:IwCustomizableNode init factory.createIwCustomizableNode
-		var actual:IwNodeConnection init factory.createIwNodeConnection(source,factory.createIwCustomizableNode)
-	
-		actual.build()
-	
-		assert(actual.ramCondition.isVoid)
-	end
-
 	@feature "FeaNamingofRAMConcern"
 	operation testBuildConcern() is do
 		//stle: again an ugly workaround to avoid dependency chain (complex to setup)
 		var concern:IwConcern init factory.createIwConcern()
-		var actual:IwWorkflow init factory.createIwWorkflow() 
+		var actual:IwStep init factory.createIwStep() 
 	
 		actual.build
 		actual.buildConcern(concern)
 		
-		//stle: aspect is name of workflow for now, wait until steps get implemented
-		assertStringEqual(concern.name+"/"+actual.name,actual.ramAspect.workspacePath)
+		assertStringEqual(Path.new.combine(concern.name,actual.name),actual.ramAspect.workspacePath)
 	end
 	
 	

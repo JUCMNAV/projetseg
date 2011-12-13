@@ -15,7 +15,12 @@ class IwTestFactory
 
 	operation createIwConcern():IwConcern is do
 		result:=IwConcern.new
-		result.name:=  "theConcern"
+		result.name:="theConcern"
+	end
+	
+	operation createIwStep():IwStep is do
+		result:=IwStep.new
+		result.name:="theStep"
 	end
 
 	operation createIwWorkflow():IwWorkflow is do

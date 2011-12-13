@@ -15,10 +15,10 @@ class linkStepsTestCase inherits TestCase
 {
 	reference factory:IwTestFactory
 	reference concern:IwConcern
-    reference workflow:IwWorkflow
-    reference input1:IwInput
-    reference customizableNode1:IwCustomizableNode
-    reference endPoint1:IwEndPoint 
+	reference workflow:IwWorkflow
+	reference input1:IwInput
+	reference customizableNode1:IwCustomizableNode
+	reference endPoint1:IwEndPoint 
 	
 	method setUp() is do
 		factory:=IwTestFactory.new
@@ -35,6 +35,7 @@ class linkStepsTestCase inherits TestCase
 		workflow.nodes.add(endPoint1)
 	end
 
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_OneStep_Minimal() is do
 		factory.createIwNodeConnection(customizableNode1,endPoint1)		
 		
@@ -43,7 +44,8 @@ class linkStepsTestCase inherits TestCase
 		assertObjectEqual(1,concern.steps.size)
 		assertStep_OneInputNode(3,input1,concern.steps.one)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_OneStep_ControlFlow() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
@@ -58,7 +60,8 @@ class linkStepsTestCase inherits TestCase
 		assertObjectEqual(1,concern.steps.size)
 		assertStep_OneInputNode(5,input1,concern.steps.one)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_OneStep_Loop() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
@@ -71,7 +74,8 @@ class linkStepsTestCase inherits TestCase
 		assertObjectEqual(1,concern.steps.size)
 		assertStep_OneInputNode(4,input1,concern.steps.one)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_TwoSteps_Sequence() is do
 		//step2
 		var input2:IwInput init factory.createIwInput
@@ -88,7 +92,8 @@ class linkStepsTestCase inherits TestCase
 		assertStep_OneInputNode(2,input1,concern.steps.at(0))
 		assertStep_OneInputNode(3,input2,concern.steps.at(1))
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_TwoSteps_Branch() is do
 		//step 1
 		var orFork:IwOrFork init factory.createIwOrFork
@@ -112,7 +117,8 @@ class linkStepsTestCase inherits TestCase
 		assertStep_OneInputNode(4,input1,concern.steps.at(0))
 		assertStep_OneInputNode(3,input2,concern.steps.at(1))
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_TwoSteps_TwoStartNodes() is do
 		//step 1
 		factory.createIwNodeConnection(customizableNode1,endPoint1)
@@ -133,7 +139,8 @@ class linkStepsTestCase inherits TestCase
 		assertStep_OneInputNode(3,input1,concern.steps.at(0))
 		assertStep_OneInputNode(3,input2,concern.steps.at(1))
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_OneSteps_Merge_TwoStartNodes() is do
 		var input2:IwInput init factory.createIwInput
 		input2.name:="a"//stle can be done by factory
@@ -153,6 +160,7 @@ class linkStepsTestCase inherits TestCase
 		assertStep_ManyInputNodes(4,expectedInputNodes,concern.steps.one)
 	end
 
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_TwoSteps_Merge_Loop() is do
 		var input2:IwInput init factory.createIwInput
 		workflow.nodes.add(input2)
@@ -175,7 +183,8 @@ class linkStepsTestCase inherits TestCase
 		assertObjectEqual(1,concern.steps.size)
 		assertStep_ManyInputNodes(6,expectedInputNodes,concern.steps.one)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkSteps_TwoSteps_Merge_LoopLastInput() is do
 		//step2
 		var input2:IwInput init factory.createIwInput
