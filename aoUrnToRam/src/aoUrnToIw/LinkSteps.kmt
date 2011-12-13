@@ -52,7 +52,7 @@ aspect class IwNode {
 	end
 	
 	operation isPartOfStep(currentStep:IwStep):Boolean is do
-		result:=step.oid==currentStep.oid
+		result:=step==currentStep
 	end
 	
 	property readonly isUnexplored : Boolean
