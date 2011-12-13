@@ -78,6 +78,20 @@ class IwToRamBuildTestCase inherits TestCase
 		assertStringEqual(Path.new.combine(concern.name,actual.name),actual.ramAspect.workspacePath)
 	end
 	
+	@feature "FeaTransformOrFork"
+	operation testBuildIwFork() is do
+		var actual:IwOrFork init factory.createIwOrFork
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch1"
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch2"
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch3"
+	
+		actual.build
+		
+		assert(actual.ramConditions.size==3) 
+		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch1"})
+		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch2"})
+		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch3"})
+	end
 	
 	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
 		assertIsNonVoidInstanceOf(Class,ramClass)

@@ -169,36 +169,28 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramAspects.size==0)
 	end
 
-	//stle: does build/link really makes life easier?
 	@feature "FeaTransformOrFork"
 	operation testLinkIwFork() is do
-		var step:IwStep init factory.createIwStep()
 		var actual:IwOrFork init factory.createIwOrFork
-		step.nodes.add(actual)
+		var step:IwStep init factory.createIwStep()
+		actual.step:=step
 		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch1"
 		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch2"
-	
+		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch3"
 		step.build
-		step.link
 		
-		//stle: to many assert in one tests, but how to improve?
-		//stle: add .single to collection class
-		//properly built
-		var actualRamCondition:Class init step.ramStructuralView.classes.one 
-		assertClassProperlyBuilt("theOrFork_theBranch1", actualRamCondition)
-		
+		actual.link
+
 		//properly linked
-		assert(step.ramStructuralView.classes.size==2)
-		assert(step.ramStructuralView.classes.contains(actualRamCondition))
+		assert(step.ramStructuralView.classes.asSet==actual.ramConditions)
 		
 		//stle: add .single to collection class
 		assert(step.ramReactiveWorkflowInstantiation.mappings.size==1)
 		var mapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.one
 		
-		//stle: dry between test and impl :Condition
+		//stle: not the right place for condition, step should have a property for each sourceModelElement, the add mapping should be tested in isolation
 		assertStringEqual("Condition",mapping.sourceModelElement)
-		assert(mapping.maps.size==2)
-		assert(mapping.maps.contains(actualRamCondition))
+		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
 	end
 
 	//stle: dry
@@ -208,15 +200,14 @@ class IwToRamLinkTestCase inherits TestCase
 		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
 	end
 
+	//stle: reusable
+	operation assertSetOfBaseClasses_Equals_SetOfSubClasses<BaseType,SubType>(setOfBaseClasses:Set<BaseType>,setOfSubClasses:Set<SubType>) is do
+		assert(setOfBaseClasses.size==setOfSubClasses.size)
+		assert(setOfBaseClasses.containsAll(setOfSubClasses))
+	end
+
 	
 	operation assertStringEqual(expected:String, actual:String) is do
 		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
 	end
-	
-	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
-		assertIsNonVoidInstanceOf(Class,ramClass)
-		assertStringEqual(expectedName,ramClass.name)
-	end
-	
-	
 }

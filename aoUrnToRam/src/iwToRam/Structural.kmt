@@ -59,7 +59,6 @@ aspect class IwOutput{
 	end
 }
 
-aspect class IwNodeConnection{
-	reference ramConditions_PerSourceModelElement: Hashtable<String, Class>
-	reference ramCondition : Class
+aspect class IwOrFork {
+	reference ramConditions : set Class[2..*]
 }

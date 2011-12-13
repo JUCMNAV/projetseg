@@ -93,9 +93,7 @@ aspect class IwNode {
 
 aspect class IwOrFork {
 	method link() is do
-		succs.each{succ|
-			var ramCondition:Class init Class.new
-			ramCondition.name:=name+"_"+succ.conditionName
+		ramConditions.each{ramCondition|
 			step.addRamClass(ramCondition)
 			step.mapRamClass("Condition",ramCondition)
 		}

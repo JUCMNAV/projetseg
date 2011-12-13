@@ -73,3 +73,13 @@ aspect class IwCustomizableNode {
 		addClass(CUSTOMIZABLE_NODE,self.name)
 	end
 }
+
+aspect class IwOrFork {
+	method build() is do
+		succs.each{succ|
+			var ramCondition:Class init Class.new
+			ramCondition.name:=name+"_"+succ.conditionName
+			ramConditions.add(ramCondition)
+		}
+	end
+}
