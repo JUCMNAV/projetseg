@@ -24,7 +24,8 @@ class linkStepsTestCase inherits TestCase
     	workflow:=factory.createIwWorkflow
     	concern.workflows.add(workflow)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkStepFromStartNode_Unexplored() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -35,6 +36,7 @@ class linkStepsTestCase inherits TestCase
 		assert(input.name==input.step.name)
 	end
 
+	@feature "FeaNamingOfRAMStep"
 	operation testLinkStepFromStartNode_Explored() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -45,7 +47,8 @@ class linkStepsTestCase inherits TestCase
 		//Step is not recreated nor merged
 		assert(input.step.name=="theStep")
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_CreateStep() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -59,7 +62,8 @@ class linkStepsTestCase inherits TestCase
 		assert(expectedSteps==concern.steps.asSet)
 		assert(input.step.name==input.name)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_LinkStep() is do
 		var node:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node)
@@ -70,7 +74,8 @@ class linkStepsTestCase inherits TestCase
 		assert(node.step==currentStep)
 		assertSingleElement(concern.steps,currentStep)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_CallNext() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -83,6 +88,7 @@ class linkStepsTestCase inherits TestCase
 		assert(input.step==node.step)
 	end
 
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_CallNexts() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
@@ -101,6 +107,7 @@ class linkStepsTestCase inherits TestCase
 		assert(node2.step==currentStep)
 	end
 
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_CallNexts_CreateStepInBetween() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
@@ -122,7 +129,8 @@ class linkStepsTestCase inherits TestCase
 		assert(input.step!=currentStep)
 		assert(node2.step==currentStep)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_AlreadyExplored_SameStep() is do
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node1)
@@ -139,7 +147,8 @@ class linkStepsTestCase inherits TestCase
 		assertObjectEqual("theStep",currentStep.name)//No step merged
 		assert(node1.step==node2.step)
 	end
-	
+
+	@feature "FeaNamingOfRAMStep"
 	operation testStep_DeepFirstSearch_AlreadyExplored_MergeStep() is do
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node1)
