@@ -45,7 +45,7 @@ package map{
 			pathNodes.each{pathNode|pathNode.link}
 			
 			addNodes
-			addStartNodes
+			addStartPoints
 		end
 
 		operation addNodes() is do
@@ -54,9 +54,9 @@ package map{
 			}
 		end
 		
-		operation addStartNodes() is do
-			iwWorkflow.startNodes.addAll(
-				startPoints.collect{startPoint|startPoint.iwStartNode}
+		operation addStartPoints() is do
+			iwWorkflow.startPoints.addAll(
+				startPoints.collect{startPoint|startPoint.iwStartPoint}
 			)	
 		end
 	}
@@ -124,7 +124,7 @@ package map{
 	
 	aspect class InBinding {
 		operation link() is do
-			linkStartNode
+			linkStartPoint
 			linkStubEntry
 			linkPluginBinding
 		end
@@ -133,8 +133,8 @@ package map{
 			binding.addIwInBinding(iwInBinding)	
 		end
 		
-		operation linkStartNode() is do
-			iwInBinding.startNode:=startPoint.iwStartNode	
+		operation linkStartPoint() is do
+			iwInBinding.pluginStartPoint:=startPoint.iwStartPoint	
 		end
 		
 		operation linkStubEntry() is do
@@ -144,7 +144,7 @@ package map{
 
 	aspect class OutBinding {
 		operation link() is do
-			linkEndNode
+			linkEndPoint
 			linkStubExit
 			linkPluginBinding
 		end
@@ -153,8 +153,8 @@ package map{
 			binding.addIwOutBinding(iwOutBinding)	
 		end
 		
-		operation linkEndNode() is do
-			iwOutBinding.endNode:=endPoint.iwExitNode
+		operation linkEndPoint() is do
+			iwOutBinding.pluginEndPoint:=endPoint.iwEndPoint
 		end
 		
 		operation linkStubExit() is do

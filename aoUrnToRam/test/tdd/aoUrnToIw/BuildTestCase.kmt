@@ -26,12 +26,21 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
 		
 		actual.build
-		assert(actual.iwNodes_ReadOnly.size==0)
+		assert(actual.iwNodes_ReadOnly.size==1)
 	end
+	
+	operation testBuildRespRef_InNonActorComponent() is do	
+		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
+		actual.contRef:=factory.createComponentRef("theNonActor",ComponentKind.Object)
+		
+		actual.build
+		assert(actual.iwNodes_ReadOnly.size==1)
+	end
+	
 
 	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testBuildRespRef_InActorComponent() is do	
-		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
+		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,true)
 		actual.contRef:=factory.createComponentRef("theActor",ComponentKind.Actor)
 		
 		actual.build

@@ -20,7 +20,7 @@ aspect class IwConcern {
 
 aspect class IwWorkflow {
 	operation linkSteps(concern:IwConcern) is do
-		startNodes.each{node|node.linkStepFromStartNode}
+		startPoints.each{node|node.linkStepFromStartPoint}
 	end
 	
 	property readonly concern:IwConcern
@@ -30,7 +30,7 @@ aspect class IwWorkflow {
 }
 
 aspect class IwNode {
-	operation linkStepFromStartNode() is do
+	operation linkStepFromStartPoint() is do
 		if(isUnexplored) then
 			step_DeepFirstSearch(void)
 		end
@@ -46,9 +46,21 @@ aspect class IwNode {
 		end
 	end
 
+	//virtual
 	operation explore(currentStep:IwStep) is do
 		step:=currentStep
-		targets.each{target|target.step_DeepFirstSearch(step)}
+		succs.each{nodeConnection|exploreTargetOrStubEntry(nodeConnection)}
+	end
+	
+	operation exploreTargetOrStubEntry(nodeConnection:IwNodeConnection) is do
+		var stubTarget:IwStub
+		stubTarget?=nodeConnection.target
+		
+		if(stubTarget.isVoid) then
+			nodeConnection.target.step_DeepFirstSearch(step)
+		else
+			stubTarget.step_DeepFirstSearch_StubEntry(step,nodeConnection)
+		end
 	end
 	
 	operation isPartOfStep(currentStep:IwStep):Boolean is do
@@ -58,18 +70,6 @@ aspect class IwNode {
 	property readonly isUnexplored : Boolean
 	getter is do
 		result:= step.isVoid
-	end
-	
-	//stle:reusable
-	property readonly targets:IwNode[0..*]
-	getter is do
-		result:=OrderedSet<IwNode>.new
-		succs.each{succ|result.add(succ.target)}
-	end
-
-	property readonly workflow:IwWorkflow
-	getter is do
-		result?=container
 	end
 	
 	property readonly concern:IwConcern
@@ -96,13 +96,7 @@ aspect class IwStep {
 	operation combineName(name1:String,name2:String):String is do
 		result:=name1+"_"+name2
 	end
-	
-	property readonly concern:IwConcern
-	getter is do
-		result?=container
-	end
 }
-
 
 aspect class IwInput {
 	method explore(currentStep:IwStep) is do
@@ -111,8 +105,49 @@ aspect class IwInput {
 		concern.steps.add(currentStep)
 		super(currentStep)
 	end
-
 }
 
+aspect class IwEndPoint
+{
+	method explore(currentStep:IwStep) is do
+		super(currentStep)
+		outBindings.each{outBinding|
+			var stub:IwStub init outBinding.pluginBinding.stub
+			stub.step_DeepFirstSearch_StubExit(currentStep,outBinding.stubExit)
+		}
+	end
+}
 
+aspect class IwStub{
+	operation step_DeepFirstSearch_StubEntry(currentStep:IwStep, stubEntry:IwNodeConnection) is do
+		//stle:Assume static stub must be bounded
+		var staticPluginBinding:IwPluginBinding init pluginBindings.one 
+		//stle:Assume stubEntry implies the existance of an inBinding
+		//stle:Single again
+		var pluginStartPoint:IwNode init staticPluginBinding.inBindings.select
+										 {inBinding|inBinding.stubEntry==stubEntry}.one.pluginStartPoint
+		
+		if(concern==pluginStartPoint.concern) then
+			setStep(currentStep)
+			pluginStartPoint.step_DeepFirstSearch(step)
+		else
+			step_DeepFirstSearch(currentStep) //Consider stub as a normal node
+		end
+	end
+	
+	operation step_DeepFirstSearch_StubExit(currentStep:IwStep, stubExit:IwNodeConnection) is do
+		setStep(currentStep)
+		stubExit.target.step_DeepFirstSearch(step)
+	end
+	
+	operation setStep(currentStep:IwStep) is do
+		if(isUnexplored) then
+			step:=currentStep
+		else
+			if(isPartOfStep(currentStep)==false) then
+				currentStep.merge(step)
+			end
+		end
+	end
+}
 

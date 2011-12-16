@@ -11,7 +11,7 @@ using intermediateWorkflow
 
 using kermeta::language::structure
 
-class linkStepsTestCase inherits TestCase
+class LinkStepsTestCase inherits TestCase
 {
 	reference factory:IwTestFactory
 	reference concern:IwConcern
@@ -26,10 +26,10 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testLinkStepFromStartNode_Unexplored() is do
+	operation testLinkStepFromStartPoint_Unexplored() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
-		input.linkStepFromStartNode
+		input.linkStepFromStartPoint
 		
 		//stle: single again
 		assert(input.step==concern.steps.one)
@@ -37,19 +37,19 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testLinkStepFromStartNode_Explored() is do
+	operation testLinkStepFromStartPoint_Explored() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
 		input.step:=factory.createIwStep
 		
-		input.linkStepFromStartNode
+		input.linkStepFromStartPoint
 		
 		//Step is not recreated nor merged
 		assert(input.step.name=="theStep")
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_CreateStep() is do
+	operation testLinkStep_DeepFirstSearch_CreateStep() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
 		var currentStep:IwStep init factory.createIwStep
@@ -64,11 +64,12 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_LinkStep() is do
+	operation testLinkStep_DeepFirstSearch_LinkStep() is do
 		var node:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node)
 		var currentStep:IwStep init factory.createIwStep
 		concern.steps.add(currentStep)
+
 		node.step_DeepFirstSearch(currentStep)
 
 		assert(node.step==currentStep)
@@ -76,7 +77,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_CallNext() is do
+	operation testLinkStep_DeepFirstSearch_CallNext() is do
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
 		var node:IwCustomizableNode init factory.createIwCustomizableNode
@@ -89,7 +90,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_CallNexts() is do
+	operation testLinkStep_DeepFirstSearch_CallNexts() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
@@ -108,7 +109,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_CallNexts_CreateStepInBetween() is do
+	operation testLinkStep_DeepFirstSearch_CallNexts_CreateStepInBetween() is do
 		var orFork:IwOrFork init factory.createIwOrFork
 		workflow.nodes.add(orFork)
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
@@ -131,7 +132,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_AlreadyExplored_SameStep() is do
+	operation testLinkStep_DeepFirstSearch_AlreadyExplored_SameStep() is do
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node1)
 		var node2:IwCustomizableNode init factory.createIwCustomizableNode
@@ -149,7 +150,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testStep_DeepFirstSearch_AlreadyExplored_MergeStep() is do
+	operation testLinkStep_DeepFirstSearch_AlreadyExplored_MergeStep() is do
 		var node1:IwCustomizableNode init factory.createIwCustomizableNode
 		workflow.nodes.add(node1)
 		var node2:IwCustomizableNode init factory.createIwCustomizableNode
@@ -173,8 +174,7 @@ class linkStepsTestCase inherits TestCase
 		assert(node1.step==node2.step)	//One node is merged
 		assert(node1.step==node3.step)	//Many nodes are merged
 	end
-
-	
+		
 	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)
 		assert(collection.one==singleElement)

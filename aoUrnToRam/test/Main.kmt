@@ -11,6 +11,9 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/HandleInputProcessingNodesTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkStepsTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubInBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubAnotherConcernTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubOutBindingTestCase.kmt"
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
@@ -30,11 +33,9 @@ class Main inherits TestCase
 	end
 	
 	operation specificTest_NoKUnitToAllowDebugging() : Void is do
-	/*
-		var test:AoUrnToIwLinkTestCase init AoUrnToIwLinkTestCase.new
+/*		var test:LinkSteps_StubOutBindingTestCase init LinkSteps_StubOutBindingTestCase.new
 		test.setUp
-		test.testInBindingLink_StartNode
-	*/
+		test.testLinkStep_StubOutBinding_Unexplored*/
     end
 	
 
@@ -46,7 +47,10 @@ class Main inherits TestCase
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
 		testClasses.add(HandleInputProcessingNodesTestCase)
-		testClasses.add(linkStepsTestCase)
+		testClasses.add(LinkStepsTestCase)
+		testClasses.add(LinkSteps_StubInBindingTestCase)
+		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
+		testClasses.add(LinkSteps_StubOutBindingTestCase)
 
 		result := testClasses
 	end
@@ -87,7 +91,7 @@ class Main inherits TestCase
 				stdio.writeln(failure.message)
 			rescue (error : Exception)
 				stdio.writeln("Error")
-				stdio.writeln(error.message)
+				stdio.writeln(error.toString)
 		end
 		writePassFail(pass)
     end
@@ -119,7 +123,7 @@ class Main inherits TestCase
     operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
-			"platform:/resource/aoUrnToRam/test/integration/model/Simple.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/stub.jucm",
 			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)

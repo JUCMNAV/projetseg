@@ -6,27 +6,30 @@ require kermeta
 using kermeta::standard
 
 class IwModel{
-	attribute concerns : IwConcern[0..*]
+	attribute concerns : IwConcern[0..*]#model
 }
 
 class IwConcern 
 {
 	attribute name : String
-	attribute workflows : IwWorkflow[1..*]
-	attribute steps:IwStep[1..*]
+	attribute workflows : IwWorkflow[1..*]#concern
+	attribute steps:IwStep[1..*]#concern
+	reference model:IwModel#concerns
 }
 
 class IwStep
 {
 	attribute name : String
-	reference nodes : IwNode[1..*]#step 
+	reference nodes : IwNode[1..*]#step
+	reference concern:IwConcern#steps 
 }
 
 class IwWorkflow 
 {
 	attribute name : String
 	attribute nodes : IwNode[1..*]#workflow
-	reference startNodes : IwNode[1..*]
+	reference startPoints : IwNode[1..*]
+	reference concern:IwConcern#workflows
 }
 
 abstract class IwNode
@@ -57,6 +60,7 @@ class IwOutput inherits IwNode
 
 class IwEndPoint inherits IwNode
 {
+	reference outBindings:IwOutBinding[0..*]#pluginEndPoint
 }
 
 class IwOrFork inherits IwNode
@@ -77,15 +81,15 @@ class IwPluginBinding
 
 class IwInBinding
 {
-	reference startNode:IwNode
 	reference stubEntry:IwNodeConnection
+	reference pluginStartPoint:IwNode
 	reference pluginBinding:IwPluginBinding#inBindings
 }
 
 
 class IwOutBinding
 {
-	reference endNode:IwNode
 	reference stubExit:IwNodeConnection
+	reference pluginEndPoint:IwEndPoint#outBindings
 	reference pluginBinding:IwPluginBinding#outBindings
 }

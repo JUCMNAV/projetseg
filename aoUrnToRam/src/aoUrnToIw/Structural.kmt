@@ -226,12 +226,12 @@ package map{
 	
 		property readonly isSystemComponentRef : Boolean 
 		getter is do
-			result:=false
+			result:=true
 			var component:Component
 			if(contRef.isVoid==false) then
 				component?=contRef.contDef
 				if(component.isVoid==false) then
-					result:=component.kind==ComponentKind.Object and component.name.toLowerCase=="system"
+					result:=(component.kind==ComponentKind.Actor)==false
 				end
 			end			
 		end	
@@ -243,7 +243,7 @@ package map{
 	
 	aspect class StartPoint {
 		//stle: not build nor link;however, can only be used once build is completed
-		property readonly iwStartNode : IwNode
+		property readonly iwStartPoint : IwNode
 		getter is do
 			if(iwNodes_ReadOnly.empty) then
 				result:=succ.one.asType(NodeConnection).IwSingleTarget

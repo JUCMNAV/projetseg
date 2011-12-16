@@ -14,10 +14,6 @@ class AoUrnTestFactory
 {
 	reference components_PerName: Hashtable<String, Component>
 
-	operation createSystemComponentRef():ComponentRef is do
-		result:=createComponentRef("system",ComponentKind.Object)
-	end
-	
 	operation createComponentRef(name:String,kind:ComponentKind):ComponentRef is do
 		result:=ComponentRef.new
 		result.contDef:=getComponents(name,kind)
@@ -42,10 +38,10 @@ class AoUrnTestFactory
 	end
 
 	operation createEndPoint(name:String,ramExpression:String):EndPoint is do
-		var endPoint:EndPoint init EndPoint.new
-		endPoint.name:=optionalString(name)
-		addRamMetadata(endPoint,ramExpression)
-		result:=endPoint
+		var pluginEndPoint:EndPoint init EndPoint.new
+		pluginEndPoint.name:=optionalString(name)
+		addRamMetadata(pluginEndPoint,ramExpression)
+		result:=pluginEndPoint
 	end
 	
 	operation createOrFork(name:String,ramExpression:String):OrFork is do
@@ -68,14 +64,14 @@ class AoUrnTestFactory
 	end
 
 	operation createRespRef(name:String,ramExpression:String):RespRef is do
-		result:=createRespRefGeneric(name,ramExpression,true)
+		result:=createRespRefGeneric(name,ramExpression,false)
 	end
 	
-	operation createRespRefGeneric(name:String,ramExpression:String,insideSystem:Boolean):RespRef is do
+	operation createRespRefGeneric(name:String,ramExpression:String,insideActor:Boolean):RespRef is do
 		var respRef:RespRef init RespRef.new
 		respRef.respDef:=createResponsibility(name,ramExpression)
-		if(insideSystem) then 
-			respRef.contRef:=createSystemComponentRef
+		if(insideActor) then 
+			respRef.contRef:=createComponentRef("theActor",ComponentKind.Actor)
 		end
 		result:=respRef
 	end

@@ -61,20 +61,20 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		actual.build
 		actual.link
 		
-		assertStringEqual("theInput",actual.iwStartNode.name)
+		assertStringEqual("theInput",actual.iwStartPoint.name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkStartPoint_succPathNode() is do
 		var actual:StartPoint init factory.createStartPoint(void)
-		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
-		factory.connectNodes(actual,endPoint)
+		var pluginEndPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
+		factory.connectNodes(actual,pluginEndPoint)
 				
 		actual.build
-		endPoint.build
+		pluginEndPoint.build
 		actual.link
 		
-		assertStringEqual("theEndPoint",actual.iwStartNode.name)
+		assertStringEqual("theEndPoint",actual.iwStartPoint.name)
 	end
 	
 
@@ -88,7 +88,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.build
 		ucmMap.linkChildren
 		
-		assert(ucmMap.iwWorkflow.startNodes.size==1)
+		assert(ucmMap.iwWorkflow.startPoints.size==1)
 	end
 	
 
@@ -105,7 +105,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		ucmMap.build
 		ucmMap.linkChildren
 		
-		assert(ucmMap.iwWorkflow.startNodes.size==2)
+		assert(ucmMap.iwWorkflow.startPoints.size==2)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -170,7 +170,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testNodeConnectionLink_Transitive() is do
 		var source:RespRef init factory.createDefaultRespRef
-		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
+		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,true)
 		var target:RespRef init factory.createDefaultRespRef
 		var actual:NodeConnection init factory.connectNodes(source,outsideSystem)
 		factory.connectNodes(outsideSystem,target)
@@ -262,14 +262,6 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assert(urnSpec.iwWithoutConcern.workflows.contains(ucmMapB.iwWorkflow))
 	end
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	operation testPluginBindingLink_Stub() is do
 		var stub:Stub init factory.createStub
 		var actual:PluginBinding init factory.createPluginBinding
@@ -292,16 +284,16 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertCollectionHasSingleElement(pluginBinding.iwPluginBinding.inBindings,actual.iwInBinding)
 	end
 	
-	operation testInBindingLink_StartNode() is do
+	operation testInBindingLink_StartPoint() is do
 		var startPoint:StartPoint init factory.createStartPoint("in theInput")
 		var actual:InBinding init factory.createInBinding
 		actual.startPoint:=startPoint
 
 		startPoint.build
 		actual.build
-		actual.linkStartNode
+		actual.linkStartPoint
 
-		assert(startPoint.iwStartNode==actual.iwInBinding.startNode)
+		assert(startPoint.iwStartPoint==actual.iwInBinding.pluginStartPoint)
 	end
 	
 	operation testInBindingLink_StubEntry() is do
@@ -327,16 +319,16 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		assertCollectionHasSingleElement(pluginBinding.iwPluginBinding.outBindings,actual.iwOutBinding)
 	end
 	
-	operation testOutBindingLink_EndNode() is do
-		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
+	operation testOutBindingLink_EndPoint() is do
+		var pluginEndPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
 		var actual:OutBinding init factory.createOutBinding
-		actual.endPoint:=endPoint
+		actual.endPoint:=pluginEndPoint
 
-		endPoint.build
+		pluginEndPoint.build
 		actual.build
-		actual.linkEndNode
+		actual.linkEndPoint
 
-		assert(endPoint.iwExitNode==actual.iwOutBinding.endNode)
+		assert(pluginEndPoint.iwExitNode==actual.iwOutBinding.pluginEndPoint)
 	end
 	
 	operation testOutBindingLink_StubExit() is do
