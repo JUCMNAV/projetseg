@@ -80,7 +80,7 @@ class IwToRamLinkTestCase inherits TestCase
 	
 	operation assertSingleMapping(mapping:Mapping,target:Class) is do
 		assert(mapping.maps.size==1)
-		assert(mapping.maps.one.oid==target.oid)
+		assert(mapping.maps.one==target)
 	end
 	
 
@@ -193,6 +193,41 @@ class IwToRamLinkTestCase inherits TestCase
 		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
 	end
 
+
+	operation testLinkIwPluginBinding() is do
+		var step:IwStep init factory.createIwStep()
+		var stub:IwStub init factory.createIwStub
+		stub.step:=step
+		var actual:IwPluginBinding init factory.createIwPluginBinding
+		actual.stub:=stub
+
+		step.build
+		actual.link
+
+		var expectedClasses:Set<Class> init Set<Class>.new
+		expectedClasses.add(actual.ramCondition) 
+		expectedClasses.add(actual.ramReplicationFactor)
+
+		//properly linked
+		assert(expectedClasses==step.ramStructuralView.classes.asSet)
+		
+		assert(step.ramReactiveWorkflowInstantiation.mappings.size==2)
+		//stle: add .selectSingle
+		var conditionMapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="Condition"}.one
+		assert(conditionMapping.isVoid==false)
+		assertCollectionHasSingleElement(conditionMapping.maps,actual.ramCondition)
+
+		//stle: add .selectSingle
+		var replicationFactorMapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="Condition"}.one
+		assert(replicationFactorMapping.isVoid==false)
+		assertCollectionHasSingleElement(replicationFactorMapping.maps,actual.ramReplicationFactor)
+	end
+
+	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
+		assertObjectEqual(1,collection.size)
+		assert(collection.one==singleElement)
+	end
+
 	//stle: dry
 	//stle: more verbrose on assertion
 	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
@@ -210,4 +245,10 @@ class IwToRamLinkTestCase inherits TestCase
 	operation assertStringEqual(expected:String, actual:String) is do
 		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
 	end
+	
+	operation assertObjectEqual(expected:Object, actual:Object) is do
+	//stle: check for void and type
+		assertWithMsg(expected==actual,"ObjectEqual-> expected:\""+expected.toString+"\" actual:\""+actual.toString+"\"")
+	end
+	
 }

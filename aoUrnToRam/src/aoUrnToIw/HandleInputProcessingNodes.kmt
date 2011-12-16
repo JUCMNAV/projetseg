@@ -1,7 +1,7 @@
 package intermediateWorkflow;
 
 require kermeta
-require "http:///intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 
 using kermeta::standard
 using kermeta::utils
@@ -9,56 +9,44 @@ using kermeta::utils
 aspect class IwModel {
 	operation handleInputProcessingNodes() is do
 		concerns.each{concern|
-			concern.workflows.each{workflow|workflow.handleInputProcessingNodes}
+			concern.workflows.each{workflow|
+				workflow.nodes.each{node|node.handleInputProcessingNodes}
+			}
 		}
 	end
 }
 
-aspect class IwWorkflow {
-	property readonly iwInputs: seq IwInput[0..*]
-	getter is do
-		//stle: DRY
-		result:= nodes.select{node|node.isInstanceOf(IwInput)}
-						            .collect{node|node.asType(IwInput)}
-	end
-
+aspect class IwNode {
+	//virtual
 	operation handleInputProcessingNodes() is do
-		iwInputs.each{iwInput|
-			iwInput.handleInputProcessingNodes
-		}
-		
-		iwInputs.each{iwInput|
-			if(iwInput.inputProcessingNode.isVoid==false) then
-				nodes.add(iwInput.inputProcessingNode)
-				nodeConnections.add(iwInput.inputProcessingNode.succs.one)
-			end
-		}
+		//default: do nothing
 	end
 }
-
 
 aspect class IwInput {
-	reference inputProcessingNode:IwCustomizableNode
+	reference iwInputProcessingNode:IwCustomizableNode
 
-	operation handleInputProcessingNodes() is do
+	method handleInputProcessingNodes() is do
 		var target:IwNode init succs.one.target
 		if(target.isInstanceOf(IwEndPoint) or 
 		   target.isInstanceOf(IwInput) or
 		   target.isInstanceOf(IwOrFork) 
 		) then
-			inputProcessingNode:=IwCustomizableNode.new
-			inputProcessingNode.name:="Process"+name
-			
-			succs.one.target:=inputProcessingNode
-			createIwNodeConnection(inputProcessingNode,target)
+			iwInputProcessingNode:=IwCustomizableNode.new
+			iwInputProcessingNode.name:="Process"+name
+			iwInputProcessingNode.workflow:=workflow
+
+			succs.clear //clear existing link
+			connectNodes(self,iwInputProcessingNode)
+			connectNodes(iwInputProcessingNode,target)						
 		end
 	end
-	
-	//stle: dry between iut and test and link
-	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
-		result:=IwNodeConnection.new
-		result.source:=source
-		result.target:=target
+
+	//stle: reuse
+	operation connectNodes(source:IwNode,target:IwNode) is do
+		var connection:IwNodeConnection init IwNodeConnection.new
+		connection.source:=source
+		connection.target:=target
 	end
 }
 

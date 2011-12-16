@@ -1,8 +1,8 @@
 package oneurn;
 
 require kermeta
-require "http:///oneurn.ecore"
-require "http:///intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/oneurn.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 
 using kermeta::standard
 using oneurn::urncore
@@ -53,7 +53,17 @@ package urncore{
 		operation buildIwConcernOnDemand() is do
 			if(_iwConcern.isVoid) then
 				_iwConcern:=IwConcern.new
-				_iwConcern.name:=name
+				_iwConcern.name:=nameOrPrefixId("Concern")
+			end
+		end
+	}
+	
+	aspect class URNmodelElement{
+		operation nameOrPrefixId(prefix:String):String is do
+			if(name.isVoid or name=="") then 
+				result:=prefix+"_"+id
+			else
+				result:=name
 			end
 		end
 	}
@@ -62,6 +72,25 @@ package urncore{
 
 package ucm{
 package map{
+	aspect class Stub {
+		reference iwStub: IwStub
+		
+		method iwEquivalentNode():IwNode is do
+			result:=iwStub
+		end
+	}
+	
+	aspect class PluginBinding {
+		reference iwPluginBinding:IwPluginBinding
+	}
+	
+	aspect class InBinding {
+		reference iwInBinding:IwInBinding
+	}
+	
+	aspect class OutBinding {
+		reference iwOutBinding:IwOutBinding
+	}
 
 	aspect class UCMmap{
 		reference iwWorkflow: IwWorkflow
@@ -84,9 +113,55 @@ package map{
 	}
 	
 	aspect class PathNode {
-		reference iwNodes: IwNode[0..2]
-		reference iwSuccs: IwNodeConnection[0..*]
+		reference iwOutput: IwOutput
+		reference iwInput: 	IwInput
+		reference _iwNodes: oset IwNode[0..3] attribute _isIwNodesCached:Boolean
+		
+		property readonly iwNodes_ReadOnly: IwNode[0..3]
+		getter is do
+			if(_isIwNodesCached!=true) then
+				initIwNodes
+				_isIwNodesCached:=true
+			end
+			result:=_iwNodes.asOrderedSet //return a copy(enforce read-only)
+		end
+		
+		operation uncacheIwNodes() is do 
+			_isIwNodesCached:=false 
+		end
 	
+		operation initIwNodes() is do
+			if(IsOutputInputBefore) then
+				CollectionExt_AddOptional(_iwNodes,iwOutput)
+				CollectionExt_AddOptional(_iwNodes,iwInput)
+				CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
+			else
+				CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
+				CollectionExt_AddOptional(_iwNodes,iwOutput)
+				CollectionExt_AddOptional(_iwNodes,iwInput)
+			end
+		end
+		
+		property readonly iwEntryNode: IwNode
+		getter is do
+			result:=iwNodes_ReadOnly.first
+		end
+		
+		property readonly iwExitNode: IwNode
+		getter is do
+			result:=iwNodes_ReadOnly.last
+		end
+		
+		//virtual
+		operation IsOutputInputBefore():Boolean is do
+			result:=true
+		end
+		
+		//virtual
+		operation iwEquivalentNode():IwNode is do
+			result:=void
+		end
+		
 		property readonly inOutExpression : InOutExpression
 		getter is do
 			var ramMetadata:Metadata init getRamMetadata()
@@ -98,10 +173,32 @@ package map{
 		operation getRamMetadata():Metadata is do
 			result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
 		end
+		
+		//stle: reuse static
+		operation CollectionExt_AddOptional<T>(collection:Collection<T>, element:T) is do
+			if(element.isVoid==false) then
+				collection.add(element)
+			end
+		end
 	}
 	
 	aspect class NodeConnection{
-		property readonly IwConditionName : String
+		reference _iwNodeConnection: IwNodeConnection
+		
+		property readonly iwNodeConnection:IwNodeConnection
+		getter is do
+			buildIwNodeConnectionOnDemand
+			result:=_iwNodeConnection
+		end
+		
+		operation buildIwNodeConnectionOnDemand() is do
+			if(_iwNodeConnection.isVoid) then
+				_iwNodeConnection:=IwNodeConnection.new
+				_iwNodeConnection.conditionName:=conditionLabel
+			end
+		end
+		
+		property readonly conditionLabel: String
 		getter is do
 			if(condition.isVoid==false) then
 				result:=condition.label
@@ -112,8 +209,8 @@ package map{
 		
 		property readonly IwSingleTarget : IwNode
 		getter is do
-			if(target.asType(PathNode).iwNodes.isEmpty==false) then
-				result:=target.asType(PathNode).iwNodes.first
+			if(target.asType(PathNode).iwNodes_ReadOnly.isEmpty==false) then
+				result:=target.asType(PathNode).iwEntryNode
 			else
 				result:=target.succ.one.asType(NodeConnection).IwSingleTarget
 			end
@@ -121,6 +218,12 @@ package map{
 	}
 	
 	aspect class RespRef {
+		reference iwCustomizableNode:IwCustomizableNode
+		
+		method iwEquivalentNode():IwNode is do
+			result:=iwCustomizableNode
+		end
+	
 		property readonly isSystemComponentRef : Boolean 
 		getter is do
 			result:=false
@@ -139,7 +242,31 @@ package map{
 	}
 	
 	aspect class StartPoint {
-		reference iwStartNode:IwNode
+		//stle: not build nor link;however, can only be used once build is completed
+		property readonly iwStartNode : IwNode
+		getter is do
+			if(iwNodes_ReadOnly.empty) then
+				result:=succ.one.asType(NodeConnection).IwSingleTarget
+			else
+				result:=iwNodes_ReadOnly.first
+			end
+		end
+	}
+	
+	aspect class EndPoint {
+		reference iwEndPoint:IwEndPoint
+		
+		method iwEquivalentNode():IwNode is do
+			result:=iwEndPoint
+		end
+	}
+	
+	aspect class OrFork {
+		reference iwOrFork:IwOrFork
+		
+		method iwEquivalentNode():IwNode is do
+			result:=iwOrFork
+		end
 	}
 	
 	

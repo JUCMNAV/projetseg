@@ -45,19 +45,12 @@ package map{
 			pathNodes.each{pathNode|pathNode.link}
 			
 			addNodes
-			addNodeConnections
 			addStartNodes
 		end
 
 		operation addNodes() is do
 			pathNodes.each{pathNode|
-				iwWorkflow.nodes.addAll(pathNode.iwNodes)
-			}
-		end
-		
-		operation addNodeConnections() is do
-			pathNodes.each{pathNode|
-				iwWorkflow.nodeConnections.addAll(pathNode.iwSuccs) //stle: namming is not intuitive
+				iwWorkflow.nodes.addAll(pathNode.iwNodes_ReadOnly)
 			}
 		end
 		
@@ -70,47 +63,104 @@ package map{
 	
 	aspect class PathNode {
 		operation link() is do
-			linkInternal
 			linkSuccs
+			linkInternal
 		end
 
 		operation linkInternal() is do
-			var numOfInternalLinks:Integer init iwNodes.size-1 //-1 because last internal node has no outcoming internal link
+			var numOfInternalLinks:Integer init iwNodes_ReadOnly.size-1 //-1 because last internal node has no outcoming internal link
 			numOfInternalLinks.times{i|
-				linkTwoNodes(iwNodes.at(i),iwNodes.at(i+1),void)
+				var connection:IwNodeConnection init IwNodeConnection.new
+				connection.source:=iwNodes_ReadOnly.at(i)
+				connection.target:=iwNodes_ReadOnly.at(i+1)
 			}
 		end
 		
 		operation linkSuccs() is do
-			if(iwNodes.isEmpty==false) then
-				var source:IwNode init iwNodes.last
-		
-				succ.each{theSucc|
-					var nodeConnection:NodeConnection init theSucc.asType(NodeConnection)
-					linkTwoNodes(source,nodeConnection.IwSingleTarget,nodeConnection.IwConditionName)
-				}
+			if(iwNodes_ReadOnly.isEmpty==false) then
+				succ.each{nodeConnection|nodeConnection.asType(NodeConnection).link}
 			end
-		end
-		
-		//IwNodeConnection is an association class;thus, it is built in the linking process
-		operation linkTwoNodes(source:IwNode, target:IwNode, conditionName:String) is do
-			var connection:IwNodeConnection init IwNodeConnection.new
-			connection.source:=source
-			connection.target:=target
-			connection.conditionName:=conditionName
-			iwSuccs.add(connection)
 		end
 	}
 	
-	aspect class StartPoint {
-		method link() is do
-			super()
-			if(iwNodes.empty) then
-				iwStartNode:=succ.one.asType(NodeConnection).IwSingleTarget
-			else
-				iwStartNode:=iwNodes.first
-			end
+	aspect class NodeConnection {
+		operation link() is do
+			iwNodeConnection.source:=source.asType(PathNode).iwExitNode
+			iwNodeConnection.target:=IwSingleTarget
 		end
+	}
+	
+	aspect class Stub {
+		method link() is do
+			super
+			bindings.each{pluginBinding|pluginBinding.link}
+		end
+		
+		operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
+			iwStub.pluginBindings.add(iwPluginBinding)
+		end
+	}
+
+	aspect class PluginBinding {
+		operation link() is do
+			in.each{inBinding|inBinding.link}
+			out.each{outBinding|outBinding.link}
+			
+			linkStub
+		end
+
+		operation linkStub() is do
+			stub.addIwPluginBinding(iwPluginBinding)
+		end
+		
+		operation addIwInBinding(iwInBinding:IwInBinding) is do
+			iwPluginBinding.inBindings.add(iwInBinding)
+		end
+
+		operation addIwOutBinding(iwOutBinding:IwOutBinding) is do
+			iwPluginBinding.outBindings.add(iwOutBinding)
+		end
+	}
+	
+	aspect class InBinding {
+		operation link() is do
+			linkStartNode
+			linkStubEntry
+			linkPluginBinding
+		end
+
+		operation linkPluginBinding() is do
+			binding.addIwInBinding(iwInBinding)	
+		end
+		
+		operation linkStartNode() is do
+			iwInBinding.startNode:=startPoint.iwStartNode	
+		end
+		
+		operation linkStubEntry() is do
+			iwInBinding.stubEntry:=stubEntry.iwNodeConnection	
+		end
+	}
+
+	aspect class OutBinding {
+		operation link() is do
+			linkEndNode
+			linkStubExit
+			linkPluginBinding
+		end
+		
+		operation linkPluginBinding() is do
+			binding.addIwOutBinding(iwOutBinding)	
+		end
+		
+		operation linkEndNode() is do
+			iwOutBinding.endNode:=endPoint.iwExitNode
+		end
+		
+		operation linkStubExit() is do
+			iwOutBinding.stubExit:=stubExit.iwNodeConnection	
+		end
+		
 	}
 }
 }

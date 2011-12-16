@@ -25,23 +25,22 @@ class IwStep
 class IwWorkflow 
 {
 	attribute name : String
-	attribute nodes : IwNode[1..*]
-	attribute nodeConnections: IwNodeConnection[1..*]
+	attribute nodes : IwNode[1..*]#workflow
 	reference startNodes : IwNode[1..*]
 }
 
 abstract class IwNode
 {
 	attribute name : String
-	reference preds : IwNodeConnection[0..*]#target
-	reference succs : IwNodeConnection[0..*]#source
+	attribute succs : IwNodeConnection[0..*]#source
 	reference step : IwStep#nodes
+	reference workflow: IwWorkflow#nodes
 }
 
 class IwNodeConnection{
 	attribute conditionName:String
 	reference source : IwNode#succs
-	reference target : IwNode#preds
+	reference target : IwNode
 }
 
 class IwInput inherits IwNode
@@ -62,4 +61,31 @@ class IwEndPoint inherits IwNode
 
 class IwOrFork inherits IwNode
 {
+}
+
+class IwStub inherits IwNode
+{
+	attribute pluginBindings:IwPluginBinding[0..*]#stub 
+}
+
+class IwPluginBinding
+{
+	attribute inBindings:IwInBinding[0..*]#pluginBinding
+	attribute outBindings:IwOutBinding[0..*]#pluginBinding
+	reference stub:IwStub#pluginBindings
+}
+
+class IwInBinding
+{
+	reference startNode:IwNode
+	reference stubEntry:IwNodeConnection
+	reference pluginBinding:IwPluginBinding#inBindings
+}
+
+
+class IwOutBinding
+{
+	reference endNode:IwNode
+	reference stubExit:IwNodeConnection
+	reference pluginBinding:IwPluginBinding#outBindings
 }

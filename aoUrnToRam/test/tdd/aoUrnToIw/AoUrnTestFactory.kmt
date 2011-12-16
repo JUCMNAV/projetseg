@@ -1,7 +1,7 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "http:///oneurn.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/oneurn.ecore"
 
 using kermeta::standard
 using kermeta::utils
@@ -121,23 +121,49 @@ class AoUrnTestFactory
 		}
 		result:=urnSpec
 	end
-
-	operation createNodeConnection(source:IURNNode,target:IURNNode):NodeConnection is do
-		var connection:NodeConnection init NodeConnection.new
-		connection.source:=source
-		connection.target:=target 
-		result:=connection
+	
+	operation createStub():Stub is do
+		result:=Stub.new
+		result.name:="theStub"	
 	end
 
-	operation createConditionalNodeConnection(source:IURNNode,target:IURNNode, conditionLabel:String):NodeConnection is do
-		var connection:NodeConnection init createNodeConnection(source,target)
-		var condition:Condition init Condition.new
-		condition.label:=conditionLabel
-		connection.condition:=condition
-		result:=connection
+	operation createPluginBinding():PluginBinding is do
+		result:=PluginBinding.new
 	end
 	
+	operation createInBinding():InBinding is do
+		result:=InBinding.new
+	end
 	
+	operation createOutBinding():OutBinding is do
+		result:=OutBinding.new
+	end
+	
+	operation createDefaultRespRef():RespRef is do
+		result:=createRespRef("TheResponsibility",void)
+	end
+	
+	operation createCondition(label:String):Condition is do
+		result:=Condition.new
+		result.label:=label
+	end
+
+	operation createNodeConnection():NodeConnection is do
+		result:=NodeConnection.new
+	end
+	
+	operation connectNodes(source:IURNNode,target:IURNNode):NodeConnection is do
+		result:=createNodeConnection
+		result.source:=source
+		result.target:=target 
+	end
+	
+	operation connectNodes_Condition(source:IURNNode,target:IURNNode,conditionLabel:String):NodeConnection is do
+		result:=connectNodes(source,target)
+		result.condition:=createCondition(conditionLabel)
+	end
+	
+
 	//rethink about that, will still need to update factory method signature if numOfOptional param changes
 	operation optionalString(val:String):String is do
 		result:=if val.isVoid then "NotSet" else val end

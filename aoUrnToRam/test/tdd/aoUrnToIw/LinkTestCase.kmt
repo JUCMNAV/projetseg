@@ -68,7 +68,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	operation testLinkStartPoint_succPathNode() is do
 		var actual:StartPoint init factory.createStartPoint(void)
 		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
-		factory.createNodeConnection(actual,endPoint)
+		factory.connectNodes(actual,endPoint)
 				
 		actual.build
 		endPoint.build
@@ -83,7 +83,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		ucmMap.nodes.add(factory.createStartPoint(void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
-		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
+		factory.connectNodes(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 				
 		ucmMap.build
 		ucmMap.linkChildren
@@ -98,7 +98,7 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		//first start
 		ucmMap.nodes.add(factory.createStartPoint(void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
-		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
+		factory.connectNodes(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 		//second start
 		ucmMap.nodes.add(factory.createStartPoint("out theOutput"))
 				
@@ -109,265 +109,98 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkUcmMap_NoNodeConnection() is do
-		var ucmMap:UCMmap init factory.createUcmMap(void)
-		ucmMap.nodes.add(factory.createRespRef(void, void))
-		ucmMap.nodes.add(factory.createRespRef(void, void))
+	operation testPathNodeLink_InternalOne() is do
+		var actual:StartPoint init factory.createStartPoint("in b")
 
-		ucmMap.build
-		ucmMap.linkChildren
-		
-		assert(ucmMap.iwWorkflow.nodeConnections.size==0)
-	end
+		actual.build
+		actual.linkInternal
 
+		assertObjectEqual(0,actual.iwInput.succs.size)
+	end 	
+	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkUcmMap_OneNodeConnection() is do
-		var ucmMap:UCMmap init factory.createUcmMap(void)
-		ucmMap.nodes.add(factory.createRespRef(void, void))
-		ucmMap.nodes.add(factory.createRespRef(void, void))
-		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1)))
-		
-		ucmMap.build
-		ucmMap.linkChildren
-		
-		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
-	end
+	operation testPathNodeLink_InternalTwoBefore() is do
+		//stle: need to test after. wait for and-join
+		var actual:EndPoint init factory.createEndPoint("theEndPoint","out a")
 
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkUcmMap_ManyNodeConnection() is do
-		var ucmMap:UCMmap init factory.createUcmMap(void)
+		actual.build
+		actual.linkInternal
 
-		ucmMap.nodes.add(factory.createRespRef(void, void))
-		ucmMap.nodes.add(factory.createRespRef(void, "out c in d"))
-		ucmMap.nodes.add(factory.createRespRef(void, void))
-		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1)))
-		ucmMap.connections.add(factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2)))
-		
-		ucmMap.build
-		ucmMap.linkChildren
-		
-		assert(ucmMap.iwWorkflow.nodeConnections.size==3)
+		assertSingleNodeConnection(actual.iwOutput,actual.iwEndPoint)			
 	end
 	
-	//stle: rename tests	
-	//stle: only on customer
-	operation testPathNodeLink_ZeroToZero() is do
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testPathNodeLink_InternalThreeBefore() is do
+		var actual:EndPoint init factory.createEndPoint("theEndPoint","out a in b")
+
+		actual.build
+		actual.linkInternal
+
+		assertSingleNodeConnection(actual.iwOutput,actual.iwInput)			
+		assertSingleNodeConnection(actual.iwInput,actual.iwEndPoint)
 	end 	
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testPathNodeLink_ZeroToOne() is do
-		var source:StartPoint init factory.createStartPoint(void)
-		var target:RespRef init factory.createRespRef("theTarget",void)
-		factory.createNodeConnection(source,target)
-
-		source.build
-		target.build
-		source.link
-		
-		assert(target.iwNodes.first.preds.size==0)
-	end 	
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testPathNodeLink_OneToZero() is do
-		var source:EndPoint init factory.createEndPoint(void,void)
-		source.build
-		source.link
-		
-		assert(source.iwNodes.last.succs.size==0)
-	end
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testPathNodeLink_OneToOne() is do
-		var source:RespRef init factory.createRespRef("theSource",void)
-		var target:RespRef init factory.createRespRef("theTarget",void)
-		factory.createNodeConnection(source,target)
-
-		source.build
-		target.build
-		source.link
-		
-		assertPathNodeConnection(source,target)
-	end 	
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testPathNodeLink_ManyToMany() is do
-		var source:RespRef init factory.createRespRef(void,"out a in b")
-		var target:RespRef init factory.createRespRef(void,"out c in d")
-		factory.createNodeConnection(source,target)
-
-		source.build
-		target.build
-		source.link
-
-		assertPathNodeConnection(source,target)
-	end
-
-	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testPathNodeLink_Transitive_Link() is do
-		var source:StartPoint init factory.createStartPoint("in theStart")
-		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
-		var target:RespRef init factory.createRespRef("theTarget",void)
-		factory.createNodeConnection(source,outsideSystem)
-		factory.createNodeConnection(outsideSystem,target)
-	
-		source.build
-		outsideSystem.build
-		target.build
-		source.link
-		
-		assertPathNodeConnection(source,target)
-	end
-
-	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testLinkUcmMap_OneTransitiveConnection() is do
-		var ucmMap:UCMmap init factory.createUcmMap(void)
-		ucmMap.nodes.add(factory.createStartPoint("in theStart"))
-		ucmMap.nodes.add(factory.createRespRefGeneric("theOneToSkip",void,false))
-		ucmMap.nodes.add(factory.createRespRef("theTarget",void))
-		factory.createNodeConnection(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
-		factory.createNodeConnection(ucmMap.nodes.at(1),ucmMap.nodes.at(2))
-		
-		ucmMap.build
-		ucmMap.linkChildren
-		
-		assert(ucmMap.iwWorkflow.nodeConnections.size==1)
-	end
-	
 	 	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkOutInPathNode() is do
-		var respRef:RespRef init factory.createRespRef("theRespRef","out theSource in theTarget")
+	operation testNodeConnectionLink() is do
+		var source:RespRef init factory.createDefaultRespRef
+		var target:RespRef init factory.createDefaultRespRef
+		var actual:NodeConnection init factory.connectNodes(source,target)
 
-		respRef.build
-		respRef.link
-
-		assertInternalNodeConnection(respRef,0,1)
-	end
+		source.build
+		target.build
+		actual.link
+		
+		assertSingleNodeConnection(source.iwExitNode,target.iwEntryNode)
+	end 	
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkOutInEndPoint() is do
-		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
+	operation testNodeConnectionLink_ManyInternalNodesOnBothEnds() is do
+		var source:RespRef init factory.createRespRef(void,"out a in b")
+		var target:RespRef init factory.createRespRef(void,"out a in b")
+		var actual:NodeConnection init factory.connectNodes(source,target)
+
+		source.build
+		target.build
+		actual.link
+		
+		assertSingleNodeConnection(source.iwExitNode,target.iwEntryNode)
+	end 	
+
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testNodeConnectionLink_Transitive() is do
+		var source:RespRef init factory.createDefaultRespRef
+		var outsideSystem:RespRef init factory.createRespRefGeneric("theOneToSkip",void,false)
+		var target:RespRef init factory.createDefaultRespRef
+		var actual:NodeConnection init factory.connectNodes(source,outsideSystem)
+		factory.connectNodes(outsideSystem,target)
+
+		source.build
+		outsideSystem.build
+		target.build
+		actual.link
+		
+		assertSingleNodeConnection(source.iwExitNode,target.iwEntryNode)
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testOrForkLink_ManySuccs() is do
+		var actual:OrFork init factory.createOrFork("theOrFork",void)
+		var target1:RespRef init factory.createRespRef("theTarget1",void)
+		var target2:RespRef init factory.createRespRef("theTarget2",void)
+		
+		factory.connectNodes_Condition(actual,target1,"branch1")
+		factory.connectNodes_Condition(actual,target2,"branch2")
 
 		actual.build
+		target1.build
+		target2.build
 		actual.link
-
-		assertInternalNodeConnection(actual,0,1)
-		assertInternalNodeConnection(actual,1,2)
+		
+		assertObjectEqual(2,actual.iwExitNode.succs.size)
+		assertSingleConditionalPathNodeConnectionBetween(actual.iwExitNode,target1.iwEntryNode,"branch1")
+		assertSingleConditionalPathNodeConnectionBetween(actual.iwExitNode,target2.iwEntryNode,"branch2")
 	end
-
-	@feature "FeaTransformOrFork"
-	operation testOrForkLink_2Branchs() is do
-		var source:OrFork init factory.createOrFork("theOrFork",void)
-		var targetA:RespRef init factory.createRespRef("theTargetA",void)
-		var targetB:RespRef init factory.createRespRef("theTargetB",void)
-		factory.createConditionalNodeConnection(source,targetA,"branchA")
-		factory.createConditionalNodeConnection(source,targetB,"branchB")
-
-		source.build
-		targetA.build
-		targetB.build
-		source.link
-		
-		assertObjectEqual(2,source.iwNodes.last.succs.size)
-		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
-		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
-	end
-
-	@feature "FeaTransformOrFork"
-	operation testOrForkLink_ManyBranchs() is do
-		var source:OrFork init factory.createOrFork("theOrFork",void)
-		var targetA:RespRef init factory.createRespRef("theTargetA",void)
-		var targetB:RespRef init factory.createRespRef("theTargetB",void)
-		var targetC:RespRef init factory.createRespRef("theTargetC",void)
-		factory.createConditionalNodeConnection(source,targetA,"branchA")
-		factory.createConditionalNodeConnection(source,targetB,"branchB")
-		factory.createConditionalNodeConnection(source,targetC,"branchC")
-
-		source.build
-		targetA.build
-		targetB.build
-		targetC.build
-		source.link
-		
-		assertObjectEqual(3,source.iwNodes.last.succs.size)
-		assertSingleConditionalPathNodeConnectionBetween(source,targetA,"branchA")
-		assertSingleConditionalPathNodeConnectionBetween(source,targetB,"branchB")
-		assertSingleConditionalPathNodeConnectionBetween(source,targetC,"branchC")
-	end 	
-
-	@feature "FeaTransformOrJoin"
-	operation testOrJoinLink_2Branchs() is do
-		var sourceA:RespRef init factory.createRespRef("theSourceA",void)
-		var sourceB:RespRef init factory.createRespRef("theSourceB",void)
-		var target:OrJoin init factory.createOrJoin("in joinInput")
-		
-		factory.createNodeConnection(sourceA,target)
-		factory.createNodeConnection(sourceB,target)
-		
-		sourceA.build
-		sourceB.build
-		target.build
-		sourceA.link
-		sourceB.link
-		//stle: OrJoin link like any other node, will be tested when testing liskov by base test class. For now it is assumed to be true.
-		
-		assertObjectEqual(2,target.iwNodes.first.preds.size)
-		assertPathNodeConnection(sourceA,target)
-		assertPathNodeConnection(sourceB,target)
-	end 	
-
-	@feature "FeaTransformOrJoin"
-	operation testOrJoinLink_ManyBranchs() is do
-		var sourceA:RespRef init factory.createRespRef("theSourceA",void)
-		var sourceB:RespRef init factory.createRespRef("theSourceB",void)
-		var sourceC:RespRef init factory.createRespRef("theSourceC",void)
-		var target:OrJoin init factory.createOrJoin("in joinInput")
-		
-		factory.createNodeConnection(sourceA,target)
-		factory.createNodeConnection(sourceB,target)
-		factory.createNodeConnection(sourceC,target)
-		
-		sourceA.build
-		sourceB.build
-		sourceC.build
-		target.build
-		sourceA.link
-		sourceB.link
-		sourceC.link
-		
-		assertObjectEqual(3,target.iwNodes.first.preds.size)
-		assertPathNodeConnection(sourceA,target)
-		assertPathNodeConnection(sourceB,target)
-		assertPathNodeConnection(sourceC,target)
-	end 	
-
-
-
-	operation assertInternalNodeConnection(pathNode:PathNode, source:Integer, target:Integer) is do
-		assertNodeConnection(pathNode.iwNodes.at(source),
-							 pathNode.iwNodes.at(target))
-	end
-	
-	operation assertPathNodeConnection(source:PathNode, target:PathNode) is do
-		assertNodeConnection(source.iwNodes.last,
-							 target.iwNodes.first)
-	end
-	
-	operation assertNodeConnection(source:IwNode, target:IwNode) is do
-		assertObjectEqual(1,source.succs.size)
-		assert(source.succs.exists{succ|succ.target.oid==target.oid}) 
-	end
-	
-	operation assertSingleConditionalPathNodeConnectionBetween(source:PathNode, target:PathNode, conditionName:String) is do
-		var sourceIwNode:IwNode init source.iwNodes.last
-		var targetIwNode:IwNode init target.iwNodes.first
-		
-		var numOfConnection:Integer init sourceIwNode.succs.select{succ|
-										succ.target.oid==targetIwNode.oid and succ.conditionName==conditionName}.size
-		assertObjectEqual(1,numOfConnection) 
-	end
-
 
 	@feature "FeaNamingofRAMConcern"
 	operation testLinkUcmMap_OneWithConcern() is do
@@ -430,6 +263,120 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	operation testPluginBindingLink_Stub() is do
+		var stub:Stub init factory.createStub
+		var actual:PluginBinding init factory.createPluginBinding
+		actual.stub:=stub
+
+		stub.build
+		actual.linkStub
+		
+		assertCollectionHasSingleElement(stub.iwStub.pluginBindings,actual.iwPluginBinding)
+	end
+
+	operation testInBindingLink_PluginBinding() is do
+		var pluginBinding:PluginBinding init factory.createPluginBinding
+		var actual:InBinding init factory.createInBinding
+		actual.binding:=pluginBinding
+
+		pluginBinding.build
+		actual.linkPluginBinding
+		
+		assertCollectionHasSingleElement(pluginBinding.iwPluginBinding.inBindings,actual.iwInBinding)
+	end
+	
+	operation testInBindingLink_StartNode() is do
+		var startPoint:StartPoint init factory.createStartPoint("in theInput")
+		var actual:InBinding init factory.createInBinding
+		actual.startPoint:=startPoint
+
+		startPoint.build
+		actual.build
+		actual.linkStartNode
+
+		assert(startPoint.iwStartNode==actual.iwInBinding.startNode)
+	end
+	
+	operation testInBindingLink_StubEntry() is do
+		var stubEntry:NodeConnection init factory.createNodeConnection
+		var actual:InBinding init factory.createInBinding
+		actual.stubEntry:=stubEntry
+
+		actual.build
+		actual.linkStubEntry
+
+		assert(stubEntry.iwNodeConnection==actual.iwInBinding.stubEntry)
+	end
+	
+	operation testOutBindingLink_PluginBinding() is do
+		//stle:dry
+		var pluginBinding:PluginBinding init factory.createPluginBinding
+		var actual:OutBinding init factory.createOutBinding
+		actual.binding:=pluginBinding
+
+		pluginBinding.build
+		actual.linkPluginBinding
+		
+		assertCollectionHasSingleElement(pluginBinding.iwPluginBinding.outBindings,actual.iwOutBinding)
+	end
+	
+	operation testOutBindingLink_EndNode() is do
+		var endPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
+		var actual:OutBinding init factory.createOutBinding
+		actual.endPoint:=endPoint
+
+		endPoint.build
+		actual.build
+		actual.linkEndNode
+
+		assert(endPoint.iwExitNode==actual.iwOutBinding.endNode)
+	end
+	
+	operation testOutBindingLink_StubExit() is do
+		var stubExit:NodeConnection init factory.createNodeConnection
+		var actual:OutBinding init factory.createOutBinding
+		actual.stubExit:=stubExit
+
+		actual.build
+		actual.linkStubExit
+
+		assert(stubExit.iwNodeConnection==actual.iwOutBinding.stubExit)
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	operation assertSingleNodeConnection(source:IwNode, target:IwNode) is do
+		assertObjectEqual(1,source.succs.size)
+		assertExistsNodeConnection(source,target) 
+	end
+	
+	operation assertExistsNodeConnection(source:IwNode, target:IwNode) is do
+		assert(source.succs.exists{succ|succ.target==target}) 
+	end
+	
+	operation assertSingleConditionalPathNodeConnectionBetween(source:IwNode, target:IwNode, conditionName:String) is do
+		var numOfConnection:Integer init source.succs.select{nodeConnection|
+										nodeConnection.target==target and nodeConnection.conditionName==conditionName}.size
+		assertObjectEqual(1,numOfConnection) 
+	end
+	
+	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
+		assertObjectEqual(1,collection.size)
+		assert(collection.one==singleElement)
+	end
 
 	//stle: dry
 	//stle: more verbrose on assertion

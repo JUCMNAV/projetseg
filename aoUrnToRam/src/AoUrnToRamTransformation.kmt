@@ -14,33 +14,37 @@ using ramstructural
 class AoUrnToRamTransformation
 {
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
+		registerMetamodels
 		var repository:ModelRepository init ModelRepository.new
-	
+			
 		var urnSpec:URNspec 
 		urnSpec?=repository.load(source)
 		
 		var iwModel:IwModel init urnSpec.toIw
 		if(optional_intermediate.isVoid==false)then
-			repository.save(iwModel,optional_intermediate,"http:///intermediateWorkflow.ecore")
+			repository.save(iwModel,optional_intermediate,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
 		end
 		
 		iwModel.toRam.each{ramAspect|
 			repository.save(ramAspect,Path.new.combine(destination,ramAspect.workspacePath)+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 		}
 	end
+	
+	operation registerMetamodels() is do
+		var repository : EMFRepository init EMFRepository.new
+		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/oneurn.ecore")
+		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
+	end
 }
 
 class ModelRepository
 {
-     operation load(uri : String) : Object is do
+    operation load(uri : String) : Object is do
      	var repository : EMFRepository init EMFRepository.new 
     	var resource : Resource init repository.getResource(uri)
     	resource.load
     	result:=resource.one
     end
-
-//stle to avoid registering manually all the time    	
-//        repository.registerEcoreFile("platform:/resource/fr.irisa.triskell.kermeta.samples/class2RDBMS/metamodels/RDBMSMM.ecore")
 
     operation save(model: Object, modelUri : String, metamodelUri: String) is do
     	fileDoesNotExistWorkAround(modelUri)

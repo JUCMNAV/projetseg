@@ -80,6 +80,7 @@ class IwToRamBuildTestCase inherits TestCase
 	
 	@feature "FeaTransformOrFork"
 	operation testBuildIwFork() is do
+		//stle: test at nodeConnection instead
 		var actual:IwOrFork init factory.createIwOrFork
 		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch1"
 		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch2"
@@ -91,6 +92,17 @@ class IwToRamBuildTestCase inherits TestCase
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch1"})
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch2"})
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch3"})
+	end
+
+	operation testBuildIwBinding() is do
+		var stub:IwStub init factory.createIwStub
+		var actual:IwPluginBinding init factory.createIwPluginBinding
+		actual.stub:=stub
+		
+		actual.build
+		
+		assertClassProperlyBuilt("theStub_Condition",actual.ramCondition)
+		assertClassProperlyBuilt("theStub_ReplicationFactor",actual.ramReplicationFactor)
 	end
 	
 	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do

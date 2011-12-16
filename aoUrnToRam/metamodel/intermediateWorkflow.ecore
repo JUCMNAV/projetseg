@@ -39,9 +39,7 @@
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1"
-          upperBound="-1" eType="#/1/IwNode" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="nodeConnections" lowerBound="1"
-          upperBound="-1" eType="#/1/IwNodeConnection" containment="true"/>
+          upperBound="-1" eType="#/1/IwNode" containment="true" eOpposite="#/1/IwNode/workflow"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startNodes" lowerBound="1"
           upperBound="-1" eType="#/1/IwNode"/>
     </eClassifiers>
@@ -51,12 +49,12 @@
           <details key="isComposite" value="true"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="preds" upperBound="-1"
-          eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/target"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="succs" upperBound="-1"
-          eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/source"/>
+          eType="#/1/IwNodeConnection" containment="true" eOpposite="#/1/IwNodeConnection/source"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="step" eType="#/1/IwStep"
           eOpposite="#/1/IwStep/nodes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="workflow" eType="#/1/IwWorkflow"
+          eOpposite="#/1/IwWorkflow/nodes"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwNodeConnection">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionName" eType="#/1/String">
@@ -66,14 +64,37 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/succs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"
-          eOpposite="#/1/IwNode/preds"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwEndPoint" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwStub" eSuperTypes="#/1/IwNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
+          eType="#/1/IwPluginBinding" containment="true" eOpposite="#/1/IwPluginBinding/stub"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IwPluginBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
+          eType="#/1/IwInBinding" containment="true" eOpposite="#/1/IwInBinding/pluginBinding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outBindings" upperBound="-1"
+          eType="#/1/IwOutBinding" containment="true" eOpposite="#/1/IwOutBinding/pluginBinding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stub" eType="#/1/IwStub"
+          eOpposite="#/1/IwStub/pluginBindings"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IwInBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startNode" eType="#/1/IwNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" eType="#/1/IwNodeConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"
+          eOpposite="#/1/IwPluginBinding/inBindings"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IwOutBinding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endNode" eType="#/1/IwNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubExit" eType="#/1/IwNodeConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"
+          eOpposite="#/1/IwPluginBinding/outBindings"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
     <eClassifiers xsi:type="ecore:EDataType" name="_KermetaSpecialTypesAlias_" instanceClassName="java.lang.Object"/>
   </ecore:EPackage>

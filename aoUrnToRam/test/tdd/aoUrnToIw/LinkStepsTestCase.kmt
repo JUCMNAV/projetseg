@@ -72,7 +72,7 @@ class linkStepsTestCase inherits TestCase
 		node.step_DeepFirstSearch(currentStep)
 
 		assert(node.step==currentStep)
-		assertSingleElement(concern.steps,currentStep)
+		assertCollectionHasSingleElement(concern.steps,currentStep)
 	end
 
 	@feature "FeaNamingOfRAMStep"
@@ -175,7 +175,7 @@ class linkStepsTestCase inherits TestCase
 	end
 
 	
-	operation assertSingleElement<T>(collection:Collection<T>,singleElement:T) is do
+	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)
 		assert(collection.one==singleElement)
 	end

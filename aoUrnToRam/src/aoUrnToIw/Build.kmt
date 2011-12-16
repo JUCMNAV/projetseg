@@ -23,78 +23,99 @@ package map{
 			pathNodes.each{pathNode|pathNode.build}
 
 			iwWorkflow:=IwWorkflow.new
-			iwWorkflow.name:=name
+			iwWorkflow.name:=nameOrPrefixId("Workflow")
 		end
 	}
 	
 	aspect class PathNode {
-		operation build() is do	
-			if(inOutExpression.hasOut) then
-				addIwOutputNode
-			end 
-			if(inOutExpression.hasIn) then
-				addIwInputNode
-			end
+		operation build() is do
+			buildIwOutputNode
+			buildIwInputNode
+			uncacheIwNodes
 		end
 	
-		operation addIwInputNode() is do
-			var iwInputNode:IwInput init IwInput.new
-			iwInputNode.name:=inOutExpression.in
-			iwNodes.add(iwInputNode)
+		operation buildIwOutputNode() is do
+			if(inOutExpression.hasOut) then
+				iwOutput:=IwOutput.new
+				iwOutput.name:=inOutExpression.out
+			end
 		end
 		
-		operation addIwOutputNode() is do
-			var iwOutputNode:IwOutput init IwOutput.new
-			iwOutputNode.name:=inOutExpression.out
-			iwNodes.add(iwOutputNode)
+		operation buildIwInputNode() is do
+			if(inOutExpression.hasIn) then
+				iwInput:=IwInput.new
+				iwInput.name:=inOutExpression.in
+			end
 		end
 	}
 	
 	
 	aspect class RespRef {
 		method build() is do
-			super()
+			super
 			if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
 				if(isSystemComponentRef) then
-					addIwCustomizableNode
+					iwCustomizableNode:=IwCustomizableNode.new
+					if(respDef.name.isVoid or respDef.name=="") then
+						iwCustomizableNode.name:=nameOrPrefixId("CustomizableNode")
+					else
+						iwCustomizableNode.name:=respDef.name
+					end 
+					
 				end
 			end 
-		end
-		
-		operation addIwCustomizableNode() is do
-			var IwCustomizableNode:IwCustomizableNode init IwCustomizableNode.new
-			IwCustomizableNode.name:=respDef.name
-			iwNodes.add(IwCustomizableNode)
 		end
 	}
 	
 	aspect class EndPoint {
 		method build() is do
-			super()
-			addIwEndPoint
-		end
-
-		operation addIwEndPoint() is do
-			var iwEndpoint:IwEndPoint init IwEndPoint.new
-			iwEndpoint.name:=name
-			iwNodes.add(iwEndpoint)
+			super
+			iwEndPoint:=IwEndPoint.new
+			iwEndPoint.name:=nameOrPrefixId("EndPoint")
 		end
 	}
 	
 	aspect class OrFork {
 		method build() is do
-			addIwOrFork
-			super()
-		end
-
-		//stle: dry
-		operation addIwOrFork() is do
-			var iwOrFork:IwOrFork init IwOrFork.new
-			iwOrFork.name:=name
-			iwNodes.add(iwOrFork)
+			super
+			iwOrFork:=IwOrFork.new
+			iwOrFork.name:=nameOrPrefixId("OrFork")
 		end
 	}
 	
+	aspect class Stub {
+		method build() is do
+			bindings.each{pluginBinding|pluginBinding.build}
+
+			super
+			buildIwStub
+		end
+	
+		operation buildIwStub() is do
+			iwStub:=IwStub.new
+			iwStub.name:=nameOrPrefixId("Stub")
+		end
+	}
+
+	aspect class PluginBinding {
+		operation build() is do
+			iwPluginBinding:=IwPluginBinding.new
+			in.each{inBinding|inBinding.build}
+			out.each{outBinding|outBinding.build}
+		end
+	}
+	
+	aspect class InBinding {
+		operation build() is do
+			iwInBinding:=IwInBinding.new
+		end
+	}
+
+	aspect class OutBinding {
+		operation build() is do
+			iwOutBinding:=IwOutBinding.new
+		end
+	}
 }
 }
 

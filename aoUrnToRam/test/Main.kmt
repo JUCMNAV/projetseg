@@ -22,12 +22,21 @@ using kermeta::exceptions
 
 using intermediateWorkflow
 
-class Main
+class Main inherits TestCase
 {
     operation main() : Void is do
     	launchTddTests() 
 		launchIntegrationTests()
 	end
+	
+	operation specificTest_NoKUnitToAllowDebugging() : Void is do
+	/*
+		var test:AoUrnToIwLinkTestCase init AoUrnToIwLinkTestCase.new
+		test.setUp
+		test.testInBindingLink_StartNode
+	*/
+    end
+	
 
 	property readonly aoUrnToIwTestSuite : OrderedSet<Class>
 	getter is do
@@ -81,11 +90,6 @@ class Main
 				stdio.writeln(error.message)
 		end
 		writePassFail(pass)
-    end
-    
-    operation specificTest_NoKUnitToAllowDebugging() : Void is do
-//		var test:linkStepsTestCase init linkStepsTestCase.new
-//		test.setUp
     end
     
     operation runTestClasses(testClasses:OrderedSet<Class>) is do

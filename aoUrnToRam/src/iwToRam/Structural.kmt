@@ -1,7 +1,7 @@
 package intermediateWorkflow;
 
 require kermeta
-require "http:///intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 require "platform:/resource/aoUrnToRam/metamodel/RamStructuralExtension.kmt"
 
 using kermeta::standard
@@ -61,4 +61,9 @@ aspect class IwOutput{
 
 aspect class IwOrFork {
 	reference ramConditions : set Class[2..*]
+}
+
+aspect class IwPluginBinding{
+	reference ramCondition:Class 
+	reference ramReplicationFactor:Class
 }

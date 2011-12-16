@@ -26,7 +26,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:RespRef init factory.createRespRefGeneric("theRespName",void,false)
 		
 		actual.build
-		assert(actual.iwNodes.size==0)
+		assert(actual.iwNodes_ReadOnly.size==0)
 	end
 
 	@feature "FeaHandleUntaggedResponsibilityInActor"
@@ -35,7 +35,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		actual.contRef:=factory.createComponentRef("theActor",ComponentKind.Actor)
 		
 		actual.build
-		assert(actual.iwNodes.size==0)
+		assert(actual.iwNodes_ReadOnly.size==0)
 	end
 	
 
@@ -44,7 +44,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:StartPoint init factory.createStartPoint(void)
 		actual.build
 	
-		assert(actual.iwNodes.size==0)
+		assert(actual.iwNodes_ReadOnly.size==0)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -52,8 +52,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:StartPoint init factory.createStartPoint("in theInputName")
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.one)
-		assertStringEqual("theInputName",actual.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.one.name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -61,8 +61,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:StartPoint init factory.createStartPoint("out theOutputName")
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.one)
-		assertStringEqual("theOutputName",actual.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.one.name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -70,11 +70,11 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:StartPoint init factory.createStartPoint("out theOutputName in theInputName")
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
-		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.at(0).name)
 		
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
-		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.at(1).name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -82,8 +82,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:RespRef init factory.createRespRef("theRespName",void)
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwCustomizableNode, actual.iwNodes.one)
-		assertStringEqual("theRespName",actual.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwCustomizableNode, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theRespName",actual.iwNodes_ReadOnly.one.name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -91,8 +91,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:EndPoint init factory.createEndPoint("theEndPoint",void)
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes.one)
-		assertStringEqual("theEndPoint",actual.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theEndPoint",actual.iwNodes_ReadOnly.one.name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -100,14 +100,14 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:EndPoint init factory.createEndPoint("theEndPoint","out theOutputName in theInputName")
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
-		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.at(0).name)
 		
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
-		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.at(1).name)
 		
-		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes.at(2))
-		assertStringEqual("theEndPoint",actual.iwNodes.at(2).name)
+		assertIsNonVoidInstanceOf(IwEndPoint, actual.iwNodes_ReadOnly.at(2))
+		assertStringEqual("theEndPoint",actual.iwNodes_ReadOnly.at(2).name)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -132,8 +132,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:OrFork init factory.createOrFork("theOrFork",void)
 		actual.build
 	
-		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes.one)
-		assertStringEqual("theOrFork",actual.iwNodes.one.name)
+		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theOrFork",actual.iwNodes_ReadOnly.one.name)
 	end
 
 	@feature "FeaTransformOrFork"
@@ -141,14 +141,14 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:OrFork init factory.createOrFork("theOrFork","out theOutputName in theInputName")
 		actual.build
 
-		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes.at(0))
-		assertStringEqual("theOrFork",actual.iwNodes.at(0).name)
-	
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(1))
-		assertStringEqual("theOutputName",actual.iwNodes.at(1).name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.at(0).name)
 		
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(2))
-		assertStringEqual("theInputName",actual.iwNodes.at(2).name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.at(1).name)
+		
+		assertIsNonVoidInstanceOf(IwOrFork, actual.iwNodes_ReadOnly.at(2))
+		assertStringEqual("theOrFork",actual.iwNodes_ReadOnly.at(2).name)
 	end
 
 
@@ -157,7 +157,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:OrJoin init factory.createOrJoin(void)
 		actual.build
 	
-		assert(0==actual.iwNodes.size)
+		assert(0==actual.iwNodes_ReadOnly.size)
 	end
 
 	@feature "FeaTransformOrJoin"
@@ -165,11 +165,11 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:OrJoin init factory.createOrJoin("out theOutputName in theInputName")
 		actual.build
 
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes.at(0))
-		assertStringEqual("theOutputName",actual.iwNodes.at(0).name)
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.at(0).name)
 		
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes.at(1))
-		assertStringEqual("theInputName",actual.iwNodes.at(1).name)
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.at(1).name)
 	end
 	
 
@@ -188,9 +188,95 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		assertIsNonVoidInstanceOf(IwConcern, urnSpec.iwWithoutConcern)
 		assertStringEqual("WithoutConcern",urnSpec.iwWithoutConcern.name)
 	end
+
 	
+	operation testBuildStub_NoInOut() is do
+		//stle: add liskov test for in/out metadata
+		var actual:Stub init factory.createStub()
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwStub, actual.iwNodes_ReadOnly.one)
+		assertStringEqual("theStub",actual.iwNodes_ReadOnly.one.name)
+		assert(actual.iwStub==actual.iwNodes_ReadOnly.one)
+	end
+
+	operation testBuildStub_InOut() is do
+		var actual:Stub init factory.createStub()
+		factory.addRamMetadata(actual,"out theOutputName in theInputName")
+		actual.build
+
+		//stle:own test for input/output names
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
+		assertIsNonVoidInstanceOf(IwStub, actual.iwNodes_ReadOnly.at(2))
+	end
+	
+	operation testBuildBinding() is do
+		var actual:PluginBinding init factory.createPluginBinding()
+
+		actual.build
+	
+		assert(actual.iwPluginBinding.isVoid==false)
+	end
+	
+	operation testBuildInBinding() is do
+		var actual:InBinding init factory.createInBinding()
+
+		actual.build
+	
+		assert(actual.iwInBinding.isVoid==false)
+	end
+	
+	operation testBuildOutBinding() is do
+		var actual:OutBinding init factory.createOutBinding()
+
+		actual.build
+	
+		assert(actual.iwOutBinding.isVoid==false)
+	end	
+
+	operation testBuildNodeConnection_WithoutCondition() is do
+		var actual:NodeConnection init factory.createNodeConnection()
+
+		//build on demand
+	
+		assert(actual.iwNodeConnection.isVoid==false)
+	end
+	
+	operation testBuildNodeConnection_WithCondition() is do
+		var actual:NodeConnection init factory.createNodeConnection()
+		actual.condition:=factory.createCondition("theCondition")
+
+		//build on demand
+	
+		assert(actual.iwNodeConnection.conditionName=="theCondition")
+	end	
+
+	operation testURNmodelElement_NameOrPrefixId_Void() is do	
+		var actual:Stub init factory.createStub
+		actual.name:=void
+		actual.id:="7"
+		
+		assertStringEqual("Stub_7",actual.nameOrPrefixId("Stub"))
+	end
+	
+	operation testURNmodelElement_NameOrPrefixId_Empty() is do	
+		var actual:Stub init factory.createStub
+		actual.name:=""
+		actual.id:="7"
+		
+		assertStringEqual("Stub_7",actual.nameOrPrefixId("Stub"))
+	end
+	
+	operation testURNmodelElement_NameOrPrefixId_Name() is do	
+		var actual:Stub init factory.createStub
+		
+		assertStringEqual("theStub",actual.nameOrPrefixId("theStub"))
+	end
+		
 	
 	//stle: later, test that container call components. Mayber always test two levels. i.e Root/UcmMap,UcmMap/Node,etc...
+	//believe it requires stubs (mock not available)
 	
 	
 	//stle: dry
