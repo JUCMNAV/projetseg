@@ -55,33 +55,9 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkStartPoint_Internal() is do
-		var actual:StartPoint init factory.createStartPoint("in theInput")
-				
-		actual.build
-		actual.link
-		
-		assertStringEqual("theInput",actual.iwStartPoint.name)
-	end
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLinkStartPoint_succPathNode() is do
-		var actual:StartPoint init factory.createStartPoint(void)
-		var pluginEndPoint:EndPoint init factory.createEndPoint("theEndPoint",void)
-		factory.connectNodes(actual,pluginEndPoint)
-				
-		actual.build
-		pluginEndPoint.build
-		actual.link
-		
-		assertStringEqual("theEndPoint",actual.iwStartPoint.name)
-	end
-	
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLinkUcmMap_OneStartPoint() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
-		ucmMap.nodes.add(factory.createStartPoint(void))
+		ucmMap.nodes.add(factory.createStartPoint("theStartPoint",void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 		factory.connectNodes(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 				
@@ -96,11 +72,11 @@ class AoUrnToIwLinkTestCase inherits TestCase
 	operation testLinkUcmMap_ManyStartPoint() is do
 		var ucmMap:UCMmap init factory.createUcmMap(void)
 		//first start
-		ucmMap.nodes.add(factory.createStartPoint(void))
+		ucmMap.nodes.add(factory.createStartPoint("theStartPoint1",void))
 		ucmMap.nodes.add(factory.createRespRef(void, void))
 		factory.connectNodes(ucmMap.nodes.at(0),ucmMap.nodes.at(1))
 		//second start
-		ucmMap.nodes.add(factory.createStartPoint("out theOutput"))
+		ucmMap.nodes.add(factory.createStartPoint("theStartPoint2","out theOutput"))
 				
 		ucmMap.build
 		ucmMap.linkChildren
@@ -110,13 +86,14 @@ class AoUrnToIwLinkTestCase inherits TestCase
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_InternalOne() is do
-		var actual:StartPoint init factory.createStartPoint("in b")
+		var actual:EmptyPoint init factory.createEmptyPoint("in b")
 
 		actual.build
 		actual.linkInternal
 
 		assertObjectEqual(0,actual.iwInput.succs.size)
 	end 	
+	
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testPathNodeLink_InternalTwoBefore() is do
@@ -283,9 +260,9 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		
 		assertCollectionHasSingleElement(pluginBinding.iwPluginBinding.inBindings,actual.iwInBinding)
 	end
-	
+
 	operation testInBindingLink_StartPoint() is do
-		var startPoint:StartPoint init factory.createStartPoint("in theInput")
+		var startPoint:StartPoint init factory.createStartPoint("theStartPoint","in theInput")
 		var actual:InBinding init factory.createInBinding
 		actual.startPoint:=startPoint
 

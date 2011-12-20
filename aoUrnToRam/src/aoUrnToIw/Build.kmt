@@ -67,6 +67,13 @@ package map{
 		end
 	}
 	
+	aspect class StartPoint {
+		method build() is do
+			super
+			iwStartPoint:=IwStartPoint.new
+			iwStartPoint.name:=nameOrPrefixId("StartPoint")
+		end
+	}
 	aspect class EndPoint {
 		method build() is do
 			super

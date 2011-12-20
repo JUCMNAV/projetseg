@@ -5,6 +5,8 @@ require kermeta
 
 using kermeta::standard
 
+enumeration StartPointType { global; local; bound; }
+
 class IwModel{
 	attribute concerns : IwConcern[0..*]#model
 }
@@ -28,7 +30,7 @@ class IwWorkflow
 {
 	attribute name : String
 	attribute nodes : IwNode[1..*]#workflow
-	reference startPoints : IwNode[1..*]
+	reference startPoints : IwStartPoint[1..*]
 	reference concern:IwConcern#workflows
 }
 
@@ -58,6 +60,12 @@ class IwOutput inherits IwNode
 {
 }
 
+class IwStartPoint inherits IwNode
+{
+	attribute startPointType:StartPointType
+	reference inBindings:IwInBinding[0..*]#pluginStartPoint
+}
+
 class IwEndPoint inherits IwNode
 {
 	reference outBindings:IwOutBinding[0..*]#pluginEndPoint
@@ -82,10 +90,9 @@ class IwPluginBinding
 class IwInBinding
 {
 	reference stubEntry:IwNodeConnection
-	reference pluginStartPoint:IwNode
+	reference pluginStartPoint:IwStartPoint#inBindings
 	reference pluginBinding:IwPluginBinding#inBindings
 }
-
 
 class IwOutBinding
 {

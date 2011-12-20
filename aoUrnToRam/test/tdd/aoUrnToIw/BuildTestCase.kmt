@@ -48,35 +48,35 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	end
 	
 
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testBuildPathNode_NoInOut() is do
-		var actual:StartPoint init factory.createStartPoint(void)
+		var actual:EmptyPoint init factory.createEmptyPoint(void)
 		actual.build
 	
 		assert(actual.iwNodes_ReadOnly.size==0)
 	end
 
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testBuildPathNode_In() is do
-		var actual:StartPoint init factory.createStartPoint("in theInputName")
+		var actual:EmptyPoint init factory.createEmptyPoint("in theInputName")
 		actual.build
 	
 		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.one)
 		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.one.name)
 	end
 
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testBuildPathNode_Out() is do
-		var actual:StartPoint init factory.createStartPoint("out theOutputName")
+		var actual:EmptyPoint init factory.createEmptyPoint("out theOutputName")
 		actual.build
 	
 		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.one)
 		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.one.name)
 	end
 
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testBuildPathNode_InOut() is do
-		var actual:StartPoint init factory.createStartPoint("out theOutputName in theInputName")
+		var actual:EmptyPoint init factory.createEmptyPoint("out theOutputName in theInputName")
 		actual.build
 	
 		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
@@ -227,6 +227,30 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	
 		assert(actual.iwPluginBinding.isVoid==false)
 	end
+	
+	operation testBuildStartPoint_NoInOut() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)
+		actual.build
+	
+		assertIsNonVoidInstanceOf(IwStartPoint, actual.iwEntryNode)
+		assertStringEqual("theStartPoint",actual.iwEntryNode.name)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityStartPoint"
+	operation testBuildStartPoint_InOut() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint","out theOutputName in theInputName")
+		actual.build
+
+		assertIsNonVoidInstanceOf(IwStartPoint, actual.iwNodes_ReadOnly.at(0))
+		assertStringEqual("theStartPoint",actual.iwNodes_ReadOnly.at(0).name)
+	
+		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(1))
+		assertStringEqual("theOutputName",actual.iwNodes_ReadOnly.at(1).name)
+		
+		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(2))
+		assertStringEqual("theInputName",actual.iwNodes_ReadOnly.at(2).name)
+	end
+	
 	
 	operation testBuildInBinding() is do
 		var actual:InBinding init factory.createInBinding()

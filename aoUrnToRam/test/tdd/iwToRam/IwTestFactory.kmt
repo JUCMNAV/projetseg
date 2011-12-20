@@ -42,6 +42,11 @@ class IwTestFactory
 		result:=IwOutput.new
 		result.name:="theOutput"
 	end
+
+	operation createIwStartPoint():IwStartPoint is do
+		result:=IwStartPoint.new
+		result.name:="theStartPoint"
+	end
 	
 	operation createIwEndPoint():IwEndPoint is do
 		result:=IwEndPoint.new
@@ -62,7 +67,7 @@ class IwTestFactory
 		result:=IwPluginBinding.new
 	end
 
-	operation createIwInBinding(stubEntry:IwNodeConnection,pluginStartPoint:IwNode):IwInBinding is do
+	operation createIwInBinding(stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
 		result:=IwInBinding.new
 		result.stubEntry:=stubEntry
 		result.pluginStartPoint:=pluginStartPoint

@@ -38,10 +38,24 @@ class AoUrnTestFactory
 	end
 
 	operation createEndPoint(name:String,ramExpression:String):EndPoint is do
-		var pluginEndPoint:EndPoint init EndPoint.new
-		pluginEndPoint.name:=optionalString(name)
-		addRamMetadata(pluginEndPoint,ramExpression)
-		result:=pluginEndPoint
+		var endPoint:EndPoint init EndPoint.new
+		endPoint.name:=optionalString(name)
+		addRamMetadata(endPoint,ramExpression)
+		result:=endPoint
+	end
+	
+	operation createStartPoint(name:String,ramExpression:String):StartPoint is do
+		var startPoint:StartPoint init StartPoint.new
+		startPoint.name:=optionalString(name)
+		addRamMetadata(startPoint,ramExpression)
+		result:=startPoint
+	end
+	
+	operation createEmptyPoint(ramExpression:String):EmptyPoint is do
+		var emptyPoint:EmptyPoint init EmptyPoint.new
+		emptyPoint.name:="theEmptyPoint"
+		addRamMetadata(emptyPoint,ramExpression)
+		result:=emptyPoint
 	end
 	
 	operation createOrFork(name:String,ramExpression:String):OrFork is do
@@ -55,12 +69,6 @@ class AoUrnTestFactory
 		var orJoin:OrJoin init OrJoin.new
 		addRamMetadata(orJoin,ramExpression)
 		result:=orJoin
-	end
-
-	operation createStartPoint(ramExpression:String):StartPoint is do
-		var startPoint:StartPoint init StartPoint.new
-		addRamMetadata(startPoint,ramExpression)
-		result:=startPoint
 	end
 
 	operation createRespRef(name:String,ramExpression:String):RespRef is do

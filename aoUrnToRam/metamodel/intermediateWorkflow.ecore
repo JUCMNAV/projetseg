@@ -8,6 +8,11 @@
   </ecore:EAnnotation>
   <ecore:EPackage name="intermediateWorkflow" nsURI="http:///intermediateWorkflow.ecore"
       nsPrefix="intermediateWorkflow">
+    <eClassifiers xsi:type="ecore:EEnum" name="StartPointType">
+      <eLiterals name="global" literal="global"/>
+      <eLiterals name="local" value="1" literal="local"/>
+      <eLiterals name="bound" value="2" literal="bound"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwModel">
       <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
           eType="#/1/IwConcern" containment="true" eOpposite="#/1/IwConcern/model"/>
@@ -45,7 +50,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1"
           upperBound="-1" eType="#/1/IwNode" containment="true" eOpposite="#/1/IwNode/workflow"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startPoints" lowerBound="1"
-          upperBound="-1" eType="#/1/IwNode"/>
+          upperBound="-1" eType="#/1/IwStartPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#/1/IwConcern"
           eOpposite="#/1/IwConcern/workflows"/>
     </eClassifiers>
@@ -75,6 +80,15 @@
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutput" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwStartPoint" eSuperTypes="#/1/IwNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPointType" eType="#/1/StartPointType">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
+          eType="#/1/IwInBinding" eOpposite="#/1/IwInBinding/pluginStartPoint"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwEndPoint" eSuperTypes="#/1/IwNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBindings" upperBound="-1"
           eType="#/1/IwOutBinding" eOpposite="#/1/IwOutBinding/pluginEndPoint"/>
@@ -94,7 +108,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" eType="#/1/IwNodeConnection"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginStartPoint" eType="#/1/IwNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pluginStartPoint" eType="#/1/IwStartPoint"
+          eOpposite="#/1/IwStartPoint/inBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"
           eOpposite="#/1/IwPluginBinding/inBindings"/>
     </eClassifiers>

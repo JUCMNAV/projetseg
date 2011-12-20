@@ -212,6 +212,8 @@ package map{
 			if(target.asType(PathNode).iwNodes_ReadOnly.isEmpty==false) then
 				result:=target.asType(PathNode).iwEntryNode
 			else
+			    //target has no iwNodes implies target has always has a single succ
+				//stle: single again
 				result:=target.succ.one.asType(NodeConnection).IwSingleTarget
 			end
 		end
@@ -242,14 +244,14 @@ package map{
 	}
 	
 	aspect class StartPoint {
-		//stle: not build nor link;however, can only be used once build is completed
-		property readonly iwStartPoint : IwNode
-		getter is do
-			if(iwNodes_ReadOnly.empty) then
-				result:=succ.one.asType(NodeConnection).IwSingleTarget
-			else
-				result:=iwNodes_ReadOnly.first
-			end
+		reference iwStartPoint:IwStartPoint
+		
+		method iwEquivalentNode():IwNode is do
+			result:=iwStartPoint
+		end
+		
+		method IsOutputInputBefore():Boolean is do
+			result:=false
 		end
 	}
 	
