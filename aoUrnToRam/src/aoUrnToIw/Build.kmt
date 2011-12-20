@@ -94,7 +94,11 @@ package map{
 		method build() is do
 			bindings.each{pluginBinding|pluginBinding.build}
 
-			super
+			//Ignore ram expression on stubs
+			//Stubs can have many in-paths and out-paths; thus, no obvious place to insert the outNode/inNode
+			//Moreover, it complicates the plugin bindings since inBinding and outBinding has reference
+			//to the NodeConnection. Inserting outNode/inNod on stubs will prevent these NodeConnection from
+			//being directly connected to the stub  
 			buildIwStub
 		end
 	

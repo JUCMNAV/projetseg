@@ -214,10 +214,8 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		factory.addRamMetadata(actual,"out theOutputName in theInputName")
 		actual.build
 
-		//stle:own test for input/output names
-		assertIsNonVoidInstanceOf(IwOutput, actual.iwNodes_ReadOnly.at(0))
-		assertIsNonVoidInstanceOf(IwInput, actual.iwNodes_ReadOnly.at(1))
-		assertIsNonVoidInstanceOf(IwStub, actual.iwNodes_ReadOnly.at(2))
+		//Ignore ram expression on stubs
+		assertIsNonVoidInstanceOf(IwStub, actual.iwNodes_ReadOnly.at(0))
 	end
 	
 	operation testBuildBinding() is do
