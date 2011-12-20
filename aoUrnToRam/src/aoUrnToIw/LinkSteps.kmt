@@ -43,18 +43,7 @@ aspect class IwNode {
 	//virtual
 	operation explore(currentStep:IwStep) is do
 		step:=currentStep
-		succs.each{nodeConnection|exploreTargetOrStubEntry(nodeConnection)}
-	end
-	
-	operation exploreTargetOrStubEntry(nodeConnection:IwNodeConnection) is do
-		var stubTarget:IwStub
-		stubTarget?=nodeConnection.target
-		
-		if(stubTarget.isVoid) then
-			nodeConnection.target.step_DeepFirstSearch(step)
-		else
-			stubTarget.step_DeepFirstSearch_StubEntry(step,nodeConnection)
-		end
+		succs.each{nodeConnection|nodeConnection.target.step_DeepFirstSearch(step)}
 	end
 	
 	operation isPartOfStep(currentStep:IwStep):Boolean is do
@@ -135,7 +124,7 @@ aspect class IwInput {
 aspect class IwEndPoint
 {
 	method explore(currentStep:IwStep) is do
-		super(currentStep)
+		step:=currentStep
 		outBindings.each{outBinding|
 			var stub:IwStub init outBinding.pluginBinding.stub
 			stub.step_DeepFirstSearch_StubExit(currentStep,outBinding.stubExit)
@@ -144,35 +133,15 @@ aspect class IwEndPoint
 }
 
 aspect class IwStub{
-	operation step_DeepFirstSearch_StubEntry(currentStep:IwStep, stubEntry:IwNodeConnection) is do
-		//stle:Assume static stub must be bounded
-		var staticPluginBinding:IwPluginBinding init pluginBindings.one 
-		//stle:Assume stubEntry implies the existance of an inBinding
+	method explore(currentStep:IwStep) is do
+		step:=currentStep
 		//stle:Single again
-		var pluginStartPoint:IwNode init staticPluginBinding.inBindings.select
-										 {inBinding|inBinding.stubEntry==stubEntry}.one.pluginStartPoint
-		
-		if(concern==pluginStartPoint.concern) then
-			setStep(currentStep)
-			pluginStartPoint.step_DeepFirstSearch(step)
-		else
-			step_DeepFirstSearch(currentStep) //Consider stub as a normal node
-		end
+		var staticPluginBinding:IwPluginBinding init pluginBindings.one 
+		staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
 	end
 	
 	operation step_DeepFirstSearch_StubExit(currentStep:IwStep, stubExit:IwNodeConnection) is do
-		setStep(currentStep)
 		stubExit.target.step_DeepFirstSearch(step)
-	end
-	
-	operation setStep(currentStep:IwStep) is do
-		if(isUnexplored) then
-			step:=currentStep
-		else
-			if(isPartOfStep(currentStep)==false) then
-				currentStep.merge(step)
-			end
-		end
 	end
 }
 

@@ -46,6 +46,7 @@ class IwTestFactory
 	operation createIwStartPoint():IwStartPoint is do
 		result:=IwStartPoint.new
 		result.name:="theStartPoint"
+		result.startPointType:=StartPointType.global
 	end
 	
 	operation createIwEndPoint():IwEndPoint is do

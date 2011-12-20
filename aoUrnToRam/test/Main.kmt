@@ -52,7 +52,7 @@ class Main inherits TestCase
 		testClasses.add(AoUrnToIwLinkTestCase)
 //		testClasses.add(HandleInputProcessingNodesTestCase)
 		testClasses.add(LinkStepsTestCase)
-//		testClasses.add(LinkSteps_StubInBindingTestCase)
+		testClasses.add(LinkSteps_StubInBindingTestCase)
 //		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
 		//testClasses.add(LinkSteps_StubOutBindingTestCase)
 
