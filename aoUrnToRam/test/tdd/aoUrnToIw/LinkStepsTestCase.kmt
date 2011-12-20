@@ -17,7 +17,6 @@ class LinkStepsTestCase inherits TestCase
 	reference concern:IwConcern
 	reference workflow:IwWorkflow
 	
-	
 	method setUp() is do
 		factory:=IwTestFactory.new
 		concern:= factory.createIwConcern
@@ -26,15 +25,54 @@ class LinkStepsTestCase inherits TestCase
 	end
 
 	@feature "FeaNamingOfRAMStep"
-	operation testLinkStepFromStartPoint_Unexplored() is do
+	operation testLinkStep_BoundStartPoint() is do
+		var startPoint:IwStartPoint init factory.createIwStartPoint
+		startPoint.startPointType:=StartPointType.bound
+		workflow.nodes.add(startPoint)
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
-		input.linkStepFromStartPoint
+		factory.createIwNodeConnection(startPoint,input)
 		
-		//stle: single again
+		startPoint.linkStep
+		
+		assert(concern.steps.size==0)
+		assert(startPoint.step.isVoid)
+		assert(input.step.isVoid)
+	end
+	
+	operation testLinkStep_GlobalStartPoint() is do
+		var startPoint:IwStartPoint init factory.createIwStartPoint
+		startPoint.startPointType:=StartPointType.global
+		workflow.nodes.add(startPoint)
+		var input:IwInput init factory.createIwInput
+		workflow.nodes.add(input)
+		factory.createIwNodeConnection(startPoint,input)
+		
+		startPoint.linkStep
+		
+		assertCollectionHasSingleElement(concern.steps,concern.steps.one)
+		assert(startPoint.step==concern.steps.one)
 		assert(input.step==concern.steps.one)
 		assert(input.name==input.step.name)
 	end
+
+	operation testLinkStep_LocalStartPoint() is do
+		var startPoint:IwStartPoint init factory.createIwStartPoint
+		startPoint.startPointType:=StartPointType.local
+		workflow.nodes.add(startPoint)
+		var input:IwInput init factory.createIwInput
+		workflow.nodes.add(input)
+		factory.createIwNodeConnection(startPoint,input)
+		
+		startPoint.linkStep
+		
+		assertCollectionHasSingleElement(concern.steps,concern.steps.one)
+		assert(startPoint.step==concern.steps.one)
+		assert(input.step==concern.steps.one)
+		assert(input.name==input.step.name)
+	end
+
+/*stle:temp
 
 	@feature "FeaNamingOfRAMStep"
 	operation testLinkStepFromStartPoint_Explored() is do
@@ -174,7 +212,7 @@ class LinkStepsTestCase inherits TestCase
 		assert(node1.step==node2.step)	//One node is merged
 		assert(node1.step==node3.step)	//Many nodes are merged
 	end
-		
+*/		
 	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)
 		assert(collection.one==singleElement)

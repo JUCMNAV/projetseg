@@ -20,7 +20,7 @@ aspect class IwConcern {
 
 aspect class IwWorkflow {
 	operation linkSteps(concern:IwConcern) is do
-		startPoints.each{node|node.linkStepFromStartPoint}
+		startPoints.each{node|node.linkStep}
 	end
 	
 	property readonly concern:IwConcern
@@ -30,12 +30,6 @@ aspect class IwWorkflow {
 }
 
 aspect class IwNode {
-	operation linkStepFromStartPoint() is do
-		if(isUnexplored) then
-			step_DeepFirstSearch(void)
-		end
-	end
-	
 	operation step_DeepFirstSearch(currentStep:IwStep) is do
 		if(isUnexplored) then
 			explore(currentStep)
@@ -79,6 +73,8 @@ aspect class IwNode {
 }
 
 aspect class IwStep {
+	attribute isPartiallyInitialized:Boolean
+
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
 		nodes.addAll(stepToMerge.nodes)
@@ -98,11 +94,28 @@ aspect class IwStep {
 	end
 }
 
+aspect class IwStartPoint{
+	operation linkStep() is do
+		if(startPointType!=StartPointType.bound) then
+			var currentStep:IwStep init IwStep.new
+			currentStep.isPartiallyInitialized:=true
+			concern.steps.add(currentStep)
+			explore(currentStep)
+		end
+	end
+}
+
 aspect class IwInput {
 	method explore(currentStep:IwStep) is do
-		currentStep:=IwStep.new
-		currentStep.name:=name
-		concern.steps.add(currentStep)
+		if(currentStep.isPartiallyInitialized) then
+			currentStep.name:=name
+			currentStep.isPartiallyInitialized:=false
+		else
+			currentStep:=IwStep.new
+			currentStep.name:=name
+			currentStep.isPartiallyInitialized:=false
+			concern.steps.add(currentStep)
+		end
 		super(currentStep)
 	end
 }
