@@ -1,0 +1,19 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/iwStep.kmt"
+
+using kermeta::standard
+
+aspect class IwModel {
+	operation toStepView():StepView[0..*] is do
+		result:=OrderedSet<StepView>.new
+		concerns.each{concern|
+			concern.steps.each{step|
+				result.add(step.toStepView)
+			}
+		}
+	end
+}

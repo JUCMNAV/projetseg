@@ -1,0 +1,120 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
+
+using kermeta::standard
+
+aspect class IwNode {
+	//virtual
+	operation getStyle():String is do
+		result:="solid"
+	end
+	
+	operation getImageName():String is abstract
+
+	operation appendStepView(stepView:StepView) is do
+		appendVertex(stepView,step)
+		appendEdges(stepView)
+		appendFirstVerticesFromNextStep(stepView)
+	end
+	
+	operation appendVertex(stepView:StepView,currentStep:IwStep) is do
+		stepView.appendLine("")
+		stepView.append("        ")  stepView.append(dotEscape(getNameInStepContext(currentStep))) stepView.appendLine("[")
+
+		if(isPartOfCurrentStep(currentStep)) then	
+			stepView.append("            style=") stepView.append(getStyle) stepView.appendLine(",")
+		else
+			stepView.append("            color=") stepView.append("gray") stepView.appendLine(",")
+			stepView.append("            fontcolor=") stepView.append("gray") stepView.appendLine(",")
+		end
+		
+		stepView.appendLine("            label=")
+		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
+		stepView.appendLine("                <tr>")
+		stepView.append("                    <td cellpadding=\"3\">") stepView.append(getImageName) stepView.appendLine("</td>")
+		stepView.append("                    <td>") stepView.append(getNameInStepContext(currentStep)) stepView.appendLine("</td>")
+		stepView.appendLine("                </tr>")
+		stepView.appendLine("            </table>>")
+		stepView.appendLine("        ];")
+	end
+	
+	operation appendEdges(stepView:StepView) is do
+		succs.each{nodeConnection|
+			stepView.append("        ") stepView.append(dotEscape(name)) stepView.append("->") stepView.append(dotEscape(nodeConnection.target.getNameInStepContext(step)))
+			if(nodeConnection.conditionName.isVoid==false) then
+				stepView.append("[label=\"") stepView.append(nodeConnection.conditionName) stepView.append("\"]")
+			end
+			stepView.appendLine("")
+		}
+	end
+	
+	operation appendFirstVerticesFromNextStep(stepView:StepView) is do
+		succs.each{nodeConnection|
+			if(nodeConnection.target.step!=step) then
+				stepView.appendLine("")
+				nodeConnection.target.appendVertex(stepView,step)
+			end
+		}
+	end
+	
+	operation isPartOfCurrentStep(currentStep: IwStep):Boolean is do
+		result:=step==currentStep
+	end
+	
+	operation getNameInStepContext(currentStep: IwStep):String is do
+		if(isPartOfCurrentStep(currentStep)) then
+			result:=name
+		else
+			result:=step.name+"/"+name
+		end
+	end
+	
+	//stle: must be applied everywhere, except in html-like label where html escaping must be applied
+	operation dotEscape(toEscape:String):String is do
+		result:=toEscape.replace("\\","\\\\")
+		result:=result.replace("\"","\\\"")
+		result:="\""+result+"\""
+	end
+}
+
+aspect class IwInput
+{
+	method getImageName():String is do
+		result:="I"
+	end
+}
+
+aspect class IwCustomizableNode
+{
+	method getStyle():String is do
+		result:="filled"
+	end
+	
+	method getImageName():String is do
+		result:="X"
+	end
+}
+
+aspect class IwOutput
+{
+	method getImageName():String is do
+		result:="O"
+	end
+}
+
+aspect class IwEndPoint
+{
+	method getImageName():String is do
+		result:="E"
+	end
+}
+
+aspect class IwOrFork
+{
+	method getImageName():String is do
+		result:="Or"
+	end
+}

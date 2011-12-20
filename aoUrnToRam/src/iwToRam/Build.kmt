@@ -76,6 +76,7 @@ aspect class IwCustomizableNode {
 
 aspect class IwOrFork {
 	method build() is do
+		super()
 		succs.each{succ|
 			var ramCondition:Class init Class.new
 			ramCondition.name:=name+"_"+succ.conditionName

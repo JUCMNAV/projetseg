@@ -1,0 +1,17 @@
+package intermediateWorkflow;
+
+require kermeta
+using kermeta::standard
+
+//stle: how can we have static util class???
+class Path{
+	operation combine(path1:String,path2:String):String is do
+		if(path1.elementAt(path1.size-1)!="/") then
+			result:=path1+"/"+path2
+		else
+			result:=path1+path2	
+		end
+	end
+
+}
+

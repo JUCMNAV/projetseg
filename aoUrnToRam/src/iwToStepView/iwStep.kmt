@@ -1,0 +1,71 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/iwWorkflow.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/IwNode.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/IwModel.kmt"
+
+using kermeta::standard
+using kermeta::utils
+
+aspect class IwStep {
+	reference _nodesPerWorkflow:Hashtable<IwWorkflow,OrderedSet<IwNode>>
+	
+	operation toStepView():StepView is do
+		result:=StepView.new
+		result.workspacePath:=Path.new.combine(concern.name,name)
+		result._dot:=StringBuffer.new
+		
+		appendStepViewPre(result)
+		appendWorkflows(result)
+		appendStepViewPost(result)
+	end
+	
+	operation appendStepViewPre(stepView:StepView) is do
+		stepView.append("digraph ") stepView.append(name) stepView.appendLine("{")
+		stepView.appendLine("    rankdir=TD;")
+		stepView.appendLine("    node[")
+		stepView.appendLine("        shape=box,")
+		stepView.appendLine("        width=0.1,")
+		stepView.appendLine("        height=.45,")
+		stepView.appendLine("        fontsize=12")
+		stepView.appendLine("    ];")
+	end
+	
+	operation appendStepViewPost(stepView:StepView) is do
+		stepView.appendLine("}")
+	end
+	
+	operation appendWorkflows(stepView:StepView) is do
+		nodesPerWorkflow.keys.each{workflow|
+			workflow.appendStepViewPre(stepView)
+			appendWorkflowNodes(stepView,nodesPerWorkflow.getValue(workflow))
+			workflow.appendStepViewPost(stepView)
+		}
+	end
+	
+	operation appendWorkflowNodes(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
+		workflowNodes.each{node|node.appendStepView(stepView)}
+	end
+	
+
+	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>
+	getter is do
+		buildNodesPerWorkflowOnDemand
+		result:=_nodesPerWorkflow
+	end
+	
+	operation buildNodesPerWorkflowOnDemand() is do
+		if(_nodesPerWorkflow.isVoid) then
+			_nodesPerWorkflow:=Hashtable<IwWorkflow,OrderedSet<IwNode>>.new
+			nodes.each{node|
+				if(_nodesPerWorkflow.containsKey(node.workflow)==false) then
+					_nodesPerWorkflow.put(node.workflow,OrderedSet<IwNode>.new)
+				end
+				_nodesPerWorkflow.getValue(node.workflow).add(node)
+			}
+		end
+	end
+}

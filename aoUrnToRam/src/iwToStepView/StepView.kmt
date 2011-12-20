@@ -1,0 +1,27 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
+
+using kermeta::standard
+using kermeta::utils
+
+class StepView{
+	attribute workspacePath: String
+	attribute _dot:StringBuffer
+	
+	operation append(toAppend:String) is do
+		_dot.append(toAppend)
+	end
+	
+	operation appendLine(line:String) is do
+		append(line) 
+		append("\n")
+	end
+	
+	property readonly dot : String
+	getter is do
+		result:=_dot.toString
+	end
+	
+}

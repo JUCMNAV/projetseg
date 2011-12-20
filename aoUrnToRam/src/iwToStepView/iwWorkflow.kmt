@@ -1,0 +1,19 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
+
+using kermeta::standard
+
+aspect class IwWorkflow {
+	operation appendStepViewPre(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
+		stepView.append("        label=\"") stepView.append(name) stepView.appendLine("\";")
+	end
+	
+	operation appendStepViewPost(stepView:StepView) is do
+		stepView.appendLine("    }")
+	end
+}

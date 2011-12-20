@@ -3,6 +3,7 @@ package aoUrnToRam;
 require kermeta
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Transformation.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/Transformation.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/IwModel.kmt"
 
 using kermeta::persistence
 using kermeta::standard
@@ -14,7 +15,13 @@ using ramstructural
 class AoUrnToRamTransformation
 {
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
+		//stle: temp hardcoded
+		var tempDestinationPath:String init "C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"
+		
 		registerMetamodels
+		
+		extern aoUrnToRam::javaExternalCall::File.removeDirectory(tempDestinationPath)
+		
 		var repository:ModelRepository init ModelRepository.new
 			
 		var urnSpec:URNspec 
@@ -28,7 +35,22 @@ class AoUrnToRamTransformation
 		iwModel.toRam.each{ramAspect|
 			repository.save(ramAspect,Path.new.combine(destination,ramAspect.workspacePath)+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 		}
+		
+		iwModel.toStepView.each{stepView|StepViewToPng(stepView,tempDestinationPath)}
 	end
+
+	operation StepViewToPng(stepView:StepView,destination:String) is do
+		//stle: temp: hardcode paths
+		var dotFilePath:String init "\"C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\thridParty\\Graphviz2.26.3\\bin\\dot.exe\""
+		var windowsWorkspacePath:String init stepView.workspacePath.replace("/","\\") 
+
+//stle: remove that and provide a proper api	
+//		stdio.writeln("---")
+//		stdio.writeln(stepView.dot)
+		 
+	    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+destination+windowsWorkspacePath+".png\"",stepView.dot)
+	end
+	
 	
 	operation registerMetamodels() is do
 		var repository : EMFRepository init EMFRepository.new

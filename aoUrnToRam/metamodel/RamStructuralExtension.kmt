@@ -1,9 +1,12 @@
 package ramstructural;
 
 require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require kermeta
 
 using kermeta::standard
 using ramstructural
+using intermediateWorkflow
 
 aspect class Aspect{
 	attribute workspaceDirectory: String
@@ -12,18 +15,4 @@ aspect class Aspect{
 	getter is do
 		result:=Path.new.combine(workspaceDirectory,name) 
 	end
-	
 }
-
-//stle: how can we have static util class???
-class Path{
-	operation combine(path1:String,path2:String):String is do
-		if(path1.elementAt(path1.size-1)!="/") then
-			result:=path1+"/"+path2
-		else
-			result:=path1+path2	
-		end
-	end
-
-}
-

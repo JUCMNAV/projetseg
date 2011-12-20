@@ -123,7 +123,7 @@ class Main inherits TestCase
     operation launchIntegrationTests() : Void is do
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
-			"platform:/resource/aoUrnToRam/test/integration/model/stub.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithoutAut.jucm",
 			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)
