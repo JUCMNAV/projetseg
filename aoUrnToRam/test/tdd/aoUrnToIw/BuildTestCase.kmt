@@ -225,6 +225,45 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	
 		assert(actual.iwPluginBinding.isVoid==false)
 	end
+
+	operation testBuildStartPoint_GlobalNotBound() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)
+
+		actual.build
+
+		assert(actual.iwStartPoint.startPointType==StartPointType.global)	
+	end
+	
+	operation testBuildStartPoint_LocalNotBound() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)
+		actual.local:=true
+
+		actual.build
+
+		assert(actual.iwStartPoint.startPointType==StartPointType.local)	
+	end
+
+	operation testBuildStartPoint_LocalBound() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)
+		var inBinding:InBinding init factory.createInBinding
+		inBinding.startPoint:=actual
+		actual.local:=true
+		
+		actual.build
+
+		assert(actual.iwStartPoint.startPointType==StartPointType.bound)	
+	end
+
+	operation testBuildStartPoint_GlobalBound() is do
+		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)
+		var inBinding:InBinding init factory.createInBinding
+		inBinding.startPoint:=actual
+		
+		actual.build
+
+		assert(actual.iwStartPoint.startPointType==StartPointType.bound)	
+	end
+
 	
 	operation testBuildStartPoint_NoInOut() is do
 		var actual:StartPoint init factory.createStartPoint("theStartPoint",void)

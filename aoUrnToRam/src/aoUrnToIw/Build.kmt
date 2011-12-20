@@ -72,6 +72,15 @@ package map{
 			super
 			iwStartPoint:=IwStartPoint.new
 			iwStartPoint.name:=nameOrPrefixId("StartPoint")
+			if(inBindings.size>0) then
+				iwStartPoint.startPointType:=StartPointType.bound
+			else
+				if(local==true) then
+					iwStartPoint.startPointType:=StartPointType.local
+				else
+					iwStartPoint.startPointType:=StartPointType.global
+				end
+			end
 		end
 	}
 	aspect class EndPoint {

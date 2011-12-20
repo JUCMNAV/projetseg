@@ -17,11 +17,15 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubOutBindi
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
+require "platform:/resource/aoUrnToRam/metamodel/oneurn.ecore"
+
 using kermeta::standard
 using kermeta::kunit
 using aoUrnToRam
 using kermeta::language::structure
 using kermeta::exceptions
+
+using oneurn::ucm::map
 
 using intermediateWorkflow
 
