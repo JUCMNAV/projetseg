@@ -73,7 +73,20 @@ aspect class IwNode {
 }
 
 aspect class IwStep {
-	attribute isPartiallyInitialized:Boolean
+	attribute _isPartiallyInitialized:Boolean
+	
+	operation flagAsPartiallyInitialized() is do
+		_isPartiallyInitialized:=true
+	end
+	
+	operation removeFlagAsPartiallyInitialized() is do
+		_isPartiallyInitialized:=void 
+	end
+	
+	property readonly isPartiallyInitialized : Boolean
+	getter is do
+		result:= _isPartiallyInitialized==true //Note that void!=true
+	end
 
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
@@ -98,7 +111,7 @@ aspect class IwStartPoint{
 	operation linkStep() is do
 		if(startPointType!=StartPointType.bound) then
 			var currentStep:IwStep init IwStep.new
-			currentStep.isPartiallyInitialized:=true
+			currentStep.flagAsPartiallyInitialized
 			concern.steps.add(currentStep)
 			explore(currentStep)
 		end
@@ -109,11 +122,10 @@ aspect class IwInput {
 	method explore(currentStep:IwStep) is do
 		if(currentStep.isPartiallyInitialized) then
 			currentStep.name:=name
-			currentStep.isPartiallyInitialized:=false
+			currentStep.removeFlagAsPartiallyInitialized
 		else
 			currentStep:=IwStep.new
 			currentStep.name:=name
-			currentStep.isPartiallyInitialized:=false
 			concern.steps.add(currentStep)
 		end
 		super(currentStep)
