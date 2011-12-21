@@ -54,7 +54,7 @@ class Main inherits TestCase
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
 //		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
-		//testClasses.add(LinkSteps_StubOutBindingTestCase)
+		testClasses.add(LinkSteps_StubOutBindingTestCase)
 
 		result := testClasses
 	end

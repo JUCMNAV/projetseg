@@ -23,7 +23,8 @@ class IwStep
 {
 	attribute name : String
 	reference nodes : IwNode[1..*]#step
-	reference concern:IwConcern#steps 
+	reference concern:IwConcern#steps
+	reference outboundStubs: IwStub[0..*]#outboundInSteps 
 }
 
 class IwWorkflow 
@@ -77,7 +78,8 @@ class IwOrFork inherits IwNode
 
 class IwStub inherits IwNode
 {
-	attribute pluginBindings:IwPluginBinding[0..*]#stub 
+	attribute pluginBindings:IwPluginBinding[0..*]#stub
+	reference outboundInSteps: IwStep[0..*]#outboundStubs 
 }
 
 class IwPluginBinding

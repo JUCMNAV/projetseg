@@ -55,17 +55,18 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 	end
 
 	operation testLinkStep_StubOutBinding_Unexplored() is do
-		stub.step:=void
-		
 		pluginEndPoint.step_DeepFirstSearch(currentStep)
 
 		assertObjectEqual(1,concern.steps.size)//No step added
 		assertObjectEqual("theStep",currentStep.name)//No step merged
-		assert(stub.step==currentStep)
+		assert(stub.step.isVoid)
+		assertCollectionHasSingleElement(currentStep.outboundStubs,stub)
+		assert(pluginEndPoint.step==currentStep)		
 		assert(nodeAfterStub.step==currentStep)
 	end
 	
 	operation testLinkStep_StubOutBinding_AlreadyExplored_SameStep() is do
+		currentStep.outboundStubs.add(stub)
 		stub.step:=currentStep
 		
 		pluginEndPoint.step_DeepFirstSearch(currentStep)
@@ -73,19 +74,42 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		assertObjectEqual(1,concern.steps.size)//No step added
 		assertObjectEqual("theStep",currentStep.name)//No step merged
 		assert(stub.step==currentStep)
-		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of step
+		assertCollectionHasSingleElement(currentStep.outboundStubs,stub)
+		assert(pluginEndPoint.step==currentStep)
+		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of step and already in outboundStubs
 	end
 	
-	operation testLinkStep_StubOutBinding_AlreadyExplored_MergeStep() is do
+	operation testLinkStep_StubOutBinding_AlreadyExplored_SameStep_MergeNextStep() is do
+		currentStep.outboundStubs.add(stub)
 		var toMerge:IwStep init factory.createIwStep
+		toMerge.name:="toMerge"
 		concern.steps.add(toMerge)
-		stub.step:=toMerge
+		nodeAfterStub.step:=toMerge
 		
 		pluginEndPoint.step_DeepFirstSearch(currentStep)
 
-		assertObjectEqual(1,concern.steps.size)//Two steps merged to one
-		assert(stub.step==currentStep)
-		assert(nodeAfterStub.step==currentStep)//Continue even if stub step was merged
+		assertObjectEqual(1,concern.steps.size)//Two steps merged into one
+		assertObjectEqual("theStep_toMerge",currentStep.name)//Step merged
+		assert(pluginEndPoint.step==currentStep)
+		assertCollectionHasSingleElement(currentStep.outboundStubs,stub)
+		assert(stub.step.isVoid)
+		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of step and merge nodeAfterStub
+	end
+	
+	operation testLinkStep_StubOutBinding_AlreadyExplored_DifferentStep() is do
+		var differentStep:IwStep init factory.createIwStep
+		concern.steps.add(differentStep)
+		differentStep.outboundStubs.add(stub)
+		
+		pluginEndPoint.step_DeepFirstSearch(currentStep)
+
+		assertObjectEqual(2,concern.steps.size)//No step added
+		assertObjectEqual("theStep",currentStep.name)//No step merged
+		assert(pluginEndPoint.step==currentStep)
+		assertCollectionHasSingleElement(currentStep.outboundStubs,stub)
+		assertCollectionHasSingleElement(differentStep.outboundStubs,stub)
+		assert(stub.step.isVoid)
+		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of a different step
 	end
 	
 	operation testLinkStep_StubOutBinding_OneEndPointManyOutBindings() is do
@@ -99,19 +123,19 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		var pluginBinding2:IwPluginBinding init factory.createIwPluginBinding
 		pluginBinding2.stub:=stub2
 		factory.createIwOutBinding(stubExit2,pluginEndPoint).pluginBinding:=pluginBinding2
-		stub.step:=void
-		stub2.step:=void
 		
 		pluginEndPoint.step_DeepFirstSearch(currentStep)
 
 		assertObjectEqual(1,concern.steps.size)//No step added
 		assertObjectEqual("theStep",currentStep.name)//No step merged
-		assert(stub.step==currentStep)				//One
-		assert(nodeAfterStub.step==currentStep)		//One
-		assert(stub2.step==currentStep)				//Many
+		assert(nodeAfterStub.step==currentStep)				//One
 		assert(nodeAfterStub2.step==currentStep)	//Many
+		
+		var expectedOutboundStubs:OrderedSet<IwStub> init OrderedSet<IwStub>.new
+		expectedOutboundStubs.add(stub) 
+		expectedOutboundStubs.add(stub2)
+		assert(expectedOutboundStubs==currentStep.outboundStubs)
 	end
-	
 	
 	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)

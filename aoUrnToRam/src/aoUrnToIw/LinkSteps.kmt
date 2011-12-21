@@ -126,8 +126,8 @@ aspect class IwEndPoint
 	method explore(currentStep:IwStep) is do
 		step:=currentStep
 		outBindings.each{outBinding|
-			var stub:IwStub init outBinding.pluginBinding.stub
-			stub.step_DeepFirstSearch_StubExit(currentStep,outBinding.stubExit)
+			currentStep.outboundStubs.add(outBinding.pluginBinding.stub)
+			outBinding.stubExit.target.step_DeepFirstSearch(step)
 		}
 	end
 }
@@ -138,10 +138,6 @@ aspect class IwStub{
 		//stle:Single again
 		var staticPluginBinding:IwPluginBinding init pluginBindings.one 
 		staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
-	end
-	
-	operation step_DeepFirstSearch_StubExit(currentStep:IwStep, stubExit:IwNodeConnection) is do
-		stubExit.target.step_DeepFirstSearch(step)
 	end
 }
 
