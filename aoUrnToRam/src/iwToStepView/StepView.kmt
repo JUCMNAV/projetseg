@@ -29,4 +29,19 @@ class StepView{
 	operation isPartOfStepView(node: IwNode):Boolean is do
 		result:=(step==node.step)
 	end
+	
+	attribute isStubsFromOtherConcernsPlaceholderRequired:Boolean
+	operation appendStubsFromOtherConcernsPlaceholder() is do
+		isStubsFromOtherConcernsPlaceholderRequired:=true
+		append("StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442")
+	end
+	
+	operation appendStubFromOtherConcerPlaceholder() is do
+		if(isStubsFromOtherConcernsPlaceholderRequired==true) then
+			appendLine("")
+			append("    ") 
+			appendStubsFromOtherConcernsPlaceholder
+			appendLine("[label=\"*\",style=dotted")
+		end
+	end
 }

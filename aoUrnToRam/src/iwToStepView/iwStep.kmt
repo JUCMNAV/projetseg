@@ -68,6 +68,7 @@ aspect class IwStep {
 	
 	operation appendBindings(stepView:StepView) is do
 		nodes.each{node|node.appendBindings(stepView)}
+		stepView.appendStubFromOtherConcerPlaceholder
 	end
 
 	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>

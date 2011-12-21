@@ -115,8 +115,8 @@ aspect class IwInput
 		if(stepView.isPartOfStepView(self)) then
 			super(stepView)
 		else
-			stepView.append("            color=") stepView.append("gray") stepView.appendLine(",")
-			stepView.append("            fontcolor=") stepView.append("gray") stepView.appendLine(",")
+			stepView.appendLine("            color=gray,")
+			stepView.appendLine("            fontcolor=gray,")
 		end
 	end
 	
@@ -140,6 +140,20 @@ aspect class IwStartPoint{
 	
 	method appendFirstVerticesFromNextStep(stepView:StepView) is do
 		//do not display StartPoint
+	end
+	
+	method appendBindings(stepView:StepView) is do
+		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
+		inBindings.each{inBinding|
+			if(inBinding.isInboundStubInSameConcern) then
+				inBinding.appendBinding(stepView)
+			else
+				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
+					inBinding.appendBinding(stepView)
+					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
+				end
+			end
+		}
 	end
 }
 
@@ -165,6 +179,20 @@ aspect class IwEndPoint
 {
 	method getImageName():String is do
 		result:="E"
+	end
+	
+	method appendBindings(stepView:StepView) is do
+		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
+		outBindings.each{outBinding|
+			if(outBinding.isOutboundStubInSameConcern) then
+				outBinding.appendBinding(stepView)
+			else
+				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
+					outBinding.appendBinding(stepView)
+					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
+				end
+			end
+		}
 	end
 }
 
@@ -226,27 +254,56 @@ aspect class IwStub {
 	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
 		appendName(stepView) stepView.append(":in1")
 	end
-	
-	method appendBindings(stepView:StepView) is do
-		//stle: static stub only
+}
+
+
+aspect class IwInBinding{
+	operation appendBinding(stepView:StepView) is do
 		stepView.appendLine("")
-		pluginBindings.one.inBindings.each{inBinding|
-			stepView.append("    ") 
-			appendTargetPort(stepView,inBinding.stubEntry) 
-			stepView.append("->")
-			var skippedStartPoint:IwStartPoint init inBinding.pluginStartPoint  
-			skippedStartPoint.succs.one.target.appendTargetPort(stepView,skippedStartPoint.succs.one)
-			stepView.appendLine("[style=dotted,arrowhead=onormal]")
-		}
-		
-		stepView.appendLine("")
-		pluginBindings.one.outBindings.each{outBinding|
-			stepView.append("    ") 
-			outBinding.pluginEndPoint.appendSourcePort(stepView,void) 
-			stepView.append("->")
-			appendSourcePort(stepView,outBinding.stubExit) 
-			stepView.appendLine("[style=dotted,arrowhead=onormal]")
-		}
+		stepView.append("    ")
+		appendBindingSource(stepView)
+		stepView.append("->")
+		//stle: single again
+		pluginStartPoint.succs.one.target.appendTargetPort(stepView,pluginStartPoint.succs.one)
+		stepView.appendLine("[style=dotted,arrowhead=onormal]")
 	end
 	
+	operation appendBindingSource(stepView:StepView) is do
+		if(isInboundStubInSameConcern) then 
+			pluginBinding.stub.appendTargetPort(stepView,stubEntry)
+		else
+			stepView.appendStubsFromOtherConcernsPlaceholder
+		end 
+	end 
+	
+	//stle: dry with linkStep
+	property readonly isInboundStubInSameConcern : Boolean
+	getter is do
+		result:=pluginStartPoint.workflow.concern==pluginBinding.stub.workflow.concern
+	end
+}
+
+aspect class IwOutBinding{
+	operation appendBinding(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    ")
+		pluginEndPoint.appendSourcePort(stepView,void)
+		stepView.append("->")
+		appendBindingTarget(stepView)
+		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+	end
+	
+	operation appendBindingTarget(stepView:StepView) is do
+		if(isOutboundStubInSameConcern) then 
+			pluginBinding.stub.appendSourcePort(stepView,stubExit)
+		else
+			stepView.appendStubsFromOtherConcernsPlaceholder
+		end 
+	end
+	
+	//stle: dry with linkStep
+	property readonly isOutboundStubInSameConcern : Boolean
+	getter is do
+		result:=pluginEndPoint.workflow.concern==pluginBinding.stub.workflow.concern
+	end
 }
