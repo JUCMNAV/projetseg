@@ -111,10 +111,13 @@ aspect class IwStartPoint{
 	end
 	
 	operation linkStepOfAnotherConcern() is do
-		var currentStep:IwStep init IwStep.new
-		currentStep.name:=name //Here the step as the startPoint name instead of an input name
-		concern.steps.add(currentStep)
-		step_DeepFirstSearch(currentStep)
+		//stle:refact
+		if(isUnexplored) then
+			var currentStep:IwStep init IwStep.new
+			currentStep.name:=name //Here the step as the startPoint name instead of an input name
+			concern.steps.add(currentStep)
+			step_DeepFirstSearch(currentStep)
+		end
 	end
 }
 

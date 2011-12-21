@@ -41,7 +41,7 @@ class StepView{
 			appendLine("")
 			append("    ") 
 			appendStubsFromOtherConcernsPlaceholder
-			appendLine("[label=\"*\",style=dotted")
+			appendLine("[label=\"*\",style=dotted]")
 		end
 	end
 }

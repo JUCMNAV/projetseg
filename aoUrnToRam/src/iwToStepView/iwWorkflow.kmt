@@ -10,10 +10,28 @@ aspect class IwWorkflow {
 	operation appendStepViewPre(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
-		stepView.append("        label=\"") stepView.append(name) stepView.appendLine("\";")
+		stepView.append("        label=") stepView.append(dotEscape(name)) stepView.appendLine("")
 	end
 	
 	operation appendStepViewPost(stepView:StepView) is do
 		stepView.appendLine("    }")
+	end
+
+	operation appendWorkflowPre_DifferentConcern(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
+		stepView.append("        label=") stepView.append(dotEscape(concern.name+"/"+name)) stepView.appendLine("")
+		stepView.appendLine("        style=dotted")
+	end
+	
+	operation appendWorkflowPost_DifferentConcern(stepView:StepView) is do
+		stepView.appendLine("    }")
+	end
+	
+	//stle: dry 
+	operation dotEscape(toEscape:String):String is do
+		result:=toEscape.replace("\\","\\\\")
+		result:=result.replace("\"","\\\"")
+		result:="\""+result+"\""
 	end
 }

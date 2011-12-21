@@ -16,6 +16,7 @@ aspect class IwStep {
 	operation toStepView():StepView is do
 		result:=StepView.new
 		result.step:=self
+		
 		result.workspacePath:=Path.new.combine(concern.name,name)
 		result._dot:=StringBuffer.new
 		
@@ -69,6 +70,8 @@ aspect class IwStep {
 	operation appendBindings(stepView:StepView) is do
 		nodes.each{node|node.appendBindings(stepView)}
 		stepView.appendStubFromOtherConcerPlaceholder
+		
+		nodes.each{node|node.appendPluginFromDifferentConcern(stepView)}
 	end
 
 	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>

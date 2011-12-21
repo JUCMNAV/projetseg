@@ -9,16 +9,25 @@ using kermeta::standard
 aspect class IwNode {
 	operation appendVertex(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("        ")  appendName(stepView) stepView.appendLine("[")
+		stepView.append("        ")  appendId(stepView) stepView.appendLine("[")
 		appendLineStyle(stepView)
 		stepView.appendLine("            label=")
 		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
 		stepView.appendLine("                <tr>")
 		stepView.append("                    <td cellpadding=\"3\">") stepView.append(getImageName) stepView.appendLine("</td>")
-		stepView.append("                    <td>") appendHtmlName(stepView) stepView.appendLine("</td>")
+		stepView.append("                    <td>") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                </tr>")
 		stepView.appendLine("            </table>>")
-		stepView.appendLine("        ];")
+		stepView.appendLine("        ]")
+	end
+	
+	operation appendVertex_OtherStep(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("        ")  
+		appendId(stepView) 
+		stepView.append("[label=")
+		stepView.append(dotEscape(step.name+"/"+name)) 
+		stepView.appendLine(",style=dotted]")
 	end
 	
 	operation appendEdges(stepView:StepView) is do
@@ -34,40 +43,28 @@ aspect class IwNode {
 	operation appendFirstVerticesFromNextStep(stepView:StepView) is do
 		succs.each{nodeConnection|
 			if(nodeConnection.target.step!=step) then
-				stepView.appendLine("")
-				nodeConnection.target.appendVertex(stepView)
+				nodeConnection.target.appendVertex_OtherStep(stepView)
 			end
 		}
+	end
+
+	operation appendId(stepView:StepView) is do
+		stepView.append(name)
 	end
 	
 	//virtual
 	operation appendBindings(stepView:StepView) is do
 		//default: do nothing
 	end
-
-	//virtual
-	operation appendLineStyle(stepView:StepView) is do
-		//default: do nothing		
-	end
-
-	//virtual
-	operation appendName(stepView:StepView) is do
-		stepView.append(name)
-	end
-	
-	//virtual
-	operation appendHtmlName(stepView:StepView) is do
-		appendName(stepView)
-	end
 	
 	//virtual
 	operation appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		stepView.append(name)
+		appendId(stepView)
 	end
 	
 	//virtual
 	operation appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		stepView.append(name)
+		appendId(stepView)
 	end
 	
 	//virtual
@@ -75,8 +72,25 @@ aspect class IwNode {
 		result:=""
 	end
 	
+	//virtual
+	operation appendLineStyle(stepView:StepView) is do
+		//default: do nothing		
+	end
+	
+	//virtual
+	operation appendPluginFromDifferentConcern(stepView:StepView) is do
+		//default: do nothing		
+	end
+	
 	operation appendLineStyleIsFilled(stepView:StepView) is do
 		stepView.appendLine("            style=filled,")		
+	end
+	
+	//stle: must be applied everywhere, except in html-like label where html escaping must be applied
+	operation dotEscape(toEscape:String):String is do
+		result:=toEscape.replace("\\","\\\\")
+		result:=result.replace("\"","\\\"")
+		result:="\""+result+"\""
 	end
 }
 
@@ -84,48 +98,6 @@ aspect class IwInput
 {
 	method getImageName():String is do
 		result:="I"
-	end
-	
-	method appendName(stepView:StepView) is do
-		if(stepView.isPartOfStepView(self)) then
-			super(stepView)
-		else
-			stepView.append(dotEscape(step.name+"/"+name))
-		end
-	end
-	
-	method appendHtmlName(stepView:StepView) is do
-		//stle:refact
-		if(stepView.isPartOfStepView(self)) then
-			super(stepView)
-		else
-			stepView.append(step.name+"/"+name)
-		end
-	end
-	
-	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendName(stepView)
-	end
-	
-	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendName(stepView)
-	end
-	
-	method appendLineStyle(stepView:StepView) is do
-		if(stepView.isPartOfStepView(self)) then
-			super(stepView)
-		else
-			stepView.appendLine("            color=gray,")
-			stepView.appendLine("            fontcolor=gray,")
-		end
-	end
-	
-	
-	//stle: must be applied everywhere, except in html-like label where html escaping must be applied
-	operation dotEscape(toEscape:String):String is do
-		result:=toEscape.replace("\\","\\\\")
-		result:=result.replace("\"","\\\"")
-		result:="\""+result+"\""
 	end
 }
 
@@ -149,7 +121,7 @@ aspect class IwStartPoint{
 				inBinding.appendBinding(stepView)
 			else
 				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
-					inBinding.appendBinding(stepView)
+					inBinding.appendBindingToStubsFromOtherConcernsPlaceholder(stepView)
 					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
 				end
 			end
@@ -188,7 +160,7 @@ aspect class IwEndPoint
 				outBinding.appendBinding(stepView)
 			else
 				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
-					outBinding.appendBinding(stepView)
+					outBinding.appendBindingToStubsFromOtherConcernsPlaceholder(stepView)
 					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
 				end
 			end
@@ -214,7 +186,7 @@ aspect class IwStub {
 	
 	method appendVertex(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("    ") appendName(stepView) stepView.appendLine("[")
+		stepView.append("    ") appendId(stepView) stepView.appendLine("[")
 		stepView.appendLine("        shape=plaintext,")
 		stepView.appendLine("        label=")
 		stepView.appendLine("        <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
@@ -229,7 +201,7 @@ aspect class IwStub {
 		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
 		stepView.append("                        <td>") stepView.append(getImageName) stepView.appendLine("</td>")
-		stepView.append("                        <td>") appendName(stepView) stepView.appendLine("</td>")
+		stepView.append("                        <td>") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
@@ -248,33 +220,58 @@ aspect class IwStub {
 	end
 	
 	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendName(stepView) stepView.append(":out1")
+		appendId(stepView) stepView.append(":out1")
 	end
 	
 	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendName(stepView) stepView.append(":in1")
+		appendId(stepView) stepView.append(":in1")
+	end
+	
+	method appendPluginFromDifferentConcern(stepView:StepView) is do
+		if(workflow.concern!=pluginWorkflow.concern) then
+			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
+			staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
+			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
+			
+			staticPluginBinding.inBindings.each{inBinding|inBinding.appendBinding(stepView)}
+			staticPluginBinding.outBindings.each{outBinding|outBinding.appendBinding(stepView)}
+		end
+	end
+	
+	//stle:dry
+	property readonly staticPluginBinding : IwPluginBinding
+	getter is do
+		//stle:Single again
+		result:=pluginBindings.one
+	end
+	
+	property readonly pluginWorkflow : IwWorkflow
+	getter is do
+		//The existence of a pluginBinding implies the existance of at least one pluginStartPoint
+		result:=staticPluginBinding.inBindings.one.pluginStartPoint.workflow
 	end
 }
 
-
 aspect class IwInBinding{
 	operation appendBinding(stepView:StepView) is do
-		stepView.appendLine("")
 		stepView.append("    ")
-		appendBindingSource(stepView)
+		pluginBinding.stub.appendTargetPort(stepView,stubEntry)
 		stepView.append("->")
 		//stle: single again
 		pluginStartPoint.succs.one.target.appendTargetPort(stepView,pluginStartPoint.succs.one)
 		stepView.appendLine("[style=dotted,arrowhead=onormal]")
 	end
-	
-	operation appendBindingSource(stepView:StepView) is do
-		if(isInboundStubInSameConcern) then 
-			pluginBinding.stub.appendTargetPort(stepView,stubEntry)
-		else
-			stepView.appendStubsFromOtherConcernsPlaceholder
-		end 
-	end 
+
+	//stle:dry
+	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
+		stepView.append("    ")
+		stepView.appendStubsFromOtherConcernsPlaceholder
+		stepView.append("->")
+		//stle: single again
+		pluginStartPoint.succs.one.target.appendTargetPort(stepView,pluginStartPoint.succs.one)
+		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+	end
 	
 	//stle: dry with linkStep
 	property readonly isInboundStubInSameConcern : Boolean
@@ -285,20 +282,20 @@ aspect class IwInBinding{
 
 aspect class IwOutBinding{
 	operation appendBinding(stepView:StepView) is do
-		stepView.appendLine("")
 		stepView.append("    ")
 		pluginEndPoint.appendSourcePort(stepView,void)
 		stepView.append("->")
-		appendBindingTarget(stepView)
+		pluginBinding.stub.appendSourcePort(stepView,stubExit)
 		stepView.appendLine("[style=dotted,arrowhead=onormal]")
 	end
-	
-	operation appendBindingTarget(stepView:StepView) is do
-		if(isOutboundStubInSameConcern) then 
-			pluginBinding.stub.appendSourcePort(stepView,stubExit)
-		else
-			stepView.appendStubsFromOtherConcernsPlaceholder
-		end 
+
+	//stle:dry	
+	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
+		stepView.append("    ")
+		pluginEndPoint.appendSourcePort(stepView,void)
+		stepView.append("->")
+		stepView.appendStubsFromOtherConcernsPlaceholder
+		stepView.appendLine("[style=dotted,arrowhead=onormal]")
 	end
 	
 	//stle: dry with linkStep

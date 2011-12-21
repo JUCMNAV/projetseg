@@ -15,6 +15,7 @@ aspect class URNspec{
 		link
 		iwModel.handleInputProcessingNodes
 		iwModel.linkSteps
+		
 		result := iwModel
 	end
 }
