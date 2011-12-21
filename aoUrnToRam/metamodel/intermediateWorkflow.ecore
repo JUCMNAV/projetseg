@@ -73,6 +73,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/succs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" eType="#/1/IwInBinding"
+          eOpposite="#/1/IwInBinding/stubEntry"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outBinding" eType="#/1/IwOutBinding"
+          eOpposite="#/1/IwOutBinding/stubExit"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>
@@ -106,14 +110,16 @@
           eOpposite="#/1/IwStub/pluginBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInBinding">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" eType="#/1/IwNodeConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" eType="#/1/IwNodeConnection"
+          eOpposite="#/1/IwNodeConnection/inBinding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginStartPoint" eType="#/1/IwStartPoint"
           eOpposite="#/1/IwStartPoint/inBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"
           eOpposite="#/1/IwPluginBinding/inBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutBinding">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="stubExit" eType="#/1/IwNodeConnection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubExit" eType="#/1/IwNodeConnection"
+          eOpposite="#/1/IwNodeConnection/outBinding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginEndPoint" eType="#/1/IwEndPoint"
           eOpposite="#/1/IwEndPoint/outBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"

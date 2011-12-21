@@ -21,6 +21,7 @@ package map{
 	aspect class UCMmap{
 		operation build() is do
 			pathNodes.each{pathNode|pathNode.build}
+			pathNodes.each{pathNode|pathNode.buildNodeConnections}
 
 			iwWorkflow:=IwWorkflow.new
 			iwWorkflow.name:=nameOrPrefixId("Workflow")
@@ -47,8 +48,15 @@ package map{
 				iwInput.name:=inOutExpression.in
 			end
 		end
+
+		//stle:test later
+		operation buildNodeConnections() is do
+			//stle: ordering in build is undesirable
+			if(iwNodes_ReadOnly.isEmpty==false) then
+				succ.each{nodeConnection|nodeConnection.asType(NodeConnection).build}
+			end
+		end
 	}
-	
 	
 	aspect class RespRef {
 		method build() is do
@@ -137,6 +145,15 @@ package map{
 			iwOutBinding:=IwOutBinding.new
 		end
 	}
+	
+	aspect class NodeConnection{
+		operation build() is do
+			iwNodeConnection:=IwNodeConnection.new
+			iwNodeConnection.conditionName:=conditionLabel
+		end
+	}
+		
+	
 }
 }
 

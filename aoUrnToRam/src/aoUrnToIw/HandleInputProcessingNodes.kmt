@@ -30,23 +30,33 @@ aspect class IwInput {
 		var target:IwNode init succs.one.target
 		if(target.isInstanceOf(IwEndPoint) or 
 		   target.isInstanceOf(IwInput) or
-		   target.isInstanceOf(IwOrFork) 
+		   target.isInstanceOf(IwOrFork) or
+		   target.isInstanceOf(IwStub)
 		) then
 			iwInputProcessingNode:=IwCustomizableNode.new
 			iwInputProcessingNode.name:="Process"+name
 			iwInputProcessingNode.workflow:=workflow
 
-			succs.clear //clear existing link
-			connectNodes(self,iwInputProcessingNode)
-			connectNodes(iwInputProcessingNode,target)						
-		end
-	end
+			//stle: single again
+			var previousLink:IwNodeConnection init succs.one
 
-	//stle: reuse
-	operation connectNodes(source:IwNode,target:IwNode) is do
-		var connection:IwNodeConnection init IwNodeConnection.new
-		connection.source:=source
-		connection.target:=target
+			//stle:dry			
+			var inputToInputProcessingNode:IwNodeConnection init IwNodeConnection.new
+			inputToInputProcessingNode.source:=previousLink.source
+			inputToInputProcessingNode.target:=iwInputProcessingNode
+			inputToInputProcessingNode.outBinding:=previousLink.outBinding
+
+			var inputProcessingNodeToTarget:IwNodeConnection init IwNodeConnection.new
+			inputProcessingNodeToTarget.source:=iwInputProcessingNode
+			inputProcessingNodeToTarget.target:=previousLink.target
+			inputProcessingNodeToTarget.inBinding:=previousLink.inBinding
+			
+			//stle: remove all pointers, requires dry + test
+			previousLink.source:=void
+			previousLink.target:=void
+			previousLink.inBinding:=void
+			previousLink.outBinding:=void
+		end
 	end
 }
 

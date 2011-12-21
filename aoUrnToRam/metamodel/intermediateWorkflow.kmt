@@ -45,6 +45,9 @@ class IwNodeConnection{
 	attribute conditionName:String
 	reference source : IwNode#succs
 	reference target : IwNode
+
+	reference inBinding:IwInBinding#stubEntry
+	reference outBinding:IwOutBinding#stubExit
 }
 
 class IwInput inherits IwNode
@@ -89,14 +92,14 @@ class IwPluginBinding
 
 class IwInBinding
 {
-	reference stubEntry:IwNodeConnection
+	reference stubEntry:IwNodeConnection#inBinding
 	reference pluginStartPoint:IwStartPoint#inBindings
 	reference pluginBinding:IwPluginBinding#inBindings
 }
 
 class IwOutBinding
 {
-	reference stubExit:IwNodeConnection
+	reference stubExit:IwNodeConnection#outBinding
 	reference pluginEndPoint:IwEndPoint#outBindings
 	reference pluginBinding:IwPluginBinding#outBindings
 }

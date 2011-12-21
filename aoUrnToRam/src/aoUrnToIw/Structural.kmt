@@ -183,20 +183,7 @@ package map{
 	}
 	
 	aspect class NodeConnection{
-		reference _iwNodeConnection: IwNodeConnection
-		
-		property readonly iwNodeConnection:IwNodeConnection
-		getter is do
-			buildIwNodeConnectionOnDemand
-			result:=_iwNodeConnection
-		end
-		
-		operation buildIwNodeConnectionOnDemand() is do
-			if(_iwNodeConnection.isVoid) then
-				_iwNodeConnection:=IwNodeConnection.new
-				_iwNodeConnection.conditionName:=conditionLabel
-			end
-		end
+		reference iwNodeConnection: IwNodeConnection
 		
 		property readonly conditionLabel: String
 		getter is do
@@ -207,14 +194,26 @@ package map{
 			end
 		end
 		
-		property readonly IwSingleTarget : IwNode
+		property readonly iwSingleTarget : IwNode
 		getter is do
 			if(target.asType(PathNode).iwNodes_ReadOnly.isEmpty==false) then
 				result:=target.asType(PathNode).iwEntryNode
 			else
 			    //target has no iwNodes implies target has always has a single succ
 				//stle: single again
-				result:=target.succ.one.asType(NodeConnection).IwSingleTarget
+				result:=target.succ.one.asType(NodeConnection).iwSingleTarget
+			end
+		end
+		
+		//stle: test later
+		property readonly iwSinglePredNodeConnection : IwNodeConnection
+		getter is do
+			if(iwNodeConnection.isVoid==false) then
+				result:=iwNodeConnection
+			else
+			    //source has no iwNodeConnection implies a single IwNodeConnection exists before
+				//stle: single again
+				result:=source.pred.one.asType(NodeConnection).iwSinglePredNodeConnection
 			end
 		end
 	}

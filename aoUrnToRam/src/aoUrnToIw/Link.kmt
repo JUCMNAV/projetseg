@@ -86,7 +86,7 @@ package map{
 	aspect class NodeConnection {
 		operation link() is do
 			iwNodeConnection.source:=source.asType(PathNode).iwExitNode
-			iwNodeConnection.target:=IwSingleTarget
+			iwNodeConnection.target:=iwSingleTarget
 		end
 	}
 	
@@ -138,7 +138,7 @@ package map{
 		end
 		
 		operation linkStubEntry() is do
-			iwInBinding.stubEntry:=stubEntry.iwNodeConnection	
+			iwInBinding.stubEntry:=stubEntry.iwSinglePredNodeConnection	
 		end
 	}
 

@@ -32,7 +32,7 @@ using intermediateWorkflow
 class Main inherits TestCase
 {
     operation main() : Void is do
-//    	launchTddTests() 
+    	launchTddTests() 
 		launchIntegrationTests()
 	end
 	
@@ -40,6 +40,8 @@ class Main inherits TestCase
 /*		var test:LinkSteps_StubOutBindingTestCase init LinkSteps_StubOutBindingTestCase.new
 		test.setUp
 		test.testLinkStep_StubOutBinding_Unexplored*/
+		
+		AoUrnToRamTransformation.new.howToRemove
     end
 	
 
@@ -50,7 +52,7 @@ class Main inherits TestCase
 		testClasses.add(InOutExpressionTestCase)
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
-//		testClasses.add(HandleInputProcessingNodesTestCase)
+		testClasses.add(HandleInputProcessingNodesTestCase)
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
 //		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
@@ -96,6 +98,7 @@ class Main inherits TestCase
 			rescue (error : Exception)
 				stdio.writeln("Error")
 				stdio.writeln(error.toString)
+				stdio.writeln(error.message)
 		end
 		writePassFail(pass)
     end

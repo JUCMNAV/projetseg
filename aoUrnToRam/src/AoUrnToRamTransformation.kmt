@@ -5,6 +5,9 @@ require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Transformation.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/Transformation.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/IwModel.kmt"
 
+require "platform:/resource/aoUrnToRam/metamodel/testos.ecore"
+using testos
+
 using kermeta::persistence
 using kermeta::standard
 using kermeta::io
@@ -12,8 +15,38 @@ using oneurn::urn
 using intermediateWorkflow
 using ramstructural
 
+
+
 class AoUrnToRamTransformation
 {
+	//stle:temp
+	operation howToRemove() is do
+		var repository:ModelRepository init ModelRepository.new
+		
+		var a:A init A.new
+		var b:B init B.new
+		b.a:=a
+		var c:C init C.new
+		c.a:=a
+		c.b:=b
+		
+		kermeta::kunit::Assert.new.assert(b.c==c)
+		kermeta::kunit::Assert.new.assert(c.b==b)
+		
+		var c2:C init C.new
+		c2.a:=a
+		c2.b:=b
+		
+		kermeta::kunit::Assert.new.assert(c.b.isVoid)
+		kermeta::kunit::Assert.new.assert(b.c==c2)
+		kermeta::kunit::Assert.new.assert(c2.b==b)
+
+		
+		
+		
+		repository.save(a,"platform:/resource/aoUrnToRam/test/integration/model/testos.xmi","platform:/resource/aoUrnToRam/metamodel/testos.ecore")
+	end
+
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
 		//stle: temp hardcoded
 		var tempDestinationPath:String init "C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"
@@ -28,11 +61,6 @@ class AoUrnToRamTransformation
 		urnSpec?=repository.load(source)
 		
 		var iwModel:IwModel init urnSpec.toIw
-		
-		iwModel.concerns.each{concern|
-			stdio.writeln("con"+concern.name)
-			concern.steps.each{step|stdio.writeln("step"+step.name)}
-		}
 		
 		if(optional_intermediate.isVoid==false)then
 			repository.save(iwModel,optional_intermediate,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
@@ -51,8 +79,8 @@ class AoUrnToRamTransformation
 		var windowsWorkspacePath:String init stepView.workspacePath.replace("/","\\") 
 
 //stle: remove that and provide a proper api	
-		stdio.writeln("---")
-		stdio.writeln(stepView.dot)
+//		stdio.writeln("---")
+//		stdio.writeln(stepView.dot)
 		 
 	    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+destination+windowsWorkspacePath+".png\"",stepView.dot)
 	end

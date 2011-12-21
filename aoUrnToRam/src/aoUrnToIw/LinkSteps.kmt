@@ -80,11 +80,11 @@ aspect class IwStep {
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
 		nodes.addAll(stepToMerge.nodes)
+
+		//stle: remove all pointers, requires dry + test		
+		stepToMerge.nodes.clear
 		stepToMerge.concern:=void
-		
-		stdio.writeln("merge step"+stepToMerge.name)
-		stdio.writeln("num of concern"+concern.model.concerns.size.toString)
-		stdio.writeln("num of step"+concern.steps.size.toString)
+		stepToMerge.outboundStubs.clear
 	end
 	
 	operation mergeName(stepToMerge:IwStep) is do
@@ -103,7 +103,6 @@ aspect class IwStep {
 aspect class IwStartPoint{
 	operation linkStep() is do
 		if(startPointType!="bound") then
-			stdio.writeln("new partial step")
 			var currentStep:IwStep init IwStep.new
 			currentStep.flagAsPartiallyInitialized
 			concern.steps.add(currentStep)
@@ -117,12 +116,10 @@ aspect class IwInput {
 		if(currentStep.isPartiallyInitialized) then
 			currentStep.name:=name
 			currentStep.removeFlagAsPartiallyInitialized
-			stdio.writeln("set partial step name:"+currentStep.name)
 		else
 			currentStep:=IwStep.new
 			currentStep.name:=name
 			concern.steps.add(currentStep)
-			stdio.writeln("Create step:"+currentStep.name)
 		end
 		super(currentStep)
 	end

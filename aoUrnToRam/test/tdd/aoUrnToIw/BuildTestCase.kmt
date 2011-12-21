@@ -13,6 +13,7 @@ using intermediateWorkflow
 
 using kermeta::language::structure
 
+//stle: important add test case for removing pointers
 class AoUrnToIwBuildTestCase inherits TestCase
 {
 	attribute factory:AoUrnTestFactory
@@ -308,7 +309,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 	operation testBuildNodeConnection_WithoutCondition() is do
 		var actual:NodeConnection init factory.createNodeConnection()
 
-		//build on demand
+		actual.build
 	
 		assert(actual.iwNodeConnection.isVoid==false)
 	end
@@ -317,7 +318,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		var actual:NodeConnection init factory.createNodeConnection()
 		actual.condition:=factory.createCondition("theCondition")
 
-		//build on demand
+		actual.build
 	
 		assert(actual.iwNodeConnection.conditionName=="theCondition")
 	end	

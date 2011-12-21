@@ -185,8 +185,6 @@ aspect class IwStub {
 	end
 	
 	method appendVertex(stepView:StepView) is do
-		stdio.writeln("Stub call in step view")
-	
 		stepView.appendLine("")
 		stepView.append("    ") appendName(stepView) stepView.appendLine("[")
 		stepView.appendLine("        shape=plaintext,")
