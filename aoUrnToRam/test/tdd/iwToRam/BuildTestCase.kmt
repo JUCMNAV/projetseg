@@ -94,17 +94,6 @@ class IwToRamBuildTestCase inherits TestCase
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch3"})
 	end
 
-	operation testBuildIwBinding() is do
-		var stub:IwStub init factory.createIwStub
-		var actual:IwPluginBinding init factory.createIwPluginBinding
-		actual.stub:=stub
-		
-		actual.build
-		
-		assertClassProperlyBuilt("theStub_Condition",actual.ramCondition)
-		assertClassProperlyBuilt("theStub_ReplicationFactor",actual.ramReplicationFactor)
-	end
-	
 	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
 		assertIsNonVoidInstanceOf(Class,ramClass)
 		assertStringEqual(expectedName,ramClass.name)

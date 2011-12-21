@@ -99,13 +99,3 @@ aspect class IwOrFork {
 		}
 	end
 }
-
-aspect class IwPluginBinding {
-	operation link() is do
-		stub.step.addRamClass(ramCondition)
-		stub.step.mapRamClass("Condition",ramCondition)
-		
-		stub.step.addRamClass(ramReplicationFactor)
-		stub.step.mapRamClass("ReplicationFactor",ramReplicationFactor)
-	end
-}

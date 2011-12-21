@@ -84,13 +84,3 @@ aspect class IwOrFork {
 		}
 	end
 }
-
-aspect class IwPluginBinding{
-	operation build() is do
-		ramCondition:=Class.new
-		ramCondition.name:=stub.name+"_Condition"
-		
-		ramReplicationFactor:=Class.new
-		ramReplicationFactor.name:=stub.name+"_ReplicationFactor"
-	end
-}

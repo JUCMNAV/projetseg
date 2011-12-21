@@ -193,36 +193,6 @@ class IwToRamLinkTestCase inherits TestCase
 		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
 	end
 
-
-	operation testLinkIwPluginBinding() is do
-		var step:IwStep init factory.createIwStep()
-		var stub:IwStub init factory.createIwStub
-		stub.step:=step
-		var actual:IwPluginBinding init factory.createIwPluginBinding
-		actual.stub:=stub
-
-		step.build
-		actual.link
-
-		var expectedClasses:Set<Class> init Set<Class>.new
-		expectedClasses.add(actual.ramCondition) 
-		expectedClasses.add(actual.ramReplicationFactor)
-
-		//properly linked
-		assert(expectedClasses==step.ramStructuralView.classes.asSet)
-		
-		assert(step.ramReactiveWorkflowInstantiation.mappings.size==2)
-		//stle: add .selectSingle
-		var conditionMapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="Condition"}.one
-		assert(conditionMapping.isVoid==false)
-		assertCollectionHasSingleElement(conditionMapping.maps,actual.ramCondition)
-
-		//stle: add .selectSingle
-		var replicationFactorMapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.select{mapping|mapping.sourceModelElement=="Condition"}.one
-		assert(replicationFactorMapping.isVoid==false)
-		assertCollectionHasSingleElement(replicationFactorMapping.maps,actual.ramReplicationFactor)
-	end
-
 	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)
 		assert(collection.one==singleElement)

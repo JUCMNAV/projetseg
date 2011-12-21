@@ -62,8 +62,3 @@ aspect class IwOutput{
 aspect class IwOrFork {
 	reference ramConditions : set Class[2..*]
 }
-
-aspect class IwPluginBinding{
-	reference ramCondition:Class 
-	reference ramReplicationFactor:Class
-}
