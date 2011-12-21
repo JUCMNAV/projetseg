@@ -55,7 +55,7 @@ class Main inherits TestCase
 		testClasses.add(HandleInputProcessingNodesTestCase)
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
-//		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
+		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
 		testClasses.add(LinkSteps_StubOutBindingTestCase)
 
 		result := testClasses
@@ -131,7 +131,8 @@ class Main inherits TestCase
 		stdio.writeln("Start")
 		AoUrnToRamTransformation.new.transform(
 //			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithoutAut.jucm",
-			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutSameConcern.jucm",
+//			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutSameConcern.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutDifferentConcern.jucm",
 			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
 			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
 		)

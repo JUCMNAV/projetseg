@@ -106,8 +106,15 @@ aspect class IwStartPoint{
 			var currentStep:IwStep init IwStep.new
 			currentStep.flagAsPartiallyInitialized
 			concern.steps.add(currentStep)
-			explore(currentStep)
+			step_DeepFirstSearch(currentStep)
 		end
+	end
+	
+	operation linkStepOfAnotherConcern() is do
+		var currentStep:IwStep init IwStep.new
+		currentStep.name:=name //Here the step as the startPoint name instead of an input name
+		concern.steps.add(currentStep)
+		step_DeepFirstSearch(currentStep)
 	end
 }
 
@@ -129,19 +136,48 @@ aspect class IwEndPoint
 {
 	method explore(currentStep:IwStep) is do
 		step:=currentStep
-		outBindings.each{outBinding|
-			currentStep.outboundStubs.add(outBinding.pluginBinding.stub)
-			outBinding.stubExit.target.step_DeepFirstSearch(step)
-		}
+		outBindings.each{outBinding|outBinding.explore(currentStep)}
+	end
+}
+
+aspect class IwOutBinding
+{
+	operation explore(currentStep:IwStep) is do
+		if(isOutboundStubInSameConcern) then
+			currentStep.outboundStubs.add(pluginBinding.stub)
+			stubExit.target.step_DeepFirstSearch(currentStep)
+		end
+	end
+	
+	property readonly isOutboundStubInSameConcern : Boolean
+	getter is do
+		result:=pluginEndPoint.concern==pluginBinding.stub.workflow.concern
 	end
 }
 
 aspect class IwStub{
 	method explore(currentStep:IwStep) is do
 		step:=currentStep
-		//stle:Single again
-		var staticPluginBinding:IwPluginBinding init pluginBindings.one 
-		staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
+		
+		if(isPluginInSameConcern) then 
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
+		else
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.linkStepOfAnotherConcern}
+			super(currentStep)//explore as a normal node
+		end
 	end
+
+	property readonly isPluginInSameConcern : Boolean
+	getter is do
+		//All inBinding must refers to the same plugin
+		result:=workflow.concern==staticPluginBinding.inBindings.one.pluginStartPoint.workflow.concern
+	end
+	
+	property readonly staticPluginBinding : IwPluginBinding
+	getter is do
+		//stle:Single again
+		result:=pluginBindings.one
+	end
+	
 }
 
