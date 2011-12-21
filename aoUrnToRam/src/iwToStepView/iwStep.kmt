@@ -15,11 +15,13 @@ aspect class IwStep {
 	
 	operation toStepView():StepView is do
 		result:=StepView.new
+		result.step:=self
 		result.workspacePath:=Path.new.combine(concern.name,name)
 		result._dot:=StringBuffer.new
 		
 		appendStepViewPre(result)
 		appendWorkflows(result)
+		appendBindings(result)
 		appendStepViewPost(result)
 	end
 	
@@ -47,9 +49,26 @@ aspect class IwStep {
 	end
 	
 	operation appendWorkflowNodes(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
-		workflowNodes.each{node|node.appendStepView(stepView)}
+		appendStartVertexFirst(stepView,workflowNodes)
+		workflowNodes.each{node|node.appendFirstVerticesFromNextStep(stepView)}
+		workflowNodes.each{node|node.appendEdges(stepView)}
 	end
 	
+	operation appendStartVertexFirst(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
+		//First startNodes to enforce startNodes to be on top in case of cycle
+		var startNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new 
+		workflowNodes.select{node|node.isInstanceOf(IwStartPoint)}
+					 .each{startPoint|startNodes.add(startPoint.succs.one.target)}
+		startNodes.each{node|node.appendVertex(stepView)}					 
+		
+		//Then, all other nodes
+		workflowNodes.select{node|startNodes.contains(node)==false}					
+					 .each{node|node.appendVertex(stepView)} 
+	end
+	
+	operation appendBindings(stepView:StepView) is do
+		nodes.each{node|node.appendBindings(stepView)}
+	end
 
 	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>
 	getter is do

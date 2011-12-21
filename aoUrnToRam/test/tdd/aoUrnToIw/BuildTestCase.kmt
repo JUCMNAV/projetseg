@@ -231,7 +231,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 
 		actual.build
 
-		assert(actual.iwStartPoint.startPointType==StartPointType.global)	
+		assert(actual.iwStartPoint.startPointType=="global")	
 	end
 	
 	operation testBuildStartPoint_LocalNotBound() is do
@@ -240,7 +240,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 
 		actual.build
 
-		assert(actual.iwStartPoint.startPointType==StartPointType.local)	
+		assert(actual.iwStartPoint.startPointType=="local")	
 	end
 
 	operation testBuildStartPoint_LocalBound() is do
@@ -251,7 +251,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		
 		actual.build
 
-		assert(actual.iwStartPoint.startPointType==StartPointType.bound)	
+		assert(actual.iwStartPoint.startPointType=="bound")	
 	end
 
 	operation testBuildStartPoint_GlobalBound() is do
@@ -261,7 +261,7 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		
 		actual.build
 
-		assert(actual.iwStartPoint.startPointType==StartPointType.bound)	
+		assert(actual.iwStartPoint.startPointType=="bound")	
 	end
 
 	

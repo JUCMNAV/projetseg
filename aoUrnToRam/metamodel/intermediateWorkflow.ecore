@@ -8,11 +8,6 @@
   </ecore:EAnnotation>
   <ecore:EPackage name="intermediateWorkflow" nsURI="http:///intermediateWorkflow.ecore"
       nsPrefix="intermediateWorkflow">
-    <eClassifiers xsi:type="ecore:EEnum" name="StartPointType">
-      <eLiterals name="global" literal="global"/>
-      <eLiterals name="local" value="1" literal="local"/>
-      <eLiterals name="bound" value="2" literal="bound"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwModel">
       <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
           eType="#/1/IwConcern" containment="true" eOpposite="#/1/IwConcern/model"/>
@@ -83,7 +78,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwOutput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwStartPoint" eSuperTypes="#/1/IwNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPointType" eType="#/1/StartPointType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPointType" eType="#/1/String">
         <eAnnotations source="kermeta">
           <details key="isComposite" value="true"/>
         </eAnnotations>

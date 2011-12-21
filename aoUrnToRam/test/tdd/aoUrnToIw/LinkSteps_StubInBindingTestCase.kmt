@@ -35,10 +35,10 @@ class LinkSteps_StubInBindingTestCase inherits TestCase
 		plugin:=factory.createIwWorkflow
 		concern.workflows.add(plugin)
 		pluginStartPoint1:=factory.createIwStartPoint
-		pluginStartPoint1.startPointType:=StartPointType.bound
+		pluginStartPoint1.startPointType:="bound"
 		plugin.nodes.add(pluginStartPoint1)
 		pluginStartPoint2:=factory.createIwStartPoint
-		pluginStartPoint2.startPointType:=StartPointType.bound
+		pluginStartPoint2.startPointType:="bound"
 		plugin.nodes.add(pluginStartPoint2)
     	
     	//workflow

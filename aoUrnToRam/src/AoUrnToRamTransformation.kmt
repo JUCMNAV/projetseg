@@ -28,6 +28,12 @@ class AoUrnToRamTransformation
 		urnSpec?=repository.load(source)
 		
 		var iwModel:IwModel init urnSpec.toIw
+		
+		iwModel.concerns.each{concern|
+			stdio.writeln("con"+concern.name)
+			concern.steps.each{step|stdio.writeln("step"+step.name)}
+		}
+		
 		if(optional_intermediate.isVoid==false)then
 			repository.save(iwModel,optional_intermediate,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
 		end
@@ -45,8 +51,8 @@ class AoUrnToRamTransformation
 		var windowsWorkspacePath:String init stepView.workspacePath.replace("/","\\") 
 
 //stle: remove that and provide a proper api	
-//		stdio.writeln("---")
-//		stdio.writeln(stepView.dot)
+		stdio.writeln("---")
+		stdio.writeln(stepView.dot)
 		 
 	    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+destination+windowsWorkspacePath+".png\"",stepView.dot)
 	end

@@ -2,6 +2,7 @@ package intermediateWorkflow;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/iwStep.kmt"
 
 using kermeta::standard
 using kermeta::utils
@@ -9,6 +10,7 @@ using kermeta::utils
 class StepView{
 	attribute workspacePath: String
 	attribute _dot:StringBuffer
+	reference step:IwStep
 	
 	operation append(toAppend:String) is do
 		_dot.append(toAppend)
@@ -24,4 +26,7 @@ class StepView{
 		result:=_dot.toString
 	end
 	
+	operation isPartOfStepView(node: IwNode):Boolean is do
+		result:=(step==node.step)
+	end
 }

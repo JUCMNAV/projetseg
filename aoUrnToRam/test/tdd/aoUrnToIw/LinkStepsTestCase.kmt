@@ -27,7 +27,7 @@ class LinkStepsTestCase inherits TestCase
 	@feature "FeaNamingOfRAMStep"
 	operation testLinkStep_BoundStartPoint() is do
 		var startPoint:IwStartPoint init factory.createIwStartPoint
-		startPoint.startPointType:=StartPointType.bound
+		startPoint.startPointType:="bound"
 		workflow.nodes.add(startPoint)
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -42,7 +42,7 @@ class LinkStepsTestCase inherits TestCase
 	
 	operation testLinkStep_GlobalStartPoint() is do
 		var startPoint:IwStartPoint init factory.createIwStartPoint
-		startPoint.startPointType:=StartPointType.global
+		startPoint.startPointType:="global"
 		workflow.nodes.add(startPoint)
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)
@@ -58,7 +58,7 @@ class LinkStepsTestCase inherits TestCase
 
 	operation testLinkStep_LocalStartPoint() is do
 		var startPoint:IwStartPoint init factory.createIwStartPoint
-		startPoint.startPointType:=StartPointType.local
+		startPoint.startPointType:="local"
 		workflow.nodes.add(startPoint)
 		var input:IwInput init factory.createIwInput
 		workflow.nodes.add(input)

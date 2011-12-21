@@ -7,35 +7,15 @@ require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
 using kermeta::standard
 
 aspect class IwNode {
-	//virtual
-	operation getStyle():String is do
-		result:="solid"
-	end
-	
-	operation getImageName():String is abstract
-
-	operation appendStepView(stepView:StepView) is do
-		appendVertex(stepView,step)
-		appendEdges(stepView)
-		appendFirstVerticesFromNextStep(stepView)
-	end
-	
-	operation appendVertex(stepView:StepView,currentStep:IwStep) is do
+	operation appendVertex(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("        ")  stepView.append(dotEscape(getNameInStepContext(currentStep))) stepView.appendLine("[")
-
-		if(isPartOfCurrentStep(currentStep)) then	
-			stepView.append("            style=") stepView.append(getStyle) stepView.appendLine(",")
-		else
-			stepView.append("            color=") stepView.append("gray") stepView.appendLine(",")
-			stepView.append("            fontcolor=") stepView.append("gray") stepView.appendLine(",")
-		end
-		
+		stepView.append("        ")  appendName(stepView) stepView.appendLine("[")
+		appendLineStyle(stepView)
 		stepView.appendLine("            label=")
 		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
 		stepView.appendLine("                <tr>")
 		stepView.append("                    <td cellpadding=\"3\">") stepView.append(getImageName) stepView.appendLine("</td>")
-		stepView.append("                    <td>") stepView.append(getNameInStepContext(currentStep)) stepView.appendLine("</td>")
+		stepView.append("                    <td>") appendHtmlName(stepView) stepView.appendLine("</td>")
 		stepView.appendLine("                </tr>")
 		stepView.appendLine("            </table>>")
 		stepView.appendLine("        ];")
@@ -43,7 +23,7 @@ aspect class IwNode {
 	
 	operation appendEdges(stepView:StepView) is do
 		succs.each{nodeConnection|
-			stepView.append("        ") stepView.append(dotEscape(name)) stepView.append("->") stepView.append(dotEscape(nodeConnection.target.getNameInStepContext(step)))
+			stepView.append("        ") appendSourcePort(stepView,nodeConnection) stepView.append("->") nodeConnection.target.appendTargetPort(stepView,nodeConnection)
 			if(nodeConnection.conditionName.isVoid==false) then
 				stepView.append("[label=\"") stepView.append(nodeConnection.conditionName) stepView.append("\"]")
 			end
@@ -55,22 +35,91 @@ aspect class IwNode {
 		succs.each{nodeConnection|
 			if(nodeConnection.target.step!=step) then
 				stepView.appendLine("")
-				nodeConnection.target.appendVertex(stepView,step)
+				nodeConnection.target.appendVertex(stepView)
 			end
 		}
 	end
 	
-	operation isPartOfCurrentStep(currentStep: IwStep):Boolean is do
-		result:=step==currentStep
+	//virtual
+	operation appendBindings(stepView:StepView) is do
+		//default: do nothing
+	end
+
+	//virtual
+	operation appendLineStyle(stepView:StepView) is do
+		//default: do nothing		
+	end
+
+	//virtual
+	operation appendName(stepView:StepView) is do
+		stepView.append(name)
 	end
 	
-	operation getNameInStepContext(currentStep: IwStep):String is do
-		if(isPartOfCurrentStep(currentStep)) then
-			result:=name
+	//virtual
+	operation appendHtmlName(stepView:StepView) is do
+		appendName(stepView)
+	end
+	
+	//virtual
+	operation appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		stepView.append(name)
+	end
+	
+	//virtual
+	operation appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		stepView.append(name)
+	end
+	
+	//virtual
+	operation getImageName():String is do
+		result:=""
+	end
+	
+	operation appendLineStyleIsFilled(stepView:StepView) is do
+		stepView.appendLine("            style=filled,")		
+	end
+}
+
+aspect class IwInput
+{
+	method getImageName():String is do
+		result:="I"
+	end
+	
+	method appendName(stepView:StepView) is do
+		if(stepView.isPartOfStepView(self)) then
+			super(stepView)
 		else
-			result:=step.name+"/"+name
+			stepView.append(dotEscape(step.name+"/"+name))
 		end
 	end
+	
+	method appendHtmlName(stepView:StepView) is do
+		//stle:refact
+		if(stepView.isPartOfStepView(self)) then
+			super(stepView)
+		else
+			stepView.append(step.name+"/"+name)
+		end
+	end
+	
+	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendName(stepView)
+	end
+	
+	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendName(stepView)
+	end
+	
+	method appendLineStyle(stepView:StepView) is do
+		if(stepView.isPartOfStepView(self)) then
+			super(stepView)
+		else
+			stepView.append("            color=") stepView.append("gray") stepView.appendLine(",")
+			stepView.append("            fontcolor=") stepView.append("gray") stepView.appendLine(",")
+		end
+	end
+	
 	
 	//stle: must be applied everywhere, except in html-like label where html escaping must be applied
 	operation dotEscape(toEscape:String):String is do
@@ -80,17 +129,24 @@ aspect class IwNode {
 	end
 }
 
-aspect class IwInput
-{
-	method getImageName():String is do
-		result:="I"
+aspect class IwStartPoint{
+	method appendVertex(stepView:StepView) is do
+		//do not display StartPoint
+	end
+	
+	method appendEdges(stepView:StepView) is do
+		//do not display StartPoint
+	end
+	
+	method appendFirstVerticesFromNextStep(stepView:StepView) is do
+		//do not display StartPoint
 	end
 }
 
 aspect class IwCustomizableNode
 {
-	method getStyle():String is do
-		result:="filled"
+	method appendLineStyle(stepView:StepView) is do
+		appendLineStyleIsFilled(stepView)		
 	end
 	
 	method getImageName():String is do
@@ -114,7 +170,85 @@ aspect class IwEndPoint
 
 aspect class IwOrFork
 {
+	method appendLineStyle(stepView:StepView) is do
+		appendLineStyleIsFilled(stepView)		
+	end
+
 	method getImageName():String is do
 		result:="Or"
 	end
+}
+
+aspect class IwStub {
+	method getImageName():String is do
+		result:="S"
+	end
+	
+	method appendVertex(stepView:StepView) is do
+		stdio.writeln("Stub call in step view")
+	
+		stepView.appendLine("")
+		stepView.append("    ") appendName(stepView) stepView.appendLine("[")
+		stepView.appendLine("        shape=plaintext,")
+		stepView.appendLine("        label=")
+		stepView.appendLine("        <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		stepView.appendLine("                        <td port=\"in1\" height=\"10\"></td>")
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		stepView.append("                        <td>") stepView.append(getImageName) stepView.appendLine("</td>")
+		stepView.append("                        <td>") appendName(stepView) stepView.appendLine("</td>")
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		succs.size.times{i|
+			stepView.append("                        <td port=\"out") stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
+		}
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("        </table>>")
+		stepView.appendLine("    ]")
+		stepView.appendLine("    ")
+	end
+	
+	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendName(stepView) stepView.append(":out1")
+	end
+	
+	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendName(stepView) stepView.append(":in1")
+	end
+	
+	method appendBindings(stepView:StepView) is do
+		//stle: static stub only
+		stepView.appendLine("")
+		pluginBindings.one.inBindings.each{inBinding|
+			stepView.append("    ") 
+			appendTargetPort(stepView,inBinding.stubEntry) 
+			stepView.append("->")
+			var skippedStartPoint:IwStartPoint init inBinding.pluginStartPoint  
+			skippedStartPoint.succs.one.target.appendTargetPort(stepView,skippedStartPoint.succs.one)
+			stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		}
+		
+		stepView.appendLine("")
+		pluginBindings.one.outBindings.each{outBinding|
+			stepView.append("    ") 
+			outBinding.pluginEndPoint.appendSourcePort(stepView,void) 
+			stepView.append("->")
+			appendSourcePort(stepView,outBinding.stubExit) 
+			stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		}
+	end
+	
 }

@@ -5,8 +5,6 @@ require kermeta
 
 using kermeta::standard
 
-enumeration StartPointType { global; local; bound; }
-
 class IwModel{
 	attribute concerns : IwConcern[0..*]#model
 }
@@ -63,7 +61,7 @@ class IwOutput inherits IwNode
 
 class IwStartPoint inherits IwNode
 {
-	attribute startPointType:StartPointType
+	attribute startPointType:String
 	reference inBindings:IwInBinding[0..*]#pluginStartPoint
 }
 
