@@ -1,0 +1,27 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwEndPoint
+{
+	method getImageName():String is do
+		result:="E"
+	end
+	
+	method appendBindings(stepView:StepView) is do
+		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
+		outBindings.each{outBinding|
+			if(outBinding.isOutboundStubInSameConcern) then
+				outBinding.appendBinding(stepView)
+			else
+				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
+					outBinding.appendBindingToStubsFromOtherConcernsPlaceholder(stepView)
+					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
+				end
+			end
+		}
+	end
+}

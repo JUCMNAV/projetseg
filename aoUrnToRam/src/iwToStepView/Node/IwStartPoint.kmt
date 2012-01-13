@@ -1,0 +1,34 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStartPoint{
+	method appendVertex(stepView:StepView) is do
+		//do not display StartPoint
+	end
+	
+	method appendEdges(stepView:StepView) is do
+		//do not display StartPoint
+	end
+	
+	method appendFirstVerticesFromNextStep(stepView:StepView) is do
+		//do not display StartPoint
+	end
+	
+	method appendBindings(stepView:StepView) is do
+		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
+		inBindings.each{inBinding|
+			if(inBinding.isInboundStubInSameConcern) then
+				inBinding.appendBinding(stepView)
+			else
+				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
+					inBinding.appendBindingToStubsFromOtherConcernsPlaceholder(stepView)
+					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
+				end
+			end
+		}
+	end
+}

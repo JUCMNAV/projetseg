@@ -1,9 +1,7 @@
 package intermediateWorkflow;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
-require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToStepView/iwStep.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
 using kermeta::standard
 

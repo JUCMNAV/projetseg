@@ -1,0 +1,22 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Args: ${resource_loc} ${project_name}
+require "platform:/resource/aoUrnToRam/src/iwToStepView/IwModel.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/iwStep.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/iwWorkflow.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwCustomizableNode.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwEndPoint.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwInput.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwNode.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwOrFork.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwOutput.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/IwStartPoint.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/Stub/IwInBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/Stub/IwOutBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/Node/Stub/IwStub.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToStepView/StepView.kmt"

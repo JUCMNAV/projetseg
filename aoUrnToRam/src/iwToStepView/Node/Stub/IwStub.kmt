@@ -1,0 +1,81 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+
+aspect class IwStub {
+	method getImageName():String is do
+		result:="S"
+	end
+	
+	method appendVertex(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    ") appendId(stepView) stepView.appendLine("[")
+		stepView.appendLine("        shape=plaintext,")
+		stepView.appendLine("        label=")
+		stepView.appendLine("        <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		stepView.appendLine("                        <td port=\"in1\" height=\"10\"></td>")
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		stepView.append("                        <td>") stepView.append(getImageName) stepView.appendLine("</td>")
+		stepView.append("                        <td>") stepView.append(name) stepView.appendLine("</td>")
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("            <tr><td>")
+		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                    <tr>")
+		succs.size.times{i|
+			stepView.append("                        <td port=\"out") stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
+		}
+		stepView.appendLine("                    </tr>")
+		stepView.appendLine("                </table>")
+		stepView.appendLine("            </td></tr>")
+		stepView.appendLine("        </table>>")
+		stepView.appendLine("    ]")
+		stepView.appendLine("    ")
+	end
+	
+	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendId(stepView) stepView.append(":out1")
+	end
+	
+	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
+		appendId(stepView) stepView.append(":in1")
+	end
+	
+	method appendPluginFromDifferentConcern(stepView:StepView) is do
+		if(workflow.concern!=pluginWorkflow.concern) then
+			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
+			staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
+			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
+			
+			staticPluginBinding.inBindings.each{inBinding|inBinding.appendBinding(stepView)}
+			staticPluginBinding.outBindings.each{outBinding|outBinding.appendBinding(stepView)}
+		end
+	end
+	
+	//stle:dry
+	property readonly staticPluginBinding : IwPluginBinding
+	getter is do
+		//stle:Single again
+		result:=pluginBindings.one
+	end
+	
+	property readonly pluginWorkflow : IwWorkflow
+	getter is do
+		//The existence of a pluginBinding implies the existance of at least one pluginStartPoint
+		result:=staticPluginBinding.inBindings.one.pluginStartPoint.workflow
+	end
+}

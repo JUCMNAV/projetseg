@@ -1,0 +1,17 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwOrFork
+{
+	method appendLineStyle(stepView:StepView) is do
+		appendLineStyleIsFilled(stepView)		
+	end
+
+	method getImageName():String is do
+		result:="Or"
+	end
+}
