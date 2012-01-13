@@ -1,0 +1,32 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
+
+using kermeta::standard
+using ramstructural
+
+aspect class IwModel {
+	reference ramAspects:Aspect[0..*]
+	
+	operation toRam():Aspect[0..*] is do
+		build
+		link
+		result := ramAspects
+	end
+	
+	operation build() is do
+		concerns.each{concern|concern.build}
+	end
+	
+	operation link() is do
+		concerns.each{concern|concern.link}
+		addAspects
+	end
+	
+	operation addAspects() is do
+		concerns.each{concern|
+			concern.steps.select{step|step.ramAspect.structuralView.classes.size>0}
+				 			 .each{step|ramAspects.add(step.ramAspect)}
+		}
+	end
+}

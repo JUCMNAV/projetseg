@@ -2,11 +2,8 @@ package aoUrnToRam;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Transformation.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Transformation.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/IwModel.kmt"
-
-require "platform:/resource/aoUrnToRam/metamodel/testos.ecore"
-using testos
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::persistence
 using kermeta::standard
@@ -15,38 +12,8 @@ using oneurn::urn
 using intermediateWorkflow
 using ramstructural
 
-
-
 class AoUrnToRamTransformation
 {
-	//stle:temp
-	operation howToRemove() is do
-		var repository:ModelRepository init ModelRepository.new
-		
-		var a:A init A.new
-		var b:B init B.new
-		b.a:=a
-		var c:C init C.new
-		c.a:=a
-		c.b:=b
-		
-		kermeta::kunit::Assert.new.assert(b.c==c)
-		kermeta::kunit::Assert.new.assert(c.b==b)
-		
-		var c2:C init C.new
-		c2.a:=a
-		c2.b:=b
-		
-		kermeta::kunit::Assert.new.assert(c.b.isVoid)
-		kermeta::kunit::Assert.new.assert(b.c==c2)
-		kermeta::kunit::Assert.new.assert(c2.b==b)
-
-		
-		
-		
-		repository.save(a,"platform:/resource/aoUrnToRam/test/integration/model/testos.xmi","platform:/resource/aoUrnToRam/metamodel/testos.ecore")
-	end
-
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
 		//stle: temp hardcoded
 		var tempDestinationPath:String init "C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"

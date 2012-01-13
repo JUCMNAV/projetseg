@@ -1,0 +1,27 @@
+package intermediateWorkflow;
+
+
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
+
+using kermeta::standard
+using ramstructural
+
+aspect class IwOutput{
+	property ramCustomizableNode : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(CUSTOMIZABLE_NODE)
+	end
+
+	property ramOutputData : Class
+	getter is do
+		result := ramClasses_PerSourceModelElement.getValue(OUTPUT_DATA)
+	end
+	
+	method build() is do
+		super()
+		addClass(OUTPUT_DATA,self.name+OUTPUT_SUFFIX)
+		addClass(CUSTOMIZABLE_NODE,self.name)
+	end
+}
+
+

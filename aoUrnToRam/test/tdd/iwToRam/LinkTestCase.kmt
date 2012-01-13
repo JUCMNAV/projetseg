@@ -2,8 +2,7 @@ package aoUrnToRam::Test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Build.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Link.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::kunit

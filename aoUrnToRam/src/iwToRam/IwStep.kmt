@@ -1,33 +1,37 @@
 package intermediateWorkflow;
 
-require kermeta
-require "platform:/resource/aoUrnToRam/src/iwToRam/Structural.kmt"
+
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::standard
-using kermeta::utils
 using ramstructural
-
-aspect class IwModel {
-	operation link() is do
-		concerns.each{concern|concern.link}
-		addAspects
-	end
-	
-	operation addAspects() is do
-		concerns.each{concern|
-			concern.steps.select{step|step.ramAspect.structuralView.classes.size>0}
-				 			 .each{step|ramAspects.add(step.ramAspect)}
-		}
-	end
-}
-
-aspect class IwConcern {
-	operation link() is do
-		steps.each{step|step.link}
-	end
-}
+using kermeta::utils
 
 aspect class IwStep {
+	reference ramAspect:Aspect
+	reference ramReactiveWorkflowInstantiation:Instantiation
+	
+	property readonly ramStructuralView : ClassDiagram
+	getter is do
+		result := ramAspect.structuralView
+	end
+	
+	operation buildConcern(concern:IwConcern) is do
+		ramAspect.workspaceDirectory:=concern.name
+	end
+
+	operation build() is do
+		ramAspect:=Aspect.new
+		ramAspect.name:=self.name
+		ramAspect.structuralView:=ClassDiagram.new
+		ramAspect.interface:=AspectInterface.new
+		
+		ramReactiveWorkflowInstantiation:=Instantiation.new
+		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
+		
+		nodes.each{node|node.build()}
+	end
+	
 	operation link() is do
 		addClasses
 		addInstantiations
@@ -82,20 +86,5 @@ aspect class IwStep {
 			ramReactiveWorkflowInstantiation.mappings.add(mapping)
 		end
 		mapping.maps.add(ramClass)
-	end
-}
-
-aspect class IwNode {
-	operation link() is do
-		//stle: empty default for now, abstract later
-	end
-}
-
-aspect class IwOrFork {
-	method link() is do
-		ramConditions.each{ramCondition|
-			step.addRamClass(ramCondition)
-			step.mapRamClass("Condition",ramCondition)
-		}
 	end
 }

@@ -40,8 +40,6 @@ class Main inherits TestCase
 /*		var test:LinkSteps_StubOutBindingTestCase init LinkSteps_StubOutBindingTestCase.new
 		test.setUp
 		test.testLinkStep_StubOutBinding_Unexplored*/
-		
-		AoUrnToRamTransformation.new.howToRemove
     end
 	
 
