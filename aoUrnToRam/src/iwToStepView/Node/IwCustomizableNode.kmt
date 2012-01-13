@@ -1,6 +1,6 @@
 package intermediateWorkflow;
 
-require kermeta
+
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
 using kermeta::standard
