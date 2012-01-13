@@ -79,8 +79,8 @@ class AoUrnToRamTransformation
 		var windowsWorkspacePath:String init stepView.workspacePath.replace("/","\\") 
 
 //stle: remove that and provide a proper api	
-		stdio.writeln("---")
-		stdio.writeln(stepView.dot)
+//		stdio.writeln("---")
+//		stdio.writeln(stepView.dot)
 		 
 	    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+destination+windowsWorkspacePath+".png\"",stepView.dot)
 	end
