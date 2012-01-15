@@ -1,0 +1,24 @@
+@mainClass "aoUrnToRam::Test::LinkStepsTestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkStepsTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubInBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubAnotherConcernTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubOutBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class LinkStepsTestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(LinkStepsTestCase)
+		result.add(LinkSteps_StubInBindingTestCase)
+		result.add(LinkSteps_StubAnotherConcernTestCase)
+		result.add(LinkSteps_StubOutBindingTestCase)
+	end
+}

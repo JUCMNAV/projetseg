@@ -1,0 +1,37 @@
+package aoUrnToRam::Test;
+
+require kermeta
+
+using kermeta::standard
+using kermeta::kunit
+using kermeta::language::structure
+using kermeta::exceptions
+
+abstract class CustomTestRunner inherits TestRunner
+{
+	operation getTestClasses(): OrderedSet<Class> is abstract
+
+    operation runTestClassesWithReport() is do
+    	stdio.writeln("Running Tests...")
+    	runTestClasses
+		printTestResult
+    end
+    
+    operation runTestClasses() is do
+    	var testSuite:TestSuite init TestSuite.new
+    	getTestClasses.each{testClass|
+    		testSuite.addAllTestCasesFrom(testClass)
+    	}
+		runTest(testSuite)
+    end
+    
+    method printTestResult() is do
+    	super
+    	
+		var pass:Boolean init log.failures.size==0 and
+   					  log.errors.size==0
+		stdio.writeln("----")
+		stdio.writeln(if pass then "PASS" else "FAIL" end)
+		stdio.writeln("----")
+    end
+}

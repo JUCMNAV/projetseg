@@ -1,0 +1,24 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using aoUrnToRam
+
+class IntegrationTestCase inherits TestCase
+{
+	operation testIntegration() is do
+		stdio.writeln("Running Integration Tests...")
+		AoUrnToRamTransformation.new.transform(
+//			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithoutAut.jucm",
+//			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutSameConcern.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutDifferentConcern.jucm",
+			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
+			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
+		)
+		stdio.writeln("Integration Tests Completed")
+	end
+	
+}

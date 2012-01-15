@@ -1,0 +1,20 @@
+@mainClass "aoUrnToRam::Test::IwToRamTestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/BuildTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class IwToRamTestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(IwToRamBuildTestCase)
+		result.add(IwToRamLinkTestCase)
+	end
+}
