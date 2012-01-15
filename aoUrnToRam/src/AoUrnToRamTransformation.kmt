@@ -2,6 +2,8 @@ package aoUrnToRam;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
@@ -28,10 +30,9 @@ class AoUrnToRamTransformation
 		urnSpec?=repository.load(source)
 		
 		var iwModel:IwModel init urnSpec.toIw
-/*		
+		
 		iwModel.insertInputProcessingNodes
 		iwModel.linkSteps
-*/		
 		
 		if(optional_intermediate.isVoid==false)then
 			repository.save(iwModel,optional_intermediate,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")

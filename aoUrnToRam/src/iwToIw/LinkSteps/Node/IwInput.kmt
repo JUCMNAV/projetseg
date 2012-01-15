@@ -1,0 +1,19 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwInput {
+	method explore(currentStep:IwStep) is do
+		if(currentStep.isPartiallyInitialized) then
+			currentStep.name:=name
+			currentStep.removeFlagAsPartiallyInitialized
+		else
+			currentStep:=IwStep.new
+			currentStep.name:=name
+			concern.steps.add(currentStep)
+		end
+		super(currentStep)
+	end
+}

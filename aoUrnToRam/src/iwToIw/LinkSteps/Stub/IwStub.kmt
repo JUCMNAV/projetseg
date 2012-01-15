@@ -1,0 +1,31 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStub{
+	method explore(currentStep:IwStep) is do
+		step:=currentStep
+		
+		if(isPluginInSameConcern) then 
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
+		else
+			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.linkStepOfAnotherConcern}
+			super(currentStep)//explore as a normal node
+		end
+	end
+
+	property readonly isPluginInSameConcern : Boolean
+	getter is do
+		//All inBinding must refers to the same plugin
+		result:=workflow.concern==staticPluginBinding.inBindings.one.pluginStartPoint.workflow.concern
+	end
+	
+	property readonly staticPluginBinding : IwPluginBinding
+	getter is do
+		//stle:Single again
+		result:=pluginBindings.one
+	end
+	
+}

@@ -1,0 +1,44 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStep {
+	attribute _isPartiallyInitialized:Boolean
+	
+	operation flagAsPartiallyInitialized() is do
+		_isPartiallyInitialized:=true
+	end
+	
+	operation removeFlagAsPartiallyInitialized() is do
+		_isPartiallyInitialized:=void 
+	end
+	
+	property readonly isPartiallyInitialized : Boolean
+	getter is do
+		result:= _isPartiallyInitialized==true //Note that void!=true
+	end
+
+	operation merge(stepToMerge:IwStep) is do
+		mergeName(stepToMerge)
+		nodes.addAll(stepToMerge.nodes)
+
+		//stle: remove all pointers, requires dry + test		
+		stepToMerge.nodes.clear
+		stepToMerge.concern:=void
+		stepToMerge.outboundStubs.clear
+	end
+	
+	operation mergeName(stepToMerge:IwStep) is do
+		if(name<stepToMerge.name) then
+			name:=combineName(name,stepToMerge.name)
+		else
+			name:=combineName(stepToMerge.name,name)
+		end
+	end
+	
+	operation combineName(name1:String,name2:String):String is do
+		result:=name1+"_"+name2
+	end
+}

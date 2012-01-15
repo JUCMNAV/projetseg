@@ -1,0 +1,26 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStartPoint{
+	operation linkStep() is do
+		if(startPointType!="bound") then
+			var currentStep:IwStep init IwStep.new
+			currentStep.flagAsPartiallyInitialized
+			concern.steps.add(currentStep)
+			step_DeepFirstSearch(currentStep)
+		end
+	end
+	
+	operation linkStepOfAnotherConcern() is do
+		//stle:refact
+		if(isUnexplored) then
+			var currentStep:IwStep init IwStep.new
+			currentStep.name:=name //Here the step as the startPoint name instead of an input name
+			concern.steps.add(currentStep)
+			step_DeepFirstSearch(currentStep)
+		end
+	end
+}

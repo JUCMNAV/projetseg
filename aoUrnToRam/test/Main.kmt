@@ -12,12 +12,10 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
 
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/InsertInputProcessingNodesTestCase.kmt"
 
-/*stle:temp
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkStepsTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubInBindingTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubAnotherConcernTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubOutBindingTestCase.kmt"
-*/
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkStepsTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubInBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubAnotherConcernTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubOutBindingTestCase.kmt"
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
 
@@ -34,8 +32,10 @@ using intermediateWorkflow
 class Main inherits TestCase
 {
     operation main() : Void is do
+    	stdio.writeln("Start")
     	launchTddTests() 
 		launchIntegrationTests()
+		stdio.writeln("End")
 	end
 	
 	operation specificTest_NoKUnitToAllowDebugging() : Void is do
@@ -54,12 +54,11 @@ class Main inherits TestCase
 		testClasses.add(AoUrnToIwLinkTestCase)
 		
 		testClasses.add(InsertInputProcessingNodesTestCase)
-/*		
+
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
 		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
 		testClasses.add(LinkSteps_StubOutBindingTestCase)
-*/		
 
 		result := testClasses
 	end

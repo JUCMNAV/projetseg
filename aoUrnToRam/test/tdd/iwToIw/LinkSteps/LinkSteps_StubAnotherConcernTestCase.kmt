@@ -1,0 +1,123 @@
+package aoUrnToRam::Test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class LinkSteps_StubAnotherConcernTestCase inherits TestCase
+{
+	reference factory:IwTestFactory
+	reference concern:IwConcern
+	reference anotherConcern:IwConcern
+
+	reference plugin:IwWorkflow
+	reference pluginStartPoint:IwCustomizableNode
+
+	reference workflow:IwWorkflow
+	reference nodeBeforeStub:IwCustomizableNode
+	reference stub:IwStub
+	reference pluginBinding:IwPluginBinding
+	reference nodeAfterStub:IwCustomizableNode
+	
+	reference currentStep:IwStep
+	
+/*stle:test later	
+	method setUp() is do
+		//concern
+		factory:=IwTestFactory.new
+		concern:= factory.createIwConcern
+		anotherConcern:= factory.createIwConcern
+
+		//plugin
+		plugin:=factory.createIwWorkflow
+		anotherConcern.workflows.add(plugin)
+		pluginStartPoint:=factory.createIwCustomizableNode
+		plugin.nodes.add(pluginStartPoint)
+    	
+    	//workflow
+    	workflow:=factory.createIwWorkflow
+    	concern.workflows.add(workflow)
+		nodeBeforeStub:=factory.createIwCustomizableNode
+		workflow.nodes.add(nodeBeforeStub)
+		stub:=factory.createIwStub
+		workflow.nodes.add(stub)
+		var stubEntry:IwNodeConnection init factory.createIwNodeConnection(nodeBeforeStub,stub)
+		pluginBinding:=factory.createIwPluginBinding
+		pluginBinding.stub:=stub
+		pluginBinding.inBindings.add(factory.createIwInBinding(stubEntry,pluginStartPoint))
+		nodeAfterStub:=factory.createIwCustomizableNode
+		workflow.nodes.add(nodeAfterStub)
+		stubEntry:=factory.createIwNodeConnection(stub,nodeAfterStub)
+
+		//current step
+		currentStep:=factory.createIwStep
+		concern.steps.add(currentStep)
+	end
+
+	operation testLinkStep_StubAnotherConcern_Unexplored() is do
+		stub.step:=void
+		
+		nodeBeforeStub.step_DeepFirstSearch(currentStep)
+
+		assertObjectEqual(1,concern.steps.size)//No step added
+		assertObjectEqual("theStep",currentStep.name)//No step merged
+		assert(stub.step==currentStep)
+		assert(pluginStartPoint.step==void)	   //Binding ignored		
+		assert(nodeAfterStub.step==currentStep)//Explore as a normal node
+	end
+	
+	operation testLinkStep_StubAnotherConcern_AlreadyExplored_SameStep() is do
+		stub.step:=currentStep
+		
+		nodeBeforeStub.step_DeepFirstSearch(currentStep)
+
+		assertObjectEqual(1,concern.steps.size)//No step added
+		assertObjectEqual("theStep",currentStep.name)//No step merged
+		assert(stub.step==currentStep)
+		assert(pluginStartPoint.step==void)	  //Binding ignored		
+		assert(nodeAfterStub.step==void)	  //Explore as a normal node (Do not continue if already explored)
+	end
+	
+	operation testLinkStep_StubAnotherConcern_AlreadyExplored_MergeStep() is do
+		var toMerge:IwStep init factory.createIwStep
+		concern.steps.add(toMerge)
+		stub.step:=toMerge
+		
+		nodeBeforeStub.step_DeepFirstSearch(currentStep)
+
+		assertObjectEqual(1,concern.steps.size)//Two steps merged to one
+		assert(stub.step==currentStep)
+		assert(pluginStartPoint.step==void)	  //Binding ignored		
+		assert(nodeAfterStub.step==void)	  //Explore as a normal node (Do not continue if already explored)
+	end
+	
+	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
+		assertObjectEqual(1,collection.size)
+		assert(collection.one==singleElement)
+	end
+
+*/	
+	//stle: dry
+	//stle: more verbrose on assertion
+	operation assertIsNonVoidInstanceOf(expected:kermeta::language::structure::Class, actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"IsVoid-> expected:false actual:true")
+		assertWithMsg(actual.isInstanceOf(expected),"IsInstanceOf-> expected:\""+expected.toString()+"\"actual:\""+actual.getMetaClass().toString()+"\"")
+	end
+
+	
+	operation assertStringEqual(expected:String, actual:String) is do
+		assertWithMsg(expected==actual,"StringEqual-> expected:\""+expected+"\"actual:\""+actual+"\"")
+	end
+	
+	operation assertObjectEqual(expected:Object, actual:Object) is do
+	//stle: check for void and type
+		assertWithMsg(expected==actual,"ObjectEqual-> expected:\""+expected.toString+"\" actual:\""+actual.toString+"\"")
+	end
+}
