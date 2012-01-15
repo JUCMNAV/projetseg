@@ -1,0 +1,33 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class StartPoint {
+	reference iwStartPoint:IwStartPoint
+
+	method build() is do
+		super
+		iwStartPoint:=IwStartPoint.new
+		iwStartPoint.name:=nameOrPrefixId("StartPoint")
+		
+		if(inBindings.size>0) then
+			iwStartPoint.startPointType:="bound"
+		else
+			if(local==true) then
+				iwStartPoint.startPointType:="local"
+			else
+				iwStartPoint.startPointType:="global"
+			end
+		end
+	end
+	
+	method iwEquivalentNode():IwNode is do
+		result:=iwStartPoint
+	end
+	
+	method IsOutputInputBefore():Boolean is do
+		result:=false
+	end
+}

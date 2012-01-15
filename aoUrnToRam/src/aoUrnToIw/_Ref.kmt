@@ -1,0 +1,25 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/oneurn.ecore"
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Args: ${resource_loc} ${project_name}
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Concern.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/EndPoint.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/InOutExpression.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/OrFork.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/PathNode.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/RespRef.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/StartPoint.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/NodeConnection.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/InBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/OutBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/PluginBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/Stub.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/UCMmap.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/URNmodelElement.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/URNspec.kmt"

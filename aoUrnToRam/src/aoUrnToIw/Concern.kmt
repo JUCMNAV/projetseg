@@ -1,0 +1,22 @@
+package oneurn::urncore;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class Concern{
+	reference _iwConcern:IwConcern
+	
+	property readonly iwConcern:IwConcern
+	getter is do
+		buildIwConcernOnDemand
+		result:=_iwConcern
+	end
+	
+	operation buildIwConcernOnDemand() is do
+		if(_iwConcern.isVoid) then
+			_iwConcern:=IwConcern.new
+			_iwConcern.name:=nameOrPrefixId("Concern")
+		end
+	end
+}

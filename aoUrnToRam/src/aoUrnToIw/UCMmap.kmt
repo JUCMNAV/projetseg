@@ -1,0 +1,59 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+using oneurn::urn
+
+aspect class UCMmap{
+	reference iwWorkflow: IwWorkflow
+
+	operation build() is do
+		pathNodes.each{pathNode|pathNode.build}
+		pathNodes.each{pathNode|pathNode.buildNodeConnections}
+
+		iwWorkflow:=IwWorkflow.new
+		iwWorkflow.name:=nameOrPrefixId("Workflow")
+	end
+	
+	operation link(urnSpec:URNspec) is do
+		urnSpec.addIwWorflowRefact(concern,iwWorkflow)
+		linkChildren
+	end
+	
+	operation linkChildren() is do
+		pathNodes.each{pathNode|pathNode.link}
+		
+		addNodes
+		addStartPoints
+	end
+
+	operation addNodes() is do
+		pathNodes.each{pathNode|
+			iwWorkflow.nodes.addAll(pathNode.iwNodes_ReadOnly)
+		}
+	end
+	
+	operation addStartPoints() is do
+		iwWorkflow.startPoints.addAll(
+			startPoints.collect{startPoint|startPoint.iwStartPoint}
+		)	
+	end
+	
+	
+	property readonly pathNodes : seq PathNode[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(PathNode)}
+			 .collect{node|node.asType(PathNode)}
+	end
+
+	property readonly startPoints : seq StartPoint[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(StartPoint)}
+			 .collect{node|node.asType(StartPoint)}
+	end
+}

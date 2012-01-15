@@ -1,0 +1,45 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using oneurn::urncore
+using intermediateWorkflow
+
+aspect class RespRef {
+	reference iwCustomizableNode:IwCustomizableNode
+
+	method build() is do
+		super
+		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
+			if(isSystemComponentRef) then
+				iwCustomizableNode:=IwCustomizableNode.new
+				if(respDef.name.isVoid or respDef.name=="") then
+					iwCustomizableNode.name:=nameOrPrefixId("CustomizableNode")
+				else
+					iwCustomizableNode.name:=respDef.name
+				end 
+				
+			end
+		end 
+	end
+	
+	method iwEquivalentNode():IwNode is do
+		result:=iwCustomizableNode
+	end
+
+	property readonly isSystemComponentRef : Boolean 
+	getter is do
+		result:=true
+		var component:Component
+		if(contRef.isVoid==false) then
+			component?=contRef.contDef
+			if(component.isVoid==false) then
+				result:=(component.kind==ComponentKind.Actor)==false
+			end
+		end			
+	end	
+
+	method getRamMetadata():Metadata is do
+		result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+	end
+}

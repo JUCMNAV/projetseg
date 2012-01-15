@@ -1,0 +1,125 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using oneurn::urncore
+using intermediateWorkflow
+
+aspect class PathNode {
+	reference iwOutput: IwOutput
+	reference iwInput: 	IwInput
+	reference _iwNodes: oset IwNode[0..3] attribute _isIwNodesCached:Boolean
+	
+	operation build() is do
+		buildIwOutputNode
+		buildIwInputNode
+		uncacheIwNodes
+	end
+
+	operation buildIwOutputNode() is do
+		if(inOutExpression.hasOut) then
+			iwOutput:=IwOutput.new
+			iwOutput.name:=inOutExpression.out
+		end
+	end
+	
+	operation buildIwInputNode() is do
+		if(inOutExpression.hasIn) then
+			iwInput:=IwInput.new
+			iwInput.name:=inOutExpression.in
+		end
+	end
+
+	//stle:test later
+	operation buildNodeConnections() is do
+		//stle: ordering in build is undesirable
+		if(iwNodes_ReadOnly.isEmpty==false) then
+			succ.each{nodeConnection|nodeConnection.asType(NodeConnection).build}
+		end
+	end
+	
+	operation link() is do
+		linkSuccs
+		linkInternal
+	end
+
+	operation linkInternal() is do
+		var numOfInternalLinks:Integer init iwNodes_ReadOnly.size-1 //-1 because last internal node has no outcoming internal link
+		numOfInternalLinks.times{i|
+			var connection:IwNodeConnection init IwNodeConnection.new
+			connection.source:=iwNodes_ReadOnly.at(i)
+			connection.target:=iwNodes_ReadOnly.at(i+1)
+		}
+	end
+	
+	operation linkSuccs() is do
+		if(iwNodes_ReadOnly.isEmpty==false) then
+			succ.each{nodeConnection|nodeConnection.asType(NodeConnection).link}
+		end
+	end
+	
+		
+	property readonly iwNodes_ReadOnly: IwNode[0..3]
+	getter is do
+		if(_isIwNodesCached!=true) then
+			initIwNodes
+			_isIwNodesCached:=true
+		end
+		result:=_iwNodes.asOrderedSet //return a copy(enforce read-only)
+	end
+	
+	operation uncacheIwNodes() is do 
+		_isIwNodesCached:=false 
+	end
+
+	operation initIwNodes() is do
+		if(IsOutputInputBefore) then
+			CollectionExt_AddOptional(_iwNodes,iwOutput)
+			CollectionExt_AddOptional(_iwNodes,iwInput)
+			CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
+		else
+			CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
+			CollectionExt_AddOptional(_iwNodes,iwOutput)
+			CollectionExt_AddOptional(_iwNodes,iwInput)
+		end
+	end
+	
+	property readonly iwEntryNode: IwNode
+	getter is do
+		result:=iwNodes_ReadOnly.first
+	end
+	
+	property readonly iwExitNode: IwNode
+	getter is do
+		result:=iwNodes_ReadOnly.last
+	end
+	
+	//virtual
+	operation IsOutputInputBefore():Boolean is do
+		result:=true
+	end
+	
+	//virtual
+	operation iwEquivalentNode():IwNode is do
+		result:=void
+	end
+	
+	property readonly inOutExpression : InOutExpression
+	getter is do
+		var ramMetadata:Metadata init getRamMetadata()
+		var inOutExpression:InOutExpression init InOutExpression.new
+		inOutExpression.construct(if ramMetadata.isVoid then "" else ramMetadata.~value end)
+		result:=inOutExpression
+	end
+	
+	operation getRamMetadata():Metadata is do
+		result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+	end
+	
+	//stle: reuse static
+	operation CollectionExt_AddOptional<T>(collection:Collection<T>, element:T) is do
+		if(element.isVoid==false) then
+			collection.add(element)
+		end
+	end
+}

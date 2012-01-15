@@ -1,0 +1,31 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class OutBinding {
+	reference iwOutBinding:IwOutBinding
+
+	operation build() is do
+		iwOutBinding:=IwOutBinding.new
+	end
+	
+	operation link() is do
+		linkEndPoint
+		linkStubExit
+		linkPluginBinding
+	end
+	
+	operation linkPluginBinding() is do
+		binding.addIwOutBinding(iwOutBinding)	
+	end
+	
+	operation linkEndPoint() is do
+		iwOutBinding.pluginEndPoint:=endPoint.iwEndPoint
+	end
+	
+	operation linkStubExit() is do
+		iwOutBinding.stubExit:=stubExit.iwNodeConnection	
+	end
+}

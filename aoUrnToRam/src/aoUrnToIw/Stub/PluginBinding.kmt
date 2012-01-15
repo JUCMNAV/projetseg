@@ -1,0 +1,35 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class PluginBinding {
+	reference iwPluginBinding:IwPluginBinding
+	
+	operation build() is do
+		iwPluginBinding:=IwPluginBinding.new
+		in.each{inBinding|inBinding.build}
+		out.each{outBinding|outBinding.build}
+	end
+	
+	operation link() is do
+		in.each{inBinding|inBinding.link}
+		out.each{outBinding|outBinding.link}
+		
+		linkStub
+	end
+
+	operation linkStub() is do
+		stub.addIwPluginBinding(iwPluginBinding)
+	end
+	
+	operation addIwInBinding(iwInBinding:IwInBinding) is do
+		iwPluginBinding.inBindings.add(iwInBinding)
+	end
+
+	operation addIwOutBinding(iwOutBinding:IwOutBinding) is do
+		iwPluginBinding.outBindings.add(iwOutBinding)
+	end
+
+}

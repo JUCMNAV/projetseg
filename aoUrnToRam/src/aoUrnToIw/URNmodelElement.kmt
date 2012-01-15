@@ -1,0 +1,15 @@
+package oneurn::urncore;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class URNmodelElement{
+	operation nameOrPrefixId(prefix:String):String is do
+		if(name.isVoid or name=="") then 
+			result:=prefix+"_"+id
+		else
+			result:=name
+		end
+	end
+}

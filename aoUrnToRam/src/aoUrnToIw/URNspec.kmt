@@ -1,0 +1,71 @@
+package oneurn::urn;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+aspect class URNspec{
+	reference iwModel: IwModel
+	reference _iwWithoutConcern:IwConcern
+	
+	operation toIw():IwModel is do
+		build
+		link
+		result := iwModel
+	end
+
+	operation build() is do
+		ucmMaps.each{ucmMap|ucmMap.build}
+		iwModel:=IwModel.new
+	end
+	
+	property readonly iwWithoutConcern:IwConcern
+	getter is do
+		buildIwWithoutConcernOnDemand			
+		result:=_iwWithoutConcern
+	end
+	
+	operation buildIwWithoutConcernOnDemand() is do
+		if(_iwWithoutConcern.isVoid) then
+			_iwWithoutConcern:=IwConcern.new
+			_iwWithoutConcern.name:="WithoutConcern"
+		end
+	end
+	
+	operation link() is do
+		ucmMaps.each{ucmMap|ucmMap.link(self)}
+	end
+	
+	operation getIwConcern(concern:Concern):IwConcern is do
+		if(concern.isVoid) then
+			result:=iwWithoutConcern
+		else
+			result:=concern.iwConcern
+		end
+	end
+	
+	operation addIwWorflowRefact(concern:Concern,iwWorkflow:IwWorkflow) is do
+		var iwConcern:IwConcern init getIwConcern(concern)
+
+		if(iwModel.concerns.contains(iwConcern)==false)then
+			iwModel.concerns.add(iwConcern)
+		end
+		iwConcern.workflows.add(iwWorkflow)
+	end
+	
+	property readonly ucmMaps : seq UCMmap[0..*]
+	getter is do
+		//stle: DRY
+		result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
+						            .collect{specDiagram|specDiagram.asType(UCMmap)}
+	end
+	
+	property readonly concerns : oset Concern[0..*]
+	getter is do
+		result:= urndef.concerns
+	end
+	
+}
+

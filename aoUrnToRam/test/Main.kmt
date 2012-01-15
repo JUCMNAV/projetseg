@@ -9,15 +9,15 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
+/*stle:temp
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/HandleInputProcessingNodesTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkStepsTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubInBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubAnotherConcernTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubOutBindingTestCase.kmt"
+*/
 
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
-
-require "platform:/resource/aoUrnToRam/metamodel/oneurn.ecore"
 
 using kermeta::standard
 using kermeta::kunit
@@ -50,11 +50,13 @@ class Main inherits TestCase
 		testClasses.add(InOutExpressionTestCase)
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
+/*		
 		testClasses.add(HandleInputProcessingNodesTestCase)
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
 		testClasses.add(LinkSteps_StubAnotherConcernTestCase)
 		testClasses.add(LinkSteps_StubOutBindingTestCase)
+*/		
 
 		result := testClasses
 	end

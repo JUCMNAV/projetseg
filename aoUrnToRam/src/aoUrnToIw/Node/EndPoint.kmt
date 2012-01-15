@@ -1,0 +1,21 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class EndPoint {
+	reference iwEndPoint:IwEndPoint
+	
+	method build() is do
+		super
+		iwEndPoint:=IwEndPoint.new
+		iwEndPoint.name:=nameOrPrefixId("EndPoint")
+	end
+	
+	method iwEquivalentNode():IwNode is do
+		result:=iwEndPoint
+	end
+	
+	
+}
