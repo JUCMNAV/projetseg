@@ -9,8 +9,10 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/BuildTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkTestCase.kmt"
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/InsertInputProcessingNodesTestCase.kmt"
+
 /*stle:temp
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/HandleInputProcessingNodesTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkStepsTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubInBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/LinkSteps_StubAnotherConcernTestCase.kmt"
@@ -50,8 +52,9 @@ class Main inherits TestCase
 		testClasses.add(InOutExpressionTestCase)
 		testClasses.add(AoUrnToIwBuildTestCase)
 		testClasses.add(AoUrnToIwLinkTestCase)
+		
+		testClasses.add(InsertInputProcessingNodesTestCase)
 /*		
-		testClasses.add(HandleInputProcessingNodesTestCase)
 		testClasses.add(LinkStepsTestCase)
 		testClasses.add(LinkSteps_StubInBindingTestCase)
 		testClasses.add(LinkSteps_StubAnotherConcernTestCase)

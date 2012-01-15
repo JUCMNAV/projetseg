@@ -3,7 +3,7 @@ package aoUrnToRam::Test;
 require kermeta
 //stle: factory is common to IwToIw and IwToRam
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
-require "platform:/resource/aoUrnToRam/src/aoUrnToIw/HandleInputProcessingNodes.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -11,7 +11,7 @@ using intermediateWorkflow
 
 using kermeta::language::structure
 
-class HandleInputProcessingNodesTestCase inherits TestCase
+class InsertInputProcessingNodesTestCase inherits TestCase
 {
 	attribute factory:IwTestFactory
 
@@ -20,27 +20,27 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	end
 
 	@feature "FeaHandleTwoInputsInARow"
-	operation testhandleInputProcessingNodes_Input_EndPoint() is do
-		parametrizableTesthandleInputProcessingNodes(factory.createIwEndPoint)
+	operation testinsertInputProcessingNodes_Input_EndPoint() is do
+		parametrizableTestinsertInputProcessingNodes(factory.createIwEndPoint)
 	end
 
 	@feature "FeaHandleTwoInputsInARow"
-	operation testhandleInputProcessingNodes_Input_Input() is do
-		parametrizableTesthandleInputProcessingNodes(factory.createIwInput)
+	operation testinsertInputProcessingNodes_Input_Input() is do
+		parametrizableTestinsertInputProcessingNodes(factory.createIwInput)
 	end
 	
 	@feature "FeaHandleInputBeforeDecisionPoint"
-	operation testhandleInputProcessingNodes_Input_OrFork() is do
-		parametrizableTesthandleInputProcessingNodes(factory.createIwOrFork)
+	operation testinsertInputProcessingNodes_Input_OrFork() is do
+		parametrizableTestinsertInputProcessingNodes(factory.createIwOrFork)
 	end
 	
-	operation parametrizableTesthandleInputProcessingNodes(nonProcessingNode:IwNode) is do
+	operation parametrizableTestinsertInputProcessingNodes(nonProcessingNode:IwNode) is do
 		var workflow:IwWorkflow init factory.createIwWorkflow
 		var input:IwInput init factory.createIwInput
 		input.workflow:=workflow
 		factory.createIwNodeConnection(input,nonProcessingNode)
 
-		input.handleInputProcessingNodes		
+		input.insertInputProcessingNodes		
 	
 		var inputProcessing:IwCustomizableNode init input.succs.one.target.asType(IwCustomizableNode)
 		//stle: dry between iut and test
@@ -51,12 +51,12 @@ class HandleInputProcessingNodesTestCase inherits TestCase
 	end 
 	
 	@feature "FeaHandleTwoInputsInARow"
-	operation testhandleInputProcessingNodes_Input_Processing() is do
+	operation testinsertInputProcessingNodes_Input_Processing() is do
 		var input:IwInput init factory.createIwInput
 		var processingNode:IwCustomizableNode init factory.createIwCustomizableNode
 		factory.createIwNodeConnection(input,processingNode)
 
-		input.handleInputProcessingNodes		
+		input.insertInputProcessingNodes		
 	
 		assert(input.iwInputProcessingNode.isVoid)
 		assertSingleNodeConnection(input,processingNode)

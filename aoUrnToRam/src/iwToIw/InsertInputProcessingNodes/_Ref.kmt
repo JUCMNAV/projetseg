@@ -1,0 +1,12 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Args: ${resource_loc} ${project_name}
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/IwInput.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/IwModel.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/IwNode.kmt"

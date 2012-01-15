@@ -1,32 +1,13 @@
 package intermediateWorkflow;
 
-require kermeta
-require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
 
 using kermeta::standard
-using kermeta::utils
-
-aspect class IwModel {
-	operation handleInputProcessingNodes() is do
-		concerns.each{concern|
-			concern.workflows.each{workflow|
-				workflow.nodes.each{node|node.handleInputProcessingNodes}
-			}
-		}
-	end
-}
-
-aspect class IwNode {
-	//virtual
-	operation handleInputProcessingNodes() is do
-		//default: do nothing
-	end
-}
 
 aspect class IwInput {
 	reference iwInputProcessingNode:IwCustomizableNode
 
-	method handleInputProcessingNodes() is do
+	method insertInputProcessingNodes() is do
 		var target:IwNode init succs.one.target
 		if(target.isInstanceOf(IwEndPoint) or 
 		   target.isInstanceOf(IwInput) or

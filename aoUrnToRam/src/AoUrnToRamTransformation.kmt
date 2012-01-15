@@ -29,7 +29,7 @@ class AoUrnToRamTransformation
 		
 		var iwModel:IwModel init urnSpec.toIw
 /*		
-		iwModel.handleInputProcessingNodes
+		iwModel.insertInputProcessingNodes
 		iwModel.linkSteps
 */		
 		
