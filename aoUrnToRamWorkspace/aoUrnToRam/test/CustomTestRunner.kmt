@@ -30,8 +30,12 @@ abstract class CustomTestRunner inherits TestRunner
     	
 		var pass:Boolean init log.failures.size==0 and
    					  log.errors.size==0
+		writePassFail(pass)
+    end
+    
+	operation writePassFail(pass:Boolean) is do
 		stdio.writeln("----")
 		stdio.writeln(if pass then "PASS" else "FAIL" end)
 		stdio.writeln("----")
-    end
+	end
 }

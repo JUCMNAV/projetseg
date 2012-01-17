@@ -1,0 +1,30 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using kermeta::exceptions
+
+abstract class SnippetRunner inherits CustomTestRunner
+{
+	operation snippet() : Void is abstract
+    	
+	operation runSnippet_OutsideKUnitToAllowDebugging() : Void is do
+		var pass:Boolean init false
+		do
+			stdio.writeln("Running Snippet...")
+			snippet
+			pass:=true
+			rescue (failure : AssertionFailedError)
+				stdio.writeln("Failure")
+				stdio.writeln(failure.message)
+			rescue (error : Exception)
+				stdio.writeln("Error")
+				stdio.writeln(error.toString)
+				stdio.writeln(error.message)
+		end
+		writePassFail(pass)
+    end
+}
