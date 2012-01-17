@@ -18,7 +18,7 @@ class AoUrnToRamTransformation
 {
 	operation transform(source:String,destination:String, optional_intermediate:String) is do
 		//stle: temp hardcoded
-		var tempDestinationPath:String init "C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"
+		var tempDestinationPath:String init "C:\\Users\\S\\Files\\H2012\\Project\\workspace\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"
 		
 		registerMetamodels
 		
