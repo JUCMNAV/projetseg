@@ -325,7 +325,7 @@ class AoUrnToIwLinkTestCase inherits TestCase,CustomAssert
 		assert(stubExit.iwNodeConnection==actual.iwOutBinding.stubExit)
 	end
 	
-	operation testStubLink_stubEntryIndexex() is do
+	operation testStubLink_stubEntryIndexes() is do
 		var sut:Stub init factory.createStub
 		var inPath1:NodeConnection init factory.createNodeConnection
 		inPath1.target:=sut
@@ -340,6 +340,26 @@ class AoUrnToIwLinkTestCase inherits TestCase,CustomAssert
 		assertEquals(1,inPath1.iwNodeConnection.stubEntryIndex)
 		assertEquals(2,inPath2.iwNodeConnection.stubEntryIndex)
 	end
+	
+	operation testStubLink_stubEntryIndexTransitive() is do
+		var sut:Stub init factory.createStub
+		var inPath1:NodeConnection init factory.createNodeConnection
+		var predConnection:NodeConnection init factory.createNodeConnection
+		var actorResp:RespRef init factory.createRespRefGeneric(void,void,true)
+		inPath1.target:=sut
+		predConnection.target:=actorResp 
+		var inPath2:NodeConnection init factory.connectNodes(actorResp,sut)
+		sut.build
+		inPath1.build
+		predConnection.build
+		actorResp.build
+		//do not build inPath2 because inPath2.source has no iwNodes
+		
+		sut.link
+		
+		assertEquals(2,predConnection.iwNodeConnection.stubEntryIndex)
+	end
+	
 	
 	operation testStubLink_stubExitIndexes() is do
 		var sut:Stub init factory.createStub

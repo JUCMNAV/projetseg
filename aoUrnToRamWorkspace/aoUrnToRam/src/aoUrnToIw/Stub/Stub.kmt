@@ -34,7 +34,7 @@ aspect class Stub {
 	operation initStubEntryIndexes() is do
 		var nextIndex:Integer init 1
 		predAsNodeConnection.each{nodeConnection|
-			nodeConnection.iwNodeConnection.stubEntryIndex:=nextIndex
+			nodeConnection.iwSinglePredNodeConnection.stubEntryIndex:=nextIndex
 			nextIndex:=nextIndex+1
 		}
 	end
