@@ -5,6 +5,7 @@ require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::utils
+using aoUrnToRam::util
 
 aspect class IwStep {
 	reference _nodesPerWorkflow:Hashtable<IwWorkflow,OrderedSet<IwNode>>

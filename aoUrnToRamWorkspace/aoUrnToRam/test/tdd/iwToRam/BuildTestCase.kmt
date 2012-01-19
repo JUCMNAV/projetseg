@@ -8,7 +8,7 @@ using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
 using ramstructural
-
+using aoUrnToRam::util
 
 class IwToRamBuildTestCase inherits TestCase
 {

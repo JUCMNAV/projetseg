@@ -2,23 +2,54 @@ package aoUrnToRam::Test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using kermeta::kunit
 using aoUrnToRam
+using aoUrnToRam::util
 
 class IntegrationTestCase inherits TestCase
 {
-	operation testIntegration() is do
-		stdio.writeln("Running Integration Tests...")
-		AoUrnToRamTransformation.new.transform(
-//			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithoutAut.jucm",
-//			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutSameConcern.jucm",
-			"platform:/resource/aoUrnToRam/test/integration/model/DemoSp5_WithAutDifferentConcern.jucm",
-			"platform:/resource/aoUrnToRam/test/integration/model/RamWorkspace",
-			"platform:/resource/aoUrnToRam/test/integration/model/SimpleWorkflow_Actual.xmi"
-		)
-		stdio.writeln("Integration Tests Completed")
+	attribute sut:AoUrnToRamTransformation
+	attribute projectFolderUri:String
+	
+	method setUp() is do
+		//stle: would be nice if computed instead of hardcoded
+		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/workspace"
+		sut:=AoUrnToRamTransformation.new.initialize(Path.new.combine(projectFolderUri,"thridParty/Graphviz2.26.3/bin/dot.exe"))
+		sut.isIwFileOutputEnabled:=true
+		sut.isRamStepViewAsDotOutputEnabled:=true
+	end
+
+	operation testSimple() is do
+		parameterizableIntegrationTest("Simple.jucm")
+	end
+
+	operation testDemoSp5_WithAutSameConcern() is do
+		parameterizableIntegrationTest("DemoSp5_WithAutSameConcern.jucm")
+	end
+
+	operation testDemoSp5_WithAutDifferentConcern() is do
+		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
+	end
+
+	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
+		var sourceAbsoluteFileUri:String
+		sourceAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"jucm")
+		sourceAbsoluteFileUri:=Path.new.combine(sourceAbsoluteFileUri,jucmSourceFileName)
+		
+		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-4) 
+		var destinationAbsoluteFileUri:String
+		destinationAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"actual")
+		destinationAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFileUri,destinationDirName)
+		
+		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri)
+	end
+	
+	property readonly integrationFolderUri:String
+	getter is do
+		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/test/integration")
 	end
 	
 }

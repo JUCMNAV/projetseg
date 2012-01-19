@@ -6,6 +6,7 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Re
 require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/ModelRepository.kmt"
 
 using kermeta::persistence
 using kermeta::standard
@@ -13,50 +14,87 @@ using kermeta::io
 using oneurn::urn
 using intermediateWorkflow
 using ramstructural
+using aoUrnToRam::util
 
 class AoUrnToRamTransformation
 {
-	operation transform(source:String,destination:String, optional_intermediate:String) is do
-		//stle: temp hardcoded
-		var tempDestinationPath:String init "C:\\Users\\S\\Files\\H2012\\Project\\workspace\\aoUrnToRam\\test\\integration\\model\\RamWorkspace\\"
+	//stle: many if create complex logic: ex: bug because iw was saved after to step!!!
+	attribute repository:ModelRepository
+	attribute dotAbsoluteFileUri:String
+	attribute iwFileName:String
+	attribute isIwFileOutputEnabled:Boolean
+	attribute isRamStepViewAsDotOutputEnabled:Boolean
+	
+	operation initialize(dotAbsoluteFileUri:String):AoUrnToRamTransformation is do
+		self.dotAbsoluteFileUri:=dotAbsoluteFileUri
 		
-		registerMetamodels
-		
-		extern aoUrnToRam::javaExternalCall::File.removeDirectory(tempDestinationPath)
-		
-		var repository:ModelRepository init ModelRepository.new
-			
-		var urnSpec:URNspec 
-		urnSpec?=repository.load(source)
-		
-		var iwModel:IwModel init urnSpec.toIw
-		
-		iwModel.insertInputProcessingNodes
-		iwModel.linkSteps
-		
-		if(optional_intermediate.isVoid==false)then
-			repository.save(iwModel,optional_intermediate,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
-		end
-		
-		iwModel.toRam.each{ramAspect|
-			repository.save(ramAspect,Path.new.combine(destination,ramAspect.workspacePath)+".xmi","platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
-		}
-		
-		iwModel.toStepView.each{stepView|StepViewToPng(stepView,tempDestinationPath)}
+		repository:= ModelRepository.new
+		iwFileName:="Iw.xmi"
+		isIwFileOutputEnabled:=false
+		isRamStepViewAsDotOutputEnabled:=false
+		result:=self 
 	end
 
-	operation StepViewToPng(stepView:StepView,destination:String) is do
-		//stle: temp: hardcode paths
-		var dotFilePath:String init "\"C:\\Users\\S\\Files\\A2011\\Project\\Source\\aoUrnToRam\\thridParty\\Graphviz2.26.3\\bin\\dot.exe\""
-		var windowsWorkspacePath:String init stepView.workspacePath.replace("/","\\") 
-
-//stle: remove that and provide a proper api	
-//		stdio.writeln("---")
-//		stdio.writeln(stepView.dot)
-		 
-	    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+destination+windowsWorkspacePath+".png\"",stepView.dot)
+	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFileUri:String) is do
+		//stle: useful for development but remove on release code
+		registerMetamodels
+		//stle: until destination merge is implemented
+		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFileUri)
+		
+		var urnSpec:URNspec urnSpec?=repository.load(sourceAbsoluteFileUri)
+		var iwModel:IwModel init aoUnrToIw(urnSpec)
+		
+		outputIwFile(iwModel,destinationAbsoluteFileUri)
+		outputRamStepClassDiagram(iwModel,destinationAbsoluteFileUri)
+		var stepViews:OrderedSet<StepView> init iwModel.toStepView
+		outputRamStepViewAsDot(stepViews,destinationAbsoluteFileUri)
+		outputRamStepViewAsImg(stepViews,destinationAbsoluteFileUri)
 	end
 	
+	operation outputIwFile(iwModel:IwModel,destinationAbsoluteFileUri:String) is do
+		if(isIwFileOutputEnabled) then
+			repository.save(iwModel,destinationAbsoluteFileUri+"\\"+iwFileName,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
+		end
+	end
+	
+	operation outputRamStepClassDiagram(iwModel:IwModel,destinationAbsoluteFileUri:String) is do
+		iwModel.toRam.each{ramStepClassDiagram|
+			var ramStepClassDiagramAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,ramStepClassDiagram.workspacePath)+".xmi"
+			repository.save(ramStepClassDiagram,ramStepClassDiagramAbsoluteFileUri,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+		}
+	end
+
+	operation outputRamStepViewAsDot(stepViews:OrderedSet<StepView>,destinationAbsoluteFileUri:String) is do
+		if(isRamStepViewAsDotOutputEnabled) then
+			stepViews.each{stepView|
+				var stepViewAsDotAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,stepView.workspacePath)+".dot" 
+				var fileIo:FileIO init FileIO.new
+				fileIo.writeTextFile(stepViewAsDotAbsoluteFileUri,stepView.dot)
+			} 
+	    end
+	end
+
+	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>,destinationAbsoluteFileUri:String) is do
+		stepViews.each{stepView|
+			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,stepView.workspacePath)+".png"
+			var stepViewAsImgFilePath:String init absoluteFileUriToWindowsPath(stepViewAsImgAbsoluteFileUri)
+			var dotFilePath:String init absoluteFileUriToWindowsPath(dotAbsoluteFileUri)
+			
+		    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+stepViewAsImgFilePath+"\"",stepView.dot)
+	    }
+	end
+	
+	operation aoUnrToIw(urnSpec:URNspec):IwModel is do
+		result:=urnSpec.toIw
+		result.insertInputProcessingNodes
+		result.linkSteps
+	end
+
+	//Only Windows is supported at this point
+	operation absoluteFileUriToWindowsPath(absoluteFileUri:String):String is do
+		result:=absoluteFileUri.replace("file:///","")
+		result:=result.replace("/","\\")
+	end
 	
 	operation registerMetamodels() is do
 		var repository : EMFRepository init EMFRepository.new
@@ -64,30 +102,3 @@ class AoUrnToRamTransformation
 		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
 	end
 }
-
-class ModelRepository
-{
-    operation load(uri : String) : Object is do
-     	var repository : EMFRepository init EMFRepository.new 
-    	var resource : Resource init repository.getResource(uri)
-    	resource.load
-    	result:=resource.one
-    end
-
-    operation save(model: Object, modelUri : String, metamodelUri: String) is do
-    	fileDoesNotExistWorkAround(modelUri)
-    
-		var repository : EMFRepository init EMFRepository.new
-    	var resource : Resource init repository.createResource(modelUri,metamodelUri)
-    	resource.add(model)
-    	resource.save()
-    end
-    
-    operation fileDoesNotExistWorkAround(modelUri:String) is do
-		FileIO.new.writeTextFile(modelUri, "")
-    end
-}
-
-
-
-

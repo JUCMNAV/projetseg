@@ -6,7 +6,7 @@ require kermeta
 
 using kermeta::standard
 using ramstructural
-using intermediateWorkflow
+using aoUrnToRam::util
 
 aspect class Aspect{
 	attribute workspaceDirectory: String
