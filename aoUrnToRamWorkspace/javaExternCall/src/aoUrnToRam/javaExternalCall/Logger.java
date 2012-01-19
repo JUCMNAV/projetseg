@@ -13,6 +13,7 @@ public class Logger {
 	public static void log(String msg){
 		BufferedWriter writer=null;
 		try {
+			//stle: remove hardcoded path
 			writer=new BufferedWriter(new FileWriter("C:\\Users\\S\\Desktop\\outFromJava.txt",true));
 			writer.write(new Date().toString()+":    "+ msg+"\n");
 		} catch (IOException e) {

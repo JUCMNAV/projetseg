@@ -1,6 +1,6 @@
 //As is from: http://www.java2s.com/Tutorial/Java/0180__File/Removeadirectoryandallofitscontents.htm
+package aoUrnToRam.javaExternalCall;
 import java.io.File;
-import java.util.StringTokenizer;
 
 /*
 
