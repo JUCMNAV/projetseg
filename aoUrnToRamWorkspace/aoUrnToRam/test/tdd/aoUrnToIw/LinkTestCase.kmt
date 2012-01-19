@@ -3,6 +3,7 @@ package aoUrnToRam::Test;
 require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/AoUrnTestFactory.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -13,7 +14,7 @@ using intermediateWorkflow
 
 using kermeta::language::structure
 
-class AoUrnToIwLinkTestCase inherits TestCase
+class AoUrnToIwLinkTestCase inherits TestCase,CustomAssert
 {
 	attribute factory:AoUrnTestFactory
 
@@ -322,6 +323,26 @@ class AoUrnToIwLinkTestCase inherits TestCase
 		actual.linkStubExit
 
 		assert(stubExit.iwNodeConnection==actual.iwOutBinding.stubExit)
+	end
+	
+	
+	
+	
+	
+	operation testStubLink_stubEntryIndex() is do
+		var sut:Stub init factory.createStub
+		var inPath1:NodeConnection init factory.createNodeConnection
+		inPath1.target:=sut
+		var inPath2:NodeConnection init factory.createNodeConnection
+		inPath2.target:=sut
+		sut.build
+		inPath1.build
+		inPath2.build
+		
+		sut.link
+		
+		assertEquals(1,inPath1.iwNodeConnection.stubEntryIndex)
+		assertEquals(2,inPath2.iwNodeConnection.stubEntryIndex)
 	end
 	
 	

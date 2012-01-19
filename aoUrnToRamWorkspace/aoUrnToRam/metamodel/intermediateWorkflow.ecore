@@ -59,6 +59,8 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="succs" upperBound="-1"
           eType="#/1/IwNodeConnection" containment="true" eOpposite="#/1/IwNodeConnection/source"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="preds" upperBound="-1"
+          eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/target"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="step" eType="#/1/IwStep"
           eOpposite="#/1/IwStep/nodes"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="workflow" eType="#/1/IwWorkflow"
@@ -72,11 +74,16 @@
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/succs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"
+          eOpposite="#/1/IwNode/preds"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" eType="#/1/IwInBinding"
           eOpposite="#/1/IwInBinding/stubEntry"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntryIndex" eType="ecore:EClass platform:/plugin/fr.irisa.triskell.kermeta.io/src/kermeta/framework.ecore#/2/standard/Integer"
+          containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBinding" eType="#/1/IwOutBinding"
           eOpposite="#/1/IwOutBinding/stubExit"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubExitIndex" eType="ecore:EClass platform:/plugin/fr.irisa.triskell.kermeta.io/src/kermeta/framework.ecore#/2/standard/Integer"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>

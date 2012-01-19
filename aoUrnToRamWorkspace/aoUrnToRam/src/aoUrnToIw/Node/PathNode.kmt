@@ -122,4 +122,9 @@ aspect class PathNode {
 			collection.add(element)
 		end
 	end
+	
+	property readonly predAsNodeConnection : OrderedSet<NodeConnection>
+	getter is do
+		result:= pred.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
+	end
 }

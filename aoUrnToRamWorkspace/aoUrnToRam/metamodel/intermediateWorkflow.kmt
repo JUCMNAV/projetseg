@@ -6,48 +6,52 @@ require kermeta
 using kermeta::standard
 
 class IwModel{
-	attribute concerns : IwConcern[0..*]#model
+	attribute concerns:IwConcern[0..*]#model
 }
 
 class IwConcern 
 {
-	attribute name : String
-	attribute workflows : IwWorkflow[1..*]#concern
+	attribute name:String
+	attribute workflows:IwWorkflow[1..*]#concern
 	attribute steps:IwStep[1..*]#concern
 	reference model:IwModel#concerns
 }
 
 class IwStep
 {
-	attribute name : String
-	reference nodes : IwNode[1..*]#step
+	attribute name:String
+	reference nodes:IwNode[1..*]#step
 	reference concern:IwConcern#steps
-	reference outboundStubs: IwStub[0..*]#outboundInSteps 
+	reference outboundStubs:IwStub[0..*]#outboundInSteps 
 }
 
 class IwWorkflow 
 {
-	attribute name : String
-	attribute nodes : IwNode[1..*]#workflow
-	reference startPoints : IwStartPoint[1..*]
+	attribute name:String
+	attribute nodes:IwNode[1..*]#workflow
+	reference startPoints:IwStartPoint[1..*]
 	reference concern:IwConcern#workflows
 }
 
 abstract class IwNode
 {
-	attribute name : String
-	attribute succs : IwNodeConnection[0..*]#source
-	reference step : IwStep#nodes
-	reference workflow: IwWorkflow#nodes
+	attribute name:String
+	attribute succs:IwNodeConnection[0..*]#source
+	reference preds:IwNodeConnection[0..*]#target
+	reference step:IwStep#nodes
+	reference workflow:IwWorkflow#nodes
 }
 
 class IwNodeConnection{
 	attribute conditionName:String
-	reference source : IwNode#succs
-	reference target : IwNode
-
+	reference source:IwNode#succs
+	reference target:IwNode#preds
+	
 	reference inBinding:IwInBinding#stubEntry
+	attribute stubEntryIndex:Integer
+	
 	reference outBinding:IwOutBinding#stubExit
+	attribute stubExitIndex:Integer
 }
 
 class IwInput inherits IwNode
@@ -80,7 +84,7 @@ class IwOrFork inherits IwNode
 class IwStub inherits IwNode
 {
 	attribute pluginBindings:IwPluginBinding[0..*]#stub
-	reference outboundInSteps: IwStep[0..*]#outboundStubs 
+	reference outboundInSteps:IwStep[0..*]#outboundStubs 
 }
 
 class IwPluginBinding

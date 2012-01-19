@@ -17,7 +17,7 @@ aspect class NodeConnection{
 		iwNodeConnection.target:=iwSingleTarget
 	end
 	
-	
+	//stle: believe it is not required anymore
 	property readonly iwSingleTarget : IwNode
 	getter is do
 		if(target.asType(PathNode).iwNodes_ReadOnly.isEmpty==false) then

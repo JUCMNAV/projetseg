@@ -26,7 +26,7 @@ class CustomAssert inherits Assert
 	end
 	
 	operation toFormattedString(o:Object):String is do
-		if(o.isInstanceOf(String)) then
+		if(o.isVoid==false and o.isInstanceOf(String)) then
 			result:="\""+o.toString+"\""
 		else
 			result:=o.toString
