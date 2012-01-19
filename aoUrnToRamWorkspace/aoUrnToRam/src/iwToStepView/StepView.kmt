@@ -8,6 +8,8 @@ using kermeta::standard
 using kermeta::utils
 
 class StepView{
+	//stle: naming of path
+	attribute imgFolderWindowsPath: String
 	attribute workspacePath: String
 	attribute _dot:StringBuffer
 	reference step:IwStep
@@ -20,6 +22,12 @@ class StepView{
 		append(line) 
 		append("\n")
 	end
+	
+	operation appendImg(imageName:String) is do
+		//stle: handle append windows folder properly
+		append("<img src=\""+imgFolderWindowsPath+"\\"+imageName+"\"></img>") 
+	end
+	
 	
 	property readonly dot : String
 	getter is do

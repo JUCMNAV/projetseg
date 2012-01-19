@@ -10,8 +10,9 @@ using aoUrnToRam::util
 aspect class IwStep {
 	reference _nodesPerWorkflow:Hashtable<IwWorkflow,OrderedSet<IwNode>>
 	
-	operation toStepView():StepView is do
+	operation toStepView(imgFolderWindowsPath:String):StepView is do
 		result:=StepView.new
+		result.imgFolderWindowsPath:=imgFolderWindowsPath
 		result.step:=self
 		
 		result.workspacePath:=Path.new.combine(concern.name,name)

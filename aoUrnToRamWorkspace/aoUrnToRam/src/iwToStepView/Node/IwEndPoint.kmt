@@ -8,7 +8,7 @@ using kermeta::standard
 aspect class IwEndPoint
 {
 	method getImageName():String is do
-		result:="E"
+		result:="End16.gif"
 	end
 	
 	method appendBindings(stepView:StepView) is do

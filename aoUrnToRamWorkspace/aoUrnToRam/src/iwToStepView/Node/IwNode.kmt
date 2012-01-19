@@ -13,7 +13,7 @@ aspect class IwNode {
 		stepView.appendLine("            label=")
 		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
 		stepView.appendLine("                <tr>")
-		stepView.append("                    <td cellpadding=\"3\">") stepView.append(getImageName) stepView.appendLine("</td>")
+		stepView.append("                    <td cellpadding=\"3\">") stepView.appendImg(getImageName) stepView.appendLine("</td>")
 		stepView.append("                    <td>") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                </tr>")
 		stepView.appendLine("            </table>>")

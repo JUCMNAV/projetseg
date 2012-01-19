@@ -8,6 +8,6 @@ using kermeta::standard
 aspect class IwInput
 {
 	method getImageName():String is do
-		result:="I"
+		result:="Input16.gif"
 	end
 }

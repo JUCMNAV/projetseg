@@ -12,6 +12,6 @@ aspect class IwOrFork
 	end
 
 	method getImageName():String is do
-		result:="Or"
+		result:="OrFork16.gif"
 	end
 }

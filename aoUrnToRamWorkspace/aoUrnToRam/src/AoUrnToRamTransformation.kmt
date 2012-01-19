@@ -24,9 +24,11 @@ class AoUrnToRamTransformation
 	attribute iwFileName:String
 	attribute isIwFileOutputEnabled:Boolean
 	attribute isRamStepViewAsDotOutputEnabled:Boolean
+	attribute imgFolderAbsoluteFileUri:String
 	
-	operation initialize(dotAbsoluteFileUri:String):AoUrnToRamTransformation is do
+	operation initialize(dotAbsoluteFileUri:String,imgFolderAbsoluteFileUri:String):AoUrnToRamTransformation is do
 		self.dotAbsoluteFileUri:=dotAbsoluteFileUri
+		self.imgFolderAbsoluteFileUri:=imgFolderAbsoluteFileUri
 		
 		repository:= ModelRepository.new
 		iwFileName:="Iw.xmi"
@@ -46,7 +48,7 @@ class AoUrnToRamTransformation
 		
 		outputIwFile(iwModel,destinationAbsoluteFileUri)
 		outputRamStepClassDiagram(iwModel,destinationAbsoluteFileUri)
-		var stepViews:OrderedSet<StepView> init iwModel.toStepView
+		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
 		outputRamStepViewAsDot(stepViews,destinationAbsoluteFileUri)
 		outputRamStepViewAsImg(stepViews,destinationAbsoluteFileUri)
 	end
