@@ -34,7 +34,7 @@ aspect class PathNode {
 	operation buildNodeConnections() is do
 		//stle: ordering in build is undesirable
 		if(iwNodes_ReadOnly.isEmpty==false) then
-			succ.each{nodeConnection|nodeConnection.asType(NodeConnection).build}
+			succAsNodeConnection.each{nodeConnection|nodeConnection.build}
 		end
 	end
 	
@@ -125,6 +125,13 @@ aspect class PathNode {
 	
 	property readonly predAsNodeConnection : OrderedSet<NodeConnection>
 	getter is do
+		//stle:dry
 		result:= pred.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
+	end
+	
+	property readonly succAsNodeConnection : OrderedSet<NodeConnection>
+	getter is do
+		//stle:dry
+		result:= succ.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
 	end
 }

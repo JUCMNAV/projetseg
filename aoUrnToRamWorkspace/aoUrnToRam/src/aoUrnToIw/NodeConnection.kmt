@@ -50,4 +50,14 @@ aspect class NodeConnection{
 		end
 	end
 	
+	property readonly targetAsPathNode: PathNode
+	getter is do
+		result:=target.asType(PathNode)
+	end
+
+	property readonly sourceAsPathNode: PathNode
+	getter is do
+		result:=source.asType(PathNode)
+	end
+
 }

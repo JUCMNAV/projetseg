@@ -26,6 +26,7 @@ aspect class Stub {
 	method link() is do
 		super
 		initStubEntryIndexes
+		initStubExitIndexes
 		
 		bindings.each{pluginBinding|pluginBinding.link}
 	end
@@ -37,6 +38,15 @@ aspect class Stub {
 			nextIndex:=nextIndex+1
 		}
 	end
+	
+	operation initStubExitIndexes() is do
+		var nextIndex:Integer init 1
+		succAsNodeConnection.each{nodeConnection|
+			nodeConnection.iwNodeConnection.stubExitIndex:=nextIndex
+			nextIndex:=nextIndex+1
+		}
+	end
+	
 
 	
 	operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
