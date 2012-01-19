@@ -1,0 +1,35 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+using aoUrnToRam::util
+
+class CustomAssert inherits Assert
+{
+	//Observe that Assert contains an operation named assertEqual(without an 's' at the end)
+	//1)there is a syntactical mistake in Assert.assertEqual, it should end with an 's'
+	//2)KUnit does not allow running test that does not inherit direclty from TestCase.
+	//  Thus, it is not possible to create a CustomTestCase that would override assertEqual.
+	//3)Assert.assertEqual is not a generic method
+	//4)CustomAssert.assertEquals will be used very ofter, thus it is important to keep its name as short as possible
+	//For all these reason, we named this operation assertEquals even if it can possibly create confusion with assertEqual
+	operation assertEquals<T>(expected:T, actual:T) is do
+		assertWithMsg(expected==actual,"\n" +
+									   "expected: "+toFormattedString(expected)+"\n"+
+									   "actual:   "+toFormattedString(actual))
+	end
+	
+	operation toFormattedString(o:Object):String is do
+		if(o.isInstanceOf(String)) then
+			result:="\""+o.toString+"\""
+		else
+			result:=o.toString
+		end
+	end
+}
