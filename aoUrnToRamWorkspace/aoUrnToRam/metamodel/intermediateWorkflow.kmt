@@ -48,10 +48,10 @@ class IwNodeConnection{
 	reference target:IwNode#preds
 	
 	reference inBinding:IwInBinding#stubEntry
-	attribute stubEntryIndex:Integer
+	attribute stubEntryIndexAsString:String//stle:bug
 	
 	reference outBinding:IwOutBinding#stubExit
-	attribute stubExitIndex:Integer
+	attribute stubExitIndexAsString:String//stle:bug
 }
 
 class IwInput inherits IwNode

@@ -1,0 +1,46 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwNodeConnection {
+
+	property readonly hasCondition:Boolean
+	getter is do
+		result:=conditionName.isVoid==false
+	end
+	
+	property stubEntryIndex:Integer
+	getter is do
+		if(stubEntryIndexAsString.isVoid) then
+			result:=void
+		else
+			result:=stubEntryIndexAsString.toInteger
+		end
+	end
+	setter is do
+		if(value.isVoid) then
+			stubEntryIndexAsString:=void
+		else
+			stubEntryIndexAsString:=value.toString
+		end
+	end
+
+	property stubExitIndex:Integer
+	getter is do
+		if(stubExitIndexAsString.isVoid) then
+			result:=void
+		else
+			result:=stubExitIndexAsString.toInteger
+		end
+	end
+	setter is do
+		if(value.isVoid) then
+			stubExitIndexAsString:=void
+		else
+			stubExitIndexAsString:=value.toString
+		end
+	end
+	
+}

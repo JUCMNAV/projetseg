@@ -26,11 +26,16 @@ aspect class IwInput {
 			inputToInputProcessingNode.source:=previousLink.source
 			inputToInputProcessingNode.target:=iwInputProcessingNode
 			inputToInputProcessingNode.outBinding:=previousLink.outBinding
+			//stle:test required
+			inputToInputProcessingNode.stubExitIndex:=previousLink.stubExitIndex
 
 			var inputProcessingNodeToTarget:IwNodeConnection init IwNodeConnection.new
 			inputProcessingNodeToTarget.source:=iwInputProcessingNode
 			inputProcessingNodeToTarget.target:=previousLink.target
 			inputProcessingNodeToTarget.inBinding:=previousLink.inBinding
+			//stle:test required
+			inputProcessingNodeToTarget.stubEntryIndex:=previousLink.stubEntryIndex
+			
 			
 			//stle: remove all pointers, requires dry + test
 			previousLink.source:=void

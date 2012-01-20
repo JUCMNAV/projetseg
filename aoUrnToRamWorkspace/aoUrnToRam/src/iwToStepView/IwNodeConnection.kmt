@@ -1,0 +1,36 @@
+package intermediateWorkflow;
+
+
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwNodeConnection {
+	operation appendNodeConnection(stepView:StepView) is do
+			stepView.append("        ") 
+			stepView.append(sourcePort) 
+			stepView.append("->") 
+			stepView.append(targetPort)
+
+			if(hasCondition) then
+				stepView.append("[label=\"") stepView.append(conditionName) stepView.append("\"]")
+			end
+	end
+
+	//stle: watch out for name clashes. Add sv prefix. But test first to validate if there is a real problem	
+	property readonly sourcePort:String
+	getter is do
+		result:=source.name
+		if(stubExitIndex.isVoid==false) then
+			result:=result+":out"+stubExitIndex.toString
+		end 
+	end
+	
+	property readonly targetPort:String
+	getter is do
+		result:=target.name
+		if(stubEntryIndex.isVoid==false) then
+			result:=result+":in"+stubEntryIndex.toString
+		end 
+	end
+}

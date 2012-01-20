@@ -20,7 +20,9 @@ aspect class IwStub {
 		stepView.appendLine("            <tr><td>")
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
-		stepView.appendLine("                        <td port=\"in1\" height=\"10\"></td>")
+		
+		appendStubEntries(stepView)
+		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
@@ -35,9 +37,9 @@ aspect class IwStub {
 		stepView.appendLine("            <tr><td>")
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
-		succs.size.times{i|
-			stepView.append("                        <td port=\"out") stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
-		}
+		
+		appendStubExits(stepView)	
+		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
@@ -45,13 +47,35 @@ aspect class IwStub {
 		stepView.appendLine("    ]")
 		stepView.appendLine("    ")
 	end
-	
-	method appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendId(stepView) stepView.append(":out1")
+
+	operation appendStubEntries(stepView:StepView) is do
+		var maxIndex:Integer init max(preds.collect{nodeConnection|nodeConnection.stubEntryIndex})
+		appendStubPorts(stepView,"in",maxIndex)
 	end
 	
-	method appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendId(stepView) stepView.append(":in1")
+	operation appendStubExits(stepView:StepView) is do
+		var maxIndex:Integer init max(succs.collect{nodeConnection|nodeConnection.stubExitIndex})
+		appendStubPorts(stepView,"out",maxIndex)
+	end
+	
+	operation appendStubPorts(stepView:StepView,prefix:String,maxIndex:Integer) is do
+		maxIndex.times{i|
+			stepView.append("                        <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
+		}
+	end
+	
+	
+	//stle:max should be an extension of Collection
+	operation max(col:Collection<Integer>):Integer is do
+		col.each{element|
+			if(result.isVoid) then
+				result:=element
+			else
+				if(result<element) then
+					result:=element
+				end
+			end
+		}
 	end
 	
 	method appendPluginFromDifferentConcern(stepView:StepView) is do

@@ -28,7 +28,6 @@ class StepView{
 		append("<img src=\""+imgFolderWindowsPath+"\\"+imageName+"\"></img>") 
 	end
 	
-	
 	property readonly dot : String
 	getter is do
 		result:=_dot.toString

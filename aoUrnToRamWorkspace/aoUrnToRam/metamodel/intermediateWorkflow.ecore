@@ -78,12 +78,20 @@
           eOpposite="#/1/IwNode/preds"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" eType="#/1/IwInBinding"
           eOpposite="#/1/IwInBinding/stubEntry"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntryIndex" eType="ecore:EClass platform:/plugin/fr.irisa.triskell.kermeta.io/src/kermeta/framework.ecore#/2/standard/Integer"
-          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubEntryIndexAsString"
+          eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBinding" eType="#/1/IwOutBinding"
           eOpposite="#/1/IwOutBinding/stubExit"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="stubExitIndex" eType="ecore:EClass platform:/plugin/fr.irisa.triskell.kermeta.io/src/kermeta/framework.ecore#/2/standard/Integer"
-          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubExitIndexAsString"
+          eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode"/>

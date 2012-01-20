@@ -33,6 +33,13 @@ class IntegrationTestCase inherits TestCase
 	operation testDemoSp5_WithAutDifferentConcern() is do
 		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
 	end
+	
+	operation testStubEntryExitIndexes() is do
+		parameterizableIntegrationTest("StubEntryExitIndexes.jucm")
+	end
+	
+	
+	
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String

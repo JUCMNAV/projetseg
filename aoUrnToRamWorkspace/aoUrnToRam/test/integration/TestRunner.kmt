@@ -5,6 +5,7 @@ package aoUrnToRam::Test;
 require kermeta
 require "platform:/resource/aoUrnToRam/test/integration/IntegrationTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/TestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
@@ -13,6 +14,7 @@ class IntegrationTestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
+		result.addAll(AllTestRunner.new.getTestClasses)
 		result.add(IntegrationTestCase)
 	end
 }

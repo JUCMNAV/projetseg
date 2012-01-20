@@ -31,10 +31,7 @@ aspect class IwNode {
 	
 	operation appendEdges(stepView:StepView) is do
 		succs.each{nodeConnection|
-			stepView.append("        ") appendSourcePort(stepView,nodeConnection) stepView.append("->") nodeConnection.target.appendTargetPort(stepView,nodeConnection)
-			if(nodeConnection.conditionName.isVoid==false) then
-				stepView.append("[label=\"") stepView.append(nodeConnection.conditionName) stepView.append("\"]")
-			end
+			nodeConnection.appendNodeConnection(stepView)
 			stepView.appendLine("")
 		}
 	end
@@ -54,16 +51,6 @@ aspect class IwNode {
 	//virtual
 	operation appendBindings(stepView:StepView) is do
 		//default: do nothing
-	end
-	
-	//virtual
-	operation appendSourcePort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendId(stepView)
-	end
-	
-	//virtual
-	operation appendTargetPort(stepView:StepView,nodeConnection:IwNodeConnection) is do
-		appendId(stepView)
 	end
 	
 	//virtual
