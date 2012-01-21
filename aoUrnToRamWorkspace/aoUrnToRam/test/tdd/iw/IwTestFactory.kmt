@@ -94,5 +94,27 @@ class IwTestFactory
 	operation createIwNode_DontCareWhichSubclass():IwNode is do
 		result:=createIwCustomizableNode
 	end
+
+	//stle:prefix or not???
 	
+	//stle: may become useful
+	/*
+	operation linkNodesWithIwInBinding(source:IwNode,target:IwNode):IwInBinding is do
+		var stub:IwStub init createIwStub
+		stub.workflow:=source.workflow
+		
+		var stubEntry:IwNodeConnection init createIwNodeConnection(source,stub)
+		
+		var pluginStartPoint:IwStartPoint init createIwStartPoint
+		pluginStartPoint.startPointType:="bound"
+		pluginStartPoint.workflow:=target.workflow
+		createIwNodeConnection(pluginStartPoint,target)
+		
+		var pluginBinding:IwPluginBinding init createIwPluginBinding
+		pluginBinding.stub:=stub
+		
+		result:=createIwInBinding(stubEntry,pluginStartPoint)
+		result.pluginBinding:=pluginBinding
+	end
+	*/
 }

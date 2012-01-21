@@ -116,4 +116,28 @@ class NodeConnectionTestCase inherits TestCase,TestHelper
 		
 		assertVoid(input.iwInputProcessingNode)		
 	end
+	
+	
+	//stle: requires and-join operation testInvokeInsertInputProcessingNodes_TransitiveSameWorkflow() is do
+	
+	/*
+	stle: wait for Gunter's input
+	operation testInvokeInsertInputProcessingNodes_TransitiveDifferentWorkflow() is do
+		var expectedTarget:IwNode init createIwOrFork
+		var inBinding:IwInBinding init linkNodesWithIwInBinding(
+			createIwStartPoint,	//Stle: state transitivity: 
+			expectedTarget
+		)
+		var expectedSource:IwNode init expectedTarget.preds.one.source 
+										
+		sut:=inBinding.stubEntry
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertNotVoid(input.iwInputProcessingNode)		
+		//stle: single again
+		assertEquals(expectedSource,input.iwInputProcessingNode.preds.one.source)
+		assertEquals(expectedTarget,input.iwInputProcessingNode.succs.one.target)
+	end
+	*/
 }
