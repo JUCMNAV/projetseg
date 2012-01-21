@@ -7,6 +7,10 @@ using kermeta::standard
 
 aspect class IwOutput
 {
+	method appendLineStyle(stepView:StepView) is do
+		appendLineStyleIsFilled(stepView)		
+	end
+
 	method getImageName():String is do
 		result:="Output16.gif"
 	end

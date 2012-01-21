@@ -19,8 +19,8 @@ aspect class IwWorkflow {
 	operation appendWorkflowPre_DifferentConcern(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
-		stepView.append("        label=") stepView.append(dotEscape(concern.name+"/"+name)) stepView.appendLine("")
-		stepView.appendLine("        style=dotted")
+		stepView.append("        label=\"") stepView.append(concern.name+"\\n"+name) stepView.appendLine("\"")//stle:escape
+		stepView.appendLine("        style=dashed")
 	end
 	
 	operation appendWorkflowPost_DifferentConcern(stepView:StepView) is do

@@ -20,7 +20,7 @@ aspect class IwNodeConnection {
 	//stle: watch out for name clashes. Add sv prefix. But test first to validate if there is a real problem	
 	property readonly sourcePort:String
 	getter is do
-		result:=source.name
+		result:=source.name//stle: use id
 		if(stubExitIndex.isVoid==false) then
 			result:=result+":out"+stubExitIndex.toString
 		end 
@@ -28,7 +28,7 @@ aspect class IwNodeConnection {
 	
 	property readonly targetPort:String
 	getter is do
-		result:=target.name
+		result:=target.name//stle: use id
 		if(stubEntryIndex.isVoid==false) then
 			result:=result+":in"+stubEntryIndex.toString
 		end 

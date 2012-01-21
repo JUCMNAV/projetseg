@@ -11,7 +11,7 @@ aspect class IwOutBinding{
 		pluginEndPoint.appendId(stepView)
 		stepView.append("->")
 		stepView.append(stubExit.sourcePort)
-		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 
 	//stle:dry	
@@ -20,7 +20,7 @@ aspect class IwOutBinding{
 		pluginEndPoint.appendId(stepView)
 		stepView.append("->")
 		stepView.appendStubsFromOtherConcernsPlaceholder
-		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 	
 	//stle: dry with linkStep

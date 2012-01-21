@@ -21,7 +21,7 @@ aspect class IwStub {
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
 		
-		appendStubEntries(stepView)
+		appendStubPorts(stepView,"in",numOfStubEntries)
 		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
@@ -30,7 +30,7 @@ aspect class IwStub {
 		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
 		stepView.append("                        <td>") stepView.appendImg(getImageName) stepView.appendLine("</td>")
-		stepView.append("                        <td>") stepView.append(name) stepView.appendLine("</td>")
+		stepView.append("                        <td width=\"") stepView.append((maxNumOfPorts*15).toString) stepView.append("\" align=\"center\">") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
@@ -38,7 +38,7 @@ aspect class IwStub {
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
 		
-		appendStubExits(stepView)	
+		appendStubPorts(stepView,"out",numOfStubExits)	
 		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
@@ -48,14 +48,19 @@ aspect class IwStub {
 		stepView.appendLine("    ")
 	end
 
-	operation appendStubEntries(stepView:StepView) is do
-		var maxIndex:Integer init max(preds.collect{nodeConnection|nodeConnection.stubEntryIndex})
-		appendStubPorts(stepView,"in",maxIndex)
+    property maxNumOfPorts:Integer getter is do
+    	var maxOf:Set<Integer> init Set<Integer>.new
+		maxOf.add(numOfStubEntries)
+    	maxOf.add(numOfStubExits)
+		result:= max(maxOf)
 	end
-	
-	operation appendStubExits(stepView:StepView) is do
-		var maxIndex:Integer init max(succs.collect{nodeConnection|nodeConnection.stubExitIndex})
-		appendStubPorts(stepView,"out",maxIndex)
+
+    property numOfStubEntries:Integer getter is do
+		result:= max(preds.collect{nodeConnection|nodeConnection.stubEntryIndex})
+	end
+
+    property numOfStubExits:Integer getter is do
+		result:= max(succs.collect{nodeConnection|nodeConnection.stubExitIndex})
 	end
 	
 	operation appendStubPorts(stepView:StepView,prefix:String,maxIndex:Integer) is do
@@ -83,6 +88,17 @@ aspect class IwStub {
 			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
 			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
 			staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
+			
+			staticPluginBinding.inBindings.each{inBinding|
+				staticPluginBinding.outBindings.each{outBinding|
+					stepView.append("        ") 
+					stepView.append(inBinding.pluginStartPoint.succs.one.target.name)//stle: use id 
+					stepView.append("->") 
+					stepView.append(outBinding.pluginEndPoint.name)//stle: use id
+					stepView.appendLine("[style=\"invis\"]")
+				}
+			}
+		
 			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
 			
 			staticPluginBinding.inBindings.each{inBinding|inBinding.appendBinding(stepView)}

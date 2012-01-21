@@ -12,7 +12,7 @@ aspect class IwInBinding{
 		stepView.append("->")
 		//stle: single again
 		stepView.append(pluginStartPoint.succs.one.targetPort)
-		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 
 	//stle:dry
@@ -22,7 +22,7 @@ aspect class IwInBinding{
 		stepView.append("->")
 		//stle: single again
 		stepView.append(pluginStartPoint.succs.one.targetPort)
-		stepView.appendLine("[style=dotted,arrowhead=onormal]")
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 	
 	//stle: dry with linkStep

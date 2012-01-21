@@ -23,10 +23,10 @@ aspect class IwNode {
 	operation appendVertex_OtherStep(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("        ")  
-		appendId(stepView) 
+		appendId(stepView) //stle: append step name as a prefix in order to be unique
 		stepView.append("[label=")
-		stepView.append(dotEscape(step.name+"/"+name)) 
-		stepView.appendLine(",style=dotted]")
+		stepView.append("\""+step.name+"\\n"+name+"\"") //stle:escpate
+		stepView.appendLine(",style=dashed]")
 	end
 	
 	operation appendEdges(stepView:StepView) is do
