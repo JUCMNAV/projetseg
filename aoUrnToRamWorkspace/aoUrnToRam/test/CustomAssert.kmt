@@ -1,14 +1,9 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using intermediateWorkflow
-using ramstructural
-using aoUrnToRam::util
 
 class CustomAssert inherits Assert
 {
@@ -23,6 +18,14 @@ class CustomAssert inherits Assert
 		assertWithMsg(expected==actual,"\n" +
 									   "expected: "+toFormattedString(expected)+"\n"+
 									   "actual:   "+toFormattedString(actual))
+	end
+	
+	operation assertVoid(actual:Object) is do
+		assertEquals(void,actual)
+	end
+	
+	operation assertNotVoid(actual:Object) is do
+		assertWithMsg(actual.isVoid==false,"The value was not expected to be void.")
 	end
 	
 	operation toFormattedString(o:Object):String is do

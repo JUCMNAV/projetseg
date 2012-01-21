@@ -1,0 +1,47 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using kermeta::language::structure
+using kermeta::exceptions
+
+aspect class IwNodeConnection{
+	//stle:naming
+	operation insertInputProcessingNodes(input:IwInput) is do
+		if(target.getInsertProcessingNodeAction==InsertProcessingNodeAction.insert) then
+			buildInputProcessingNode(input)
+			linkInputProcessingNodePred(input)
+			linkInputProcessingNodeSucc(input)
+			self.delete
+		end
+	end
+	
+	operation buildInputProcessingNode(input:IwInput) is do
+		input.iwInputProcessingNode:=IwCustomizableNode.new
+		input.iwInputProcessingNode.name:="Process"+input.name
+		input.iwInputProcessingNode.workflow:=input.workflow
+	end
+	
+	operation linkInputProcessingNodePred(input:IwInput) is do
+		var pred:IwNodeConnection init IwNodeConnection.new
+		pred.source:=source
+		pred.target:=input.iwInputProcessingNode
+		pred.outBinding:=outBinding
+		//stle:test required
+		pred.stubExitIndex:=stubExitIndex
+	end
+	
+	operation linkInputProcessingNodeSucc(input:IwInput) is do
+		var succ:IwNodeConnection init IwNodeConnection.new
+		succ.source:=input.iwInputProcessingNode
+		succ.target:=target
+		succ.inBinding:=inBinding
+		//stle:test required
+		succ.stubEntryIndex:=stubEntryIndex
+	end
+}
+
+
+

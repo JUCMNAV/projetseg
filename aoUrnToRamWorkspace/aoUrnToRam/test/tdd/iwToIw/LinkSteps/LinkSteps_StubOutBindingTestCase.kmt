@@ -2,7 +2,7 @@ package aoUrnToRam::Test;
 
 require kermeta
 //stle: factory is common to IwToIw and IwToRam
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 
 using kermeta::standard

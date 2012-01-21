@@ -1,0 +1,7 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+
+enumeration InsertProcessingNodeAction { insert; stop; continue; }

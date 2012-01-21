@@ -43,4 +43,12 @@ aspect class IwNodeConnection {
 		end
 	end
 	
+	operation delete() is do
+		source:=void
+		target:=void
+		inBinding:=void
+		outBinding:=void
+	end
+	
+	
 }

@@ -81,9 +81,18 @@ class IwTestFactory
 	end
 	
 	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
-		
-		result:=IwNodeConnection.new
+		result:=createIwNodeConnection_Unlinked
 		result.source:=source
 		result.target:=target
 	end
+	
+	//stle:rename createIwNodeConnection to link node
+	operation createIwNodeConnection_Unlinked():IwNodeConnection is do
+		result:=IwNodeConnection.new
+	end
+	
+	operation createIwNode_DontCareWhichSubclass():IwNode is do
+		result:=createIwCustomizableNode
+	end
+	
 }

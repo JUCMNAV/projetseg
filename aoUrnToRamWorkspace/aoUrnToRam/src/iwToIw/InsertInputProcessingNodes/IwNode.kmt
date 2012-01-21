@@ -9,4 +9,42 @@ aspect class IwNode {
 	operation insertInputProcessingNodes() is do
 		//default: do nothing
 	end
+	
+	operation getInsertProcessingNodeAction():InsertProcessingNodeAction is abstract 
+}
+
+aspect class IwOutput {
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.stop  
+	end
+}
+
+aspect class IwCustomizableNode {
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.stop  
+	end
+}
+
+aspect class IwStub {
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.continue  
+	end
+}
+
+aspect class IwStartPoint {
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.continue  
+	end
+}
+
+aspect class IwEndPoint{
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.insert  
+	end
+}
+
+aspect class IwOrFork {
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.insert  
+	end
 }

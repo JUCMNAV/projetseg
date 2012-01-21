@@ -3,46 +3,19 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
 
 using kermeta::standard
+using kermeta::utils
+using kermeta::language::structure
+using kermeta::exceptions
 
 aspect class IwInput {
 	reference iwInputProcessingNode:IwCustomizableNode
 
+	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
+		result:=InsertProcessingNodeAction.insert  
+	end
+
 	method insertInputProcessingNodes() is do
-		var target:IwNode init succs.one.target
-		if(target.isInstanceOf(IwEndPoint) or 
-		   target.isInstanceOf(IwInput) or
-		   target.isInstanceOf(IwOrFork) or
-		   target.isInstanceOf(IwStub)
-		) then
-			iwInputProcessingNode:=IwCustomizableNode.new
-			iwInputProcessingNode.name:="Process"+name
-			iwInputProcessingNode.workflow:=workflow
-
-			//stle: single again
-			var previousLink:IwNodeConnection init succs.one
-
-			//stle:dry			
-			var inputToInputProcessingNode:IwNodeConnection init IwNodeConnection.new
-			inputToInputProcessingNode.source:=previousLink.source
-			inputToInputProcessingNode.target:=iwInputProcessingNode
-			inputToInputProcessingNode.outBinding:=previousLink.outBinding
-			//stle:test required
-			inputToInputProcessingNode.stubExitIndex:=previousLink.stubExitIndex
-
-			var inputProcessingNodeToTarget:IwNodeConnection init IwNodeConnection.new
-			inputProcessingNodeToTarget.source:=iwInputProcessingNode
-			inputProcessingNodeToTarget.target:=previousLink.target
-			inputProcessingNodeToTarget.inBinding:=previousLink.inBinding
-			//stle:test required
-			inputProcessingNodeToTarget.stubEntryIndex:=previousLink.stubEntryIndex
-			
-			
-			//stle: remove all pointers, requires dry + test
-			previousLink.source:=void
-			previousLink.target:=void
-			previousLink.inBinding:=void
-			previousLink.outBinding:=void
-		end
+		succs.one.insertInputProcessingNodes(self)
 	end
 }
 

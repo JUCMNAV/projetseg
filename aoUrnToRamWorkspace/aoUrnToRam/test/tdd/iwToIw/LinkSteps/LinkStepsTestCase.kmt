@@ -2,7 +2,7 @@ package aoUrnToRam::Test;
 
 require kermeta
 //stle: factory is common to IwToIw and IwToRam
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 
 using kermeta::standard
@@ -78,6 +78,7 @@ class LinkStepsTestCase inherits TestCase
 		workflow.nodes.add(input)
 		var currentStep:IwStep init factory.createIwStep
 		concern.steps.add(currentStep)
+		
 		input.step_DeepFirstSearch(currentStep)
 
 		var expectedSteps:Set<IwStep> init Set<IwStep>.new

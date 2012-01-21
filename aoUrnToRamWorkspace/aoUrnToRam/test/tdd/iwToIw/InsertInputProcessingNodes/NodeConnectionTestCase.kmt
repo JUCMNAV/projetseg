@@ -1,0 +1,119 @@
+package aoUrnToRam::Test::InsertInputProcessingNodes;
+
+require kermeta
+//stle: rename all folder to lower cap
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+using kermeta::language::structure
+
+class NodeConnectionTestCase inherits TestCase,TestHelper
+{
+	reference input:IwInput
+	reference sut:IwNodeConnection
+	reference workflow:IwWorkflow
+
+	method setUp() is do
+		workflow:=createIwWorkflow
+		input:=createIwInput
+		input.workflow:=workflow
+		//Observe that the SUT(the NodeConnection under test) is not linked to the input.
+		//The input is passed by parameter to sut.insertInputProcessingNodes.
+		//Therefore, these tests only assumed that there is a path from the input to the SUT. 
+		//The length of that path do not matters.   
+		sut:=createIwNodeConnection_Unlinked
+	end
+
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertBeforeEndPoint() is do
+		parameterizableTestInsertBefore(createIwEndPoint)
+	end
+
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertBeforeInput() is do
+		parameterizableTestInsertBefore(createIwInput)
+	end
+
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testInsertBeforeOrFork() is do
+		parameterizableTestInsertBefore(createIwOrFork)
+	end
+
+	operation parameterizableTestInsertBefore(requiresInsert:IwNode) is do
+		sut.source:=createIwNode_DontCareWhichSubclass
+		sut.target:=requiresInsert
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertNotVoid(input.iwInputProcessingNode)		
+	end
+	
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testInputProcessingNode_Build() is do
+		sut.source:=createIwNode_DontCareWhichSubclass
+		sut.target:=createIwOrFork
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertEquals("Process"+input.name,input.iwInputProcessingNode.name)
+		assertEquals(workflow,input.iwInputProcessingNode.workflow)
+	end
+	
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testInputProcessingNode_Pred() is do
+		sut.source:=createIwNode_DontCareWhichSubclass
+		sut.target:=createIwOrFork
+		var expectedSource:IwNode init sut.source
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertEquals(1,input.iwInputProcessingNode.preds.size)
+		assertEquals(expectedSource,input.iwInputProcessingNode.preds.one.source)
+	end
+	
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testInputProcessingNode_Succ() is do
+		sut.source:=createIwNode_DontCareWhichSubclass
+		sut.target:=createIwOrFork
+		var expectedTarget:IwNode init sut.target
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertEquals(1,input.iwInputProcessingNode.succs.size)
+		assertEquals(expectedTarget,input.iwInputProcessingNode.succs.one.target)
+	end
+	
+	@feature "FeaHandleInputBeforeDecisionPoint"
+	operation testInputProcessingNode_SutDeleted() is do
+		sut.source:=createIwNode_DontCareWhichSubclass
+		sut.target:=createIwOrFork
+
+		sut.insertInputProcessingNodes(input)
+	
+		assertVoid(sut.source)
+	end
+	
+	//stle:	operation testInputProcessingNode_stubEntry() is do
+	//stle:	operation testInputProcessingNode_stubExit() is do
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testDontInsertBeforeCustomizableNode() is do
+		parameterizableTestDontInsertBefore(createIwCustomizableNode)
+	end
+
+	@feature "FeaHandleTwoInputsInARow"
+	operation testDontInsertBeforeOutput() is do
+		parameterizableTestDontInsertBefore(createIwOutput)
+	end
+	
+	operation parameterizableTestDontInsertBefore(doesNottRequireInsert:IwNode) is do
+		sut.target:=doesNottRequireInsert
+
+		sut.insertInputProcessingNodes(input)
+		
+		assertVoid(input.iwInputProcessingNode)		
+	end
+}
