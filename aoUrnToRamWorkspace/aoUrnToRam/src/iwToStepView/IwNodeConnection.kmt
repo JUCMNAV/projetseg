@@ -28,7 +28,7 @@ aspect class IwNodeConnection {
 	operation getSourcePortDotEscaped(stepView:StepView):String is do
 		result:=source.getId(stepView)
 		result:=stepView.dotEscape(result)
-		if(stubExitIndex.isVoid==false and source.isFromOtherStep(stepView)==false) then
+		if(stubExitIndex.isVoid==false and source.isFromNextStep(stepView)==false) then
 			result:=result+":out"+stubExitIndex.toString
 		end 
 	end
@@ -36,7 +36,7 @@ aspect class IwNodeConnection {
 	operation getTargetPortDotEscaped(stepView:StepView):String is do
 		result:=target.getId(stepView)
 		result:=stepView.dotEscape(result)
-		if(stubEntryIndex.isVoid==false and target.isFromOtherStep(stepView)==false) then
+		if(stubEntryIndex.isVoid==false and target.isFromNextStep(stepView)==false) then
 			result:=result+":in"+stubEntryIndex.toString
 		end 
 	end

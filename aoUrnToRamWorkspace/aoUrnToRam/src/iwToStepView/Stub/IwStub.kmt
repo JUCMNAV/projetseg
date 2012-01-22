@@ -78,8 +78,8 @@ aspect class IwStub {
 	method appendPluginFromDifferentConcern(stepView:StepView) is do
 		if(workflow.concern!=pluginWorkflow.concern) then
 			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
-				staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
-				staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
+				staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_NextStep(stepView)}
+				staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_NextStep(stepView)}
 				enforcePluginStartPointTop_PluginEndPointDown(stepView)
 			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
 			

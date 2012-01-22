@@ -48,22 +48,33 @@ aspect class IwStep {
 	end
 	
 	operation appendWorkflowNodes(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
-		appendStartVertexFirst(stepView,workflowNodes)
+		appendNodeAfterStartPointFirstThenOtherNodes(stepView,workflowNodes)
 		workflowNodes.each{node|node.appendFirstVerticesFromNextStep(stepView)}
 		workflowNodes.each{node|node.appendEdges(stepView)}
 	end
 	
-	operation appendStartVertexFirst(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
-		//First startNodes to enforce startNodes to be on top in case of cycle
-		var startNodes:OrderedSet<IwNode> init OrderedSet<IwNode>.new 
-		workflowNodes.select{node|node.isInstanceOf(IwStartPoint)}
-					 .each{startPoint|startNodes.add(startPoint.succs.one.target)}
-		startNodes.each{node|node.appendVertex(stepView)}					 
+	operation appendNodeAfterStartPointFirstThenOtherNodes(stepView:StepView,workflowNodes:OrderedSet<IwNode>)is do
+		var nodesAfterStartPoints:OrderedSet<IwNode> init getNodeAfterStartPoints(stepView,workflowNodes) 
+		
+		//First startNodes to enforce startNodes to be on top in case of cycle			 
+		nodesAfterStartPoints.each{node|node.appendVertex(stepView)}					 
 		
 		//Then, all other nodes
-		workflowNodes.select{node|startNodes.contains(node)==false}					
+		workflowNodes.select{node|nodesAfterStartPoints.contains(node)==false}					
 					 .each{node|node.appendVertex(stepView)} 
 	end
+
+	operation getNodeAfterStartPoints(stepView:StepView,workflowNodes:OrderedSet<IwNode>):OrderedSet<IwNode> is do
+		result:=OrderedSet<IwNode>.new 
+		workflowNodes.select{node|node.isInstanceOf(IwStartPoint)}
+					 .each{startPoint|
+					 	var nodeAfterStartPoint:IwNode init startPoint.succs.one.target
+					 	if(nodeAfterStartPoint.isFromNextStep(stepView)==false) then
+					 		result.add(nodeAfterStartPoint)
+					 	end
+					 }
+	end
+
 	
 	operation appendBindings(stepView:StepView) is do
 		nodes.each{node|node.appendBindings(stepView)}

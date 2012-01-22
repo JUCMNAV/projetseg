@@ -14,10 +14,6 @@ aspect class IwStartPoint{
 		//do not display StartPoint
 	end
 	
-	method appendFirstVerticesFromNextStep(stepView:StepView) is do
-		//do not display StartPoint
-	end
-	
 	method appendBindings(stepView:StepView) is do
 		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
 		inBindings.each{inBinding|

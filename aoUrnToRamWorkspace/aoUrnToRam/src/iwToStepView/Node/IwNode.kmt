@@ -33,11 +33,11 @@ aspect class IwNode {
 		stepView.appendLine("                </tr>")
 	end
 	
-	operation appendVertex_OtherStep(stepView:StepView) is do
+	operation appendVertex_NextStep(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("        "+stepView.dotEscape(getId(stepView)))  
 		stepView.append("[label=")
-		stepView.append("\""+stepView.dotEscapeInner(step.name)+"\\n"+stepView.dotEscapeInner(name)+"\"") //stle:escpate
+		stepView.append("\""+stepView.dotEscapeInner(step.name)+"\\n"+stepView.dotEscapeInner(name)+"\"") 
 		stepView.appendLine(",style=dashed]")
 	end
 	
@@ -50,8 +50,8 @@ aspect class IwNode {
 	
 	operation appendFirstVerticesFromNextStep(stepView:StepView) is do
 		succs.each{nodeConnection|
-			if(nodeConnection.target.step!=step) then
-				nodeConnection.target.appendVertex_OtherStep(stepView)
+			if(nodeConnection.target.isFromNextStep(stepView)) then
+				nodeConnection.target.appendVertex_NextStep(stepView)
 			end
 		}
 	end
@@ -67,13 +67,12 @@ aspect class IwNode {
 	end
 	
 	operation getId(stepView:StepView):String is do
-		result:=name //stle: append step name as a prefix in order to be unique
+		result:=workflow.name+"_"+name //Use workflow name as prefix to enforce node names are unique
 	end
 	
-	operation isFromOtherStep(stepView:StepView):Boolean is do
-		result:=false //stle: todo
+	operation isFromNextStep(stepView:StepView):Boolean is do
+		result:=step!=stepView.step
 	end
-	
 	
 	//virtual
 	operation getMinWidth():Integer is do

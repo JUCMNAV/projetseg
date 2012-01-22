@@ -27,13 +27,15 @@ aspect class IwCustomizableNode {
 
 aspect class IwStub {
 	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
-		result:=InsertProcessingNodeAction.continue  
+		//result:=InsertProcessingNodeAction.continue  
+		result:=InsertProcessingNodeAction.insert
 	end
 }
 
 aspect class IwStartPoint {
 	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
-		result:=InsertProcessingNodeAction.continue  
+		//result:=InsertProcessingNodeAction.continue
+		result:=InsertProcessingNodeAction.insert  
 	end
 }
 
