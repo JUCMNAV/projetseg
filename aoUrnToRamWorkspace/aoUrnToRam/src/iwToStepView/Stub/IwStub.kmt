@@ -11,48 +11,40 @@ aspect class IwStub {
 		result:="Stub24.gif"
 	end
 	
-	method appendVertex(stepView:StepView) is do
-		stepView.appendLine("")
-		stepView.append("    ") appendId(stepView) stepView.appendLine("[")
+	method appendVertexContent(stepView:StepView) is do
 		stepView.appendLine("        shape=plaintext,")
 		stepView.appendLine("        label=")
 		stepView.appendLine("        <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("            <tr><td>")
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
-		
 		appendStubPorts(stepView,"in",numOfStubEntries)
-		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
 		stepView.appendLine("            <tr><td>")
 		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
-		stepView.appendLine("                    <tr>")
-		stepView.append("                        <td>") stepView.appendImg(getImageName) stepView.appendLine("</td>")
-		stepView.append("                        <td width=\"") stepView.append((maxNumOfPorts*15).toString) stepView.append("\" align=\"center\">") stepView.append(name) stepView.appendLine("</td>")
-		stepView.appendLine("                    </tr>")
+		appendNodeTitleRow(stepView)		
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
 		stepView.appendLine("            <tr><td>")
 		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
 		stepView.appendLine("                    <tr>")
-		
 		appendStubPorts(stepView,"out",numOfStubExits)	
-		
 		stepView.appendLine("                    </tr>")
 		stepView.appendLine("                </table>")
 		stepView.appendLine("            </td></tr>")
 		stepView.appendLine("        </table>>")
 		stepView.appendLine("    ]")
-		stepView.appendLine("    ")
 	end
-
-    property maxNumOfPorts:Integer getter is do
-    	var maxOf:Set<Integer> init Set<Integer>.new
+	
+	//virtual
+	method getMinWidth():Integer is do
+		var maxOf:Set<Integer> init Set<Integer>.new
 		maxOf.add(numOfStubEntries)
     	maxOf.add(numOfStubExits)
-		result:= max(maxOf)
+		var maxNumOfPorts:Integer init max(maxOf) 
+		result:=maxNumOfPorts*15
 	end
 
     property numOfStubEntries:Integer getter is do

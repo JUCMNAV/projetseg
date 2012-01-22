@@ -7,8 +7,8 @@ using kermeta::standard
 
 aspect class IwOutput
 {
-	method appendLineStyle(stepView:StepView) is do
-		appendLineStyleIsFilled(stepView)		
+	method getIsCustomizable():Boolean is do
+		result:=true
 	end
 
 	method getImageName():String is do

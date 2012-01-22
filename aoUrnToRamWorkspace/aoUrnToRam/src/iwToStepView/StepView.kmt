@@ -51,4 +51,10 @@ class StepView{
 			appendLine("[label=\"*\",style=dashed]")
 		end
 	end
+	
+	property readonly customizableClassColor : String
+	getter is do
+		result:="gray"
+	end
+	
 }

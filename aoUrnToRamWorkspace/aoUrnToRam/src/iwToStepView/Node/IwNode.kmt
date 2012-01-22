@@ -6,18 +6,31 @@ require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 using kermeta::standard
 
 aspect class IwNode {
+	//virtual
 	operation appendVertex(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("        ")  appendId(stepView) stepView.appendLine("[")
-		appendLineStyle(stepView)
+		if(getIsCustomizable) then
+			stepView.appendLine("            style=filled,")
+			stepView.appendLine("            fillcolor="+stepView.customizableClassColor+",")
+		end
+		appendVertexContent(stepView)
+		stepView.appendLine("        ]")
+	end
+
+	operation appendVertexContent(stepView:StepView) is do
+		stepView.appendLine("")
 		stepView.appendLine("            label=")
 		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
+		appendNodeTitleRow(stepView)
+		stepView.appendLine("            </table>>")
+	end
+	
+	operation appendNodeTitleRow(stepView:StepView) is do
 		stepView.appendLine("                <tr>")
 		stepView.append("                    <td cellpadding=\"3\">") stepView.appendImg(getImageName) stepView.appendLine("</td>")
-		stepView.append("                    <td>") stepView.append(name) stepView.appendLine("</td>")
+		stepView.append("                    <td align=\"center\" width=\"") stepView.append(getMinWidth.toString) stepView.append("\">") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                </tr>")
-		stepView.appendLine("            </table>>")
-		stepView.appendLine("        ]")
 	end
 	
 	operation appendVertex_OtherStep(stepView:StepView) is do
@@ -54,22 +67,8 @@ aspect class IwNode {
 	end
 	
 	//virtual
-	operation getImageName():String is do
-		result:=""
-	end
-	
-	//virtual
-	operation appendLineStyle(stepView:StepView) is do
-		//default: do nothing		
-	end
-	
-	//virtual
 	operation appendPluginFromDifferentConcern(stepView:StepView) is do
 		//default: do nothing		
-	end
-	
-	operation appendLineStyleIsFilled(stepView:StepView) is do
-		stepView.appendLine("            style=filled,")		
 	end
 	
 	//stle: must be applied everywhere, except in html-like label where html escaping must be applied
@@ -78,4 +77,22 @@ aspect class IwNode {
 		result:=result.replace("\"","\\\"")
 		result:="\""+result+"\""
 	end
+	
+	//virtual
+	operation getMinWidth():Integer is do
+		result:=0//default
+	end
+	
+	//virtual
+	operation getIsCustomizable():Boolean is do
+		result:=false//default
+	end
+	
+	//virtual
+	operation getImageName():String is do
+		result:=""
+	end
+	
+	
+	
 }

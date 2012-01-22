@@ -13,8 +13,16 @@ aspect class IwNodeConnection {
 			stepView.append(targetPort)
 
 			if(hasCondition) then
-				stepView.append("[label=\"") stepView.append(conditionName) stepView.append("\"]")
+				appendConnectionLabel(stepView)
 			end
+	end
+	
+	operation appendConnectionLabel(stepView:StepView) is do
+		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"")
+		stepView.append(" bgcolor=\""+stepView.customizableClassColor+"\">")
+		stepView.append("<tr><td>")
+		stepView.append(conditionName)
+		stepView.append("</td></tr></table>>]")
 	end
 
 	//stle: watch out for name clashes. Add sv prefix. But test first to validate if there is a real problem	
