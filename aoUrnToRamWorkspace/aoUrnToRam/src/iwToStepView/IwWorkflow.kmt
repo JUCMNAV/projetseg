@@ -8,8 +8,8 @@ using kermeta::standard
 aspect class IwWorkflow {
 	operation appendStepViewPre(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
-		stepView.append("        label=") stepView.append(dotEscape(name)) stepView.appendLine("")
+		stepView.append("    subgraph ") stepView.append(stepView.dotEscape("cluster_"+name)) stepView.appendLine("{")
+		stepView.append("        label=") stepView.append(stepView.dotEscape(name)) stepView.appendLine("")
 	end
 	
 	operation appendStepViewPost(stepView:StepView) is do
@@ -18,19 +18,12 @@ aspect class IwWorkflow {
 
 	operation appendWorkflowPre_DifferentConcern(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("    subgraph cluster_") stepView.append(name) stepView.appendLine("{")
-		stepView.append("        label=\"") stepView.append(concern.name+"\\n"+name) stepView.appendLine("\"")//stle:escape
+		stepView.append("    subgraph ") stepView.append(stepView.dotEscape("cluster_"+name)) stepView.appendLine("{")
+		stepView.append("        label=\"") stepView.append(stepView.dotEscapeInner(concern.name)+"\\n"+stepView.dotEscapeInner(name)) stepView.appendLine("\"")
 		stepView.appendLine("        style=dashed")
 	end
 	
 	operation appendWorkflowPost_DifferentConcern(stepView:StepView) is do
 		stepView.appendLine("    }")
-	end
-	
-	//stle: dry 
-	operation dotEscape(toEscape:String):String is do
-		result:=toEscape.replace("\\","\\\\")
-		result:=result.replace("\"","\\\"")
-		result:="\""+result+"\""
 	end
 }

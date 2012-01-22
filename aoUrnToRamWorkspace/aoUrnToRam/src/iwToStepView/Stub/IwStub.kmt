@@ -78,24 +78,27 @@ aspect class IwStub {
 	method appendPluginFromDifferentConcern(stepView:StepView) is do
 		if(workflow.concern!=pluginWorkflow.concern) then
 			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
-			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
-			staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
-			
-			staticPluginBinding.inBindings.each{inBinding|
-				staticPluginBinding.outBindings.each{outBinding|
-					stepView.append("        ") 
-					stepView.append(inBinding.pluginStartPoint.succs.one.target.name)//stle: use id 
-					stepView.append("->") 
-					stepView.append(outBinding.pluginEndPoint.name)//stle: use id
-					stepView.appendLine("[style=\"invis\"]")
-				}
-			}
-		
+				staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_OtherStep(stepView)}
+				staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_OtherStep(stepView)}
+				enforcePluginStartPointTop_PluginEndPointDown(stepView)
 			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
 			
 			staticPluginBinding.inBindings.each{inBinding|inBinding.appendBinding(stepView)}
 			staticPluginBinding.outBindings.each{outBinding|outBinding.appendBinding(stepView)}
 		end
+	end
+	
+	operation enforcePluginStartPointTop_PluginEndPointDown(stepView:StepView) is do
+		staticPluginBinding.inBindings.each{inBinding|
+			staticPluginBinding.outBindings.each{outBinding|
+				stepView.append("        ") 
+				
+				stepView.append(inBinding.getPluginStartPointTargetPortDotEscaped(stepView))
+				stepView.append("->")
+				stepView.append(stepView.dotEscape(outBinding.pluginEndPoint.getId(stepView))) 
+				stepView.appendLine("[style=\"invis\"]")
+			}
+		}
 	end
 	
 	//stle:dry

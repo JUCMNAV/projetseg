@@ -8,16 +8,16 @@ using kermeta::standard
 aspect class IwOutBinding{
 	operation appendBinding(stepView:StepView) is do
 		stepView.append("    ")
-		pluginEndPoint.appendId(stepView)
+		stepView.append(stepView.dotEscape(pluginEndPoint.getId(stepView)))
 		stepView.append("->")
-		stepView.append(stubExit.sourcePort)
+		stepView.append(stubExit.getSourcePortDotEscaped(stepView))
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 
 	//stle:dry	
 	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
 		stepView.append("    ")
-		pluginEndPoint.appendId(stepView)
+		stepView.append(stepView.dotEscape(pluginEndPoint.getId(stepView)))
 		stepView.append("->")
 		stepView.appendStubsFromOtherConcernsPlaceholder
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")

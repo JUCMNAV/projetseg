@@ -25,7 +25,7 @@ aspect class IwStep {
 	end
 	
 	operation appendStepViewPre(stepView:StepView) is do
-		stepView.append("digraph ") stepView.append(name) stepView.appendLine("{")
+		stepView.append("digraph ") stepView.append(stepView.dotEscape(name)) stepView.appendLine("{")
 		stepView.appendLine("    rankdir=TD;")
 		stepView.appendLine("    node[")
 		stepView.appendLine("        shape=box,")

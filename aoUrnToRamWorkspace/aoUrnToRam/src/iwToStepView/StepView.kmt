@@ -1,6 +1,5 @@
 package intermediateWorkflow;
 
-
 require "platform:/resource/aoUrnToRam/src/Util.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
@@ -55,6 +54,20 @@ class StepView{
 	property readonly customizableClassColor : String
 	getter is do
 		result:="gray"
+	end
+	
+	operation dotEscape(toEscape:String):String is do
+		result:="\""+dotEscapeInner(toEscape)+"\""
+	end
+	
+	operation htmlEscape(toEscape:String):String is do
+		result?=extern aoUrnToRam::javaExternalCall::HtmlEscaper.escape(toEscape)
+	end
+	
+	
+	operation dotEscapeInner(toEscape:String):String is do
+		result:=toEscape.replace("\\","\\\\")
+		result:=result.replace("\"","\\\"")
 	end
 	
 }

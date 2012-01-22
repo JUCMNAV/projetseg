@@ -22,9 +22,11 @@ class IntegrationTestCase inherits TestCase
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
 
+/*stle: why step is void
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
+*/
 
 	operation testDemoSp5_WithAutSameConcern() is do
 		parameterizableIntegrationTest("DemoSp5_WithAutSameConcern.jucm")

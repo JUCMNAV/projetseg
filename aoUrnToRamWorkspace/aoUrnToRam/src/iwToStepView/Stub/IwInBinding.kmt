@@ -8,10 +8,10 @@ using kermeta::standard
 aspect class IwInBinding{
 	operation appendBinding(stepView:StepView) is do
 		stepView.append("    ")
-		stepView.append(stubEntry.targetPort)
+		stepView.append(stubEntry.getTargetPortDotEscaped(stepView))
 		stepView.append("->")
 		//stle: single again
-		stepView.append(pluginStartPoint.succs.one.targetPort)
+		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView))
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 
@@ -21,8 +21,12 @@ aspect class IwInBinding{
 		stepView.appendStubsFromOtherConcernsPlaceholder
 		stepView.append("->")
 		//stle: single again
-		stepView.append(pluginStartPoint.succs.one.targetPort)
+		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView))
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")
+	end
+	
+	operation getPluginStartPointTargetPortDotEscaped(stepView:StepView):String is do
+		result:=pluginStartPoint.succs.one.getTargetPortDotEscaped(stepView)
 	end
 	
 	//stle: dry with linkStep
