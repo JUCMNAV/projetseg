@@ -58,6 +58,7 @@ class LinkSteps_StubInBindingTestCase inherits TestCase
 		concern.steps.add(currentStep)
 	end
 
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubInBinding_Unexplored() is do
 		stub.step:=void
 		
@@ -70,7 +71,8 @@ class LinkSteps_StubInBindingTestCase inherits TestCase
 		assert(pluginStartPoint2.step==currentStep)//exploring many inBindings
 	end
 	
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubInBinding_AlreadyExplored_SameStep() is do
 		stub.step:=currentStep
 		
@@ -83,6 +85,7 @@ class LinkSteps_StubInBindingTestCase inherits TestCase
 		assert(pluginStartPoint2.step==void)//Exploration stopped
 	end
 
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubInBinding_AlreadyExplored_MergeStep() is do
 		var toMerge:IwStep init factory.createIwStep
 		concern.steps.add(toMerge)

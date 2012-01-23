@@ -54,6 +54,7 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		concern.steps.add(currentStep)
 	end
 
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubOutBinding_Unexplored() is do
 		pluginEndPoint.step_DeepFirstSearch(currentStep)
 
@@ -64,7 +65,8 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		assert(pluginEndPoint.step==currentStep)		
 		assert(nodeAfterStub.step==currentStep)
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubOutBinding_AlreadyExplored_SameStep() is do
 		currentStep.outboundStubs.add(stub)
 		stub.step:=currentStep
@@ -78,7 +80,8 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		assert(pluginEndPoint.step==currentStep)
 		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of step and already in outboundStubs
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubOutBinding_AlreadyExplored_SameStep_MergeNextStep() is do
 		currentStep.outboundStubs.add(stub)
 		var toMerge:IwStep init factory.createIwStep
@@ -95,7 +98,8 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		assert(stub.step.isVoid)
 		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of step and merge nodeAfterStub
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubOutBinding_AlreadyExplored_DifferentStep() is do
 		var differentStep:IwStep init factory.createIwStep
 		concern.steps.add(differentStep)
@@ -111,7 +115,8 @@ class LinkSteps_StubOutBindingTestCase inherits TestCase
 		assert(stub.step.isVoid)
 		assert(nodeAfterStub.step==currentStep)//Continue even if stub is part of a different step
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubOutBinding_OneEndPointManyOutBindings() is do
     	var workflow2:IwWorkflow init factory.createIwWorkflow
     	workflow2.concern:=concern

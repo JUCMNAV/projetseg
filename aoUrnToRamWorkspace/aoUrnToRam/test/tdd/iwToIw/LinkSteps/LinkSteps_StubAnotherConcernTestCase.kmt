@@ -61,6 +61,7 @@ class LinkSteps_StubAnotherConcernTestCase inherits TestCase
 		concern.steps.add(currentStep)
 	end
 
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubAnotherConcern_Unexplored() is do
 		stub.step:=void
 		
@@ -72,7 +73,8 @@ class LinkSteps_StubAnotherConcernTestCase inherits TestCase
 		assert(pluginStartPoint.step==void)	   //Binding ignored		
 		assert(nodeAfterStub.step==currentStep)//Explore as a normal node
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubAnotherConcern_AlreadyExplored_SameStep() is do
 		stub.step:=currentStep
 		
@@ -84,7 +86,8 @@ class LinkSteps_StubAnotherConcernTestCase inherits TestCase
 		assert(pluginStartPoint.step==void)	  //Binding ignored		
 		assert(nodeAfterStub.step==void)	  //Explore as a normal node (Do not continue if already explored)
 	end
-	
+
+	@feature "FeaTransformStaticStub"
 	operation testLinkStep_StubAnotherConcern_AlreadyExplored_MergeStep() is do
 		var toMerge:IwStep init factory.createIwStep
 		concern.steps.add(toMerge)
