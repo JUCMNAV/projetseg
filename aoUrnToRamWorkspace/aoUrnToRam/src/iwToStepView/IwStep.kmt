@@ -69,7 +69,7 @@ aspect class IwStep {
 		workflowNodes.select{node|node.isInstanceOf(IwStartPoint)}
 					 .each{startPoint|
 					 	var nodeAfterStartPoint:IwNode init startPoint.succs.one.target
-					 	if(nodeAfterStartPoint.isFromNextStep(stepView)==false) then
+					 	if(nodeAfterStartPoint.isFromCurrentStep(stepView)) then
 					 		result.add(nodeAfterStartPoint)
 					 	end
 					 }
@@ -92,12 +92,17 @@ aspect class IwStep {
 	operation buildNodesPerWorkflowOnDemand() is do
 		if(_nodesPerWorkflow.isVoid) then
 			_nodesPerWorkflow:=Hashtable<IwWorkflow,OrderedSet<IwNode>>.new
-			nodes.each{node|
-				if(_nodesPerWorkflow.containsKey(node.workflow)==false) then
-					_nodesPerWorkflow.put(node.workflow,OrderedSet<IwNode>.new)
-				end
-				_nodesPerWorkflow.getValue(node.workflow).add(node)
-			}
+			nodes.each{node|addNodeNodesPerWorkflow(node)}
+			outboundStubs.each{outboundStub|addNodeNodesPerWorkflow(outboundStub)}
 		end
 	end
+	
+	operation addNodeNodesPerWorkflow(node:IwNode) is do
+		if(_nodesPerWorkflow.containsKey(node.workflow)==false) then
+			_nodesPerWorkflow.put(node.workflow,OrderedSet<IwNode>.new)
+		end
+		var nodes:OrderedSet<IwNode> init nodesPerWorkflow.getValue(node.workflow)
+		nodes.add(node)//Node cannot be added twice to an OrderedSet 
+	end
+	
 }

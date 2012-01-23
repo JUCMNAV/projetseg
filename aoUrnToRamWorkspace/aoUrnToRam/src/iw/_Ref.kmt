@@ -7,4 +7,5 @@ require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 //To regenerate
 //Run: aoUrnToRam.ExternalTools.RefUpdater
 //Args: ${resource_loc} ${project_name}
+require "platform:/resource/aoUrnToRam/src/iw/IwNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNodeConnection.kmt"

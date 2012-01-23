@@ -12,30 +12,29 @@ aspect class IwStub {
 	end
 	
 	method appendVertexContent(stepView:StepView) is do
-		stepView.appendLine("        shape=plaintext,")
-		stepView.appendLine("        label=")
-		stepView.appendLine("        <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
-		stepView.appendLine("            <tr><td>")
-		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
-		stepView.appendLine("                    <tr>")
+		stepView.appendLine("            shape=plaintext,")
+		stepView.appendLine("            label=")
+		stepView.appendLine("            <<table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                <tr><td>")
+		stepView.appendLine("                    <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                        <tr>")
 		appendStubPorts(stepView,"in",numOfStubEntries)
-		stepView.appendLine("                    </tr>")
-		stepView.appendLine("                </table>")
-		stepView.appendLine("            </td></tr>")
-		stepView.appendLine("            <tr><td>")
-		stepView.appendLine("                <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                        </tr>")
+		stepView.appendLine("                    </table>")
+		stepView.appendLine("                </td></tr>")
+		stepView.appendLine("                <tr><td>")
+		stepView.appendLine("                    <table border=\"1\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" >")
 		appendNodeTitleRow(stepView)		
-		stepView.appendLine("                </table>")
-		stepView.appendLine("            </td></tr>")
-		stepView.appendLine("            <tr><td>")
-		stepView.appendLine("                <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
-		stepView.appendLine("                    <tr>")
+		stepView.appendLine("                    </table>")
+		stepView.appendLine("                </td></tr>")
+		stepView.appendLine("                <tr><td>")
+		stepView.appendLine("                    <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >")
+		stepView.appendLine("                        <tr>")
 		appendStubPorts(stepView,"out",numOfStubExits)	
-		stepView.appendLine("                    </tr>")
-		stepView.appendLine("                </table>")
-		stepView.appendLine("            </td></tr>")
-		stepView.appendLine("        </table>>")
-		stepView.appendLine("    ]")
+		stepView.appendLine("                        </tr>")
+		stepView.appendLine("                    </table>")
+		stepView.appendLine("                </td></tr>")
+		stepView.appendLine("            </table>>")
 	end
 	
 	//virtual
@@ -57,7 +56,7 @@ aspect class IwStub {
 	
 	operation appendStubPorts(stepView:StepView,prefix:String,maxIndex:Integer) is do
 		maxIndex.times{i|
-			stepView.append("                        <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
+			stepView.append("                            <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
 		}
 	end
 	

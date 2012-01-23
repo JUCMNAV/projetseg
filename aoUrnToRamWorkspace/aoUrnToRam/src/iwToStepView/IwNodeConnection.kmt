@@ -7,14 +7,18 @@ using kermeta::standard
 
 aspect class IwNodeConnection {
 	operation appendNodeConnection(stepView:StepView) is do
-			stepView.append("        ") 
-			stepView.append(getSourcePortDotEscaped(stepView)) 
-			stepView.append("->") 
-			stepView.append(getTargetPortDotEscaped(stepView))
+		stepView.append("        ") 
+		stepView.append(getSourcePortDotEscaped(stepView)) 
+		stepView.append("->") 
+		stepView.append(getTargetPortDotEscaped(stepView))
 
-			if(hasCondition) then
-				appendConnectionLabel(stepView)
-			end
+		if(hasCondition) then
+			appendConnectionLabel(stepView)
+		end
+	end
+	
+	operation isFromCurrentStep(stepView:StepView):Boolean is do
+		result:=step==stepView.step
 	end
 	
 	operation appendConnectionLabel(stepView:StepView) is do
@@ -28,7 +32,8 @@ aspect class IwNodeConnection {
 	operation getSourcePortDotEscaped(stepView:StepView):String is do
 		result:=source.getId(stepView)
 		result:=stepView.dotEscape(result)
-		if(stubExitIndex.isVoid==false and source.isFromNextStep(stepView)==false) then
+		
+		if(stubExitIndex.isVoid==false) then
 			result:=result+":out"+stubExitIndex.toString
 		end 
 	end
@@ -36,7 +41,7 @@ aspect class IwNodeConnection {
 	operation getTargetPortDotEscaped(stepView:StepView):String is do
 		result:=target.getId(stepView)
 		result:=stepView.dotEscape(result)
-		if(stubEntryIndex.isVoid==false and target.isFromNextStep(stepView)==false) then
+		if(stubEntryIndex.isVoid==false and target.isFromCurrentStep(stepView)) then
 			result:=result+":in"+stubEntryIndex.toString
 		end 
 	end

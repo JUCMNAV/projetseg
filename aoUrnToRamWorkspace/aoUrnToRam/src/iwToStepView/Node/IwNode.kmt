@@ -37,23 +37,31 @@ aspect class IwNode {
 		stepView.appendLine("")
 		stepView.append("        "+stepView.dotEscape(getId(stepView)))  
 		stepView.append("[label=")
-		stepView.append("\""+stepView.dotEscapeInner(step.name)+"\\n"+stepView.dotEscapeInner(name)+"\"") 
+		if(name==step.name) then
+			stepView.append(stepView.dotEscape(name))
+		else
+			stepView.append("\""+stepView.dotEscapeInner(step.name)+"\\n"+stepView.dotEscapeInner(name)+"\"")
+		end
 		stepView.appendLine(",style=dashed]")
 	end
 	
 	operation appendEdges(stepView:StepView) is do
-		succs.each{nodeConnection|
+		getNodeConnectionFromCurrentStep(stepView).each{nodeConnection|
 			nodeConnection.appendNodeConnection(stepView)
 			stepView.appendLine("")
 		}
 	end
 	
 	operation appendFirstVerticesFromNextStep(stepView:StepView) is do
-		succs.each{nodeConnection|
-			if(nodeConnection.target.isFromNextStep(stepView)) then
+		getNodeConnectionFromCurrentStep(stepView).each{nodeConnection|
+			if(nodeConnection.target.isFromCurrentStep(stepView)==false) then
 				nodeConnection.target.appendVertex_NextStep(stepView)
 			end
 		}
+	end
+	
+	operation getNodeConnectionFromCurrentStep(stepView:StepView):OrderedSet<IwNodeConnection> is do
+		result:=succs.select{nodeConnection|nodeConnection.isFromCurrentStep(stepView)}.asOrderedSet
 	end
 	
 	//virtual
@@ -70,8 +78,8 @@ aspect class IwNode {
 		result:=workflow.name+"_"+name //Use workflow name as prefix to enforce node names are unique
 	end
 	
-	operation isFromNextStep(stepView:StepView):Boolean is do
-		result:=step!=stepView.step
+	operation isFromCurrentStep(stepView:StepView):Boolean is do
+		result:=step==stepView.step
 	end
 	
 	//virtual

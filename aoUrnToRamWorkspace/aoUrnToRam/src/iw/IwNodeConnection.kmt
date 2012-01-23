@@ -50,5 +50,17 @@ aspect class IwNodeConnection {
 		outBinding:=void
 	end
 	
+	property readonly step:IwStep
+	getter is do
+		if(outBinding.isVoid) then
+			result:=source.step //Source is not a stub
+		else
+			if(outBinding.pluginEndPoint.concern==target.concern) then
+				result:=outBinding.pluginEndPoint.step //At least one plugin is in the same concern 
+			else
+				result:=source.step //All plugins are in a different concern
+			end
+		end
+	end
 	
 }
