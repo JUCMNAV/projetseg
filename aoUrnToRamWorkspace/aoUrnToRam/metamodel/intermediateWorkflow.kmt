@@ -60,6 +60,7 @@ class IwInput inherits IwNode
 
 class IwCustomizableNode inherits IwNode
 {
+	attribute isShared:Boolean
 }
 
 class IwOutput inherits IwNode

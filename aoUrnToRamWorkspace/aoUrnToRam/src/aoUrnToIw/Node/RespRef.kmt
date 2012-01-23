@@ -12,16 +12,21 @@ aspect class RespRef {
 		super
 		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
 			if(isSystemComponentRef) then
-				iwCustomizableNode:=IwCustomizableNode.new
-				if(respDef.name.isVoid or respDef.name=="") then
-					iwCustomizableNode.name:=nameOrPrefixId("CustomizableNode")
-				else
-					iwCustomizableNode.name:=respDef.name
-				end 
-				
+				buildCustomizableNode
 			end
 		end 
 	end
+	
+	operation buildCustomizableNode() is do
+		iwCustomizableNode:=IwCustomizableNode.new
+		iwCustomizableNode.isShared:=respDef.respRefs.size>1
+		if(respDef.name.isVoid or respDef.name=="") then
+			iwCustomizableNode.name:=nameOrPrefixId("CustomizableNode")
+		else
+			iwCustomizableNode.name:=respDef.name
+		end 
+	end
+	
 	
 	method iwEquivalentNode():IwNode is do
 		result:=iwCustomizableNode

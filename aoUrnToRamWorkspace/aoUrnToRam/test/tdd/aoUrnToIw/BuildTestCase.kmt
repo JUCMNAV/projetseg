@@ -3,6 +3,7 @@ package aoUrnToRam::Test;
 require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/AoUrnTestFactory.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -14,7 +15,7 @@ using intermediateWorkflow
 using kermeta::language::structure
 
 //stle: important add test case for removing pointers
-class AoUrnToIwBuildTestCase inherits TestCase
+class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 {
 	attribute factory:AoUrnTestFactory
 
@@ -359,6 +360,26 @@ class AoUrnToIwBuildTestCase inherits TestCase
 		
 		assertStringEqual("theStub",actual.nameOrPrefixId("theStub"))
 	end
+		
+		
+	operation testBuildRespRef_Shared() is do
+		var sut:RespRef init factory.createRespRef("r1",void)//stle use anonymus
+		var toSameRespDef:RespRef init factory.createRespRef("willBeReplaced",void)//stle use anonymus
+		toSameRespDef.respDef:=sut.respDef
+
+		sut.build
+		
+		assertEquals(true,sut.iwCustomizableNode.isShared)
+	end
+	
+	operation testBuildRespRef_NotShared() is do	
+		var sut:RespRef init factory.createRespRef("r1",void)//stle use anonymus
+
+		sut.build
+		
+		assertEquals(false,sut.iwCustomizableNode.isShared)
+	end
+	
 		
 	
 	//stle: later, test that container call components. Mayber always test two levels. i.e Root/UcmMap,UcmMap/Node,etc...
