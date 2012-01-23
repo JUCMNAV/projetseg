@@ -10,6 +10,7 @@ using kermeta::utils
 aspect class IwStep {
 	reference ramAspect:Aspect
 	reference ramReactiveWorkflowInstantiation:Instantiation
+	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
@@ -30,12 +31,31 @@ aspect class IwStep {
 		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
 		
 		nodes.each{node|node.build()}
+		buildCustomizableNodeClasses
+	end
+
+	//CustomizableNodeClasses are built by IwStep because many IwCustomizableNodes may share the same RamClass  	
+	operation buildCustomizableNodeClasses() is do
+		ramCustomizableNodeClasses:=Hashtable<String,Class>.new
+		customizableNodes.each{customizableNode|
+			var toAdd:Class init customizableNode.createRamClass
+			if(ramCustomizableNodeClasses.containsKey(toAdd.name)==false) then
+				ramCustomizableNodeClasses.put(toAdd.name,toAdd)
+			end
+		}
 	end
 	
 	operation link() is do
 		addClasses
 		addInstantiations
 		nodes.each{node|node.link}
+		linkCustomizableNodeClasses
+	end
+	
+	operation linkCustomizableNodeClasses() is do
+		ramCustomizableNodeClasses.values.each{ramClass|
+			ramStructuralView.classes.add(ramClass)
+		}
 	end
 
 	operation addClasses() is do
@@ -86,5 +106,13 @@ aspect class IwStep {
 			ramReactiveWorkflowInstantiation.mappings.add(mapping)
 		end
 		mapping.maps.add(ramClass)
+	end
+	
+	property readonly customizableNodes: IwCustomizableNode[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(IwCustomizableNode)}
+			 .collect{node|node.asType(IwCustomizableNode)}.asOrderedSet
 	end
 }

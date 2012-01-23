@@ -12,6 +12,6 @@ aspect class IwCustomizableNode
 	end
 	
 	method getImageName():String is do
-		result:="Resp16.gif"
+		result:=if(isShared) then "SharedResp24.gif" else "Resp16.gif" end
 	end
 }

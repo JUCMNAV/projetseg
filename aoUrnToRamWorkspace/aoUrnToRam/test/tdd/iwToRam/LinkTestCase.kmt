@@ -118,13 +118,12 @@ class IwToRamLinkTestCase inherits TestCase
 	operation testLinkManyNodeFromStep() is do
 		var actual:IwStep init factory.createIwStep()
 		actual.nodes.add(factory.createIwInput())
-		2.times{i|actual.nodes.add(factory.createIwCustomizableNode())}
 		actual.nodes.add(factory.createIwOutput())
 		
 		actual.build()
 		actual.link()
 		
-		assert(actual.ramStructuralView.classes.size==1+1+1+2)
+		assert(actual.ramStructuralView.classes.size==1+2)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -145,7 +144,7 @@ class IwToRamLinkTestCase inherits TestCase
 		actual.concerns.add(concern)
 		numOfSteps.times{i| 
 			var step:IwStep init factory.createIwStep
-			step.nodes.add(factory.createIwCustomizableNode())
+			step.nodes.add(factory.createIwInput())
 			concern.steps.add(step)
 		}
 		
@@ -191,6 +190,20 @@ class IwToRamLinkTestCase inherits TestCase
 		assertStringEqual("Condition",mapping.sourceModelElement)
 		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
 	end
+	
+	operation testStep_LinkCustomizableNodes() is do
+		var sut:IwStep init factory.createIwStep
+		sut.nodes.add(factory.createIwCustomizableNode())
+		var notShared:IwCustomizableNode init factory.createIwCustomizableNode()
+		notShared.name:="notShared"
+		notShared.step:=sut
+		sut.build
+		
+		sut.link
+		
+		assert(sut.ramStructuralView.classes.size==2)
+	end
+	
 
 	operation assertCollectionHasSingleElement<T>(collection:Collection<T>,singleElement:T) is do
 		assertObjectEqual(1,collection.size)

@@ -40,15 +40,46 @@ class IwToRamBuildTestCase inherits TestCase
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuildCustomizableNode() is do
-		var actual:IwCustomizableNode init factory.createIwCustomizableNode()
+	operation testStep_BuildCustomizableNode() is do
+		var sut:IwStep init factory.createIwStep
+		var customizableNode:IwCustomizableNode init factory.createIwCustomizableNode()
+		customizableNode.step:=sut
 		
-		actual.build()
-
-		assert(actual.ramClasses_PerSourceModelElement.size==1)
-		assertClassProperlyBuilt(actual.name,actual.ramCustomizableNode)
+		sut.build
+		
+		//stle: assert single
+		assert(sut.ramCustomizableNodeClasses.size==1)
+		assertClassProperlyBuilt(customizableNode.name,sut.ramCustomizableNodeClasses.values.one)
 	end
-
+	
+	operation testStep_BuildCustomizableNodes_NotShared() is do
+		var sut:IwStep init factory.createIwStep
+		sut.nodes.add(factory.createIwCustomizableNode())
+		var notShared:IwCustomizableNode init factory.createIwCustomizableNode()
+		notShared.name:="notShared"
+		notShared.step:=sut
+		
+		sut.build
+		
+		assert(sut.ramCustomizableNodeClasses.size==2)
+	end
+	
+	operation testStep_BuildCustomizableNodes_Shared() is do
+		var sut:IwStep init factory.createIwStep
+		var shared1:IwCustomizableNode init factory.createIwCustomizableNode()
+		shared1.name:="shared"
+		shared1.isShared:=true
+		shared1.step:=sut
+		var shared2:IwCustomizableNode init factory.createIwCustomizableNode()
+		shared2.name:="shared"
+		shared2.isShared:=true
+		shared2.step:=sut
+		
+		sut.build
+		
+		assert(sut.ramCustomizableNodeClasses.size==1)
+	end
+	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuildWorkflow() is do
 		var actual:IwStep init factory.createIwStep()
@@ -93,7 +124,7 @@ class IwToRamBuildTestCase inherits TestCase
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch2"})
 		assert(actual.ramConditions.exists{ramCondition|ramCondition.name=="theOrFork_theBranch3"})
 	end
-
+	
 	operation assertClassProperlyBuilt(expectedName:String, ramClass:Class) is do
 		assertIsNonVoidInstanceOf(Class,ramClass)
 		assertStringEqual(expectedName,ramClass.name)
