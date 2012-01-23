@@ -190,7 +190,8 @@ class IwToRamLinkTestCase inherits TestCase
 		assertStringEqual("Condition",mapping.sourceModelElement)
 		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
 	end
-	
+
+	@feature "FeaTransformResponsibilityDefinition"
 	operation testStep_LinkCustomizableNodes() is do
 		var sut:IwStep init factory.createIwStep
 		sut.nodes.add(factory.createIwCustomizableNode())

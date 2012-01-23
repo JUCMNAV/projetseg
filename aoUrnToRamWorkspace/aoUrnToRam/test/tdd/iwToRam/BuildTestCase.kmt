@@ -51,7 +51,8 @@ class IwToRamBuildTestCase inherits TestCase
 		assert(sut.ramCustomizableNodeClasses.size==1)
 		assertClassProperlyBuilt(customizableNode.name,sut.ramCustomizableNodeClasses.values.one)
 	end
-	
+
+	@feature "FeaTransformResponsibilityDefinition"
 	operation testStep_BuildCustomizableNodes_NotShared() is do
 		var sut:IwStep init factory.createIwStep
 		sut.nodes.add(factory.createIwCustomizableNode())
@@ -63,7 +64,8 @@ class IwToRamBuildTestCase inherits TestCase
 		
 		assert(sut.ramCustomizableNodeClasses.size==2)
 	end
-	
+
+	@feature "FeaTransformResponsibilityDefinition"
 	operation testStep_BuildCustomizableNodes_Shared() is do
 		var sut:IwStep init factory.createIwStep
 		var shared1:IwCustomizableNode init factory.createIwCustomizableNode()

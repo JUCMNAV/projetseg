@@ -94,7 +94,7 @@ aspect class IwStub {
 				
 				stepView.append(inBinding.getPluginStartPointTargetPortDotEscaped(stepView))
 				stepView.append("->")
-				stepView.append(stepView.dotEscape(outBinding.pluginEndPoint.getId(stepView))) 
+				stepView.append(stepView.dotEscape(outBinding.pluginEndPoint.getId)) 
 				stepView.appendLine("[style=\"invis\"]")
 			}
 		}

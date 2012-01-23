@@ -96,6 +96,7 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 	
 		assertIsNonVoidInstanceOf(IwCustomizableNode, actual.iwNodes_ReadOnly.one)
 		assertStringEqual("theRespName",actual.iwNodes_ReadOnly.one.name)
+		assertStringEqual(actual.id,actual.iwNodes_ReadOnly.one.asType(IwCustomizableNode).id)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -361,7 +362,8 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 		assertStringEqual("theStub",actual.nameOrPrefixId("theStub"))
 	end
 		
-		
+
+	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuildRespRef_Shared() is do
 		var sut:RespRef init factory.createRespRef("r1",void)//stle use anonymus
 		var toSameRespDef:RespRef init factory.createRespRef("willBeReplaced",void)//stle use anonymus
@@ -371,7 +373,8 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 		
 		assertEquals(true,sut.iwCustomizableNode.isShared)
 	end
-	
+
+	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuildRespRef_NotShared() is do	
 		var sut:RespRef init factory.createRespRef("r1",void)//stle use anonymus
 

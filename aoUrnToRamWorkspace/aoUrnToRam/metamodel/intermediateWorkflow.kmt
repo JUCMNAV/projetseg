@@ -60,6 +60,7 @@ class IwInput inherits IwNode
 
 class IwCustomizableNode inherits IwNode
 {
+	attribute id:String//shared CustomizableNodes have the same name; thus, name cannot be used for identification.
 	attribute isShared:Boolean
 }
 

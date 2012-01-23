@@ -30,7 +30,7 @@ aspect class IwNodeConnection {
 	end
 
 	operation getSourcePortDotEscaped(stepView:StepView):String is do
-		result:=source.getId(stepView)
+		result:=source.getId
 		result:=stepView.dotEscape(result)
 		
 		if(stubExitIndex.isVoid==false) then
@@ -39,7 +39,7 @@ aspect class IwNodeConnection {
 	end
 	
 	operation getTargetPortDotEscaped(stepView:StepView):String is do
-		result:=target.getId(stepView)
+		result:=target.getId
 		result:=stepView.dotEscape(result)
 		if(stubEntryIndex.isVoid==false and target.isFromCurrentStep(stepView)) then
 			result:=result+":in"+stubEntryIndex.toString

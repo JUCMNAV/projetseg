@@ -9,7 +9,7 @@ aspect class IwNode {
 	//virtual
 	operation appendVertex(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("        "+stepView.dotEscape(getId(stepView))) stepView.appendLine("[")
+		stepView.append("        "+stepView.dotEscape(getId)) stepView.appendLine("[")
 		if(getIsCustomizable) then
 			stepView.appendLine("            style=filled,")
 			stepView.appendLine("            fillcolor="+stepView.customizableClassColor+",")
@@ -35,7 +35,7 @@ aspect class IwNode {
 	
 	operation appendVertex_NextStep(stepView:StepView) is do
 		stepView.appendLine("")
-		stepView.append("        "+stepView.dotEscape(getId(stepView)))  
+		stepView.append("        "+stepView.dotEscape(getId))  
 		stepView.append("[label=")
 		if(name==step.name) then
 			stepView.append(stepView.dotEscape(name))
@@ -74,7 +74,7 @@ aspect class IwNode {
 		//default: do nothing		
 	end
 	
-	operation getId(stepView:StepView):String is do
+	operation getId():String is do
 		result:=workflow.name+"_"+name //Use workflow name as prefix to enforce node names are unique
 	end
 	

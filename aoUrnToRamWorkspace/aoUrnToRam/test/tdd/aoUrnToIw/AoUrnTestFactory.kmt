@@ -77,6 +77,7 @@ class AoUrnTestFactory
 	
 	operation createRespRefGeneric(name:String,ramExpression:String,insideActor:Boolean):RespRef is do
 		var respRef:RespRef init RespRef.new
+		respRef.id:="1"
 		respRef.respDef:=createResponsibility(name,ramExpression)
 		if(insideActor) then 
 			respRef.contRef:=createComponentRef("theActor",ComponentKind.Actor)
