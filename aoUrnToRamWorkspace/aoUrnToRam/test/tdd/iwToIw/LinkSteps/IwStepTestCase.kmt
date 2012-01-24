@@ -29,7 +29,16 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testMerge_StepNameConcatenatedInAlphabeticalOrder() is do
+	operation testMerge_StepNameConcatenated_AlphaAsc() is do
+		sut.merge(toMerge)
+		
+		assertEquals("a_z",sut.name)
+	end
+	
+	operation testMerge_StepNameConcatenated__AlphaDesc() is do
+		toMerge.name:="z"
+		sut.name:="a"
+
 		sut.merge(toMerge)
 		
 		assertEquals("a_z",sut.name)
@@ -60,8 +69,6 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 		assertEquals(expectedIsStartupStep,sut.isStartupStep)
 		assertEquals(expectedName,sut.name)
 	end
-	
-	
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testMerge_toMergeDeleted() is do

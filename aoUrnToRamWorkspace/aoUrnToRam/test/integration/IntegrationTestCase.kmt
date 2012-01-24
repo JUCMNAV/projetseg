@@ -22,13 +22,8 @@ class IntegrationTestCase inherits TestCase
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
 
-/*stle: will pass once start nodes are implemented
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
-	end
-*/
-	operation testTemp() is do
-		parameterizableIntegrationTest("new_file.jucm")
 	end
 
 	operation testDemoSp5_WithAutSameConcern() is do
@@ -39,12 +34,8 @@ class IntegrationTestCase inherits TestCase
 		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
 	end
 	
-	operation testStubEntryExitIndexes() is do
-		parameterizableIntegrationTest("StubEntryExitIndexes.jucm")
-	end
-
-	operation testOutboundStub() is do
-		parameterizableIntegrationTest("OutboundStub.jucm")
+	operation testStartupNodeAndSharedResp() is do
+		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
