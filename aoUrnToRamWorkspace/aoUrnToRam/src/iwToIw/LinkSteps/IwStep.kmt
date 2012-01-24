@@ -9,9 +9,7 @@ aspect class IwStep {
 	
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
-		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
-			isStartupStep:=false
-		end 		
+		mergeIsStartupStep(stepToMerge)
 		
 		nodes.addAll(stepToMerge.nodes)
 		stepToMerge.delete
@@ -23,7 +21,23 @@ aspect class IwStep {
 		outboundStubs.clear
 	end
 	
+	operation mergeIsStartupStep(stepToMerge:IwStep) is do
+		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
+			isStartupStep:=false
+		end
+	end
+	
 	operation mergeName(stepToMerge:IwStep) is do
+		if(isStartupStep==stepToMerge.isStartupStep) then
+			combineNameInAlphabeticalOrder(stepToMerge)
+		else 
+			if(isStartupStep==true and stepToMerge.isStartupStep==false) then
+				name:=stepToMerge.name
+			end
+		end
+	end
+	
+	operation combineNameInAlphabeticalOrder(stepToMerge:IwStep) is do
 		if(name<stepToMerge.name) then
 			name:=combineName(name,stepToMerge.name)
 		else

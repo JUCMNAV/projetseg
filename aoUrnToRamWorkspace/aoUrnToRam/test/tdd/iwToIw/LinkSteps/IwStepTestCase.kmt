@@ -21,37 +21,46 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
     	workflow.concern:=concern
 
 		toMerge:=createIwStep
+		toMerge.name:="a"
 		toMerge.concern:=concern
 		sut:=createIwStep
+		sut.name:="z"
 		sut.concern:=concern
 	end
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testMerge_StepNameConcatenatedInAlphabeticalOrder() is do
-		sut.name:="z"
-		toMerge.name:="a"
-		
 		sut.merge(toMerge)
 		
 		assertEquals("a_z",sut.name)
 	end
 	
-	operation testMerge_OneStartupStep_MergedStepIsNotStartup() is do
-		sut.isStartupStep:=true
-		
-		sut.merge(toMerge)
-		
-		assertEquals(false,sut.isStartupStep)
+	operation testMerge_StartupStep_FF() is do
+		parameterizableTestMerge_StartupStep(false,"a_z",false,false)
 	end
 	
-	operation testMerge_TwoStartupStep_MergedStepIsStartup() is do
-		sut.isStartupStep:=true
-		toMerge.isStartupStep:=true
-		
+	operation testMerge_StartupStep_FT() is do
+		parameterizableTestMerge_StartupStep(false,"z",false,true)
+	end
+
+	operation testMerge_StartupStep_TF() is do
+		parameterizableTestMerge_StartupStep(false,"a",true,false)
+	end
+
+	operation testMerge_StartupStep_TT() is do
+		parameterizableTestMerge_StartupStep(true,"a_z",true,true)
+	end
+	
+	operation parameterizableTestMerge_StartupStep(expectedIsStartupStep:Boolean,expectedName:String,sutIsStartupStep:Boolean,toMergeIsStartupStep:Boolean) is do
+		sut.isStartupStep:=sutIsStartupStep
+		toMerge.isStartupStep:=toMergeIsStartupStep
+	
 		sut.merge(toMerge)
 		
-		assertEquals(true,sut.isStartupStep)
+		assertEquals(expectedIsStartupStep,sut.isStartupStep)
+		assertEquals(expectedName,sut.name)
 	end
+	
 	
 	
 	@feature "FeaNamingOfRAMStep"
