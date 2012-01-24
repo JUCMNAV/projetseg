@@ -1,0 +1,91 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference sut:IwStartPoint
+	
+	method setUp() is do
+		concern:= createIwConcern
+    	workflow:=createIwWorkflow
+    	workflow.concern:=concern
+    	sut:=createIwStartPoint
+		sut.workflow:=workflow
+	end
+
+	//stle:name set to startPoint name
+
+	operation testLinkStep_CreateStep_StepInit() is do
+		sut.startPointType:="global"
+		
+		sut.linkStep
+	
+		assertEquals(true,sut.step.isStartupStep)
+		assertEquals(sut.name,sut.step.name)	
+	end
+
+
+	@feature "FeaTransformStaticStub"
+	operation testLinkStep_GlobalStartPoint_StepAdded() is do
+		sut.startPointType:="global"
+		
+		sut.linkStep
+	
+		assertStepAdded	
+	end
+
+	@feature "FeaTransformStaticStub"
+	operation testLinkStep_LocalStartPoint_StepAdded() is do
+		sut.startPointType:="local"
+		
+		sut.linkStep
+		
+		assertStepAdded
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testLinkStep_BoundFromSameConcernOnceStartPoint_NoStepAdded() is do
+		bindPluginStartPointWithStubFromWorkflow(workflow)	
+		bindPluginStartPointWithStubFromWorkflow(createWorkflowFromDifferentConcern)
+		
+		sut.linkStep
+		
+		assertEquals(0,concern.steps.size)
+		assertVoid(sut.step)
+	end
+	
+	operation testLinkStep_BoundFromDifferentConcernStartPoint_StepAdded() is do
+		var stubDifferentConcern:IwStub init bindPluginStartPointWithStub(sut)
+		stubDifferentConcern.workflow:=createWorkflowFromDifferentConcern
+		
+		sut.linkStep
+		
+		assertStepAdded
+	end
+
+	operation bindPluginStartPointWithStubFromWorkflow(workflow:IwWorkflow) is do
+		var stub:IwStub init bindPluginStartPointWithStub(sut)
+		stub.workflow:=workflow
+	end
+
+	//stle:reuse
+	operation createWorkflowFromDifferentConcern():IwWorkflow is do
+		result:=createIwWorkflow
+		result.concern:=createIwConcern
+	end
+	
+	operation assertStepAdded() is do
+		assertNotVoid(sut.step)
+		assertCollectionHasSingleElement(sut.step,concern.steps)
+	end
+	
+	
+}

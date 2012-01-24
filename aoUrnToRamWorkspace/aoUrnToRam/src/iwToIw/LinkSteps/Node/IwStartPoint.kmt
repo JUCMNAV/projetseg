@@ -6,21 +6,17 @@ using kermeta::standard
 
 aspect class IwStartPoint{
 	operation linkStep() is do
-		if(startPointType!="bound") then
+		if(isBoundFromSameConcernOnce==false) then
 			var currentStep:IwStep init IwStep.new
-			currentStep.flagAsPartiallyInitialized
+			currentStep.isStartupStep:=true
+			currentStep.name:=name		
 			concern.steps.add(currentStep)
 			step_DeepFirstSearch(currentStep)
 		end
 	end
 	
-	operation linkStepOfAnotherConcern() is do
-		//stle:refact
-		if(isUnexplored) then
-			var currentStep:IwStep init IwStep.new
-			currentStep.name:=name //Here the step as the startPoint name instead of an input name
-			concern.steps.add(currentStep)
-			step_DeepFirstSearch(currentStep)
-		end
+	property readonly isBoundFromSameConcernOnce:Boolean
+	getter is do
+		result:=inBindings.exists{inBinding|inBinding.isInboundStubInSameConcern}
 	end
 }

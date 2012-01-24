@@ -11,6 +11,7 @@ require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
+using aoUrnToRam::Test::InsertInputProcessingNodes
 
 class AllTestRunner inherits CustomTestRunner
 {
@@ -18,7 +19,7 @@ class AllTestRunner inherits CustomTestRunner
 		result:=OrderedSet<Class>.new
 		result.addAll(AoUrnToIwTestRunner.new.getTestClasses)
 		result.addAll(aoUrnToRam::Test::InsertInputProcessingNodes::TestRunner.new.getTestClasses)
-		result.addAll(LinkStepsTestRunner.new.getTestClasses)
+		result.addAll(LinkSteps_TestRunner.new.getTestClasses)
 		result.addAll(IwToRamTestRunner.new.getTestClasses)
 	end
 }

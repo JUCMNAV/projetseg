@@ -12,9 +12,4 @@ aspect class IwOutBinding
 			stubExit.target.step_DeepFirstSearch(currentStep)
 		end
 	end
-	
-	property readonly isOutboundStubInSameConcern : Boolean
-	getter is do
-		result:=pluginEndPoint.concern==pluginBinding.stub.workflow.concern
-	end
 }

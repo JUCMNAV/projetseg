@@ -6,12 +6,28 @@ require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 using kermeta::standard
 
 aspect class IwStartPoint{
+	method getImageName():String is do
+		if(startPointType=="global") then
+			result:="GlobalStartPoint24.gif"
+		else
+			if(startPointType=="local") then
+				result:="LocalStartPoint16.gif"
+			else
+				result:=""
+			end
+		end
+	end
+
 	method appendVertex(stepView:StepView) is do
-		//do not display StartPoint
+		if(startPointType!="bound") then
+			super(stepView)
+		end
 	end
 	
 	method appendEdges(stepView:StepView) is do
-		//do not display StartPoint
+		if(startPointType!="bound") then
+			super(stepView)
+		end
 	end
 	
 	method appendBindings(stepView:StepView) is do

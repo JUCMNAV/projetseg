@@ -22,10 +22,4 @@ aspect class IwOutBinding{
 		stepView.appendStubsFromOtherConcernsPlaceholder
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
-	
-	//stle: dry with linkStep
-	property readonly isOutboundStubInSameConcern : Boolean
-	getter is do
-		result:=pluginEndPoint.workflow.concern==pluginBinding.stub.workflow.concern
-	end
 }

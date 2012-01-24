@@ -8,9 +8,4 @@ aspect class IwWorkflow {
 	operation linkSteps(concern:IwConcern) is do
 		startPoints.each{node|node.linkStep}
 	end
-	
-	property readonly concern:IwConcern
-	getter is do
-		result?=container
-	end
 }

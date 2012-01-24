@@ -6,12 +6,13 @@ using kermeta::standard
 
 aspect class IwInput {
 	method explore(currentStep:IwStep) is do
-		if(currentStep.isPartiallyInitialized) then
+		if(currentStep.isStartupStep==true) then
 			currentStep.name:=name
-			currentStep.removeFlagAsPartiallyInitialized
+			currentStep.isStartupStep:=false
 		else
 			currentStep:=IwStep.new
 			currentStep.name:=name
+			currentStep.isStartupStep:=false
 			concern.steps.add(currentStep)
 		end
 		super(currentStep)

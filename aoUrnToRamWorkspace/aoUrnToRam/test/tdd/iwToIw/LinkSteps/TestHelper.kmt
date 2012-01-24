@@ -1,0 +1,27 @@
+package aoUrnToRam::Test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+class LinkSteps_TestHelper inherits CustomAssert,IwTestFactory
+{
+	//stle:move to general
+	operation assertCollectionHasSingleElement<T>(singleElement:T,collection:Collection<T>) is do
+		assertEquals(1,collection.size)
+		assertEquals(singleElement,collection.one)
+	end
+
+	method createIwStep():IwStep is do
+		result:=super
+		result.isStartupStep:=false
+	end
+
+	
+	
+}

@@ -1,6 +1,6 @@
 package intermediateWorkflow;
 
-require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

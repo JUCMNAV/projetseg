@@ -1,0 +1,12 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwInBinding{
+	property readonly isInboundStubInSameConcern : Boolean
+	getter is do
+		result:=pluginStartPoint.concern==pluginBinding.stub.concern
+	end
+}

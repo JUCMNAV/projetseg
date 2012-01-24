@@ -10,4 +10,5 @@ using kermeta::standard
 using aoUrnToRam::Test
 
 class TestHelper inherits CustomAssert,IwTestFactory
-{}
+{
+}

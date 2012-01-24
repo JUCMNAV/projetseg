@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStub{
+	property readonly staticPluginBinding : IwPluginBinding
+	getter is do
+		//stle:Single again
+		result:=pluginBindings.one
+	end
+}

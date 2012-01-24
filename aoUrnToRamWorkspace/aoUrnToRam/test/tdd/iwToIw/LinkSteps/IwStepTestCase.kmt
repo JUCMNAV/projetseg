@@ -1,0 +1,84 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference toMerge:IwStep
+	reference sut:IwStep
+	
+	method setUp() is do
+		//stle:dry
+		concern:= createIwConcern
+    	workflow:=createIwWorkflow
+    	workflow.concern:=concern
+
+		toMerge:=createIwStep
+		toMerge.concern:=concern
+		sut:=createIwStep
+		sut.concern:=concern
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_StepNameConcatenatedInAlphabeticalOrder() is do
+		sut.name:="z"
+		toMerge.name:="a"
+		
+		sut.merge(toMerge)
+		
+		assertEquals("a_z",sut.name)
+	end
+	
+	operation testMerge_OneStartupStep_MergedStepIsNotStartup() is do
+		sut.isStartupStep:=true
+		
+		sut.merge(toMerge)
+		
+		assertEquals(false,sut.isStartupStep)
+	end
+	
+	operation testMerge_TwoStartupStep_MergedStepIsStartup() is do
+		sut.isStartupStep:=true
+		toMerge.isStartupStep:=true
+		
+		sut.merge(toMerge)
+		
+		assertEquals(true,sut.isStartupStep)
+	end
+	
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_toMergeDeleted() is do
+		linkTwoNodes(toMerge)
+		toMerge.outboundStubs.add(createIwStub)
+		toMerge.outboundStubs.add(createIwStub)
+	
+		sut.merge(toMerge)
+		
+		assertVoid(toMerge.concern)
+		assertEquals(0,toMerge.nodes.size)
+		assertEquals(0,toMerge.outboundStubs.size)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_NodeAdded() is do
+		linkTwoNodes(sut)
+		linkTwoNodes(toMerge)
+		
+		sut.merge(toMerge)
+		
+		assertEquals(4,sut.nodes.size)
+	end
+	
+	operation linkTwoNodes(step:IwStep) is do
+		step.nodes.add(createIwCustomizableNode)
+		step.nodes.add(createIwCustomizableNode)
+	end
+}

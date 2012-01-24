@@ -9,6 +9,7 @@ using kermeta::kunit
 using intermediateWorkflow
 
 using kermeta::language::structure
+using aoUrnToRam::Test
 
 class NodeConnectionTestCase inherits TestCase,TestHelper
 {
@@ -40,6 +41,11 @@ class NodeConnectionTestCase inherits TestCase,TestHelper
 	@feature "FeaHandleInputBeforeDecisionPoint"
 	operation testInsertBeforeOrFork() is do
 		parameterizableTestInsertBefore(createIwOrFork)
+	end
+
+	//stle: useCustomizableNodeAsSource instead
+	operation createIwNode_DontCareWhichSubclass():IwNode is do
+		result:=createIwCustomizableNode
 	end
 
 	operation parameterizableTestInsertBefore(requiresInsert:IwNode) is do

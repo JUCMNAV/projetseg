@@ -100,13 +100,6 @@ aspect class IwStub {
 		}
 	end
 	
-	//stle:dry
-	property readonly staticPluginBinding : IwPluginBinding
-	getter is do
-		//stle:Single again
-		result:=pluginBindings.one
-	end
-	
 	property readonly pluginWorkflow : IwWorkflow
 	getter is do
 		//The existence of a pluginBinding implies the existance of at least one pluginStartPoint

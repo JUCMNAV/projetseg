@@ -92,11 +92,5 @@ aspect class IwNode {
 		result:=false//default
 	end
 	
-	//virtual
-	operation getImageName():String is do
-		result:=""
-	end
-	
-	
-	
+	operation getImageName():String is abstract
 }

@@ -15,9 +15,13 @@ class CustomAssert inherits Assert
 	//4)CustomAssert.assertEquals will be used very ofter, thus it is important to keep its name as short as possible
 	//For all these reason, we named this operation assertEquals even if it can possibly create confusion with assertEqual
 	operation assertEquals<T>(expected:T, actual:T) is do
-		assertWithMsg(expected==actual,"\n" +
+		assertWithMsgNextLine(expected==actual,
 									   "expected: "+toFormattedString(expected)+"\n"+
 									   "actual:   "+toFormattedString(actual))
+	end
+	
+	operation assertNotEquals<T>(expected:T, actual:T) is do
+		assertWithMsgNextLine(expected!=actual,"The value was not expected to be"+toFormattedString(actual)+".")
 	end
 	
 	operation assertVoid(actual:Object) is do
@@ -25,8 +29,37 @@ class CustomAssert inherits Assert
 	end
 	
 	operation assertNotVoid(actual:Object) is do
-		assertWithMsg(actual.isVoid==false,"The value was not expected to be void.")
+		assertWithMsgNextLine(actual.isVoid==false,"The value was not expected to be void.")
 	end
+	
+	operation assertCollectionHasTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
+		assertEquals(2,collection.size)
+		assertNotEquals(firstElement,secondElement)
+		assertCollectionContainsElementWithMsg(firstElement,collection,"(First element)")
+		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
+	end
+	
+	operation assertCollectionContainsElement<T>(element:T,collection:Collection<T>) is do
+		assertCollectionContainsElementWithMsg(element,collection,"")
+	end
+	
+	operation assertCollectionContainsElementWithMsg<T>(element:T,collection:Collection<T>,msg:String) is do
+		assertWithMsgNextLine(collection.contains(element),toFormattedString(element)+ "is not in collection."+msg)
+	end
+	
+	operation assertWithMsgNextLine(condition:Boolean,msg:String) is do
+		assertWithMsg(condition,"\n"+msg)
+	end
+	
+	operation assertStringContains(expected:String, actual:String,isContained:Boolean) is do
+		assertWithMsgNextLine(actual.contains(expected)==isContained,
+									   "Expected is"+
+									   if(isContained) then " not" end +
+									   " contained in actual.\n" +
+									   "expected: "+toFormattedString(expected)+"\n"+
+									   "actual:   "+toFormattedString(actual))
+	end
+	
 	
 	operation toFormattedString(o:Object):String is do
 		if(o.isVoid==false and o.isInstanceOf(String)) then
@@ -35,4 +68,6 @@ class CustomAssert inherits Assert
 			result:=o.toString
 		end
 	end
+	
+	
 }

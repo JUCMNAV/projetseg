@@ -1,0 +1,65 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class LinkSteps_IwInputTestCase inherits TestCase,LinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference currentStep:IwStep
+	reference sut:IwInput
+	
+	
+	method setUp() is do
+		//stle:dry
+		concern:= createIwConcern
+    	workflow:=createIwWorkflow
+    	workflow.concern:=concern
+    	
+    	currentStep:=createIwStep
+		currentStep.concern:=concern
+    	sut:=createIwInput
+		sut.workflow:=workflow
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_LinkStartupStep_StepRenamed() is do
+		currentStep.isStartupStep:=true
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(sut.name,sut.step.name)
+		assertEquals(false,sut.step.isStartupStep)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_LinkStartupStep_NoStepAdded() is do
+		currentStep.isStartupStep:=true
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCollectionHasSingleElement(currentStep,concern.steps)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_CreateStep_StepInit() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(sut.name,sut.step.name)
+		assertEquals(false,sut.step.isStartupStep)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_CreateStep_StepAdded() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCollectionHasTwoElements(currentStep,sut.step,concern.steps)
+	end
+	
+	
+}

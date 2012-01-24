@@ -27,6 +27,10 @@ class IntegrationTestCase inherits TestCase
 		parameterizableIntegrationTest("Simple.jucm")
 	end
 */
+	operation testTemp() is do
+		parameterizableIntegrationTest("new_file.jucm")
+	end
+
 	operation testDemoSp5_WithAutSameConcern() is do
 		parameterizableIntegrationTest("DemoSp5_WithAutSameConcern.jucm")
 	end

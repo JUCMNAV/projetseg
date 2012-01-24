@@ -1,22 +1,29 @@
-@mainClass "aoUrnToRam::Test::LinkStepsTestRunner"
+@mainClass "aoUrnToRam::Test::LinkSteps_TestRunner"
 @mainOperation "runTestClassesWithReport"
 package aoUrnToRam::Test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkStepsTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubInBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubAnotherConcernTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubOutBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNodeTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/IwStepTestCase.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
+using aoUrnToRam::Test
 
-class LinkStepsTestRunner inherits CustomTestRunner
+class LinkSteps_TestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
-		result.add(LinkStepsTestCase)
+		result.add(LinkSteps_IwStartPointTestCase)
+		result.add(LinkSteps_IwInputTestCase)
+		result.add(LinkSteps_IwNodeTestCase)
+		result.add(LinkSteps_IwStepTestCase)
 		result.add(LinkSteps_StubInBindingTestCase)
 		result.add(LinkSteps_StubAnotherConcernTestCase)
 		result.add(LinkSteps_StubOutBindingTestCase)

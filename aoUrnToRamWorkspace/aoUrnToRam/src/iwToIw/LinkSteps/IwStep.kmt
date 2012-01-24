@@ -5,29 +5,22 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 using kermeta::standard
 
 aspect class IwStep {
-	attribute _isPartiallyInitialized:Boolean
+	attribute isStartupStep:Boolean
 	
-	operation flagAsPartiallyInitialized() is do
-		_isPartiallyInitialized:=true
-	end
-	
-	operation removeFlagAsPartiallyInitialized() is do
-		_isPartiallyInitialized:=void 
-	end
-	
-	property readonly isPartiallyInitialized : Boolean
-	getter is do
-		result:= _isPartiallyInitialized==true //Note that void!=true
-	end
-
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
+		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
+			isStartupStep:=false
+		end 		
+		
 		nodes.addAll(stepToMerge.nodes)
-
-		//stle: remove all pointers, requires dry + test		
-		stepToMerge.nodes.clear
-		stepToMerge.concern:=void
-		stepToMerge.outboundStubs.clear
+		stepToMerge.delete
+	end
+	
+	operation delete() is do
+		nodes.clear
+		concern:=void
+		outboundStubs.clear
 	end
 	
 	operation mergeName(stepToMerge:IwStep) is do

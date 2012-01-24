@@ -29,9 +29,4 @@ aspect class IwNode {
 	getter is do
 		result:= step.isVoid
 	end
-	
-	property readonly concern:IwConcern
-	getter is do
-		result:=workflow.concern
-	end
 }

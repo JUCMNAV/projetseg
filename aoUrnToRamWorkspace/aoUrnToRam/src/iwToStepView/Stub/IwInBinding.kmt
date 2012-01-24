@@ -28,10 +28,4 @@ aspect class IwInBinding{
 	operation getPluginStartPointTargetPortDotEscaped(stepView:StepView):String is do
 		result:=pluginStartPoint.succs.one.getTargetPortDotEscaped(stepView)
 	end
-	
-	//stle: dry with linkStep
-	property readonly isInboundStubInSameConcern : Boolean
-	getter is do
-		result:=pluginStartPoint.workflow.concern==pluginBinding.stub.workflow.concern
-	end
 }

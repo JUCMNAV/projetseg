@@ -9,3 +9,6 @@ require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/iw/IwNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNodeConnection.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/Stub/IwInBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/Stub/IwOutBinding.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/Stub/IwStub.kmt"

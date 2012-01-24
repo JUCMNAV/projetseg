@@ -1,0 +1,87 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class LinkSteps_IwNodeTestCase inherits TestCase,LinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference currentStep:IwStep
+	reference sut:IwNode
+	
+	method setUp() is do
+		//stle:dry
+		concern:= createIwConcern
+    	workflow:=createIwWorkflow
+    	workflow.concern:=concern
+    	
+    	currentStep:=createIwStep
+		currentStep.concern:=concern
+		useCustomizableNodeAsSut
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Unexplored_StepLinked() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(currentStep,sut.step)
+		assertCollectionHasSingleElement(currentStep,concern.steps)
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_ExploredSameStep_StepNotMerged() is do
+		sut.step:=currentStep
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCurrentStepIsMerged(false)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_ExploredDifferentStep_StepMerged() is do
+	    var differentStep:IwStep init createIwStep
+		differentStep.concern:=concern
+		sut.step:=differentStep
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCurrentStepIsMerged(true)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_CallNextNodes_NextNodesHaveSameStep() is do
+		useOrForkAsSut
+		var nextNode1:IwNode init linkNextNode
+		var nextNode2:IwNode init linkNextNode
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(currentStep,nextNode1.step)
+		assertEquals(currentStep,nextNode2.step)
+	end
+	
+	operation useCustomizableNodeAsSut() is do
+	   	sut:=createIwCustomizableNode
+		sut.workflow:=workflow
+	end
+	
+	operation useOrForkAsSut() is do
+	   	sut:=createIwOrFork
+		sut.workflow:=workflow
+	end
+		
+	operation linkNextNode():IwNode is do
+		result:=createIwCustomizableNode
+		result.workflow:=workflow
+		linkNodes(sut,result)
+	end
+	
+	operation assertCurrentStepIsMerged(isMerged:Boolean) is do
+		assertStringContains("_",currentStep.name,isMerged)
+	end
+}
