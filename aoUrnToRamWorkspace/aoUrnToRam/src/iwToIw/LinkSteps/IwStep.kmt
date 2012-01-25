@@ -12,6 +12,7 @@ aspect class IwStep {
 		mergeIsStartupStep(stepToMerge)
 		
 		nodes.addAll(stepToMerge.nodes)
+		outboundStubs.addAll(stepToMerge.outboundStubs)
 		stepToMerge.delete
 	end
 	
@@ -20,7 +21,7 @@ aspect class IwStep {
 		concern:=void
 		outboundStubs.clear
 	end
-	
+
 	operation mergeIsStartupStep(stepToMerge:IwStep) is do
 		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
 			isStartupStep:=false

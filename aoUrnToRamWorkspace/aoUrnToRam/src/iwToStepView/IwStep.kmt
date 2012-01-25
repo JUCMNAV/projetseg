@@ -92,17 +92,18 @@ aspect class IwStep {
 	operation buildNodesPerWorkflowOnDemand() is do
 		if(_nodesPerWorkflow.isVoid) then
 			_nodesPerWorkflow:=Hashtable<IwWorkflow,OrderedSet<IwNode>>.new
-			nodes.each{node|addNodeNodesPerWorkflow(node)}
-			outboundStubs.each{outboundStub|addNodeNodesPerWorkflow(outboundStub)}
+			nodes.each{node|addToNodeSetPerWorkflow(node)}
+			//Node cannot be added twice to an OrderedSet
+			outboundStubs.each{outboundStub|addToNodeSetPerWorkflow(outboundStub)}
 		end
 	end
 	
-	operation addNodeNodesPerWorkflow(node:IwNode) is do
+	operation addToNodeSetPerWorkflow(node:IwNode) is do
 		if(_nodesPerWorkflow.containsKey(node.workflow)==false) then
 			_nodesPerWorkflow.put(node.workflow,OrderedSet<IwNode>.new)
 		end
 		var nodes:OrderedSet<IwNode> init nodesPerWorkflow.getValue(node.workflow)
-		nodes.add(node)//Node cannot be added twice to an OrderedSet 
+		nodes.add(node) 
 	end
 	
 }

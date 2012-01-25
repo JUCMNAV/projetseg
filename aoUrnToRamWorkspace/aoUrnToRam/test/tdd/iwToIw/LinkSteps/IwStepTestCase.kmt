@@ -21,43 +21,40 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
     	workflow.concern:=concern
 
 		toMerge:=createIwStep
-		toMerge.name:="a"
+		toMerge.name:="ToMergeStepName"
 		toMerge.concern:=concern
 		sut:=createIwStep
-		sut.name:="z"
+		sut.name:="SutStepName"
 		sut.concern:=concern
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testMerge_StepNameConcatenated_AlphaAsc() is do
+	operation testMerge_StepNameConcatenated_AlphabethicalOrder() is do
+		var smallerStepName:IwStep init createIwStep
+		smallerStepName.name:="a"
+		sut.name:="b"
+		toMerge.name:="c"
+				
 		sut.merge(toMerge)
+		sut.merge(smallerStepName)
 		
-		assertEquals("a_z",sut.name)
-	end
-	
-	operation testMerge_StepNameConcatenated__AlphaDesc() is do
-		toMerge.name:="z"
-		sut.name:="a"
-
-		sut.merge(toMerge)
-		
-		assertEquals("a_z",sut.name)
+		assertEquals("a_b_c",sut.name)
 	end
 	
 	operation testMerge_StartupStep_FF() is do
-		parameterizableTestMerge_StartupStep(false,"a_z",false,false)
+		parameterizableTestMerge_StartupStep(false,"SutStepName_ToMergeStepName",false,false)
 	end
 	
 	operation testMerge_StartupStep_FT() is do
-		parameterizableTestMerge_StartupStep(false,"z",false,true)
+		parameterizableTestMerge_StartupStep(false,"SutStepName",false,true)
 	end
 
 	operation testMerge_StartupStep_TF() is do
-		parameterizableTestMerge_StartupStep(false,"a",true,false)
+		parameterizableTestMerge_StartupStep(false,"ToMergeStepName",true,false)
 	end
 
 	operation testMerge_StartupStep_TT() is do
-		parameterizableTestMerge_StartupStep(true,"a_z",true,true)
+		parameterizableTestMerge_StartupStep(true,"SutStepName_ToMergeStepName",true,true)
 	end
 	
 	operation parameterizableTestMerge_StartupStep(expectedIsStartupStep:Boolean,expectedName:String,sutIsStartupStep:Boolean,toMergeIsStartupStep:Boolean) is do
@@ -69,7 +66,7 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 		assertEquals(expectedIsStartupStep,sut.isStartupStep)
 		assertEquals(expectedName,sut.name)
 	end
-	
+
 	@feature "FeaNamingOfRAMStep"
 	operation testMerge_toMergeDeleted() is do
 		linkTwoNodes(toMerge)
@@ -91,6 +88,20 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 		sut.merge(toMerge)
 		
 		assertEquals(4,sut.nodes.size)
+	end
+	
+	operation testMerge_OutboundStub() is do
+		bindTwoStub(sut)
+		bindTwoStub(toMerge)
+	
+		sut.merge(toMerge)
+		
+		assertEquals(4,sut.outboundStubs.size)
+	end
+
+	operation bindTwoStub(step:IwStep) is do
+		step.outboundStubs.add(createIwStub)
+		step.outboundStubs.add(createIwStub)
 	end
 	
 	operation linkTwoNodes(step:IwStep) is do
