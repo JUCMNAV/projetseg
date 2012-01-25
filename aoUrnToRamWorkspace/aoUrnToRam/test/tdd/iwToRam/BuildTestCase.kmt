@@ -70,11 +70,11 @@ class IwToRamBuildTestCase inherits TestCase
 		var sut:IwStep init factory.createIwStep
 		var shared1:IwCustomizableNode init factory.createIwCustomizableNode()
 		shared1.name:="shared"
-		shared1.isShared:=true
+		shared1.customizableNodeRefId:="1"
 		shared1.step:=sut
 		var shared2:IwCustomizableNode init factory.createIwCustomizableNode()
 		shared2.name:="shared"
-		shared2.isShared:=true
+		shared2.customizableNodeRefId:="2"
 		shared2.step:=sut
 		
 		sut.build

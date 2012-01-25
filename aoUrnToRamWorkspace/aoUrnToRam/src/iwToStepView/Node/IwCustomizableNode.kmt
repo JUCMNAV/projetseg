@@ -8,7 +8,11 @@ using kermeta::standard
 aspect class IwCustomizableNode
 {
 	method getId():String is do
-		result:=super+"_"+id //Many CustomizableNodes may have the same name
+		if(isShared==true) then 
+			result:=super+"_"+customizableNodeRefId 
+		else 
+			result:=super 
+		end
 	end
 
 	method getIsCustomizable():Boolean is do
@@ -16,6 +20,10 @@ aspect class IwCustomizableNode
 	end
 	
 	method getImageName():String is do
-		result:=if(isShared==true) then "SharedResp24.gif" else "Resp16.gif" end
+		if(isShared==true) then 
+			result:="SharedResp24.gif" 
+		else 
+			result:="Resp16.gif" 
+		end
 	end
 }

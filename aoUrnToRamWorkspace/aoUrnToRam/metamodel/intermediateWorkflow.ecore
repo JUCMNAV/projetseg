@@ -95,12 +95,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="#/1/String">
-        <eAnnotations source="kermeta">
-          <details key="isComposite" value="true"/>
-        </eAnnotations>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isShared" eType="#/1/Boolean">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="customizableNodeRefId"
+          eType="#/1/String">
         <eAnnotations source="kermeta">
           <details key="isComposite" value="true"/>
         </eAnnotations>
@@ -152,7 +148,6 @@
           eOpposite="#/1/IwPluginBinding/outBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
-    <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="java.lang.Boolean"/>
     <eClassifiers xsi:type="ecore:EDataType" name="_KermetaSpecialTypesAlias_" instanceClassName="java.lang.Object"/>
   </ecore:EPackage>
   <ecore:EAnnotation source="dependentResource"/>

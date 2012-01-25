@@ -66,6 +66,9 @@ class NodeConnectionTestCase inherits TestCase,TestHelper
 		
 		assertEquals("Process"+input.name,input.iwInputProcessingNode.name)
 		assertEquals(workflow,input.iwInputProcessingNode.workflow)
+		
+		assertVoid(input.iwInputProcessingNode.customizableNodeRefId)
+		assertEquals(false,input.iwInputProcessingNode.isShared)
 	end
 	
 	@feature "FeaHandleInputBeforeDecisionPoint"

@@ -129,6 +129,7 @@ class AoUrnTestFactory
 	
 	operation createStub():Stub is do
 		result:=Stub.new
+		result.id:="1"
 		result.name:="theStub"	
 	end
 

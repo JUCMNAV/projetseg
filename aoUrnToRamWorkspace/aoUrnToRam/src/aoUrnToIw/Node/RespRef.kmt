@@ -19,13 +19,11 @@ aspect class RespRef {
 	
 	operation buildCustomizableNode() is do
 		iwCustomizableNode:=IwCustomizableNode.new
-		iwCustomizableNode.id:=id
-		iwCustomizableNode.isShared:=respDef.respRefs.size>1
-		if(respDef.name.isVoid or respDef.name=="") then
-			iwCustomizableNode.name:=nameOrPrefixId("CustomizableNode")
-		else
-			iwCustomizableNode.name:=respDef.name
-		end 
+		iwCustomizableNode.name:=respDef.nameOrPrefixId("CustomizableNode")
+		
+		if(respDef.respRefs.size>1) then
+			iwCustomizableNode.customizableNodeRefId:=id
+		end
 	end
 	
 	

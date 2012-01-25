@@ -96,7 +96,6 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 	
 		assertIsNonVoidInstanceOf(IwCustomizableNode, actual.iwNodes_ReadOnly.one)
 		assertStringEqual("theRespName",actual.iwNodes_ReadOnly.one.name)
-		assertStringEqual(actual.id,actual.iwNodes_ReadOnly.one.asType(IwCustomizableNode).id)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -341,18 +340,16 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 	operation testURNmodelElement_NameOrPrefixId_Void() is do	
 		var actual:Stub init factory.createStub
 		actual.name:=void
-		actual.id:="7"
 		
-		assertStringEqual("Stub_7",actual.nameOrPrefixId("Stub"))
+		assertStringEqual("Stub_1",actual.nameOrPrefixId("Stub"))
 	end
 
 	@feature "FeaTransformStaticStub"
 	operation testURNmodelElement_NameOrPrefixId_Empty() is do	
 		var actual:Stub init factory.createStub
 		actual.name:=""
-		actual.id:="7"
 		
-		assertStringEqual("Stub_7",actual.nameOrPrefixId("Stub"))
+		assertStringEqual("Stub_1",actual.nameOrPrefixId("Stub"))
 	end
 
 	@feature "FeaTransformStaticStub"
@@ -371,6 +368,7 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 
 		sut.build
 		
+		assertEquals("1",sut.iwCustomizableNode.customizableNodeRefId)
 		assertEquals(true,sut.iwCustomizableNode.isShared)
 	end
 
@@ -379,7 +377,7 @@ class AoUrnToIwBuildTestCase inherits TestCase,CustomAssert
 		var sut:RespRef init factory.createRespRef("r1",void)//stle use anonymus
 
 		sut.build
-		
+		assertVoid(sut.iwCustomizableNode.customizableNodeRefId)
 		assertEquals(false,sut.iwCustomizableNode.isShared)
 	end
 	

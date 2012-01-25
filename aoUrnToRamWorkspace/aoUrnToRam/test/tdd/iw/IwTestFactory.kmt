@@ -36,7 +36,6 @@ class IwTestFactory
 	operation createIwCustomizableNode():IwCustomizableNode is do
 		result:=IwCustomizableNode.new
 		result.name:="theCustomizableNode"
-		result.isShared:=false
 	end
 	
 	operation createIwOutput():IwOutput is do
