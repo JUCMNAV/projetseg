@@ -15,21 +15,16 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 	reference sut:IwStep
 	
 	method setUp() is do
-		//stle:dry
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow
-    	workflow.concern:=concern
-
-		toMerge:=createIwStep
+    	workflow:=createIwWorkflow_Concern(concern)
+		toMerge:=createIwStep_Concern(concern)
 		toMerge.name:="ToMergeStepName"
-		toMerge.concern:=concern
-		sut:=createIwStep
+		sut:=createIwStep_Concern(concern)
 		sut.name:="SutStepName"
-		sut.concern:=concern
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testMerge_StepNameConcatenated_AlphabethicalOrder() is do
+	operation testMerge_ShouldMergeStepNameInAlphabethicalOrder() is do
 		var smallerStepName:IwStep init createIwStep
 		smallerStepName.name:="a"
 		sut.name:="b"
@@ -41,34 +36,28 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 		assertEquals("a_b_c",sut.name)
 	end
 	
-	operation testMerge_StartupStep_FF() is do
-		parameterizableTestMerge_StartupStep(false,"SutStepName_ToMergeStepName",false,false)
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_ShouldMergeNodes() is do
+		linkTwoNodes(sut)
+		linkTwoNodes(toMerge)
+		
+		sut.merge(toMerge)
+		
+		assertEquals(4,sut.nodes.size)
 	end
 	
-	operation testMerge_StartupStep_FT() is do
-		parameterizableTestMerge_StartupStep(false,"SutStepName",false,true)
-	end
-
-	operation testMerge_StartupStep_TF() is do
-		parameterizableTestMerge_StartupStep(false,"ToMergeStepName",true,false)
-	end
-
-	operation testMerge_StartupStep_TT() is do
-		parameterizableTestMerge_StartupStep(true,"SutStepName_ToMergeStepName",true,true)
-	end
-	
-	operation parameterizableTestMerge_StartupStep(expectedIsStartupStep:Boolean,expectedName:String,sutIsStartupStep:Boolean,toMergeIsStartupStep:Boolean) is do
-		sut.isStartupStep:=sutIsStartupStep
-		toMerge.isStartupStep:=toMergeIsStartupStep
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_ShouldMergeOutboundStub() is do
+		bindTwoStub(sut)
+		bindTwoStub(toMerge)
 	
 		sut.merge(toMerge)
 		
-		assertEquals(expectedIsStartupStep,sut.isStartupStep)
-		assertEquals(expectedName,sut.name)
+		assertEquals(4,sut.outboundStubs.size)
 	end
-
+	
 	@feature "FeaNamingOfRAMStep"
-	operation testMerge_toMergeDeleted() is do
+	operation testMerge_ShouldDeleteStepToMerged() is do
 		linkTwoNodes(toMerge)
 		toMerge.outboundStubs.add(createIwStub)
 		toMerge.outboundStubs.add(createIwStub)
@@ -81,22 +70,33 @@ class LinkSteps_IwStepTestCase inherits TestCase,LinkSteps_TestHelper
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testMerge_NodeAdded() is do
-		linkTwoNodes(sut)
-		linkTwoNodes(toMerge)
-		
-		sut.merge(toMerge)
-		
-		assertEquals(4,sut.nodes.size)
+	operation testMerge_ReactiveWithReactive_ShouldYieldReactiveStepWithBothNames() is do
+		parameterizableTestMerge_StartupStep(false,"SutStepName_ToMergeStepName",false,false)
 	end
 	
-	operation testMerge_OutboundStub() is do
-		bindTwoStub(sut)
-		bindTwoStub(toMerge)
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_ReactiveWithStartup_ShouldYieldReactiveStepWithReactiveName() is do
+		parameterizableTestMerge_StartupStep(false,"SutStepName",false,true)
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_StartupWithReactive_ShouldYieldReactiveStepWithReactiveName() is do
+		parameterizableTestMerge_StartupStep(false,"ToMergeStepName",true,false)
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testMerge_StartupWithStartup_ShouldYieldStartupStepWithBothNames() is do
+		parameterizableTestMerge_StartupStep(true,"SutStepName_ToMergeStepName",true,true)
+	end
+	
+	operation parameterizableTestMerge_StartupStep(expectedIsStartupStep:Boolean,expectedName:String,sutIsStartupStep:Boolean,toMergeIsStartupStep:Boolean) is do
+		sut.isStartupStep:=sutIsStartupStep
+		toMerge.isStartupStep:=toMergeIsStartupStep
 	
 		sut.merge(toMerge)
 		
-		assertEquals(4,sut.outboundStubs.size)
+		assertEquals(expectedIsStartupStep,sut.isStartupStep)
+		assertEquals(expectedName,sut.name)
 	end
 
 	operation bindTwoStub(step:IwStep) is do

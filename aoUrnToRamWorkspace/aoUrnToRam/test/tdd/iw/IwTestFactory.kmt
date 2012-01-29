@@ -3,8 +3,6 @@ package aoUrnToRam::Test;
 require kermeta
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 
-using kermeta::standard
-using kermeta::kunit
 using intermediateWorkflow
 
 class IwTestFactory
@@ -23,64 +21,26 @@ class IwTestFactory
 		result.name:="theStep"
 	end
 
+	operation createIwStep_Concern(concern:IwConcern):IwStep is do
+	   	result:=createIwStep
+		result.concern:=concern
+	end
+
 	operation createIwWorkflow():IwWorkflow is do
 		result:=IwWorkflow.new
 		result.name:="theWorkflow"
 	end
 
-	operation createIwInput():IwInput is do
-		result:=IwInput.new
-		result.name:="theInput"
-	end
-	
-	operation createIwCustomizableNode():IwCustomizableNode is do
-		result:=IwCustomizableNode.new
-		result.name:="theCustomizableNode"
-	end
-	
-	operation createIwOutput():IwOutput is do
-		result:=IwOutput.new
-		result.name:="theOutput"
+	operation createIwWorkflow_Concern(concern:IwConcern):IwWorkflow is do
+	   	result:=createIwWorkflow
+		result.concern:=concern
 	end
 
-	operation createIwStartPoint():IwStartPoint is do
-		result:=IwStartPoint.new
-		result.name:="theStartPoint"
-		result.startPointType:="global"
-	end
-	
-	operation createIwEndPoint():IwEndPoint is do
-		result:=IwEndPoint.new
-		result.name:="theEndPoint"
-	end
-	
-	operation createIwOrFork():IwOrFork is do
-		result:=IwOrFork.new
-		result.name:="theOrFork"
-	end
-	
-	operation createIwStub():IwStub is do
-		result:=IwStub.new
-		result.name:="theStub"
-	end
-	
-	operation createIwPluginBinding():IwPluginBinding is do
-		result:=IwPluginBinding.new
+	//stle:rename createIwNodeConnection to link node
+	operation createIwNodeConnection_Unlinked():IwNodeConnection is do
+		result:=IwNodeConnection.new
 	end
 
-	operation createIwInBinding(stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
-		pluginStartPoint.startPointType:="bound"
-		result:=IwInBinding.new
-		result.stubEntry:=stubEntry
-		result.pluginStartPoint:=pluginStartPoint
-	end
-	
-	operation createIwOutBinding(stubExit:IwNodeConnection,pluginEndPoint:IwEndPoint):IwOutBinding is do
-		result:=IwOutBinding.new
-		result.stubExit:=stubExit
-		result.pluginEndPoint:=pluginEndPoint
-	end
-	
 	//stle:rename createIwNodeConnection to link node
 	//deprecated
 	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
@@ -93,40 +53,118 @@ class IwTestFactory
 		result.source:=source
 		result.target:=target
 	end
-	
-	//stle:rename createIwNodeConnection to link node
-	operation createIwNodeConnection_Unlinked():IwNodeConnection is do
-		result:=IwNodeConnection.new
+
+/*********************************************************
+Node
+*********************************************************/
+	operation createIwInput():IwInput is do
+		result:=IwInput.new
+		result.name:="theInput"
+	end
+
+	operation createIwInput_Workflow(workflow:IwWorkflow):IwInput is do
+		result:=createIwInput
+		result.workflow:=workflow
 	end
 	
-	operation bindPluginStartPointWithStub(pluginStartPoint:IwStartPoint):IwStub is do
+	operation createIwCustomizableNode():IwCustomizableNode is do
+		result:=IwCustomizableNode.new
+		result.name:="theCustomizableNode"
+	end
+	
+	operation createIwCustomizableNode_Workflow(workflow:IwWorkflow):IwCustomizableNode is do
+		result:=createIwCustomizableNode
+		result.workflow:=workflow
+	end
+
+	operation createIwOutput():IwOutput is do
+		result:=IwOutput.new
+		result.name:="theOutput"
+	end
+
+	operation createIwOutput_Workflow(workflow:IwWorkflow):IwOutput is do
+		result:=createIwOutput
+		result.workflow:=workflow
+	end
+
+	operation createIwStartPoint():IwStartPoint is do
+		result:=IwStartPoint.new
+		result.name:="theStartPoint"
+		result.startPointType:="global"
+	end
+
+	operation createIwStartPoint_Workflow(workflow:IwWorkflow):IwStartPoint is do
+		result:=createIwStartPoint
+		result.workflow:=workflow
+	end
+	
+	operation createIwEndPoint():IwEndPoint is do
+		result:=IwEndPoint.new
+		result.name:="theEndPoint"
+	end
+
+	operation createIwEndPoint_Workflow(workflow:IwWorkflow):IwEndPoint is do
+		result:=createIwEndPoint
+		result.workflow:=workflow
+	end
+	
+	operation createIwOrFork():IwOrFork is do
+		result:=IwOrFork.new
+		result.name:="theOrFork"
+	end
+
+	operation createIwOrFork_Workflow(workflow:IwWorkflow):IwOrFork is do
+		result:=createIwOrFork
+		result.workflow:=workflow
+	end
+
+/*********************************************************
+Stub
+*********************************************************/
+	
+	operation createIwStub():IwStub is do
+		result:=IwStub.new
+		result.name:="theStub"
+	end
+
+	operation createIwStub_Workflow(workflow:IwWorkflow):IwStub is do
 		result:=createIwStub
+		result.workflow:=workflow
+	end
+	
+	operation createIwStaticStub_Workflow(workflow:IwWorkflow):IwStub is do
+		result:=createIwStub_Workflow(workflow)
 		var pluginBinding:IwPluginBinding init createIwPluginBinding
 		pluginBinding.stub:=result
-		var inBinding:IwInBinding init createIwInBinding(void,pluginStartPoint)//Dont care about stubEntry
-		inBinding.pluginBinding:=pluginBinding
 	end
 	
-	//stle:prefix or not???
+	operation createIwPluginBinding():IwPluginBinding is do
+		result:=IwPluginBinding.new
+	end
 	
-	//stle: may become useful
-	/*
-	operation linkNodesWithIwInBinding(source:IwNode,target:IwNode):IwInBinding is do
-		var stub:IwStub init createIwStub
-		stub.workflow:=source.workflow
-		
-		var stubEntry:IwNodeConnection init createIwNodeConnection(source,stub)
-		
-		var pluginStartPoint:IwStartPoint init createIwStartPoint
+	operation createIwInBinding(stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
 		pluginStartPoint.startPointType:="bound"
-		pluginStartPoint.workflow:=target.workflow
-		createIwNodeConnection(pluginStartPoint,target)
-		
-		var pluginBinding:IwPluginBinding init createIwPluginBinding
-		pluginBinding.stub:=stub
-		
-		result:=createIwInBinding(stubEntry,pluginStartPoint)
-		result.pluginBinding:=pluginBinding
+		result:=IwInBinding.new
+		result.stubEntry:=stubEntry
+		result.pluginStartPoint:=pluginStartPoint
 	end
-	*/
+	
+	operation bindStaticStubToPluginStartPoint(staticStub:IwStub,pluginStartPoint:IwStartPoint):IwInBinding is do
+		result:=createIwInBinding(void,pluginStartPoint)
+		//stle:single again
+		result.pluginBinding:=staticStub.pluginBindings.one
+	end
+	
+	operation createIwOutBinding(stubExit:IwNodeConnection,pluginEndPoint:IwEndPoint):IwOutBinding is do
+		result:=IwOutBinding.new
+		result.stubExit:=stubExit
+		result.pluginEndPoint:=pluginEndPoint
+	end
+	
+	operation bindStaticStubToPluginEndPoint(staticStub:IwStub,stubExitNode:IwNode,pluginEndPoint:IwEndPoint):IwOutBinding is do
+		var stubExit:IwNodeConnection init linkNodes(staticStub,stubExitNode)
+		result:=createIwOutBinding(stubExit,pluginEndPoint)
+		//stle:single again
+		result.pluginBinding:=staticStub.pluginBindings.one
+	end
 }

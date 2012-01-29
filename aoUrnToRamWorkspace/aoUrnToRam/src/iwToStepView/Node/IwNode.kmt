@@ -37,6 +37,11 @@ aspect class IwNode {
 		stepView.appendLine("")
 		stepView.append("        "+stepView.dotEscape(getId))  
 		stepView.append("[label=")
+		
+		if(step.isVoid) then
+			stdio.writeln("void:"+name)
+		end
+		
 		if(name==step.name) then
 			stepView.append(stepView.dotEscape(name))
 		else

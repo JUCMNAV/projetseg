@@ -21,7 +21,4 @@ class LinkSteps_TestHelper inherits CustomAssert,IwTestFactory
 		result:=super
 		result.isStartupStep:=false
 	end
-
-	
-	
 }

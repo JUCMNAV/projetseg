@@ -15,26 +15,12 @@ class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow
-    	workflow.concern:=concern
-    	sut:=createIwStartPoint
-		sut.workflow:=workflow
+    	workflow:=createIwWorkflow_Concern(concern)
+    	sut:=createIwStartPoint_Workflow(workflow)
 	end
-
-	//stle:name set to startPoint name
-
-	operation testLinkStep_CreateStep_StepInit() is do
-		sut.startPointType:="global"
-		
-		sut.linkStep
-	
-		assertEquals(true,sut.step.isStartupStep)
-		assertEquals(sut.name,sut.step.name)	
-	end
-
 
 	@feature "FeaTransformStaticStub"
-	operation testLinkStep_GlobalStartPoint_StepAdded() is do
+	operation testLinkStep_Global_ShouldAddStep() is do
 		sut.startPointType:="global"
 		
 		sut.linkStep
@@ -43,8 +29,17 @@ class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
 	end
 
 	@feature "FeaTransformStaticStub"
-	operation testLinkStep_LocalStartPoint_StepAdded() is do
+	operation testLinkStep_Local_ShouldAddStep() is do
 		sut.startPointType:="local"
+		
+		sut.linkStep
+		
+		assertStepAdded
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testLinkStep_BoundFromDifferentConcern_ShouldAddStep() is do
+		bindStaticStubToPluginStartPoint(createStubFromDifferentConcern,sut)
 		
 		sut.linkStep
 		
@@ -52,38 +47,27 @@ class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testLinkStep_BoundFromSameConcernOnceStartPoint_NoStepAdded() is do
-		bindPluginStartPointWithStubFromWorkflow(workflow)	
-		bindPluginStartPointWithStubFromWorkflow(createWorkflowFromDifferentConcern)
+	operation testLinkStep_BoundFromSameConcernOnce_ShouldNotAddStep() is do
+		bindStaticStubToPluginStartPoint(createStubFromDifferentConcern,sut)
+		bindStaticStubToPluginStartPoint(createStubFromSameConcern,sut)
 		
 		sut.linkStep
 		
 		assertEquals(0,concern.steps.size)
 		assertVoid(sut.step)
 	end
+
+	operation createStubFromSameConcern():IwStub is do
+		result:=createIwStaticStub_Workflow(workflow)
+	end
 	
-	operation testLinkStep_BoundFromDifferentConcernStartPoint_StepAdded() is do
-		var stubDifferentConcern:IwStub init bindPluginStartPointWithStub(sut)
-		stubDifferentConcern.workflow:=createWorkflowFromDifferentConcern
-		
-		sut.linkStep
-		
-		assertStepAdded
-	end
-
-	operation bindPluginStartPointWithStubFromWorkflow(workflow:IwWorkflow) is do
-		var stub:IwStub init bindPluginStartPointWithStub(sut)
-		stub.workflow:=workflow
-	end
-
-	//stle:reuse
-	operation createWorkflowFromDifferentConcern():IwWorkflow is do
-		result:=createIwWorkflow
-		result.concern:=createIwConcern
+	operation createStubFromDifferentConcern():IwStub is do
+		result:=createIwStaticStub_Workflow(createIwWorkflow_Concern(createIwConcern))
 	end
 	
 	operation assertStepAdded() is do
 		assertNotVoid(sut.step)
+		assertEquals(sut.name,sut.step.name)
 		assertCollectionHasSingleElement(sut.step,concern.steps)
 	end
 	

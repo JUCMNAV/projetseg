@@ -3,14 +3,18 @@
 package aoUrnToRam::Test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubInBindingTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubAnotherConcernTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/LinkSteps_StubOutBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNodeTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/IwStepTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_OneStubTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_TwoStubsTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_OrForkAsSutTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
@@ -20,12 +24,14 @@ class LinkSteps_TestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
-		result.add(LinkSteps_IwStartPointTestCase)
-		result.add(LinkSteps_IwInputTestCase)
-		result.add(LinkSteps_IwNodeTestCase)
 		result.add(LinkSteps_IwStepTestCase)
-		result.add(LinkSteps_StubInBindingTestCase)
-		result.add(LinkSteps_StubAnotherConcernTestCase)
-		result.add(LinkSteps_StubOutBindingTestCase)
+		result.add(LinkSteps_IwEndPoint_OneStubTestCase)
+		result.add(LinkSteps_IwEndPoint_TwoStubsTestCase)
+		result.add(LinkSteps_IwInputTestCase)
+		result.add(LinkSteps_IwNode_CustomizableNodeAsSutTestCase)
+		result.add(LinkSteps_IwNode_OrForkAsSutTestCase)
+		result.add(LinkSteps_IwStartPointTestCase)
+		result.add(LinkSteps_IwStub_PluginDifferentConcernTestCase)
+		result.add(LinkSteps_IwStub_TwoPluginStartPointsTestCase)
 	end
 }

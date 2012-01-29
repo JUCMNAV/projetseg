@@ -1,0 +1,66 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class LinkSteps_IwEndPoint_TwoStubsTestCase inherits TestCase,LinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference stubWorkflow:IwWorkflow
+	reference currentStep:IwStep
+	
+	reference sut:IwEndPoint
+	reference stub1:IwStub
+	reference stub1ExitNode:IwNode
+	reference stub2:IwStub
+	reference stub2ExitNode:IwNode
+	
+	method setUp() is do
+		concern:= createIwConcern
+    	workflow:=createIwWorkflow_Concern(concern)
+    	stubWorkflow:=createIwWorkflow_Concern(concern)
+    	currentStep:=createIwStep_Concern(concern)
+    	
+    	sut:=createIwEndPoint_Workflow(workflow)
+
+		stub1:=createIwStaticStub_Workflow(stubWorkflow)
+		stub1ExitNode:=createIwCustomizableNode_Workflow(stubWorkflow)
+		bindStaticStubToPluginEndPoint(stub1,stub1ExitNode,sut)
+		
+		stub2:=createIwStaticStub_Workflow(stubWorkflow)
+		stub2ExitNode:=createIwCustomizableNode_Workflow(stubWorkflow)
+		bindStaticStubToPluginEndPoint(stub2,stub2ExitNode,sut)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Unexplored_ShouldContinueExploration() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(currentStep,stub1ExitNode.step)
+		assertEquals(currentStep,stub2ExitNode.step)
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Explored_ShouldStopExploration() is do
+		sut.step:=currentStep
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertVoid(stub1ExitNode.step)
+		assertVoid(stub2ExitNode.step)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Unexplored_ShouldAddOutboundStubsToCurrentStep() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCollectionHasSingleElement(currentStep,stub1.outboundInSteps)
+		assertCollectionHasSingleElement(currentStep,stub2.outboundInSteps)
+	end
+	
+}
