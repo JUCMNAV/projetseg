@@ -29,4 +29,11 @@ aspect class IwNode {
 	getter is do
 		result:= step.isVoid
 	end
+	
+	operation createStep(isStartupStep:Boolean):IwStep is do
+		result:=IwStep.new
+		result.name:=name
+		result.isStartupStep:=isStartupStep
+		concern.steps.add(result)
+	end
 }

@@ -6,9 +6,8 @@ using kermeta::standard
 
 aspect class IwStub{
 	method explore(currentStep:IwStep) is do
-		step:=currentStep
-		
-		if(isStaticPluginInSameConcern) then 
+		if(isStaticPluginInSameConcern) then
+			step:=currentStep 
 			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
 		else
 			super(currentStep)			

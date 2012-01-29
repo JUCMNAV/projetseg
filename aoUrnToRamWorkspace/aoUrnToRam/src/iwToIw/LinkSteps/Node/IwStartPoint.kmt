@@ -7,11 +7,8 @@ using kermeta::standard
 aspect class IwStartPoint{
 	operation linkStep() is do
 		if(isBoundFromSameConcernOnce==false) then
-			var currentStep:IwStep init IwStep.new
-			currentStep.isStartupStep:=true
-			currentStep.name:=name		
-			concern.steps.add(currentStep)
-			step_DeepFirstSearch(currentStep)
+			var startupStep:IwStep init createStep(true) 
+			step_DeepFirstSearch(startupStep)
 		end
 	end
 	

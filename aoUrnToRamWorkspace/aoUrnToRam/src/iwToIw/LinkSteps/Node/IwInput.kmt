@@ -7,14 +7,16 @@ using kermeta::standard
 aspect class IwInput {
 	method explore(currentStep:IwStep) is do
 		if(currentStep.isStartupStep==true) then
-			currentStep.name:=name
-			currentStep.isStartupStep:=false
+			linkStartupStep(currentStep)
 		else
-			currentStep:=IwStep.new
-			currentStep.name:=name
-			currentStep.isStartupStep:=false
-			concern.steps.add(currentStep)
+			currentStep:=createStep(false)
 		end
 		super(currentStep)
 	end
+	
+	operation linkStartupStep(currentStep:IwStep) is do
+		currentStep.name:=name
+		currentStep.isStartupStep:=false
+	end
+	
 }

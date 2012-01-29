@@ -16,18 +16,6 @@ aspect class IwStep {
 		stepToMerge.delete
 	end
 	
-	operation delete() is do
-		nodes.clear
-		concern:=void
-		outboundStubs.clear
-	end
-
-	operation mergeIsStartupStep(stepToMerge:IwStep) is do
-		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
-			isStartupStep:=false
-		end
-	end
-	
 	operation mergeName(stepToMerge:IwStep) is do
 		if(isStartupStep==stepToMerge.isStartupStep) then
 			combineNameInAlphabeticalOrder(stepToMerge)
@@ -49,4 +37,17 @@ aspect class IwStep {
 	operation combineName(name1:String,name2:String):String is do
 		result:=name1+"_"+name2
 	end
+	
+	operation mergeIsStartupStep(stepToMerge:IwStep) is do
+		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
+			isStartupStep:=false
+		end
+	end
+	
+	operation delete() is do
+		nodes.clear
+		concern:=void
+		outboundStubs.clear
+	end
+	
 }
