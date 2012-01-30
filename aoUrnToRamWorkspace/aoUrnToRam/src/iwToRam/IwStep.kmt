@@ -97,15 +97,23 @@ aspect class IwStep {
 	end
 	
 	operation mapRamClass(sourceModelElement:String,ramClass:Class) is do
-		//stle:single again
-		var mapping:Mapping init ramReactiveWorkflowInstantiation.mappings.select
-								{mapping|mapping.sourceModelElement==sourceModelElement}.one  
-		if(mapping.isVoid) then
-			mapping:=Mapping.new
+		if(ramMappingsContainsKey(sourceModelElement)==false) then
+			var mapping:Mapping init Mapping.new
 			mapping.sourceModelElement:=sourceModelElement
 			ramReactiveWorkflowInstantiation.mappings.add(mapping)
 		end
-		mapping.maps.add(ramClass)
+		ramMappingsGetValue(sourceModelElement).maps.add(ramClass)
+	end
+
+	operation ramMappingsContainsKey(sourceModelElement:String):Boolean is do
+		result:=ramReactiveWorkflowInstantiation.mappings.exists
+								{mapping|mapping.sourceModelElement==sourceModelElement}  
+	end
+	
+	operation ramMappingsGetValue(sourceModelElement:String):Mapping is do
+		//stle:single again
+		result:=ramReactiveWorkflowInstantiation.mappings.select
+								{mapping|mapping.sourceModelElement==sourceModelElement}.one  
 	end
 	
 	property readonly customizableNodes: IwCustomizableNode[0..*]

@@ -1,0 +1,21 @@
+package intermediateWorkflow;
+
+
+require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
+
+using kermeta::standard
+using ramstructural
+
+aspect class IwNodeConnection {
+	reference ramCondition:Class
+	
+	operation build() is do
+		ramCondition:=Class.new
+		ramCondition.name:=source.name+"_"+conditionName
+	end
+	
+	operation link() is do
+		step.addRamClass(ramCondition)
+		step.mapRamClass("Condition",ramCondition)
+	end
+}

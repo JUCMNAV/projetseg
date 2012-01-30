@@ -1,0 +1,49 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+
+class IwToRam_IwNodeConnectionTestCase inherits TestCase,IwToRam_TestHelper
+{
+	reference sut:IwNodeConnection
+	
+	method setUp() is do
+		sut:=createIwNodeConnection_Unlinked
+		sut.conditionName:="theBranch1"
+		sut.source:=createIwOrFork
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testBuild_ShouldAppendConditionNameAfterOrForkName() is do
+		sut.build
+		
+		assertEquals("theOrFork_theBranch1",sut.ramCondition.name)
+	end
+
+	@feature "FeaTransformOrFork"
+	operation testLink_ShouldAddRamConditionClassToRamClassDiagram() is do
+		setupAndExeLink
+		
+		assertCollectionHasSingleElement(sut.ramCondition,sut.step.ramStructuralView.classes)
+	end
+
+	@feature "FeaTransformOrFork"
+	operation testLink_ShouldMapRamConditionClass() is do
+		setupAndExeLink
+		
+		assertCollectionHasSingleElement(sut.ramCondition,sut.step.ramMappingsGetValue("Condition").maps)
+	end
+	
+	operation setupAndExeLink() is do
+		var step:IwStep init createIwStep
+		sut.source.step:=step
+		step.build
+		
+		sut.link
+	end
+}

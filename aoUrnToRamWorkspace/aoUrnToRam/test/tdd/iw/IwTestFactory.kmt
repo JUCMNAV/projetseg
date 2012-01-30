@@ -53,6 +53,13 @@ class IwTestFactory
 		result.source:=source
 		result.target:=target
 	end
+	
+	operation createIwNodeConnection_Source_ConditionName(source:IwNode,conditionName:String):IwNodeConnection is do
+		result:=createIwNodeConnection_Unlinked
+		result.source:=source
+		result.conditionName:=conditionName
+	end
+	
 
 /*********************************************************
 Node

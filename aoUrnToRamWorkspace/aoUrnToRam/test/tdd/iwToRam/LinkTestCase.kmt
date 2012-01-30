@@ -167,30 +167,6 @@ class IwToRamLinkTestCase inherits TestCase
 		assert(actual.ramAspects.size==0)
 	end
 
-	@feature "FeaTransformOrFork"
-	operation testLinkIwFork() is do
-		var actual:IwOrFork init factory.createIwOrFork
-		var step:IwStep init factory.createIwStep()
-		actual.step:=step
-		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch1"
-		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch2"
-		factory.createIwNodeConnection(actual,factory.createIwCustomizableNode).conditionName:="theBranch3"
-		step.build
-		
-		actual.link
-
-		//properly linked
-		assert(step.ramStructuralView.classes.asSet==actual.ramConditions)
-		
-		//stle: add .single to collection class
-		assert(step.ramReactiveWorkflowInstantiation.mappings.size==1)
-		var mapping:Mapping init step.ramReactiveWorkflowInstantiation.mappings.one
-		
-		//stle: not the right place for condition, step should have a property for each sourceModelElement, the add mapping should be tested in isolation
-		assertStringEqual("Condition",mapping.sourceModelElement)
-		assertSetOfBaseClasses_Equals_SetOfSubClasses(mapping.maps.asSet,actual.ramConditions)
-	end
-
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testStep_LinkCustomizableNodes() is do
 		var sut:IwStep init factory.createIwStep
