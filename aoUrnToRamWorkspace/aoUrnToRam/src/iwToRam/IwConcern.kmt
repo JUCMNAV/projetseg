@@ -7,13 +7,14 @@ using ramstructural
 
 aspect class IwConcern {
 	operation build() is do
-		steps.each{step|
-			step.build()
-			step.buildConcern(self)
-		}
+		steps.each{step|step.build()}
 	end
 	
 	operation link() is do
 		steps.each{step|step.link}
+	end
+	
+	operation addRamAspect(ramAspect:Aspect) is do
+		model.ramAspects.add(ramAspect)
 	end
 }

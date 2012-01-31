@@ -1,0 +1,56 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+
+class IwToRam_IwOutputTestCase inherits TestCase,IwToRam_TestHelper
+{
+	reference sut:IwOutput
+	
+	method setUp() is do
+		sut:=createIwOutput 
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildCustomizableNodeClass() is do
+		sut.build
+		
+		assertRamClassNameEquals(sut.name,sut.ramOutput)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildOutputDataClass() is do
+		sut.build
+		assertRamClassNameEquals(sut.name+sut.OUTPUT_DATA_SUFFIX,sut.ramOutputData)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldAddTwoClassesToClassDiagram() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertCollectionHasTwoElements(
+			sut.ramOutput,
+			sut.ramOutputData,
+			step.ramStructuralView.classes
+		)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldMapCustomizableNodeClass() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertRamMappingHasSingleElement(sut.ramOutput,step.REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE,step)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldMapOutputDataClass() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertRamMappingHasSingleElement(sut.ramOutputData,step.REACTIVE_WORKFLOW_OUTPUT_DATA,step)
+	end
+}

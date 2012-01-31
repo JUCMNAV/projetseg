@@ -1,19 +1,18 @@
 package intermediateWorkflow;
 
-
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::standard
 using ramstructural
 
 aspect class IwInput{
-	property ramInputData : Class
-	getter is do
-		result := ramClasses_PerSourceModelElement.getValue(INPUT_DATA)
-	end
+	reference ramInputData : Class
 	
 	method build() is do
-		super()
-		addClass(INPUT_DATA,self.name+INPUT_SUFFIX)
+		ramInputData:=createRamClass(name+INPUT_DATA_SUFFIX)
+	end
+	
+	method link() is do
+		step.addMappedRamClass(step.REACTIVE_WORKFLOW_INPUT_DATA,ramInputData)
 	end
 }

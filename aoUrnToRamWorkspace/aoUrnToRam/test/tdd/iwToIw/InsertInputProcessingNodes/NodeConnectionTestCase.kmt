@@ -25,7 +25,7 @@ class NodeConnectionTestCase inherits TestCase,TestHelper
 		//The input is passed by parameter to sut.insertInputProcessingNodes.
 		//Therefore, these tests only assumed that there is a path from the input to the SUT. 
 		//The length of that path do not matters.   
-		sut:=createIwNodeConnection_Unlinked
+		sut:=createIwNodeConnection
 	end
 
 	@feature "FeaHandleTwoInputsInARow"

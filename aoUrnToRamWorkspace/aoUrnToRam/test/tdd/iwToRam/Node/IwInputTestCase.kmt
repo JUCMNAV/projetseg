@@ -1,0 +1,39 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+
+class IwToRam_IwInputTestCase inherits TestCase,IwToRam_TestHelper
+{
+	reference sut:IwInput
+	
+	method setUp() is do
+		sut:=createIwInput 
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildInputDataClass() is do
+		sut.build
+		
+		assertRamClassNameEquals(sut.name+sut.INPUT_DATA_SUFFIX,sut.ramInputData)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldAddInputDataClassToClassDiagram() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertCollectionHasSingleElement(sut.ramInputData,step.ramStructuralView.classes)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldMapInputDataClass() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertRamMappingHasSingleElement(sut.ramInputData,step.REACTIVE_WORKFLOW_INPUT_DATA,step)
+	end
+}

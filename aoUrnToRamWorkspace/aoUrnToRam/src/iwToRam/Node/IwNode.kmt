@@ -8,26 +8,14 @@ using ramstructural
 using kermeta::utils
 
 aspect class IwNode {
-	reference ramClasses_PerSourceModelElement: Hashtable<String, Class>
-
-	property INPUT_SUFFIX : String getter is do result := "Input" end
-	property OUTPUT_SUFFIX : String getter is do result := "Output" end
-
-	property INPUT_DATA : String getter is do result := "|InputData" end
-	property CUSTOMIZABLE_NODE : String getter is do result := "|CustomizableNode" end
-	property OUTPUT_DATA : String getter is do result := "OutputData" end
+	property INPUT_DATA_SUFFIX : String getter is do result := "Input" end
+	property OUTPUT_DATA_SUFFIX : String getter is do result := "Output" end
 	
-	operation build() is do
-		ramClasses_PerSourceModelElement:=Hashtable<String, Class>.new
+	operation createRamClass(name:String):Class is do
+		result:=Class.new
+		result.name:=name
 	end
 	
-	operation addClass(sourceModelElement:String, name:String) is do
-		var ramClass:Class init Class.new
-		ramClass.name:=name
-		ramClasses_PerSourceModelElement.put(sourceModelElement,ramClass)
-	end
-	
-	operation link() is do
-		//stle: empty default for now, abstract later
-	end
+	operation build() is abstract
+	operation link() is abstract
 }

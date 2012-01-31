@@ -32,6 +32,11 @@ class CustomAssert inherits Assert
 		assertWithMsgNextLine(actual.isVoid==false,"The value was not expected to be void.")
 	end
 	
+	operation assertCollectionHasSingleElement<T>(singleElement:T,collection:Collection<T>) is do
+		assertEquals(1,collection.size)
+		assertEquals(singleElement,collection.one)
+	end
+	
 	operation assertCollectionHasTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
 		assertEquals(2,collection.size)
 		assertNotEquals(firstElement,secondElement)

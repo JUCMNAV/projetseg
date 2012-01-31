@@ -11,6 +11,7 @@ aspect class IwModel {
 	operation toRam():Aspect[0..*] is do
 		build
 		link
+		removeEmptyRamAspects
 		result := ramAspects
 	end
 	
@@ -20,13 +21,13 @@ aspect class IwModel {
 	
 	operation link() is do
 		concerns.each{concern|concern.link}
-		addAspects
 	end
 	
-	operation addAspects() is do
-		concerns.each{concern|
-			concern.steps.select{step|step.ramAspect.structuralView.classes.size>0}
-				 			 .each{step|ramAspects.add(step.ramAspect)}
-		}
+	operation removeEmptyRamAspects() is do
+		var withoutEmptyRamAspects:Collection<Aspect> 
+		init ramAspects.reject{ramAspect|ramAspect.structuralView.classes.size==0}
+		ramAspects.clear
+		ramAspects.addAll(withoutEmptyRamAspects)
 	end
+	
 }

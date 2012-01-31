@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStep{
+
+	property readonly model:IwModel
+	getter is do
+		result:=concern.model
+	end
+}

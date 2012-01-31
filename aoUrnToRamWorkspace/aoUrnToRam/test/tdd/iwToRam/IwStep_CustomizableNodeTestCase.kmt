@@ -1,0 +1,89 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+
+class IwToRam_IwStep_CustomizableNodeTestCase inherits TestCase,IwToRam_TestHelper
+{
+	reference sut:IwStep
+	reference customizableNode:IwCustomizableNode
+	
+	method setUp() is do
+		sut:=createIwStep 
+		customizableNode:=createIwCustomizableNode_Step(sut)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildClassWithCustomizableNodeName() is do
+		sut.build
+		
+		assertEquals(1,sut.ramCustomizableNodeClasses.size)
+		assertRamClassNameEquals(customizableNode.name,sut.ramCustomizableNodeClasses.values.one)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_TwoNodesNotShared_ShouldBuildTwoClasses() is do
+		var notShared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		notShared.name:="notShared"
+		
+		sut.build
+		
+		assertEquals(2,sut.ramCustomizableNodeClasses.size)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
+		var shared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		setTwoCustomizableNodesAsShared(customizableNode,shared)
+	
+		sut.build
+		
+		assert(sut.ramCustomizableNodeClasses.size==1)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testLink_TwoNodesNotShared_ShouldAddTwoClassesToClassDiagram() is do
+		setupAndExeLink
+		
+		assertEquals(2,sut.ramStructuralView.classes.size)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testLink_TwoNodesNotShared_ShouldMapTwoCustomizableNodeClasses() is do
+		setupAndExeLink
+		
+		var mapClasses:Collection<MappableElement> 
+		init sut.ramMappingsGetValue(sut.REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE).maps
+		
+		assertCollectionHasTwoElements(
+			getRamCustomizableNodeClassAt(0),
+			getRamCustomizableNodeClassAt(1),
+			mapClasses
+		)
+	end
+
+	operation setupAndExeLink() is do
+		attachDefaultConcernDefaultModel(sut)
+		var notSharedNode:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		notSharedNode.name:="notShared"
+		sut.model.build
+		
+		sut.link
+	end
+
+	operation setTwoCustomizableNodesAsShared(node1:IwCustomizableNode,node2:IwCustomizableNode) is do
+		node1.name:="shared"
+		node1.customizableNodeRefId:="1"
+		node2.name:="shared"
+		node2.customizableNodeRefId:="2"
+	end
+	
+	operation getRamCustomizableNodeClassAt(index:Integer):MappableElement is do
+		result:=sut.ramCustomizableNodeClasses.values.asOrderedSet.elementAt(index).asType(MappableElement)
+	end
+}

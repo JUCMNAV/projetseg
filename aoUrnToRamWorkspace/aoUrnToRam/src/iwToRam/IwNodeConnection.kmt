@@ -15,7 +15,6 @@ aspect class IwNodeConnection {
 	end
 	
 	operation link() is do
-		step.addRamClass(ramCondition)
-		step.mapRamClass("Condition",ramCondition)
+		step.addMappedRamClass(step.REACTIVE_WORKFLOW_CONDITION,ramCondition)
 	end
 }

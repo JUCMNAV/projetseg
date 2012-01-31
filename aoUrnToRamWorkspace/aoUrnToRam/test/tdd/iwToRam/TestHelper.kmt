@@ -5,15 +5,44 @@ require kermeta
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
+using ramstructural
 
 class IwToRam_TestHelper inherits CustomAssert,IwTestFactory
 {
-	//stle:move to general
-	operation assertCollectionHasSingleElement<T>(singleElement:T,collection:Collection<T>) is do
-		assertEquals(1,collection.size)
-		assertEquals(singleElement,collection.one)
+	operation createIwInput_Step(step:IwStep):IwInput is do
+		result:=createIwInput
+		result.step:=step
+	end
+	
+	operation createIwCustomizableNode_Step(step:IwStep):IwCustomizableNode is do
+		result:=createIwCustomizableNode()
+		result.step:=step
+	end	
+
+	operation assertRamClassNameEquals(expectedName:String, ramClass:Class) is do
+		assertEquals(expectedName,ramClass.name)
+	end
+
+	operation assertRamMappingHasSingleElement(expectedRamClass:Class,expectedRamSourceModelElement:String,actualStep:IwStep) is do
+		var mapClasses:Collection<MappableElement> init actualStep.ramMappingsGetValue(expectedRamSourceModelElement).maps 
+		assertCollectionHasSingleElement(expectedRamClass,mapClasses)
+	end
+	
+	operation attachDefaultConcernDefaultModel(step:IwStep) is do
+		var model:IwModel init createIwModel
+		var concern:IwConcern init createIwConcern_Model(model)
+		step.concern:=concern
+	end 
+	
+	operation setupAndExeLinkOnNode(node:IwNode):IwStep is do
+		result:=createIwStep
+		node.step:=result
+		result.build
+		
+		node.link
 	end
 }

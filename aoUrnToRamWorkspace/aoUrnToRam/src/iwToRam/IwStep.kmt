@@ -11,88 +11,97 @@ aspect class IwStep {
 	reference ramAspect:Aspect
 	reference ramReactiveWorkflowInstantiation:Instantiation
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
-	
+
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
 		result := ramAspect.structuralView
 	end
 	
-	operation buildConcern(concern:IwConcern) is do
-		ramAspect.workspaceDirectory:=concern.name
+	property readonly customizableNodes: IwCustomizableNode[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(IwCustomizableNode)}
+			 .collect{node|node.asType(IwCustomizableNode)}.asOrderedSet
 	end
+	
+
+/*********************************************************
+Build
+*********************************************************/
 
 	operation build() is do
+		buildRamAspect
+		buildRamReactiveWorkflowInstantiation
+		buildCustomizableNodeClasses
+		nodes.each{node|node.build()}
+	end
+	
+	operation buildRamAspect() is do
 		ramAspect:=Aspect.new
-		ramAspect.name:=self.name
+		ramAspect.name:=name
 		ramAspect.structuralView:=ClassDiagram.new
 		ramAspect.interface:=AspectInterface.new
-		
+	end
+	
+	operation buildRamReactiveWorkflowInstantiation() is do
 		ramReactiveWorkflowInstantiation:=Instantiation.new
 		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
-		
-		nodes.each{node|node.build()}
-		buildCustomizableNodeClasses
 	end
 
-	//CustomizableNodeClasses are built by IwStep because many IwCustomizableNodes may share the same RamClass  	
+	//For rational see @RamCustomizableNodeClassBuildByIwStep  	
 	operation buildCustomizableNodeClasses() is do
 		ramCustomizableNodeClasses:=Hashtable<String,Class>.new
 		customizableNodes.each{customizableNode|
-			var toAdd:Class init customizableNode.createRamClass
-			if(ramCustomizableNodeClasses.containsKey(toAdd.name)==false) then
-				ramCustomizableNodeClasses.put(toAdd.name,toAdd)
+			if(ramCustomizableNodeClasses.containsKey(customizableNode.name)==false) then
+				ramCustomizableNodeClasses.put(customizableNode.name,customizableNode.createRamClass(customizableNode.name))
 			end
 		}
 	end
 	
+/*********************************************************
+Link
+*********************************************************/
+	
 	operation link() is do
-		addClasses
-		addInstantiations
-		nodes.each{node|node.link}
+		linkRamReactiveWorkflowInstantiation
 		linkCustomizableNodeClasses
+		nodes.each{node|node.link}
+		
+		if(ramStructuralView.classes.size>0) then
+			linkConcern
+		end
+	end
+	
+	operation linkConcern() is do
+		ramAspect.workspaceDirectory:=concern.name
+		concern.addRamAspect(ramAspect)
+	end
+
+	operation linkRamReactiveWorkflowInstantiation() is do
+		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
 	end
 	
 	operation linkCustomizableNodeClasses() is do
 		ramCustomizableNodeClasses.values.each{ramClass|
-			ramStructuralView.classes.add(ramClass)
+			addMappedRamClass(REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE,ramClass)
 		}
 	end
 
-	operation addClasses() is do
-		nodes.each{node|
-			node.ramClasses_PerSourceModelElement.values.each{ramClass|
-				ramStructuralView.classes.add(ramClass)
-			}
-		}
+/*********************************************************
+Add Ram Class API
+*********************************************************/
+	property REACTIVE_WORKFLOW_INPUT_DATA : String getter is do result := "|InputData" end
+	property REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE : String getter is do result := "|CustomizableNode" end
+	property REACTIVE_WORKFLOW_OUTPUT_DATA : String getter is do result := "OutputData" end
+	property REACTIVE_WORKFLOW_CONDITION : String getter is do result := "Condition" end
+	
+	operation addMappedRamClass(sourceModelElement:String,ramClass:Class) is do
+		addNotMappedRamClass(ramClass)
+		mapRamClass(sourceModelElement,ramClass)
 	end
 	
-	operation addInstantiations() is do
-		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
-		addReactiveWorkflowMappings
-	end
-	
-	operation addReactiveWorkflowMappings() is do
-		var mappings: Hashtable<String, Mapping> init Hashtable<String, Mapping>.new 
-		
-		nodes.each{node|
-			node.ramClasses_PerSourceModelElement.keys.each{sourceModelElement|
-				var ramClass:Class init node.ramClasses_PerSourceModelElement.getValue(sourceModelElement) 
-				getMapping(mappings,sourceModelElement).maps.add(ramClass)
-			}
-		}
-	end
-	
-	operation getMapping(mappings: Hashtable<String, Mapping>,sourceModelElement:String):Mapping is do
-		if(mappings.containsKey(sourceModelElement)==false) then
-			var mapping:Mapping init Mapping.new
-			mapping.sourceModelElement:=sourceModelElement
-			mappings.put(sourceModelElement,mapping)
-			ramReactiveWorkflowInstantiation.mappings.add(mapping)
-		end
-		result:=mappings.getValue(sourceModelElement)
-	end
-	
-	operation addRamClass(ramClass:Class) is do
+	operation addNotMappedRamClass(ramClass:Class) is do
 		ramStructuralView.classes.add(ramClass)
 	end
 	
@@ -114,13 +123,5 @@ aspect class IwStep {
 		//stle:single again
 		result:=ramReactiveWorkflowInstantiation.mappings.select
 								{mapping|mapping.sourceModelElement==sourceModelElement}.one  
-	end
-	
-	property readonly customizableNodes: IwCustomizableNode[0..*]
-	getter is do
-		//stle: DRY
-		//stle: refactor for reuse
-		result:=nodes.select{node|node.isInstanceOf(IwCustomizableNode)}
-			 .collect{node|node.asType(IwCustomizableNode)}.asOrderedSet
 	end
 }

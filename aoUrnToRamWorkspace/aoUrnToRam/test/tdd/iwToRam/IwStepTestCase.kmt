@@ -1,0 +1,91 @@
+package aoUrnToRam::Test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ramstructural
+using aoUrnToRam::util
+
+class IwToRam_IwStepTestCase inherits TestCase,IwToRam_TestHelper
+{
+	reference sut:IwStep
+	
+	method setUp() is do
+		sut:=createIwStep 
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildRamAspect() is do
+		sut.build
+		
+		assertNotVoid(sut.ramAspect)
+		assertEquals(sut.name,sut.ramAspect.name)
+		assertNotVoid(sut.ramAspect.structuralView)
+		assertNotVoid(sut.ramAspect.interface)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildReactiveWorkflowIntanciation() is do
+		sut.build
+		
+		assertNotVoid(sut.ramReactiveWorkflowInstantiation)
+		assertEquals("ReactiveWorkflow",sut.ramReactiveWorkflowInstantiation.externalAspect)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldLinkRamReactiveWorkflowInstantiation() is do
+		attachDefaultConcernDefaultModel(sut)
+		sut.model.build
+
+		sut.link
+				
+		assertCollectionHasSingleElement(sut.ramReactiveWorkflowInstantiation,sut.ramAspect.structuralView.instantiations)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamAspects() is do
+		attachDefaultConcernDefaultModel(sut)
+		sut.model.build
+		
+		sut.link
+		
+		assertEquals(0,sut.model.ramAspects.size)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamAspects() is do
+		setupAndExeLinkNotEmptyStep
+		
+		assertEquals(1,sut.model.ramAspects.size)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
+		setupAndExeLinkNotEmptyStep
+				
+		assertEquals(Path.new.combine(sut.concern.name,sut.name),sut.ramAspect.workspacePath)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnNodes() is do
+		attachDefaultConcernDefaultModel(sut)
+		createIwInput_Step(sut)
+		createIwInput_Step(sut)
+		sut.model.build
+
+		sut.link
+
+		assertEquals(2,sut.ramAspect.structuralView.classes.size)
+	end
+	
+	operation setupAndExeLinkNotEmptyStep() is do
+		attachDefaultConcernDefaultModel(sut)
+		createIwInput_Step(sut)
+		sut.model.build
+		
+		sut.link
+	end
+}

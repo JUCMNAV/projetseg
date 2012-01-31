@@ -11,12 +11,6 @@ using intermediateWorkflow
 
 class LinkSteps_TestHelper inherits CustomAssert,IwTestFactory
 {
-	//stle:move to general
-	operation assertCollectionHasSingleElement<T>(singleElement:T,collection:Collection<T>) is do
-		assertEquals(1,collection.size)
-		assertEquals(singleElement,collection.one)
-	end
-
 	method createIwStep():IwStep is do
 		result:=super
 		result.isStartupStep:=false

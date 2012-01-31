@@ -15,6 +15,11 @@ class IwTestFactory
 		result:=IwConcern.new
 		result.name:="theConcern"
 	end
+
+	operation createIwConcern_Model(model:IwModel):IwConcern is do
+		result:=createIwConcern
+		result.model:=model
+	end
 	
 	operation createIwStep():IwStep is do
 		result:=IwStep.new
@@ -36,28 +41,24 @@ class IwTestFactory
 		result.concern:=concern
 	end
 
-	//stle:rename createIwNodeConnection to link node
-	operation createIwNodeConnection_Unlinked():IwNodeConnection is do
+	operation createIwNodeConnection():IwNodeConnection is do
 		result:=IwNodeConnection.new
 	end
-
-	//stle:rename createIwNodeConnection to link node
-	//deprecated
-	operation createIwNodeConnection(source:IwNode,target:IwNode):IwNodeConnection is do
-		result:=linkNodes(source,target)
-	end
 	
-	//stle:rename createIwNodeConnection to link node
 	operation linkNodes(source:IwNode,target:IwNode):IwNodeConnection is do
-		result:=createIwNodeConnection_Unlinked
+		result:=createIwNodeConnection
 		result.source:=source
 		result.target:=target
 	end
 	
-	operation createIwNodeConnection_Source_ConditionName(source:IwNode,conditionName:String):IwNodeConnection is do
-		result:=createIwNodeConnection_Unlinked
+	operation createIwConditionalNodeConnection_Source(source:IwNode):IwNodeConnection is do
+		result:=createIwConditionalNodeConnection
 		result.source:=source
-		result.conditionName:=conditionName
+	end
+	
+	operation createIwConditionalNodeConnection():IwNodeConnection is do
+		result:=createIwNodeConnection
+		result.conditionName:="theBranch"
 	end
 	
 
@@ -83,7 +84,7 @@ Node
 		result:=createIwCustomizableNode
 		result.workflow:=workflow
 	end
-
+	
 	operation createIwOutput():IwOutput is do
 		result:=IwOutput.new
 		result.name:="theOutput"
