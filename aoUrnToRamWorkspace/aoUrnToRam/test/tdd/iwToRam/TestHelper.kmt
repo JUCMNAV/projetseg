@@ -1,4 +1,4 @@
-package aoUrnToRam::Test;
+package aoUrnToRam::test;
 
 require kermeta
 //stle: factory is common to IwToIw and IwToRam

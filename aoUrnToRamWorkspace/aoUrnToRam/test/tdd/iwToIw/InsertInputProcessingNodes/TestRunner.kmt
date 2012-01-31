@@ -1,6 +1,6 @@
-@mainClass "aoUrnToRam::Test::InsertInputProcessingNodes::TestRunner"
+@mainClass "aoUrnToRam::test::InsertInputProcessingNodes::TestRunner"
 @mainOperation "runTestClassesWithReport"
-package aoUrnToRam::Test::InsertInputProcessingNodes;
+package aoUrnToRam::test::InsertInputProcessingNodes;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/NodeConnectionTestCase.kmt"
@@ -8,7 +8,7 @@ require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
-using aoUrnToRam::Test
+using aoUrnToRam::test
 
 class TestRunner inherits CustomTestRunner
 {

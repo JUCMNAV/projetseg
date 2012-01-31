@@ -1,6 +1,6 @@
-@mainClass "aoUrnToRam::Test::AoUrnToIwTestRunner"
+@mainClass "aoUrnToRam::test::AoUrnToIwTestRunner"
 @mainOperation "runTestClassesWithReport"
-package aoUrnToRam::Test;
+package aoUrnToRam::test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/InOutExpressionTestCase.kmt"

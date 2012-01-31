@@ -1,6 +1,6 @@
-@mainClass "aoUrnToRam::Test::LinkSteps_TestRunner"
+@mainClass "aoUrnToRam::test::LinkSteps_TestRunner"
 @mainOperation "runTestClassesWithReport"
-package aoUrnToRam::Test;
+package aoUrnToRam::test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
@@ -18,7 +18,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_Two
 
 using kermeta::standard
 using kermeta::language::structure
-using aoUrnToRam::Test
+using aoUrnToRam::test
 
 class LinkSteps_TestRunner inherits CustomTestRunner
 {

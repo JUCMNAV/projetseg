@@ -1,4 +1,4 @@
-package aoUrnToRam::Test::InsertInputProcessingNodes;
+package aoUrnToRam::test::InsertInputProcessingNodes;
 
 require kermeta
 //stle: factory is common to IwToIw and IwToRam
@@ -7,7 +7,7 @@ require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
 
 using kermeta::standard
-using aoUrnToRam::Test
+using aoUrnToRam::test
 
 class TestHelper inherits CustomAssert,IwTestFactory
 {

@@ -1,6 +1,6 @@
-@mainClass "aoUrnToRam::Test::IntegrationTestRunner"
+@mainClass "aoUrnToRam::test::IntegrationTestRunner"
 @mainOperation "runTestClassesWithReport"
-package aoUrnToRam::Test;
+package aoUrnToRam::test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/test/integration/IntegrationTestCase.kmt"

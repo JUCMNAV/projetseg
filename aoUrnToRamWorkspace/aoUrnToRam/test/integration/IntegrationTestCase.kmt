@@ -1,4 +1,4 @@
-package aoUrnToRam::Test;
+package aoUrnToRam::test;
 
 require kermeta
 require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
