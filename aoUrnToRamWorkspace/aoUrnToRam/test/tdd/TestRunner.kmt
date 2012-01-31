@@ -3,23 +3,20 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestRunner.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestRunner.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.CodeGen.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
-using aoUrnToRam::test::InsertInputProcessingNodes
 
 class AllTestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
-		result.addAll(AoUrnToIwTestRunner.new.getTestClasses)
-		result.addAll(aoUrnToRam::test::InsertInputProcessingNodes::TestRunner.new.getTestClasses)
+		result.addAll(InsertInputProcessingNodes_TestRunner.new.getTestClasses)
 		result.addAll(LinkSteps_TestRunner.new.getTestClasses)
-		result.addAll(IwToRamTestRunner.new.getTestClasses)
+		result.addAll(IwToRam_TestRunner.new.getTestClasses)
 	end
 }

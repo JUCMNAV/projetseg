@@ -1,4 +1,4 @@
-package aoUrnToRam::test::InsertInputProcessingNodes;
+package aoUrnToRam::test;
 
 require kermeta
 //stle: rename all folder to lower cap
@@ -10,8 +10,7 @@ using intermediateWorkflow
 
 using kermeta::language::structure
 using aoUrnToRam::test
-
-class NodeConnectionTestCase inherits TestCase,TestHelper
+class InsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCase,InsertInputProcessingNodes_TestHelper
 {
 	reference input:IwInput
 	reference sut:IwNodeConnection

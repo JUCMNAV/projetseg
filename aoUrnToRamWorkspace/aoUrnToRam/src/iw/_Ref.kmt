@@ -5,7 +5,7 @@ require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
-//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Run: aoUrnToRam.codeGen.RefUpdater
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/iw/IwCustomizableNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNode.kmt"
