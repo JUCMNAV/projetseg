@@ -58,7 +58,7 @@ class IwTestFactory
 	
 	operation createIwConditionalNodeConnection():IwNodeConnection is do
 		result:=createIwNodeConnection
-		result.conditionName:="theBranch"
+		result.conditionName:="theCondition"
 	end
 	
 

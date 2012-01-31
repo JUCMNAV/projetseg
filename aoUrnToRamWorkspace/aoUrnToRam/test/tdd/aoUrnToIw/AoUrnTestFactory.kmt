@@ -12,125 +12,92 @@ using oneurn::urncore
 
 class AoUrnTestFactory
 {
-	reference components_PerName: Hashtable<String, Component>
-
-	operation createComponentRef(name:String,kind:ComponentKind):ComponentRef is do
-		result:=ComponentRef.new
-		result.contDef:=getComponents(name,kind)
-	end
-
-	operation getComponents(name:String,kind:ComponentKind):Component is do
-		if(components_PerName.isVoid) then
-			components_PerName:=Hashtable<String, Component>.new
-		end
-		
-		if(components_PerName.containsKey(name)==false) then
-			var component:Component init Component.new
-			component.name:=name
-			component.kind:=kind
-			components_PerName.put(name,component)
-		end
-		result:=components_PerName.getValue(name)
-		if(result.kind!=kind) then
-			//stle: proper exception
-			raise Exception.new
-		end
-	end
-
-	operation createEndPoint(name:String,ramExpression:String):EndPoint is do
-		var endPoint:EndPoint init EndPoint.new
-		endPoint.name:=optionalString(name)
-		addRamMetadata(endPoint,ramExpression)
-		result:=endPoint
-	end
-	
-	operation createStartPoint(name:String,ramExpression:String):StartPoint is do
-		var startPoint:StartPoint init StartPoint.new
-		startPoint.name:=optionalString(name)
-		addRamMetadata(startPoint,ramExpression)
-		result:=startPoint
-	end
-	
-	operation createEmptyPoint(ramExpression:String):EmptyPoint is do
-		var emptyPoint:EmptyPoint init EmptyPoint.new
-		emptyPoint.name:="theEmptyPoint"
-		addRamMetadata(emptyPoint,ramExpression)
-		result:=emptyPoint
-	end
-	
-	operation createOrFork(name:String,ramExpression:String):OrFork is do
-		var orFork:OrFork init OrFork.new
-		orFork.name:=optionalString(name)
-		addRamMetadata(orFork,ramExpression)
-		result:=orFork
-	end
-
-	operation createOrJoin(ramExpression:String):OrJoin is do
-		var orJoin:OrJoin init OrJoin.new
-		addRamMetadata(orJoin,ramExpression)
-		result:=orJoin
-	end
-
-	operation createRespRef(name:String,ramExpression:String):RespRef is do
-		result:=createRespRefGeneric(name,ramExpression,false)
-	end
-	
-	operation createRespRefGeneric(name:String,ramExpression:String,insideActor:Boolean):RespRef is do
-		var respRef:RespRef init RespRef.new
-		respRef.id:="1"
-		respRef.respDef:=createResponsibility(name,ramExpression)
-		if(insideActor) then 
-			respRef.contRef:=createComponentRef("theActor",ComponentKind.Actor)
-		end
-		result:=respRef
-	end
-
-	operation createResponsibility(name:String,ramExpression:String):Responsibility is do
-		var responsibility:Responsibility init Responsibility.new
-		responsibility.name:=optionalString(name)
-		addRamMetadata(responsibility,ramExpression)
-		result:=responsibility
-	end
-	
-	operation addRamMetadata(element:URNmodelElement, ramExpression:String) is do
-		if(ramExpression.isVoid==false) then
-			var ramMetadata:Metadata init Metadata.new
-			ramMetadata.name:="ram"
-			ramMetadata.~value:=ramExpression
-			element.metadata.add(ramMetadata)
-		end
-	end
-
-	operation createConcern(name:String):Concern is do
-		var concern:Concern init Concern.new
-		concern.name:=optionalString(name)
-		result:=concern 
-	end
-	
-	operation createUcmMap(name:String):UCMmap is do
-		var ucmMap:UCMmap init UCMmap.new
-		ucmMap.name:=optionalString(name)
-		result:=ucmMap 
-	end
-
 	operation createUrnSpec():URNspec is do
-		var urnSpec:URNspec init URNspec.new
-		urnSpec.urndef:=URNdefinition.new
-		result:=urnSpec
+		result:=URNspec.new
+		result.name:="theUrnSpec"
 	end
 
-	operation createUrnSpecWithUcmMaps(numOfUcmMaps:Integer):URNspec is do
-		var urnSpec:URNspec init createUrnSpec
-		numOfUcmMaps.times{i|
-			urnSpec.urndef.specDiagrams.add(createUcmMap(void))
-		}
-		result:=urnSpec
+	operation createUcmMap(name:String):UCMmap is do
+		result:=UCMmap.new
+		result.name:="theUcmMap"
+	end
+
+	operation createConcern():Concern is do
+		result:=Concern.new
+		result.name:="theConcern"
+	end
+
+	operation createNodeConnection():NodeConnection is do
+		result:=NodeConnection.new
 	end
 	
+	operation connectNodes(source:IURNNode,target:IURNNode):NodeConnection is do
+		result:=createNodeConnection
+		result.source:=source
+		result.target:=target 
+	end
+
+	operation createCondition():Condition is do
+		result:=Condition.new
+		result.label:="theCondition" 
+	end
+
+	operation createConditionalNodeConnection():NodeConnection is do
+		result:=createNodeConnection
+		result.condition:=createCondition
+	end
+
+/*********************************************************
+Node
+*********************************************************/
+	operation createStartPoint():StartPoint is do
+		result:=StartPoint.new
+		result.name:="theStartPoint"
+		result.id:="1"
+	end
+
+	operation createEndPoint():EndPoint is do
+		result:=EndPoint.new
+		result.name:="theEndPoint"
+		result.id:="1"
+	end
+	
+	operation createEmptyPoint():EmptyPoint is do
+		result:=EmptyPoint.new
+		result.name:="theEmptyPoint"
+		result.id:="1"
+	end
+	
+	operation createOrFork():OrFork is do
+		result:=OrFork.new
+		result.name:="theOrFork"
+		result.id:="1"
+	end
+
+	operation createOrJoin():OrJoin is do
+		result:=OrJoin.new
+		result.name:="theOrJoin"
+		result.id:="1"
+	end
+
+	operation createRespRef():RespRef is do
+		result:=RespRef.new
+		result.respDef:=createResponsibility
+		result.id:="1"
+	end
+	
+	operation createRespRefInsideActor():RespRef is do
+		result:=createRespRef
+		result.contRef:=createActorComponentRef
+	end
+
+/*********************************************************
+Stub
+*********************************************************/
 	operation createStub():Stub is do
 		result:=Stub.new
-		result.id:="1"
-		result.name:="theStub"	
+		result.name:="theStub"
+		result.id:="1"	
 	end
 
 	operation createPluginBinding():PluginBinding is do
@@ -144,34 +111,34 @@ class AoUrnTestFactory
 	operation createOutBinding():OutBinding is do
 		result:=OutBinding.new
 	end
-	
-	operation createDefaultRespRef():RespRef is do
-		result:=createRespRef("TheResponsibility",void)
+
+
+/*********************************************************
+Misc
+*********************************************************/
+	operation attachRamMetadata(element:URNmodelElement, ramExpression:String) is do
+		element.metadata.add(createRamMetadata_RamExpresion(ramExpression))
 	end
 	
-	operation createCondition(label:String):Condition is do
-		result:=Condition.new
-		result.label:=label
+	operation createRamMetadata_RamExpresion(ramExpression:String):Metadata is do
+		result:=Metadata.new
+		result.name:="ram"
+		result.~value:=ramExpression
 	end
 
-	operation createNodeConnection():NodeConnection is do
-		result:=NodeConnection.new
+	operation createResponsibility():Responsibility is do
+		result:=Responsibility.new
+		result.name:="theResponsibility"
 	end
-	
-	operation connectNodes(source:IURNNode,target:IURNNode):NodeConnection is do
-		result:=createNodeConnection
-		result.source:=source
-		result.target:=target 
-	end
-	
-	operation connectNodes_Condition(source:IURNNode,target:IURNNode,conditionLabel:String):NodeConnection is do
-		result:=connectNodes(source,target)
-		result.condition:=createCondition(conditionLabel)
-	end
-	
 
-	//rethink about that, will still need to update factory method signature if numOfOptional param changes
-	operation optionalString(val:String):String is do
-		result:=if val.isVoid then "NotSet" else val end
+	operation createActorComponentRef():ComponentRef is do
+		result:=ComponentRef.new
+		result.contDef:=createActorComponent
+	end
+	
+	operation createActorComponent():Component is do
+		result:=Component.new
+		result.name:="theActorComponent"
+		result.kind:=ComponentKind.Actor
 	end
 }
