@@ -9,7 +9,7 @@ using kermeta::kunit
 using aoUrnToRam
 using aoUrnToRam::util
 
-class IntegrationTestCase inherits TestCase
+class Integration_IntegrationTestCase inherits TestCase
 {
 	attribute sut:AoUrnToRamTransformation
 	attribute projectFolderUri:String

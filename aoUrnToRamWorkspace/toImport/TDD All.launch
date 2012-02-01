@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.kermeta.debug.constraintConfiguration">
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_ARGUMENTS" value=""/>
-<stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_CLASSQNAME" value="aoUrnToRam::Test::AllTestRunner"/>
+<stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_CLASSQNAME" value="aoUrnToRam::test::AllTestRunner"/>
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_FILENAME" value="/aoUrnToRam/test/tdd/TestRunner.kmt"/>
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_OPERATIONNAME" value="runTestClassesWithReport"/>
 <stringAttribute key="fr.irisa.triskell.kermeta.launching.KM_PROJECTNAME" value="aoUrnToRam"/>
