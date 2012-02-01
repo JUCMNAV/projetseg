@@ -117,6 +117,7 @@
           eType="#/1/IwOutBinding" eOpposite="#/1/IwOutBinding/pluginEndPoint"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwAndFork" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwStub" eSuperTypes="#/1/IwNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
           eType="#/1/IwPluginBinding" containment="true" eOpposite="#/1/IwPluginBinding/stub"/>

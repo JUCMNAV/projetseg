@@ -1,0 +1,21 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class AndFork {
+	reference iwAndFork:IwAndFork
+
+	method build() is do
+		iwAndFork:=IwAndFork.new
+		iwAndFork.name:=nameOrPrefixId("AndFork")
+		super
+	end
+		
+	method iwEquivalentNode():IwNode is do
+		result:=iwAndFork
+	end
+	
+
+}

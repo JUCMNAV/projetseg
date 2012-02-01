@@ -83,6 +83,10 @@ class IwOrFork inherits IwNode
 {
 }
 
+class IwAndFork inherits IwNode
+{
+}
+
 class IwStub inherits IwNode
 {
 	attribute pluginBindings:IwPluginBinding[0..*]#stub
