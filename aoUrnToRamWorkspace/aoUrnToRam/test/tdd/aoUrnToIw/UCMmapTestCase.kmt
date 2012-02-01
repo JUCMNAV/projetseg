@@ -5,6 +5,7 @@ using kermeta::standard
 using kermeta::kunit
 using oneurn::urncore
 using oneurn::ucm::map
+using oneurn::urn
 using intermediateWorkflow
 
 class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
@@ -18,9 +19,23 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
 		sut.id:=void
 	
-		sut.build()
+		sut.build
 	
 		assertNotVoid(sut.iwWorkflow)
 		assertNameOrPrefixInvokedToSetName(sut,sut.iwWorkflow.name)
 	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnPathNodes() is do
+		var urnSpec:URNspec init createUrnSpec
+		attachUcmMapToUrnSpec(sut,urnSpec)
+		createStartPoint_UcmMap(sut)
+		createStartPoint_UcmMap(sut)
+		urnSpec.build
+		
+		sut.link(urnSpec)//stle:refact
+	
+		assertEquals(2,sut.iwWorkflow.nodes.size)
+	end
+	
 }

@@ -23,6 +23,12 @@ aspect class StartPoint {
 		end
 	end
 	
+	method link() is do
+		super()
+		ucmMap.iwWorkflow.startPoints.add(iwStartPoint)
+	end
+	
+	
 	method iwEquivalentNode():IwNode is do
 		result:=iwStartPoint
 	end

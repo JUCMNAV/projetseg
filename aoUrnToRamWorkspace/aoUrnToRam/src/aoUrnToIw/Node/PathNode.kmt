@@ -10,10 +10,13 @@ aspect class PathNode {
 	reference iwInput: 	IwInput
 	reference _iwNodes: oset IwNode[0..3] attribute _isIwNodesCached:Boolean
 	
+//*********************************************************
+//Build
+//*********************************************************/
 	operation build() is do
 		buildIwOutputNode
 		buildIwInputNode
-		uncacheIwNodes
+		invokeBuildOnNodeConnections
 	end
 
 	operation buildIwOutputNode() is do
@@ -31,16 +34,31 @@ aspect class PathNode {
 	end
 
 	//stle:test later
-	operation buildNodeConnections() is do
-		//stle: ordering in build is undesirable
-		if(iwNodes_ReadOnly.isEmpty==false) then
+	operation invokeBuildOnNodeConnections() is do
+		if(hasIwNodes) then
 			succAsNodeConnection.each{nodeConnection|nodeConnection.build}
 		end
 	end
 	
+	property readonly hasIwNodes: Boolean
+	getter is do
+		//Avoid using iwNodes_ReadOnly in build
+		result:=iwOutput.isVoid==false or
+				iwInput.isVoid==false or
+				iwEquivalentNode.isVoid==false
+	end
+
+//*********************************************************
+//Link
+//*********************************************************/
 	operation link() is do
+		linkUcmMap
 		linkSuccs
 		linkInternal
+	end
+
+	operation linkUcmMap() is do
+		iwNodes_ReadOnly.each{iwNode|iwNode.workflow:=ucmMap.iwWorkflow}
 	end
 
 	operation linkInternal() is do
@@ -58,7 +76,30 @@ aspect class PathNode {
 		end
 	end
 	
-		
+//*********************************************************
+//virtual
+//*********************************************************/
+	operation IsOutputInputBefore():Boolean is do
+		result:=true
+	end
+	
+	operation iwEquivalentNode():IwNode is do
+		result:=void
+	end
+
+//*********************************************************
+//iwNodes
+//*********************************************************/
+	property readonly iwEntryNode: IwNode
+	getter is do
+		result:=iwNodes_ReadOnly.first
+	end
+	
+	property readonly iwExitNode: IwNode
+	getter is do
+		result:=iwNodes_ReadOnly.last
+	end
+
 	property readonly iwNodes_ReadOnly: IwNode[0..3]
 	getter is do
 		if(_isIwNodesCached!=true) then
@@ -66,10 +107,6 @@ aspect class PathNode {
 			_isIwNodesCached:=true
 		end
 		result:=_iwNodes.asOrderedSet //return a copy(enforce read-only)
-	end
-	
-	operation uncacheIwNodes() is do 
-		_isIwNodesCached:=false 
 	end
 
 	operation initIwNodes() is do
@@ -84,26 +121,17 @@ aspect class PathNode {
 		end
 	end
 	
-	property readonly iwEntryNode: IwNode
-	getter is do
-		result:=iwNodes_ReadOnly.first
+	//stle: reuse static
+	operation CollectionExt_AddOptional<T>(collection:Collection<T>, element:T) is do
+		if(element.isVoid==false) then
+			collection.add(element)
+		end
 	end
 	
-	property readonly iwExitNode: IwNode
-	getter is do
-		result:=iwNodes_ReadOnly.last
-	end
-	
-	//virtual
-	operation IsOutputInputBefore():Boolean is do
-		result:=true
-	end
-	
-	//virtual
-	operation iwEquivalentNode():IwNode is do
-		result:=void
-	end
-	
+
+//*********************************************************
+//inOutExpression
+//*********************************************************/
 	property readonly inOutExpression : InOutExpression
 	getter is do
 		var ramMetadata:Metadata init getRamMetadata()
@@ -116,13 +144,9 @@ aspect class PathNode {
 		result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
 	end
 	
-	//stle: reuse static
-	operation CollectionExt_AddOptional<T>(collection:Collection<T>, element:T) is do
-		if(element.isVoid==false) then
-			collection.add(element)
-		end
-	end
-	
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
 	property readonly predAsNodeConnection : OrderedSet<NodeConnection>
 	getter is do
 		//stle:dry
@@ -133,5 +157,13 @@ aspect class PathNode {
 	getter is do
 		//stle:dry
 		result:= succ.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
+	end
+	
+	property ucmMap: UCMmap
+	getter is do
+		result:=diagram.asType(UCMmap)
+	end
+	setter is do
+		diagram:=value
 	end
 }

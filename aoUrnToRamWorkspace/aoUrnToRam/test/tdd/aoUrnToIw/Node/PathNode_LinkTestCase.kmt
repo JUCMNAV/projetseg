@@ -1,0 +1,62 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:PathNode
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutIn_ShouldLinkThreeIwNodesToIwWorklow() is do
+		useStartPointAsSutImpl
+		setupAndExeLink
+		
+		assertCollectionHasThreeElements(sut.iwEquivalentNode,sut.iwInput,sut.iwOutput,sut.ucmMap.iwWorkflow.nodes)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutIn_ShouldLinkIwOutputToIwInput() is do
+		useStartPointAsSutImpl
+		setupAndExeLink
+		
+		assertCollectionHasSingleElement(sut.iwInput,sut.iwOutput.targets)
+	end
+
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutputInputAfter_ShouldLinkIwEquivalentNodeToIwOutput() is do
+		useStartPointAsSutImpl//use StartPoint (OutputInputAfter)
+		setupAndExeLink
+		
+		assertCollectionHasSingleElement(sut.iwOutput,sut.iwEquivalentNode.targets)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutputInputBefore_ShouldLinkIwInputToIwEquivalentNode() is do
+		useEndPointAsSutImpl//use EndPoint (OutputInputBefore)
+		setupAndExeLink
+		
+		assertCollectionHasSingleElement(sut.iwEquivalentNode,sut.iwInput.targets)
+	end
+	
+	operation setupAndExeLink() is do
+		attachOutputInputRamMetadata(sut)
+		var ucmMap:UCMmap init createUcmMap
+		sut.ucmMap:=ucmMap
+		ucmMap.build
+		
+		sut.link
+	end
+
+	operation useStartPointAsSutImpl() is do
+		sut:=createStartPoint
+	end
+
+	
+	operation useEndPointAsSutImpl() is do
+		sut:=createEndPoint
+	end
+}

@@ -47,8 +47,6 @@ aspect class Stub {
 		}
 	end
 	
-
-	
 	operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
 		iwStub.pluginBindings.add(iwPluginBinding)
 	end

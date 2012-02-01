@@ -10,4 +10,15 @@ aspect class IwNode{
 	getter is do
 		result:=workflow.concern
 	end
+	
+	property readonly targets:IwNode[0..*]
+	getter is do
+		result:=succs.collect{succ|succ.target}.asOrderedSet
+	end
+	
+	property readonly sources:IwNode[0..*]
+	getter is do
+		result:=preds.collect{pred|pred.source}.asOrderedSet
+	end
+	
 }

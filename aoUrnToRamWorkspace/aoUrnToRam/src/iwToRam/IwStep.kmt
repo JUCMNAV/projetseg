@@ -34,7 +34,7 @@ Build
 		buildRamAspect
 		buildRamReactiveWorkflowInstantiation
 		buildCustomizableNodeClasses
-		nodes.each{node|node.build()}
+		nodes.each{node|node.build}
 	end
 	
 	operation buildRamAspect() is do

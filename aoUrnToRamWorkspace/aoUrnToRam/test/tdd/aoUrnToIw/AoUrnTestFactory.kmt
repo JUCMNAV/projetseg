@@ -21,6 +21,10 @@ class AoUrnTestFactory
 	operation createURNdefinition():URNdefinition is do
 		result:=URNdefinition.new
 	end
+	
+	operation attachUcmMapToUrnSpec(ucmMap:UCMmap,urnSpec:URNspec) is do
+		urnSpec.urndef.specDiagrams.add(ucmMap)
+	end
 
 	operation createUcmMap():UCMmap is do
 		result:=UCMmap.new
@@ -60,6 +64,12 @@ Node
 		result.name:="theStartPoint"
 		result.id:="1"
 	end
+	
+	operation createStartPoint_UcmMap(ucmMap:UCMmap):StartPoint is do
+		result:=createStartPoint
+		result.diagram:=ucmMap
+	end
+	
 
 	operation createEndPoint():EndPoint is do
 		result:=EndPoint.new

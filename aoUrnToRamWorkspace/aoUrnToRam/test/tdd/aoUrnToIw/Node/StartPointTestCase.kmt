@@ -66,6 +66,17 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertStartPointTypeEquals("bound")	
 	end
 	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_ShouldLinkIwStartPointToIwWorklow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.ucmMap:=ucmMap //stle:dry
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(sut.iwStartPoint,ucmMap.iwWorkflow.startPoints)
+	end
+	
 	
 	operation attachInBinding() is do
 		sut.inBindings.add(createInBinding)

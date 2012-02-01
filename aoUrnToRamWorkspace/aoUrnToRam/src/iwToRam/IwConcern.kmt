@@ -7,7 +7,7 @@ using ramstructural
 
 aspect class IwConcern {
 	operation build() is do
-		steps.each{step|step.build()}
+		steps.each{step|step.build}
 	end
 	
 	operation link() is do

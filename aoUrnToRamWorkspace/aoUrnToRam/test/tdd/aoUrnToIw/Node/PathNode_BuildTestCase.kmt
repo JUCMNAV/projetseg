@@ -7,7 +7,7 @@ using oneurn::urncore
 using oneurn::ucm::map
 using intermediateWorkflow
 
-class AoUrnToIw_PathNodeTestCase inherits TestCase,AoUrnToIw_TestHelper {
+class AoUrnToIw_PathNode_BuildTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:PathNode
 	
 	method setUp() is do

@@ -18,7 +18,6 @@ using aoUrnToRam::util
 
 class AoUrnToRamTransformation
 {
-	//stle: many if create complex logic: ex: bug because iw was saved after to step!!!
 	attribute repository:ModelRepository
 	attribute dotAbsoluteFileUri:String
 	attribute iwFileName:String

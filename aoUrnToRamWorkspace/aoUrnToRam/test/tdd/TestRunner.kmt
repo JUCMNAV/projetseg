@@ -3,6 +3,7 @@
 package aoUrnToRam::test;
 
 require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
@@ -15,6 +16,7 @@ class AllTestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
+		result.addAll(AoUrnToIw_TestRunner.new.getTestClasses)
 		result.addAll(InsertInputProcessingNodes_TestRunner.new.getTestClasses)
 		result.addAll(LinkSteps_TestRunner.new.getTestClasses)
 		result.addAll(IwToRam_TestRunner.new.getTestClasses)

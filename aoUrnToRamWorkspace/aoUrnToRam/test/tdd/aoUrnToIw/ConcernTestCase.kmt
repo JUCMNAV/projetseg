@@ -18,7 +18,7 @@ class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
 		sut.id:=void
 	
-		sut.build()
+		sut.build
 	
 		assertNotVoid(sut.iwConcern)
 		assertNameOrPrefixInvokedToSetName(sut,sut.iwConcern.name)

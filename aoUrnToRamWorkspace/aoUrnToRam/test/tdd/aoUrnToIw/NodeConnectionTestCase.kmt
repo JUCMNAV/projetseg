@@ -24,5 +24,21 @@ class AoUrnToIw_NodeConnectionTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 		assertEquals(sut.conditionLabel,sut.iwNodeConnection.conditionName)
 	end	
-		
+
+/*
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_OutInAfterSource_ShouldLinkIwInputAsSource() is do
+		attachOutputInputRamMetadata(sut)
+		var ucmMap:UCMmap init createUcmMap
+		sut.ucmMap:=ucmMap
+		ucmMap.build
+	
+		var source:IwNode init createStartPoint
+		attachOutputInputRamMetadata(source)
+
+		sut.build
+	
+		assertEquals(sut.conditionLabel,sut.iwNodeConnection.conditionName)
+	end	
+		*/
 }

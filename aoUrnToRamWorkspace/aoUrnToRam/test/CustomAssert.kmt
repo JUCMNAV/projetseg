@@ -44,6 +44,16 @@ class CustomAssert inherits Assert
 		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
 	end
 	
+	operation assertCollectionHasThreeElements<T>(firstElement:T,secondElement:T,thirdElement:T,collection:Collection<T>) is do
+		assertEquals(3,collection.size)
+		assertNotEquals(firstElement,secondElement)
+		assertNotEquals(secondElement,thirdElement)
+		assertCollectionContainsElementWithMsg(firstElement,collection,"(First element)")
+		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
+		assertCollectionContainsElementWithMsg(thirdElement,collection,"(Third element)")
+	end
+	
+	
 	operation assertCollectionContainsElement<T>(element:T,collection:Collection<T>) is do
 		assertCollectionContainsElementWithMsg(element,collection,"")
 	end
