@@ -9,12 +9,12 @@ aspect class RespRef {
 	reference iwCustomizableNode:IwCustomizableNode
 
 	method build() is do
-		super
 		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
 			if(isSystemComponentRef) then
 				buildCustomizableNode
 			end
-		end 
+		end
+		super 
 	end
 	
 	operation buildCustomizableNode() is do

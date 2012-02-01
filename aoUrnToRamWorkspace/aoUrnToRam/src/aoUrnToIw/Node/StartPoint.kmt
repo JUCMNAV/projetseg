@@ -8,7 +8,6 @@ aspect class StartPoint {
 	reference iwStartPoint:IwStartPoint
 
 	method build() is do
-		super
 		iwStartPoint:=IwStartPoint.new
 		iwStartPoint.name:=nameOrPrefixId("StartPoint")
 		
@@ -21,6 +20,7 @@ aspect class StartPoint {
 				iwStartPoint.startPointType:="global"
 			end
 		end
+		super
 	end
 	
 	method link() is do

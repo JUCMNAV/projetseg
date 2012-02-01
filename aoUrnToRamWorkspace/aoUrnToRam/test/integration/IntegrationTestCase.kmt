@@ -23,7 +23,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	end
 
 	operation testSimple() is do
-		parameterizableIntegrationTest("Simple.jucm")
+//		parameterizableIntegrationTest("Simple.jucm")
 	end
 
 	operation testDemoSp5_WithAutSameConcern() is do
@@ -31,7 +31,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	end
 
 	operation testDemoSp5_WithAutDifferentConcern() is do
-		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
+//		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
 	end
 	
 	operation testStartupNodeAndSharedResp() is do

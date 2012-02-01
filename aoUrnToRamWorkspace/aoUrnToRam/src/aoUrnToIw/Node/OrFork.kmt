@@ -8,9 +8,9 @@ aspect class OrFork {
 	reference iwOrFork:IwOrFork
 
 	method build() is do
-		super
 		iwOrFork:=IwOrFork.new
 		iwOrFork.name:=nameOrPrefixId("OrFork")
+		super
 	end
 		
 	method iwEquivalentNode():IwNode is do

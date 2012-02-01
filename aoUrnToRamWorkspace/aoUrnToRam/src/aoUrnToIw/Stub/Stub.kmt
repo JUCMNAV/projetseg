@@ -16,6 +16,7 @@ aspect class Stub {
 		//to the NodeConnection. Inserting outNode/inNod on stubs will prevent these NodeConnection from
 		//being directly connected to the stub  
 		buildIwStub
+		super()
 	end
 
 	operation buildIwStub() is do

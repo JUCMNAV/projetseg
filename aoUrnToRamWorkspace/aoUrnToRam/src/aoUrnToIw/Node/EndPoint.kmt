@@ -8,9 +8,9 @@ aspect class EndPoint {
 	reference iwEndPoint:IwEndPoint
 	
 	method build() is do
-		super
 		iwEndPoint:=IwEndPoint.new
 		iwEndPoint.name:=nameOrPrefixId("EndPoint")
+		super
 	end
 	
 	method iwEquivalentNode():IwNode is do
