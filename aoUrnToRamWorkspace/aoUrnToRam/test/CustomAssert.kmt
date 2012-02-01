@@ -55,16 +55,20 @@ class CustomAssert inherits Assert
 	operation assertWithMsgNextLine(condition:Boolean,msg:String) is do
 		assertWithMsg(condition,"\n"+msg)
 	end
-	
-	operation assertStringContains(expected:String, actual:String,isContained:Boolean) is do
-		assertWithMsgNextLine(actual.contains(expected)==isContained,
-									   "Expected is"+
-									   if(isContained) then " not" end +
-									   " contained in actual.\n" +
+
+	operation assertStringContains(expected:String, actual:String) is do
+		assertWithMsgNextLine(actual.contains(expected),
+									   "Expected is contained in actual.\n" +
 									   "expected: "+toFormattedString(expected)+"\n"+
 									   "actual:   "+toFormattedString(actual))
 	end
 	
+	operation assertStringDoesNotContains(expected:String, actual:String) is do
+		assertWithMsgNextLine(actual.contains(expected)==false,
+									   "Expected is not contained in actual.\n" +
+									   "expected: "+toFormattedString(expected)+"\n"+
+									   "actual:   "+toFormattedString(actual))
+	end
 	
 	operation toFormattedString(o:Object):String is do
 		if(o.isVoid==false and o.isInstanceOf(String)) then

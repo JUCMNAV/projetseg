@@ -1,0 +1,77 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:StartPoint
+	
+	method setUp() is do
+		sut:=createStartPoint
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(sut)
+	end
+		
+	@feature "FeaTransformStaticStub"
+	operation testBuild_LocalVoidNotBound_ShouldBeGlobal() is do
+		sut.local:=void
+		
+		sut.build
+
+		assertStartPointTypeEquals("global")	
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_LocalFalseNotBound_ShouldBeGlobal() is do
+		sut.local:=false
+	
+		sut.build
+
+		assertStartPointTypeEquals("global")	
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_LocalTrueNotBound_ShouldBeGlobal() is do
+		sut.local:=true
+		
+		sut.build
+
+		assertStartPointTypeEquals("local")
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_LocalFalseBound_ShouldBeBound() is do
+		sut.local:=false
+		attachInBinding
+	
+		sut.build
+
+		assertStartPointTypeEquals("bound")	
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_LocalTrueBound_ShouldBeBound() is do
+		sut.local:=true
+		attachInBinding
+	
+		sut.build
+
+		assertStartPointTypeEquals("bound")	
+	end
+	
+	
+	operation attachInBinding() is do
+		sut.inBindings.add(createInBinding)
+	end
+	
+	operation assertStartPointTypeEquals(startPointType:String) is do
+		assert(sut.iwStartPoint.startPointType==startPointType)
+	end
+}

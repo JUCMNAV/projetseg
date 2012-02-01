@@ -1,0 +1,49 @@
+@mainClass "aoUrnToRam::test::AoUrnToIw_TestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+//To regenerate
+//Run: aoUrnToRam.codegen.TestRunnerCodeGenerator
+//Args: ${resource_loc} ${project_name}
+
+require kermeta
+
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/ConcernTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/EndPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/OrForkTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/PathNodeTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/RespRefTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/StartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/NodeConnectionTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/InBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/OutBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/PluginBindingTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/StubTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/UCMmapTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/URNmodelElementTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/URNspecTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class AoUrnToIw_TestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(AoUrnToIw_ConcernTestCase)
+		result.add(AoUrnToIw_EndPointTestCase)
+		result.add(AoUrnToIw_OrForkTestCase)
+		result.add(AoUrnToIw_PathNodeTestCase)
+		result.add(AoUrnToIw_RespRefTestCase)
+		result.add(AoUrnToIw_StartPointTestCase)
+		result.add(AoUrnToIw_NodeConnectionTestCase)
+		result.add(AoUrnToIw_InBindingTestCase)
+		result.add(AoUrnToIw_OutBindingTestCase)
+		result.add(AoUrnToIw_PluginBindingTestCase)
+		result.add(AoUrnToIw_StubTestCase)
+		result.add(AoUrnToIw_UCMmapTestCase)
+		result.add(AoUrnToIw_URNmodelElementTestCase)
+		result.add(AoUrnToIw_URNspecTestCase)
+	end
+}

@@ -1,0 +1,21 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:Stub
+	
+	method setUp() is do
+		sut:=createStub
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(sut)
+	end
+}

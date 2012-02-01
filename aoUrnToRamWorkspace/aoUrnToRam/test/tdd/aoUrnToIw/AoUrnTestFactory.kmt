@@ -15,9 +15,14 @@ class AoUrnTestFactory
 	operation createUrnSpec():URNspec is do
 		result:=URNspec.new
 		result.name:="theUrnSpec"
+		result.urndef:=createURNdefinition
+	end
+	
+	operation createURNdefinition():URNdefinition is do
+		result:=URNdefinition.new
 	end
 
-	operation createUcmMap(name:String):UCMmap is do
+	operation createUcmMap():UCMmap is do
 		result:=UCMmap.new
 		result.name:="theUcmMap"
 	end
@@ -42,9 +47,9 @@ class AoUrnTestFactory
 		result.label:="theCondition" 
 	end
 
-	operation createConditionalNodeConnection():NodeConnection is do
-		result:=createNodeConnection
-		result.condition:=createCondition
+	operation attachCondition(nodeConnection:NodeConnection):Condition is do
+		result:=createCondition
+		nodeConnection.condition:=result
 	end
 
 /*********************************************************
@@ -85,12 +90,6 @@ Node
 		result.respDef:=createResponsibility
 		result.id:="1"
 	end
-	
-	operation createRespRefInsideActor():RespRef is do
-		result:=createRespRef
-		result.contRef:=createActorComponentRef
-	end
-
 /*********************************************************
 Stub
 *********************************************************/
@@ -116,8 +115,27 @@ Stub
 /*********************************************************
 Misc
 *********************************************************/
-	operation attachRamMetadata(element:URNmodelElement, ramExpression:String) is do
-		element.metadata.add(createRamMetadata_RamExpresion(ramExpression))
+	property readonly DEFAULT_OUTPUT_NAME:String
+	getter is do
+		result:="theOutput"
+	end
+	
+	property readonly DEFAULT_INPUT_NAME:String 
+	getter is do
+		result:="theInput"
+	end
+	
+
+	operation attachOutputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("out "+DEFAULT_OUTPUT_NAME))
+	end
+	
+	operation attachInputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("in "+DEFAULT_INPUT_NAME))
+	end
+	
+	operation attachOutputInputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("out "+DEFAULT_OUTPUT_NAME+" in "+DEFAULT_INPUT_NAME))
 	end
 	
 	operation createRamMetadata_RamExpresion(ramExpression:String):Metadata is do
@@ -131,14 +149,18 @@ Misc
 		result.name:="theResponsibility"
 	end
 
-	operation createActorComponentRef():ComponentRef is do
+	operation attachComponentRef(pathNode:PathNode,componentKind:ComponentKind) is do
+		pathNode.contRef:=createComponentRef_ComponentKind(componentKind)
+	end
+
+	operation createComponentRef_ComponentKind(componentKind:ComponentKind):ComponentRef is do
 		result:=ComponentRef.new
-		result.contDef:=createActorComponent
+		result.contDef:=createComponent_ComponentKind(componentKind)
 	end
 	
-	operation createActorComponent():Component is do
+	operation createComponent_ComponentKind(componentKind:ComponentKind):Component is do
 		result:=Component.new
-		result.name:="theActorComponent"
-		result.kind:=ComponentKind.Actor
+		result.name:="theComponent"
+		result.kind:=componentKind
 	end
 }

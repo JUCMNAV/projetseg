@@ -35,7 +35,8 @@ class LinkSteps_IwNode_CustomizableNodeAsSutTestCase inherits TestCase,LinkSteps
 		
 		sut.step_DeepFirstSearch(currentStep)
 		
-		assertCurrentStepIsMerged(false)
+		//Assuming all steps used in this test case are reactive steps
+		assertStringDoesNotContains("_",currentStep.name)
 	end
 	
 	@feature "FeaNamingOfRAMStep"
@@ -45,11 +46,7 @@ class LinkSteps_IwNode_CustomizableNodeAsSutTestCase inherits TestCase,LinkSteps
 		
 		sut.step_DeepFirstSearch(currentStep)
 		
-		assertCurrentStepIsMerged(true)
-	end
-
-	operation assertCurrentStepIsMerged(isMerged:Boolean) is do
 		//Assuming all steps used in this test case are reactive steps
-		assertStringContains("_",currentStep.name,isMerged)
+		assertStringContains("_",currentStep.name)
 	end
 }

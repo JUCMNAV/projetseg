@@ -1,0 +1,67 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_RespRefTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:RespRef
+	
+	method setUp() is do
+		sut:=createRespRef
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldSetIwCustomizableNodeNameToResponsibilityName() is do	
+		sut.build
+		
+		assertNotVoid(sut.iwCustomizableNode)
+		assertEquals(sut.respDef.name,sut.iwCustomizableNode.name)
+	end
+
+	
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testBuild_NotInComponent_ShouldBuildIwCustomizableNode() is do	
+		sut.build
+		
+		assertNotVoid(sut.iwCustomizableNode)
+	end
+	
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testBuild_InSystemComponent_ShouldBuildIwCustomizableNode() is do
+		attachComponentRef(sut,ComponentKind.Object)	
+		sut.build
+		
+		assertNotVoid(sut.iwCustomizableNode)
+	end
+	
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testBuild_InActorComponent_ShouldNotBuildIwCustomizableNode() is do	
+		attachComponentRef(sut,ComponentKind.Actor)	
+		sut.build
+		
+		assertVoid(sut.iwCustomizableNode)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_SharedRespDef_ShouldSetCustomizableNodeRefId() is do
+		var toSameRespDef:RespRef init createRespRef()
+		toSameRespDef.respDef:=sut.respDef
+
+		sut.build
+		
+		assertEquals(true,sut.iwCustomizableNode.isShared)
+		assertEquals("1",sut.iwCustomizableNode.customizableNodeRefId)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_NotSharedRespDef_ShouldNotSetCustomizableNodeRefId() is do
+		sut.build
+		
+		assertEquals(false,sut.iwCustomizableNode.isShared)
+		assertVoid(sut.iwCustomizableNode.customizableNodeRefId)
+	end
+}

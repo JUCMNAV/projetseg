@@ -1,0 +1,32 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using oneurn::urncore
+using oneurn::urn
+using intermediateWorkflow
+
+class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:URNspec
+	
+	method setUp() is do
+		sut:=createUrnSpec
+	end
+
+	//stle:void test will be covered by invoke
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testBuild_ShouldBuildWithoutConcern() is do
+		sut.build
+	
+		assertNotVoid(sut.iwWithoutConcern)
+		assertEquals("WithoutConcern",sut.iwWithoutConcern.name)
+	end
+		
+	
+	
+		
+}

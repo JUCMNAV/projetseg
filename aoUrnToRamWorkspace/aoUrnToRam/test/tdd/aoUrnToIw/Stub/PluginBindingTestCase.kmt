@@ -1,0 +1,23 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PluginBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:PluginBinding
+	
+	method setUp() is do
+		sut:=createPluginBinding
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_ShouldBuildIwPluginBinding() is do
+		sut.build
+	
+		assertNotVoid(sut.iwPluginBinding)
+	end	
+}

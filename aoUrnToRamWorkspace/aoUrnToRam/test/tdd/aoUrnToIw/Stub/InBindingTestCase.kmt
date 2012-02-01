@@ -1,0 +1,24 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:InBinding
+	
+	method setUp() is do
+		sut:=createInBinding
+	end
+	
+	//stle: should probably be dropped because will be tested inderectly by testInvokeLink
+	@feature "FeaTransformStaticStub"
+	operation testBuild_ShouldBuildIwInBinding() is do
+		sut.build
+	
+		assertNotVoid(sut.iwInBinding)
+	end	
+}

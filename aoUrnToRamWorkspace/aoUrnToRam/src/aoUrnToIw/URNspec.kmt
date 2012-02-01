@@ -8,7 +8,7 @@ using intermediateWorkflow
 
 aspect class URNspec{
 	reference iwModel: IwModel
-	reference _iwWithoutConcern:IwConcern
+	reference iwWithoutConcern:IwConcern
 	
 	operation toIw():IwModel is do
 		build
@@ -18,20 +18,14 @@ aspect class URNspec{
 
 	operation build() is do
 		ucmMaps.each{ucmMap|ucmMap.build}
+		concerns.each{concern|concern.build}
 		iwModel:=IwModel.new
+		buildIwWithoutConcern
 	end
 	
-	property readonly iwWithoutConcern:IwConcern
-	getter is do
-		buildIwWithoutConcernOnDemand			
-		result:=_iwWithoutConcern
-	end
-	
-	operation buildIwWithoutConcernOnDemand() is do
-		if(_iwWithoutConcern.isVoid) then
-			_iwWithoutConcern:=IwConcern.new
-			_iwWithoutConcern.name:="WithoutConcern"
-		end
+	operation buildIwWithoutConcern() is do
+		iwWithoutConcern:=IwConcern.new
+		iwWithoutConcern.name:="WithoutConcern"
 	end
 	
 	operation link() is do
