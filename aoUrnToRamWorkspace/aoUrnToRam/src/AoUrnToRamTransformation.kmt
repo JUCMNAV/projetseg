@@ -46,7 +46,10 @@ class AoUrnToRamTransformation
 		var iwModel:IwModel init aoUnrToIw(urnSpec)
 		
 		outputIwFile(iwModel,destinationAbsoluteFileUri)
-		outputRamStepClassDiagram(iwModel,destinationAbsoluteFileUri)
+		
+		//stle: temp
+		//outputRamStepClassDiagram(iwModel,destinationAbsoluteFileUri)
+		
 		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
 		outputRamStepViewAsDot(stepViews,destinationAbsoluteFileUri)
 		outputRamStepViewAsImg(stepViews,destinationAbsoluteFileUri)

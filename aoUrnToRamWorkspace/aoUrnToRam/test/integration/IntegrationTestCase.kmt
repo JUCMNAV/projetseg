@@ -16,14 +16,14 @@ class Integration_IntegrationTestCase inherits TestCase
 	
 	method setUp() is do
 		//stle: would be nice if computed instead of hardcoded
-		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/workspace"
+		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/myWorkspace"
 		sut:=AoUrnToRamTransformation.new.initialize(dotAbsoluteFileUri,imgAbsoluteFileUri)
 		sut.isIwFileOutputEnabled:=true
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
 
 	operation testSimple() is do
-//		parameterizableIntegrationTest("Simple.jucm")
+		parameterizableIntegrationTest("Simple.jucm")
 	end
 
 	operation testDemoSp5_WithAutSameConcern() is do
@@ -31,7 +31,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	end
 
 	operation testDemoSp5_WithAutDifferentConcern() is do
-//		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
+		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
 	end
 	
 	operation testStartupNodeAndSharedResp() is do
