@@ -15,11 +15,13 @@ class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldSetIwConcernNameFromConcernName() is do
+	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		sut.id:=void
+	
 		sut.build()
 	
 		assertNotVoid(sut.iwConcern)
-		assertEquals(sut.name,sut.iwConcern.name)
+		assertNameOrPrefixInvokedToSetName(sut,sut.iwConcern.name)
 	end
 		
 }

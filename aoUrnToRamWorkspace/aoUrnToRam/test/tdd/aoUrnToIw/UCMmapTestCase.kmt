@@ -15,13 +15,12 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldSetIwWorkflowNameFromUcmMapName() is do
+	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		sut.id:=void
+	
 		sut.build()
 	
 		assertNotVoid(sut.iwWorkflow)
-		assertEquals(sut.name,sut.iwWorkflow.name)
+		assertNameOrPrefixInvokedToSetName(sut,sut.iwWorkflow.name)
 	end
-	
-	
-		
 }
