@@ -16,7 +16,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	
 	method setUp() is do
 		//stle: would be nice if computed instead of hardcoded
-		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/myWorkspace"
+		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/workspace"
 		sut:=AoUrnToRamTransformation.new.initialize(dotAbsoluteFileUri,imgAbsoluteFileUri)
 		sut.isIwFileOutputEnabled:=true
 		sut.isRamStepViewAsDotOutputEnabled:=true
@@ -58,7 +58,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	
 	property readonly dotAbsoluteFileUri:String
 	getter is do
-		result:=Path.new.combine(projectFolderUri,"thridParty/Graphviz2.26.3/bin/dot.exe")
+		result:=Path.new.combine(projectFolderUri,"thirdParty/Graphviz2.26.3/bin/dot.exe")
 	end
 	
 	property readonly imgAbsoluteFileUri:String
