@@ -91,7 +91,7 @@ Link
 /*********************************************************
 Add Ram Class API
 *********************************************************/
-	property REACTIVE_WORKFLOW_INPUT_DATA : String getter is do result := "|InputData" end
+	property REACTIVE_WORKFLOW_INPUT_DATA : String getter is do result := "InputData" end
 	property REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE : String getter is do result := "|CustomizableNode" end
 	property REACTIVE_WORKFLOW_OUTPUT_DATA : String getter is do result := "OutputData" end
 	property REACTIVE_WORKFLOW_CONDITION : String getter is do result := "Condition" end
