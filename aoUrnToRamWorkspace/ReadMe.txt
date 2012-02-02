@@ -9,6 +9,12 @@ the kermeta eclipse
 - import the launch configurations (Import - Run/Debug - Launch
 Configurations and then select the toImport folder)
 - Open the Kermeta perspective from Window/Open Perspective/Others
+- Uninstall Maven from Help/Install New Software. 
+  Click on "What is already installed", select Maven and uninstall.
+  Note: I am not 100% sure if Kermeta depends on Maven or not. 
+  However, I did not encounter any problems after uninstalling Maven and it removed
+  the delay at Ecplise startup caused by Maven not being properly configured. 
+  Moreover, the .metadata folder will shrunk from 200Mo to 12Mo. 
 - at this point, there is one hardcoded path that needs to be set after
 checking out the repository: in
 aoUrnToRam/test/integration/IntegrationTestCase.kmt projectFolderUri in
