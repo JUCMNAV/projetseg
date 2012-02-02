@@ -43,7 +43,7 @@ class AoUrnToRamTransformation
 		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFileUri)
 		
 		var urnSpec:URNspec urnSpec?=repository.load(sourceAbsoluteFileUri)
-		var iwModel:IwModel init aoUnrToIw(urnSpec)
+		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		
 		outputIwFile(iwModel,destinationAbsoluteFileUri)
 		
@@ -88,7 +88,7 @@ class AoUrnToRamTransformation
 	    }
 	end
 	
-	operation aoUnrToIw(urnSpec:URNspec):IwModel is do
+	operation aoUrnToIw(urnSpec:URNspec):IwModel is do
 		result:=urnSpec.toIw
 		result.insertInputProcessingNodes
 		result.linkSteps
