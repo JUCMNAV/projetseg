@@ -1,0 +1,30 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_WaitingPlaceTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:WaitingPlace
+	
+	method setUp() is do
+		sut:=createWaitingPlace
+	end
+
+	@feature "FeaTransformWaitingPlace"
+	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
+	end
+
+	@feature "FeaTransformWaitingPlace"
+	operation testBuild_ShouldInitTransientProperty() is do
+		sut.waitType:=WaitKind.Transient
+		sut.build		
+		
+		assertEquals(true, sut.iwWaitingPlace.transient)
+	end
+	
+}

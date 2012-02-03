@@ -1,0 +1,16 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class WaitingPlace {
+	reference iwWaitingPlace:IwWaitingPlace
+	
+	method buildIwNodeTemplate() is do
+		iwWaitingPlace:=IwWaitingPlace.new
+		iwWaitingPlace.name:=nameOrPrefixId("WaitingPlace")
+		iwWaitingPlace.transient:=waitType.equals(WaitKind.Transient)
+		addIwEquivalentNodeAfterOutIn(iwWaitingPlace)
+	end
+}

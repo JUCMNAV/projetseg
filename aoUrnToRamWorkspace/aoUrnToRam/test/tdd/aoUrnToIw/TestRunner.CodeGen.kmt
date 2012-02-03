@@ -16,6 +16,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/PathNode_BuildTes
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/PathNode_LinkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/RespRefTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/StartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Node/WaitingPlaceTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/NodeConnectionTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/InBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/OutBindingTestCase.kmt"
@@ -41,6 +42,7 @@ class AoUrnToIw_TestRunner inherits CustomTestRunner
 		result.add(AoUrnToIw_PathNode_LinkTestCase)
 		result.add(AoUrnToIw_RespRefTestCase)
 		result.add(AoUrnToIw_StartPointTestCase)
+		result.add(AoUrnToIw_WaitingPlaceTestCase)
 		result.add(AoUrnToIw_NodeConnectionTestCase)
 		result.add(AoUrnToIw_InBindingTestCase)
 		result.add(AoUrnToIw_OutBindingTestCase)

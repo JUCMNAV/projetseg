@@ -87,6 +87,11 @@ class IwAndFork inherits IwNode
 {
 }
 
+class IwWaitingPlace inherits IwNode
+{
+	attribute transient:Boolean
+}
+
 class IwStub inherits IwNode
 {
 	attribute pluginBindings:IwPluginBinding[0..*]#stub

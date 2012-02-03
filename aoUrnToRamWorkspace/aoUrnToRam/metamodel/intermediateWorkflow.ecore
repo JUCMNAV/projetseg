@@ -118,6 +118,13 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwAndFork" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwWaitingPlace" eSuperTypes="#/1/IwNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="#/1/Boolean">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwStub" eSuperTypes="#/1/IwNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
           eType="#/1/IwPluginBinding" containment="true" eOpposite="#/1/IwPluginBinding/stub"/>
@@ -149,6 +156,7 @@
           eOpposite="#/1/IwPluginBinding/outBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="java.lang.Boolean"/>
     <eClassifiers xsi:type="ecore:EDataType" name="_KermetaSpecialTypesAlias_" instanceClassName="java.lang.Object"/>
   </ecore:EPackage>
   <ecore:EAnnotation source="dependentResource"/>

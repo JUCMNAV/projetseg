@@ -6,7 +6,7 @@ require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
-//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Concern.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/AndFork.kmt"
@@ -16,6 +16,7 @@ require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/OrFork.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/PathNode.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/RespRef.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/StartPoint.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/WaitingPlace.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/NodeConnection.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/InBinding.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/OutBinding.kmt"
@@ -24,3 +25,4 @@ require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Stub/Stub.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/UCMmap.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/URNmodelElement.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/URNspec.kmt"
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"

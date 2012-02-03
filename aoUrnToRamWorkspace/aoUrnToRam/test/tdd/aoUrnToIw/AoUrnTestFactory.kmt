@@ -126,6 +126,13 @@ Node
 		result.id:="1"
 	end
 	
+	operation createWaitingPlace():WaitingPlace is do
+		result:=WaitingPlace.new
+		result.name:="theWaitingPlace"
+		result.id:="1"
+		result.waitType:=WaitKind.Transient
+	end
+	
 	operation createRespRef():RespRef is do
 		result:=RespRef.new
 		result.respDef:=createResponsibility
