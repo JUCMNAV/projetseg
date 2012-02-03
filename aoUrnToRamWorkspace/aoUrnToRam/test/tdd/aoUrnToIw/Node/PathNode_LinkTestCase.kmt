@@ -57,8 +57,8 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testLink_NotEmpty_ShouldInvokeLinkOnNodeConnections() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createOrFork_UcmMap(ucmMap)
-		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
-		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		connectEndPointAsTarget(sut)
+		connectEndPointAsTarget(sut)
 		ucmMap.build
 
 		sut.link
@@ -70,13 +70,12 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testLink_Empty_ShouldNotInvokeLinkOnNodeConnections() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createEmptyPoint_UcmMap(ucmMap)
-		var target:EndPoint init createEndPoint_UcmMap(ucmMap)
-		connectNodes(sut,target)
+		var nodeConnection:NodeConnection init connectEndPointAsTarget(sut)  
 		ucmMap.build
 
 		sut.link
 
-		assertEquals(0,target.iwEndPoint.preds.size)
+		assertVoid(nodeConnection.iwNodeConnection)
 	end
 	
 	operation setupAndExeLink() is do

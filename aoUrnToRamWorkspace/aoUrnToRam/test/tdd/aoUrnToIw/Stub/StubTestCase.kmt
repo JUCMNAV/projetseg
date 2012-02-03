@@ -31,40 +31,43 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformStaticStub"
 	operation testLink_TwoStubEntry_ShouldInitStubEntryIndexes() is do
-		//stle:dry
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
-		var pred1:PathNode init createStartPoint_UcmMap(ucmMap) 
-		connectNodes(pred1,sut)
-		var pred2:PathNode init createStartPoint_UcmMap(ucmMap) 
-		connectNodes(pred2,sut)
+		var pred1:NodeConnection init connectStartPointAsSource(sut) 
+		var pred2:NodeConnection init connectStartPointAsSource(sut)
 		ucmMap.build
 		
 		sut.link
 		
-		assertEquals(1,pred1.succAsNodeConnection.one.iwNodeConnection.stubEntryIndex)
-		assertEquals(2,pred2.succAsNodeConnection.one.iwNodeConnection.stubEntryIndex)
+		assertEquals(1,pred1.iwNodeConnection.stubEntryIndex)
+		assertEquals(2,pred2.iwNodeConnection.stubEntryIndex)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_EmptyPointInBetweenStubEntry_ShouldInitStubEntryIndex() is do
+		//stle:dry
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var emptyPoint:PathNode init connectEmptyPointAsSource(sut).sourceAsPathNode 
+		var pred:NodeConnection init connectStartPointAsSource(emptyPoint)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,pred.iwNodeConnection.stubEntryIndex)
 	end
 
-
-//stle:todo
-/*	
 	@feature "FeaTransformStaticStub"
 	operation testLink_TwoStubExit_ShouldInitStubExitIndexes() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
-		var succ1:PathNode init createEndPoint_UcmMap(ucmMap) 
-		connectNodes(sut,succ1)
-		var succ2:PathNode init createEndPoint_UcmMap(ucmMap) 
-		connectNodes(sut,succ2)
+		var succ1:NodeConnection init connectEndPointAsTarget(sut) 
+		var succ2:NodeConnection init connectEndPointAsTarget(sut)
 		ucmMap.build
 		
 		sut.link
 		
-		assertEquals(1,succ1.succAsNodeConnection.one.iwNodeConnection.stubExitIndex)
-		assertEquals(2,succ2.succAsNodeConnection.one.iwNodeConnection.stubExitIndex)
+		assertEquals(1,succ1.iwNodeConnection.stubExitIndex)
+		assertEquals(2,succ2.iwNodeConnection.stubExitIndex)
 	end
-*/	
-	
-	
 }

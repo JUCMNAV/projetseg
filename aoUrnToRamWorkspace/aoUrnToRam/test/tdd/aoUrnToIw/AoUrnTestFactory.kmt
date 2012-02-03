@@ -56,6 +56,26 @@ class AoUrnTestFactory
 		result.source:=source
 		result.target:=target 
 	end
+	
+	operation connectEndPointAsTarget(pathNode:PathNode):NodeConnection is do
+		var target:PathNode init createEndPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(pathNode,target)
+	end
+	
+	operation connectStartPointAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createStartPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
+	
+	operation connectEmptyPointAsTarget(pathNode:PathNode):NodeConnection is do
+		var target:PathNode init createEmptyPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(pathNode,target)
+	end
+	
+	operation connectEmptyPointAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createEmptyPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
 
 	operation createCondition():Condition is do
 		result:=Condition.new

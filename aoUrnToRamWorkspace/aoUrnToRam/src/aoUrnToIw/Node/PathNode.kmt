@@ -92,7 +92,7 @@ aspect class PathNode {
 	end
 	
 	operation invokeLinkOnSuccs() is do
-		succ.each{nodeConnection|nodeConnection.asType(NodeConnection).link}
+		succAsNodeConnection.each{nodeConnection|nodeConnection.link}
 	end
 	
 //*********************************************************
