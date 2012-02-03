@@ -22,18 +22,29 @@ class AoUrnTestFactory
 		result:=URNdefinition.new
 	end
 	
-	operation attachUcmMapToUrnSpec(ucmMap:UCMmap,urnSpec:URNspec) is do
-		urnSpec.urndef.specDiagrams.add(ucmMap)
-	end
-
 	operation createUcmMap():UCMmap is do
 		result:=UCMmap.new
 		result.name:="theUcmMap"
 	end
-
+	
+	operation createUcmMap_UrnSpec(urnSpec:URNspec):UCMmap is do
+		result:=createUcmMap
+		urnSpec.urndef.specDiagrams.add(result)
+	end
+	
+	operation createUcmMap_UrnSpec_Concern(urnSpec:URNspec,concern:Concern):UCMmap is do
+		result:=createUcmMap_UrnSpec(urnSpec)
+		result.concern:=concern
+	end
+	
 	operation createConcern():Concern is do
 		result:=Concern.new
 		result.name:="theConcern"
+	end
+	
+	operation createConcern_UrnSpec(urnSpec:URNspec):Concern is do
+		result:=createConcern
+		urnSpec.urndef.concerns.add(result)
 	end
 
 	operation createNodeConnection():NodeConnection is do
@@ -70,11 +81,15 @@ Node
 		result.diagram:=ucmMap
 	end
 	
-
 	operation createEndPoint():EndPoint is do
 		result:=EndPoint.new
 		result.name:="theEndPoint"
 		result.id:="1"
+	end
+	
+	operation createEndPoint_UcmMap(ucmMap:UCMmap):EndPoint is do
+		result:=createEndPoint
+		result.diagram:=ucmMap
 	end
 	
 	operation createEmptyPoint():EmptyPoint is do
@@ -83,10 +98,20 @@ Node
 		result.id:="1"
 	end
 	
+	operation createEmptyPoint_UcmMap(ucmMap:UCMmap):EmptyPoint is do
+		result:=createEmptyPoint
+		result.diagram:=ucmMap
+	end
+	
 	operation createOrFork():OrFork is do
 		result:=OrFork.new
 		result.name:="theOrFork"
 		result.id:="1"
+	end
+	
+	operation createOrFork_UcmMap(ucmMap:UCMmap):OrFork is do
+		result:=createOrFork
+		result.diagram:=ucmMap
 	end
 
 	operation createOrJoin():OrJoin is do
@@ -101,7 +126,7 @@ Node
 		result.id:="1"
 	end
 	
-		operation createRespRef():RespRef is do
+	operation createRespRef():RespRef is do
 		result:=RespRef.new
 		result.respDef:=createResponsibility
 		result.id:="1"

@@ -16,10 +16,13 @@ aspect class NodeConnection{
 		iwNodeConnection.source:=source.asType(PathNode).iwExitNode
 		iwNodeConnection.target:=iwSingleTarget
 	end
-	
+
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
 	property readonly iwSingleTarget : IwNode
 	getter is do
-		if(target.asType(PathNode).iwNodes_ReadOnly.isEmpty==false) then
+		if(targetAsPathNode.iwHasNodes) then
 			result:=target.asType(PathNode).iwEntryNode
 		else
 		    //target has no iwNodes implies target has always has a single succ

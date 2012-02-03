@@ -25,7 +25,6 @@ class InOutExpression
 		outKeyword:="out "
 		inKeyword:="in "
 	
-	//stle: need validation: RegEx would be better
 		if(expression.toLowerCase().indexOf(outKeyword)==0) then
 			expression:=expression.substring(outKeyword.size(), expression.size())		
 			var index:Integer init expression.indexOf(" ")	

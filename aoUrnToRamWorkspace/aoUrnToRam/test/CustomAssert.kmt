@@ -67,15 +67,17 @@ class CustomAssert inherits Assert
 	end
 
 	operation assertStringContains(expected:String, actual:String) is do
+		assertNotVoid(actual)
 		assertWithMsgNextLine(actual.contains(expected),
-									   "Expected is contained in actual.\n" +
+									   "Expected is not contained in actual.\n" +
 									   "expected: "+toFormattedString(expected)+"\n"+
 									   "actual:   "+toFormattedString(actual))
 	end
 	
 	operation assertStringDoesNotContains(expected:String, actual:String) is do
+		assertNotVoid(actual)
 		assertWithMsgNextLine(actual.contains(expected)==false,
-									   "Expected is not contained in actual.\n" +
+									   "Expected is contained in actual.\n" +
 									   "expected: "+toFormattedString(expected)+"\n"+
 									   "actual:   "+toFormattedString(actual))
 	end

@@ -8,29 +8,29 @@ using intermediateWorkflow
 aspect class RespRef {
 	reference iwCustomizableNode:IwCustomizableNode
 
-	method build() is do
+	//get RamMetadata from respDef instead of respRef
+	method getRamMetadata():Metadata is do
+		result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+	end
+
+	method buildIwNodeTemplate() is do
 		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
 			if(isSystemComponentRef) then
 				buildCustomizableNode
 			end
 		end
-		super 
 	end
-	
-	operation buildCustomizableNode() is do
+
+	operation buildCustomizableNode()is do
 		iwCustomizableNode:=IwCustomizableNode.new
 		iwCustomizableNode.name:=respDef.nameOrPrefixId("CustomizableNode")
 		
 		if(respDef.respRefs.size>1) then
 			iwCustomizableNode.customizableNodeRefId:=id
 		end
+		addIwEquivalentNodeAfterOutIn(iwCustomizableNode)
 	end
 	
-	
-	method iwEquivalentNode():IwNode is do
-		result:=iwCustomizableNode
-	end
-
 	property readonly isSystemComponentRef : Boolean 
 	getter is do
 		result:=true
@@ -42,8 +42,4 @@ aspect class RespRef {
 			end
 		end			
 	end	
-
-	method getRamMetadata():Metadata is do
-		result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
-	end
 }

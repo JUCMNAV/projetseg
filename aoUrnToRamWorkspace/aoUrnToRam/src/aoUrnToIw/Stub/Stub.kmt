@@ -6,24 +6,22 @@ using intermediateWorkflow
 
 aspect class Stub {
 	reference iwStub: IwStub
-	
-	method build() is do
-		bindings.each{pluginBinding|pluginBinding.build}
 
-		//Ignore ram expression on stubs
-		//Stubs can have many in-paths and out-paths; thus, no obvious place to insert the outNode/inNode
-		//Moreover, it complicates the plugin bindings since inBinding and outBinding has reference
-		//to the NodeConnection. Inserting outNode/inNod on stubs will prevent these NodeConnection from
-		//being directly connected to the stub  
-		buildIwStub
-		super()
-	end
-
-	operation buildIwStub() is do
+//*********************************************************
+//Build
+//*********************************************************/
+	method buildIwNodeTemplate() is do
 		iwStub:=IwStub.new
 		iwStub.name:=nameOrPrefixId("Stub")
+		//Will never have OutIn expression for stub, but superclass behaviour is still reused
+		addIwEquivalentNodeAfterOutIn(iwStub)
+		
+		bindings.each{pluginBinding|pluginBinding.build}
 	end
 	
+//*********************************************************
+//Link
+//*********************************************************/
 	method link() is do
 		super
 		initStubEntryIndexes
@@ -50,10 +48,6 @@ aspect class Stub {
 	
 	operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
 		iwStub.pluginBindings.add(iwPluginBinding)
-	end
-
-	method iwEquivalentNode():IwNode is do
-		result:=iwStub
 	end
 }
 

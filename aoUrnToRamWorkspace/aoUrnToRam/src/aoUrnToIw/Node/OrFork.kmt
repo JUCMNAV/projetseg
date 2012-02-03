@@ -5,17 +5,9 @@ using kermeta::standard
 using intermediateWorkflow
 
 aspect class OrFork {
-	reference iwOrFork:IwOrFork
-
-	method build() is do
-		iwOrFork:=IwOrFork.new
+	method buildIwNodeTemplate() is do
+		var iwOrFork:IwOrFork init IwOrFork.new
 		iwOrFork.name:=nameOrPrefixId("OrFork")
-		super
+		addIwEquivalentNodeAfterOutIn(iwOrFork)
 	end
-		
-	method iwEquivalentNode():IwNode is do
-		result:=iwOrFork
-	end
-	
-
 }

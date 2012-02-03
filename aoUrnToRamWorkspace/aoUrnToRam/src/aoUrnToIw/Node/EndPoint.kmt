@@ -6,16 +6,10 @@ using intermediateWorkflow
 
 aspect class EndPoint {
 	reference iwEndPoint:IwEndPoint
-	
-	method build() is do
+
+	method buildIwNodeTemplate() is do
 		iwEndPoint:=IwEndPoint.new
 		iwEndPoint.name:=nameOrPrefixId("EndPoint")
-		super
+		addIwEquivalentNodeAfterOutIn(iwEndPoint)
 	end
-	
-	method iwEquivalentNode():IwNode is do
-		result:=iwEndPoint
-	end
-	
-	
 }

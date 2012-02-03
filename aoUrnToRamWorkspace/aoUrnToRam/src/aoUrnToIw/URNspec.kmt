@@ -16,6 +16,9 @@ aspect class URNspec{
 		result := iwModel
 	end
 
+//*********************************************************
+//Build
+//*********************************************************/
 	operation build() is do
 		ucmMaps.each{ucmMap|ucmMap.build}
 		concerns.each{concern|concern.build}
@@ -27,28 +30,26 @@ aspect class URNspec{
 		iwWithoutConcern:=IwConcern.new
 		iwWithoutConcern.name:="WithoutConcern"
 	end
-	
-	operation link() is do
-		ucmMaps.each{ucmMap|ucmMap.link(self)}
-	end
-	
-	operation getIwConcern(concern:Concern):IwConcern is do
-		if(concern.isVoid) then
-			result:=iwWithoutConcern
-		else
-			result:=concern.iwConcern
-		end
-	end
-	
-	operation addIwWorflowRefact(concern:Concern,iwWorkflow:IwWorkflow) is do
-		var iwConcern:IwConcern init getIwConcern(concern)
 
-		if(iwModel.concerns.contains(iwConcern)==false)then
-			iwModel.concerns.add(iwConcern)
-		end
-		iwConcern.workflows.add(iwWorkflow)
+//*********************************************************
+//Link
+//*********************************************************/
+	operation link() is do
+		ucmMaps.each{ucmMap|ucmMap.link}
+		linkConcerns
 	end
 	
+	operation linkConcerns() is do
+		concerns.each{concern|concern.link}
+		//do not link empty concern
+		if(iwWithoutConcern.workflows.size>0) then
+			iwWithoutConcern.model:=iwModel
+		end
+	end
+
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
 	property readonly ucmMaps : seq UCMmap[0..*]
 	getter is do
 		//stle: DRY

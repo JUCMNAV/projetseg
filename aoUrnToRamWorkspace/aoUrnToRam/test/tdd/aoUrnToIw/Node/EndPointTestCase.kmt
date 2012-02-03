@@ -15,7 +15,8 @@ class AoUrnToIw_EndPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
-		pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(sut)
+	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
 	end
+	
 }

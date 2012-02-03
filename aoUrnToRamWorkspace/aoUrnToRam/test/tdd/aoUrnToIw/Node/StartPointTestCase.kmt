@@ -15,8 +15,8 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
-		pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(sut)
+	operation testBuild_ShouldBuildEquivalentNodeBeforeInput() is do
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeBeforeInput(sut)
 	end
 		
 	@feature "FeaTransformStaticStub"
@@ -76,7 +76,6 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		assertCollectionHasSingleElement(sut.iwStartPoint,ucmMap.iwWorkflow.startPoints)
 	end
-	
 	
 	operation attachInBinding() is do
 		sut.inBindings.add(createInBinding)

@@ -12,7 +12,7 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutIn_ShouldLinkThreeIwNodesToIwWorklow() is do
-		useStartPointAsSutImpl
+		sut:=createStartPoint
 		setupAndExeLink
 		
 		assertCollectionHasThreeElements(sut.iwEquivalentNode,sut.iwInput,sut.iwOutput,sut.ucmMap.iwWorkflow.nodes)
@@ -20,7 +20,7 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutIn_ShouldLinkIwOutputToIwInput() is do
-		useStartPointAsSutImpl
+		sut:=createStartPoint
 		setupAndExeLink
 		
 		assertCollectionHasSingleElement(sut.iwInput,sut.iwOutput.targets)
@@ -28,7 +28,7 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutputInputAfter_ShouldLinkIwEquivalentNodeToIwOutput() is do
-		useStartPointAsSutImpl//use StartPoint (OutputInputAfter)
+		sut:=createStartPoint//use StartPoint (OutputInputAfter)
 		setupAndExeLink
 		
 		assertCollectionHasSingleElement(sut.iwOutput,sut.iwEquivalentNode.targets)
@@ -36,27 +36,55 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutputInputBefore_ShouldLinkIwInputToIwEquivalentNode() is do
-		useEndPointAsSutImpl//use EndPoint (OutputInputBefore)
+		sut:=createEndPoint//use EndPoint (OutputInputBefore)
 		setupAndExeLink
 		
 		assertCollectionHasSingleElement(sut.iwEquivalentNode,sut.iwInput.targets)
 	end
 	
-	operation setupAndExeLink() is do
-		attachOutputInputRamMetadata(sut)
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_ShouldLinkIwWorkflow() is do
 		var ucmMap:UCMmap init createUcmMap
-		sut.ucmMap:=ucmMap
+		sut:=createEndPoint_UcmMap(ucmMap)//use EndPoint as sut impl
 		ucmMap.build
 		
 		sut.link
+		
+		assertCollectionHasSingleElement(sut.iwEquivalentNode,ucmMap.iwWorkflow.nodes)
 	end
-
-	operation useStartPointAsSutImpl() is do
-		sut:=createStartPoint
-	end
-
 	
-	operation useEndPointAsSutImpl() is do
-		sut:=createEndPoint
+	@feature "FeaTransformOrFork"
+	operation testLink_NotEmpty_ShouldInvokeLinkOnNodeConnections() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createOrFork_UcmMap(ucmMap)
+		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+
+		sut.link
+
+		assertEquals(2,sut.iwEquivalentNode.succs.size)
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testLink_Empty_ShouldNotInvokeLinkOnNodeConnections() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createEmptyPoint_UcmMap(ucmMap)
+		var target:EndPoint init createEndPoint_UcmMap(ucmMap)
+		connectNodes(sut,target)
+		ucmMap.build
+
+		sut.link
+
+		assertEquals(0,target.iwEndPoint.preds.size)
+	end
+	
+	operation setupAndExeLink() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.ucmMap:=ucmMap
+		attachOutputInputRamMetadata(sut)
+		ucmMap.build
+		
+		sut.link
 	end
 }

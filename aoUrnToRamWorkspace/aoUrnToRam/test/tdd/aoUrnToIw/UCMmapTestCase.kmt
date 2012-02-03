@@ -11,12 +11,9 @@ using intermediateWorkflow
 class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:UCMmap
 	
-	method setUp() is do
-		sut:=createUcmMap
-	end
-	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		sut:=createUcmMap
 		sut.id:=void
 	
 		sut.build
@@ -28,14 +25,15 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnPathNodes() is do
 		var urnSpec:URNspec init createUrnSpec
-		attachUcmMapToUrnSpec(sut,urnSpec)
+		sut:=createUcmMap_UrnSpec(urnSpec)
 		createStartPoint_UcmMap(sut)
 		createStartPoint_UcmMap(sut)
 		urnSpec.build
 		
-		sut.link(urnSpec)//stle:refact
+		sut.link
 	
 		assertEquals(2,sut.iwWorkflow.nodes.size)
 	end
+	
 	
 }

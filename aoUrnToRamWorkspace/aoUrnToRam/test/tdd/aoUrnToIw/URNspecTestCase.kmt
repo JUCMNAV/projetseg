@@ -25,8 +25,67 @@ class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertNotVoid(sut.iwWithoutConcern)
 		assertEquals("WithoutConcern",sut.iwWithoutConcern.name)
 	end
-		
 	
-	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnUcmMaps() is do
+		createUcmMap_UrnSpec(sut)
+		createUcmMap_UrnSpec(sut)
+		sut.build
 		
+		sut.link
+	
+		assertEquals(2,sut.iwWithoutConcern.workflows.size)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithoutConcernIsNotEmpty_ShouldLinkIwWithoutConcernToIwModel() is do
+		createUcmMap_UrnSpec(sut)
+		sut.build
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwWithoutConcern,sut.iwModel.concerns)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithoutConcernIsEmpty_ShouldNotLinkIwWithoutConcernToIwModel() is do
+		sut.build
+		
+		sut.link
+	
+		assertEquals(0,sut.iwModel.concerns.size)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_ShouldInvokeLinkOnConcerns() is do
+		createUcmMap_UrnSpec_Concern(sut,createConcern_UrnSpec(sut))
+		createUcmMap_UrnSpec_Concern(sut,createConcern_UrnSpec(sut))
+		sut.build
+		
+		sut.link
+	
+		assertEquals(2,sut.iwModel.concerns.size)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_EmptyConcern_ShouldNotLinkIwConcernToIwModel() is do
+		var concern:Concern init createConcern_UrnSpec(sut)
+		sut.build
+		
+		sut.link
+		
+		assertEquals(0,sut.iwModel.concerns.size)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_NotEmptyConcern_ShouldLinkIwConcernToIwModel() is do
+		var concern:Concern init createConcern_UrnSpec(sut)
+		createUcmMap_UrnSpec_Concern(sut,concern)
+		sut.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(concern.iwConcern,sut.iwModel.concerns)
+	end
+	
 }

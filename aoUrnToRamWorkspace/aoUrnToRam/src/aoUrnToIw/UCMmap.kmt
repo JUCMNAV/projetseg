@@ -8,19 +8,35 @@ using oneurn::urn
 aspect class UCMmap{
 	reference iwWorkflow: IwWorkflow
 
+//*********************************************************
+//Build
+//*********************************************************/
 	operation build() is do
 		pathNodes.each{pathNode|pathNode.build}
 
 		iwWorkflow:=IwWorkflow.new
 		iwWorkflow.name:=nameOrPrefixId("Workflow")
 	end
-	
-	operation link(urnSpec:URNspec) is do
-		urnSpec.addIwWorflowRefact(concern,iwWorkflow)
-		
+
+//*********************************************************
+//Link
+//*********************************************************/
+	operation link() is do
+		linkWorkflowToConcern
 		pathNodes.each{pathNode|pathNode.link}
 	end
-	
+
+	operation linkWorkflowToConcern() is do
+		if(concern.isVoid) then
+			iwWorkflow.concern:=urnSpec.iwWithoutConcern
+		else
+			iwWorkflow.concern:=concern.iwConcern
+		end	
+	end	
+
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
 	property readonly pathNodes : seq PathNode[0..*]
 	getter is do
 		//stle: DRY

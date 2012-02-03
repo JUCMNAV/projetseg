@@ -15,7 +15,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStaticStub"
-	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
-		pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(sut)
+	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
 	end
 }

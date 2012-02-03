@@ -6,78 +6,35 @@ require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
+using kermeta::language::structure
 using oneurn::ucm::map
 using oneurn::urncore
 using intermediateWorkflow
 
 class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 {
-	operation pathNode_ParameterizableTestBuild_ShouldInvokeNameOrPrefixIdToSetName(pathNode:PathNode) is do
+	operation pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(pathNode:PathNode) is do
 		pathNode.name:=void
+		attachInputRamMetadata(pathNode)
 		
 		pathNode.build
 		
-		assertNotVoid(pathNode.iwEquivalentNode)
+		assertEquals(pathNode.iwInput,pathNode.iwEntryNode)
+		assertEquals(pathNode.iwEquivalentNode,pathNode.iwExitNode)
 		assertNameOrPrefixInvokedToSetName(pathNode,pathNode.iwEquivalentNode.name)
 	end
 
+	operation pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeBeforeInput(pathNode:PathNode) is do
+		pathNode.name:=void
+		attachInputRamMetadata(pathNode)
+		
+		pathNode.build
+		
+		assertEquals(pathNode.iwEquivalentNode,pathNode.iwEntryNode)
+		assertNameOrPrefixInvokedToSetName(pathNode,pathNode.iwEquivalentNode.name)
+	end
+	
 	operation assertNameOrPrefixInvokedToSetName(urnModelElement:URNmodelElement,name:String) is do
 		assertStringContains(urnModelElement.id,name)
 	end
-
-
-//*********************************************************
-//PathNodeBaseTestCaseWorkAround
-//Problem: 
-//kUnit cannot run test that does not directly inherit from TestCase.
-//This is unfortunate since it limits our ability to reuse test-specific logic 
-//from an abstract Testcase superclass.
-//WorkAround:
-//The logic that should be defined in a Testcase superclass is defined below.
-//Only the code to invoke these operations will have to be duplicated. 
-//Moreover, the duplicated code is clearly identified by the tags
-//<Duplication:PathNodeBaseTestCaseWorkAround>
-//...
-//</Duplication:PathNodeBaseTestCaseWorkAround>      
-//*********************************************************/
-	operation parameterizableTestBuild_NotVoidName_ShouldSetName(pathNode:PathNode) is do
-		pathNode.build
-		
-		assertEquals(pathNode.name,pathNode.iwEquivalentNode.name)
-	end
-	
-	operation parameterizableTestBuild_VoidName_ShouldGenerateDefaultNameFromTheId(pathNode:PathNode) is do
-		pathNode.name:=void
-		
-		pathNode.build
-		
-		assertStringContains(pathNode.id,pathNode.iwEquivalentNode.name)
-	end
-	
-	operation parameterizableTestBuild_EmptyName_ShouldGenerateDefaultNameFromTheId(pathNode:PathNode) is do
-		pathNode.name:=""
-		
-		pathNode.build
-		
-		assertStringContains(pathNode.id,pathNode.iwEquivalentNode.name)
-	end
-	
-	/*
-	//<Duplication:PathNodeBaseTestCaseWorkAround>
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_NotVoidName_ShouldSetName() is do
-		parameterizableTestBuild_NotVoidName_ShouldSetName(sut)
-	end
-	
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_VoidName_ShouldGenerateDefaultNameFromTheId() is do
-		parameterizableTestBuild_VoidName_ShouldGenerateDefaultNameFromTheId(sut)
-	end
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_EmptyName_ShouldGenerateDefaultNameFromTheId() is do
-		parameterizableTestBuild_EmptyName_ShouldGenerateDefaultNameFromTheId(sut)
-	end
-	//</Duplication:PathNodeBaseTestCaseWorkAround>
-	*/
 }

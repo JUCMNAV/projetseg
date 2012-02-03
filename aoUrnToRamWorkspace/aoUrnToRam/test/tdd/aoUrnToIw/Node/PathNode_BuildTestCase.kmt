@@ -17,7 +17,7 @@ class AoUrnToIw_PathNode_BuildTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testBuild_NoInOut_ShouldNotCreateOutputNorInput() is do
 		sut.build
-	
+
 		assertVoid(sut.iwOutput)
 		assertVoid(sut.iwInput)
 	end
@@ -26,7 +26,7 @@ class AoUrnToIw_PathNode_BuildTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testBuild_In_ShouldCreateInput() is do
 		attachInputRamMetadata(sut)
 		sut.build
-	
+
 		assertVoid(sut.iwOutput)
 		assertNotVoid(sut.iwInput)
 		assertEquals(DEFAULT_INPUT_NAME,sut.iwInput.name)

@@ -6,9 +6,11 @@ using oneurn::urncore
 using intermediateWorkflow
 
 aspect class PathNode {
-	reference iwOutput: IwOutput
-	reference iwInput: 	IwInput
-	reference _iwNodes: oset IwNode[0..3] attribute _isIwNodesCached:Boolean
+	reference _iwNodes: oset IwNode[0..3]
+	reference iwOutput:IwOutput
+	reference iwInput:IwInput
+	reference iwEquivalentNode:IwNode
+	
 	
 //*********************************************************
 //Build
@@ -16,13 +18,17 @@ aspect class PathNode {
 	operation build() is do
 		buildIwOutputNode
 		buildIwInputNode
-		invokeBuildOnNodeConnections
+		buildIwNodeTemplate
+		if(iwHasNodes) then
+			invokeBuildOnNodeConnections
+		end
 	end
 
 	operation buildIwOutputNode() is do
 		if(inOutExpression.hasOut) then
 			iwOutput:=IwOutput.new
 			iwOutput.name:=inOutExpression.out
+			_iwNodes.add(iwOutput)
 		end
 	end
 	
@@ -30,108 +36,83 @@ aspect class PathNode {
 		if(inOutExpression.hasIn) then
 			iwInput:=IwInput.new
 			iwInput.name:=inOutExpression.in
+			_iwNodes.add(iwInput)
 		end
 	end
 
 	//stle:test later
 	operation invokeBuildOnNodeConnections() is do
-		if(hasIwNodes) then
-			succAsNodeConnection.each{nodeConnection|nodeConnection.build}
-		end
+		succAsNodeConnection.each{nodeConnection|nodeConnection.build}
 	end
 	
-	property readonly hasIwNodes: Boolean
-	getter is do
-		//Avoid using iwNodes_ReadOnly in build
-		result:=iwOutput.isVoid==false or
-				iwInput.isVoid==false or
-				iwEquivalentNode.isVoid==false
+//*********************************************************
+//Template Method
+//*********************************************************/
+	//PathNode subclass should override this template method to build
+	//the iwNode that is equivalent to the PathNode.
+	//PathNode subclass should use addIwEquivalentNodeAfterOutIn or addIwEquivalentNodeBeforeOutIn
+	//to declare if the IwNode is the EntryNode or the ExitNode in the case
+	//where there is an InOut expression associated with the node.
+	operation buildIwNodeTemplate() is do
+		//default: do nothing
 	end
-
+	
+	operation addIwEquivalentNodeAfterOutIn(iwNode:IwNode) is do
+		iwEquivalentNode:=iwNode
+		_iwNodes.add(iwNode)
+	end
+	
+	operation addIwEquivalentNodeBeforeOutIn(iwNode:IwNode) is do
+		self.iwEquivalentNode:=iwNode
+		_iwNodes.addAt(0,iwNode)
+	end
+	
 //*********************************************************
 //Link
 //*********************************************************/
 	operation link() is do
 		linkUcmMap
-		linkSuccs
 		linkInternal
+		if(iwHasNodes) then
+			invokeLinkOnSuccs
+		end
 	end
 
 	operation linkUcmMap() is do
-		iwNodes_ReadOnly.each{iwNode|iwNode.workflow:=ucmMap.iwWorkflow}
+		_iwNodes.each{iwNode|iwNode.workflow:=ucmMap.iwWorkflow}
 	end
 
 	operation linkInternal() is do
-		var numOfInternalLinks:Integer init iwNodes_ReadOnly.size-1 //-1 because last internal node has no outcoming internal link
+		var numOfInternalLinks:Integer init _iwNodes.size-1 //-1 because last internal node has no outcoming internal link
 		numOfInternalLinks.times{i|
 			var connection:IwNodeConnection init IwNodeConnection.new
-			connection.source:=iwNodes_ReadOnly.at(i)
-			connection.target:=iwNodes_ReadOnly.at(i+1)
+			connection.source:=_iwNodes.at(i)
+			connection.target:=_iwNodes.at(i+1)
 		}
 	end
 	
-	operation linkSuccs() is do
-		if(iwNodes_ReadOnly.isEmpty==false) then
-			succ.each{nodeConnection|nodeConnection.asType(NodeConnection).link}
-		end
+	operation invokeLinkOnSuccs() is do
+		succ.each{nodeConnection|nodeConnection.asType(NodeConnection).link}
 	end
 	
 //*********************************************************
-//virtual
+// Properties
 //*********************************************************/
-	operation IsOutputInputBefore():Boolean is do
-		result:=true
-	end
-	
-	operation iwEquivalentNode():IwNode is do
-		result:=void
+	property readonly iwHasNodes: Boolean
+	getter is do
+		result:=_iwNodes.isEmpty==false
 	end
 
-//*********************************************************
-//iwNodes
-//*********************************************************/
 	property readonly iwEntryNode: IwNode
 	getter is do
-		result:=iwNodes_ReadOnly.first
+		result:=_iwNodes.first
 	end
 	
 	property readonly iwExitNode: IwNode
 	getter is do
-		result:=iwNodes_ReadOnly.last
-	end
-
-	property readonly iwNodes_ReadOnly: IwNode[0..3]
-	getter is do
-		if(_isIwNodesCached!=true) then
-			initIwNodes
-			_isIwNodesCached:=true
-		end
-		result:=_iwNodes.asOrderedSet //return a copy(enforce read-only)
-	end
-
-	operation initIwNodes() is do
-		if(IsOutputInputBefore) then
-			CollectionExt_AddOptional(_iwNodes,iwOutput)
-			CollectionExt_AddOptional(_iwNodes,iwInput)
-			CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
-		else
-			CollectionExt_AddOptional(_iwNodes,iwEquivalentNode)
-			CollectionExt_AddOptional(_iwNodes,iwOutput)
-			CollectionExt_AddOptional(_iwNodes,iwInput)
-		end
+		result:=_iwNodes.last
 	end
 	
-	//stle: reuse static
-	operation CollectionExt_AddOptional<T>(collection:Collection<T>, element:T) is do
-		if(element.isVoid==false) then
-			collection.add(element)
-		end
-	end
-	
-
-//*********************************************************
-//inOutExpression
-//*********************************************************/
 	property readonly inOutExpression : InOutExpression
 	getter is do
 		var ramMetadata:Metadata init getRamMetadata()

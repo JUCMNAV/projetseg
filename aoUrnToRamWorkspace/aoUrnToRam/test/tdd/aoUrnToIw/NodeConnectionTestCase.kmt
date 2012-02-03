@@ -25,20 +25,48 @@ class AoUrnToIw_NodeConnectionTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(sut.conditionLabel,sut.iwNodeConnection.conditionName)
 	end	
 
-/*
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_OutInAfterSource_ShouldLinkIwInputAsSource() is do
-		attachOutputInputRamMetadata(sut)
+	operation testLink_SourceInOut_ShouldLinkInputAsSource() is do
 		var ucmMap:UCMmap init createUcmMap
-		sut.ucmMap:=ucmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createEndPoint_UcmMap(ucmMap)
+		attachOutputInputRamMetadata(sut.sourceAsPathNode)
 		ucmMap.build
 	
-		var source:IwNode init createStartPoint
-		attachOutputInputRamMetadata(source)
-
-		sut.build
+		sut.link
 	
-		assertEquals(sut.conditionLabel,sut.iwNodeConnection.conditionName)
+		assertEquals(sut.sourceAsPathNode.iwInput,sut.iwNodeConnection.source)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_TargetInOut_ShouldLinkOutputAsTarget() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createEndPoint_UcmMap(ucmMap)
+		attachOutputInputRamMetadata(sut.targetAsPathNode)
+		ucmMap.build
+	
+		sut.link
+	
+		assertEquals(sut.targetAsPathNode.iwOutput,sut.iwNodeConnection.target)
 	end	
-		*/
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_EmptyNodeInBetween_ShouldLinkTarget() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		 //EmptyPoint as PathNodeImpl without IwNodes
+		var emptyNode:PathNode init createEmptyPoint_UcmMap(ucmMap)
+		sut.target:=emptyNode
+		var target:EndPoint init createEndPoint_UcmMap(ucmMap)
+		connectNodes(emptyNode,target) 
+		ucmMap.build
+	
+		sut.link
+		
+		assertEquals(target.iwEndPoint,sut.iwNodeConnection.target)
+	end
+	
+	
+		
 }

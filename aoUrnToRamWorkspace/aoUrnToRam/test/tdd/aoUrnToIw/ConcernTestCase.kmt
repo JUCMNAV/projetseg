@@ -5,17 +5,15 @@ using kermeta::standard
 using kermeta::kunit
 using oneurn::urncore
 using oneurn::ucm::map
+using oneurn::urn
 using intermediateWorkflow
 
 class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Concern
 	
-	method setUp() is do
-		sut:=createConcern
-	end
-	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
+		sut:=createConcern
 		sut.id:=void
 	
 		sut.build
@@ -23,5 +21,4 @@ class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertNotVoid(sut.iwConcern)
 		assertNameOrPrefixInvokedToSetName(sut,sut.iwConcern.name)
 	end
-		
 }
