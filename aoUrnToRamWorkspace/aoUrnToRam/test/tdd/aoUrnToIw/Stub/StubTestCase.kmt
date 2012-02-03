@@ -10,12 +10,61 @@ using intermediateWorkflow
 class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Stub
 	
-	method setUp() is do
+	@feature "FeaTransformStaticStub"
+	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
 		sut:=createStub
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
 	end
 	
 	@feature "FeaTransformStaticStub"
-	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
-		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
+	operation testLink_ShouldInvokeLinkOnPluginBindings() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		//stle:static stub for now, update this step once many plugins will be supported	
+		createPluginBinding_Stub(sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,sut.iwStub.pluginBindings.size)
 	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_TwoStubEntry_ShouldInitStubEntryIndexes() is do
+		//stle:dry
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var pred1:PathNode init createStartPoint_UcmMap(ucmMap) 
+		connectNodes(pred1,sut)
+		var pred2:PathNode init createStartPoint_UcmMap(ucmMap) 
+		connectNodes(pred2,sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,pred1.succAsNodeConnection.one.iwNodeConnection.stubEntryIndex)
+		assertEquals(2,pred2.succAsNodeConnection.one.iwNodeConnection.stubEntryIndex)
+	end
+
+
+//stle:todo
+/*	
+	@feature "FeaTransformStaticStub"
+	operation testLink_TwoStubExit_ShouldInitStubExitIndexes() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var succ1:PathNode init createEndPoint_UcmMap(ucmMap) 
+		connectNodes(sut,succ1)
+		var succ2:PathNode init createEndPoint_UcmMap(ucmMap) 
+		connectNodes(sut,succ2)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,succ1.succAsNodeConnection.one.iwNodeConnection.stubExitIndex)
+		assertEquals(2,succ2.succAsNodeConnection.one.iwNodeConnection.stubExitIndex)
+	end
+*/	
+	
+	
 }

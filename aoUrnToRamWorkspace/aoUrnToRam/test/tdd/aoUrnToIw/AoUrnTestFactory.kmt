@@ -139,18 +139,39 @@ Stub
 		result.name:="theStub"
 		result.id:="1"	
 	end
+	
+	operation createStub_UcmMap(ucmMap:UCMmap):Stub is do
+		result:=createStub
+		result.diagram:=ucmMap
+	end
 
 	operation createPluginBinding():PluginBinding is do
 		result:=PluginBinding.new
+	end
+	
+	operation createPluginBinding_Stub(stub:Stub):PluginBinding is do
+		result:=createPluginBinding
+		result.stub:=stub
 	end
 	
 	operation createInBinding():InBinding is do
 		result:=InBinding.new
 	end
 	
+	operation createInBinding_PluginBinding(pluginBinding:PluginBinding):InBinding is do
+		result:=createInBinding
+		result.binding:=pluginBinding
+	end
+	
 	operation createOutBinding():OutBinding is do
 		result:=OutBinding.new
 	end
+	
+	operation createOutBinding_PluginBinding(pluginBinding:PluginBinding):OutBinding is do
+		result:=createOutBinding
+		result.binding:=pluginBinding
+	end
+	
 
 
 /*********************************************************
