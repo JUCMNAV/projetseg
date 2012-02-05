@@ -21,6 +21,30 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertNotVoid(sut.iwWorkflow)
 		assertNameOrPrefixInvokedToSetName(sut,sut.iwWorkflow.name)
 	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithoutConcern_ShouldLinkIwWorkflowToIwConcern() is do
+		var urnSpec:URNspec init createUrnSpec
+		sut:=createUcmMap_UrnSpec(urnSpec)
+		urnSpec.build
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwWorkflow,sut.urnSpec.iwWithoutConcern.workflows)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithConcern_ShouldLinkIwWorkflowToIwConcern() is do
+		var urnSpec:URNspec init createUrnSpec
+		var concern:Concern init createConcern_UrnSpec(urnSpec)
+		sut:=createUcmMap_UrnSpec(urnSpec)
+		sut.concern:=concern
+		urnSpec.build
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwWorkflow,concern.iwConcern.workflows)
+	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnPathNodes() is do

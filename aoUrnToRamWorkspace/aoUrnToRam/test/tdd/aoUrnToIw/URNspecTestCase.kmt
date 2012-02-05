@@ -16,8 +16,6 @@ class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut:=createUrnSpec
 	end
 
-	//stle:void test will be covered by invoke
-	
 	@feature "FeaNamingofRAMConcern"
 	operation testBuild_ShouldBuildWithoutConcern() is do
 		sut.build
@@ -66,26 +64,4 @@ class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 		assertEquals(2,sut.iwModel.concerns.size)
 	end
-	
-	@feature "FeaNamingofRAMConcern"
-	operation testLink_EmptyConcern_ShouldNotLinkIwConcernToIwModel() is do
-		var concern:Concern init createConcern_UrnSpec(sut)
-		sut.build
-		
-		sut.link
-		
-		assertEquals(0,sut.iwModel.concerns.size)
-	end
-	
-	@feature "FeaNamingofRAMConcern"
-	operation testLink_NotEmptyConcern_ShouldLinkIwConcernToIwModel() is do
-		var concern:Concern init createConcern_UrnSpec(sut)
-		createUcmMap_UrnSpec_Concern(sut,concern)
-		sut.build
-		
-		sut.link
-		
-		assertCollectionHasSingleElement(concern.iwConcern,sut.iwModel.concerns)
-	end
-	
 }

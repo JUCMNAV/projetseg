@@ -216,6 +216,26 @@ Stub
 		result.binding:=pluginBinding
 	end
 	
+	operation attachStubEntryAndStartPointToInBinding(inBinding:InBinding) is do
+		var pluginStartPoint:StartPoint init createStartPoint
+		inBinding.startPoint:=pluginStartPoint
+		pluginStartPoint.build
+		
+		var stubEntry:NodeConnection init createNodeConnection
+		inBinding.stubEntry:=stubEntry
+		stubEntry.build
+	end
+
+	operation attachStubExitAndEndPointToOutBinding(outBinding:OutBinding) is do
+		var pluginEndPoint:EndPoint init createEndPoint
+		outBinding.endPoint:=pluginEndPoint
+		pluginEndPoint.build
+		
+		var stubExit:NodeConnection init createNodeConnection
+		outBinding.stubExit:=stubExit
+		stubExit.build
+	end
+	
 	operation createOutBinding():OutBinding is do
 		result:=OutBinding.new
 	end

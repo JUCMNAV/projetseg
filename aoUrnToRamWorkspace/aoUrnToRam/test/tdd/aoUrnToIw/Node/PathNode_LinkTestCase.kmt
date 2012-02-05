@@ -42,17 +42,6 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertCollectionHasSingleElement(sut.iwEquivalentNode,sut.iwInput.targets)
 	end
 	
-	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
-	operation testLink_ShouldLinkIwWorkflow() is do
-		var ucmMap:UCMmap init createUcmMap
-		sut:=createEndPoint_UcmMap(ucmMap)//use EndPoint as sut impl
-		ucmMap.build
-		
-		sut.link
-		
-		assertCollectionHasSingleElement(sut.iwEquivalentNode,ucmMap.iwWorkflow.nodes)
-	end
-	
 	@feature "FeaTransformOrFork"
 	operation testLink_NotEmpty_ShouldInvokeLinkOnNodeConnections() is do
 		var ucmMap:UCMmap init createUcmMap

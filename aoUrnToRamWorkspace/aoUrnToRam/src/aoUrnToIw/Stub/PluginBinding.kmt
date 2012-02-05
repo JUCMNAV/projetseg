@@ -16,7 +16,6 @@ aspect class PluginBinding {
 	operation link() is do
 		in.each{inBinding|inBinding.link}
 		out.each{outBinding|outBinding.link}
-		
 		linkStub
 	end
 

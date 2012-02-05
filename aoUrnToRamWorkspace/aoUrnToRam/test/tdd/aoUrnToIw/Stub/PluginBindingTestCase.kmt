@@ -10,14 +10,58 @@ using intermediateWorkflow
 class AoUrnToIw_PluginBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:PluginBinding
 	
-	method setUp() is do
-		sut:=createPluginBinding
-	end
-	
 	@feature "FeaTransformStaticStub"
 	operation testBuild_ShouldBuildIwPluginBinding() is do
+		sut:=createPluginBinding
 		sut.build
 	
 		assertNotVoid(sut.iwPluginBinding)
 	end	
+
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwPluginBindingToIwStub() is do
+		var stub:Stub init createStub
+		sut:=createPluginBinding_Stub(stub)
+		stub.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(sut.iwPluginBinding,stub.iwStub.pluginBindings)
+	end
+
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldInvokeLinkOnInBindings() is do
+		var stub:Stub init createStub
+		sut:=createPluginBinding_Stub(stub)
+		attachInBindingToSut
+		attachInBindingToSut
+		stub.build
+		
+		sut.link
+		
+		assertEquals(2,sut.iwPluginBinding.inBindings.size)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldInvokeLinkOnOutBindings() is do
+		var stub:Stub init createStub
+		sut:=createPluginBinding_Stub(stub)
+		attachOutBindingToSut
+		attachOutBindingToSut
+		stub.build
+		
+		sut.link
+		
+		assertEquals(2,sut.iwPluginBinding.outBindings.size)
+	end
+
+	operation attachInBindingToSut() is do
+		var inBinding:InBinding init createInBinding_PluginBinding(sut)
+		attachStubEntryAndStartPointToInBinding(inBinding)
+	end
+
+	operation attachOutBindingToSut() is do
+		var outBinding:OutBinding init createOutBinding_PluginBinding(sut)
+		attachStubExitAndEndPointToOutBinding(outBinding)
+	end
 }

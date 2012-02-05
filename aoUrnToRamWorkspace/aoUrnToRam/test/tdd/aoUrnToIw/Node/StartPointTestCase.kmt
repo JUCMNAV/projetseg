@@ -69,7 +69,7 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkIwStartPointToIwWorklow() is do
 		var ucmMap:UCMmap init createUcmMap
-		sut.ucmMap:=ucmMap //stle:dry
+		sut.ucmMap:=ucmMap 
 		ucmMap.build
 		
 		sut.link

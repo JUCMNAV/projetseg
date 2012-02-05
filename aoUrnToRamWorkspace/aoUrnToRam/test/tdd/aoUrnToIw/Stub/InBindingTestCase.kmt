@@ -8,17 +8,34 @@ using oneurn::ucm::map
 using intermediateWorkflow
 
 class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference pluginBinding:PluginBinding
 	reference sut:InBinding
 	
 	method setUp() is do
-		sut:=createInBinding
+		pluginBinding:=createPluginBinding
+		sut:=createInBinding_PluginBinding(pluginBinding)
+		pluginBinding.build
+		attachStubEntryAndStartPointToInBinding(sut)
 	end
 	
-	//stle: should probably be dropped because will be tested inderectly by testInvokeLink
 	@feature "FeaTransformStaticStub"
-	operation testBuild_ShouldBuildIwInBinding() is do
-		sut.build
+	operation testLink_ShouldLinkIwInBindingToIwPluginStartPoint() is do
+		sut.link
 	
-		assertNotVoid(sut.iwInBinding)
+		assertEquals(sut.startPoint.iwStartPoint, sut.iwInBinding.pluginStartPoint)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwStubEntry() is do
+		sut.link
+	
+		assertEquals(sut.stubEntry.iwNodeConnection, sut.iwInBinding.stubEntry)
+	end	
+		
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwPluginBinding() is do
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwInBinding, pluginBinding.iwPluginBinding.inBindings)
 	end	
 }

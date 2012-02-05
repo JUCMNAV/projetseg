@@ -11,7 +11,7 @@ using intermediateWorkflow
 class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Concern
 	
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	@feature "FeaNamingofRAMConcern"
 	operation testBuild_ShouldInvokeNameOrPrefixIdToSetName() is do
 		sut:=createConcern
 		sut.id:=void
@@ -21,4 +21,29 @@ class AoUrnToIw_ConcernTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertNotVoid(sut.iwConcern)
 		assertNameOrPrefixInvokedToSetName(sut,sut.iwConcern.name)
 	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_EmptyConcern_ShouldNotLinkIwConcernToIwModel() is do
+		var urnSpec:URNspec init createUrnSpec
+		sut:=createConcern_UrnSpec(urnSpec)
+		urnSpec.build
+		
+		sut.link
+		
+		assertEquals(0,urnSpec.iwModel.concerns.size)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_NotEmptyConcern_ShouldLinkIwConcernToIwModel() is do
+		var urnSpec:URNspec init createUrnSpec
+		sut:=createConcern_UrnSpec(urnSpec)
+		var ucmMap:UCMmap init createUcmMap_UrnSpec_Concern(urnSpec,sut)
+		urnSpec.build
+		ucmMap.link //UCMmap.link must be invoked before Concern.link
+	
+		sut.link
+		
+		assertCollectionHasSingleElement(sut.iwConcern,urnSpec.iwModel.concerns)
+	end
+	
 }
