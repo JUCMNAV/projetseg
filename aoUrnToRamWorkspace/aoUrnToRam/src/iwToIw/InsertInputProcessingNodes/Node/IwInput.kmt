@@ -10,12 +10,9 @@ using kermeta::exceptions
 aspect class IwInput {
 	reference iwInputProcessingNode:IwCustomizableNode
 
-	method getInsertProcessingNodeAction():InsertProcessingNodeAction is do 
-		result:=InsertProcessingNodeAction.insert  
-	end
-
-	method insertInputProcessingNodes() is do
-		succs.one.insertInputProcessingNodes(self)
+	method insertInputProcessingNode() is do
+		//stle:single again
+		succs.one.insertInputProcessingNode(self)
 	end
 }
 

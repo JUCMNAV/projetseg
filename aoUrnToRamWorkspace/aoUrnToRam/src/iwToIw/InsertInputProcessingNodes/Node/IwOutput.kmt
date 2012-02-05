@@ -1,0 +1,11 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwOutput {
+	method doesRequireInputProcessingNode():Boolean is do
+		result:=false
+	end
+}

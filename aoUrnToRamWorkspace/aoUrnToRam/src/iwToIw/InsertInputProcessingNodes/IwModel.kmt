@@ -8,7 +8,7 @@ aspect class IwModel {
 	operation insertInputProcessingNodes() is do
 		concerns.each{concern|
 			concern.workflows.each{workflow|
-				workflow.nodes.each{node|node.insertInputProcessingNodes}
+				workflow.nodes.each{node|node.insertInputProcessingNode}
 			}
 		}
 	end

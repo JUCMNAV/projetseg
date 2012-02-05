@@ -40,7 +40,6 @@ aspect class PathNode {
 		end
 	end
 
-	//stle:test later
 	operation invokeBuildOnNodeConnections() is do
 		succAsNodeConnection.each{nodeConnection|nodeConnection.build}
 	end

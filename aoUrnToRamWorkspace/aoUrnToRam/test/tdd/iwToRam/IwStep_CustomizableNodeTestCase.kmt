@@ -38,8 +38,9 @@ class IwToRam_IwStep_CustomizableNodeTestCase inherits TestCase,IwToRam_TestHelp
 	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
+		setAsFirstRefToShared(customizableNode)
 		var shared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
-		setTwoCustomizableNodesAsShared(customizableNode,shared)
+		setAsSecondRefToShared(shared)
 	
 		sut.build
 		
@@ -74,13 +75,6 @@ class IwToRam_IwStep_CustomizableNodeTestCase inherits TestCase,IwToRam_TestHelp
 		sut.model.build
 		
 		sut.link
-	end
-
-	operation setTwoCustomizableNodesAsShared(node1:IwCustomizableNode,node2:IwCustomizableNode) is do
-		node1.name:="shared"
-		node1.customizableNodeRefId:="1"
-		node2.name:="shared"
-		node2.customizableNodeRefId:="2"
 	end
 	
 	operation getRamCustomizableNodeClassAt(index:Integer):MappableElement is do

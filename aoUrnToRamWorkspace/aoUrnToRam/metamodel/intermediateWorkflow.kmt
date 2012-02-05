@@ -48,10 +48,10 @@ class IwNodeConnection{
 	reference target:IwNode#preds
 	
 	reference inBinding:IwInBinding#stubEntry
-	attribute stubEntryIndexAsString:String//stle:bug
+	attribute stubEntryIndexAsString:String////See @IntegerCannotBeSerialized 
 	
 	reference outBinding:IwOutBinding#stubExit
-	attribute stubExitIndexAsString:String//stle:bug
+	attribute stubExitIndexAsString:String////See @IntegerCannotBeSerialized
 	
 	attribute trigger:Boolean
 }

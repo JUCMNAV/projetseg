@@ -8,9 +8,8 @@ using kermeta::language::structure
 using kermeta::exceptions
 
 aspect class IwNodeConnection{
-	//stle:naming
-	operation insertInputProcessingNodes(input:IwInput) is do
-		if(target.getInsertProcessingNodeAction==InsertProcessingNodeAction.insert) then
+	operation insertInputProcessingNode(input:IwInput) is do
+		if(target.doesRequireInputProcessingNode) then
 			buildInputProcessingNode(input)
 			linkInputProcessingNodePred(input)
 			linkInputProcessingNodeSucc(input)
@@ -29,7 +28,6 @@ aspect class IwNodeConnection{
 		pred.source:=source
 		pred.target:=input.iwInputProcessingNode
 		pred.outBinding:=outBinding
-		//stle:test required
 		pred.stubExitIndex:=stubExitIndex
 	end
 	
@@ -38,7 +36,6 @@ aspect class IwNodeConnection{
 		succ.source:=input.iwInputProcessingNode
 		succ.target:=target
 		succ.inBinding:=inBinding
-		//stle:test required
 		succ.stubEntryIndex:=stubEntryIndex
 	end
 }

@@ -80,6 +80,16 @@ Node
 		result.name:="theCustomizableNode"
 	end
 	
+	operation setAsFirstRefToShared(customizableNode:IwCustomizableNode) is do
+		customizableNode.name:="shared"
+		customizableNode.customizableNodeRefId:="1"
+	end 
+
+	operation setAsSecondRefToShared(customizableNode:IwCustomizableNode) is do
+		customizableNode.name:="shared"
+		customizableNode.customizableNodeRefId:="2"
+	end 
+	
 	operation createIwCustomizableNode_Workflow(workflow:IwWorkflow):IwCustomizableNode is do
 		result:=createIwCustomizableNode
 		result.workflow:=workflow

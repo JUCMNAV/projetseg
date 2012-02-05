@@ -49,7 +49,6 @@ aspect class NodeConnection{
 		end
 	end
 	
-	//stle: test later, or maybe already tested by others tests indirectly?
 	property readonly iwSinglePredNodeConnection : IwNodeConnection
 	getter is do
 		if(iwNodeConnection.isVoid==false) then

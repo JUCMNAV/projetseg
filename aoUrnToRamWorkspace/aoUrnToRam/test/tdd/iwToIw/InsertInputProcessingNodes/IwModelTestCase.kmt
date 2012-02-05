@@ -1,0 +1,30 @@
+package aoUrnToRam::test;
+
+require kermeta
+//stle: rename all folder to lower cap
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using kermeta::language::structure
+using aoUrnToRam::test
+
+class InsertInputProcessingNodes_IwModelTestCase inherits TestCase,InsertInputProcessingNodes_TestHelper
+{
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNodes_ShouldInvokeInsertInputProcessingNodesOnNodes() is do
+		var sut:IwModel init createIwModel
+		var concern:IwConcern init createIwConcern_Model(sut)
+		var workflow:IwWorkflow init createIwWorkflow_Concern(concern)
+		var input1:IwNode init createIwInput_Workflow(workflow)
+		var input2:IwNode init createIwInput_Workflow(workflow)
+		var endPoint:IwNode init createIwEndPoint_Workflow(workflow)
+		linkNodes(input1,input2)
+		linkNodes(input2,endPoint)
+		
+		sut.insertInputProcessingNodes
+		
+		assertEquals(5,workflow.nodes.size)//3 nodes + 2 input-processing nodes
+	end
+}

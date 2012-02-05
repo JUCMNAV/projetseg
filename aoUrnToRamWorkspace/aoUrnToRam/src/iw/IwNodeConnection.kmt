@@ -6,11 +6,9 @@ using kermeta::standard
 
 aspect class IwNodeConnection {
 
-	property readonly hasCondition:Boolean
-	getter is do
-		result:=conditionName.isVoid==false
-	end
-	
+	//@IntegerCannotBeSerialized
+	//Serialize Integers as string to work around the problem
+	//For more details, see http://lists.gforge.inria.fr/pipermail/kermeta-users/2008-November/000692.html
 	property stubEntryIndex:Integer
 	getter is do
 		if(stubEntryIndexAsString.isVoid) then
@@ -27,6 +25,7 @@ aspect class IwNodeConnection {
 		end
 	end
 
+	//See @IntegerCannotBeSerialized
 	property stubExitIndex:Integer
 	getter is do
 		if(stubExitIndexAsString.isVoid) then
@@ -43,6 +42,11 @@ aspect class IwNodeConnection {
 		end
 	end
 	
+	property readonly hasCondition:Boolean
+	getter is do
+		result:=conditionName.isVoid==false
+	end
+			
 	operation delete() is do
 		source:=void
 		target:=void
