@@ -16,6 +16,13 @@ aspect class IwNode {
 		result.name:=name
 	end
 	
-	operation build() is abstract
-	operation link() is abstract
+	//virtual
+	operation build() is do
+		//default: do nothing
+	end
+	
+	//virtual
+	operation link() is do
+		//default: do nothing
+	end
 }
