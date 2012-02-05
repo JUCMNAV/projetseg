@@ -27,4 +27,30 @@ class AoUrnToIw_WaitingPlaceTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(true, sut.iwWaitingPlace.transient)
 	end
 	
+	@feature "FeaTransformWaitingPlace"
+	operation testBuild_ShouldInitTriggerPropertyAndIgnoreConnect() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createWaitingPlace_UcmMap(ucmMap)
+		var pred1:NodeConnection init connectStartPointAsSource(sut) 
+		var pred2:NodeConnection init connectConnectAsSource(sut)
+		var pred3:NodeConnection init connectEndPointAsSource(pred2.source.asType(Connect))
+		// var startPoint:StartPoint init connectPathWithConnectAsTarget(pred2.source.asType(Connect))
+		ucmMap.build
+		
+		// link all nodes
+		pred1.source.asType(StartPoint).link
+		pred2.source.asType(Connect).link
+		pred3.source.asType(EndPoint).link
+		sut.link
+
+		assertEquals(3, ucmMap.iwWorkflow.nodes.size()) // check that the Connect node was not built
+		assertEquals(false, pred1.iwNodeConnection.trigger)
+		assertEquals(pred1.source.asType(StartPoint).iwStartPoint, pred1.iwNodeConnection.source)
+		assertEquals(sut.iwWaitingPlace, pred1.iwNodeConnection.target)
+		assertEquals(true, pred3.iwNodeConnection.trigger)
+		assertEquals(pred3.source.asType(EndPoint).iwEndPoint, pred3.iwNodeConnection.source)
+		assertEquals(sut.iwWaitingPlace, pred3.iwNodeConnection.target)
+		assertVoid(pred2.iwNodeConnection)
+	end
+	
 }

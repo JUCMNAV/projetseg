@@ -8,13 +8,31 @@ aspect class NodeConnection{
 	reference iwNodeConnection: IwNodeConnection
 	
 	operation build() is do
-		iwNodeConnection:=IwNodeConnection.new
-		iwNodeConnection.conditionName:=conditionLabel
+		if (source.isKindOf(Connect)) then
+			// nothing to do as Connect is ignored
+		else
+			iwNodeConnection:=IwNodeConnection.new
+			iwNodeConnection.conditionName:=conditionLabel
+			iwNodeConnection.trigger:=false
+		end
 	end
 	
 	operation link() is do
-		iwNodeConnection.source:=source.asType(PathNode).iwExitNode
-		iwNodeConnection.target:=iwSingleTarget
+		if (source.isKindOf(Connect)) then
+			// nothing to do as Connect is ignored
+		else
+			iwNodeConnection.source:=source.asType(PathNode).iwExitNode
+			if (target.isKindOf(Connect)) then
+				// need to skip the Connect and use the following node as target
+				iwNodeConnection.target:=target.succ.first.asType(NodeConnection).iwSingleTarget
+				// if Connect precedes a WaitingPlace, then the node connection is a trigger path
+				if (iwNodeConnection.target.isKindOf(IwWaitingPlace)) then
+					iwNodeConnection.trigger:=true
+				end
+			else
+				iwNodeConnection.target:=iwSingleTarget
+			end
+		end
 	end
 
 //*********************************************************

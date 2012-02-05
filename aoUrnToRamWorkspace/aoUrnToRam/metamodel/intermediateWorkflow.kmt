@@ -52,6 +52,8 @@ class IwNodeConnection{
 	
 	reference outBinding:IwOutBinding#stubExit
 	attribute stubExitIndexAsString:String//stle:bug
+	
+	attribute trigger:Boolean
 }
 
 class IwInput inherits IwNode

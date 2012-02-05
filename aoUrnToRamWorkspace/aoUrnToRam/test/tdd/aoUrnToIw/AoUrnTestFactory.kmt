@@ -57,6 +57,11 @@ class AoUrnTestFactory
 		result.target:=target 
 	end
 	
+	operation connectEndPointAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createEndPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
+	
 	operation connectEndPointAsTarget(pathNode:PathNode):NodeConnection is do
 		var target:PathNode init createEndPoint_UcmMap(pathNode.ucmMap)
 		result:=connectNodes(pathNode,target)
@@ -74,6 +79,11 @@ class AoUrnTestFactory
 	
 	operation connectEmptyPointAsSource(pathNode:PathNode):NodeConnection is do
 		var source:PathNode init createEmptyPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
+	
+	operation connectConnectAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createConnect_UcmMap(pathNode.ucmMap)
 		result:=connectNodes(source,pathNode)
 	end
 
@@ -153,6 +163,22 @@ Node
 		result.waitType:=WaitKind.Transient
 	end
 	
+	operation createWaitingPlace_UcmMap(ucmMap:UCMmap):WaitingPlace is do
+		result:=createWaitingPlace
+		result.diagram:=ucmMap
+	end
+
+	operation createConnect():Connect is do
+		result:=Connect.new
+		result.name:="theWaitingPlace"
+		result.id:="1"
+	end
+	
+	operation createConnect_UcmMap(ucmMap:UCMmap):Connect is do
+		result:=createConnect
+		result.diagram:=ucmMap
+	end
+		
 	operation createRespRef():RespRef is do
 		result:=RespRef.new
 		result.respDef:=createResponsibility
