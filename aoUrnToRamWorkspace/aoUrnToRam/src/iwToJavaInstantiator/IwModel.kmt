@@ -1,0 +1,11 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwModel {
+	operation toJavaInstantiator():TextView[0..*] is do
+		result:=void
+	end
+}

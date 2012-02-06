@@ -1,0 +1,16 @@
+package aoUrnToRam::test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+class IwToJavaInstantiator_TestHelper inherits CustomAssert,IwTestFactory
+{
+
+}

@@ -1,0 +1,26 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+
+//stle:dry with StepView
+class TextView{
+	attribute workspacePath: String
+	attribute _content:StringBuffer
+	
+	operation append(toAppend:String) is do
+		_content.append(toAppend)
+	end
+	
+	operation appendLine(line:String) is do
+		append(line) 
+		append("\n")
+	end
+	
+	property readonly content : String
+	getter is do
+		result:=_content.toString
+	end
+}

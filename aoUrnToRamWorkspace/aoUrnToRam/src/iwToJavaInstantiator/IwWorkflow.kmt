@@ -1,0 +1,14 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using aoUrnToRam::util //stle:think about this
+
+aspect class IwWorkflow {
+
+	operation jiToWorkflowInstantiator():TextView is do
+		result:=TextView.new
+		result.workspacePath:=Path.new.combine(concern.name,name)
+	end
+}

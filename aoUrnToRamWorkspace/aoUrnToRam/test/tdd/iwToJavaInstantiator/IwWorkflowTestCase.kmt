@@ -1,0 +1,24 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using aoUrnToRam::util 
+
+class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwWorkflow
+	reference textView:TextView
+
+	operation testToWorkflowInstantiator_ShouldInitWorkspacePath() is do
+		var concern:IwConcern init createIwConcern
+		sut:=createIwWorkflow_Concern(concern)
+		
+		textView:=sut.jiToWorkflowInstantiator //stle:think about out, or ref
+		
+		assertEquals(Path.new.combine(concern.name,sut.name),textView.workspacePath)//stle:think about this
+	end
+	
+}
