@@ -7,4 +7,6 @@
 result.add(LinkSteps_\1)
 
 //To assert for debugging purposes
-var a:kermeta::kunit::Assert init kermeta::kunit::Assert.new
+		//stle:temp
+		var a:kermeta::kunit::Assert init kermeta::kunit::Assert.new
+		a.assertWithMsg(true,"msg")

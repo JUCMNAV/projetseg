@@ -35,7 +35,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	end
 	
 	operation testStartupNodeAndSharedResp() is do
-		//parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
+		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
