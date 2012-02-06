@@ -1,0 +1,22 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwStartPoint
+	reference textView:TextView
+
+	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
+		sut:=createIwStartPoint
+		textView:=createTextView
+		
+		sut.jiAppendBuildStatement(textView)
+		
+		assertEquals("",textView.content)
+	end
+}

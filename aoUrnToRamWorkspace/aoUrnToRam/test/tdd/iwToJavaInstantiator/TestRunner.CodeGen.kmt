@@ -10,6 +10,12 @@ require kermeta
 
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/IwModelTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/IwWorkflowTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwCustomizableNodeTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwEndPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwInputTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwOrForkTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwOutputTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwStartPointTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
@@ -21,5 +27,11 @@ class IwToJavaInstantiator_TestRunner inherits CustomTestRunner
 		result:=OrderedSet<Class>.new
 		result.add(IwToJavaInstantiator_IwModelTestCase)
 		result.add(IwToJavaInstantiator_IwWorkflowTestCase)
+		result.add(IwToJavaInstantiator_IwCustomizableNodeTestCase)
+		result.add(IwToJavaInstantiator_IwEndPointTestCase)
+		result.add(IwToJavaInstantiator_IwInputTestCase)
+		result.add(IwToJavaInstantiator_IwOrForkTestCase)
+		result.add(IwToJavaInstantiator_IwOutputTestCase)
+		result.add(IwToJavaInstantiator_IwStartPointTestCase)
 	end
 }

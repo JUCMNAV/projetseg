@@ -6,7 +6,22 @@ using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
 
-
 class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
+	reference sut:IwModel
+
+	operation testToJavaInstantiator_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
+		sut:=createIwModel
+		var concern1:IwConcern init createIwConcern_Model(sut)
+		//Many workflows
+		var workflow1_1:IwWorkflow init createIwWorkflow_Concern(concern1)
+		var workflow1_2:IwWorkflow init createIwWorkflow_Concern(concern1)
+		//Many concerns
+		var concern2:IwConcern init createIwConcern_Model(sut)
+		var workflow2_1:IwWorkflow init createIwWorkflow_Concern(concern2)
+
+		var textViews:TextView[0..*] init sut.jiToJavaInstantiator
+
+		assertEquals(3,textViews.size)
+	end
 }

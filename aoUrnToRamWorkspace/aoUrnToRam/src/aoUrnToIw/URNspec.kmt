@@ -10,6 +10,12 @@ aspect class URNspec{
 	reference iwModel: IwModel
 	reference iwWithoutConcern:IwConcern
 	
+	//@UrnSpecNameWorkAround
+	//URNspec already has a name property but it is always set to URNspec.
+	//The property UrnSpecName is weaved into URNspec to work around this problem.
+	//UrnSpecName is initialized from the .jucm file name 
+	attribute urnSpecName:String
+	
 	operation toIw():IwModel is do
 		build
 		link
@@ -22,8 +28,13 @@ aspect class URNspec{
 	operation build() is do
 		ucmMaps.each{ucmMap|ucmMap.build}
 		concerns.each{concern|concern.build}
-		iwModel:=IwModel.new
+		buildIwModel
 		buildIwWithoutConcern
+	end
+
+	operation buildIwModel() is do
+		iwModel:=IwModel.new
+		iwModel.name:=urnSpecName
 	end
 	
 	operation buildIwWithoutConcern() is do

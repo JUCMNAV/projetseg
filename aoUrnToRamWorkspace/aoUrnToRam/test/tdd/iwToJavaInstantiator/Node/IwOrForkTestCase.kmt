@@ -1,0 +1,11 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+}

@@ -1,4 +1,4 @@
-package ram.reactiveworkflow;
+package ram.workflow;
 
 public class EndNode extends WorkflowNode {
 

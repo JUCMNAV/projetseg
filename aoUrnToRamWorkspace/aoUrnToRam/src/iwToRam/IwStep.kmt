@@ -1,11 +1,11 @@
 package intermediateWorkflow;
 
-
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 
 using kermeta::standard
 using ramstructural
 using kermeta::utils
+using aoUrnToRam::util
 
 aspect class IwStep {
 	reference ramAspect:Aspect
@@ -74,7 +74,7 @@ Link
 	end
 	
 	operation linkConcern() is do
-		ramAspect.workspaceDirectory:=concern.name
+		ramAspect.workspacePath:=Path.new.combine("Steps",Path.new.combine(concern.name,name))
 		concern.addRamAspect(ramAspect)
 	end
 

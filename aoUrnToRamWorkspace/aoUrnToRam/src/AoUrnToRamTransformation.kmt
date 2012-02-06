@@ -6,6 +6,7 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Re
 require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/ModelRepository.kmt"
 
 using kermeta::persistence
@@ -36,22 +37,34 @@ class AoUrnToRamTransformation
 		result:=self 
 	end
 
-	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFileUri:String) is do
+	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFolderUri:String) is do
 		//stle: useful for development but remove on release code
 		registerMetamodels
 		//stle: until destination merge is implemented
-		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFileUri)
+		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFolderUri)
 		
-		var urnSpec:URNspec urnSpec?=repository.load(sourceAbsoluteFileUri)
+		var urnSpec:URNspec init loadUrnSpec(sourceAbsoluteFileUri)
+		
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
+		outputIwFile(iwModel,destinationAbsoluteFolderUri)
 		
-		outputIwFile(iwModel,destinationAbsoluteFileUri)
-		
-		outputRamStepClassDiagram(iwModel,destinationAbsoluteFileUri)
-		
-		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
-		outputRamStepViewAsDot(stepViews,destinationAbsoluteFileUri)
-		outputRamStepViewAsImg(stepViews,destinationAbsoluteFileUri)
+		var ramWorkspaceAbsoluteFolderUri:String init Path.new.combine(destinationAbsoluteFolderUri,iwModel.name)
+		outputRamStepClassDiagram(iwModel,ramWorkspaceAbsoluteFolderUri)
+		outputRamStepView(iwModel,ramWorkspaceAbsoluteFolderUri)
+		ouptutRamJavaInstantiator(iwModel,ramWorkspaceAbsoluteFolderUri)
+	end
+	
+	operation loadUrnSpec(absoluteFileUri:String):URNspec is do
+		result?=repository.load(absoluteFileUri)
+		//see @UrnSpecNameWorkAround
+		result.urnSpecName:=getFileNameWithoutExt(absoluteFileUri)
+	end
+	
+	operation getFileNameWithoutExt(absoluteFileUri:String):String is do
+		var fileName:String init absoluteFileUri.split("/").last
+		//stle: hack, use RegExInstead
+		var fileNameWithoutExt:String init fileName.substring(0,fileName.size-5)  
+		result:=fileNameWithoutExt
 	end
 	
 	operation outputIwFile(iwModel:IwModel,destinationAbsoluteFileUri:String) is do
@@ -60,31 +73,43 @@ class AoUrnToRamTransformation
 		end
 	end
 	
-	operation outputRamStepClassDiagram(iwModel:IwModel,destinationAbsoluteFileUri:String) is do
+	operation outputRamStepClassDiagram(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
 		iwModel.toRam.each{ramStepClassDiagram|
-			var ramStepClassDiagramAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,ramStepClassDiagram.workspacePath)+".xmi"
+			var ramStepClassDiagramAbsoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,ramStepClassDiagram.workspacePath)+".xmi"
 			repository.save(ramStepClassDiagram,ramStepClassDiagramAbsoluteFileUri,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
 		}
 	end
+	
+	operation outputRamStepView(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
+		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
+		outputRamStepViewAsDot(stepViews,ramWorkspaceAbsoluteFolderUri)
+		outputRamStepViewAsImg(stepViews,ramWorkspaceAbsoluteFolderUri)
+	end
 
-	operation outputRamStepViewAsDot(stepViews:OrderedSet<StepView>,destinationAbsoluteFileUri:String) is do
+	operation outputRamStepViewAsDot(stepViews:OrderedSet<StepView>,ramWorkspaceAbsoluteFolderUri:String) is do
 		if(isRamStepViewAsDotOutputEnabled) then
 			stepViews.each{stepView|
-				var stepViewAsDotAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,stepView.workspacePath)+".dot" 
-				var fileIo:FileIO init FileIO.new
-				fileIo.writeTextFile(stepViewAsDotAbsoluteFileUri,stepView.dot)
+				var stepViewAsDotAbsoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,stepView.workspacePath)+".dot" 
+				FileIO.new.writeTextFile(stepViewAsDotAbsoluteFileUri,stepView.dot)
 			} 
 	    end
 	end
 
-	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>,destinationAbsoluteFileUri:String) is do
+	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>,ramWorkspaceAbsoluteFolderUri:String) is do
 		stepViews.each{stepView|
-			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFileUri,stepView.workspacePath)+".png"
+			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,stepView.workspacePath)+".png"
 			var stepViewAsImgFilePath:String init absoluteFileUriToWindowsPath(stepViewAsImgAbsoluteFileUri)
 			var dotFilePath:String init absoluteFileUriToWindowsPath(dotAbsoluteFileUri)
 			
 		    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+stepViewAsImgFilePath+"\"",stepView.dot)
 	    }
+	end
+	
+	operation ouptutRamJavaInstantiator(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
+		iwModel.jiToJavaInstantiator.each{textFile|
+			var textFileAbsoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,textFile.workspacePath)+".java"
+			FileIO.new.writeTextFile(textFileAbsoluteFileUri,textFile.content)
+		}
 	end
 	
 	operation aoUrnToIw(urnSpec:URNspec):IwModel is do

@@ -21,4 +21,8 @@ aspect class IwNode{
 		result:=preds.collect{pred|pred.source}.asOrderedSet
 	end
 	
+	property readonly model:IwModel
+	getter is do
+		result:=workflow.model
+	end
 }

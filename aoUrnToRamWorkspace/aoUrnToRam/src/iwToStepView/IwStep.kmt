@@ -15,7 +15,7 @@ aspect class IwStep {
 		result.imgFolderWindowsPath:=imgFolderWindowsPath
 		result.step:=self
 		
-		result.workspacePath:=Path.new.combine(concern.name,name)
+		result.workspacePath:=Path.new.combine("Steps",Path.new.combine(concern.name,name))
 		result._dot:=StringBuffer.new
 		
 		appendStepViewPre(result)

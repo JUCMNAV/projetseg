@@ -9,6 +9,11 @@
   <ecore:EPackage name="intermediateWorkflow" nsURI="http:///intermediateWorkflow.ecore"
       nsPrefix="intermediateWorkflow">
     <eClassifiers xsi:type="ecore:EClass" name="IwModel">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
           eType="#/1/IwConcern" containment="true" eOpposite="#/1/IwConcern/model"/>
     </eClassifiers>

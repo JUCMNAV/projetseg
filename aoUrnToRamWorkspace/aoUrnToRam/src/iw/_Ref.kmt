@@ -5,12 +5,14 @@ require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
-//Run: aoUrnToRam.codeGen.RefUpdater
+//Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/iw/IwCustomizableNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNodeConnection.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwStep.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/IwWorkflow.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/Stub/IwInBinding.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/Stub/IwOutBinding.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/Stub/IwStub.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"

@@ -1,18 +1,11 @@
 package ramstructural;
 
 require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
-require "platform:/resource/aoUrnToRam/src/Util.kmt"
 require kermeta
 
 using kermeta::standard
 using ramstructural
-using aoUrnToRam::util
 
 aspect class Aspect{
-	attribute workspaceDirectory: String
-
-	property readonly workspacePath :String
-	getter is do
-		result:=Path.new.combine(workspaceDirectory,name) 
-	end
+	attribute workspacePath: String
 }

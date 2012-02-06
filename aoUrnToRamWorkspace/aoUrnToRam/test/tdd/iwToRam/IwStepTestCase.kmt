@@ -66,7 +66,7 @@ class IwToRam_IwStepTestCase inherits TestCase,IwToRam_TestHelper
 	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
 		setupAndExeLinkNotEmptyStep
 				
-		assertEquals(Path.new.combine(sut.concern.name,sut.name),sut.ramAspect.workspacePath)
+		assertEquals("Steps/theConcern/theStep",sut.ramAspect.workspacePath)
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"

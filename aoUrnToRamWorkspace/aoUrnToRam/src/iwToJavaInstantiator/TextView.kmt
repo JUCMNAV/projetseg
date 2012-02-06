@@ -10,6 +10,12 @@ class TextView{
 	attribute workspacePath: String
 	attribute _content:StringBuffer
 	
+	operation initialize(workspacePath:String):TextView is do
+		self.workspacePath:=workspacePath
+		self._content:=StringBuffer.new
+		result:=self
+	end
+	
 	operation append(toAppend:String) is do
 		_content.append(toAppend)
 	end

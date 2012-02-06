@@ -6,9 +6,58 @@ using kermeta::standard
 using aoUrnToRam::util //stle:think about this
 
 aspect class IwWorkflow {
+	property readonly jiSUBPACKAGE:String 
+	getter is do
+		//STLE:DRY with other trans
+		result:="Instantiators"
+	end
+	
+	property readonly jiWORKFLOW_INSTANTIATOR_BASE_CLASS:String 
+	getter is do
+		result:="WorkflowInstantiator"
+	end
+	
 
 	operation jiToWorkflowInstantiator():TextView is do
-		result:=TextView.new
-		result.workspacePath:=Path.new.combine(concern.name,name)
+		var workspacePath:String init Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS))
+		result:=TextView.new.initialize(workspacePath)
+		jiAppendContent(result)
+	end
+	
+	operation jiAppendContent(textView:TextView) is do
+		jiAppendPackage(textView)
+		jiAppendImports(textView)
+		jiAppendClassPre(textView)
+		jiAppendBuildStatements(textView)
+		jiAppendClassPost(textView)
+	end
+	
+	operation jiAppendPackage(textView:TextView) is do
+		textView.append("package ")
+		textView.append(model.name)
+		textView.append(".")
+		textView.append(jiSUBPACKAGE)
+		textView.append(".")
+		textView.append(concern.name)
+		textView.append(";\n\n")
+	end
+	
+	operation jiAppendImports(textView:TextView) is do
+		textView.append("import ram.reactiveworkflow.*;\n")
+		textView.append("import ram.workflow.*;\n\n")
+	end
+	
+	operation jiAppendClassPre(textView:TextView) is do
+		textView.append("public class ")
+		textView.append(name)
+		textView.append("WorkflowInstantiator extends WorkflowInstantiator{\n")
+	end
+
+	operation jiAppendBuildStatements(textView:TextView) is do
+		nodes.each{node|node.jiAppendBuildStatement(textView)}
+	end
+	
+	operation jiAppendClassPost(textView:TextView) is do
+		textView.append("}\n")	
 	end
 }

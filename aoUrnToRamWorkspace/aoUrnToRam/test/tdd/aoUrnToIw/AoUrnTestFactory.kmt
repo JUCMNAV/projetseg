@@ -14,7 +14,7 @@ class AoUrnTestFactory
 {
 	operation createUrnSpec():URNspec is do
 		result:=URNspec.new
-		result.name:="theUrnSpec"
+		result.urnSpecName:="theUrnSpec"
 		result.urndef:=createURNdefinition
 	end
 	

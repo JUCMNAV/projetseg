@@ -1,0 +1,11 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStartPoint{
+	method jiAppendBuildStatement(textView:TextView) is do
+		//Do nothing:startPoints are not modelled in ReactiveWorkflow 
+	end
+}

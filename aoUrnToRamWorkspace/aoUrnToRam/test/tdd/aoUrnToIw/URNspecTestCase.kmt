@@ -17,7 +17,15 @@ class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 
 	@feature "FeaNamingofRAMConcern"
-	operation testBuild_ShouldBuildWithoutConcern() is do
+	operation testBuild_ShouldBuildIwModel() is do
+		sut.build
+	
+		assertNotVoid(sut.iwModel)
+		assertEquals(sut.urnSpecName,sut.iwModel.name)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testBuild_ShouldBuildIwWithoutConcern() is do
 		sut.build
 	
 		assertNotVoid(sut.iwWithoutConcern)

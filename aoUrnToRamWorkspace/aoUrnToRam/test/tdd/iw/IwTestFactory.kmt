@@ -9,6 +9,7 @@ class IwTestFactory
 {
 	operation createIwModel():IwModel is do
 		result:=IwModel.new
+		result.name:="theModel"
 	end
 
 	operation createIwConcern():IwConcern is do
