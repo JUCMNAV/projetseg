@@ -5,18 +5,19 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
+using javaInstantiator
 
 class IwToJavaInstantiator_IwInputTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
 	reference sut:IwInput
-	reference textView:TextView
+	reference workflowInstantiator:WorkflowInstantiator
 
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut:=createIwInput
-		textView:=createTextView
+		workflowInstantiator:=createWorkflowInstantiator
 		
-		sut.jiAppendBuildStatement(textView)
+		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private InputNode _theInput=new InputNode();\n",textView.content)
+		assertEquals("    private InputNode _theInput=new InputNode();\n",workflowInstantiator.content)
 	end
 }

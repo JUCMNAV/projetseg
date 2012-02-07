@@ -3,6 +3,7 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 
 using kermeta::standard
+using javaInstantiator
 using aoUrnToRam::util //stle:think about this
 
 aspect class IwWorkflow {
@@ -16,48 +17,51 @@ aspect class IwWorkflow {
 	getter is do
 		result:="WorkflowInstantiator"
 	end
-	
 
-	operation jiToWorkflowInstantiator():TextView is do
-		var workspacePath:String init Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS))
-		result:=TextView.new.initialize(workspacePath)
+	property readonly jiCustomizedClassSubPackage:String 
+	getter is do
+		result:=model.name+".Steps."+concern.name
+	end
+	
+	property readonly jiWorkspacePath:String 
+	getter is do
+		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS))
+	end
+
+	operation jiToWorkflowInstantiator():WorkflowInstantiator is do
+		result:=WorkflowInstantiator.new.initialize_WorkflowInstantiator(jiWorkspacePath,jiCustomizedClassSubPackage)
 		jiAppendContent(result)
 	end
 	
-	operation jiAppendContent(textView:TextView) is do
-		jiAppendPackage(textView)
-		jiAppendImports(textView)
-		jiAppendClassPre(textView)
-		jiAppendBuildStatements(textView)
-		jiAppendClassPost(textView)
+	operation jiAppendContent(workflowInstantiator:WorkflowInstantiator) is do
+		jiAppendPackage(workflowInstantiator)
+		jiAppendImports(workflowInstantiator)
+		jiAppendClassPre(workflowInstantiator)
+		jiAppendBuildStatements(workflowInstantiator)
+		jiAppendClassPost(workflowInstantiator)
 	end
 	
-	operation jiAppendPackage(textView:TextView) is do
-		textView.append("package ")
-		textView.append(model.name)
-		textView.append(".")
-		textView.append(jiSUBPACKAGE)
-		textView.append(".")
-		textView.append(concern.name)
-		textView.append(";\n\n")
+	operation jiAppendPackage(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendPackage(model.name+"."+jiSUBPACKAGE+"."+concern.name)
 	end
 	
-	operation jiAppendImports(textView:TextView) is do
-		textView.append("import ram.reactiveworkflow.*;\n")
-		textView.append("import ram.workflow.*;\n\n")
+	operation jiAppendImports(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendImport("ram.reactiveworkflow.*")
+		workflowInstantiator.appendImport("ram.workflow.*")
+		workflowInstantiator.append("\n")
 	end
 	
-	operation jiAppendClassPre(textView:TextView) is do
-		textView.append("public class ")
-		textView.append(name)
-		textView.append("WorkflowInstantiator extends WorkflowInstantiator{\n")
+	operation jiAppendClassPre(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("public class ")
+		workflowInstantiator.append(name)
+		workflowInstantiator.append("WorkflowInstantiator extends WorkflowInstantiator{\n")
 	end
 
-	operation jiAppendBuildStatements(textView:TextView) is do
-		nodes.each{node|node.jiAppendBuildStatement(textView)}
+	operation jiAppendBuildStatements(workflowInstantiator:WorkflowInstantiator) is do
+		nodes.each{node|node.jiAppendBuildStatement(workflowInstantiator)}
 	end
 	
-	operation jiAppendClassPost(textView:TextView) is do
-		textView.append("}\n")	
+	operation jiAppendClassPost(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("}\n")	
 	end
 }

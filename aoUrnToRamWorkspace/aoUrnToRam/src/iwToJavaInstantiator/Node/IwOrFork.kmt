@@ -3,10 +3,13 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 
 using kermeta::standard
+using javaInstantiator
 
 aspect class IwOrFork
 {
-	method jiAppendBuildStatement(textView:TextView) is do
-		//jiAppendBuildStatement_WorkflowNodeType(textView,"InputNode")
+	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		jiAppendWorkflowNodeMember(workflowInstantiator,"ConditionalExecutionNode")
+		
+		succs.each{succ|succ.jiAppendBuildStatement(workflowInstantiator)}
 	end
 }

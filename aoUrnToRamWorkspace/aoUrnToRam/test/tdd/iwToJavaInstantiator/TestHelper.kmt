@@ -9,39 +9,11 @@ require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
+using javaInstantiator
 
 class IwToJavaInstantiator_TestHelper inherits CustomAssert,IwTestFactory
 {
-	operation createTextView():TextView is do
-		result:=TextView.new.initialize("theModel")
+	operation createWorkflowInstantiator():WorkflowInstantiator is do
+		result:=WorkflowInstantiator.new.initialize_WorkflowInstantiator("theWorkspacePath","theCustomizableClassSubPackage")
 	end
-
-	operation withContainers_Workflow(workflow:IwWorkflow):IwWorkflow is do
-		var model:IwModel init createIwModel
-		var concern:IwConcern init createIwConcern_Model(model)
-		workflow.concern:=concern
-		result:=workflow
-	end
-
-	operation withContainers_Node<T:IwNode>(node:T):T is do
-		var asIwNode:IwNode	asIwNode?=node
-
-		asIwNode.workflow:=withContainers_Workflow(createIwWorkflow)
-		
-		result?=asIwNode
-	end
-
-	operation withContainersAndStep_Node<T:IwNode>(node:T):T is do
-		var asIwNode:IwNode	asIwNode?=node
-		
-		asIwNode:=withContainers_Node(asIwNode)
-		asIwNode.step:=createIwStep
-		
-		result?=asIwNode
-	end
-	
-	
-	
-	
-
 }

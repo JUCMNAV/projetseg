@@ -5,9 +5,9 @@ require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 using kermeta::standard
 using javaInstantiator
 
-aspect class IwCustomizableNode
+aspect class IwStub
 {
 	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendCustomizableNodeMember(workflowInstantiator)
+		jiAppendWorkflowNodeMember(workflowInstantiator,"StubNode")
 	end
 }

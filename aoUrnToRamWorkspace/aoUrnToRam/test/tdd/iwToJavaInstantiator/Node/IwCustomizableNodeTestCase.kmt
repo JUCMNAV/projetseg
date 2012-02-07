@@ -5,18 +5,20 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
+using javaInstantiator
 
 class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
 	reference sut:IwCustomizableNode
-	reference textView:TextView
+	reference workflowInstantiator:WorkflowInstantiator
 
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeStepNode() is do
-		sut:=withContainersAndStep_Node(createIwCustomizableNode)
-		textView:=createTextView		
+		sut:=createIwCustomizableNode
+		sut.step:=createIwStep
+		workflowInstantiator:=createWorkflowInstantiator		
 		
-		sut.jiAppendBuildStatement(textView)
+		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private CustomizableNode _theCustomizableNode=createCustomizableNode(\"theModel.Steps.theConcern.theStep.theCustomizableNode\");\n",textView.content)
+		assertEquals("    private CustomizableNode _theCustomizableNode=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theCustomizableNode\");\n",workflowInstantiator.content)
 	end
 }

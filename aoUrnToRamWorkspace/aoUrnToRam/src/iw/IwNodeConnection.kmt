@@ -66,5 +66,16 @@ aspect class IwNodeConnection {
 			end
 		end
 	end
+
+	property readonly concern:IwConcern
+	getter is do
+		result:=source.concern
+	end
+	
+	property readonly model:IwModel
+	getter is do
+		result:=source.model
+	end
+	
 	
 }

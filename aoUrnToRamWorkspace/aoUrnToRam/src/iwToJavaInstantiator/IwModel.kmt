@@ -3,6 +3,8 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 
 using kermeta::standard
+using javaInstantiator
+using aoUrnToRam
 
 aspect class IwModel {
 	operation jiToJavaInstantiator():TextView[0..*] is do

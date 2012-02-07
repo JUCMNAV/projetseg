@@ -7,17 +7,17 @@ using kermeta::kunit
 using intermediateWorkflow
 using javaInstantiator
 
-class IwToJavaInstantiator_IwEndPointTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+class IwToJavaInstantiator_IwStubTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
-	reference sut:IwEndPoint
+	reference sut:IwStub
 	reference workflowInstantiator:WorkflowInstantiator
 
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
-		sut:=createIwEndPoint
+		sut:=createIwStub
 		workflowInstantiator:=createWorkflowInstantiator
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private EndNode _theEndPoint=new EndNode();\n",workflowInstantiator.content)
+		assertEquals("    private StubNode _theStub=new StubNode();\n",workflowInstantiator.content)
 	end
 }

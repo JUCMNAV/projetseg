@@ -3,35 +3,36 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 
 using kermeta::standard
+using javaInstantiator
 
 aspect class IwNode {
-	operation jiAppendBuildStatement(textView:TextView) is do
+	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
 		//stle: temp do nothing
 		//throw exception in this case because abstract in aspect produces meaningless excpetion msg
 	end
 	
-	operation jiAppendBuildStatement_WorkflowNodeType(textView:TextView,workflowNodeType:String) is do
-		textView.append("    private ")
-		textView.append(workflowNodeType)
-		textView.append(" _")
-		textView.append(name)
-		textView.append("=new ")
-		textView.append(workflowNodeType)
-		textView.append("();\n")
+	operation jiAppendWorkflowNodeMember(workflowInstantiator:WorkflowInstantiator,workflowNodeType:String) is do
+		var initialization:String init "new "+workflowNodeType+"()"
+		workflowInstantiator.appendMember(workflowNodeType,jiInstanceName,initialization)
 	end
 	
-	operation jiAppendBuildStatement_CustomizableNodeType(textView:TextView) is do
-		textView.append("    private CustomizableNode")
-		textView.append(" _")
-		textView.append(name)
-		textView.append("=createCustomizableNode(\"")
-		textView.append(jiCustomizedClassFullyQualifiedName)
-		textView.append("\");\n")
+	operation jiAppendCustomizableNodeMember(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMember(
+			"CustomizableNode",
+			jiInstanceName,
+			jiGetCustomizableNodeMemberInitialization(workflowInstantiator)
+		)
 	end
 	
-	operation jiCustomizedClassFullyQualifiedName():String is do
-		//stle:Dry Steps
-		result:=model.name+".Steps."+concern.name+"."+step.name+"."+name
+	operation jiGetCustomizableNodeMemberInitialization(workflowInstantiator:WorkflowInstantiator):String is do
+		var customizableNodeFullyQualifiedName:String 
+		init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+name
+		
+		result:="createCustomizableNode(\""+customizableNodeFullyQualifiedName+"\")"
 	end
 	
+	property readonly jiInstanceName:String 
+	getter is do
+		result:="_"+name
+	end
 }

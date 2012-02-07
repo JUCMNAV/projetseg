@@ -1,0 +1,30 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwNodeConnection
+{
+	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMember(
+			"Condition",
+			jiConditionInstanceName,
+			jiGetConditionMemberInitialization(workflowInstantiator)
+		)
+	end
+	
+	operation jiGetConditionMemberInitialization(workflowInstantiator:WorkflowInstantiator):String is do
+		var conditionFullyQualifiedName:String 
+		init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+conditionName
+		
+		result:="createCondition(\""+conditionFullyQualifiedName+"\")"
+	end
+	
+	property readonly jiConditionInstanceName:String 
+	getter is do
+		result:="_"+conditionName
+	end
+	
+}

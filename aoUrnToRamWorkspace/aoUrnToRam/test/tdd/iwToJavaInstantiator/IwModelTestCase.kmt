@@ -5,6 +5,8 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
+using javaInstantiator
+using aoUrnToRam
 
 class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
@@ -20,8 +22,8 @@ class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiato
 		var concern2:IwConcern init createIwConcern_Model(sut)
 		var workflow2_1:IwWorkflow init createIwWorkflow_Concern(concern2)
 
-		var textViews:TextView[0..*] init sut.jiToJavaInstantiator
+		var workflowInstantiators:TextView[0..*] init sut.jiToJavaInstantiator
 
-		assertEquals(3,textViews.size)
+		assertEquals(3,workflowInstantiators.size)
 	end
 }

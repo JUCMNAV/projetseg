@@ -41,6 +41,13 @@ class IwTestFactory
 	   	result:=createIwWorkflow
 		result.concern:=concern
 	end
+	
+	operation createIwWorkflowWithContainers():IwWorkflow is do
+		var model:IwModel init createIwModel
+		var concern:IwConcern init createIwConcern_Model(model)
+		result:=createIwWorkflow_Concern(concern)
+	end
+	
 
 	operation createIwNodeConnection():IwNodeConnection is do
 		result:=IwNodeConnection.new

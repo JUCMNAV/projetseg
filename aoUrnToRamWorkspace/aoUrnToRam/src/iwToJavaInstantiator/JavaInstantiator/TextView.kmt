@@ -1,6 +1,6 @@
-package intermediateWorkflow;
+package aoUrnToRam;
 
-require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+require kermeta
 
 using kermeta::standard
 using kermeta::utils

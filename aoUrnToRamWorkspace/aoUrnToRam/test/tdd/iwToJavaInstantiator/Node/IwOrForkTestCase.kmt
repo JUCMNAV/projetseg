@@ -5,7 +5,31 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
+using javaInstantiator
 
 class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
+	reference sut:IwOrFork
+	reference workflowInstantiator:WorkflowInstantiator
+
+	method setUp() is do
+		sut:=createIwOrFork
+		sut.step:=createIwStep
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+
+	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertStringContains("    private ConditionalExecutionNode _theOrFork=new ConditionalExecutionNode();\n",workflowInstantiator.content)
+	end
+	
+	operation testAppendBuildStatement_ShouldInvokeAppendBuildStatementOnSuccs() is do
+		createIwConditionalNodeConnection_Source(sut)
+		createIwConditionalNodeConnection_Source(sut)
+		
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertStringContainsExpectedNTime("private Condition ",2,workflowInstantiator.content)
+	end
 }
