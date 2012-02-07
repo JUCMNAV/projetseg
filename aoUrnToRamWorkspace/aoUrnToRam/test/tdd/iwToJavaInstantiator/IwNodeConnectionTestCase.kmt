@@ -17,6 +17,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 	end
 	
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		var orFork:IwOrFork init createIwOrFork
 		orFork.step:=createIwStep
@@ -27,7 +28,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("    private Condition _theOrFork_theCondition=createCondition(\"theCustomizableClassSubPackage.theStep.theOrFork_theCondition\");\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendLinkStatement_WithoutCondition_ShouldLinkSourceAndTarget() is do
 		sut:=linkNodes(createIwCustomizableNode,createIwEndPoint)
 		
@@ -36,7 +38,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("        _theCustomizableNode.addNextNode(_theEndPoint);\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendLinkStatement_WithCondition_ShouldLinkSourceAndTarget() is do
 		sut:=withCondition(linkNodes(createIwOrFork,createIwEndPoint))
 		

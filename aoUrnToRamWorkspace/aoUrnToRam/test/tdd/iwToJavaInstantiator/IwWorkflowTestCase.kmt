@@ -17,12 +17,14 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 		sut:=createIwWorkflowWithContainers
 	end
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldInitWorkspacePath() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
 		assertEquals("Instantiators/theConcern/theWorkflowWorkflowInstantiator",workflowInstantiator.workspacePath)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldInitCustomizableClassSubPackage() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
@@ -30,12 +32,14 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 	end
 	
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldAppendPackage() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
 		assertStringStartsWith("package theModel.Instantiators.theConcern;\n\n",workflowInstantiator.content)
 	end
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldAppendImports() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
@@ -43,6 +47,7 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 		assertStringContains( "import ram.workflow.*;\n",workflowInstantiator.content)
 	end
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldAppendClass() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
@@ -50,13 +55,15 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 		assertStringEndsWith("}\n",workflowInstantiator.content)
 	end
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldAppendLinkMethod() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
 		assertStringContains("    public void link(){\n    }\n"
 							,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldInvokeAppendLinkStatementOnNodeConnections() is do
 		var step:IwStep init createIwStep
 		var first:IwNode init createIwCustomizableNode_Workflow(sut)

@@ -12,6 +12,7 @@ class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJava
 	reference sut:IwCustomizableNode
 	reference workflowInstantiator:WorkflowInstantiator
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeStepNode() is do
 		sut:=createIwCustomizableNode
 		sut.step:=createIwStep

@@ -12,6 +12,7 @@ class IwToJavaInstantiator_IwInputTestCase inherits TestCase,IwToJavaInstantiato
 	reference sut:IwInput
 	reference workflowInstantiator:WorkflowInstantiator
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut:=createIwInput
 		workflowInstantiator:=createWorkflowInstantiator

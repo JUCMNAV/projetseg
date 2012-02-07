@@ -12,6 +12,7 @@ class IwToJavaInstantiator_IwOutputTestCase inherits TestCase,IwToJavaInstantiat
 	reference sut:IwOutput
 	reference workflowInstantiator:WorkflowInstantiator
 
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeStepNode() is do
 		sut:=createIwOutput
 		sut.step:=createIwStep
