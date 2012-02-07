@@ -31,6 +31,10 @@ aspect class IwNode {
 		result:="createCustomizableNode(\""+customizableNodeFullyQualifiedName+"\")"
 	end
 	
+	operation jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
+		succs.each{succ|succ.jiAppendLinkStatement(workflowInstantiator)}
+	end
+	
 	property readonly jiInstanceName:String 
 	getter is do
 		result:="_"+name

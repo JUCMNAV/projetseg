@@ -12,12 +12,24 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 	reference sut:IwStartPoint
 	reference workflowInstantiator:WorkflowInstantiator
 
-	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
+	method setUp() is do
 		sut:=createIwStartPoint
 		workflowInstantiator:=createWorkflowInstantiator
-		
+	end
+
+	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)
 	end
+	
+	operation testAppendLinkStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
+		linkNodes(sut,createIwCustomizableNode)
+		linkNodes(sut,createIwCustomizableNode)
+		
+		sut.jiAppendLinkStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+	
 }

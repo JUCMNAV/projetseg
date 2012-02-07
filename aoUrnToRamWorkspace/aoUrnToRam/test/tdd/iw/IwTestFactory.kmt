@@ -48,27 +48,24 @@ class IwTestFactory
 		result:=createIwWorkflow_Concern(concern)
 	end
 	
-
 	operation createIwNodeConnection():IwNodeConnection is do
 		result:=IwNodeConnection.new
 	end
 	
 	operation linkNodes(source:IwNode,target:IwNode):IwNodeConnection is do
-		result:=createIwNodeConnection
-		result.source:=source
+		result:=connectSource(source)
 		result.target:=target
 	end
 	
-	operation createIwConditionalNodeConnection_Source(source:IwNode):IwNodeConnection is do
-		result:=createIwConditionalNodeConnection
+	operation connectSource(source:IwNode):IwNodeConnection is do
+		result:=createIwNodeConnection
 		result.source:=source
 	end
 	
-	operation createIwConditionalNodeConnection():IwNodeConnection is do
-		result:=createIwNodeConnection
-		result.conditionName:="theCondition"
+	operation withCondition(nodeConnection:IwNodeConnection):IwNodeConnection is do
+		nodeConnection.conditionName:="theCondition"
+		result:=nodeConnection
 	end
-	
 
 /*********************************************************
 Node

@@ -15,8 +15,8 @@ class IwToRam_IwOrForkTestCase inherits TestCase,IwToRam_TestHelper
 	@feature "FeaTransformOrFork"
 	operation testLink_ShouldInvokeLinkOnConditions() is do
 		sut:=createIwOrFork
-		createIwConditionalNodeConnection_Source(sut)
-		createIwConditionalNodeConnection_Source(sut)
+		withCondition(connectSource(sut))
+		withCondition(connectSource(sut))
 
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 

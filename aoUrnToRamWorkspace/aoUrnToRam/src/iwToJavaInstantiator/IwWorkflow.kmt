@@ -38,6 +38,8 @@ aspect class IwWorkflow {
 		jiAppendImports(workflowInstantiator)
 		jiAppendClassPre(workflowInstantiator)
 		jiAppendBuildStatements(workflowInstantiator)
+		workflowInstantiator.append("\n")
+		jiAppendLinkMethod(workflowInstantiator)
 		jiAppendClassPost(workflowInstantiator)
 	end
 	
@@ -59,6 +61,12 @@ aspect class IwWorkflow {
 
 	operation jiAppendBuildStatements(workflowInstantiator:WorkflowInstantiator) is do
 		nodes.each{node|node.jiAppendBuildStatement(workflowInstantiator)}
+	end
+	
+	operation jiAppendLinkMethod(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("    public void link(){\n")
+		nodes.each{node|node.jiAppendLinkStatement(workflowInstantiator)}
+		workflowInstantiator.append("    }\n")	
 	end
 	
 	operation jiAppendClassPost(workflowInstantiator:WorkflowInstantiator) is do

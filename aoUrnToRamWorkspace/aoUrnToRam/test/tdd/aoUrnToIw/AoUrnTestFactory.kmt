@@ -92,7 +92,7 @@ class AoUrnTestFactory
 		result.label:="theCondition" 
 	end
 
-	operation attachCondition(nodeConnection:NodeConnection):Condition is do
+	operation withCondition(nodeConnection:NodeConnection):Condition is do
 		result:=createCondition
 		nodeConnection.condition:=result
 	end

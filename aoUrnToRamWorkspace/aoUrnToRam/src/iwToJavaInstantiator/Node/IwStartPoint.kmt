@@ -9,4 +9,8 @@ aspect class IwStartPoint{
 	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
 		//Do nothing:startPoints are not modelled in ReactiveWorkflow 
 	end
+	
+	method jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//Do nothing:startPoints are not modelled in ReactiveWorkflow
+	end
 }

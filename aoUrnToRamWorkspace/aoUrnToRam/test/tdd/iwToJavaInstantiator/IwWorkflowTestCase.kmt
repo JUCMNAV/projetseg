@@ -43,27 +43,34 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 		assertStringContains( "import ram.workflow.*;\n",workflowInstantiator.content)
 	end
 
-	operation testToWorkflowInstantiator_ShouldAppendClassPre() is do
+	operation testToWorkflowInstantiator_ShouldAppendClass() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
 		assertStringContains("\n\npublic class theWorkflowWorkflowInstantiator extends WorkflowInstantiator{",workflowInstantiator.content)
-	end
-
-	operation testToWorkflowInstantiator_ShouldAppendClassPost() is do
-		workflowInstantiator:=sut.jiToWorkflowInstantiator
-		
 		assertStringEndsWith("}\n",workflowInstantiator.content)
 	end
 
-
-	operation testToWorkflowInstantiator_ShouldInvokeAppendBuildStatementOnNodes() is do
-		createIwInput_Workflow(sut)
-		createIwInput_Workflow(sut)
+	operation testToWorkflowInstantiator_ShouldAppendLinkMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains("    public void link(){\n    }\n"
+							,workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldInvokeAppendLinkStatementOnNodeConnections() is do
+		var step:IwStep init createIwStep
+		var first:IwNode init createIwCustomizableNode_Workflow(sut)
+		first.step:=step
+		var inBetween:IwNode init createIwOutput_Workflow(sut)
+		inBetween.step:=step
+		var last:IwNode init createIwEndPoint_Workflow(sut)
+		last.step:=step
+		
+		linkNodes(first,inBetween)
+		linkNodes(inBetween,last)
 		
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
-		assertStringContainsExpectedNTime("new",2,workflowInstantiator.content)
+		assertStringContainsExpectedNTime(".addNextNode",2,workflowInstantiator.content)
 	end
-
-	
 }

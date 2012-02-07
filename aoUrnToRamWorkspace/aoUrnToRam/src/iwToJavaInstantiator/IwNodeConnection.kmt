@@ -17,14 +17,42 @@ aspect class IwNodeConnection
 	
 	operation jiGetConditionMemberInitialization(workflowInstantiator:WorkflowInstantiator):String is do
 		var conditionFullyQualifiedName:String 
-		init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+conditionName
+		init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+conditionNameWithSourcePrefix
 		
 		result:="createCondition(\""+conditionFullyQualifiedName+"\")"
 	end
 	
+	operation jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
+		if(hasCondition) then
+			jiAppendLinkStatementWithCondition(workflowInstantiator)
+		else
+			jiAppendLinkStatementWithoutCondition(workflowInstantiator)
+		end
+	end
+	
+	operation jiAppendLinkStatementWithoutCondition(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("        ")
+		workflowInstantiator.append(source.jiInstanceName)
+		workflowInstantiator.append(".addNextNode(")
+		workflowInstantiator.append(target.jiInstanceName)
+		workflowInstantiator.append(");\n")
+	end
+
+	operation jiAppendLinkStatementWithCondition(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("        ")
+		workflowInstantiator.append(source.jiInstanceName)
+		workflowInstantiator.append(".addNextNode(\"")
+		workflowInstantiator.append(conditionName)
+		workflowInstantiator.append("\",")
+		workflowInstantiator.append(target.jiInstanceName)
+		workflowInstantiator.append(",")
+		workflowInstantiator.append(jiConditionInstanceName)
+		workflowInstantiator.append(");\n")
+	end
+	
 	property readonly jiConditionInstanceName:String 
 	getter is do
-		result:="_"+conditionName
+		result:="_"+conditionNameWithSourcePrefix
 	end
 	
 }

@@ -11,7 +11,7 @@ aspect class IwNodeConnection {
 	
 	operation build() is do
 		ramCondition:=Class.new
-		ramCondition.name:=source.name+"_"+conditionName
+		ramCondition.name:=conditionNameWithSourcePrefix
 	end
 	
 	operation link() is do

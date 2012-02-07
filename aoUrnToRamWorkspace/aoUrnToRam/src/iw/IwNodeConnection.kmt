@@ -77,5 +77,10 @@ aspect class IwNodeConnection {
 		result:=source.model
 	end
 	
+	property readonly conditionNameWithSourcePrefix:String
+	getter is do
+		result:=source.name+"_"+conditionName
+	end
+	
 	
 }

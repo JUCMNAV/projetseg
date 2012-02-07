@@ -13,7 +13,7 @@ class IwToRam_IwNodeConnectionTestCase inherits TestCase,IwToRam_TestHelper
 	reference sut:IwNodeConnection
 	
 	method setUp() is do
-		sut:=createIwConditionalNodeConnection_Source(createIwOrFork)
+		sut:=withCondition(connectSource(createIwOrFork))
 	end
 	
 	@feature "FeaTransformOrFork"

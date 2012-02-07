@@ -11,15 +11,40 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 {
 	reference sut:IwNodeConnection
 	reference workflowInstantiator:WorkflowInstantiator
+	
+	method setUp() is do
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+	
 
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		var orFork:IwOrFork init createIwOrFork
 		orFork.step:=createIwStep
-		sut:=createIwConditionalNodeConnection_Source(orFork)
-		workflowInstantiator:=createWorkflowInstantiator
+		sut:=withCondition(connectSource(orFork))
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private Condition _theCondition=createCondition(\"theCustomizableClassSubPackage.theStep.theCondition\");\n",workflowInstantiator.content)
+		assertEquals("    private Condition _theOrFork_theCondition=createCondition(\"theCustomizableClassSubPackage.theStep.theOrFork_theCondition\");\n"
+					,workflowInstantiator.content)
 	end
+	
+	operation testAppendLinkStatement_WithoutCondition_ShouldLinkSourceAndTarget() is do
+		sut:=linkNodes(createIwCustomizableNode,createIwEndPoint)
+		
+		sut.jiAppendLinkStatement(workflowInstantiator)
+		
+		assertEquals("        _theCustomizableNode.addNextNode(_theEndPoint);\n"
+					,workflowInstantiator.content)
+	end
+	
+	operation testAppendLinkStatement_WithCondition_ShouldLinkSourceAndTarget() is do
+		sut:=withCondition(linkNodes(createIwOrFork,createIwEndPoint))
+		
+		sut.jiAppendLinkStatement(workflowInstantiator)
+		
+		assertEquals("        _theOrFork.addNextNode(\"theCondition\",_theEndPoint,_theOrFork_theCondition);\n"
+					,workflowInstantiator.content)
+	end
+	
+	
 }

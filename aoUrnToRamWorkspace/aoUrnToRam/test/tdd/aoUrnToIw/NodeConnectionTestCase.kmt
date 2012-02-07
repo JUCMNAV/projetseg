@@ -18,7 +18,7 @@ class AoUrnToIw_NodeConnectionTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformOrFork"
 	operation testBuild_WithCondition_ShouldSetConditionName() is do
-		attachCondition(sut)
+		withCondition(sut)
 
 		sut.build
 	
