@@ -82,11 +82,6 @@ class AoUrnTestFactory
 		result:=connectNodes(source,pathNode)
 	end
 	
-	operation connectConnectAsSource(pathNode:PathNode):NodeConnection is do
-		var source:PathNode init createConnect_UcmMap(pathNode.ucmMap)
-		result:=connectNodes(source,pathNode)
-	end
-
 	operation createCondition():Condition is do
 		result:=Condition.new
 		result.label:="theCondition" 

@@ -10,7 +10,6 @@ require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Concern.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/AndFork.kmt"
-require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/Connect.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/EndPoint.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/InOutExpression.kmt"
 require "platform:/resource/aoUrnToRam/src/aoUrnToIw/Node/OrFork.kmt"
