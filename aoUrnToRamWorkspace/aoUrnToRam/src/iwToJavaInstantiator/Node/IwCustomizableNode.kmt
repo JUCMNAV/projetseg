@@ -10,4 +10,11 @@ aspect class IwCustomizableNode
 	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
 		jiAppendCustomizableNodeMember(workflowInstantiator)
 	end
+	
+	method jiInstanceName():String is do
+		result:=super
+		if(isShared) then
+			result:=result+"_"+customizableNodeRefId.toString
+		end 
+	end
 }

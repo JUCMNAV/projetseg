@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="S" created="October 2, 2011 4:43:54 PM EDT" modified="February 5, 2012 7:04:42 PM EST" specVersion="10" urnVersion="0.923" nextGlobalID="141">
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="S" created="October 2, 2011 4:43:54 PM EDT" modified="February 8, 2012 9:29:25 AM EST" specVersion="11" urnVersion="0.923" nextGlobalID="141">
   <ucmspec>
     <scenarioGroups id="5" name="ScenarioGroup5">
       <scenarios id="6" name="ScenarioDef6"/>
@@ -80,7 +80,7 @@
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.0" target="//@urndef/@specDiagrams.1/@nodes.1"/>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.1" target="//@urndef/@specDiagrams.1/@nodes.2"/>
     </specDiagrams>
-    <specDiagrams xsi:type="ucm.map:UCMmap" id="45" name="All features">
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="45" name="AllFeatures">
       <nodes xsi:type="ucm.map:StartPoint" id="47" name="s1" x="63" y="124" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.0">
         <label/>
         <precondition deltaX="40" deltaY="-17" label="" expression="true"/>

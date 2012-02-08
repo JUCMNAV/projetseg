@@ -35,8 +35,7 @@ aspect class IwNode {
 		succs.each{succ|succ.jiAppendLinkStatement(workflowInstantiator)}
 	end
 	
-	property readonly jiInstanceName:String 
-	getter is do
+	operation  jiInstanceName():String is do 
 		result:="_"+name
 	end
 }

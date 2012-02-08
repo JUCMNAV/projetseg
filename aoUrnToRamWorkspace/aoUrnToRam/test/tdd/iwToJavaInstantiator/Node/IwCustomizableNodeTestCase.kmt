@@ -13,7 +13,7 @@ class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJava
 	reference workflowInstantiator:WorkflowInstantiator
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
-	operation testAppendBuildStatement_ShouldDeclareAndInitializeStepNode() is do
+	operation testAppendBuildStatement_NotShared_ShouldDeclareAndInitializeStepNode() is do
 		sut:=createIwCustomizableNode
 		sut.step:=createIwStep
 		workflowInstantiator:=createWorkflowInstantiator		
@@ -22,4 +22,18 @@ class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJava
 		
 		assertEquals("    private CustomizableNode _theCustomizableNode=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theCustomizableNode\");\n",workflowInstantiator.content)
 	end
+	
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testAppendBuildStatement_Shared_ShouldDeclareAndInitializeStepNode() is do
+		sut:=createIwCustomizableNode
+		setAsFirstRefToShared(sut)
+		
+		sut.step:=createIwStep
+		workflowInstantiator:=createWorkflowInstantiator		
+		
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertEquals("    private CustomizableNode _shared_1=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.shared\");\n",workflowInstantiator.content)
+	end
+	
 }
