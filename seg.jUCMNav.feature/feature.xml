@@ -107,21 +107,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <update label="jUCMNav: URN Editor (UCM and GRL)" url="http://jucmnav.softwareengineering.ca/jucmnav/updatesite/site.xml"/>
    </url>
 
-  <requires>
-     <import feature="org.eclipse.platform"/>
-     <import feature="org.eclipse.jdt"/> 
-     <import feature="org.eclipse.rcp"/>
-     <import feature="org.eclipse.gef"/>
-     <import feature="org.eclipse.emf.ecore"/>
-     <import feature="org.eclipse.ocl"/>
-  </requires> 
-
-   <plugin
-         id="seg.jUCMNav.UCEd"
-         download-size="0"
-         install-size="0"
-         version="1.0.2"
-         unpack="false"/>
+   <requires>
+      <import feature="org.eclipse.platform"/>
+      <import feature="org.eclipse.jdt"/>
+      <import feature="org.eclipse.rcp"/>
+      <import feature="org.eclipse.gef"/>
+      <import feature="org.eclipse.emf.ecore"/>
+      <import feature="org.eclipse.ocl"/>
+   </requires>
 
    <plugin
          id="seg.jUCMNav"

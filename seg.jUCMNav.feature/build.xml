@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="seg.jUCMNav" default="build.update.jar" basedir=".">
-
+	<!-- change these values to change the release number -->
+	<!-- if the build script is not working, ensure you're running this inside the same JRE as Eclipse (Run -> External Tools -> External Tools Configuration -> This Project -> JRE -> Run in same JRE as Eclipse) -->
+	<property name="jUCMNav.Version" value="4.3.0"/>
+	<property name="UCMScenarioViewer.Version" value="1.2.0"/>
+	
 	<target name="init">
 		<property name="feature.temp.folder" value="${basedir}/feature.temp.folder"/>
 		<property name="feature.destination" value="${basedir}"/>
@@ -13,11 +17,6 @@
 			<property name="ws" value="win32"/>
 		</ant>
 		<ant antfile="build.xml" dir="../com.site.UCMScenarioViewer" target="${target}">
-			<property name="arch" value="x86"/>
-			<property name="os" value="win32"/>
-			<property name="ws" value="win32"/>
-		</ant>
-		<ant antfile="build.xml" dir="../seg.jUCMNav.UCEd" target="${target}">
 			<property name="arch" value="x86"/>
 			<property name="os" value="win32"/>
 			<property name="ws" value="win32"/>
@@ -67,21 +66,23 @@
 			<param name="os" value="*"/>
 			<param name="feature.base" value="${feature.temp.folder}"/>
 		</antcall>
-		<jar destfile="${feature.destination}/seg.jUCMNav_4.3.0.jar" basedir="${feature.temp.folder}/features/seg.jUCMNav_4.3.0"/>
+		<jar destfile="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.jar" basedir="${feature.temp.folder}/features/seg.jUCMNav_${jUCMNav.Version}"/>
 		<delete dir="${feature.temp.folder}"/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="feature.base">
-		<mkdir dir="${feature.base}/features/seg.jUCMNav_4.3.0"/>
+		<mkdir dir="${feature.base}/features/seg.jUCMNav_${jUCMNav.Version}"/>
 		<antcall target="children">
 			<param name="destination.temp.folder" value="${feature.base}/plugins"/>
 			<param name="target" value="gather.bin.parts"/>
 		</antcall>
-		<copy todir="${feature.base}/features/seg.jUCMNav_4.3.0" failonerror="true" overwrite="false">
+		<copy todir="${feature.base}/features/seg.jUCMNav_${jUCMNav.Version}" failonerror="true" overwrite="false">
 			<fileset dir="${basedir}" includes="feature.xml"			/>
 		</copy>
-		<eclipse.idReplacer featureFilePath="${feature.base}/features/seg.jUCMNav_4.3.0/feature.xml"  selfVersion="4.3.0" featureIds="" pluginIds="seg.jUCMNav.UCEd,1.0.2,seg.jUCMNav,4.3.0,com.site.UCMScenarioViewer,1.2.0,"/>
+		<eclipse.idReplacer featureFilePath="${feature.base}/features/seg.jUCMNav_${jUCMNav.Version}/feature.xml"  selfVersion="${jUCMNav.Version}" featureIds="" pluginIds="seg.jUCMNav,${jUCMNav.Version},com.site.UCMScenarioViewer,${UCMScenarioViewer.Version},"/>
 		<antcall target="rootFiles${os}_${ws}_${arch}"/>
+	</target>
+	<target name="rootFiles*_*_*">
 	</target>
 	<target name="rootFileswin32_win32_x86">
 	</target>
@@ -100,7 +101,7 @@
 			<param name="feature.base" value="${feature.temp.folder}"/>
 			<param name="os" value="*"/>
 		</antcall>
-		<zip destfile="${feature.destination}/seg.jUCMNav_4.3.0.bin.dist.zip" basedir="${feature.temp.folder}" filesonly="false" whenempty="skip" update="false"/>
+		<zip destfile="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.bin.dist.zip" basedir="${feature.temp.folder}" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${feature.temp.folder}"/>
 	</target>
 
@@ -108,11 +109,11 @@
 		<delete dir="${feature.temp.folder}"/>
 		<mkdir dir="${feature.temp.folder}"/>
 		<antcall target="all.children">
-			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/seg.jUCMNav.source_4.3.0/src"/>
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/seg.jUCMNav.source_${jUCMNav.Version}/src"/>
 			<param name="include.children" value="true"/>
 			<param name="target" value="gather.sources"/>
 		</antcall>
-		<zip destfile="${feature.destination}/seg.jUCMNav_4.3.0.src.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.src.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${feature.temp.folder}"/>
 	</target>
 
@@ -124,15 +125,15 @@
 			<param name="include.children" value="true"/>
 			<param name="target" value="gather.logs"/>
 		</antcall>
-		<zip destfile="${feature.destination}/seg.jUCMNav_4.3.0.log.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.log.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${feature.temp.folder}"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the feature: seg.jUCMNav of all the zips, jars and logs created.">
-		<delete file="${feature.destination}/seg.jUCMNav_4.3.0.jar"/>
-		<delete file="${feature.destination}/seg.jUCMNav_4.3.0.bin.dist.zip"/>
-		<delete file="${feature.destination}/seg.jUCMNav_4.3.0.log.zip"/>
-		<delete file="${feature.destination}/seg.jUCMNav_4.3.0.src.zip"/>
+		<delete file="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.jar"/>
+		<delete file="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.bin.dist.zip"/>
+		<delete file="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.log.zip"/>
+		<delete file="${feature.destination}/seg.jUCMNav_${jUCMNav.Version}.src.zip"/>
 		<delete dir="${feature.temp.folder}"/>
 		<antcall target="all.children">
 			<param name="target" value="clean"/>
@@ -148,7 +149,7 @@
 	</target>
 	<target name="gather.sources">
 		<antcall target="children">
-			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/seg.jUCMNav.source_4.3.0/src"/>
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/seg.jUCMNav.source_${jUCMNav.Version}/src"/>
 			<param name="target" value="gather.sources"/>
 		</antcall>
 	</target>
