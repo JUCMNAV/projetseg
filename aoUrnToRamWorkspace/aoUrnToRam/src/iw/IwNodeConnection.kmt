@@ -46,6 +46,16 @@ aspect class IwNodeConnection {
 	getter is do
 		result:=conditionName.isVoid==false
 	end
+
+	property readonly hasStubExitIndex:Boolean
+	getter is do
+		result:=stubExitIndex.isVoid==false
+	end
+	
+	property readonly hasStubEntryIndex:Boolean
+	getter is do
+		result:=stubEntryIndex.isVoid==false
+	end
 			
 	operation delete() is do
 		source:=void

@@ -36,4 +36,10 @@ class WorkflowInstantiator inherits TextView{
 		append(name)
 		append(";\n\n")
 	end
+	
+	operation appendNextParam(param:String) is do
+		append(",")
+		append(param)
+	end
+	
 }
