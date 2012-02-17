@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
+
+using kermeta::standard
+using aoUrnToRam::test
+
+aspect class IwNode inherits IwTestFactory
+{
+	operation connect(target:IwNode):IwNodeConnection is do
+		result:=linkNodes(self,target)
+	end
+}

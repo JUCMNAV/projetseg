@@ -1,0 +1,20 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.codegen.RefCodeGenerator
+//Args: ${resource_loc} ${project_name}
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwConcern.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwWorkflow.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwCustomizableNode.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwEndPoint.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwInput.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwNode.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwOrFork.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwOutput.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Node/IwStartPoint.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/Stub/IwStubt.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"

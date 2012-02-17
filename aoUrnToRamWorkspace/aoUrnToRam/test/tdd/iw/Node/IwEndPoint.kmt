@@ -1,0 +1,18 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwEndPoint
+{
+	operation withWorkflow(workflow:IwWorkflow):IwEndPoint is do
+		self.workflow:=workflow
+		result:=self
+	end
+	
+	operation withStep(step:IwStep):IwEndPoint is do
+		self.step:=step
+		result:=self
+	end
+}

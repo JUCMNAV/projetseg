@@ -1,7 +1,7 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
 
 using intermediateWorkflow
 
@@ -155,11 +155,19 @@ Stub
 		result.workflow:=workflow
 	end
 	
+	//stle:toRefactor
 	operation createIwStaticStub_Workflow(workflow:IwWorkflow):IwStub is do
 		result:=createIwStub_Workflow(workflow)
 		var pluginBinding:IwPluginBinding init createIwPluginBinding
 		pluginBinding.stub:=result
 	end
+	
+	operation createIwStaticStub():IwStub is do
+		result:=createIwStub
+		var pluginBinding:IwPluginBinding init createIwPluginBinding
+		pluginBinding.stub:=result
+	end
+	
 	
 	operation createIwPluginBinding():IwPluginBinding is do
 		result:=IwPluginBinding.new
