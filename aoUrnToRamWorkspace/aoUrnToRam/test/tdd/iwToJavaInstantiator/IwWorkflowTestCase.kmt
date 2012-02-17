@@ -59,25 +59,96 @@ class IwToJavaInstantiator_IwWorkflowTestCase inherits TestCase,IwToJavaInstanti
 	operation testToWorkflowInstantiator_ShouldAppendLinkMethod() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
-		assertStringContains("    public void link(){\n    }\n"
-							,workflowInstantiator.content)
+		assertStringContains(
+"
+    public void link(){
+    }
+"
+		,workflowInstantiator.content)
 	end
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldInvokeAppendLinkStatementOnNodeConnections() is do
 		var step:IwStep init createIwStep
-		var first:IwNode init createIwCustomizableNode_Workflow(sut)
-		first.step:=step
-		var inBetween:IwNode init createIwOutput_Workflow(sut)
-		inBetween.step:=step
-		var last:IwNode init createIwEndPoint_Workflow(sut)
-		last.step:=step
-		
-		linkNodes(first,inBetween)
-		linkNodes(inBetween,last)
+		var inBetween:IwNode init createIwOutput.withWorkflow(sut).withStep(step)
+		createIwCustomizableNode.withWorkflow(sut).withStep(step).connect(inBetween)
+		inBetween.connect(createIwEndPoint.withWorkflow(sut).withStep(step))
 		
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
-		assertStringContainsExpectedNTime(".addNextNode",2,workflowInstantiator.content)
+		assertStringContainsNTime(2,".addNextNode",workflowInstantiator.content)
 	end
+	
+	operation testToWorkflowInstantiator_ShouldAppendBindMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void bind(){
+    }
+"
+		,workflowInstantiator.content)
+	end
+
+	operation testToWorkflowInstantiator_TwoPlugins_ShouldAppendTwoParameters() is do
+		createPlugin(sut.concern).withName("thePlugin1")
+		createPlugin(sut.concern).withName("thePlugin2")
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void bind(theModel.Instantiators.theConcern.thePlugin1WorkflowInstantiator thePlugin1,
+                     theModel.Instantiators.theConcern.thePlugin2WorkflowInstantiator thePlugin2)"
+		,workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_SamePluginTwice_ShouldAppendOneParameter() is do
+		var plugin:IwWorkflow init createPlugin(sut.concern)
+		var pluginStartPoint:IwStartPoint pluginStartPoint?=plugin.nodes.one 
+		bindStaticStubToPluginStartPoint(
+			createIwStaticStub.withWorkflow(sut),
+			pluginStartPoint
+		)
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(1,"theModel.Instantiators.theConcern.thePluginWorkflowInstantiator ",workflowInstantiator.content)
+	end
+
+	operation testToWorkflowInstantiator_PluginFromDifferentConcern_ShouldHaveFullQualifiedNameWithDifferentConcern() is do
+		createPlugin(createIwConcern.withModel(sut.model).withName("theDifferentConcern"))
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains("theModel.Instantiators.theDifferentConcern.thePlugin",workflowInstantiator.content)
+	end	
+	
+	operation testToWorkflowInstantiator_OnlyOutBoundPluginReplacementAspect_ShouldAppendParameter() is do
+		var outBoundPlugin:IwWorkflow init createIwWorkflow.withConcern(sut.concern).withName("thePlugin")
+		bindStaticStubToPluginEndPoint(
+			createIwStaticStub.withWorkflow(sut),
+			createIwEndPoint.withWorkflow(sut),
+			createIwEndPoint.withWorkflow(outBoundPlugin)
+		)
+
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(1,"theModel.Instantiators.theConcern.thePluginWorkflowInstantiator ",workflowInstantiator.content)
+	end
+	
+
+	operation createPlugin(concern:IwConcern):IwWorkflow is do
+		result:=createIwWorkflow.withConcern(concern).withName("thePlugin")
+		bindStaticStubToPluginStartPoint(
+			createIwStaticStub.withWorkflow(sut),
+			createIwStartPoint.withWorkflow(result)
+		)
+	end
+	
+	//stle:node name shall start with an upper case
+	//stle:instance variable and param name shall start with an lower case
+	
+	//stle:create workflow
+	//stle:start nodes
 }

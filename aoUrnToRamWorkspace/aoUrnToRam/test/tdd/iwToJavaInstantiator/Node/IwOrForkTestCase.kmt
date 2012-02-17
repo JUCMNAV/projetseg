@@ -32,6 +32,6 @@ class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiat
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertStringContainsExpectedNTime("private Condition ",2,workflowInstantiator.content)
+		assertStringContainsNTime(2,"private Condition ",workflowInstantiator.content)
 	end
 }

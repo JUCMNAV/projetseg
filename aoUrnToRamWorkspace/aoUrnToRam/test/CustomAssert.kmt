@@ -62,7 +62,11 @@ class CustomAssert inherits Assert
 		assertSideBySideWithMsg(expected==actualEnd,expected,actualEnd,"The actual string was expected to end with the expected string.")
 	end
 
-	operation assertStringContainsExpectedNTime(expected:String,expectedNTime:Integer,actual:String) is do
+	//Note: This assert will crash if the expected string contains some symbols (ex: '(').
+	//      Kermeta String function is too limited to implement this assert properly.
+	//      If this assert becomes a problem, create a java implementation and add
+	//      the project javaExternalCall to each test launcher.
+	operation assertStringContainsNTime(expectedNTime:Integer,expected:String,actual:String) is do
 		assertNotVoid(actual)
 		var actualNTime:Integer init actual.split(expected).size-1
 		
@@ -120,13 +124,9 @@ class CustomAssert inherits Assert
 	end
 	
 	operation toFormattedString(o:Object):String is do
+		result:=o.toString
 		if(o.isVoid==false and o.isInstanceOf(String)) then
-			result:=o.toString
-			result:=result.replace("\n","\\n")
-			result:=result.replace("\"","\\\"")
-			result:="\""+ result+"\""
-		else
-			result:=o.toString
+			result:="<String>"+result+"</String>"
 		end
 	end
 }

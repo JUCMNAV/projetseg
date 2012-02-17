@@ -25,7 +25,22 @@ aspect class IwWorkflow {
 	
 	property readonly jiWorkspacePath:String 
 	getter is do
-		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS))
+		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,workflowInstantiatorName))
+	end
+	
+	property readonly jiPackageName:String 
+	getter is do
+		result:=model.name+"."+jiSUBPACKAGE+"."+concern.name
+	end
+
+	property readonly workflowInstantiatorName:String 
+	getter is do
+		result:=name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS
+	end
+
+	property readonly workflowInstantiatorFullyQualifiedName:String 
+	getter is do
+		result:=jiPackageName+"."+workflowInstantiatorName
 	end
 
 	operation jiToWorkflowInstantiator():WorkflowInstantiator is do
@@ -36,15 +51,20 @@ aspect class IwWorkflow {
 	operation jiAppendContent(workflowInstantiator:WorkflowInstantiator) is do
 		jiAppendPackage(workflowInstantiator)
 		jiAppendImports(workflowInstantiator)
+		
 		jiAppendClassPre(workflowInstantiator)
+		
 		jiAppendBuildStatements(workflowInstantiator)
 		workflowInstantiator.append("\n")
 		jiAppendLinkMethod(workflowInstantiator)
+		workflowInstantiator.append("\n")
+		jiAppendBindMethod(workflowInstantiator)
+				
 		jiAppendClassPost(workflowInstantiator)
 	end
 	
 	operation jiAppendPackage(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendPackage(model.name+"."+jiSUBPACKAGE+"."+concern.name)
+		workflowInstantiator.appendPackage(jiPackageName)
 	end
 	
 	operation jiAppendImports(workflowInstantiator:WorkflowInstantiator) is do
@@ -67,6 +87,19 @@ aspect class IwWorkflow {
 		workflowInstantiator.append("    public void link(){\n")
 		nodes.each{node|node.jiAppendLinkStatement(workflowInstantiator)}
 		workflowInstantiator.append("    }\n")	
+	end
+	
+	operation jiAppendBindMethod(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("    public void bind(")
+		workflowInstantiator.appendWithDelimiter(plugins,",\n                     ",
+			function{plugin:IwWorkflow|plugin.jiBindMethodParam}
+		) 
+		workflowInstantiator.append("){\n")
+		workflowInstantiator.append("    }\n")	
+	end
+
+	operation jiBindMethodParam():String is do
+		result:=workflowInstantiatorFullyQualifiedName+" "+name
 	end
 	
 	operation jiAppendClassPost(workflowInstantiator:WorkflowInstantiator) is do

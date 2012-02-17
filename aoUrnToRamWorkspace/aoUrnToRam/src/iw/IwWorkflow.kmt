@@ -9,4 +9,27 @@ aspect class IwWorkflow{
 	getter is do
 		result:=concern.model
 	end
+	
+	property readonly plugins : IwWorkflow[0..*]
+	getter is do
+		result:=OrderedSet<IwWorkflow>.new
+		stubs.each{stub|
+			//stle:adapt for dynamic stubs
+			if(stub.staticPluginBinding.inBindings.isEmpty==false)then
+				result.add(stub.staticPluginBinding.inBindings.one.pluginStartPoint.workflow)
+			else
+				//No inBindings implies at least one outBindings
+				result.add(stub.staticPluginBinding.outBindings.one.pluginEndPoint.workflow)
+			end
+		}
+	end
+	
+	property readonly stubs : IwStub[0..*]
+	getter is do
+		//stle:dry
+		result:= nodes.select{node|node.isInstanceOf(IwStub)}
+		              .collect{stub|stub.asType(IwStub)}.asOrderedSet
+	end
+	
+	
 }
