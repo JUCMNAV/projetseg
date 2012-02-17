@@ -25,6 +25,19 @@ class TextView{
 		append("\n")
 	end
 	
+	operation appendWithDelimiter<T>(col:Collection<T>,delimiter:String,parse:<T->String>) is do
+		var isFirst:Boolean init true
+		col.each{e|
+			if(isFirst) then
+				isFirst:=false
+			else
+				append(delimiter)
+			end
+			append(parse(e))
+		}
+	end
+	
+	
 	property readonly content : String
 	getter is do
 		result:=_content.toString
