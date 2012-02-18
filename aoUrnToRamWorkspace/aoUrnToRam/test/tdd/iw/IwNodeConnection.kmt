@@ -1,0 +1,21 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class IwNodeConnection
+{
+	operation withStubEntryIndex(theValue:Integer):IwNodeConnection is do
+		self.stubEntryIndex:=theValue
+		result:=self
+	end
+	
+	operation withStubExitIndex(theValue:Integer):IwNodeConnection is do
+		self.stubExitIndex:=theValue
+		result:=self
+	end
+	
+}

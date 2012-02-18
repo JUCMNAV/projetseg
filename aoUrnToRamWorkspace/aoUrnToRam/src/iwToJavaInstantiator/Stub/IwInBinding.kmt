@@ -1,0 +1,23 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwInBinding{
+	operation jiAppendBindStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_3Params(
+			stub.jiMemberName,
+			"addInBinding",
+			pluginBinding.jiLocalVarName,
+			quote(stubEntry.stubEntryIndex),
+			pluginStartPoint.workflow.jiBindMethod_PluginParamName+"."+pluginStartPoint.jiMemberName
+		)
+	end
+	
+	//stle:dry mix-in or static or textView (required analysis)
+	operation quote(toQuote:Object):String is do
+		result:="\""+toQuote.toString+"\""
+	end
+}

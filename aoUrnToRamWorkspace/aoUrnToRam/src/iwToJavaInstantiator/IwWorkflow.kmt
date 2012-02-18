@@ -55,9 +55,12 @@ aspect class IwWorkflow {
 		jiAppendClassPre(workflowInstantiator)
 		
 		jiAppendBuildStatements(workflowInstantiator)
-		workflowInstantiator.append("\n")
+
 		jiAppendLinkMethod(workflowInstantiator)
-		workflowInstantiator.append("\n")
+		jiAppendLinkNodesToNextNodesMethod(workflowInstantiator)
+		jiAppendLinkNodesToWorkflowMethod(workflowInstantiator)
+		jiAppendLinkStartNodesToWorkflowMethod(workflowInstantiator)
+
 		jiAppendBindMethod(workflowInstantiator)
 				
 		jiAppendClassPost(workflowInstantiator)
@@ -70,7 +73,7 @@ aspect class IwWorkflow {
 	operation jiAppendImports(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendImport("ram.reactiveworkflow.*")
 		workflowInstantiator.appendImport("ram.workflow.*")
-		workflowInstantiator.append("\n")
+		workflowInstantiator.appendNextLine
 	end
 	
 	operation jiAppendClassPre(workflowInstantiator:WorkflowInstantiator) is do
@@ -80,29 +83,55 @@ aspect class IwWorkflow {
 	end
 
 	operation jiAppendBuildStatements(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.append("private Workflow _workflow=new Workflow();\n")
 		nodes.each{node|node.jiAppendBuildStatement(workflowInstantiator)}
 	end
 	
 	operation jiAppendLinkMethod(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.append("    public void link(){\n")
-		nodes.each{node|node.jiAppendLinkStatement(workflowInstantiator)}
-		workflowInstantiator.append("    }\n")	
+		workflowInstantiator.appendMethod_Pre("public void link(){\n")
+		workflowInstantiator.appendMethodInvocation_0Param("linkNodesToNextNodes")
+		workflowInstantiator.appendMethodInvocation_0Param("linkNodesToWorkflow")
+		workflowInstantiator.appendMethodInvocation_0Param("linkStartNodesToWorkflow")
+		workflowInstantiator.appendMethod_Post
+	end
+	
+	operation jiAppendLinkNodesToNextNodesMethod(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethod_Pre("public void linkNodesToNextNodes(){\n")
+		nodes.each{node|node.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)}
+		workflowInstantiator.appendMethod_Post
+	end
+	
+	operation jiAppendLinkNodesToWorkflowMethod(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethod_Pre("public void linkNodesToWorkflow(){\n")
+		nodes.each{node|node.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)}
+		workflowInstantiator.appendMethod_Post
+	end
+	
+	operation jiAppendLinkStartNodesToWorkflowMethod(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethod_Pre("public void linkStartNodesToWorkflow(){\n")
+		nodes.each{node|node.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)}
+		workflowInstantiator.appendMethod_Post
 	end
 	
 	operation jiAppendBindMethod(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.append("    public void bind(")
+		workflowInstantiator.appendMethod_Pre("public void bind(")
 		workflowInstantiator.appendWithDelimiter(plugins,",\n                     ",
 			function{plugin:IwWorkflow|plugin.jiBindMethodParam}
 		) 
 		workflowInstantiator.append("){\n")
-		workflowInstantiator.append("    }\n")	
+		stubs.each{stub|stub.staticPluginBinding.jiAppendBindStatement(workflowInstantiator)}
+		workflowInstantiator.appendMethod_Post	
 	end
 
 	operation jiBindMethodParam():String is do
-		result:=workflowInstantiatorFullyQualifiedName+" "+name
+		result:=workflowInstantiatorFullyQualifiedName+" "+jiBindMethod_PluginParamName
 	end
 	
 	operation jiAppendClassPost(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.append("}\n")	
+	end
+
+	operation jiBindMethod_PluginParamName():String is do
+		result:="p_"+name
 	end
 }

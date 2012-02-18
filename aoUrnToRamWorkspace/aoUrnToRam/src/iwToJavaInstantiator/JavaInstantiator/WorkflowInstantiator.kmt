@@ -8,6 +8,11 @@ using aoUrnToRam
 
 class WorkflowInstantiator inherits TextView{
 	attribute customizableClassSubPackage:String
+	
+	property readonly workflowMemberName:String 
+	getter is do	//stle:dry: mixin again	
+		result:="_workflow"
+	end
 
 	operation initialize_WorkflowInstantiator(workspacePath:String,customizableClassSubPackage:String):WorkflowInstantiator is do
 		initialize(workspacePath)
@@ -16,7 +21,7 @@ class WorkflowInstantiator inherits TextView{
 	end
 
 	operation appendMember(type:String,name:String,initialization:String) is do
-		append("    private ")
+		appendIndent(1,"private ")
 		append(type)
 		append(" ")
 		append(name)
@@ -36,10 +41,78 @@ class WorkflowInstantiator inherits TextView{
 		append(name)
 		append(";\n\n")
 	end
+
+	operation appendLocalVarDefaultConstructor(type:String,name:String) is do
+		appendIndent(2,type)
+		append(" ")
+		append(name)
+		append("=new ")
+		append(type)
+		append("();\n")
+	end
+
+	operation appendMethodInvocation_0Param(methodName:String) is do
+		appendMethodInvocation_Pre(methodName)
+		appendMethodInvocation_Post
+	end
+
+	operation appendMethodInvocationOn_1Param(methodOwner:String,methodName:String,param1:String) is do
+		appendMethodInvocationOn_Pre(methodOwner,methodName)
+		append(param1)
+		appendMethodInvocation_Post
+	end
+	
+	operation appendMethodInvocationOn_2Params(methodOwner:String,methodName:String,param1:String,param2:String) is do
+		appendMethodInvocationOn_Pre(methodOwner,methodName)
+		append(param1)
+		appendNextParam(param2)
+		appendMethodInvocation_Post
+	end
+	
+	operation appendMethodInvocationOn_3Params(methodOwner:String,methodName:String,param1:String,param2:String,param3:String) is do
+		appendMethodInvocationOn_Pre(methodOwner,methodName)
+		append(param1)
+		appendNextParam(param2)
+		appendNextParam(param3)
+		appendMethodInvocation_Post
+	end
+
+	operation appendMethodInvocationOn_4Params(methodOwner:String,methodName:String,param1:String,param2:String,param3:String,param4:String) is do
+		appendMethodInvocationOn_Pre(methodOwner,methodName)
+		append(param1)
+		appendNextParam(param2)
+		appendNextParam(param3)
+		appendNextParam(param4)
+		appendMethodInvocation_Post
+	end
+	
+	operation appendMethodInvocationOn_Pre(methodOwner:String,methodName:String) is do
+		appendIndent(2,methodOwner)
+		append(".")
+		append(methodName)
+		append("(")
+	end
+	
+	operation appendMethodInvocation_Pre(methodName:String) is do
+		appendIndent(2,methodName)
+		append("(")
+	end
 	
 	operation appendNextParam(param:String) is do
 		append(",")
 		append(param)
 	end
 	
+	operation appendMethodInvocation_Post() is do
+		append(");\n")
+	end
+
+	operation appendMethod_Pre(methodHeader:String) is do
+		appendNextLine
+		appendIndent(1,methodHeader)	
+	end
+
+	operation appendMethod_Post() is do
+		appendIndent(1,"}\n")	
+	end
 }

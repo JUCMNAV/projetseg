@@ -10,4 +10,7 @@ aspect class IwStub
 	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
 		jiAppendWorkflowNodeMember(workflowInstantiator,"StubNode")
 	end
+
+	operation jiAppendBindStatement(workflowInstantiator:WorkflowInstantiator) is do
+	end
 }

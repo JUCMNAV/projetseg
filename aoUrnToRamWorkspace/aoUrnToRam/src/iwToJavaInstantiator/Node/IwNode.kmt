@@ -13,13 +13,13 @@ aspect class IwNode {
 	
 	operation jiAppendWorkflowNodeMember(workflowInstantiator:WorkflowInstantiator,workflowNodeType:String) is do
 		var initialization:String init "new "+workflowNodeType+"()"
-		workflowInstantiator.appendMember(workflowNodeType,jiInstanceName,initialization)
+		workflowInstantiator.appendMember(workflowNodeType,jiMemberName,initialization)
 	end
 	
 	operation jiAppendCustomizableNodeMember(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendMember(
 			"CustomizableNode",
-			jiInstanceName,
+			jiMemberName,
 			jiGetCustomizableNodeMemberInitialization(workflowInstantiator)
 		)
 	end
@@ -31,11 +31,23 @@ aspect class IwNode {
 		result:="createCustomizableNode(\""+customizableNodeFullyQualifiedName+"\")"
 	end
 	
-	operation jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
-		succs.each{succ|succ.jiAppendLinkStatement(workflowInstantiator)}
+	operation jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
+		succs.each{succ|succ.jiAppendAddNextNodeStatements(workflowInstantiator)}
 	end
 	
-	operation  jiInstanceName():String is do 
+	operation jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_1Param(
+			workflowInstantiator.workflowMemberName,
+			"addNode",
+			jiMemberName
+		)
+	end
+	
+	operation jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//Default: do nothing
+	end
+	
+	operation jiMemberName():String is do 
 		result:="_"+name
 	end
 }

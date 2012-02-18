@@ -36,6 +36,10 @@ class IwTestFactory
 		result:=IwWorkflow.new
 		result.name:="theWorkflow"
 	end
+	
+	operation createIwPlugin():IwWorkflow is do
+		result:=createIwWorkflow.withName("thePlugin")
+	end
 
 	operation createIwWorkflow_Concern(concern:IwConcern):IwWorkflow is do
 	   	result:=createIwWorkflow
@@ -185,6 +189,14 @@ Stub
 		//stle:single again
 		result.pluginBinding:=staticStub.pluginBindings.one
 	end
+	
+	//stle:refactor to with
+	operation bindStaticStubToPluginStartPoint_withStubEntry(staticStub:IwStub,stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
+		result:=createIwInBinding(stubEntry,pluginStartPoint)
+		//stle:single again
+		result.pluginBinding:=staticStub.pluginBindings.one
+	end
+	
 	
 	operation createIwOutBinding(stubExit:IwNodeConnection,pluginEndPoint:IwEndPoint):IwOutBinding is do
 		result:=IwOutBinding.new

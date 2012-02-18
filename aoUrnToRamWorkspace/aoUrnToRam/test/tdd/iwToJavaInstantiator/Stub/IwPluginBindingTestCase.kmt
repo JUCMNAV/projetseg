@@ -1,0 +1,51 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwPluginBinding
+	reference stub:IwStub
+	reference workflowInstantiator:WorkflowInstantiator
+	
+	
+	method setUp() is do
+		stub:=createIwStub
+		sut:=createIwPluginBinding.withStub(stub)
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+
+	operation testAppendBindStatement_ShouldDeclareAndInitializeBinding() is do
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertEquals(
+"
+        Binding l_theStub_PluginBinding=new Binding();
+        _theStub.addBinding(l_theStub_PluginBinding);
+"        
+		,workflowInstantiator.content)
+	end
+
+	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
+		//stle: maitain after dynamic stubs
+		var plugin:IwWorkflow init createIwPlugin
+		addInBinding(1,plugin)
+		addInBinding(2,plugin) 
+	
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertStringContainsNTime(2,".addInBinding",workflowInstantiator.content)
+	end
+	
+	operation addInBinding(stubEntryIndex:Integer,plugin:IwWorkflow) is do
+		createIwInBinding(
+			createIwNodeConnection.withStubEntryIndex(stubEntryIndex),
+			createIwStartPoint.withWorkflow(plugin)
+		).withPluginBinding(sut)
+	end
+}

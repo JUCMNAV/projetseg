@@ -14,4 +14,10 @@ aspect class IwStartPoint{
 		self.step:=step
 		result:=self
 	end
+	
+	operation withStartPointType(theValue:String):IwStartPoint is do
+		self.startPointType:=theValue
+		result:=self
+	end
+	
 }

@@ -30,101 +30,106 @@ aspect class IwNodeConnection
 //*********************************************************
 //Link
 //*********************************************************/
-	operation jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
+	operation jiAppendAddNextNodeStatements(workflowInstantiator:WorkflowInstantiator) is do
 		if(hasCondition) then
-			jiAppendLinkStatementWithCondition(workflowInstantiator)
+			jiAppendAddNextNodeStatementWithCondition(workflowInstantiator)
 		else
-			jiAppendLinkStatementWithoutCondition(workflowInstantiator)
+			jiAppendAddNextNodeStatementWithoutCondition(workflowInstantiator)
 		end
 	end
 
 //*********************************************************
 //LinkWithCondition
 //*********************************************************/
-	operation jiAppendLinkStatementWithCondition(workflowInstantiator:WorkflowInstantiator) is do
+	operation jiAppendAddNextNodeStatementWithCondition(workflowInstantiator:WorkflowInstantiator) is do
 		if(hasStubEntryIndex) then
-			jiAppendLinkStatement_OrForkToStub(workflowInstantiator)
+			jiAppendAddNextNodeStatement_OrForkToStub(workflowInstantiator)
 		else
-			jiAppendLinkStatement_OrForkToNode(workflowInstantiator)
+			jiAppendAddNextNodeStatement_OrForkToNode(workflowInstantiator)
 		end
 	end
 	
-	operation jiAppendLinkStatement_OrForkToNode(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(quote(conditionName))
-		workflowInstantiator.appendNextParam(target.jiInstanceName)
-		workflowInstantiator.appendNextParam(jiConditionInstanceName)
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_OrForkToNode(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_3Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			quote(conditionName),
+			target.jiMemberName,
+			jiConditionInstanceName
+		)
 	end
 	
-	operation jiAppendLinkStatement_OrForkToStub(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(quote(conditionName))
-		workflowInstantiator.appendNextParam(target.jiInstanceName)
-		workflowInstantiator.appendNextParam(quote(stubEntryIndex))
-		workflowInstantiator.appendNextParam(jiConditionInstanceName)
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_OrForkToStub(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_4Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			quote(conditionName),
+			target.jiMemberName,
+			quote(stubEntryIndex),
+			jiConditionInstanceName
+		)
 	end
 
 //*********************************************************
 //LinkWithoutCondition
 //*********************************************************/
-	operation jiAppendLinkStatementWithoutCondition(workflowInstantiator:WorkflowInstantiator) is do
+	operation jiAppendAddNextNodeStatementWithoutCondition(workflowInstantiator:WorkflowInstantiator) is do
 		if(hasStubExitIndex and hasStubEntryIndex) then
-			jiAppendLinkStatement_StubToStub(workflowInstantiator)
+			jiAppendAddNextNodeStatement_StubToStub(workflowInstantiator)
 		else
 			if(hasStubEntryIndex) then
-				jiAppendLinkStatement_NodeToStub(workflowInstantiator)
+				jiAppendAddNextNodeStatement_NodeToStub(workflowInstantiator)
 			else
 				if(hasStubExitIndex) then
-					jiAppendLinkStatement_StubToNode(workflowInstantiator)
+					jiAppendAddNextNodeStatement_StubToNode(workflowInstantiator)
 				else
-					jiAppendLinkStatement_NodeToNode(workflowInstantiator)
+					jiAppendAddNextNodeStatement_NodeToNode(workflowInstantiator)
 				end
 			end
 		end
 	end
 	
-	
-	operation jiAppendLinkStatement_NodeToNode(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(target.jiInstanceName)
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_NodeToNode(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_1Param(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			target.jiMemberName
+		)
 	end
 
-	operation jiAppendLinkStatement_NodeToStub(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(target.jiInstanceName)
-		workflowInstantiator.appendNextParam(quote(stubEntryIndex))
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_NodeToStub(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			target.jiMemberName,
+			quote(stubEntryIndex)
+		)
 	end
 	
-	operation jiAppendLinkStatement_StubToNode(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(quote(stubExitIndex))
-		workflowInstantiator.appendNextParam(target.jiInstanceName)
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_StubToNode(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			quote(stubExitIndex),
+			target.jiMemberName
+		)
 	end
 
-	operation jiAppendLinkStatement_StubToStub(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendLinkStatementPre(workflowInstantiator)
-		workflowInstantiator.append(quote(stubExitIndex))
-		workflowInstantiator.appendNextParam(target.jiInstanceName)
-		workflowInstantiator.appendNextParam(quote(stubEntryIndex))
-		jiAppendLinkStatementPost(workflowInstantiator)
+	operation jiAppendAddNextNodeStatement_StubToStub(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_3Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			quote(stubExitIndex),
+			target.jiMemberName,
+			quote(stubEntryIndex)
+		)
 	end
 
 //*********************************************************
 //Misc
 //*********************************************************/
-	operation jiAppendLinkStatementPre(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.append("        ")
-		workflowInstantiator.append(source.jiInstanceName)
-		workflowInstantiator.append(".addNextNode(")
-	end
-	
-	operation jiAppendLinkStatementPost(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.append(");\n")
+	operation jiAddNextNodeMethodName():String is do
+		result:="addNextNode"
 	end
 	
 	operation quote(toQuote:Object):String is do

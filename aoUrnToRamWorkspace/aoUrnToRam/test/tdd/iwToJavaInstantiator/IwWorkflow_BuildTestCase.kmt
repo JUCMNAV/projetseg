@@ -1,0 +1,74 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using aoUrnToRam::util 
+using javaInstantiator
+
+class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwWorkflow
+	reference workflowInstantiator:WorkflowInstantiator
+	
+	method setUp() is do
+		sut:=createIwWorkflowWithContainers
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldInitWorkspacePath() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertEquals("Instantiators/theConcern/theWorkflowWorkflowInstantiator",workflowInstantiator.workspacePath)
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldInitCustomizableClassSubPackage() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertEquals("theModel.Steps.theConcern",workflowInstantiator.customizableClassSubPackage)
+	end
+	
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldAppendPackage() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringStartsWith("package theModel.Instantiators.theConcern;\n\n",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldAppendImports() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains( "import ram.reactiveworkflow.*;\n",workflowInstantiator.content)
+		assertStringContains( "import ram.workflow.*;\n",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldAppendClass() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains("\n\npublic class theWorkflowWorkflowInstantiator extends WorkflowInstantiator{",workflowInstantiator.content)
+		assertStringEndsWith("}\n",workflowInstantiator.content)
+	end
+	
+	operation testAppendBuildStatement_ShouldInvokeAppendBuildStatementOnNodes() is do
+		createIwInput.withWorkflow(sut)
+		createIwInput.withWorkflow(sut)
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(2,"new InputNode",workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldAppendDeclareAndInitializeWorkflow() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains("private Workflow _workflow=new Workflow();\n",workflowInstantiator.content)
+	end
+	
+	
+}

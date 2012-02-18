@@ -9,4 +9,10 @@ aspect class IwOutBinding{
 	getter is do
 		result:=pluginEndPoint.concern==pluginBinding.stub.concern
 	end
+	
+	property readonly stub : IwStub
+	getter is do
+		result:=pluginBinding.stub
+	end
+	
 }

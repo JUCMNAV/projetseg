@@ -1,0 +1,14 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
+
+using kermeta::standard
+using aoUrnToRam::test
+
+aspect class IwPluginBinding inherits IwTestFactory
+{
+	operation withStub(stub:IwStub):IwPluginBinding is do
+		self.stub:=stub
+		result:=self
+	end
+}

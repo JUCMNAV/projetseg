@@ -21,8 +21,17 @@ class TextView{
 	end
 	
 	operation appendLine(line:String) is do
-		append(line) 
+		append(line)
+		appendNextLine 
+	end
+	
+	operation appendNextLine() is do
 		append("\n")
+	end
+	
+	operation appendIndent(level:Integer,toAppend:String) is do
+		level.times{i|append("    ")}
+		append(toAppend)
 	end
 	
 	operation appendWithDelimiter<T>(col:Collection<T>,delimiter:String,parse:<T->String>) is do

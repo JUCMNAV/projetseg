@@ -1,0 +1,103 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using aoUrnToRam::util 
+using javaInstantiator
+
+class IwToJavaInstantiator_IwWorkflow_LinkTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwWorkflow
+	reference workflowInstantiator:WorkflowInstantiator
+	
+	method setUp() is do
+		sut:=createIwWorkflowWithContainers
+	end
+	
+		@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldAppendLinkMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void link(){
+        linkNodesToNextNodes();
+        linkNodesToWorkflow();
+        linkStartNodesToWorkflow();
+    }
+"
+		,workflowInstantiator.content)
+	end
+	
+		@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldAppendLinkNodesToNextNodesMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void linkNodesToNextNodes(){
+    }
+"
+		,workflowInstantiator.content)
+	end
+	
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_ShouldInvokeAppendAddNextNodeStatementsOnNodeConnections() is do
+		var step:IwStep init createIwStep
+		var inBetween:IwNode init addNodeToSut.withStep(step)
+		addNodeToSut.withStep(step).connect(inBetween)
+		inBetween.connect(addNodeToSut.withStep(step))
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(2,".addNextNode",workflowInstantiator.content)
+	end
+	
+	
+	operation testToWorkflowInstantiator_ShouldLinkNodesToWorkflowMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void linkNodesToWorkflow(){
+    }
+"
+		,workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldInvokeAppendLinkNodesToWorkflowOnNodes() is do
+		addNodeToSut
+		addNodeToSut
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(2,".addNode",workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldAppendLinkStartNodesToWorkflowMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void linkStartNodesToWorkflow(){
+    }
+"
+		,workflowInstantiator.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldInvokeAppendLinkStartNodesToWorkflowOnNodes() is do
+		createIwStartPoint.withWorkflow(sut).connect(addNodeToSut)
+		createIwStartPoint.withWorkflow(sut).connect(addNodeToSut)
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(2,".addStartupNode",workflowInstantiator.content)
+	end
+	
+	operation addNodeToSut():IwInput is do
+		result:=createIwInput.withWorkflow(sut)
+	end
+}

@@ -10,7 +10,22 @@ aspect class IwStartPoint{
 		//Do nothing:startPoints are not modelled in ReactiveWorkflow 
 	end
 	
-	method jiAppendLinkStatement(workflowInstantiator:WorkflowInstantiator) is do
+	method jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
 		//Do nothing:startPoints are not modelled in ReactiveWorkflow
 	end
+	
+	method jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//Do nothing:startPoints are not modelled in ReactiveWorkflow
+	end
+	
+	method jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		if(startPointType!="bound") then
+			workflowInstantiator.appendMethodInvocationOn_1Param(
+				workflowInstantiator.workflowMemberName,
+				"addStartupNode",
+				targets.one.jiMemberName //stle:single again
+			)
+		end
+	end
+	
 }

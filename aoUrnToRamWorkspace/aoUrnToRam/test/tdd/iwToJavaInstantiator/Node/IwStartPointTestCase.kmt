@@ -29,9 +29,30 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		linkNodes(sut,createIwCustomizableNode)
 		linkNodes(sut,createIwCustomizableNode)
 		
-		sut.jiAppendLinkStatement(workflowInstantiator)
+		sut.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)
 	end
 	
+	operation testAppendLinkNodesToWorkflowStatement_ShouldNotLinkStartPointToWorkflow() is do
+		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+	
+	operation testAppendLinkStartNodesToWorkflowStatement_NotBound_ShouldLinkStartNodesToWorkflow() is do
+		sut.withStartPointType("global").connect(createIwInput)
+	
+		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("        _workflow.addStartupNode(_theInput);\n",workflowInstantiator.content)
+	end
+	
+	operation testAppendLinkStartNodesToWorkflowStatement_Bound_ShouldNotLinkStartNodesToWorkflow() is do
+		sut.withStartPointType("bound").connect(createIwInput)
+	
+		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
 }
