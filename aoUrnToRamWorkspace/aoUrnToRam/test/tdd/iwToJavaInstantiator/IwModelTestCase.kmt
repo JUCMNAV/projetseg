@@ -23,7 +23,7 @@ class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiato
 		var concern2:IwConcern init createIwConcern_Model(sut)
 		var workflow2_1:IwWorkflow init createIwWorkflow_Concern(concern2)
 
-		var workflowInstantiators:TextView[0..*] init sut.jiToJavaInstantiator
+		var workflowInstantiators:WorkflowInstantiator[0..*] init sut.jiToJavaInstantiator
 
 		assertEquals(3,workflowInstantiators.size)
 	end

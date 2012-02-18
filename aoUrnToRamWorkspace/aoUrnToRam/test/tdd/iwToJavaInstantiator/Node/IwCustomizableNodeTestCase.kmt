@@ -20,7 +20,7 @@ class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJava
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private CustomizableNode _theCustomizableNode=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theCustomizableNode\");\n",workflowInstantiator.content)
+		assertEquals("    public CustomizableNode _theCustomizableNode=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theCustomizableNode\");\n",workflowInstantiator.content)
 	end
 	
 	@feature "FeaWorkflowInstantiationWithoutStubs"
@@ -33,7 +33,7 @@ class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJava
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private CustomizableNode _shared_1=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.shared\");\n",workflowInstantiator.content)
+		assertEquals("    public CustomizableNode _shared_1=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.shared\");\n",workflowInstantiator.content)
 	end
 	
 }

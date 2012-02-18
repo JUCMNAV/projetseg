@@ -20,7 +20,7 @@ class IwToJavaInstantiator_IwNodeTestCase inherits TestCase,IwToJavaInstantiator
 	operation testAppendLinkNodesToWorkflowStatement_ShouldLinkNodeToWorkflow() is do
 		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
 		
-		assertEquals("        _workflow.addNode(_theInput);\n",workflowInstantiator.content)
+		assertEquals("        workflow.addNode(_theInput);\n",workflowInstantiator.content)
 	end
 	
 	operation testAppendLinkStartNodesToWorkflowStatement_NotStartPoint_ShouldNotLinkStartNodesToWorkflow() is do

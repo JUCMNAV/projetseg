@@ -11,7 +11,7 @@ class WorkflowInstantiator inherits JavaView{
 	
 	property readonly workflowMemberName:String 
 	getter is do	//stle:dry: mixin again	
-		result:="_workflow"
+		result:="workflow"
 	end
 
 	operation initialize_WorkflowInstantiator(workspacePath:String,customizableClassSubPackage:String):WorkflowInstantiator is do

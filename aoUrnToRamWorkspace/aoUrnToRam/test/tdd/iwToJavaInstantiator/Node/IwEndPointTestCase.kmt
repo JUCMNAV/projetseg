@@ -19,6 +19,6 @@ class IwToJavaInstantiator_IwEndPointTestCase inherits TestCase,IwToJavaInstanti
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private EndNode _theEndPoint=new EndNode();\n",workflowInstantiator.content)
+		assertEquals("    public EndNode _theEndPoint=new EndNode();\n",workflowInstantiator.content)
 	end
 }

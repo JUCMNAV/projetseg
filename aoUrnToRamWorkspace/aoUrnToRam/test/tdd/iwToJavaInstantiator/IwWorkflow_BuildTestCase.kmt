@@ -67,7 +67,7 @@ class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaIn
 	operation testToWorkflowInstantiator_ShouldAppendDeclareAndInitializeWorkflow() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
-		assertStringContains("private Workflow _workflow=new Workflow();\n",workflowInstantiator.content)
+		assertStringContains("public Workflow workflow=new Workflow();\n",workflowInstantiator.content)
 	end
 	
 	

@@ -25,7 +25,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private Condition _theOrFork_theCondition=createCondition(\"theCustomizableClassSubPackage.theStep.theOrFork_theCondition\");\n"
+		assertEquals("    public Condition _theOrFork_theCondition=createCondition(\"theCustomizableClassSubPackage.theStep.theOrFork_theCondition\");\n"
 					,workflowInstantiator.content)
 	end
 

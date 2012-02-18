@@ -7,6 +7,10 @@ using javaInstantiator
 using aoUrnToRam::util //stle:think about this
 
 aspect class IwWorkflow {
+
+//*********************************************************
+//Properties
+//*********************************************************/
 	property readonly jiSUBPACKAGE:String 
 	getter is do
 		//STLE:DRY with other trans
@@ -42,14 +46,28 @@ aspect class IwWorkflow {
 	getter is do
 		result:=jiPackageName+"."+workflowInstantiatorName
 	end
+	
+	property readonly jiBindMethodParam:String 
+	getter is do
+		result:=workflowInstantiatorFullyQualifiedName+" "+jiBindMethod_PluginParamName
+	end
+	
+	property readonly jiBindMethod_PluginParamName:String 
+	getter is do
+		result:="p_"+name
+	end
+	
 
+//*********************************************************
+//jiToWorkflowInstantiator
+//*********************************************************/
 	operation jiToWorkflowInstantiator():WorkflowInstantiator is do
 		result:=WorkflowInstantiator.new.initialize_WorkflowInstantiator(jiWorkspacePath,jiCustomizedClassSubPackage)
 		jiAppendContent(result)
 	end
 	
 	operation jiAppendContent(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendPackage(workflowInstantiator)
+		workflowInstantiator.appendPackage(jiPackageName)
 		jiAppendImports(workflowInstantiator)
 		
 		jiAppendClassPre(workflowInstantiator)
@@ -66,10 +84,6 @@ aspect class IwWorkflow {
 		jiAppendClassPost(workflowInstantiator)
 	end
 	
-	operation jiAppendPackage(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendPackage(jiPackageName)
-	end
-	
 	operation jiAppendImports(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendImport("ram.reactiveworkflow.*")
 		workflowInstantiator.appendImport("ram.workflow.*")
@@ -83,7 +97,7 @@ aspect class IwWorkflow {
 	end
 
 	operation jiAppendBuildStatements(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.append("private Workflow _workflow=new Workflow();\n")
+		workflowInstantiator.appendPublicMemberDefaultConstructor("Workflow",workflowInstantiator.workflowMemberName)
 		nodes.each{node|node.jiAppendBuildStatement(workflowInstantiator)}
 	end
 	
@@ -122,16 +136,8 @@ aspect class IwWorkflow {
 		stubs.each{stub|stub.staticPluginBinding.jiAppendBindStatement(workflowInstantiator)}
 		workflowInstantiator.appendMethod_Post	
 	end
-
-	operation jiBindMethodParam():String is do
-		result:=workflowInstantiatorFullyQualifiedName+" "+jiBindMethod_PluginParamName
-	end
 	
 	operation jiAppendClassPost(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.append("}\n")	
-	end
-
-	operation jiBindMethod_PluginParamName():String is do
-		result:="p_"+name
 	end
 }

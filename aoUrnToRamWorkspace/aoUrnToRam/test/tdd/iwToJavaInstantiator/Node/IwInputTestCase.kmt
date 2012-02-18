@@ -19,6 +19,6 @@ class IwToJavaInstantiator_IwInputTestCase inherits TestCase,IwToJavaInstantiato
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private InputNode _theInput=new InputNode();\n",workflowInstantiator.content)
+		assertEquals("    public InputNode _theInput=new InputNode();\n",workflowInstantiator.content)
 	end
 }

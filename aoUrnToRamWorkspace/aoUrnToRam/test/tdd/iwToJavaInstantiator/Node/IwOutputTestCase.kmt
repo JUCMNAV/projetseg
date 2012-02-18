@@ -20,7 +20,7 @@ class IwToJavaInstantiator_IwOutputTestCase inherits TestCase,IwToJavaInstantiat
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private CustomizableNode _theOutput=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theOutput\");\n",workflowInstantiator.content)
+		assertEquals("    public CustomizableNode _theOutput=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theOutput\");\n",workflowInstantiator.content)
 	end
 	
 

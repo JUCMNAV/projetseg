@@ -12,12 +12,11 @@ aspect class IwNode {
 	end
 	
 	operation jiAppendWorkflowNodeMember(workflowInstantiator:WorkflowInstantiator,workflowNodeType:String) is do
-		var initialization:String init "new "+workflowNodeType+"()"
-		workflowInstantiator.appendMember(workflowNodeType,jiMemberName,initialization)
+		workflowInstantiator.appendPublicMemberDefaultConstructor(workflowNodeType,jiMemberName)
 	end
 	
 	operation jiAppendCustomizableNodeMember(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendMember(
+		workflowInstantiator.appendPublicMember(
 			"CustomizableNode",
 			jiMemberName,
 			jiGetCustomizableNodeMemberInitialization(workflowInstantiator)

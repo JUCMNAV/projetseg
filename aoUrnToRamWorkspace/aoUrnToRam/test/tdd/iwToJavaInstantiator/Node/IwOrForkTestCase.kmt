@@ -22,7 +22,7 @@ class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiat
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertStringContains("    private ConditionalExecutionNode _theOrFork=new ConditionalExecutionNode();\n",workflowInstantiator.content)
+		assertStringContains("    public ConditionalExecutionNode _theOrFork=new ConditionalExecutionNode();\n",workflowInstantiator.content)
 	end
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
@@ -32,6 +32,6 @@ class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiat
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertStringContainsNTime(2,"private Condition ",workflowInstantiator.content)
+		assertStringContainsNTime(2,"public Condition ",workflowInstantiator.content)
 	end
 }

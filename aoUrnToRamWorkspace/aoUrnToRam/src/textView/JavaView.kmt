@@ -19,8 +19,12 @@ class JavaView inherits TextView{
 		append(";\n")
 	end
 
-	operation appendMember(type:String,name:String,initialization:String) is do
-		appendIndent(1,"private ")
+	operation appendPublicMemberDefaultConstructor(type:String,name:String) is do
+		appendPublicMember(type,name,"new "+type+"()")
+	end
+
+	operation appendPublicMember(type:String,name:String,initialization:String) is do
+		appendIndent(1,"public ")
 		append(type)
 		append(" ")
 		append(name)

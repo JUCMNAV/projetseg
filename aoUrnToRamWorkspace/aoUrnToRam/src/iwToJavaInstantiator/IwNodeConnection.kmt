@@ -12,7 +12,7 @@ aspect class IwNodeConnection
 //Build
 //*********************************************************/
 	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendMember(
+		workflowInstantiator.appendPublicMember(
 			"Condition",
 			jiConditionInstanceName,
 			jiGetConditionMemberInitialization(workflowInstantiator)

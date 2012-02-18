@@ -21,6 +21,6 @@ class IwToJavaInstantiator_IwStubTestCase inherits TestCase,IwToJavaInstantiator
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
-		assertEquals("    private StubNode _theStub=new StubNode();\n",workflowInstantiator.content)
+		assertEquals("    public StubNode _theStub=new StubNode();\n",workflowInstantiator.content)
 	end
 }

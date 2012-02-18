@@ -7,8 +7,8 @@ using javaInstantiator
 using aoUrnToRam
 
 aspect class IwModel {
-	operation jiToJavaInstantiator():TextView[0..*] is do
-		result:=OrderedSet<TextView>.new
+	operation jiToJavaInstantiator():WorkflowInstantiator[0..*] is do
+		result:=OrderedSet<WorkflowInstantiator>.new
 		concerns.each{concern|
 			concern.workflows.each{workflow|
 				result.add(workflow.jiToWorkflowInstantiator)
