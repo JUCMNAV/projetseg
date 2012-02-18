@@ -12,6 +12,7 @@ aspect class IwPluginBinding{
 		workflowInstantiator.appendMethodInvocationOn_1Param(stub.jiMemberName,"addBinding",jiLocalVarName)
 		
 		inBindings.each{inBinding|inBinding.jiAppendBindStatement(workflowInstantiator)}
+		outBindings.each{outBinding|outBinding.jiAppendBindStatement(workflowInstantiator)}
 	end
 	
 	operation jiLocalVarName():String is do 

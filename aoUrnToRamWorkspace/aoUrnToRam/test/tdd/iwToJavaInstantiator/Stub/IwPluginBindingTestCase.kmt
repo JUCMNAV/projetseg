@@ -48,4 +48,23 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 			createIwStartPoint.withWorkflow(plugin)
 		).withPluginBinding(sut)
 	end
+	
+	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnOutBindings() is do
+		//stle: maitain after dynamic stubs
+		var plugin:IwWorkflow init createIwPlugin
+		addOutBinding(1,plugin)
+		addOutBinding(2,plugin) 
+	
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertStringContainsNTime(2,".addOutBinding",workflowInstantiator.content)
+	end
+	
+	operation addOutBinding(stubExitIndex:Integer,plugin:IwWorkflow) is do
+		createIwOutBinding(
+			createIwNodeConnection.withStubExitIndex(stubExitIndex),
+			createIwEndPoint.withWorkflow(plugin)
+		).withPluginBinding(sut)
+	end
+	
 }
