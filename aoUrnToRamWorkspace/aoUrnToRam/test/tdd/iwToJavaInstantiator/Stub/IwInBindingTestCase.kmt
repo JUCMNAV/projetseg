@@ -11,16 +11,18 @@ class IwToJavaInstantiator_IwInBindingTestCase inherits TestCase,IwToJavaInstant
 {
 	reference sut:IwInBinding
 	reference workflowInstantiator:WorkflowInstantiator
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldAddInBinding() is do
+		var plugin:IwWorkflow init createIwPlugin
 		sut:=createIwInBinding(
 				createIwNodeConnection.withStubEntryIndex(1),
-				createIwStartPoint.withWorkflow(createIwPlugin)
+				setupStartPointWithDefaultTarget(plugin)
 		).withPluginBinding(createIwPluginBinding.withStub(createIwStub))
 		workflowInstantiator:=createWorkflowInstantiator
 	
 		sut.jiAppendBindStatement(workflowInstantiator)
 		
-		assertEquals("        _theStub.addInBinding(l_theStub_PluginBinding,\"1\",p_thePlugin._theStartPoint);\n",workflowInstantiator.content)
+		assertEquals("        _theStub.addInBinding(l_theStub_PluginBinding,\"1\",p_thePlugin._theInput);\n",workflowInstantiator.content)
 	end
 }

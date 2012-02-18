@@ -20,6 +20,7 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldDeclareAndInitializeBinding() is do
 		sut.jiAppendBindStatement(workflowInstantiator)
 		
@@ -31,6 +32,7 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 		,workflowInstantiator.content)
 	end
 
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
 		//stle: maitain after dynamic stubs
 		var plugin:IwWorkflow init createIwPlugin
@@ -45,10 +47,11 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 	operation addInBinding(stubEntryIndex:Integer,plugin:IwWorkflow) is do
 		createIwInBinding(
 			createIwNodeConnection.withStubEntryIndex(stubEntryIndex),
-			createIwStartPoint.withWorkflow(plugin)
+			setupStartPointWithDefaultTarget(plugin)
 		).withPluginBinding(sut)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnOutBindings() is do
 		//stle: maitain after dynamic stubs
 		var plugin:IwWorkflow init createIwPlugin

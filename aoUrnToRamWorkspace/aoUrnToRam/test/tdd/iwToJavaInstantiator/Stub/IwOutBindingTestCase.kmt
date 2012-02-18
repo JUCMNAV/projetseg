@@ -11,7 +11,8 @@ class IwToJavaInstantiator_IwOutBindingTestCase inherits TestCase,IwToJavaInstan
 {
 	reference sut:IwOutBinding
 	reference workflowInstantiator:WorkflowInstantiator
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldAddInBinding() is do
 		sut:=createIwOutBinding(
 				createIwNodeConnection.withStubExitIndex(1),

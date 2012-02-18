@@ -16,13 +16,15 @@ class IwToJavaInstantiator_IwNodeTestCase inherits TestCase,IwToJavaInstantiator
 		sut:=createIwInput
 		workflowInstantiator:=createWorkflowInstantiator
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkNodesToWorkflowStatement_ShouldLinkNodeToWorkflow() is do
 		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
 		
 		assertEquals("        workflow.addNode(_theInput);\n",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStartNodesToWorkflowStatement_NotStartPoint_ShouldNotLinkStartNodesToWorkflow() is do
 		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
 		

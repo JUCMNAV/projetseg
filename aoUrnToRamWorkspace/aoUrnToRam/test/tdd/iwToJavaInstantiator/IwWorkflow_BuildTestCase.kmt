@@ -54,7 +54,8 @@ class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaIn
 		assertStringContains("\n\npublic class theWorkflowWorkflowInstantiator extends WorkflowInstantiator{",workflowInstantiator.content)
 		assertStringEndsWith("}\n",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBuildStatement_ShouldInvokeAppendBuildStatementOnNodes() is do
 		createIwInput.withWorkflow(sut)
 		createIwInput.withWorkflow(sut)
@@ -63,7 +64,8 @@ class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaIn
 		
 		assertStringContainsNTime(2,"new InputNode",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testToWorkflowInstantiator_ShouldAppendDeclareAndInitializeWorkflow() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		

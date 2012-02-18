@@ -12,7 +12,7 @@ class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiato
 {
 	reference sut:IwModel
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToJavaInstantiator_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
 		sut:=createIwModel
 		var concern1:IwConcern init createIwConcern_Model(sut)

@@ -38,7 +38,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("        _theCustomizableNode.addNextNode(_theEndPoint);\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_NodeToStub_ShouldLinkSourceToTargetInPath() is do
 		sut:=linkNodes(createIwCustomizableNode,createIwStub)
 		sut.stubEntryIndex:=1
@@ -48,7 +49,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("        _theCustomizableNode.addNextNode(_theStub,\"1\");\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_StubToNode_ShouldLinkSourceOutPathToTarget() is do
 		sut:=linkNodes(createIwStub,createIwCustomizableNode)
 		sut.stubExitIndex:=1
@@ -58,7 +60,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("        _theStub.addNextNode(\"1\",_theCustomizableNode);\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_StubToStub_ShouldLinkSourceOutPathToTargetInPath() is do
 		sut:=linkNodes(createIwStub,createIwStub)
 		sut.target.name:="anotherStub"
@@ -80,7 +83,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 		assertEquals("        _theOrFork.addNextNode(\"theCondition\",_theEndPoint,_theOrFork_theCondition);\n"
 					,workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_OrForkToStub_ShouldLinkSourceToTargetInPathWithCondition() is do
 		sut:=withCondition(linkNodes(createIwOrFork,createIwStub))
 		sut.stubEntryIndex:=1

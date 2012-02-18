@@ -119,6 +119,12 @@ Node
 		result.name:="theStartPoint"
 		result.startPointType:="global"
 	end
+	
+	operation setupStartPointWithDefaultTarget(workflow:IwWorkflow):IwStartPoint is do
+		result:=createIwStartPoint.withWorkflow(workflow)
+		result.connect(createIwInput.withWorkflow(workflow)) 
+	end
+	
 
 	operation createIwStartPoint_Workflow(workflow:IwWorkflow):IwStartPoint is do
 		result:=createIwStartPoint

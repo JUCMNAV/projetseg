@@ -23,7 +23,7 @@ aspect class IwStartPoint{
 			workflowInstantiator.appendMethodInvocationOn_1Param(
 				workflowInstantiator.workflowMemberName,
 				"addStartupNode",
-				targets.one.jiMemberName //stle:single again
+				target.jiMemberName
 			)
 		end
 	end

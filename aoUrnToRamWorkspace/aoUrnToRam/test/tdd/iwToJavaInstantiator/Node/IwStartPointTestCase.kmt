@@ -17,14 +17,16 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)
 	end
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
 		linkNodes(sut,createIwCustomizableNode)
 		linkNodes(sut,createIwCustomizableNode)
@@ -33,13 +35,15 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		
 		assertEquals("",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkNodesToWorkflowStatement_ShouldNotLinkStartPointToWorkflow() is do
 		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStartNodesToWorkflowStatement_NotBound_ShouldLinkStartNodesToWorkflow() is do
 		sut.withStartPointType("global").connect(createIwInput)
 	
@@ -47,7 +51,8 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		
 		assertEquals("        workflow.addStartupNode(_theInput);\n",workflowInstantiator.content)
 	end
-	
+
+	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStartNodesToWorkflowStatement_Bound_ShouldNotLinkStartNodesToWorkflow() is do
 		sut.withStartPointType("bound").connect(createIwInput)
 	
