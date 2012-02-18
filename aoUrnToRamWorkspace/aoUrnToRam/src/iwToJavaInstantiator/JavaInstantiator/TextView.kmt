@@ -16,6 +16,11 @@ class TextView{
 		result:=self
 	end
 	
+	property readonly content : String
+	getter is do
+		result:=_content.toString
+	end
+	
 	operation append(toAppend:String) is do
 		_content.append(toAppend)
 	end
@@ -44,11 +49,5 @@ class TextView{
 			end
 			append(parse(e))
 		}
-	end
-	
-	
-	property readonly content : String
-	getter is do
-		result:=_content.toString
 	end
 }
