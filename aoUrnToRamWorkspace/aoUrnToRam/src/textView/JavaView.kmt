@@ -1,6 +1,6 @@
 package javaInstantiator;
 
-require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/JavaInstantiator/TextView.kmt"
+require "platform:/resource/aoUrnToRam/src/textView/TextView.kmt"
 
 using kermeta::standard
 using kermeta::utils
