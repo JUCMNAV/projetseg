@@ -7,4 +7,6 @@ using javaInstantiator
 using aoUrnToRam::util //stle:think about this
 
 aspect class IwWorkflow {
+	operation jpAppendImport(javaProgram:JavaProgram) is do
+	end
 }

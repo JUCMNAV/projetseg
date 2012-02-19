@@ -15,6 +15,6 @@ class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory
 {
 	operation createJavaProgram():JavaProgram is do
 		result:=JavaProgram.new
-		result.initialize("Program")//stle: not too sure
+		result.initialize("theModel")//stle: not too sure
 	end
 }

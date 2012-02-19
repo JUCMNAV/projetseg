@@ -17,10 +17,23 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		sut:=createIwModel
 	end
 	
-	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToJavaProgram_ShouldInitWorkspacePath() is do
 		javaProgram:=sut.jiToJavaProgram
 		
 		assertEquals("Program",javaProgram.workspacePath)
 	end
+
+	operation testToJavaProgram_ShouldAppendPackage() is do
+		javaProgram:=sut.jiToJavaProgram
+		
+		assertStringStartsWith("package theModel;\n\n",javaProgram.content)
+	end
+	
+	operation testToWorkflowInstantiator_ShouldAppendImportReactiveWorkflowSystem() is do
+		javaProgram:=sut.jiToJavaProgram
+		
+		assertStringContains( "import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaProgram.content)
+	end
+	
+	
 }

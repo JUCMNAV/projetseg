@@ -10,6 +10,10 @@ aspect class IwModel {
 	operation jiToJavaProgram():JavaProgram is do
 		result:=JavaProgram.new
 		result.initialize("Program")
+		
+		result.appendPackage(name)
+		
+		result.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
 
 /*
 		concerns.each{concern|

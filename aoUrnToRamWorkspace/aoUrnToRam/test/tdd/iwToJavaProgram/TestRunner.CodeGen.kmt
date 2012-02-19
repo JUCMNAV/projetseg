@@ -9,6 +9,7 @@ package aoUrnToRam::test;
 require kermeta
 
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/IwModelTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/IwWorkflowTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
@@ -19,5 +20,6 @@ class IwToJavaProgram_TestRunner inherits CustomTestRunner
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
 		result.add(IwToJavaProgram_IwModelTestCase)
+		result.add(IwToJavaProgram_IwWorkflowTestCase)
 	end
 }

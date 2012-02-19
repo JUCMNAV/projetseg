@@ -1,0 +1,28 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+using aoUrnToRam
+
+class IwToJavaProgram_IwWorkflowTestCase inherits TestCase,IwToJavaProgram_TestHelper
+{
+	reference sut:IwWorkflow
+	reference javaProgram:JavaProgram
+	
+	method setUp() is do
+		sut:=createIwWorkflow
+		javaProgram:=createJavaProgram
+	end
+
+	operation testAppendImport_ShouldAppendImport() is do
+		sut.jpAppendImport(javaProgram)
+		
+		assertStringContains( "import theModel.Instantiators.theConcern.theWorkflowWorkflowInstantiator;\n",javaProgram.content)
+	end
+	
+	
+}
