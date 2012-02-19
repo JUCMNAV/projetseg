@@ -1,0 +1,23 @@
+@mainClass "aoUrnToRam::test::IwToJavaProgram_TestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+//To regenerate
+//Run: aoUrnToRam.codegen.TestRunnerCodeGenerator
+//Args: ${resource_loc} ${project_name}
+
+require kermeta
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/IwModelTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class IwToJavaProgram_TestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(IwToJavaProgram_IwModelTestCase)
+	end
+}

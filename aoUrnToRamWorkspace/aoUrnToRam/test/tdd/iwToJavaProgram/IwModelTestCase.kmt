@@ -1,0 +1,26 @@
+package aoUrnToRam::test;
+
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+using aoUrnToRam
+
+class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelper
+{
+	reference sut:IwModel
+	reference javaProgram:JavaProgram
+	
+	method setUp() is do
+		sut:=createIwModel
+	end
+	
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToJavaProgram_ShouldInitWorkspacePath() is do
+		javaProgram:=sut.jiToJavaProgram
+		
+		assertEquals("Program",javaProgram.workspacePath)
+	end
+}

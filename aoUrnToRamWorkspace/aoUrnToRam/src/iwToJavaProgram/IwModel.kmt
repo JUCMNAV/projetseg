@@ -1,0 +1,21 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+using aoUrnToRam
+
+aspect class IwModel {
+	operation jiToJavaProgram():JavaProgram is do
+		result:=JavaProgram.new
+		result.initialize("Program")
+
+/*
+		concerns.each{concern|
+			concern.workflows.each{workflow|
+				result.add(workflow.jiToWorkflowInstantiator)
+			}
+		}*/
+	end
+}

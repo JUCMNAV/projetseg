@@ -1,0 +1,20 @@
+package aoUrnToRam::test;
+
+require kermeta
+//stle: factory is common to IwToIw and IwToRam
+require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/src/Util.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory
+{
+	operation createJavaProgram():JavaProgram is do
+		result:=JavaProgram.new
+		result.initialize("Program")//stle: not too sure
+	end
+}

@@ -1,0 +1,10 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+using aoUrnToRam::util //stle:think about this
+
+aspect class IwWorkflow {
+}

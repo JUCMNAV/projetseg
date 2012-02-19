@@ -1,0 +1,16 @@
+package javaInstantiator;
+
+require "platform:/resource/aoUrnToRam/src/textView/JavaView.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using aoUrnToRam
+
+class JavaProgram inherits JavaView{
+
+	//stle: think about that
+	property readonly workflowMemberName:String 
+	getter is do	//stle:dry: mixin again	
+		result:="workflow"
+	end
+}

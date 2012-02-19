@@ -2,6 +2,7 @@ package intermediateWorkflow;
 
 require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require "platform:/resource/aoUrnToRam/src/textView/IwWorkflow.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

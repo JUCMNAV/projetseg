@@ -11,40 +11,9 @@ aspect class IwWorkflow {
 //*********************************************************
 //Properties
 //*********************************************************/
-	property readonly jiSUBPACKAGE:String 
-	getter is do
-		//STLE:DRY with other trans
-		result:="Instantiators"
-	end
-	
-	property readonly jiWORKFLOW_INSTANTIATOR_BASE_CLASS:String 
-	getter is do
-		result:="WorkflowInstantiator"
-	end
-
 	property readonly jiCustomizedClassSubPackage:String 
 	getter is do
 		result:=model.name+".Steps."+concern.name
-	end
-	
-	property readonly jiWorkspacePath:String 
-	getter is do
-		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,workflowInstantiatorName))
-	end
-	
-	property readonly jiPackageName:String 
-	getter is do
-		result:=model.name+"."+jiSUBPACKAGE+"."+concern.name
-	end
-
-	property readonly workflowInstantiatorName:String 
-	getter is do
-		result:=name+jiWORKFLOW_INSTANTIATOR_BASE_CLASS
-	end
-
-	property readonly workflowInstantiatorFullyQualifiedName:String 
-	getter is do
-		result:=jiPackageName+"."+workflowInstantiatorName
 	end
 	
 	property readonly jiBindMethodParam:String 
@@ -57,6 +26,10 @@ aspect class IwWorkflow {
 		result:="p_"+name
 	end
 	
+	property readonly jiWorkspacePath:String 
+	getter is do
+		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,workflowInstantiatorName))
+	end
 
 //*********************************************************
 //jiToWorkflowInstantiator

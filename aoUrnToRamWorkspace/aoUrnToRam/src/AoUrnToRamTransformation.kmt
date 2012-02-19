@@ -7,7 +7,9 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/src/ModelRepository.kmt"
+require "platform:/resource/aoUrnToRam/src/textView/TextView.kmt"
 
 using kermeta::persistence
 using kermeta::standard
@@ -52,6 +54,7 @@ class AoUrnToRamTransformation
 		outputRamStepClassDiagram(iwModel,ramWorkspaceAbsoluteFolderUri)
 		outputRamStepView(iwModel,ramWorkspaceAbsoluteFolderUri)
 		ouptutRamJavaInstantiator(iwModel,ramWorkspaceAbsoluteFolderUri)
+		ouptutRamJavaProgram(iwModel,ramWorkspaceAbsoluteFolderUri)
 	end
 	
 	operation loadUrnSpec(absoluteFileUri:String):URNspec is do
@@ -106,10 +109,18 @@ class AoUrnToRamTransformation
 	end
 	
 	operation ouptutRamJavaInstantiator(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
-		iwModel.jiToJavaInstantiator.each{textFile|
-			var textFileAbsoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,textFile.workspacePath)+".java"
-			FileIO.new.writeTextFile(textFileAbsoluteFileUri,textFile.content)
+		iwModel.jiToJavaInstantiator.each{workflowInstantiator|
+			ouptutTextView(workflowInstantiator,ramWorkspaceAbsoluteFolderUri,".java")
 		}
+	end
+	
+	operation ouptutRamJavaProgram(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
+		ouptutTextView(iwModel.jiToJavaProgram,ramWorkspaceAbsoluteFolderUri,".java")
+	end
+	
+	operation ouptutTextView(textView:TextView,ramWorkspaceAbsoluteFolderUri:String,extension:String) is do
+		var absoluteFileUri:String init Path.new.combine(ramWorkspaceAbsoluteFolderUri,textView.workspacePath)+extension
+		FileIO.new.writeTextFile(absoluteFileUri,textView.content)
 	end
 	
 	operation aoUrnToIw(urnSpec:URNspec):IwModel is do
