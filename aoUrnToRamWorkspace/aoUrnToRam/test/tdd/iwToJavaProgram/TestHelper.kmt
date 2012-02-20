@@ -14,4 +14,13 @@ using aoUrnToRam
 
 class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory,TextViewFactory
 {
+	operation bindToPluginStartPoint(workflow:IwWorkflow,pluginStartPoint:IwStartPoint) is do
+		createIwInBinding(
+			createIwNodeConnection,
+			pluginStartPoint
+		)
+		.withPluginBinding(
+			createIwPluginBinding.withStub(createIwStub.withWorkflow(workflow))
+		)
+	end
 }

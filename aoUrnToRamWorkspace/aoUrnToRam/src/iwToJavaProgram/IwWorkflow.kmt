@@ -18,6 +18,12 @@ aspect class IwWorkflow {
 		javaView.appendMethodInvocationOn_0Param(jpLocalVar,"link")
 	end
 	
+	operation jpAppendBind(javaView:JavaView) is do
+		var dependees:Sequence<String> init 
+		plugins.collect{plugin|plugin.jpLocalVar}
+		javaView.appendMethodInvocationOn_NParams(jpLocalVar,"bind",dependees)
+	end
+	
 	operation jpAppendAddWorkflow(javaView:JavaView) is do
 		javaView.appendMethodInvocationOn_1Param(
 			model.reactiveWorkflowSystemLocalVar,

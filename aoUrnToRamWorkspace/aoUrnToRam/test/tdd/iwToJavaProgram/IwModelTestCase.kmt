@@ -77,7 +77,17 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	
 		javaView:=sut.jpToJavaProgram
 		
-		assertStringContainsNTime(2,".link()",javaView.content)
+		assertStringContainsNTime(2,".link",javaView.content)
+	end
+
+	operation testToJavaView_OnePluginBoundTwice_ShouldInvokeAppendBindOnWorkflows() is do
+		var pluginStartPoint:IwStartPoint init setupStartPointWithDefaultTarget(createIwPlugin)
+		setupWorkflowBoundToPluginStartPoint(pluginStartPoint)
+		setupWorkflowBoundToPluginStartPoint(pluginStartPoint)
+	
+		javaView:=sut.jpToJavaProgram
+		
+		assertStringContainsNTime(2,".bind",javaView.content)
 	end
 
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendAddWorkflow() is do
@@ -85,11 +95,18 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	
 		javaView:=sut.jpToJavaProgram
 		
-		assertStringContainsNTime(2,".addWorkflow()",javaView.content)
+		assertStringContainsNTime(2,".addWorkflow",javaView.content)
 	end
 	
 	operation setupTwoWorkflowsDifferentConcerns() is do
 		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
 		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+	end
+	
+	operation setupWorkflowBoundToPluginStartPoint(pluginStartPoint:IwStartPoint) is do
+		bindToPluginStartPoint(
+			createIwWorkflow.withConcern(createIwConcern.withModel(sut)),
+			pluginStartPoint
+		)
 	end
 }
