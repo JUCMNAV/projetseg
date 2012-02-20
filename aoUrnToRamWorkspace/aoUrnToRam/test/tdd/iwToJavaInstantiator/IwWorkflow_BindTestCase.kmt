@@ -44,15 +44,6 @@ class IwToJavaInstantiator_IwWorkflow_BindTestCase inherits TestCase,IwToJavaIns
 	end
 
 	@feature "FeaWorkflowInstantiationWithStubs"
-	operation testToWorkflowInstantiator_PluginFromDifferentConcern_ShouldHaveFullQualifiedNameWithDifferentConcern() is do
-		bindPlugin(createIwConcern.withModel(sut.model).withName("theDifferentConcern"))
-		
-		workflowInstantiator:=sut.jiToWorkflowInstantiator
-		
-		assertStringContains("theModel.Instantiators.theDifferentConcern.thePlugin",workflowInstantiator.content)
-	end	
-
-	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testToWorkflowInstantiator_TwoPlugins_ShouldInvokeAppendBindStatementOnPluginBindings() is do
 		//stle: update once dynamic stub are supported: one stub may have many pluginBindings
 		bindPlugin(sut.concern).withName("thePlugin1")

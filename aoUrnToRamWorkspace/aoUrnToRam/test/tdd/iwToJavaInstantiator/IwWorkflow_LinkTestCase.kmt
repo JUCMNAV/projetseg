@@ -20,7 +20,14 @@ class IwToJavaInstantiator_IwWorkflow_LinkTestCase inherits TestCase,IwToJavaIns
 		@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testToWorkflowInstantiator_ShouldAppendLinkMethod() is do
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
-		
+
+CustomAssert.new.assertEquals(true,
+"\n    public".contains(
+"
+    public")
+)
+
+
 		assertStringContains(
 "
     public void link(){
