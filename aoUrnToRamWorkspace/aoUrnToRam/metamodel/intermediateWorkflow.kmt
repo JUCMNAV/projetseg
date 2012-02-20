@@ -97,6 +97,7 @@ class IwWaitingPlace inherits IwNode
 
 class IwStub inherits IwNode
 {
+	attribute stubType:String
 	attribute pluginBindings:IwPluginBinding[0..*]#stub
 	reference outboundInSteps:IwStep[0..*]#outboundStubs 
 }

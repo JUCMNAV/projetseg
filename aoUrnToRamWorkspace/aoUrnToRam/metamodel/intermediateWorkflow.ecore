@@ -136,6 +136,11 @@
       </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwStub" eSuperTypes="#/1/IwNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubType" eType="#/1/String">
+        <eAnnotations source="kermeta">
+          <details key="isComposite" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBindings" upperBound="-1"
           eType="#/1/IwPluginBinding" containment="true" eOpposite="#/1/IwPluginBinding/stub"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outboundInSteps" upperBound="-1"

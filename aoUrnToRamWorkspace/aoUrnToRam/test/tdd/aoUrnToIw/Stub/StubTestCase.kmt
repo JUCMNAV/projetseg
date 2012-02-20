@@ -14,6 +14,16 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testBuild_ShouldBuildEquivalentNodeAfterInput() is do
 		sut:=createStub
 		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(sut)
+		assertEquals("static",sut.iwStub.stubType)
+	end
+	
+	operation testBuild_AspectMarker_ShouldSetStubTypeToAspectMarker() is do
+		sut:=createStub
+		sut.~aspect:=AspectKind.Regular	
+		sut.build
+		
+		assertNotVoid(sut.iwStub)
+		assertEquals("aspectMarker",sut.iwStub.stubType)
 	end
 	
 	@feature "FeaTransformStaticStub"

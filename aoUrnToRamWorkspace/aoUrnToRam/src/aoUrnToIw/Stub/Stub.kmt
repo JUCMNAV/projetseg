@@ -13,6 +13,7 @@ aspect class Stub {
 	method buildIwNodeTemplate() is do
 		iwStub:=IwStub.new
 		iwStub.name:=nameOrPrefixId("Stub")
+		iwStub.stubType:=iwStubType
 		//Will never have OutIn expression for stub, but superclass behaviour is still reused
 		addIwEquivalentNodeAfterOutIn(iwStub)
 		
@@ -48,6 +49,15 @@ aspect class Stub {
 	
 	operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
 		iwStub.pluginBindings.add(iwPluginBinding)
+	end
+	
+	property readonly iwStubType:String
+	getter is do
+		if(~aspect.isVoid) then
+			result:="static"
+		else
+			result:="aspectMarker"
+		end
 	end
 }
 
