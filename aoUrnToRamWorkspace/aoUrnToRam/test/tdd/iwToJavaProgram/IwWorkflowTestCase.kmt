@@ -17,25 +17,29 @@ class IwToJavaProgram_IwWorkflowTestCase inherits TestCase,IwToJavaProgram_TestH
 		javaView:=createJavaView
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testAppendImport() is do
 		sut.withConcern(createIwConcern.withModel(createIwModel))
 		sut.jpAppendImport(javaView)
 		
 		assertStringContains( "import theModel.Instantiators.theConcern.theWorkflowWorkflowInstantiator;\n",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testAppendBuild() is do
 		sut.jpAppendBuild(javaView)
 		
 		assertStringContains("theWorkflowWorkflowInstantiator l_theWorkflowWorkflowInstantiator=new theWorkflowWorkflowInstantiator();\n",javaView.content)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testAppendLink() is do
 		sut.jpAppendLink(javaView)
 		
 		assertStringContains("l_theWorkflowWorkflowInstantiator.link();\n",javaView.content)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testAppendBind_WithTwoPlugins_ShouldAppendBindWithTwoParams() is do
 		setupPlugin.withName("thePlugin1")
 		setupPlugin.withName("thePlugin2")
@@ -44,7 +48,8 @@ class IwToJavaProgram_IwWorkflowTestCase inherits TestCase,IwToJavaProgram_TestH
 		
 		assertStringContains("l_theWorkflowWorkflowInstantiator.bind(l_thePlugin1WorkflowInstantiator,l_thePlugin2WorkflowInstantiator);\n",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testAppendAddWorkflow() is do
 		sut.withConcern(createIwConcern.withModel(createIwModel))
 		

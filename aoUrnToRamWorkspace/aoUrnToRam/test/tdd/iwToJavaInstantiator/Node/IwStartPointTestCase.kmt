@@ -17,16 +17,14 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
-	@feature "FeaWorkflowInstantiationWithStubs"
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)
 	end
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
-	@feature "FeaWorkflowInstantiationWithStubs"
+	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendLinkStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
 		linkNodes(sut,createIwCustomizableNode)
 		linkNodes(sut,createIwCustomizableNode)

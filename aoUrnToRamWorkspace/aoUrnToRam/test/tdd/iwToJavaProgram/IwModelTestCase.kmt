@@ -15,25 +15,29 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	method setUp() is do
 		sut:=createIwModel
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_ShouldInitWorkspacePath() is do
 		javaView:=sut.jpToJavaProgram
 		
 		assertEquals("Program",javaView.workspacePath)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_ShouldAppendPackage() is do
 		javaView:=sut.jpToJavaProgram
 		
 		assertStringStartsWith("package theModel;\n\n",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToWorkflowInstantiator_ShouldAppendImportReactiveWorkflowSystem() is do
 		javaView:=sut.jpToJavaProgram
 		
 		assertStringContains("import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendImportOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
@@ -41,7 +45,8 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		
 		assertStringContainsNTime(2,"import theModel.Instantiators.",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_ShouldAppendClass() is do
 		javaView:=sut.jpToJavaProgram
 		
@@ -49,6 +54,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		assertStringEndsWith("}\n",javaView.content)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_ShouldAppendMainMethodSkeleton() is do
 		javaView:=sut.jpToJavaProgram
 		
@@ -63,7 +69,8 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 "
 		,javaView.content)		
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendBuildOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
@@ -71,7 +78,8 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		
 		assertStringContainsNTime(2,"new theWorkflowWorkflowInstantiator",javaView.content)
 	end
-	
+
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendLinkOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
@@ -80,6 +88,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		assertStringContainsNTime(2,".link",javaView.content)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_OnePluginBoundTwice_ShouldInvokeAppendBindOnWorkflows() is do
 		var pluginStartPoint:IwStartPoint init setupStartPointWithDefaultTarget(createIwPlugin)
 		setupWorkflowBoundToPluginStartPoint(pluginStartPoint)
@@ -90,6 +99,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 		assertStringContainsNTime(2,".bind",javaView.content)
 	end
 
+	@feature "FeaSystemInstantiation"
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendAddWorkflow() is do
 		setupTwoWorkflowsDifferentConcerns
 	

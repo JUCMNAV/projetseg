@@ -40,6 +40,7 @@ aspect class IwModel {
 	
 	operation jpAppendLinkAndBind(javaView:JavaView) is do
 		workflows.each{workflow|
+			javaView.appendNextLine
 			workflow.jpAppendLink(javaView)
 			workflow.jpAppendBind(javaView)
 			workflow.jpAppendAddWorkflow(javaView)
