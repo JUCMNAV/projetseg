@@ -4,13 +4,12 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Re
 
 using kermeta::standard
 
-aspect class IwCustomizableNode {
-
+aspect class IwStub {
 	method inputProcessingNodeAction():String is do
-		if(isShared) then
-			result:="insert"
+		if(isAspectMarker) then
+			result:="continue"
 		else
-			result:="stop"
+			result:="insert"
 		end
 	end
 }

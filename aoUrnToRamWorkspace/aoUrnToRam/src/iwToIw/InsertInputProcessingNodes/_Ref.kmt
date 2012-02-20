@@ -13,4 +13,5 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/Nod
 require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/Node/IwInput.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/Node/IwNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/Node/IwOutput.kmt"
+require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/Stub/IwStub.kmt"
 require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"

@@ -5,7 +5,7 @@ require "platform:/resource/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Re
 using kermeta::standard
 
 aspect class IwOutput {
-	method doesRequireInputProcessingNode():Boolean is do
-		result:=false
+	method inputProcessingNodeAction():String is do
+		result:="stop"
 	end
 }

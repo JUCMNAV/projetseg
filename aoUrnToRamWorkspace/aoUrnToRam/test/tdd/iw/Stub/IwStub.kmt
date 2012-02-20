@@ -16,4 +16,9 @@ aspect class IwStub inherits IwTestFactory
 		self.step:=step
 		result:=self
 	end
+
+	operation withStubType(stubType:String):IwStub is do
+		self.stubType:=stubType
+		result:=self
+	end
 }

@@ -135,4 +135,19 @@ class InsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCase,Inse
 
 		assertNotVoid(input.iwInputProcessingNode)
 	end
+	
+	operation testInsertInputProcessingNode_AspectMarkerAsTarget_ShouldInvokeInsertInputProcessingNodeOnAspectMarkerSucc() is do
+		var target:IwInput init createIwInput
+		var aspectMarker:IwStub init createIwStub.withStubType("aspectMarker")
+		//Observe that input is not directly connected with sut
+		//It is passed by parameter, thus many aspectMarker can be chainned
+		sut:=createIwNodeConnection.withTarget(aspectMarker)
+		linkNodes(aspectMarker,target)
+		
+		sut.insertInputProcessingNode(input)
+
+		assertCollectionHasSingleElement(aspectMarker,input.iwInputProcessingNode.sources)
+		assertCollectionHasSingleElement(target,input.iwInputProcessingNode.targets)
+	end
+	
 }

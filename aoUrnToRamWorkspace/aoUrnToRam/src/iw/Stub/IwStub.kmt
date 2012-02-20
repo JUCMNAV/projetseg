@@ -10,4 +10,10 @@ aspect class IwStub{
 		//stle:Single again
 		result:=pluginBindings.one
 	end
+	
+	property readonly isAspectMarker: Boolean
+	getter is do
+		result:=stubType=="aspectMarker"
+	end
+	
 }

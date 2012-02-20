@@ -9,7 +9,7 @@ aspect class IwNode {
 		//default: do nothing
 	end
 	
-	operation doesRequireInputProcessingNode():Boolean is do
-		result:=true
+	operation inputProcessingNodeAction():String is do
+		result:="insert"
 	end
 }

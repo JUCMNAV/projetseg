@@ -17,5 +17,14 @@ aspect class IwNodeConnection
 		self.stubExitIndex:=theValue
 		result:=self
 	end
+
+	operation withTarget(theValue:IwNode):IwNodeConnection is do
+		self.target:=theValue
+		result:=self
+	end
 	
+	operation withSource(theValue:IwNode):IwNodeConnection is do
+		self.source:=theValue
+		result:=self
+	end
 }
