@@ -9,7 +9,7 @@ require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
-using javaInstantiator
+using javaProgram
 
 class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory
 {

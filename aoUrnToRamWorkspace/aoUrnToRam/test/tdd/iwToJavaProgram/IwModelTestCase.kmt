@@ -5,7 +5,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestHelper.kmt"
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using javaInstantiator
+using javaProgram
 using aoUrnToRam
 
 class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelper
@@ -18,22 +18,61 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	end
 	
 	operation testToJavaProgram_ShouldInitWorkspacePath() is do
-		javaProgram:=sut.jiToJavaProgram
+		javaProgram:=sut.jpToJavaProgram
 		
 		assertEquals("Program",javaProgram.workspacePath)
 	end
 
 	operation testToJavaProgram_ShouldAppendPackage() is do
-		javaProgram:=sut.jiToJavaProgram
+		javaProgram:=sut.jpToJavaProgram
 		
 		assertStringStartsWith("package theModel;\n\n",javaProgram.content)
 	end
 	
 	operation testToWorkflowInstantiator_ShouldAppendImportReactiveWorkflowSystem() is do
-		javaProgram:=sut.jiToJavaProgram
+		javaProgram:=sut.jpToJavaProgram
 		
-		assertStringContains( "import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaProgram.content)
+		assertStringContains("import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaProgram.content)
 	end
 	
+	operation testToJavaProgram_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendImportOnWorkflows() is do
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
 	
+		javaProgram:=sut.jpToJavaProgram
+		
+		assertStringContainsNTime(2,"import theModel.Instantiators.",javaProgram.content)
+	end
+
+	operation testToJavaProgram_TwoWorkflowsSameConcern_ShouldInvokeAppendImportOnWorkflows() is do
+		var concern:IwConcern init createIwConcern.withModel(sut)
+		createIwWorkflow.withConcern(concern)
+		createIwWorkflow.withConcern(concern)
+	
+		javaProgram:=sut.jpToJavaProgram
+		
+		assertStringContainsNTime(2,"import theModel.Instantiators.",javaProgram.content)
+	end
+	
+	operation testToJavaProgram_ShouldAppendClass() is do
+		javaProgram:=sut.jpToJavaProgram
+		
+		assertStringContains("\n\npublic class Program{\n",javaProgram.content)
+		assertStringEndsWith("}\n",javaProgram.content)
+	end
+
+	operation testToJavaProgram_ShouldAppendMainMethodSkeleton() is do
+		javaProgram:=sut.jpToJavaProgram
+		
+		assertStringContains(
+"
+    public static void main(String[] args){
+        ReactiveWorkflowSystem reactiveWorkflowSystem=new ReactiveWorkflowSystem();
+
+
+        reactiveWorkflowSystem.start();
+    }
+"
+		,javaProgram.content)		
+	end
 }

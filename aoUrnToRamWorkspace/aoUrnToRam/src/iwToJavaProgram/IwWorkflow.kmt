@@ -3,10 +3,11 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 
 using kermeta::standard
-using javaInstantiator
+using javaProgram
 using aoUrnToRam::util //stle:think about this
 
 aspect class IwWorkflow {
 	operation jpAppendImport(javaProgram:JavaProgram) is do
+		javaProgram.appendImport(workflowInstantiatorFullyQualifiedName)
 	end
 }

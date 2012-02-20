@@ -1,0 +1,17 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwModel{
+	property readonly workflows:OrderedSet<IwWorkflow>
+	getter is do
+		result:=OrderedSet<IwWorkflow>.new
+		concerns.each{concern|
+			concern.workflows.each{workflow|
+				result.add(workflow)
+			}
+		}
+	end
+}

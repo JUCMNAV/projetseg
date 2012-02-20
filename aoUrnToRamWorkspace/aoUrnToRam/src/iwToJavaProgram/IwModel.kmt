@@ -3,23 +3,49 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 
 using kermeta::standard
-using javaInstantiator
+using javaProgram
 using aoUrnToRam
 
 aspect class IwModel {
-	operation jiToJavaProgram():JavaProgram is do
+	operation jpToJavaProgram():JavaProgram is do
 		result:=JavaProgram.new
-		result.initialize("Program")
-		
-		result.appendPackage(name)
-		
-		result.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
+		result.initialize("Program")//stle:refact this
 
-/*
-		concerns.each{concern|
-			concern.workflows.each{workflow|
-				result.add(workflow.jiToWorkflowInstantiator)
-			}
-		}*/
+		jpAppendContent(result)
 	end
+	
+	operation jpAppendContent(javaProgram:JavaProgram) is do
+		javaProgram.appendPackage(name)
+		jpAppendImports(javaProgram)
+		
+		javaProgram.appendClass_Pre("public class Program")
+		jpAppendMainMethod(javaProgram)
+		javaProgram.appendClass_Post
+	end
+
+	operation jpAppendImports(javaProgram:JavaProgram) is do
+		javaProgram.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
+		workflows.each{workflow|workflow.jpAppendImport(javaProgram)}
+	end
+	
+	operation jpAppendMainMethod(javaProgram:JavaProgram) is do
+		javaProgram.appendMethod_Pre("public static void main(String[] args)")
+		javaProgram.appendLocalVarDefaultConstructor(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
+		javaProgram.appendNextLine
+		
+		javaProgram.appendNextLine
+		javaProgram.appendMethodInvocationOn_0Param(reactiveWorkflowSystemLocalVar,"start")
+		javaProgram.appendMethod_Post
+	end
+	
+	property readonly reactiveWorkflowSystemLocalVar:String 
+	getter is do
+		result:="reactiveWorkflowSystem"
+	end
+	
+	property readonly reactiveWorkflowSystemType:String 
+	getter is do
+		result:="ReactiveWorkflowSystem" //stle:use capitalize first letter function
+	end
+
 }

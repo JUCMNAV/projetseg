@@ -1,4 +1,4 @@
-package javaInstantiator;
+package javaProgram;
 
 require "platform:/resource/aoUrnToRam/src/textView/JavaView.kmt"
 

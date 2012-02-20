@@ -1,4 +1,4 @@
-package javaInstantiator;
+package aoUrnToRam;
 
 require "platform:/resource/aoUrnToRam/src/textView/TextView.kmt"
 
@@ -43,11 +43,26 @@ class JavaView inherits TextView{
 	end
 
 //*********************************************************
+//Class Declaration
+//*********************************************************/
+	operation appendClass_Pre(classHeader:String) is do
+		appendNextLine
+		append(classHeader)
+		append("{\n")	
+	end
+
+	operation appendClass_Post() is do
+		append("}\n")	
+	end
+
+
+//*********************************************************
 //Method Declaration
 //*********************************************************/
 	operation appendMethod_Pre(methodHeader:String) is do
 		appendNextLine
-		appendIndent(1,methodHeader)	
+		appendIndent(1,methodHeader)
+		append("{\n")	
 	end
 
 	operation appendMethod_Post() is do
@@ -65,7 +80,7 @@ class JavaView inherits TextView{
 //*********************************************************
 //MethodInvocationOn
 //*********************************************************/
-	operation appendMethodInvocationOn_0Param(methodOwner:String,methodName:String,param1:String) is do
+	operation appendMethodInvocationOn_0Param(methodOwner:String,methodName:String) is do
 		var params:Sequence<String> init Sequence<String>.new
 		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
 	end

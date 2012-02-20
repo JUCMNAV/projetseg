@@ -8,6 +8,7 @@ require "platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
 //Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
 require "platform:/resource/aoUrnToRam/src/iw/IwCustomizableNode.kmt"
+require "platform:/resource/aoUrnToRam/src/iw/IwModel.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNode.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwNodeConnection.kmt"
 require "platform:/resource/aoUrnToRam/src/iw/IwStartPoint.kmt"
