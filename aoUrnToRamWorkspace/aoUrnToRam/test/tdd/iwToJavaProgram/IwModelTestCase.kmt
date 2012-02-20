@@ -17,19 +17,19 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	end
 	
 	operation testToJavaView_ShouldInitWorkspacePath() is do
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertEquals("Program",javaView.workspacePath)
 	end
 
 	operation testToJavaView_ShouldAppendPackage() is do
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringStartsWith("package theModel;\n\n",javaView.content)
 	end
 	
 	operation testToWorkflowInstantiator_ShouldAppendImportReactiveWorkflowSystem() is do
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContains("import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaView.content)
 	end
@@ -37,20 +37,20 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendImportOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContainsNTime(2,"import theModel.Instantiators.",javaView.content)
 	end
 	
 	operation testToJavaView_ShouldAppendClass() is do
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContains("\n\npublic class Program{\n",javaView.content)
 		assertStringEndsWith("}\n",javaView.content)
 	end
 
 	operation testToJavaView_ShouldAppendMainMethodSkeleton() is do
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContains(
 "
@@ -67,7 +67,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendBuildOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContainsNTime(2,"new theWorkflowWorkflowInstantiator",javaView.content)
 	end
@@ -75,7 +75,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendLinkOnWorkflows() is do
 		setupTwoWorkflowsDifferentConcerns
 	
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContainsNTime(2,".link()",javaView.content)
 	end
@@ -83,7 +83,7 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
 	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendAddWorkflow() is do
 		setupTwoWorkflowsDifferentConcerns
 	
-		javaView:=sut.jpToJavaView
+		javaView:=sut.jpToJavaProgram
 		
 		assertStringContainsNTime(2,".addWorkflow()",javaView.content)
 	end

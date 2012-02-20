@@ -6,7 +6,7 @@ using kermeta::standard
 using aoUrnToRam
 
 aspect class IwModel {
-	operation jpToJavaView():JavaView is do
+	operation jpToJavaProgram():JavaView is do
 		result:=JavaView.new
 		result.initialize("Program")//stle:refact this
 

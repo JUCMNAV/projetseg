@@ -115,7 +115,7 @@ class AoUrnToRamTransformation
 	end
 	
 	operation ouptutRamJavaView(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
-		ouptutTextView(iwModel.jpToJavaView,ramWorkspaceAbsoluteFolderUri,".java")
+		ouptutTextView(iwModel.jpToJavaProgram,ramWorkspaceAbsoluteFolderUri,".java")
 	end
 	
 	operation ouptutTextView(textView:TextView,ramWorkspaceAbsoluteFolderUri:String,extension:String) is do
