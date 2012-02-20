@@ -1,6 +1,6 @@
 package aoUrnToRam;
 
-require "platform:/resource/aoUrnToRam/src/textView/TextView.kmt"
+require "platform:/resource/aoUrnToRam/src/textView/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::utils

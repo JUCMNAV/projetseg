@@ -5,22 +5,41 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestHelper.kmt"
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using javaProgram
 using aoUrnToRam
 
 class IwToJavaProgram_IwWorkflowTestCase inherits TestCase,IwToJavaProgram_TestHelper
 {
 	reference sut:IwWorkflow
-	reference javaProgram:JavaProgram
+	reference javaView:JavaView
 	
 	method setUp() is do
-		sut:=createIwWorkflow.withConcern(createIwConcern.withModel(createIwModel))
-		javaProgram:=createJavaProgram
+		sut:=createIwWorkflow
+		javaView:=createJavaView
 	end
 
 	operation testAppendImport() is do
-		sut.jpAppendImport(javaProgram)
+		sut.withConcern(createIwConcern.withModel(createIwModel))
+		sut.jpAppendImport(javaView)
 		
-		assertStringContains( "import theModel.Instantiators.theConcern.theWorkflowWorkflowInstantiator;\n",javaProgram.content)
+		assertStringContains( "import theModel.Instantiators.theConcern.theWorkflowWorkflowInstantiator;\n",javaView.content)
+	end
+	
+	operation testAppendBuild() is do
+		sut.jpAppendBuild(javaView)
+		
+		assertStringContains("theWorkflowWorkflowInstantiator l_theWorkflowWorkflowInstantiator=new theWorkflowWorkflowInstantiator();\n",javaView.content)
+	end
+
+	operation testAppendLink() is do
+		sut.jpAppendLink(javaView)
+		
+		assertStringContains("l_theWorkflowWorkflowInstantiator.link();\n",javaView.content)
+	end
+
+	operation testAppendAddWorkflow() is do
+		sut.withConcern(createIwConcern.withModel(createIwModel))
+		sut.jpAppendAddWorkflow(javaView)
+		
+		assertStringContains("reactiveWorkflowSystem.addWorkflow(l_theWorkflowWorkflowInstantiator.workflow);\n",javaView.content)
 	end
 }

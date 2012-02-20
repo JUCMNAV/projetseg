@@ -3,39 +3,46 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 
 using kermeta::standard
-using javaProgram
 using aoUrnToRam
 
 aspect class IwModel {
-	operation jpToJavaProgram():JavaProgram is do
-		result:=JavaProgram.new
+	operation jpToJavaView():JavaView is do
+		result:=JavaView.new
 		result.initialize("Program")//stle:refact this
 
 		jpAppendContent(result)
 	end
 	
-	operation jpAppendContent(javaProgram:JavaProgram) is do
-		javaProgram.appendPackage(name)
-		jpAppendImports(javaProgram)
+	operation jpAppendContent(javaView:JavaView) is do
+		javaView.appendPackage(name)
+		jpAppendImports(javaView)
 		
-		javaProgram.appendClass_Pre("public class Program")
-		jpAppendMainMethod(javaProgram)
-		javaProgram.appendClass_Post
+		javaView.appendClass_Pre("public class Program")
+		jpAppendMainMethod(javaView)
+		javaView.appendClass_Post
 	end
 
-	operation jpAppendImports(javaProgram:JavaProgram) is do
-		javaProgram.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
-		workflows.each{workflow|workflow.jpAppendImport(javaProgram)}
+	operation jpAppendImports(javaView:JavaView) is do
+		javaView.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
+		workflows.each{workflow|workflow.jpAppendImport(javaView)}
 	end
 	
-	operation jpAppendMainMethod(javaProgram:JavaProgram) is do
-		javaProgram.appendMethod_Pre("public static void main(String[] args)")
-		javaProgram.appendLocalVarDefaultConstructor(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
-		javaProgram.appendNextLine
-		
-		javaProgram.appendNextLine
-		javaProgram.appendMethodInvocationOn_0Param(reactiveWorkflowSystemLocalVar,"start")
-		javaProgram.appendMethod_Post
+	operation jpAppendMainMethod(javaView:JavaView) is do
+		javaView.appendMethod_Pre("public static void main(String[] args)")
+		javaView.appendLocalVarDefaultConstructor(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
+		javaView.appendNextLine
+		workflows.each{workflow|workflow.jpAppendBuild(javaView)}
+		jpAppendLinkAndBind(javaView)
+		javaView.appendNextLine
+		javaView.appendMethodInvocationOn_0Param(reactiveWorkflowSystemLocalVar,"start")
+		javaView.appendMethod_Post
+	end
+	
+	operation jpAppendLinkAndBind(javaView:JavaView) is do
+		workflows.each{workflow|
+			workflow.jpAppendLink(javaView)
+			workflow.jpAppendAddWorkflow(javaView)
+		}
 	end
 	
 	property readonly reactiveWorkflowSystemLocalVar:String 

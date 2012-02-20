@@ -1,0 +1,15 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/resource/aoUrnToRam/src/textView/_Ref.kmt"
+
+using intermediateWorkflow
+using aoUrnToRam
+
+class TextViewFactory
+{
+	operation createJavaView():JavaView is do
+		result:=JavaView.new 
+		result.initialize("theWorkspacePath")
+	end
+}

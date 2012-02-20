@@ -5,64 +5,52 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestHelper.kmt"
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using javaProgram
 using aoUrnToRam
 
 class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelper
 {
 	reference sut:IwModel
-	reference javaProgram:JavaProgram
+	reference javaView:JavaView
 	
 	method setUp() is do
 		sut:=createIwModel
 	end
 	
-	operation testToJavaProgram_ShouldInitWorkspacePath() is do
-		javaProgram:=sut.jpToJavaProgram
+	operation testToJavaView_ShouldInitWorkspacePath() is do
+		javaView:=sut.jpToJavaView
 		
-		assertEquals("Program",javaProgram.workspacePath)
+		assertEquals("Program",javaView.workspacePath)
 	end
 
-	operation testToJavaProgram_ShouldAppendPackage() is do
-		javaProgram:=sut.jpToJavaProgram
+	operation testToJavaView_ShouldAppendPackage() is do
+		javaView:=sut.jpToJavaView
 		
-		assertStringStartsWith("package theModel;\n\n",javaProgram.content)
+		assertStringStartsWith("package theModel;\n\n",javaView.content)
 	end
 	
 	operation testToWorkflowInstantiator_ShouldAppendImportReactiveWorkflowSystem() is do
-		javaProgram:=sut.jpToJavaProgram
+		javaView:=sut.jpToJavaView
 		
-		assertStringContains("import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaProgram.content)
+		assertStringContains("import ram.reactiveworkflow.ReactiveWorkflowSystem;\n",javaView.content)
 	end
 	
-	operation testToJavaProgram_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendImportOnWorkflows() is do
-		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
-		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendImportOnWorkflows() is do
+		setupTwoWorkflowsDifferentConcerns
 	
-		javaProgram:=sut.jpToJavaProgram
+		javaView:=sut.jpToJavaView
 		
-		assertStringContainsNTime(2,"import theModel.Instantiators.",javaProgram.content)
-	end
-
-	operation testToJavaProgram_TwoWorkflowsSameConcern_ShouldInvokeAppendImportOnWorkflows() is do
-		var concern:IwConcern init createIwConcern.withModel(sut)
-		createIwWorkflow.withConcern(concern)
-		createIwWorkflow.withConcern(concern)
-	
-		javaProgram:=sut.jpToJavaProgram
-		
-		assertStringContainsNTime(2,"import theModel.Instantiators.",javaProgram.content)
+		assertStringContainsNTime(2,"import theModel.Instantiators.",javaView.content)
 	end
 	
-	operation testToJavaProgram_ShouldAppendClass() is do
-		javaProgram:=sut.jpToJavaProgram
+	operation testToJavaView_ShouldAppendClass() is do
+		javaView:=sut.jpToJavaView
 		
-		assertStringContains("\n\npublic class Program{\n",javaProgram.content)
-		assertStringEndsWith("}\n",javaProgram.content)
+		assertStringContains("\n\npublic class Program{\n",javaView.content)
+		assertStringEndsWith("}\n",javaView.content)
 	end
 
-	operation testToJavaProgram_ShouldAppendMainMethodSkeleton() is do
-		javaProgram:=sut.jpToJavaProgram
+	operation testToJavaView_ShouldAppendMainMethodSkeleton() is do
+		javaView:=sut.jpToJavaView
 		
 		assertStringContains(
 "
@@ -73,6 +61,35 @@ class IwToJavaProgram_IwModelTestCase inherits TestCase,IwToJavaProgram_TestHelp
         reactiveWorkflowSystem.start();
     }
 "
-		,javaProgram.content)		
+		,javaView.content)		
+	end
+	
+	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendBuildOnWorkflows() is do
+		setupTwoWorkflowsDifferentConcerns
+	
+		javaView:=sut.jpToJavaView
+		
+		assertStringContainsNTime(2,"new theWorkflowWorkflowInstantiator",javaView.content)
+	end
+	
+	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendLinkOnWorkflows() is do
+		setupTwoWorkflowsDifferentConcerns
+	
+		javaView:=sut.jpToJavaView
+		
+		assertStringContainsNTime(2,".link()",javaView.content)
+	end
+
+	operation testToJavaView_TwoWorkflowsDifferentConcerns_ShouldInvokeAppendAddWorkflow() is do
+		setupTwoWorkflowsDifferentConcerns
+	
+		javaView:=sut.jpToJavaView
+		
+		assertStringContainsNTime(2,".addWorkflow()",javaView.content)
+	end
+	
+	operation setupTwoWorkflowsDifferentConcerns() is do
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
 	end
 }

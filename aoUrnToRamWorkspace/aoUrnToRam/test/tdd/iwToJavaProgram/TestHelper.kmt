@@ -5,16 +5,13 @@ require kermeta
 require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/textView/TextViewFactory.kmt"
 require "platform:/resource/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
-using javaProgram
+using aoUrnToRam
 
-class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory
+class IwToJavaProgram_TestHelper inherits CustomAssert,IwTestFactory,TextViewFactory
 {
-	operation createJavaProgram():JavaProgram is do
-		result:=JavaProgram.new
-		result.initialize("theModel")//stle: not too sure
-	end
 }

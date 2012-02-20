@@ -54,7 +54,7 @@ class AoUrnToRamTransformation
 		outputRamStepClassDiagram(iwModel,ramWorkspaceAbsoluteFolderUri)
 		outputRamStepView(iwModel,ramWorkspaceAbsoluteFolderUri)
 		ouptutRamJavaInstantiator(iwModel,ramWorkspaceAbsoluteFolderUri)
-		ouptutRamJavaProgram(iwModel,ramWorkspaceAbsoluteFolderUri)
+		ouptutRamJavaView(iwModel,ramWorkspaceAbsoluteFolderUri)
 	end
 	
 	operation loadUrnSpec(absoluteFileUri:String):URNspec is do
@@ -114,8 +114,8 @@ class AoUrnToRamTransformation
 		}
 	end
 	
-	operation ouptutRamJavaProgram(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
-		ouptutTextView(iwModel.jpToJavaProgram,ramWorkspaceAbsoluteFolderUri,".java")
+	operation ouptutRamJavaView(iwModel:IwModel,ramWorkspaceAbsoluteFolderUri:String) is do
+		ouptutTextView(iwModel.jpToJavaView,ramWorkspaceAbsoluteFolderUri,".java")
 	end
 	
 	operation ouptutTextView(textView:TextView,ramWorkspaceAbsoluteFolderUri:String,extension:String) is do

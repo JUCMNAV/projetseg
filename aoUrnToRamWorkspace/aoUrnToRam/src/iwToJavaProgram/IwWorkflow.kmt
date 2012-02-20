@@ -3,11 +3,31 @@ package intermediateWorkflow;
 require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 
 using kermeta::standard
-using javaProgram
-using aoUrnToRam::util //stle:think about this
+using aoUrnToRam
 
 aspect class IwWorkflow {
-	operation jpAppendImport(javaProgram:JavaProgram) is do
-		javaProgram.appendImport(workflowInstantiatorFullyQualifiedName)
+	operation jpAppendImport(javaView:JavaView) is do
+		javaView.appendImport(workflowInstantiatorFullyQualifiedName)
+	end
+	
+	operation jpAppendBuild(javaView:JavaView) is do
+		javaView.appendLocalVarDefaultConstructor(workflowInstantiatorName,jpLocalVar)
+	end
+	
+	operation jpAppendLink(javaView:JavaView) is do
+		javaView.appendMethodInvocationOn_0Param(jpLocalVar,"link")
+	end
+	
+	operation jpAppendAddWorkflow(javaView:JavaView) is do
+		javaView.appendMethodInvocationOn_1Param(
+			model.reactiveWorkflowSystemLocalVar,
+			"addWorkflow",
+			jpLocalVar+"."+workflowMemberName
+		)
+	end
+	
+	property jpLocalVar:String 
+	getter is do
+		result:="l_"+workflowInstantiatorName
 	end
 }

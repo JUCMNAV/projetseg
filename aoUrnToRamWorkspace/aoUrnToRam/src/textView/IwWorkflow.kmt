@@ -1,10 +1,20 @@
 package intermediateWorkflow;
 
-require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
+require "platform:/resource/aoUrnToRam/src/textView/_Ref.kmt"
 
 using kermeta::standard
 
-//stle: not sure how to factor that
+//*********************************************************
+//This class does not belong to textView.
+//It contains workflow code shared between 
+//iwToJavaInstantiator and iwToJavaProgram.
+//Since both transformations used textView, put the
+//shared code in textView.
+//
+//WARNING: be ready to move this file in a proper location
+//if it starts to grow.
+//*********************************************************/
+
 aspect class IwWorkflow {
 
 //*********************************************************
@@ -34,5 +44,10 @@ aspect class IwWorkflow {
 	property readonly workflowInstantiatorFullyQualifiedName:String 
 	getter is do
 		result:=jiPackageName+"."+workflowInstantiatorName
+	end
+	
+	property readonly workflowMemberName:String 
+	getter is do	
+		result:="workflow"
 	end
 }
