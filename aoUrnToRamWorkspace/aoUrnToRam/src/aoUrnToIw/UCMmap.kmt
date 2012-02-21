@@ -12,18 +12,22 @@ aspect class UCMmap{
 //Build
 //*********************************************************/
 	operation build() is do
-		pathNodes.each{pathNode|pathNode.build}
+		if(isPointcutExpression==false) then
+			pathNodes.each{pathNode|pathNode.build}
 
-		iwWorkflow:=IwWorkflow.new
-		iwWorkflow.name:=nameOrPrefixId("Workflow")
+			iwWorkflow:=IwWorkflow.new
+			iwWorkflow.name:=nameOrPrefixId("Workflow")
+		end
 	end
 
 //*********************************************************
 //Link
 //*********************************************************/
 	operation link() is do
-		linkWorkflowToConcern
-		pathNodes.each{pathNode|pathNode.link}
+		if(isPointcutExpression==false) then
+			linkWorkflowToConcern
+			pathNodes.each{pathNode|pathNode.link}
+		end
 	end
 
 	operation linkWorkflowToConcern() is do
@@ -50,5 +54,64 @@ aspect class UCMmap{
 		result:=urndefinition.urnspec
 	end
 	
-	 
+	property readonly isPointcutExpression: Boolean
+	getter is do
+		result:=false
+		
+		from var i : Integer init 0
+		until result==true or i==boundAsPluginInStubs.size
+		loop
+			var stub:Stub init boundAsPluginInStubs.at(i)
+			//Nested if clause to prevent Kermeta from evaluating all predicates
+			//if the first predicate is false
+			if(stub.aopointcut.isVoid==false) then
+				if(stub.aopointcut!=PointcutKind.None) then
+					if(stub.concern==concern) then
+						result:=true
+					end
+				end
+			end
+			i:=i+1
+		end
+	end
+	
+	property readonly boundAsPluginInStubs: Stub[0..*]
+	getter is do
+		result:=boundAsPluginInPluginBindings.collect{pluginBinding|pluginBinding.stub}.asOrderedSet
+	end
+	
+	property readonly boundAsPluginInPluginBindings: PluginBinding[0..*]
+	getter is do
+		result:=OrderedSet<PluginBinding>.new
+		boundAsPluginInInBindings.each{inBinding|result.add(inBinding.binding)}
+		boundAsPluginInOutBindings.each{outBinding|result.add(outBinding.binding)}
+	end
+	
+	property readonly boundAsPluginInInBindings: InBinding[0..*]
+	getter is do
+		result:=OrderedSet<InBinding>.new
+		startPoints.each{startPoint|result.addAll(startPoint.inBindings)}
+	end
+
+	property readonly startPoints: StartPoint[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(StartPoint)}
+			 .collect{node|node.asType(StartPoint)}.asOrderedSet
+	end
+	
+	property readonly boundAsPluginInOutBindings: OutBinding[0..*]
+	getter is do
+		result:=OrderedSet<OutBinding>.new
+		endPoints.each{endPoint|result.addAll(endPoint.outBindings)}
+	end
+	
+	property readonly endPoints: EndPoint[0..*]
+	getter is do
+		//stle: DRY
+		//stle: refactor for reuse
+		result:=nodes.select{node|node.isInstanceOf(EndPoint)}
+			 .collect{node|node.asType(EndPoint)}.asOrderedSet
+	end
 }

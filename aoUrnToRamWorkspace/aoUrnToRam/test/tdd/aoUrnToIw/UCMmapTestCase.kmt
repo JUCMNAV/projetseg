@@ -58,6 +58,27 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 		assertEquals(2,sut.iwWorkflow.nodes.size)
 	end
+
+	operation testBuild_PointcutExpression_ShouldNotBuildIwWorkflow() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(sut,startPoint)
+
+		sut.build
 	
+		assertVoid(sut.iwWorkflow)
+	end
+	
+	operation testLink_PointcutExpression_ShouldNotLinkIwWorkflowToIwConcern() is do
+		var urnSpec:URNspec init createUrnSpec
+		sut:=createUcmMap_UrnSpec(urnSpec)
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(sut,startPoint)
+		urnSpec.build
+		
+		sut.link
+	
+		assertEquals(0,sut.urnSpec.iwWithoutConcern.workflows.size)
+	end
 	
 }

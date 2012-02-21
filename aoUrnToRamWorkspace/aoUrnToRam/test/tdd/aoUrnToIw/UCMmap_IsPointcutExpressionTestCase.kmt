@@ -1,0 +1,56 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using oneurn::urn
+using intermediateWorkflow
+
+class AoUrnToIw_UCMmap_IsPointcutExpressionTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:UCMmap
+	
+	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubAndOneNormalStub_ShouldReturnsTrue() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(sut,startPoint)
+		bindAsPluginInStub(sut,startPoint)
+
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(true,actual)
+	end
+	
+	operation testIsPointcutExpression_OutboundAsPluginInPointcutStub_ShouldReturnsTrue() is do
+		sut:=createUcmMap
+		var endPoint:EndPoint init createEndPoint_UcmMap(sut)
+		var stub:Stub init createStub_UcmMap(createUcmMap)
+		stub.aopointcut:=PointcutKind.Regular
+		var pluginBinding:PluginBinding init createPluginBinding_Stub(stub)
+		createOutBinding_PluginBinding(pluginBinding).endPoint:=endPoint
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(true,actual)
+	end
+	
+	operation testIsPointcutExpression_NotBoundAsPlugin_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+	
+	operation testIsPointcutExpression_BoundAsPluginInPointcutStubFromDifferentConcern_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		sut.concern:=createConcern //DifferentConcern
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(sut,startPoint)
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+}

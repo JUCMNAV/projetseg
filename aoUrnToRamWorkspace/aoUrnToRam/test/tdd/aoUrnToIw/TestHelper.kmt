@@ -37,4 +37,16 @@ class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 	operation assertNameOrPrefixInvokedToSetName(urnModelElement:URNmodelElement,name:String) is do
 		assertStringContains(urnModelElement.id,name)
 	end
+	
+	operation bindAsPluginInStub(ucmMap:UCMmap,startPoint:StartPoint):Stub is do
+		result:=createStub
+		var pluginBinding:PluginBinding init createPluginBinding_Stub(result)
+		createInBinding_PluginBinding(pluginBinding).startPoint:=startPoint
+	end
+	
+	operation bindAsPluginInPointcutStub(ucmMap:UCMmap,startPoint:StartPoint):Stub is do
+		result:=bindAsPluginInStub(ucmMap,startPoint)
+		result.aopointcut:=PointcutKind.Regular
+		result.diagram:=createUcmMap //Required to compare concerns
+	end	
 }

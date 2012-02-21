@@ -146,4 +146,10 @@ aspect class PathNode {
 	setter is do
 		diagram:=value
 	end
+	
+	property readonly concern: Concern
+	getter is do
+		result:=ucmMap.concern
+	end
+	
 }
