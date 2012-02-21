@@ -1,0 +1,22 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+class StubStrategy {
+	reference stub:Stub
+	
+	operation initialize(stub:Stub):StubStrategy is do
+		self.stub:=stub
+		result:=self
+	end
+
+	operation build() is abstract
+	operation link() is abstract
+
+	operation hasNodes():Boolean is abstract
+	operation entryNode(nodeConnection:NodeConnection):IwNode is abstract
+	operation exitNode(nodeConnection:NodeConnection):IwNode is abstract
+}
+

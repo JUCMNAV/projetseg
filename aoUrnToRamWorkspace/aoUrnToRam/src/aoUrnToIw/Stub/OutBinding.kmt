@@ -21,11 +21,20 @@ aspect class OutBinding {
 		binding.addIwOutBinding(iwOutBinding)	
 	end
 	
-	operation linkEndPoint() is do
-		iwOutBinding.pluginEndPoint:=endPoint.iwEndPoint
-	end
-	
 	operation linkStubExit() is do
 		iwOutBinding.stubExit:=stubExit.iwNodeConnection	
+	end
+	
+	operation linkEndPoint() is do
+		if(pointcutEntry.isVoid) then
+			iwOutBinding.pluginEndPoint:=endPoint.iwEndPoint
+		else
+			iwOutBinding.pluginEndPoint:=iwGetPluginEndPointFromPointcutStub
+		end
+	end
+	
+	operation iwGetPluginEndPointFromPointcutStub():IwEndPoint is do
+		var pointcutStub:PathNode init pointcutEntry.targetAsPathNode
+		result:=pointcutStub.iwGetEntryNode(pointcutEntry).asType(IwEndPoint)
 	end
 }

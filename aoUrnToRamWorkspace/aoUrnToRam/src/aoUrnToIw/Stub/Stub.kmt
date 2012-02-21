@@ -5,58 +5,54 @@ using kermeta::standard
 using intermediateWorkflow
 
 aspect class Stub {
-	reference iwStub: IwStub
-
-//*********************************************************
-//Build
-//*********************************************************/
-	method buildIwNodeTemplate() is do
-		iwStub:=IwStub.new
-		iwStub.name:=nameOrPrefixId("Stub")
-		iwStub.stubType:=iwStubType
-		//Will never have OutIn expression for stub, but superclass behaviour is still reused
-		addIwEquivalentNodeAfterOutIn(iwStub)
-		
-		bindings.each{pluginBinding|pluginBinding.build}
+	attribute _strategy:StubStrategy
+	
+	//LazyLoad because the creation of Stub is not under our control
+	property readonly strategy:StubStrategy 
+	getter is do
+		if(_strategy.isVoid) then
+			if(isPointcutStub) then
+				_strategy:=PointcutStubStrategy.new.initialize(self)
+			else
+				_strategy:=RegularStubStrategy.new.initialize(self)
+			end 
+		end
+		result:=_strategy
 	end
 	
-//*********************************************************
-//Link
-//*********************************************************/
+	method build() is do
+		strategy.build
+	end
+	
 	method link() is do
-		super
-		initStubEntryIndexes
-		initStubExitIndexes
-		
-		bindings.each{pluginBinding|pluginBinding.link}
-	end
-
-	operation initStubEntryIndexes() is do
-		var nextIndex:Integer init 1
-		predAsNodeConnection.each{nodeConnection|
-			nodeConnection.iwSinglePredNodeConnection.stubEntryIndex:=nextIndex
-			nextIndex:=nextIndex+1
-		}
+		strategy.link
 	end
 	
-	operation initStubExitIndexes() is do
-		var nextIndex:Integer init 1
-		succAsNodeConnection.each{nodeConnection|
-			nodeConnection.iwNodeConnection.stubExitIndex:=nextIndex
-			nextIndex:=nextIndex+1
-		}
+	method iwHasNodes():Boolean is do 
+		result:=strategy.hasNodes 
+	end
+	
+	method iwGetEntryNode(nodeConnection:NodeConnection):IwNode is do
+		result:=strategy.entryNode(nodeConnection)
+	end
+	
+	method iwGetExitNode(nodeConnection:NodeConnection):IwNode is do
+		result:=strategy.exitNode(nodeConnection)
 	end
 	
 	operation addIwPluginBinding(iwPluginBinding:IwPluginBinding) is do
+		//PreCondition: isPointcutStub==false
+		var iwStub:IwStub init iwGetEntryNode(void).asType(IwStub)
 		iwStub.pluginBindings.add(iwPluginBinding)
 	end
 	
-	property readonly iwStubType:String
+	property readonly isPointcutStub:Boolean
 	getter is do
-		if(~aspect.isVoid) then
-			result:="static"
-		else
-			result:="aspectMarker"
+		result:=false
+		if(aopointcut.isVoid==false) then
+			if(aopointcut!=PointcutKind.None) then
+				result:=true
+			end
 		end
 	end
 }

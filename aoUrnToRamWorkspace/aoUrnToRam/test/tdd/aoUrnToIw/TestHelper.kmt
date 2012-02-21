@@ -13,14 +13,22 @@ using intermediateWorkflow
 
 class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 {
+	operation getSingleEntryNode(pathNode:PathNode):IwNode is do
+		result:=pathNode.iwGetEntryNode(void)
+	end
+	
+	operation getSingleExitNode(pathNode:PathNode):IwNode is do
+		result:=pathNode.iwGetExitNode(void)
+	end
+	
 	operation pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeAfterInput(pathNode:PathNode) is do
 		pathNode.name:=void
 		attachInputRamMetadata(pathNode)
 		
 		pathNode.build
 		
-		assertEquals(pathNode.iwInput,pathNode.iwEntryNode)
-		assertEquals(pathNode.iwEquivalentNode,pathNode.iwExitNode)
+		assertEquals(pathNode.iwInput,getSingleEntryNode(pathNode))
+		assertEquals(pathNode.iwEquivalentNode,getSingleExitNode(pathNode))
 		assertNameOrPrefixInvokedToSetName(pathNode,pathNode.iwEquivalentNode.name)
 	end
 
@@ -30,7 +38,7 @@ class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 		
 		pathNode.build
 		
-		assertEquals(pathNode.iwEquivalentNode,pathNode.iwEntryNode)
+		assertEquals(pathNode.iwEquivalentNode,getSingleEntryNode(pathNode))
 		assertNameOrPrefixInvokedToSetName(pathNode,pathNode.iwEquivalentNode.name)
 	end
 	

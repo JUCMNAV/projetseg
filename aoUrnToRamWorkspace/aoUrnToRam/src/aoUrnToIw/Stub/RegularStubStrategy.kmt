@@ -1,0 +1,64 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+class RegularStubStrategy inherits StubStrategy {
+	reference iwStub: IwStub
+
+	method build() is do
+		iwStub:=IwStub.new
+		iwStub.name:=stub.nameOrPrefixId("Stub")
+		iwStub.stubType:=iwStubType
+		
+		stub.bindings.each{pluginBinding|pluginBinding.build}
+		stub.invokeBuildOnNodeConnections
+    end
+
+	method link() is do
+		initStubEntryIndexes
+		initStubExitIndexes
+		
+		stub.bindings.each{pluginBinding|pluginBinding.link}
+		stub.invokeLinkOnSuccs
+	end
+
+	operation initStubEntryIndexes() is do
+		var nextIndex:Integer init 1
+		stub.predAsNodeConnection.each{nodeConnection|
+			nodeConnection.iwSinglePredNodeConnection.stubEntryIndex:=nextIndex
+			nextIndex:=nextIndex+1
+		}
+	end
+	
+	operation initStubExitIndexes() is do
+		var nextIndex:Integer init 1
+		stub.succAsNodeConnection.each{nodeConnection|
+			nodeConnection.iwNodeConnection.stubExitIndex:=nextIndex
+			nextIndex:=nextIndex+1
+		}
+	end
+
+	method hasNodes():Boolean is do
+		result:=true
+    end
+
+	method entryNode(nodeConnection:NodeConnection):IwNode is do
+		result:=iwStub
+    end
+
+	method exitNode(nodeConnection:NodeConnection):IwNode is do
+		result:=iwStub
+    end
+    
+    property readonly iwStubType:String
+	getter is do
+		if(stub.~aspect.isVoid) then
+			result:="static"
+		else
+			result:="aspectMarker"
+		end
+	end
+}
+

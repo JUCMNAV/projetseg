@@ -1,0 +1,61 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:Stub
+	
+	method setUp() is do
+		sut:=createPointcutStub
+	end
+
+	operation testBuild_OneInPath_ShouldHaveNode() is do
+		var nodeConnection1:NodeConnection init createNodeConnection
+		nodeConnection1.target:=sut
+		
+		sut.build
+		
+		assertEquals(true,sut.iwHasNodes)		
+	end
+
+	operation testBuild_TwoInPaths_ShouldBuildTwoIwEndPoints() is do
+		var nodeConnection1:NodeConnection init createNodeConnection
+		nodeConnection1.target:=sut
+		var nodeConnection2:NodeConnection init createNodeConnection
+		nodeConnection2.target:=sut
+		
+		sut.build
+
+		assertEquals("thePointcutStub_In2",sut.iwGetEntryNode(nodeConnection2).name)
+		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection1).getMetaClass)
+		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection2).getMetaClass)
+	end
+	
+	operation testBuild_OneOutPath_ShouldHaveNode() is do
+		var nodeConnection1:NodeConnection init createNodeConnection
+		nodeConnection1.source:=sut
+		
+		sut.build
+		
+		assertEquals(true,sut.iwHasNodes)		
+	end
+	
+	operation testBuild_TwoOutPaths_ShouldBuildTwoIwStartPoints() is do
+		var nodeConnection1:NodeConnection init createNodeConnection
+		nodeConnection1.source:=sut
+		var nodeConnection2:NodeConnection init createNodeConnection
+		nodeConnection2.source:=sut
+		
+		sut.build
+
+		assertEquals("thePointcutStub_Out2",sut.iwGetExitNode(nodeConnection2).name)
+		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection1).getMetaClass)
+		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection2).getMetaClass)
+	end
+	
+}

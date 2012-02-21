@@ -15,27 +15,52 @@ class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		pluginBinding:=createPluginBinding
 		sut:=createInBinding_PluginBinding(pluginBinding)
 		pluginBinding.build
-		attachStubEntryAndStartPointToInBinding(sut)
 	end
 	
-	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwInBindingToIwPluginStartPoint() is do
-		sut.link
-	
-		assertEquals(sut.startPoint.iwStartPoint, sut.iwInBinding.pluginStartPoint)
-	end
-	
-	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwInBindingToIwStubEntry() is do
-		sut.link
-	
-		assertEquals(sut.stubEntry.iwNodeConnection, sut.iwInBinding.stubEntry)
-	end	
-		
 	@feature "FeaTransformStaticStub"
 	operation testLink_ShouldLinkIwInBindingToIwPluginBinding() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+		
 		sut.link
 	
 		assertCollectionHasSingleElement(sut.iwInBinding, pluginBinding.iwPluginBinding.inBindings)
 	end	
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwStubEntry() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+		
+		sut.link
+	
+		assertEquals(sut.stubEntry.iwNodeConnection, sut.iwInBinding.stubEntry)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwPluginStartPoint() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+	
+		sut.link
+	
+		assertEquals(sut.startPoint.iwStartPoint, sut.iwInBinding.pluginStartPoint)
+	end
+		
+	operation testLink_ShouldLinkIwInBindingToIwPointcutExit() is do
+		var pointcutStub:Stub init createPointcutStub
+		sut.pointcutExit:=createNodeConnection
+		sut.pointcutExit.source:=pointcutStub
+		pointcutStub.build
+		attachStubEntryToInBinding(sut)
+		
+		sut.link
+	
+		assertEquals(pointcutStub.iwGetExitNode(sut.pointcutExit), sut.iwInBinding.pluginStartPoint)
+	end
+	
+	//stle:dry
+	operation attachStubEntryToInBinding(inBinding:InBinding) is do
+		var stubEntry:NodeConnection init createNodeConnection
+		inBinding.stubEntry:=stubEntry
+		stubEntry.build
+	end
+	
 }

@@ -1,0 +1,60 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using intermediateWorkflow
+
+class PointcutStubStrategy inherits StubStrategy {
+	reference iwEntryPoints:Hashtable<NodeConnection,IwEndPoint>
+	reference iwExitPoints:Hashtable<NodeConnection,IwStartPoint>
+
+	method build() is do
+		buildIwEntryPoints
+		buildIwExitPoints
+		
+		stub.invokeBuildOnNodeConnections //stle: is it common? how to test?
+    end
+    
+    operation buildIwEntryPoints() is do
+    	iwEntryPoints:=Hashtable<NodeConnection,IwEndPoint>.new
+
+    	var index:Integer init 1
+		stub.predAsNodeConnection.each{nodeConnection|
+			var iwEndPoint:IwEndPoint init IwEndPoint.new
+			iwEndPoint.name:=stub.name+"_In"+index.toString
+			iwEntryPoints.put(nodeConnection,iwEndPoint)
+			index:=index+1
+		}
+    end
+    
+    operation buildIwExitPoints() is do
+    	iwExitPoints:=Hashtable<NodeConnection,IwStartPoint>.new
+
+    	var index:Integer init 1
+		stub.succAsNodeConnection.each{nodeConnection|
+			var iwStartPoint:IwStartPoint init IwStartPoint.new
+			iwStartPoint.name:=stub.name+"_Out"+index.toString
+			iwExitPoints.put(nodeConnection,iwStartPoint)
+			index:=index+1
+		}
+    end
+
+	method link() is do
+		stub.invokeLinkOnSuccs //stle: is it common? how to test?
+	end
+
+	method hasNodes():Boolean is do
+		result:=iwEntryPoints.size>0 or 
+				iwExitPoints.size>0
+    end
+
+	method entryNode(nodeConnection:NodeConnection):IwNode is do
+		result:=iwEntryPoints.getValue(nodeConnection)
+    end
+
+	method exitNode(nodeConnection:NodeConnection):IwNode is do
+		result:=iwExitPoints.getValue(nodeConnection)
+    end
+}
+

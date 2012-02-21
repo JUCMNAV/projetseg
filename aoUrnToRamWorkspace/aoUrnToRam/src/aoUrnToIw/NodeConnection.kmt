@@ -13,7 +13,7 @@ aspect class NodeConnection{
 	end
 	
 	operation link() is do
-		iwNodeConnection.source:=source.asType(PathNode).iwExitNode
+		iwNodeConnection.source:=source.asType(PathNode).iwGetExitNode(self)
 		iwNodeConnection.target:=iwSingleTarget
 		iwNodeConnection.trigger:=iwIsTrigger
 	end
@@ -21,7 +21,7 @@ aspect class NodeConnection{
 	property readonly iwSingleTarget : IwNode
 	getter is do
 		if(targetAsPathNode.iwHasNodes) then
-			result:=target.asType(PathNode).iwEntryNode
+			result:=target.asType(PathNode).iwGetEntryNode(self)
 		else
 			result:=iwNextNodeConnection.iwSingleTarget
 		end

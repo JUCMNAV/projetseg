@@ -15,27 +15,50 @@ class AoUrnToIw_OutBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		pluginBinding:=createPluginBinding
 		sut:=createOutBinding_PluginBinding(pluginBinding)
 		pluginBinding.build
-		attachStubExitAndEndPointToOutBinding(sut)
 	end
-	
+
 	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwOutBindingToIwPluginStartPoint() is do
+	operation testLink_ShouldLinkIwOutBindingToIwPluginBinding() is do
+		attachStubExitAndEndPointToOutBinding(sut)
+		
 		sut.link
 	
-		assertEquals(sut.endPoint.iwEndPoint, sut.iwOutBinding.pluginEndPoint)
-	end
+		assertCollectionHasSingleElement(sut.iwOutBinding, pluginBinding.iwPluginBinding.outBindings)
+	end	
 	
 	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwOutBindingToIwStubEntry() is do
+	operation testLink_ShouldLinkIwOutBindingToIwStubExit() is do
+		attachStubExitAndEndPointToOutBinding(sut)
+		
 		sut.link
 	
 		assertEquals(sut.stubExit.iwNodeConnection, sut.iwOutBinding.stubExit)
 	end	
 		
 	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwOutBindingToIwPluginBinding() is do
+	operation testLink_ShouldLinkIwOutBindingToIwPluginEndPoint() is do
+		attachStubExitAndEndPointToOutBinding(sut)
+		
 		sut.link
 	
-		assertCollectionHasSingleElement(sut.iwOutBinding, pluginBinding.iwPluginBinding.outBindings)
-	end	
+		assertEquals(sut.endPoint.iwEndPoint, sut.iwOutBinding.pluginEndPoint)
+	end
+	
+	operation testLink_ShouldLinkIwOutBindingToIwPointcutEntry() is do
+		var pointcutStub:Stub init createPointcutStub
+		sut.pointcutEntry:=createNodeConnection
+		sut.pointcutEntry.target:=pointcutStub
+		pointcutStub.build
+		attachStubExitToOutBinding(sut)
+		
+		sut.link
+	
+		assertEquals(pointcutStub.iwGetEntryNode(sut.pointcutEntry), sut.iwOutBinding.pluginEndPoint)
+	end
+	
+	operation attachStubExitToOutBinding(outBinding:OutBinding) is do
+		var stubExit:NodeConnection init createNodeConnection
+		outBinding.stubExit:=stubExit
+		stubExit.build
+	end
 }

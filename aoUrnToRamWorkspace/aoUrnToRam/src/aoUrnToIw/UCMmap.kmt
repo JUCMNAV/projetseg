@@ -64,11 +64,9 @@ aspect class UCMmap{
 			var stub:Stub init boundAsPluginInStubs.at(i)
 			//Nested if clause to prevent Kermeta from evaluating all predicates
 			//if the first predicate is false
-			if(stub.aopointcut.isVoid==false) then
-				if(stub.aopointcut!=PointcutKind.None) then
-					if(stub.concern==concern) then
-						result:=true
-					end
+			if(stub.isPointcutStub) then
+				if(stub.concern==concern) then
+					result:=true
 				end
 			end
 			i:=i+1

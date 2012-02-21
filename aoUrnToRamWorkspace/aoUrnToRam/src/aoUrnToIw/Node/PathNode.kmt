@@ -97,18 +97,15 @@ aspect class PathNode {
 //*********************************************************
 // Properties
 //*********************************************************/
-	property readonly iwHasNodes: Boolean
-	getter is do
+	operation iwHasNodes():Boolean is do
 		result:=_iwNodes.isEmpty==false
 	end
 
-	property readonly iwEntryNode: IwNode
-	getter is do
+	operation iwGetEntryNode(nodeConnection:NodeConnection):IwNode is do
 		result:=_iwNodes.first
 	end
 	
-	property readonly iwExitNode: IwNode
-	getter is do
+	operation iwGetExitNode(nodeConnection:NodeConnection):IwNode is do
 		result:=_iwNodes.last
 	end
 	

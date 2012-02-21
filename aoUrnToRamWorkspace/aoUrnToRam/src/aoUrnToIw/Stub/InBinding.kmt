@@ -21,13 +21,20 @@ aspect class InBinding {
 		binding.addIwInBinding(iwInBinding)	
 	end
 	
-	operation linkStartPoint() is do
-		iwInBinding.pluginStartPoint:=startPoint.iwStartPoint	
-	end
-	
 	operation linkStubEntry() is do
 		iwInBinding.stubEntry:=stubEntry.iwSinglePredNodeConnection	
 	end
 	
+	operation linkStartPoint() is do
+		if(pointcutExit.isVoid) then
+			iwInBinding.pluginStartPoint:=startPoint.iwStartPoint
+		else
+			iwInBinding.pluginStartPoint:=iwGetPluginStartPointFromPointcutStub
+		end	
+	end
 	
+	operation iwGetPluginStartPointFromPointcutStub():IwStartPoint is do
+		var pointcutStub:PathNode init pointcutExit.sourceAsPathNode
+		result:=pointcutStub.iwGetExitNode(pointcutExit).asType(IwStartPoint)
+	end
 }
