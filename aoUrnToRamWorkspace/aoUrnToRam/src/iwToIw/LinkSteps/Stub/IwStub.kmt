@@ -6,11 +6,11 @@ using kermeta::standard
 
 aspect class IwStub{
 	method explore(currentStep:IwStep) is do
-		if(isStaticPluginInSameConcern) then
+		if(isAspectMarker==true or isStaticPluginInSameConcern==false) then
+			super(currentStep)
+		else
 			step:=currentStep 
 			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
-		else
-			super(currentStep)			
 		end
 	end
 

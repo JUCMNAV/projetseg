@@ -135,7 +135,8 @@ class InsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCase,Inse
 
 		assertNotVoid(input.iwInputProcessingNode)
 	end
-	
+
+	@feature "FeaTransformAspectMarker"
 	operation testInsertInputProcessingNode_AspectMarkerAsTarget_ShouldInvokeInsertInputProcessingNodeOnAspectMarkerSucc() is do
 		var target:IwInput init createIwInput
 		var aspectMarker:IwStub init createIwStub.withStubType("aspectMarker")

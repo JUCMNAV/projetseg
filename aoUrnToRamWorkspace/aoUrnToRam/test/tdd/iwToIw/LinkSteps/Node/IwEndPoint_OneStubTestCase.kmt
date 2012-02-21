@@ -61,5 +61,15 @@ class LinkSteps_IwEndPoint_OneStubTestCase inherits TestCase,LinkSteps_TestHelpe
 		assertVoid(stubExitNode.step)
 		assertEquals(0,stub.outboundInSteps.size)		
 	end
+
+	@feature "FeaTransformAspectMarker"
+	operation testDeepFirstSearch_UnexploredWithAspectMarker_ShouldStopExploration() is do
+		stub.stubType:="aspectMarker"
+		
+		sut.step_DeepFirstSearch(currentStep)
+
+		assertVoid(stubExitNode.step)
+		assertEquals(0,stub.outboundInSteps.size)		
+	end
 	
 }

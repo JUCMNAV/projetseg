@@ -22,6 +22,10 @@ class Integration_IntegrationTestCase inherits TestCase
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
 
+	operation testSpecific() is do
+		parameterizableIntegrationTest("AspectMarker.jucm")
+	end
+/*
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
@@ -37,6 +41,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
+	*/
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String

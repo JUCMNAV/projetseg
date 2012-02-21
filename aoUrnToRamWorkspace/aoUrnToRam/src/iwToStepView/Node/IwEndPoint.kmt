@@ -14,13 +14,13 @@ aspect class IwEndPoint
 	method appendBindings(stepView:StepView) is do
 		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
 		outBindings.each{outBinding|
-			if(outBinding.isOutboundStubInSameConcern) then
-				outBinding.appendBinding(stepView)
-			else
+			if(outBinding.isOutboundByAspectMarkerOrInDifferentConcern) then
 				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then
 					outBinding.appendBindingToStubsFromOtherConcernsPlaceholder(stepView)
 					isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:=true
 				end
+			else
+				outBinding.appendBinding(stepView)
 			end
 		}
 	end

@@ -14,6 +14,6 @@ aspect class IwStartPoint{
 	
 	property readonly isBoundFromSameConcernOnce:Boolean
 	getter is do
-		result:=inBindings.exists{inBinding|inBinding.isInboundStubInSameConcern}
+		result:=inBindings.exists{inBinding|inBinding.isInboundByAspectMarkerOrInDifferentConcern==false}
 	end
 }

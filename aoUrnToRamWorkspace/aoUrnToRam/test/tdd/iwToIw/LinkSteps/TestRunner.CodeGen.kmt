@@ -15,6 +15,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTes
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_OrForkAsSutTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_AspectMarkerTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
@@ -33,6 +34,7 @@ class LinkSteps_TestRunner inherits CustomTestRunner
 		result.add(LinkSteps_IwNode_CustomizableNodeAsSutTestCase)
 		result.add(LinkSteps_IwNode_OrForkAsSutTestCase)
 		result.add(LinkSteps_IwStartPointTestCase)
+		result.add(LinkSteps_IwStub_AspectMarkerTestCase)
 		result.add(LinkSteps_IwStub_PluginDifferentConcernTestCase)
 		result.add(LinkSteps_IwStub_TwoPluginStartPointsTestCase)
 	end

@@ -11,6 +11,18 @@ aspect class IwStub {
 		result:="Stub24.gif"
 	end
 	
+	method appendVertex(stepView:StepView) is do
+		if(isAspectMarker==false) then
+			super(stepView)
+		end
+	end
+	
+	method appendEdges(stepView:StepView) is do
+		if(isAspectMarker==false) then
+			super(stepView)
+		end
+	end
+	
 	method appendVertexContent(stepView:StepView) is do
 		stepView.appendLine("            shape=plaintext,")
 		stepView.appendLine("            label=")
@@ -51,8 +63,6 @@ aspect class IwStub {
 		end
 	end
 	
-	
-	
 	//virtual
 	method getMinWidth():Integer is do
 		var maxOf:Set<Integer> init Set<Integer>.new
@@ -92,7 +102,7 @@ aspect class IwStub {
 	end
 	
 	method appendPluginFromDifferentConcern(stepView:StepView) is do
-		if(workflow.concern!=pluginWorkflow.concern) then
+		if(isAspectMarker==false and workflow.concern!=pluginWorkflow.concern) then
 			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
 				staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_NextStep(stepView)}
 				staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_NextStep(stepView)}

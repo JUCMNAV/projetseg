@@ -7,36 +7,35 @@ using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
 
-class LinkSteps_IwStub_PluginDifferentConcernTestCase inherits TestCase,LinkSteps_TestHelper
+class LinkSteps_IwStub_AspectMarkerTestCase inherits TestCase,LinkSteps_TestHelper
 {
-	reference concern:IwConcern
+	reference sut:IwStub
+	reference sameConcern:IwConcern
 	reference currentStep:IwStep
 	reference workflow:IwWorkflow
-	reference sut:IwStub
 	reference stubExitNode1:IwNode
 	reference stubExitNode2:IwNode
 	
-	reference pluginConcern:IwConcern
 	reference pluginWorkflow:IwWorkflow
 	reference pluginStartPoint:IwStartPoint
 	
 	method setUp() is do
-		concern:=createIwConcern
-		currentStep:=createIwStep_Concern(concern)
-    	workflow:=createIwWorkflow_Concern(concern)
+		sameConcern:=createIwConcern
+		currentStep:=createIwStep_Concern(sameConcern)
+    	workflow:=createIwWorkflow_Concern(sameConcern)
 		sut:=createIwStaticStub_Workflow(workflow)
+		sut.stubType:="aspectMarker"
 		stubExitNode1:=createIwCustomizableNode_Workflow(workflow)
 		linkNodes(sut,stubExitNode1)
 		stubExitNode2:=createIwCustomizableNode_Workflow(workflow)
 		linkNodes(sut,stubExitNode2)
 		
-		pluginConcern:=createIwConcern
-		pluginWorkflow:=createIwWorkflow_Concern(pluginConcern)
+		pluginWorkflow:=createIwWorkflow_Concern(sameConcern)
 		pluginStartPoint:=createIwStartPoint_Workflow(pluginWorkflow)		
 		bindStaticStubToPluginStartPoint(sut,pluginStartPoint)
 	end
-	
-	@feature "FeaNamingOfRAMStep"
+
+	@feature "FeaTransformAspectMarker"
 	operation testDeepFirstSearch_Unexplored_ShouldContinueExplorationOnStubExitNodes() is do
 		sut.step_DeepFirstSearch(currentStep)
 		

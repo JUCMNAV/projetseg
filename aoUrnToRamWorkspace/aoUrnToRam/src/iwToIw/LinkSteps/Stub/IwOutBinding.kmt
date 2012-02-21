@@ -7,7 +7,7 @@ using kermeta::standard
 aspect class IwOutBinding
 {
 	operation explore(currentStep:IwStep) is do
-		if(isOutboundStubInSameConcern) then
+		if(isOutboundByAspectMarkerOrInDifferentConcern==false) then
 			currentStep.outboundStubs.add(pluginBinding.stub)
 			stubExit.target.step_DeepFirstSearch(currentStep)
 		end

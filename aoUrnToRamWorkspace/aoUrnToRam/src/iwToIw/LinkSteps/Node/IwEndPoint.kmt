@@ -7,10 +7,6 @@ using kermeta::standard
 aspect class IwEndPoint
 {
 	method explore(currentStep:IwStep) is do
-		//stle:temp
-		var a:kermeta::kunit::Assert init kermeta::kunit::Assert.new
-		a.assertWithMsg(currentStep.isVoid==false,"current step is void")
-		
 		step:=currentStep
 		outBindings.each{outBinding|outBinding.explore(currentStep)}
 	end

@@ -9,6 +9,7 @@ aspect class IwNodeConnection {
 	operation appendNodeConnection(stepView:StepView) is do
 		stepView.append("        ") 
 		stepView.append(getSourcePortDotEscaped(stepView)) 
+		
 		stepView.append("->") 
 		stepView.append(getTargetPortDotEscaped(stepView))
 
@@ -39,10 +40,33 @@ aspect class IwNodeConnection {
 	end
 	
 	operation getTargetPortDotEscaped(stepView:StepView):String is do
-		result:=target.getId
-		result:=stepView.dotEscape(result)
-		if(stubEntryIndex.isVoid==false and target.isFromCurrentStep(stepView)) then
-			result:=result+":in"+stubEntryIndex.toString
-		end 
+		if(isTargetAnAspectMarker) then
+			result:=singleNextNodeConnection.getTargetPortDotEscaped(stepView)
+		else
+			result:=target.getId
+			result:=stepView.dotEscape(result)
+			if(stubEntryIndex.isVoid==false and target.isFromCurrentStep(stepView)) then
+				result:=result+":in"+stubEntryIndex.toString
+			end 
+		end
+	end
+	
+	operation isTargetAnAspectMarker():Boolean is do
+		result:=false
+		
+		var targetAsStub:IwStub
+		targetAsStub?=target
+		if(targetAsStub.isVoid==false) then
+			//Kermeta always evaluate all predicate of a conditional expression 
+			if(targetAsStub.isAspectMarker) then
+				result:=true
+			end
+		end
+	end
+	
+	property readonly singleNextNodeConnection: IwNodeConnection
+	getter is do
+		//stle: single again
+		result:=target.succs.one
 	end
 }
