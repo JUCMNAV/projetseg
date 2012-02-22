@@ -10,10 +10,9 @@ using intermediateWorkflow
 class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Stub
 	
-	//stle: try to use public api instead
-	property readonly sutStrategy:RegularStubStrategy 
+	property readonly sutIwStub:IwStub 
 	getter is do
-		result:=sut.strategy.asType(RegularStubStrategy)
+		result:=getSingleEntryNode(sut).asType(IwStub)
 	end
 	
 	@feature "FeaTransformStaticStub"
@@ -24,19 +23,19 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut.build
 		
 		assertEquals(getSingleEntryNode(sut),getSingleExitNode(sut))
-		var iwStub:IwStub init getSingleEntryNode(sut).asType(IwStub)
-		assertNameOrPrefixInvokedToSetName(sut,iwStub.name)
-		assertEquals("static",iwStub.stubType)
+		assertNameOrPrefixInvokedToSetName(sut,sutIwStub.name)
+		assertEquals("static",sutIwStub.stubType)
 	end
 	
 	@feature "FeaTransformAspectMarker"
 	operation testBuild_AspectMarker_ShouldSetStubTypeToAspectMarker() is do
 		sut:=createStub
-		sut.~aspect:=AspectKind.Regular	
+		sut.~aspect:=AspectKind.Regular
 		sut.build
-		
-		assertNotVoid(sutStrategy.iwStub)
-		assertEquals("aspectMarker",sutStrategy.iwStub.stubType)
+
+		assertEquals(getSingleEntryNode(sut),getSingleExitNode(sut))
+		assertEquals("aspectMarker"+sut.id,sutIwStub.name)
+		assertEquals("aspectMarker",sutIwStub.stubType)
 	end
 	
 	@feature "FeaTransformStaticStub"
@@ -49,7 +48,17 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		sut.link
 		
-		assertEquals(1,sutStrategy.iwStub.pluginBindings.size)
+		assertEquals(1,sutIwStub.pluginBindings.size)
+	end
+	
+	operation testLink_ShouldLinkIwStubToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(sutIwStub,ucmMap.iwWorkflow.nodes)
 	end
 	
 	@feature "FeaTransformStaticStub"

@@ -196,6 +196,11 @@ Stub
 		result.pluginBinding:=staticStub.pluginBindings.one
 	end
 	
+	operation bindAspectMarkerToPluginStartPoint(staticStub:IwStub,pluginStartPoint:IwStartPoint):IwInBinding is do
+		result:=bindStaticStubToPluginStartPoint(staticStub,pluginStartPoint)
+		result.pluginBinding.stub.stubType:="aspectMarker"
+	end
+	
 	//stle:refactor to with
 	operation bindStaticStubToPluginStartPoint_withStubEntry(staticStub:IwStub,stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
 		result:=createIwInBinding(stubEntry,pluginStartPoint)

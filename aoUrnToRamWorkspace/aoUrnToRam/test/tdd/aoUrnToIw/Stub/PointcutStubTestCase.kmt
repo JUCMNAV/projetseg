@@ -15,8 +15,7 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 
 	operation testBuild_OneInPath_ShouldHaveNode() is do
-		var nodeConnection1:NodeConnection init createNodeConnection
-		nodeConnection1.target:=sut
+		createInPath
 		
 		sut.build
 		
@@ -24,16 +23,30 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 
 	operation testBuild_TwoInPaths_ShouldBuildTwoIwEndPoints() is do
-		var nodeConnection1:NodeConnection init createNodeConnection
-		nodeConnection1.target:=sut
-		var nodeConnection2:NodeConnection init createNodeConnection
-		nodeConnection2.target:=sut
+		var nodeConnection1:NodeConnection init createInPath
+		var nodeConnection2:NodeConnection init createInPath
 		
 		sut.build
 
 		assertEquals("thePointcutStub_In2",sut.iwGetEntryNode(nodeConnection2).name)
 		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection1).getMetaClass)
 		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection2).getMetaClass)
+	end
+	
+	operation testLink_TwoInPaths_ShouldLinkIwNodesToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init createInPath
+		var nodeConnection2:NodeConnection init createInPath
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetEntryNode(nodeConnection1),
+			sut.iwGetEntryNode(nodeConnection2),
+			ucmMap.iwWorkflow.nodes
+		)
 	end
 	
 	operation testBuild_OneOutPath_ShouldHaveNode() is do
@@ -46,10 +59,8 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	operation testBuild_TwoOutPaths_ShouldBuildTwoIwStartPoints() is do
-		var nodeConnection1:NodeConnection init createNodeConnection
-		nodeConnection1.source:=sut
-		var nodeConnection2:NodeConnection init createNodeConnection
-		nodeConnection2.source:=sut
+		var nodeConnection1:NodeConnection init createOutPath
+		var nodeConnection2:NodeConnection init createOutPath
 		
 		sut.build
 
@@ -58,4 +69,45 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection2).getMetaClass)
 	end
 	
+	operation testLink_TwoOutPaths_ShouldLinkIwNodesToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		var nodeConnection2:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetExitNode(nodeConnection1),
+			sut.iwGetExitNode(nodeConnection2),
+			ucmMap.iwWorkflow.nodes
+		)
+	end
+	
+	operation testLink_TwoOutPaths_ShouldLinkIwStartPointsToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		var nodeConnection2:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetExitNode(nodeConnection1).asType(IwStartPoint),
+			sut.iwGetExitNode(nodeConnection2).asType(IwStartPoint),
+			ucmMap.iwWorkflow.startPoints
+		)
+	end
+	
+	operation createInPath():NodeConnection is do
+		result:=createNodeConnection
+		result.target:=sut
+	end
+	
+	operation createOutPath():NodeConnection is do
+		result:=createNodeConnection
+		result.source:=sut
+	end
 }

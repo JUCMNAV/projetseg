@@ -46,9 +46,18 @@ class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
 		assertStepAdded
 	end
 	
+	operation testLinkStep_BoundFromAspectMarker_ShouldAddStep() is do
+		bindAspectMarkerToPluginStartPoint(createStubFromSameConcern,sut)
+		
+		sut.linkStep
+		
+		assertStepAdded
+	end
+
 	@feature "FeaNamingOfRAMStep"
 	operation testLinkStep_BoundFromSameConcernOnce_ShouldNotAddStep() is do
 		bindStaticStubToPluginStartPoint(createStubFromDifferentConcern,sut)
+		bindAspectMarkerToPluginStartPoint(createStubFromSameConcern,sut)
 		bindStaticStubToPluginStartPoint(createStubFromSameConcern,sut)
 		
 		sut.linkStep

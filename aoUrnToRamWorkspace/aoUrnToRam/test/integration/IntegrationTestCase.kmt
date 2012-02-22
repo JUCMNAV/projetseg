@@ -23,9 +23,9 @@ class Integration_IntegrationTestCase inherits TestCase
 	end
 
 	operation testSpecific() is do
-		parameterizableIntegrationTest("AspectMarker.jucm")
+		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
-/*
+
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
@@ -41,7 +41,6 @@ class Integration_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
-	*/
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String

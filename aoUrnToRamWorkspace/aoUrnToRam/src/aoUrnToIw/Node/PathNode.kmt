@@ -72,6 +72,7 @@ aspect class PathNode {
 	operation link() is do
 		linkUcmMap
 		linkInternal
+		
 		if(iwHasNodes) then
 			invokeLinkOnSuccs
 		end
