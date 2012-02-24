@@ -7,6 +7,7 @@ returnaddress="bugzilla-daemon@site.uottawa.ca"
 returnname="jUCMNav CruiseControl"
 defaultsuffix="@softwareengineering.ca"
 subjectprefix="jUCMNav CruiseControl - "
+spamwhilebroken="false"
 skipusers="false"
 reportsuccess="true"
 failasimportant="true"
@@ -112,7 +113,7 @@ xsldir="c:\work\cruisecontrol\webapps\cruisecontrol\xsl">
 	<artifactspublisher 
 	    dir="checkout/get/seg.jUCMNav/build/"
 	    dest="r:\public_html\artifacts\seg.jUCMNav"/>
-	<antpublisher buildfile="copylatest.xml" target="copyall"/>
+	<antpublisher buildfile="C:\work\cruisecontrol\copylatest.xml" target="copyall"/>
   </publishers> 
   </project> 
 	
