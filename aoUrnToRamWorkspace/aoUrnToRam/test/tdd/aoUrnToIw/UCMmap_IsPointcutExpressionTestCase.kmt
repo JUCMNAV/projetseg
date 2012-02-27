@@ -11,24 +11,21 @@ using intermediateWorkflow
 class AoUrnToIw_UCMmap_IsPointcutExpressionTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:UCMmap
 	
-	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubAndOneNormalStub_ShouldReturnsTrue() is do
+	operation testIsPointcutExpression_BoundAsPluginInTwoPointcutStubs_ShouldReturnsTrue() is do
 		sut:=createUcmMap
 		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
-		bindAsPluginInPointcutStub(sut,startPoint)
-		bindAsPluginInStub(sut,startPoint)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInPointcutStub(startPoint)
 
 		var actual:Boolean init sut.isPointcutExpression
 	
 		assertEquals(true,actual)
 	end
 	
-	operation testIsPointcutExpression_OutboundAsPluginInPointcutStub_ShouldReturnsTrue() is do
+	operation testIsPointcutExpression_OutboundAsPluginInOnePointcutStub_ShouldReturnsTrue() is do
 		sut:=createUcmMap
 		var endPoint:EndPoint init createEndPoint_UcmMap(sut)
-		var stub:Stub init createStub_UcmMap(createUcmMap)
-		stub.aopointcut:=PointcutKind.Regular
-		var pluginBinding:PluginBinding init createPluginBinding_Stub(stub)
-		createOutBinding_PluginBinding(pluginBinding).endPoint:=endPoint
+		outbindAsPluginInPointcutStub(endPoint)
 		
 		var actual:Boolean init sut.isPointcutExpression
 	
@@ -43,14 +40,39 @@ class AoUrnToIw_UCMmap_IsPointcutExpressionTestCase inherits TestCase,AoUrnToIw_
 		assertEquals(false,actual)
 	end
 	
-	operation testIsPointcutExpression_BoundAsPluginInPointcutStubFromDifferentConcern_ShouldReturnsFalse() is do
+	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubFromDifferentConcernAndOnePointcutStubFromSameConcern_ShouldReturnsFalse() is do
 		sut:=createUcmMap
-		sut.concern:=createConcern //DifferentConcern
 		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
-		bindAsPluginInPointcutStub(sut,startPoint)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInPointcutStub(startPoint).ucmMap.concern:=createConcern //DifferentConcern
 		
 		var actual:Boolean init sut.isPointcutExpression
 	
 		assertEquals(false,actual)
 	end
+	
+	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubAndOneNormalStub_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInStub(startPoint)
+
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+	
+	operation testIsPointcutExpression_HasPlugins_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		var pluginStartPoint:StartPoint init createStartPoint_UcmMap(createUcmMap)
+		bindAsPluginInStub(pluginStartPoint).ucmMap:=sut
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+	
+	
 }

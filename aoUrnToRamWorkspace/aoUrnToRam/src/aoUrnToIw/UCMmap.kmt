@@ -53,24 +53,34 @@ aspect class UCMmap{
 	getter is do
 		result:=urndefinition.urnspec
 	end
+
+	property readonly plugins : UCMmap[0..*]
+	getter is do
+		result:=OrderedSet<UCMmap>.new
+		stubs.each{stub|
+			stub.bindings.each{pluginBinding|
+				if(pluginBinding.in.isEmpty==false)then
+					result.add(pluginBinding.in.one.startPoint.ucmMap)
+				end
+			}
+		}
+	end
 	
+	property readonly stubs: Stub[0..*]
+	getter is do
+		//stle:dry
+		result:= nodes.select{node|node.isInstanceOf(Stub)}
+		              .collect{stub|stub.asType(Stub)}.asOrderedSet
+	end
+	
+//*********************************************************
+//isPointcutExpression
+//*********************************************************/
 	property readonly isPointcutExpression: Boolean
 	getter is do
-		result:=false
-		
-		from var i : Integer init 0
-		until result==true or i==boundAsPluginInStubs.size
-		loop
-			var stub:Stub init boundAsPluginInStubs.at(i)
-			//Nested if clause to prevent Kermeta from evaluating all predicates
-			//if the first predicate is false
-			if(stub.isPointcutStub) then
-				if(stub.concern==concern) then
-					result:=true
-				end
-			end
-			i:=i+1
-		end
+		result:=boundAsPluginInStubs.size>0 and
+		        boundAsPluginInStubs.forAll{stub|stub.isPointcutStub and stub.concern==concern} and
+		        plugins.size==0
 	end
 	
 	property readonly boundAsPluginInStubs: Stub[0..*]

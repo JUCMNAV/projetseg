@@ -14,10 +14,11 @@ aspect class IwWorkflow{
 	getter is do
 		result:=OrderedSet<IwWorkflow>.new
 		stubs.each{stub|
-			//stle:adapt for dynamic stubs
-			if(stub.staticPluginBinding.inBindings.isEmpty==false)then
-				result.add(stub.staticPluginBinding.inBindings.one.pluginStartPoint.workflow)
-			end
+			stub.pluginBindings.each{pluginBinding|
+				if(pluginBinding.inBindings.isEmpty==false) then
+					result.add(pluginBinding.inBindings.one.pluginStartPoint.workflow)
+				end
+			}
 		}
 	end
 	
