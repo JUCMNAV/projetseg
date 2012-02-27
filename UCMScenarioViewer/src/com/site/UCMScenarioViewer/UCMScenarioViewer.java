@@ -50,6 +50,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -64,8 +65,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -74,6 +78,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
+import seg.jUCMNav.Messages;
 
 import com.site.UCMScenarioViewer.actions.SetFontAction;
 import com.site.UCMScenarioViewer.actions.UCMScenarioViewerContextMenuProvider;
@@ -713,6 +719,38 @@ public class UCMScenarioViewer extends GraphicalEditor {
 		}
 	}
 
+	
+	  /**
+     * Initializes the multipage editor.
+     * 
+     * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+     */
+    public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+        // read URNspec from input
+
+        // doing this here (even though done in super.init() because we want the following invocation to be able to popup an error message should anything
+        // fail.
+        setSite(site);
+
+        // we expect IFileEditorInput here,
+        // ClassCassException is catched to force PartInitException
+
+        if (!(input instanceof IFileEditorInput)) {
+            // File -> Open gives us a JavaFileEditorInput
+            // we don't want to open it because our scenario warnings are associated to the IFile...
+            MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                    "Error", "You cannot use File -> Open to open a *.jucmscenarios file; please use File -> Import -> File System instead.");
+            try {
+                this.closeUCMViewer(false);
+            } catch (Exception ex) {
+
+            }
+
+            return;
+        } 
+        // URNspec is ok
+        super.init(site, input);
+    }
 	/**
 	 * Sets the input to this editor
 	 * @param input
