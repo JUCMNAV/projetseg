@@ -28,7 +28,20 @@ aspect class StartPoint {
 	end
 	
 	method link() is do
-		super()
-		ucmMap.iwWorkflow.startPoints.add(iwStartPoint)
+		if(hasReplacementPointcutStubAsTarget==false) then
+			super()
+			ucmMap.iwWorkflow.startPoints.add(iwStartPoint)
+		end
+	end
+	
+	property readonly hasReplacementPointcutStubAsTarget:Boolean 
+	getter is do
+		//stle: single again
+		var targetAsStub:Stub targetAsStub?=succAsNodeConnection.one.target
+		if(targetAsStub.isVoid==false) then
+			result:=targetAsStub.isReplacementPointcutStub
+		else
+			result:=false
+		end
 	end
 }

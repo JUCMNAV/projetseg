@@ -7,7 +7,7 @@ using oneurn::urncore
 using oneurn::ucm::map
 using intermediateWorkflow
 
-class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+class AoUrnToIw_RegularPointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Stub
 	
 	method setUp() is do
@@ -110,4 +110,5 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		result:=createNodeConnection
 		result.source:=sut
 	end
+	
 }

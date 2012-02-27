@@ -1,0 +1,35 @@
+package oneurn::ucm::map;
+require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using intermediateWorkflow
+
+class ReplacementPointcutStubStrategy inherits StubStrategy {
+	reference iwStartPoint:IwStartPoint
+
+	method build() is do
+		iwStartPoint:=IwStartPoint.new
+		iwStartPoint.name:=stub.name+"_Out"
+		//stle:need to fix: AspectMap: Should always bind startPoint and endPoint to *, maybe another startType:=aspectBound
+		iwStartPoint.startPointType:="bound"
+    end
+
+	method link() is do
+		stub.ucmMap.iwWorkflow.nodes.add(iwStartPoint)
+		stub.ucmMap.iwWorkflow.startPoints.add(iwStartPoint)
+	end
+	
+	method hasNodes():Boolean is do
+		result:=true
+    end
+
+	method entryNode(nodeConnection:NodeConnection):IwNode is do
+		result:=void
+    end
+
+	method exitNode(nodeConnection:NodeConnection):IwNode is do
+		result:=iwStartPoint
+    end
+}
+

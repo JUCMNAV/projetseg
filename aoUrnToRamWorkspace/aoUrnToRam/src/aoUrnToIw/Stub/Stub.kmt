@@ -11,20 +11,26 @@ aspect class Stub {
 	property readonly strategy:StubStrategy 
 	getter is do
 		if(_strategy.isVoid) then
-			if(isPointcutStub) then
-				_strategy:=PointcutStubStrategy.new.initialize(self)
+			if(isRegularPointcutStub) then
+				_strategy:=RegularPointcutStubStrategy.new.initialize(self)
 			else
-				_strategy:=RegularStubStrategy.new.initialize(self)
+				if(isReplacementPointcutStub) then
+					_strategy:=ReplacementPointcutStubStrategy.new.initialize(self)
+				else
+					_strategy:=RegularStubStrategy.new.initialize(self)
+				end
 			end 
 		end
 		result:=_strategy
 	end
 	
 	method build() is do
+		invokeBuildOnNodeConnections
 		strategy.build
 	end
 	
 	method link() is do
+		invokeBuildOnNodeConnections
 		strategy.link
 	end
 	
@@ -48,12 +54,17 @@ aspect class Stub {
 	
 	property readonly isPointcutStub:Boolean
 	getter is do
-		result:=false
-		if(aopointcut.isVoid==false) then
-			if(aopointcut!=PointcutKind.None) then
-				result:=true
-			end
-		end
+		result:=isRegularPointcutStub or isReplacementPointcutStub
+	end
+	
+	property readonly isRegularPointcutStub:Boolean
+	getter is do
+		result:=aopointcut==PointcutKind.Regular
+	end
+	
+	property readonly isReplacementPointcutStub:Boolean
+	getter is do
+		result:=aopointcut==PointcutKind.Replacement
 	end
 }
 

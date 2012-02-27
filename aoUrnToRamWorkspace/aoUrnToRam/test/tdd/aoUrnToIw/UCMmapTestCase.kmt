@@ -50,8 +50,8 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testLink_ShouldInvokeLinkOnPathNodes() is do
 		var urnSpec:URNspec init createUrnSpec
 		sut:=createUcmMap_UrnSpec(urnSpec)
-		createStartPoint_UcmMap(sut)
-		createStartPoint_UcmMap(sut)
+		createEndPoint_UcmMap(sut)
+		createEndPoint_UcmMap(sut)
 		urnSpec.build
 		
 		sut.link

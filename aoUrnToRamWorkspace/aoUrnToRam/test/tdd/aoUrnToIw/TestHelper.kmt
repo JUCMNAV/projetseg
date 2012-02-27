@@ -65,5 +65,4 @@ class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 		createOutBinding_PluginBinding(pluginBinding).endPoint:=endPoint
 		result.aopointcut:=PointcutKind.Regular
 	end
-	
 }

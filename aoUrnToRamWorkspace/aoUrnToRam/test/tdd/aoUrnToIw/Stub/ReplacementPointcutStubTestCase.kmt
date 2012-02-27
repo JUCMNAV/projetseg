@@ -1,0 +1,59 @@
+package aoUrnToRam::test;
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_ReplacementPointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:Stub
+	
+	method setUp() is do
+		sut:=createReplacementPointcutStub
+	end
+	
+	property sutIwStartPoint:IwStartPoint 
+	getter is do
+		//Always only one StartPoint; 
+		//thus, node connection is not required to distinguish which StartPoint to return
+		result:=sut.iwGetExitNode(void).asType(IwStartPoint)
+	end
+
+	operation testBuild_ShouldBuildIwStartPoint() is do
+		sut.build
+		
+		assertEquals("theReplacementPointcutStub_Out",sutIwStartPoint.name)
+		assertEquals(true,sut.iwHasNodes)		
+		assertVoid(sut.iwGetEntryNode(void))
+	end
+	
+	operation testLink_ShouldLinkIwNodeToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(
+			sutIwStartPoint,
+			ucmMap.iwWorkflow.nodes
+		)
+	end
+	
+	operation testLink_ShouldLinkIwStartPointToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(
+			sutIwStartPoint,
+			ucmMap.iwWorkflow.startPoints
+		)
+	end
+}

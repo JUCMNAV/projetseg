@@ -69,12 +69,28 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkIwStartPointToIwWorklow() is do
 		var ucmMap:UCMmap init createUcmMap
-		sut.ucmMap:=ucmMap 
+		sut.ucmMap:=ucmMap
+		connectNodes(sut,createEndPoint_UcmMap(ucmMap)) 
 		ucmMap.build
 		
 		sut.link
 		
 		assertCollectionHasSingleElement(sut.iwStartPoint,ucmMap.iwWorkflow.startPoints)
+	end
+	
+	operation testLink_PointcutStubAsTarget_ShouldIgnoreStartPoint() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.ucmMap:=ucmMap
+		var target:Stub init createReplacementPointcutStub
+		target.ucmMap:=ucmMap
+		connectNodes(sut,target)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(0,ucmMap.iwWorkflow.nodes.size)
+		assertEquals(0,ucmMap.iwWorkflow.startPoints.size)
+		assertEquals(0,sut.iwStartPoint.succs.size)
 	end
 	
 	operation attachInBinding() is do

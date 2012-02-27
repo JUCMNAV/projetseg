@@ -12,32 +12,34 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutIn_ShouldLinkThreeIwNodesToIwWorklow() is do
-		sut:=createStartPoint
-		setupAndExeLink
+		setupAndExeLink_OutIn
 		
 		assertCollectionHasThreeElements(sut.iwEquivalentNode,sut.iwInput,sut.iwOutput,sut.ucmMap.iwWorkflow.nodes)
 	end
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutIn_ShouldLinkIwOutputToIwInput() is do
-		sut:=createStartPoint
-		setupAndExeLink
+		setupAndExeLink_OutIn
 		
 		assertCollectionHasSingleElement(sut.iwInput,sut.iwOutput.targets)
 	end
 
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutputInputAfter_ShouldLinkIwEquivalentNodeToIwOutput() is do
-		sut:=createStartPoint//use StartPoint (OutputInputAfter)
-		setupAndExeLink
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStartPoint_UcmMap(ucmMap)//use StartPoint (OutputInputAfter)
+		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		attachOutputInputRamMetadata(sut)
+		ucmMap.build
+		
+		sut.link
 		
 		assertCollectionHasSingleElement(sut.iwOutput,sut.iwEquivalentNode.targets)
 	end
 	
 	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
 	operation testLink_OutputInputBefore_ShouldLinkIwInputToIwEquivalentNode() is do
-		sut:=createEndPoint//use EndPoint (OutputInputBefore)
-		setupAndExeLink
+		setupAndExeLink_OutIn//use EndPoint (OutputInputBefore)
 		
 		assertCollectionHasSingleElement(sut.iwEquivalentNode,sut.iwInput.targets)
 	end
@@ -67,9 +69,9 @@ class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertVoid(nodeConnection.iwNodeConnection)
 	end
 	
-	operation setupAndExeLink() is do
+	operation setupAndExeLink_OutIn() is do
 		var ucmMap:UCMmap init createUcmMap
-		sut.ucmMap:=ucmMap
+		sut:=createEndPoint_UcmMap(ucmMap)
 		attachOutputInputRamMetadata(sut)
 		ucmMap.build
 		

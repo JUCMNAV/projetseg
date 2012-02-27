@@ -5,15 +5,13 @@ using kermeta::standard
 using kermeta::utils
 using intermediateWorkflow
 
-class PointcutStubStrategy inherits StubStrategy {
+class RegularPointcutStubStrategy inherits StubStrategy {
 	reference iwEndPoints:Hashtable<NodeConnection,IwEndPoint>
 	reference iwStartPoints:Hashtable<NodeConnection,IwStartPoint>
 
 	method build() is do
 		buildIwEndPoints
 		buildIwStartPoints
-		
-		stub.invokeBuildOnNodeConnections //stle: is it common? how to test?
     end
     
     operation buildIwEndPoints() is do
@@ -46,7 +44,6 @@ class PointcutStubStrategy inherits StubStrategy {
 	method link() is do
 		linkIwEndPointsToIwWorkflow
 		linkIwStartPointsToIwWorkflow
-		stub.invokeLinkOnSuccs //stle: is it common? how to test?
 	end
 	
 	operation linkIwStartPointsToIwWorkflow() is do
