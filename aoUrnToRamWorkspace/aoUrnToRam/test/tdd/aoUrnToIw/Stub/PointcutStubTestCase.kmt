@@ -7,7 +7,7 @@ using oneurn::urncore
 using oneurn::ucm::map
 using intermediateWorkflow
 
-class AoUrnToIw_RegularPointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	reference sut:Stub
 	
 	method setUp() is do
@@ -49,13 +49,45 @@ class AoUrnToIw_RegularPointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelp
 		)
 	end
 	
+	operation testLink_ReplacementPointcutStub_ShouldNotLinkIwEndPointToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.aopointcut:=PointcutKind.Replacement
+		sut.diagram:=ucmMap
+		var nodeConnection:NodeConnection init createInPath
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(0,ucmMap.iwWorkflow.nodes.size)
+	end
+	
+	
 	operation testBuild_OneOutPath_ShouldHaveNode() is do
-		var nodeConnection1:NodeConnection init createNodeConnection
-		nodeConnection1.source:=sut
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
 		
 		sut.build
 		
 		assertEquals(true,sut.iwHasNodes)		
+	end
+
+	operation testBuild_OneUnboundOutPath_ShouldBuildGlobalStartPoint() is do
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
+		
+		sut.build
+		
+		assertEquals("global",sut.iwGetExitNode(nodeConnection).asType(IwStartPoint).startPointType)
+	end
+	
+	operation testBuild_OneBoundOutPath_ShouldBuildBoundStartPoint() is do
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
+		createInBinding.pointcutExit:=nodeConnection
+		
+		sut.build
+		
+		assertEquals("bound",sut.iwGetExitNode(nodeConnection).asType(IwStartPoint).startPointType)
 	end
 	
 	operation testBuild_TwoOutPaths_ShouldBuildTwoIwStartPoints() is do

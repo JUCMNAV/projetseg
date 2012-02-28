@@ -11,14 +11,11 @@ aspect class Stub {
 	property readonly strategy:StubStrategy 
 	getter is do
 		if(_strategy.isVoid) then
-			if(isRegularPointcutStub) then
-				_strategy:=RegularPointcutStubStrategy.new.initialize(self)
+			if(isRegularStub) then
+				_strategy:=RegularStubStrategy.new.initialize(self)
+				
 			else
-				if(isReplacementPointcutStub) then
-					_strategy:=ReplacementPointcutStubStrategy.new.initialize(self)
-				else
-					_strategy:=RegularStubStrategy.new.initialize(self)
-				end
+				_strategy:=PointcutStubStrategy.new.initialize(self)
 			end 
 		end
 		result:=_strategy
@@ -50,6 +47,11 @@ aspect class Stub {
 		//PreCondition: isPointcutStub==false
 		var iwStub:IwStub init iwGetEntryNode(void).asType(IwStub)
 		iwStub.pluginBindings.add(iwPluginBinding)
+	end
+	
+	property readonly isRegularStub:Boolean
+	getter is do
+		result:=isPointcutStub==false
 	end
 	
 	property readonly isPointcutStub:Boolean

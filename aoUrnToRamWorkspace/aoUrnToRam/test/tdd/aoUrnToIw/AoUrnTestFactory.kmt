@@ -189,14 +189,6 @@ Stub
 		result.name:="thePointcutStub"
 	end
 	
-	operation createReplacementPointcutStub():Stub is do
-		result:=createStub
-		result.aopointcut:=PointcutKind.Replacement
-		result.name:="theReplacementPointcutStub"
-	end
-	
-	
-	
 	operation createStub_UcmMap(ucmMap:UCMmap):Stub is do
 		result:=createStub
 		result.diagram:=ucmMap

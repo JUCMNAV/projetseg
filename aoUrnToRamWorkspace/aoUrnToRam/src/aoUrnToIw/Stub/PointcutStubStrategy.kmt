@@ -5,7 +5,7 @@ using kermeta::standard
 using kermeta::utils
 using intermediateWorkflow
 
-class RegularPointcutStubStrategy inherits StubStrategy {
+class PointcutStubStrategy inherits StubStrategy {
 	reference iwEndPoints:Hashtable<NodeConnection,IwEndPoint>
 	reference iwStartPoints:Hashtable<NodeConnection,IwStartPoint>
 
@@ -31,14 +31,19 @@ class RegularPointcutStubStrategy inherits StubStrategy {
 
     	var index:Integer init 1
 		stub.succAsNodeConnection.each{nodeConnection|
-			var iwStartPoint:IwStartPoint init IwStartPoint.new
-			iwStartPoint.name:=stub.name+"_Out"+index.toString
-			//stle:need to fix: AspectMap: Should always bind startPoint and endPoint to *, maybe another startType:=aspectBound
-			iwStartPoint.startPointType:="bound"
-			
-			iwStartPoints.put(nodeConnection,iwStartPoint)
+			iwStartPoints.put(nodeConnection,buildIwStartPoint(nodeConnection,index))
 			index:=index+1
 		}
+    end
+    
+    operation buildIwStartPoint(nodeConnection:NodeConnection,index:Integer):IwStartPoint is do
+    	result:=IwStartPoint.new
+		result.name:=stub.name+"_Out"+index.toString
+		if(nodeConnection.inBindingsPlugin.size>0) then
+			result.startPointType:="bound"
+		else
+			result.startPointType:="global"
+		end
     end
 
 	method link() is do
@@ -54,9 +59,10 @@ class RegularPointcutStubStrategy inherits StubStrategy {
 	end
 	
 	operation linkIwEndPointsToIwWorkflow() is do
-		iwEndPoints.values.each{iwEndPoint|iwEndPoint.workflow:=stub.ucmMap.iwWorkflow}
+		if(stub.isReplacementPointcutStub==false) then
+			iwEndPoints.values.each{iwEndPoint|iwEndPoint.workflow:=stub.ucmMap.iwWorkflow}
+		end
 	end
-	
 
 	method hasNodes():Boolean is do
 		result:=iwEndPoints.size>0 or iwStartPoints.size>0

@@ -21,8 +21,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/NodeConnectionTestCase
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/InBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/OutBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/PluginBindingTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/RegularPointcutStubTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/ReplacementPointcutStubTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/PointcutStubTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/Stub/StubTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/UCMmapTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/UCMmap_IsPointcutExpressionTestCase.kmt"
@@ -50,8 +49,7 @@ class AoUrnToIw_TestRunner inherits CustomTestRunner
 		result.add(AoUrnToIw_InBindingTestCase)
 		result.add(AoUrnToIw_OutBindingTestCase)
 		result.add(AoUrnToIw_PluginBindingTestCase)
-		result.add(AoUrnToIw_RegularPointcutStubTestCase)
-		result.add(AoUrnToIw_ReplacementPointcutStubTestCase)
+		result.add(AoUrnToIw_PointcutStubTestCase)
 		result.add(AoUrnToIw_StubTestCase)
 		result.add(AoUrnToIw_UCMmapTestCase)
 		result.add(AoUrnToIw_UCMmap_IsPointcutExpressionTestCase)

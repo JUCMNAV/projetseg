@@ -81,7 +81,8 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testLink_PointcutStubAsTarget_ShouldIgnoreStartPoint() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut.ucmMap:=ucmMap
-		var target:Stub init createReplacementPointcutStub
+		var target:Stub init createPointcutStub
+		target.aopointcut:=PointcutKind.Replacement
 		target.ucmMap:=ucmMap
 		connectNodes(sut,target)
 		ucmMap.build

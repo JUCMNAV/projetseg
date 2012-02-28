@@ -59,7 +59,6 @@ aspect class NodeConnection{
 		//stle: single again
 		result:=targetAsPathNode.succAsNodeConnection.one
 	end
-	
 
 //*********************************************************
 //AoUrnToRam Extensions
