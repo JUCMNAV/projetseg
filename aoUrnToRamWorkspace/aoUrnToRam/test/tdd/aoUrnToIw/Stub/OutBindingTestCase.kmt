@@ -43,7 +43,8 @@ class AoUrnToIw_OutBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 		assertEquals(sut.endPoint.iwEndPoint, sut.iwOutBinding.pluginEndPoint)
 	end
-	
+
+	@feature "FeaTransformPointcutStub"
 	operation testLink_ShouldLinkIwOutBindingToIwPointcutEntry() is do
 		var pointcutStub:Stub init createPointcutStub
 		sut.pointcutEntry:=createNodeConnection

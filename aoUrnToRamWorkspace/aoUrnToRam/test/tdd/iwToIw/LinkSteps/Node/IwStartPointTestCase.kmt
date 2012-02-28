@@ -45,7 +45,8 @@ class LinkSteps_IwStartPointTestCase inherits TestCase,LinkSteps_TestHelper
 		
 		assertStepAdded
 	end
-	
+
+	@feature "FeaTransformPointcutStub"
 	operation testLinkStep_BoundFromAspectMarker_ShouldAddStep() is do
 		bindAspectMarkerToPluginStartPoint(createStubFromSameConcern,sut)
 		

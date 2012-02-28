@@ -77,7 +77,8 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		assertCollectionHasSingleElement(sut.iwStartPoint,ucmMap.iwWorkflow.startPoints)
 	end
-	
+
+	@feature "FeaTransformPointcutStub"
 	operation testLink_PointcutStubAsTarget_ShouldIgnoreStartPoint() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut.ucmMap:=ucmMap

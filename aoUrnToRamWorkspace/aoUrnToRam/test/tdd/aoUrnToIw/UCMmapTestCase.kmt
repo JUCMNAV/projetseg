@@ -59,6 +59,7 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(2,sut.iwWorkflow.nodes.size)
 	end
 
+	@feature "FeaTransformPointcutStub"
 	operation testBuild_PointcutExpression_ShouldNotBuildIwWorkflow() is do
 		sut:=createUcmMap
 		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
@@ -68,7 +69,8 @@ class AoUrnToIw_UCMmapTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 		assertVoid(sut.iwWorkflow)
 	end
-	
+
+	@feature "FeaTransformPointcutStub"
 	operation testLink_PointcutExpression_ShouldNotLinkIwWorkflowToIwConcern() is do
 		var urnSpec:URNspec init createUrnSpec
 		sut:=createUcmMap_UrnSpec(urnSpec)

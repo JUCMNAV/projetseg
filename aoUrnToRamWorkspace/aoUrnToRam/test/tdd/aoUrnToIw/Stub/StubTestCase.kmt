@@ -50,7 +50,8 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		assertEquals(1,sutIwStub.pluginBindings.size)
 	end
-	
+
+	@feature "FeaTransformPointcutStub"
 	operation testLink_ShouldLinkIwStubToIwWorkflow() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
