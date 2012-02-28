@@ -12,14 +12,8 @@ aspect class IwWorkflow{
 	
 	property readonly plugins : IwWorkflow[0..*]
 	getter is do
-		result:=OrderedSet<IwWorkflow>.new
-		stubs.each{stub|
-			stub.pluginBindings.each{pluginBinding|
-				if(pluginBinding.inBindings.isEmpty==false) then
-					result.add(pluginBinding.inBindings.one.pluginStartPoint.workflow)
-				end
-			}
-		}
+		//OrderedSet does not have duplicate
+		result:=stubs.collect{stub|stub.staticPlugin}.asOrderedSet
 	end
 	
 	property readonly stubs : IwStub[0..*]

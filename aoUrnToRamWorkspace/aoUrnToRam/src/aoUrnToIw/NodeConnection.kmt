@@ -82,5 +82,9 @@ aspect class NodeConnection{
 	getter is do
 		result:=source.asType(PathNode)
 	end
-
+	
+	property readonly ucmMap: UCMmap
+	getter is do
+		result:=sourceAsPathNode.ucmMap
+	end
 }

@@ -70,11 +70,6 @@ aspect class IwNode {
 		//default: do nothing
 	end
 	
-	//virtual
-	operation appendPluginFromDifferentConcern(stepView:StepView) is do
-		//default: do nothing		
-	end
-	
 	operation getId():String is do
 		result:=workflow.name+"_"+name //Use workflow name as prefix to enforce node names are unique
 	end

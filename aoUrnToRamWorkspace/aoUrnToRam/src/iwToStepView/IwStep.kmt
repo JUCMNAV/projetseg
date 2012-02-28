@@ -80,7 +80,25 @@ aspect class IwStep {
 		nodes.each{node|node.appendBindings(stepView)}
 		stepView.appendStubFromOtherConcerPlaceholder
 		
-		nodes.each{node|node.appendPluginFromDifferentConcern(stepView)}
+		pluginsFromDifferentConcern.each{plugin|plugin.appendWorkflow_DifferentConcern(stepView)}
+		inBoundStubs.each{inBoundStub|inBoundStub.appendAccrosConcernBindings(stepView)}
+	end
+	
+	property readonly pluginsFromDifferentConcern:IwWorkflow[0..*] 
+	getter is do
+		result:=OrderedSet<IwWorkflow>.new
+		inBoundStubs.each{inBoundStub|
+			if(inBoundStub.isExplicitlyBoundAccrosConcerns) then
+				result.add(inBoundStub.staticPlugin)
+			end
+		}
+	end
+
+	property readonly inBoundStubs:IwStub[0..*] 
+	getter is do
+		//stle: dry
+		result:=nodes.select{node|node.isInstanceOf(IwStub)}
+			         .collect{node|node.asType(IwStub)}.asOrderedSet
 	end
 
 	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>
@@ -105,5 +123,4 @@ aspect class IwStep {
 		var nodes:OrderedSet<IwNode> init nodesPerWorkflow.getValue(node.workflow)
 		nodes.add(node) 
 	end
-	
 }

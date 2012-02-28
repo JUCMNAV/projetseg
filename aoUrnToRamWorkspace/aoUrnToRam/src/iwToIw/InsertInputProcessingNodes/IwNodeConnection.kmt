@@ -11,7 +11,6 @@ aspect class IwNodeConnection{
 	operation insertInputProcessingNode(input:IwInput) is do
 		if(target.inputProcessingNodeAction=="continue") then
 			//action==continue implies that there is a single succ
-
 			//stle:Single again
 			target.succs.one.insertInputProcessingNode(input)
 		else

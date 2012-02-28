@@ -101,35 +101,15 @@ aspect class IwStub {
 		}
 	end
 	
-	method appendPluginFromDifferentConcern(stepView:StepView) is do
-		if(isAspectMarker==false and workflow.concern!=pluginWorkflow.concern) then
-			pluginWorkflow.appendWorkflowPre_DifferentConcern(stepView)
-				staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.succs.one.target.appendVertex_NextStep(stepView)}
-				staticPluginBinding.outBindings.each{outBinding|outBinding.pluginEndPoint.appendVertex_NextStep(stepView)}
-				enforcePluginStartPointTop_PluginEndPointDown(stepView)
-			pluginWorkflow.appendWorkflowPost_DifferentConcern(stepView)
-			
+	operation appendAccrosConcernBindings(stepView:StepView) is do
+		if(isExplicitlyBoundAccrosConcerns) then
 			staticPluginBinding.inBindings.each{inBinding|inBinding.appendBinding(stepView)}
 			staticPluginBinding.outBindings.each{outBinding|outBinding.appendBinding(stepView)}
 		end
 	end
 	
-	operation enforcePluginStartPointTop_PluginEndPointDown(stepView:StepView) is do
-		staticPluginBinding.inBindings.each{inBinding|
-			staticPluginBinding.outBindings.each{outBinding|
-				stepView.append("        ") 
-				
-				stepView.append(inBinding.getPluginStartPointTargetPortDotEscaped(stepView))
-				stepView.append("->")
-				stepView.append(stepView.dotEscape(outBinding.pluginEndPoint.getId)) 
-				stepView.appendLine("[style=\"invis\"]")
-			}
-		}
-	end
-	
-	property readonly pluginWorkflow : IwWorkflow
+	property readonly isExplicitlyBoundAccrosConcerns:Boolean 
 	getter is do
-		//The existence of a pluginBinding implies the existance of at least one pluginStartPoint
-		result:=staticPluginBinding.inBindings.one.pluginStartPoint.workflow
+		result:=isAspectMarker==false and staticPlugin.concern!=concern
 	end
 }

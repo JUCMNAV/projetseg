@@ -6,16 +6,26 @@ using kermeta::standard
 
 aspect class IwStub{
 	method explore(currentStep:IwStep) is do
-		if(isAspectMarker==true or isStaticPluginInSameConcern==false) then
-			super(currentStep)
-		else
+		if(isStaticPluginInSameStep) then
 			step:=currentStep 
 			staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
+		else
+			super(currentStep)
 		end
 	end
-
-	property readonly isStaticPluginInSameConcern : Boolean
+	
+	property readonly isStaticPluginInSameStep: Boolean
 	getter is do
-		result:=concern==staticPluginBinding.inBindings.one.pluginStartPoint.concern
+		if(isAspectMarker==true) then
+			result:=false
+		else
+			//stle: refactor on dynamic stub:Only aspect and static stub for now
+			if(concern!=staticPlugin.concern) then
+				result:=false
+			else
+				result:=true
+			end
+		end
 	end
+	
 }

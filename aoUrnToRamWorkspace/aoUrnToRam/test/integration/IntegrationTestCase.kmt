@@ -22,7 +22,7 @@ class Integration_IntegrationTestCase inherits TestCase
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
 
-	operation testSpecific() is do
+	operation testDemo2_Sp4_WithAutAspect() is do
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
 

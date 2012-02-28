@@ -5,10 +5,23 @@ require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
 using kermeta::standard
 
 aspect class IwStub{
+	
+	//stle: refactor on dynamic stub:Only aspect and static stub for now
 	property readonly staticPluginBinding : IwPluginBinding
 	getter is do
 		//stle:Single again
 		result:=pluginBindings.one
+	end
+	
+	//stle: refactor on dynamic stub:Only aspect and static stub for now
+	property readonly staticPlugin : IwWorkflow
+	getter is do
+		if(staticPluginBinding.inBindings.isEmpty==false) then
+			result:=staticPluginBinding.inBindings.one.pluginStartPoint.workflow
+		else
+			//Some aspect marker are only bound by an outBinding
+			result:=staticPluginBinding.outBindings.one.pluginEndPoint.workflow
+		end
 	end
 	
 	property readonly isAspectMarker: Boolean

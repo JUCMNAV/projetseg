@@ -59,8 +59,12 @@ aspect class UCMmap{
 		result:=OrderedSet<UCMmap>.new
 		stubs.each{stub|
 			stub.bindings.each{pluginBinding|
-				if(pluginBinding.in.isEmpty==false)then
-					result.add(pluginBinding.in.one.startPoint.ucmMap)
+				if(pluginBinding.in.isEmpty==false) then
+					if(pluginBinding.in.one.startPoint.isVoid==false) then
+						result.add(pluginBinding.in.one.startPoint.ucmMap)
+					else
+						result.add(pluginBinding.in.one.pointcutExit.ucmMap)
+					end
 				end
 			}
 		}

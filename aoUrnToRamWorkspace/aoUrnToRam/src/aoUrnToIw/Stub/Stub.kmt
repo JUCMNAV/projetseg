@@ -30,7 +30,7 @@ aspect class Stub {
 	end
 	
 	method link() is do
-		invokeBuildOnNodeConnections
+		invokeLinkOnSuccs
 		strategy.link
 	end
 	
