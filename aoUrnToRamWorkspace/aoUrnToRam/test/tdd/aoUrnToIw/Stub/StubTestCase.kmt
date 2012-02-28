@@ -103,4 +103,11 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(1,succ1.iwNodeConnection.stubExitIndex)
 		assertEquals(2,succ2.iwNodeConnection.stubExitIndex)
 	end
+	
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ShouldInvokeSuper() is do
+		sut:=createStub
+		pathNode_ParameterizableTestLink_ShouldInvokeSuper(sut)
+	end
+	
 }

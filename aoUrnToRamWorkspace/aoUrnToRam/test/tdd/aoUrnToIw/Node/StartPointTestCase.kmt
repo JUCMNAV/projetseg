@@ -95,6 +95,11 @@ class AoUrnToIw_StartPointTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(0,sut.iwStartPoint.succs.size)
 	end
 	
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ShouldInvokeSuper() is do
+		pathNode_ParameterizableTestLink_ShouldInvokeSuper(sut)
+	end
+	
 	operation attachInBinding() is do
 		sut.inBindings.add(createInBinding)
 	end

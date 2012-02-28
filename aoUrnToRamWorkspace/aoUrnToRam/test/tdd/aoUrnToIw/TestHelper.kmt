@@ -41,6 +41,18 @@ class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory
 		assertEquals(pathNode.iwEquivalentNode,getSingleEntryNode(pathNode))
 		assertNameOrPrefixInvokedToSetName(pathNode,pathNode.iwEquivalentNode.name)
 	end
+
+	operation pathNode_ParameterizableTestLink_ShouldInvokeSuper(pathNode:PathNode) is do
+		var ucmMap:UCMmap init createUcmMap
+		pathNode.ucmMap:=ucmMap
+		var nodeConnection:NodeConnection init connectEndPointAsTarget(pathNode)
+		ucmMap.build
+
+		pathNode.link
+
+		assertNotVoid(nodeConnection.iwNodeConnection)
+		assertEquals(pathNode.iwGetExitNode(nodeConnection),nodeConnection.iwNodeConnection.source)
+	end
 	
 	operation assertNameOrPrefixInvokedToSetName(urnModelElement:URNmodelElement,name:String) is do
 		assertStringContains(urnModelElement.id,name)
