@@ -19,13 +19,13 @@ aspect class IwStartPoint{
 	end
 
 	method appendVertex(stepView:StepView) is do
-		if(startPointType!="bound") then
+		if(isBound==false) then
 			super(stepView)
 		end
 	end
 	
 	method appendEdges(stepView:StepView) is do
-		if(startPointType!="bound") then
+		if(isBound==false) then
 			super(stepView)
 		end
 	end

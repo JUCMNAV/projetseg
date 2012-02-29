@@ -10,4 +10,9 @@ aspect class IwStartPoint{
 		//stle:single again
 		result:=targets.one
 	end
+	
+	property readonly isBound:Boolean
+	getter is do
+		result:=startPointType=="bound"
+	end
 }

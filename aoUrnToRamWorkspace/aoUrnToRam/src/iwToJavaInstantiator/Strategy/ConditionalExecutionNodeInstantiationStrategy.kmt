@@ -1,0 +1,19 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+class ConditionalExecutionNodeInstantiationStrategy inherits WorkflowNodeInstantiationStrategy {
+	operation initialize_ConditionalExecutionNodeInstantiationStrategy(node:IwNode):ConditionalExecutionNodeInstantiationStrategy is do
+		initialize_WorkflowNodeInstantiationStrategy(node,"ConditionalExecutionNode")
+		result:=self
+	end
+	
+	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		super(workflowInstantiator)
+		
+		node.succs.each{succ|succ.jiAppendBuildStatement(workflowInstantiator)}
+	end
+}

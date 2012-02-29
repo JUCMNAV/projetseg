@@ -7,7 +7,8 @@ using javaInstantiator
 
 aspect class IwInput
 {
-	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendWorkflowNodeMember(workflowInstantiator,"InputNode")
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"InputNode")
 	end
+	
 }

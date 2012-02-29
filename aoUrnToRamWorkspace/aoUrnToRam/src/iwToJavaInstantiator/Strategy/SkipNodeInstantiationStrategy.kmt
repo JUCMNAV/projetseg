@@ -1,0 +1,29 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+class SkipNodeInstantiationStrategy inherits NodeInstantiationStrategy {
+	//only to respect pattern: all strategies must be initialized
+	operation initialize_SkipNodeInstantiationStrategy():SkipNodeInstantiationStrategy is do
+		result:=self
+	end
+
+	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//do nothing
+	end
+	
+	method jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//do nothing
+	end
+	
+	method jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//do nothing
+	end
+	
+	method jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//do nothing
+	end
+}

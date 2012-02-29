@@ -1,0 +1,22 @@
+package intermediateWorkflow;
+
+require "platform:/resource/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+class StartupNodeInstantiationStrategy inherits WorkflowNodeInstantiationStrategy {
+	operation initialize_StartupNodeInstantiationStrategy(node:IwNode):StartupNodeInstantiationStrategy is do
+		initialize_WorkflowNodeInstantiationStrategy(node,"StartupNode")
+		result:=self
+	end
+	
+	method jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_1Param(
+			workflowInstantiator.workflowMemberName,
+			"addStartupNode",
+			node.jiMemberName
+		)
+	end
+	
+}

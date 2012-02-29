@@ -7,13 +7,13 @@ using kermeta::kunit
 using intermediateWorkflow
 using javaInstantiator
 
-class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+class IwToJavaInstantiator_IwStartPoint_BoundTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
 	reference sut:IwStartPoint
 	reference workflowInstantiator:WorkflowInstantiator
 
 	method setUp() is do
-		sut:=createIwStartPoint
+		sut:=createIwStartPoint.withStartPointType("bound")
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
@@ -24,10 +24,9 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 		assertEquals("",workflowInstantiator.content)
 	end
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"
-	operation testAppendLinkStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
-		linkNodes(sut,createIwCustomizableNode)
-		linkNodes(sut,createIwCustomizableNode)
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkNodesToNextNodesStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
+		sut.connect(createIwInput)
 		
 		sut.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)
 		
@@ -42,18 +41,7 @@ class IwToJavaInstantiator_IwStartPointTestCase inherits TestCase,IwToJavaInstan
 	end
 
 	@feature "FeaWorkflowInstantiationWithStubs"
-	operation testAppendLinkStartNodesToWorkflowStatement_NotBound_ShouldLinkStartNodesToWorkflow() is do
-		sut.withStartPointType("global").connect(createIwInput)
-	
-		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
-		
-		assertEquals("        workflow.addStartupNode(_theInput);\n",workflowInstantiator.content)
-	end
-
-	@feature "FeaWorkflowInstantiationWithStubs"
-	operation testAppendLinkStartNodesToWorkflowStatement_Bound_ShouldNotLinkStartNodesToWorkflow() is do
-		sut.withStartPointType("bound").connect(createIwInput)
-	
+	operation testAppendLinkStartNodesToWorkflowStatement_ShouldNotLinkStartNodesToWorkflow() is do
 		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
 		
 		assertEquals("",workflowInstantiator.content)

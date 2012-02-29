@@ -7,7 +7,7 @@ using javaInstantiator
 
 aspect class IwOutput
 {
-	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendCustomizableNodeMember(workflowInstantiator)
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=CustomizableNodeInstantiationStrategy.new.initialize_CustomizableNodeInstantiationStrategy(self)
 	end
 }

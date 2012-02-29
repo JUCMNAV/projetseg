@@ -7,10 +7,7 @@ using javaInstantiator
 
 aspect class IwStub
 {
-	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendWorkflowNodeMember(workflowInstantiator,"StubNode")
-	end
-
-	operation jiAppendBindStatement(workflowInstantiator:WorkflowInstantiator) is do
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"StubNode")
 	end
 }

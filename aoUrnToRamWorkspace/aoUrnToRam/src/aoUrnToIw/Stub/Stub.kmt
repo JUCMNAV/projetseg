@@ -13,7 +13,6 @@ aspect class Stub {
 		if(_strategy.isVoid) then
 			if(isRegularStub) then
 				_strategy:=RegularStubStrategy.new.initialize(self)
-				
 			else
 				_strategy:=PointcutStubStrategy.new.initialize(self)
 			end 

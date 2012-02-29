@@ -6,26 +6,11 @@ using kermeta::standard
 using javaInstantiator
 
 aspect class IwStartPoint{
-	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		//Do nothing:startPoints are not modelled in ReactiveWorkflow 
-	end
-	
-	method jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
-		//Do nothing:startPoints are not modelled in ReactiveWorkflow
-	end
-	
-	method jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
-		//Do nothing:startPoints are not modelled in ReactiveWorkflow
-	end
-	
-	method jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
-		if(startPointType!="bound") then
-			workflowInstantiator.appendMethodInvocationOn_1Param(
-				workflowInstantiator.workflowMemberName,
-				"addStartupNode",
-				target.jiMemberName
-			)
+	method createStrategy():NodeInstantiationStrategy is do
+		if(isBound) then
+			result:=SkipNodeInstantiationStrategy.new.initialize_SkipNodeInstantiationStrategy
+		else
+			result:=StartupNodeInstantiationStrategy.new.initialize_StartupNodeInstantiationStrategy(self)
 		end
 	end
-	
 }

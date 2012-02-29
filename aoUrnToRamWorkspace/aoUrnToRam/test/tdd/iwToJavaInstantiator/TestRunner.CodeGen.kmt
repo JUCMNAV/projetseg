@@ -19,7 +19,8 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwInpu
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwNodeTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwOrForkTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwOutputTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwStartPointTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwStartPoint_BoundTestCase.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Node/IwStartPoint_NotBoundTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwInBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwOutBindingTestCase.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwPluginBindingTestCase.kmt"
@@ -44,7 +45,8 @@ class IwToJavaInstantiator_TestRunner inherits CustomTestRunner
 		result.add(IwToJavaInstantiator_IwNodeTestCase)
 		result.add(IwToJavaInstantiator_IwOrForkTestCase)
 		result.add(IwToJavaInstantiator_IwOutputTestCase)
-		result.add(IwToJavaInstantiator_IwStartPointTestCase)
+		result.add(IwToJavaInstantiator_IwStartPoint_BoundTestCase)
+		result.add(IwToJavaInstantiator_IwStartPoint_NotBoundTestCase)
 		result.add(IwToJavaInstantiator_IwInBindingTestCase)
 		result.add(IwToJavaInstantiator_IwOutBindingTestCase)
 		result.add(IwToJavaInstantiator_IwPluginBindingTestCase)

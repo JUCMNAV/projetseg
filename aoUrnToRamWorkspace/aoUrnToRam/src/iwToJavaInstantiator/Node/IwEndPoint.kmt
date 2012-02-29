@@ -7,7 +7,7 @@ using javaInstantiator
 
 aspect class IwEndPoint
 {
-	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		jiAppendWorkflowNodeMember(workflowInstantiator,"EndNode")
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"EndNode")
 	end
 }

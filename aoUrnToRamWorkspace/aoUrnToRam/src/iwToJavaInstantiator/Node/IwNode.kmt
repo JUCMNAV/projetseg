@@ -10,51 +10,42 @@ aspect class IwNode {
 //*********************************************************
 //Properties
 //*********************************************************/
-	
 	//Virtual
 	operation jiMemberName():String is do 
 		result:="_"+name
 	end
-
+	
 //*********************************************************
-//Build
+//Strategy
 //*********************************************************/
-	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		//stle: temp do nothing
+	attribute _strategy:NodeInstantiationStrategy
+	//LazyLoad because the creation of IwNode is not under our control
+	property readonly strategy:NodeInstantiationStrategy
+	getter is do
+		if(_strategy.isVoid) then
+			_strategy:=createStrategy
+		end
+		result:=_strategy
+	end
+	
+	operation createStrategy():NodeInstantiationStrategy is do
 		//throw exception in this case because abstract in aspect produces meaningless excpetion msg
-	end
-	
-	operation jiAppendWorkflowNodeMember(workflowInstantiator:WorkflowInstantiator,workflowNodeType:String) is do
-		workflowInstantiator.appendPublicMemberDefaultConstructor(workflowNodeType,jiMemberName)
+		raise kermeta::exceptions::NotImplementedException.new
 	end
 
-	//shared between IwCustomizableNode and IwOutput	
-	operation jiAppendCustomizableNodeMember(workflowInstantiator:WorkflowInstantiator) is do
-		var customizableNodeFullyQualifiedName:String init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+name
-	
-		workflowInstantiator.appendPublicMember(
-			"CustomizableNode",
-			jiMemberName,
-			"createCustomizableNode(\""+customizableNodeFullyQualifiedName+"\")"
-		)
+	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		strategy.jiAppendBuildStatement(workflowInstantiator)
 	end
 	
-//*********************************************************
-//Link
-//*********************************************************/
 	operation jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
-		succs.each{succ|succ.jiAppendAddNextNodeStatements(workflowInstantiator)}
+		strategy.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)
 	end
 	
 	operation jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendMethodInvocationOn_1Param(
-			workflowInstantiator.workflowMemberName,
-			"addNode",
-			jiMemberName
-		)
+		strategy.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
 	end
 	
 	operation jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
-		//Default: do nothing
+		strategy.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
 	end
 }
