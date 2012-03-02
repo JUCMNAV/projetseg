@@ -9,7 +9,7 @@ require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGe
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestRunner.CodeGen.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

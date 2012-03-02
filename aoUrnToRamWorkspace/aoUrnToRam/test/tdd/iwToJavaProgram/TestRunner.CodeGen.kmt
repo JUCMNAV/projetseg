@@ -10,7 +10,7 @@ require kermeta
 
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/IwModelTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/IwWorkflowTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

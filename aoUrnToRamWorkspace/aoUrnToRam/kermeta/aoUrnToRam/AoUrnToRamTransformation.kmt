@@ -1,15 +1,15 @@
 package aoUrnToRam;
 
 require kermeta
-require "platform:/lookup/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToIw/LinkSteps/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToRam/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToStepView/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIw/LinkSteps/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToRam/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/ModelRepository.kmt"
-require "platform:/lookup/aoUrnToRam/src/textView/TextView.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/textView/TextView.kmt"
 
 using kermeta::persistence
 using kermeta::standard

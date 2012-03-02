@@ -15,7 +15,7 @@ require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/IwStep_CustomizableNodeTes
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwInputTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwOrForkTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwOutputTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

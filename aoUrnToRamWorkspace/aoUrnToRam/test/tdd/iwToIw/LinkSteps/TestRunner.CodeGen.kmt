@@ -18,7 +18,7 @@ require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPoint
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_AspectMarkerTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

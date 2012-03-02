@@ -25,7 +25,7 @@ require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwInBind
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwOutBindingTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwPluginBindingTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/Stub/IwStubTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

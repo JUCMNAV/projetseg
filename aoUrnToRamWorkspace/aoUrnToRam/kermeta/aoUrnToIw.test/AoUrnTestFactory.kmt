@@ -1,7 +1,7 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/lookup/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 
 using kermeta::standard
 using kermeta::utils
