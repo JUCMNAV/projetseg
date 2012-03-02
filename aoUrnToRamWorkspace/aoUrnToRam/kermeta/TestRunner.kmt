@@ -21,7 +21,7 @@ class AllTestRunner inherits CustomTestRunner
 		result.addAll(AoUrnToIw_TestRunner.new.getTestClasses)
 		result.addAll(IwToIwInsertInputProcessingNodes_TestRunner.new.getTestClasses)
 		result.addAll(IwToIwLinkSteps_TestRunner.new.getTestClasses)
-		result.addAll(IwToRam_TestRunner.new.getTestClasses)
+		result.addAll(IwToStepClassDiagram_TestRunner.new.getTestClasses)
 		result.addAll(IwToJavaInstantiator_TestRunner.new.getTestClasses)
 		result.addAll(IwToJavaProgram_TestRunner.new.getTestClasses)
 	end
