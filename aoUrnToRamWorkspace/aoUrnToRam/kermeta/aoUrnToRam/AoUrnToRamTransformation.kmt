@@ -2,8 +2,8 @@ package aoUrnToRam;
 
 require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/iwToIw/InsertInputProcessingNodes/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/iwToIw/LinkSteps/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
