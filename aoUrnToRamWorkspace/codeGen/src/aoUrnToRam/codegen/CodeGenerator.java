@@ -17,7 +17,7 @@ public abstract class CodeGenerator {
 		String filePathWithSlash = file.getAbsolutePath().replace('\\', '/');
 		String regEx = ".*(" + projectName + ".*)";
 		return filePathWithSlash.replaceFirst(regEx,
-				"require \"platform:/resource/$1\"");
+				"require \"platform:/lookup/$1\"");
 	}
 
 	public List<File> getFilesWithExt(File dir, String suffix) {
