@@ -8,9 +8,9 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/IwModelTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/IwWorkflowTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/IwModelTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/IwWorkflowTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

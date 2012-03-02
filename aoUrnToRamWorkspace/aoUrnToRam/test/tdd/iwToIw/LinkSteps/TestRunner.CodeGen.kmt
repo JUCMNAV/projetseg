@@ -8,17 +8,17 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/IwStepTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_OneStubTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_TwoStubsTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_OrForkAsSutTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_AspectMarkerTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/IwStepTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_OneStubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_TwoStubsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_OrForkAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_AspectMarkerTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

@@ -1,12 +1,12 @@
 package aoUrnToRam;
 
-require "platform:/resource/aoUrnToRam/src/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/src/iw/_Ref.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
 //Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
-require "platform:/resource/aoUrnToRam/src/textView/IwWorkflow.kmt"
-require "platform:/resource/aoUrnToRam/src/textView/JavaView.kmt"
-require "platform:/resource/aoUrnToRam/src/textView/TextView.kmt"
-require "platform:/resource/aoUrnToRam/src/textView/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/src/textView/IwWorkflow.kmt"
+require "platform:/lookup/aoUrnToRam/src/textView/JavaView.kmt"
+require "platform:/lookup/aoUrnToRam/src/textView/TextView.kmt"
+require "platform:/lookup/aoUrnToRam/src/textView/_Ref.kmt"

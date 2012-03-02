@@ -1,6 +1,6 @@
 package intermediateWorkflow;
 
-require "platform:/resource/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
 
 using kermeta::standard
 using aoUrnToRam

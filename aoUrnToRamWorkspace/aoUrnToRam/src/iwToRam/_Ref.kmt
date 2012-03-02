@@ -1,21 +1,21 @@
 package intermediateWorkflow;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/src/iwToStepView/_Ref.kmt"
-require "platform:/resource/aoUrnToRam/metamodel/RamStructuralExtension.kmt"
-require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToStepView/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/metamodel/RamStructuralExtension.kmt"
+require "platform:/lookup/aoUrnToRam/src/Util.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
 //Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
-require "platform:/resource/aoUrnToRam/src/iwToRam/IwConcern.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/IwModel.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/IwNodeConnection.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/IwStep.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Node/IwCustomizableNode.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Node/IwInput.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Node/IwNode.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Node/IwOrFork.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/Node/IwOutput.kmt"
-require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/IwConcern.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/IwModel.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/IwNodeConnection.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/IwStep.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/Node/IwCustomizableNode.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/Node/IwInput.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/Node/IwNode.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/Node/IwOrFork.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/Node/IwOutput.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/_Ref.kmt"

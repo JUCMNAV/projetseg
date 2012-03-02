@@ -3,13 +3,13 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestRunner.CodeGen.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/aoUrnToIw/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

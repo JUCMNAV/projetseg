@@ -1,5 +1,5 @@
 package aoUrnToRam::test;
-require "platform:/resource/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/aoUrnToIw/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit

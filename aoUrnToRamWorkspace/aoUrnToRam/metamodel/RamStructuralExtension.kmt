@@ -1,6 +1,6 @@
 package ramstructural;
 
-require "platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore"
+require "platform:/lookup/aoUrnToRam/metamodel/RAMStructural.ecore"
 require kermeta
 
 using kermeta::standard

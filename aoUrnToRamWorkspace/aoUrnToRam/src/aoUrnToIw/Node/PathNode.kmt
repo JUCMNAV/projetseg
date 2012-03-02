@@ -1,5 +1,5 @@
 package oneurn::ucm::map;
-require "platform:/resource/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/src/aoUrnToIw/_Ref.kmt"
 
 using kermeta::standard
 using oneurn::urncore

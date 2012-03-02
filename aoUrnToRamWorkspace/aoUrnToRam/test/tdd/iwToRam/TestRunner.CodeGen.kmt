@@ -8,14 +8,14 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwModelTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwNodeConnectionTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwStepTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/IwStep_CustomizableNodeTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/Node/IwInputTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/Node/IwOrForkTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/Node/IwOutputTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/IwModelTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/IwNodeConnectionTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/IwStepTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/IwStep_CustomizableNodeTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwInputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwOrForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/Node/IwOutputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

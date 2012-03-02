@@ -1,8 +1,8 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/resource/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
-require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require "platform:/lookup/aoUrnToRam/src/AoUrnToRamTransformation.kmt"
+require "platform:/lookup/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using kermeta::kunit

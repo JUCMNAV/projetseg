@@ -1,6 +1,6 @@
 package intermediateWorkflow;
 
-require "platform:/resource/aoUrnToRam/test/tdd/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iw/_Ref.kmt"
 
 using kermeta::standard
 

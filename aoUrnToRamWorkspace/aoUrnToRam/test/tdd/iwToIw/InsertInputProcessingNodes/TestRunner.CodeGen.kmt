@@ -8,9 +8,9 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/IwModelTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/IwNodeConnectionTestCase.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/IwModelTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/IwNodeConnectionTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

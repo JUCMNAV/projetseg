@@ -2,10 +2,10 @@ package aoUrnToRam::test;
 
 require kermeta
 //stle: factory is common to IwToIw and IwToRam
-require "platform:/resource/aoUrnToRam/src/iwToRam/_Ref.kmt"
-require "platform:/resource/aoUrnToRam/test/CustomAssert.kmt"
-require "platform:/resource/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
-require "platform:/resource/aoUrnToRam/src/Util.kmt"
+require "platform:/lookup/aoUrnToRam/src/iwToRam/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/test/CustomAssert.kmt"
+require "platform:/lookup/aoUrnToRam/test/tdd/iw/IwTestFactory.kmt"
+require "platform:/lookup/aoUrnToRam/src/Util.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
