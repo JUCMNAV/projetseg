@@ -8,7 +8,7 @@ using kermeta::kunit
 using intermediateWorkflow
 using ramstructural
 
-class IwToRam_IwInputTestCase inherits TestCase,IwToRam_TestHelper
+class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
 	reference sut:IwInput
 	

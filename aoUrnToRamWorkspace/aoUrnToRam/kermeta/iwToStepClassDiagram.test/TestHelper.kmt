@@ -11,7 +11,7 @@ using kermeta::standard
 using intermediateWorkflow
 using ramstructural
 
-class IwToRam_TestHelper inherits CustomAssert,IwTestFactory
+class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 {
 	operation createIwInput_Step(step:IwStep):IwInput is do
 		result:=createIwInput

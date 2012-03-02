@@ -1,4 +1,4 @@
-@mainClass "aoUrnToRam::test::IwToRam_TestRunner"
+@mainClass "aoUrnToRam::test::IwToStepClassDiagram_TestRunner"
 @mainOperation "runTestClassesWithReport"
 package aoUrnToRam::test;
 
@@ -20,16 +20,16 @@ require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 using kermeta::standard
 using kermeta::language::structure
 
-class IwToRam_TestRunner inherits CustomTestRunner
+class IwToStepClassDiagram_TestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
-		result.add(IwToRam_IwModelTestCase)
-		result.add(IwToRam_IwNodeConnectionTestCase)
-		result.add(IwToRam_IwStepTestCase)
-		result.add(IwToRam_IwStep_CustomizableNodeTestCase)
-		result.add(IwToRam_IwInputTestCase)
-		result.add(IwToRam_IwOrForkTestCase)
-		result.add(IwToRam_IwOutputTestCase)
+		result.add(IwToStepClassDiagram_IwModelTestCase)
+		result.add(IwToStepClassDiagram_IwNodeConnectionTestCase)
+		result.add(IwToStepClassDiagram_IwStepTestCase)
+		result.add(IwToStepClassDiagram_IwStep_CustomizableNodeTestCase)
+		result.add(IwToStepClassDiagram_IwInputTestCase)
+		result.add(IwToStepClassDiagram_IwOrForkTestCase)
+		result.add(IwToStepClassDiagram_IwOutputTestCase)
 	end
 }

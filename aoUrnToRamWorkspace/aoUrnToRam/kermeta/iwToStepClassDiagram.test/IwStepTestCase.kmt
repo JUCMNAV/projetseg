@@ -9,7 +9,7 @@ using intermediateWorkflow
 using ramstructural
 using aoUrnToRam::util
 
-class IwToRam_IwStepTestCase inherits TestCase,IwToRam_TestHelper
+class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
 	reference sut:IwStep
 	
