@@ -8,7 +8,7 @@ require "platform:/lookup/aoUrnToRam/src/iwToRam/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/src/iwToStepView/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/src/iwToJavaInstantiator/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/src/iwToJavaProgram/_Ref.kmt"
-require "platform:/lookup/aoUrnToRam/src/ModelRepository.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/ModelRepository.kmt"
 require "platform:/lookup/aoUrnToRam/src/textView/TextView.kmt"
 
 using kermeta::persistence
