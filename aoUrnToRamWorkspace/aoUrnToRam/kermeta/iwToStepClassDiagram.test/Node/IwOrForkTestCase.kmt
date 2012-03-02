@@ -1,7 +1,7 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/TestHelper.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit
