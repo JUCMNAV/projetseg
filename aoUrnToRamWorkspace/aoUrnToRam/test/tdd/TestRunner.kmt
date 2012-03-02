@@ -8,6 +8,7 @@ require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNode
 require "platform:/resource/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestRunner.CodeGen.kmt"
+require "platform:/resource/aoUrnToRam/test/tdd/iwToJavaProgram/TestRunner.CodeGen.kmt"
 require "platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard
@@ -22,5 +23,6 @@ class AllTestRunner inherits CustomTestRunner
 		result.addAll(LinkSteps_TestRunner.new.getTestClasses)
 		result.addAll(IwToRam_TestRunner.new.getTestClasses)
 		result.addAll(IwToJavaInstantiator_TestRunner.new.getTestClasses)
+		result.addAll(IwToJavaProgram_TestRunner.new.getTestClasses)
 	end
 }
