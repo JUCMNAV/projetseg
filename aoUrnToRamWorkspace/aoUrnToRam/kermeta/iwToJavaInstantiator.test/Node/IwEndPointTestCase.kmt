@@ -1,6 +1,6 @@
 package aoUrnToRam::test;
 
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestHelper.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit
