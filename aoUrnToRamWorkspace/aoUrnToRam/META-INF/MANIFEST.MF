@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: AoUrnToRam
 Bundle-SymbolicName: aoUrnToRam
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: aourntoram.Activator
-Require-Bundle: org.eclipse.core.runtime
+Bundle-Activator: aoUrnToRam.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ fr.irisa.triskell.kermeta.interpreter;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
