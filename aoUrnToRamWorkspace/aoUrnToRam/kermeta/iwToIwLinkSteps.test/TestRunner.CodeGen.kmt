@@ -1,4 +1,4 @@
-@mainClass "aoUrnToRam::test::LinkSteps_TestRunner"
+@mainClass "aoUrnToRam::test::IwToIwLinkSteps_TestRunner"
 @mainOperation "runTestClassesWithReport"
 package aoUrnToRam::test;
 
@@ -8,34 +8,34 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/IwStepTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_OneStubTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwEndPoint_TwoStubsTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwInputTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwNode_OrForkAsSutTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Node/IwStartPointTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_AspectMarkerTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/IwStepTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwEndPoint_OneStubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwEndPoint_TwoStubsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwInputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwNode_OrForkAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwStartPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_AspectMarkerTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
 
-class LinkSteps_TestRunner inherits CustomTestRunner
+class IwToIwLinkSteps_TestRunner inherits CustomTestRunner
 {
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
-		result.add(LinkSteps_IwStepTestCase)
-		result.add(LinkSteps_IwEndPoint_OneStubTestCase)
-		result.add(LinkSteps_IwEndPoint_TwoStubsTestCase)
-		result.add(LinkSteps_IwInputTestCase)
-		result.add(LinkSteps_IwNode_CustomizableNodeAsSutTestCase)
-		result.add(LinkSteps_IwNode_OrForkAsSutTestCase)
-		result.add(LinkSteps_IwStartPointTestCase)
-		result.add(LinkSteps_IwStub_AspectMarkerTestCase)
-		result.add(LinkSteps_IwStub_PluginDifferentConcernTestCase)
-		result.add(LinkSteps_IwStub_TwoPluginStartPointsTestCase)
+		result.add(IwToIwLinkSteps_IwStepTestCase)
+		result.add(IwToIwLinkSteps_IwEndPoint_OneStubTestCase)
+		result.add(IwToIwLinkSteps_IwEndPoint_TwoStubsTestCase)
+		result.add(IwToIwLinkSteps_IwInputTestCase)
+		result.add(IwToIwLinkSteps_IwNode_CustomizableNodeAsSutTestCase)
+		result.add(IwToIwLinkSteps_IwNode_OrForkAsSutTestCase)
+		result.add(IwToIwLinkSteps_IwStartPointTestCase)
+		result.add(IwToIwLinkSteps_IwStub_AspectMarkerTestCase)
+		result.add(IwToIwLinkSteps_IwStub_PluginDifferentConcernTestCase)
+		result.add(IwToIwLinkSteps_IwStub_TwoPluginStartPointsTestCase)
 	end
 }

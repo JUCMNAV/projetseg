@@ -2,7 +2,7 @@ package aoUrnToRam::test;
 
 require kermeta
 //stle: rename all folder to lower cap
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestHelper.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit
@@ -10,7 +10,7 @@ using intermediateWorkflow
 using kermeta::language::structure
 using aoUrnToRam::test
 
-class InsertInputProcessingNodes_IwModelTestCase inherits TestCase,InsertInputProcessingNodes_TestHelper
+class IwToIwInsertInputProcessingNodes_IwModelTestCase inherits TestCase,IwToIwInsertInputProcessingNodes_TestHelper
 {
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNodes_ShouldInvokeInsertInputProcessingNodesOnNodes() is do

@@ -3,12 +3,12 @@
 package aoUrnToRam::test;
 
 require kermeta
-require "platform:/lookup/aoUrnToRam/test/tdd/aoUrnToIw/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/InsertInputProcessingNodes/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToIw/LinkSteps/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToRam/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaInstantiator/TestRunner.CodeGen.kmt"
-require "platform:/lookup/aoUrnToRam/test/tdd/iwToJavaProgram/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram.test/TestRunner.CodeGen.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
 
 using kermeta::standard
@@ -19,8 +19,8 @@ class AllTestRunner inherits CustomTestRunner
 	method getTestClasses(): OrderedSet<Class> is do
 		result:=OrderedSet<Class>.new
 		result.addAll(AoUrnToIw_TestRunner.new.getTestClasses)
-		result.addAll(InsertInputProcessingNodes_TestRunner.new.getTestClasses)
-		result.addAll(LinkSteps_TestRunner.new.getTestClasses)
+		result.addAll(IwToIwInsertInputProcessingNodes_TestRunner.new.getTestClasses)
+		result.addAll(IwToIwLinkSteps_TestRunner.new.getTestClasses)
 		result.addAll(IwToRam_TestRunner.new.getTestClasses)
 		result.addAll(IwToJavaInstantiator_TestRunner.new.getTestClasses)
 		result.addAll(IwToJavaProgram_TestRunner.new.getTestClasses)
