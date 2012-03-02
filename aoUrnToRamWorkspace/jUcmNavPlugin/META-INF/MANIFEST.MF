@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: seg.jUCMNav.aoUrnToRam
+Bundle-SymbolicName: seg.jUCMNav.aoUrnToRam;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: seg.jUCMNav.aoUrnToRam.Activator
+Bundle-Vendor: usecasemaps.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ seg.jUCMNav;bundle-version="4.4.0",
+ org.eclipse.gef;bundle-version="3.5.1",
+ org.eclipse.emf;bundle-version="2.5.0",
+ org.eclipse.emf.ecore;bundle-version="2.5.0",
+ org.eclipse.emf.common.ui;bundle-version="2.5.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
