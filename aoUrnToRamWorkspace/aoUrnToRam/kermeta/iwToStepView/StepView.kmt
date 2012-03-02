@@ -60,11 +60,6 @@ class StepView{
 		result:="\""+dotEscapeInner(toEscape)+"\""
 	end
 	
-	operation htmlEscape(toEscape:String):String is do
-		result?=extern aoUrnToRam::javaExternalCall::HtmlEscaper.escape(toEscape)
-	end
-	
-	
 	operation dotEscapeInner(toEscape:String):String is do
 		result:=toEscape.replace("\\","\\\\")
 		result:=result.replace("\"","\\\"")

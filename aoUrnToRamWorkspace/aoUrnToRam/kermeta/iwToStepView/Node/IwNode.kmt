@@ -29,7 +29,7 @@ aspect class IwNode {
 	operation appendNodeTitleRow(stepView:StepView) is do
 		stepView.appendLine("                <tr>")
 		stepView.append("                    <td cellpadding=\"3\">") stepView.appendImg(getImageName) stepView.appendLine("</td>")
-		stepView.append("                    <td align=\"center\" width=\"") stepView.append(getMinWidth.toString) stepView.append("\">") stepView.append(stepView.htmlEscape(name)) stepView.appendLine("</td>")
+		stepView.append("                    <td align=\"center\" width=\"") stepView.append(getMinWidth.toString) stepView.append("\">") stepView.append(name) stepView.appendLine("</td>")
 		stepView.appendLine("                </tr>")
 	end
 	
