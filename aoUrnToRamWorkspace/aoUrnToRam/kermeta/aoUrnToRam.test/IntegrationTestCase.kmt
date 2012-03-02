@@ -1,5 +1,3 @@
-//stle: test
-
 package aoUrnToRam::test;
 
 require kermeta
