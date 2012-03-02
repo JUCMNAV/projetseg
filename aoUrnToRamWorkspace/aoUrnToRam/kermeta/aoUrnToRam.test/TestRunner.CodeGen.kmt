@@ -8,7 +8,7 @@ package aoUrnToRam::test;
 
 require kermeta
 
-require "platform:/lookup/aoUrnToRam/test/integration/IntegrationTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam.test/IntegrationTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/test/CustomTestRunner.kmt"
 
 using kermeta::standard

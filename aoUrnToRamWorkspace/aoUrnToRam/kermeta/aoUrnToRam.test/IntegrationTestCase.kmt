@@ -25,7 +25,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	operation testDemo2_Sp4_WithAutAspect() is do
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
-/*
+
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
@@ -41,7 +41,6 @@ class Integration_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
-*/	
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String
@@ -58,7 +57,7 @@ class Integration_IntegrationTestCase inherits TestCase
 	
 	property readonly integrationFolderUri:String
 	getter is do
-		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/test/integration")
+		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/kermeta/aoUrnToRam.test")
 	end
 	
 	property readonly dotAbsoluteFileUri:String
