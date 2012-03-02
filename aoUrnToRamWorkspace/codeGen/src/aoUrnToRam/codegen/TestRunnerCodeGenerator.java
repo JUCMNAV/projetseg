@@ -25,7 +25,12 @@ public class TestRunnerCodeGenerator extends CodeGenerator {
 		refFilePath = new File(testRunnerSiblingFilePath);
 		this.projectName = projectName;
 		testSuiteDirectory=refFilePath.getParentFile();
-		testSuitePrefix=firstLetterUpperCase(testSuiteDirectory.getName());
+		
+		testSuitePrefix=testSuiteDirectory.getName();
+		testSuitePrefix=testSuitePrefix.replaceFirst("\\.test$", "");
+		testSuitePrefix=firstLetterUpperCase(testSuitePrefix);
+			
+		
 		testCaseFiles=getFilesWithExt(testSuiteDirectory, "TestCase.kmt");
 		testRunnerClassName=testSuitePrefix+"_TestRunner";
 
@@ -52,7 +57,7 @@ public class TestRunnerCodeGenerator extends CodeGenerator {
 		sb.append("\nrequire kermeta");
 		sb.append("\n");
 		appendRequireStatements(sb,testCaseFiles,projectName);
-		sb.append("\nrequire \"platform:/resource/aoUrnToRam/test/CustomTestRunner.kmt\"");
+		sb.append("\nrequire \"platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt\"");
 		sb.append("\n");
 		sb.append("\nusing kermeta::standard");
 		sb.append("\nusing kermeta::language::structure");
