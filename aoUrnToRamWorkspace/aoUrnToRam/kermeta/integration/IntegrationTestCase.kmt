@@ -11,6 +11,7 @@ using aoUrnToRam::util
 
 class Integration_IntegrationTestCase inherits TestCase
 {
+//stle test
 	attribute sut:AoUrnToRamTransformation
 	attribute projectFolderUri:String
 	
