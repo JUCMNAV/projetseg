@@ -17,7 +17,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	method setUp() is do
 		//stle: would be nice if computed instead of hardcoded
 		projectFolderUri:="file:///C:/Users/S/Files/H2012/Project/workspace"
-		sut:=AoUrnToRamTransformation.new.initialize(dotAbsoluteFileUri,imgAbsoluteFileUri)
+		sut:=AoUrnToRamTransformation.new
 		sut.isIwFileOutputEnabled:=true
 		sut.isRamStepViewAsDotOutputEnabled:=true
 	end
@@ -26,6 +26,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
 
+/*
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
@@ -41,7 +42,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
-
+*/
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String
 		sourceAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"jucm")
@@ -52,7 +53,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		destinationAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"actual")
 		destinationAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFileUri,destinationDirName)
 		
-		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri)
+		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,dotAbsoluteFileUri,imgAbsoluteFileUri)
 	end
 	
 	property readonly integrationFolderUri:String

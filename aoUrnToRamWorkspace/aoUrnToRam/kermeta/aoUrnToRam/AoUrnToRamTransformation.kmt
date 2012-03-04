@@ -39,9 +39,13 @@ class AoUrnToRamTransformation
 		result:=self 
 	end
 
-	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFolderUri:String) is do
+	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFolderUri:String,dotAbsoluteFileUri:String,imgFolderAbsoluteFileUri:String) is do
+		initialize(dotAbsoluteFileUri,imgFolderAbsoluteFileUri)
+	
 		//stle: useful for development but remove on release code
-		registerMetamodels
+		//registerMetamodels
+		
+		
 		//stle: until destination merge is implemented
 		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFolderUri)
 		
@@ -72,7 +76,7 @@ class AoUrnToRamTransformation
 	
 	operation outputIwFile(iwModel:IwModel,destinationAbsoluteFileUri:String) is do
 		if(isIwFileOutputEnabled) then
-			repository.save(iwModel,destinationAbsoluteFileUri+"\\"+iwFileName,"platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
+			repository.save(iwModel,destinationAbsoluteFileUri+"\\"+iwFileName,"http:///intermediateWorkflow.ecore")
 		end
 	end
 	
@@ -134,10 +138,12 @@ class AoUrnToRamTransformation
 		result:=absoluteFileUri.replace("file:///","")
 		result:=result.replace("/","\\")
 	end
-	
+
+/*stle temp	
 	operation registerMetamodels() is do
 		var repository : EMFRepository init EMFRepository.new
-		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/oneurn.ecore")
-		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
+		repository.registerEcoreFile("platform:/plugin/aoUrnToRam/metamodel/oneurn.ecore")
+		repository.registerEcoreFile("platform:/plugin/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
 	end
+*/	
 }
