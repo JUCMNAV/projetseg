@@ -15,7 +15,7 @@ public abstract class CodeGenerator {
 	
 	public String getRequireStatement(File file, String projectName) {
 		String filePathWithSlash = file.getAbsolutePath().replace('\\', '/');
-		String regEx = ".*(" + projectName + ".*)";
+		String regEx = ".*/(" + projectName + "/.*)";
 		return filePathWithSlash.replaceFirst(regEx,
 				"require \"platform:/lookup/$1\"");
 	}
