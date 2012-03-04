@@ -52,16 +52,37 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
      */
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
     	transformAoUrnToRam(
-    			"file:///C:/Users/S/Files/H2012/Project/workspace/aoUrnToRam/kermeta/aoUrnToRam.test/jucm/Demo2_Sp4_WithAutAspect.jucm",
+    			"file:/C:/Users/S/Files/H2012/Project/workspace/aoUrnToRam/kermeta/aoUrnToRam.test/jucm/Demo2_Sp4_WithAutAspect.jucm",
     			windowsAbsolutePath_To_AbsoluteFileUri(filename),
-    			"file:///C:/Users/S/Files/H2012/Project/workspace/thirdParty/Graphviz2.26.3/bin/dot.exe",
-    			"file:///C:/Users/S/Files/H2012/Project/workspace/aoUrnToRam/img"
+    			dotAbsoluteFileUri(),
+    			imgAbsoluteFileUri()
     	);
+    }
+
+    //stle:dry
+    public Bundle aoUrnToRamBundle(){
+    	return Platform.getBundle("aoUrnToRam");
+    }
+
+    public String dotAbsoluteFileUri(){
+		try {
+			return FileLocator.resolve(aoUrnToRamBundle().getEntry("/thirdParty/Graphviz2.26.3/bin/dot.exe")).toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+    }
+    
+    public String imgAbsoluteFileUri(){
+		try {
+			return FileLocator.resolve(aoUrnToRamBundle().getEntry("/img")).toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
     }
     
     //Stle:Dry
     public String windowsAbsolutePath_To_AbsoluteFileUri(String windowsAbsolutePath){
-    	return "file:///"+windowsAbsolutePath.replace('\\', '/');
+    	return "file:/"+windowsAbsolutePath.replace('\\', '/');
     } 
     
     public void hello(String fileName) throws InvocationTargetException{
@@ -178,8 +199,7 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 	
 	public static URL getBundleUrl_Debug(Bundle bundle){
 		try {
-			URL binPath = FileLocator.resolve(bundle.getEntry("/bin/"));
-			return new URL("file://" + binPath);
+			return FileLocator.resolve(bundle.getEntry("/bin/"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
