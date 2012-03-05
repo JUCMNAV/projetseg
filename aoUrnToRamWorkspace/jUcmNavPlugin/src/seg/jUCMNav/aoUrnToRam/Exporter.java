@@ -3,6 +3,7 @@ package seg.jUCMNav.aoUrnToRam;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchPage;
 import org.kermeta.interpreter.api.Interpreter;
@@ -31,8 +33,7 @@ import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
 import urn.URNspec;
 
 public class Exporter implements IURNExport,IURNExportPrePostHooks {
-	private String stleTemp_Workspace="";  
-	private String sourceAbsoluteFileUri;
+	private URI sourceAbsoluteFileUri;
 	
     private FileOutputStream fos = null;
      
@@ -51,12 +52,18 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
      * @see seg.jUCMNav.extensionpoints.IURNExport#export(urn.URNspec, java.lang.String)
      */
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
+    	filename=workaround_UrnExport_ExtensionIsMandatory(filename); 
+    	
     	transformAoUrnToRam(
-    			"file:/C:/Users/S/Files/H2012/Project/workspace/aoUrnToRam/kermeta/aoUrnToRam.test/jucm/Demo2_Sp4_WithAutAspect.jucm",
+    			sourceAbsoluteFileUri.toString(),
     			windowsAbsolutePath_To_AbsoluteFileUri(filename),
     			dotAbsoluteFileUri(),
     			imgAbsoluteFileUri()
     	);
+    }
+    
+    public String workaround_UrnExport_ExtensionIsMandatory(String fileName){
+    	return fileName.replaceFirst("\\.toBeRemoved$", "");
     }
 
     //stle:dry
@@ -123,7 +130,7 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 
 	@Override
 	public void preHook(UCMNavMultiPageEditor editor) {
-		sourceAbsoluteFileUri=stleTemp_Workspace+editor.getTitle();
+		sourceAbsoluteFileUri=editor.getInputRawLocationUri();
 	}
 	
 	public static void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri, String dotAbsoluteFileUri,String imgFolderAbsoluteFileUri)
@@ -147,14 +154,10 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 		String consoleTile
 	) {
 		IOConsole console = new EclipseConsole(consoleTile);
-		console.println(new InfoMessage("Processing..."));
 		try {			
 			exeKermeta(kermetaFile,className,operationName,parameters,requiredBundles,console);
-			console.println(new OKMessage("Done"));
 		} catch (Throwable e) {
-			console.println(new ErrorMessage("Error: "));
-			console.println(new ThrowableMessage(e));
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
