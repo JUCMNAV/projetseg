@@ -52,6 +52,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		destinationAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFileUri,destinationDirName)
 		
 		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,dotAbsoluteFileUri,imgAbsoluteFileUri,"true","true")
+		stdio.writeln("For results, see "+destinationAbsoluteFileUri)
 	end
 	
 	operation registerMetamodels() is do
