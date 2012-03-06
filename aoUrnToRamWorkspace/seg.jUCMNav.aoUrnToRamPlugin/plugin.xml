@@ -4,9 +4,9 @@
    <extension
          point="seg.jUCMNav.URNExport">
       <exporter
-            class="seg.jUCMNav.aoUrnToRam.Exporter"
+            class="seg.jUCMNav.aoUrnToRamPlugin.Exporter"
             extension="toBeRemoved"
-            id="seg.jUCMNav.aoUrnToRam.Exporter"
+            id="seg.jUCMNav.aoUrnToRamPlugin.Exporter"
             name="Ram Reactive Workflows"
             useStream="false">
       </exporter>

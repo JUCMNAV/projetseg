@@ -1,4 +1,4 @@
-package seg.jUCMNav.aoUrnToRam;
+package seg.jUCMNav.aoUrnToRamPlugin;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

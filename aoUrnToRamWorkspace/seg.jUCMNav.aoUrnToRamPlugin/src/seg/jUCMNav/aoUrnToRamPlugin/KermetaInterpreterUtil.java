@@ -1,4 +1,4 @@
-package seg.jUCMNav.aoUrnToRam;
+package seg.jUCMNav.aoUrnToRamPlugin;
 
 import java.io.IOException;
 import java.net.URL;
