@@ -26,9 +26,7 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
     	
     	transformAoUrnToRam(
     			sourceAbsoluteFileUri.toString(),
-    			windowsAbsolutePath_To_AbsoluteFileUri(filename),
-    			dotAbsoluteFileUri(),
-    			imgAbsoluteFileUri()
+    			windowsAbsolutePath_To_AbsoluteFileUri(filename)
     	);
     }
     
@@ -59,13 +57,20 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 	// ****************************************************************
 	// transformAoUrnToRam
 	// ****************************************************************
-	public static void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri, String dotAbsoluteFileUri,String imgFolderAbsoluteFileUri)
+	public void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri)
 	{
 		KermetaInterpreterUtil.exeKermeta(
-				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt",
-				"aoUrnToRam::AoUrnToRamTransformation",
+				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation_TempDemo.kmt",
+				"aoUrnToRam::AoUrnToRamTransformation_TempDemo",
 				"transform",
-				new String[]{sourceAbsoluteFileUri,destinationAbsoluteFolderUri,dotAbsoluteFileUri,imgFolderAbsoluteFileUri},
+				new String[]{
+						sourceAbsoluteFileUri,
+						destinationAbsoluteFolderUri,
+						dotAbsoluteFileUri(),
+						imgAbsoluteFileUri(),
+						"false",
+						"false"
+				},
 				new String[]{"aoUrnToRam"},
 				"AoUrnToRam"
 		);
