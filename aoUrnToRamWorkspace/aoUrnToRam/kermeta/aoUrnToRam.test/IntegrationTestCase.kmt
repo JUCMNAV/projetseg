@@ -5,9 +5,11 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation
 require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
 
 using kermeta::standard
+using kermeta::persistence
 using kermeta::kunit
 using aoUrnToRam
 using aoUrnToRam::util
+
 
 class AoUrnToRam_IntegrationTestCase inherits TestCase
 {
@@ -18,8 +20,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		//stle: would be nice if computed instead of hardcoded
 		projectFolderUri:="file:/C:/Users/S/Files/H2012/Project/workspace"
 		sut:=AoUrnToRamTransformation.new
-		sut.isIwFileOutputEnabled:=true
-		sut.isRamStepViewAsDotOutputEnabled:=true
+		registerMetamodels
 	end
 
 	operation testDemo2_Sp4_WithAutAspect() is do
@@ -48,12 +49,18 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		sourceAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"jucm")
 		sourceAbsoluteFileUri:=Path.new.combine(sourceAbsoluteFileUri,jucmSourceFileName)
 		
-		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-4) 
+		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-5) 
 		var destinationAbsoluteFileUri:String
 		destinationAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"actual")
 		destinationAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFileUri,destinationDirName)
 		
-		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,dotAbsoluteFileUri,imgAbsoluteFileUri)
+		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,dotAbsoluteFileUri,imgAbsoluteFileUri,"true","true")
+	end
+	
+	operation registerMetamodels() is do
+		var repository : EMFRepository init EMFRepository.new
+		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/oneurn.ecore")
+		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
 	end
 	
 	property readonly integrationFolderUri:String
