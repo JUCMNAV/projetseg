@@ -17,8 +17,6 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	attribute projectFolderUri:String
 	
 	method setUp() is do
-		//stle: would be nice if computed instead of hardcoded
-		projectFolderUri:="file:/C:/Users/S/Files/H2012/Project/workspace"
 		sut:=AoUrnToRamTransformation.new
 		registerMetamodels
 	end
@@ -27,7 +25,6 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
 
-/*
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
@@ -43,7 +40,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
-*/
+
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String
 		sourceAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"jucm")
@@ -65,19 +62,21 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	
 	property readonly integrationFolderUri:String
 	getter is do
-		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/kermeta/aoUrnToRam.test")
+		result:=resolve("platform:/resource/aoUrnToRam/kermeta/aoUrnToRam.test")
 	end
 	
 	property readonly dotAbsoluteFileUri:String
 	getter is do
-		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/thirdParty/Graphviz2.26.3/bin/dot.exe")
+		result:=resolve("platform:/resource/aoUrnToRam/thirdParty/Graphviz2.26.3/bin/dot.exe")
 	end
 	
 	property readonly imgAbsoluteFileUri:String
 	getter is do
-		result:=Path.new.combine(projectFolderUri,"aoUrnToRam/img")
+		result:=resolve("platform:/resource/aoUrnToRam/img")
 	end
-	
-	
+
+	operation resolve(plateformUrl:String):String is do
+		result ?=extern aoUrnToRam::javaExternalCall::PlateformUrlResolver.resolve(plateformUrl)	
+	end
 	
 }
