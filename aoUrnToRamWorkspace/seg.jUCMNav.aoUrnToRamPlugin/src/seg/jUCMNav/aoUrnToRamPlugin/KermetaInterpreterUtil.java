@@ -63,7 +63,7 @@ public class KermetaInterpreterUtil {
 				getRequiredBundleUrls(requiredBundles),
 				interpreter.getClass().getClassLoader()
 		);
-		Thread.currentThread().setContextClassLoader(cl);//stle: watch out
+		interpreter.setContextClassLoader(cl);
 	}
 	
 	private static URL[] getRequiredBundleUrls(String[] requiredBundles){
