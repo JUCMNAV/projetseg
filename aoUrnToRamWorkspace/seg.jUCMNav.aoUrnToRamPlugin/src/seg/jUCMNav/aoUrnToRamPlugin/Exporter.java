@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.HashMap;
+
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.osgi.framework.Bundle;
 
@@ -52,6 +57,18 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 	@Override
 	public void preHook(UCMNavMultiPageEditor editor) {
 		sourceAbsoluteFileUri=editor.getInputRawLocationUri();
+		saveSource(editor);
+	}
+	
+	private void saveSource(final UCMNavMultiPageEditor editor){
+		Display display = editor.getSite().getShell().getDisplay();
+		display.asyncExec(
+			new Runnable() {
+				public void run() {
+					editor.doSave(new NullProgressMonitor());
+				}
+			}
+		);
 	}
 
 	// ****************************************************************
