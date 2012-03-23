@@ -12,6 +12,7 @@ class IwToJavaInstantiator_IwAndForkTestCase inherits TestCase,IwToJavaInstantia
 	reference sut:IwAndFork
 	reference workflowInstantiator:WorkflowInstantiator
 
+	@feature "FeaTransformAndFork"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut:=createIwAndFork
 		workflowInstantiator:=createWorkflowInstantiator
