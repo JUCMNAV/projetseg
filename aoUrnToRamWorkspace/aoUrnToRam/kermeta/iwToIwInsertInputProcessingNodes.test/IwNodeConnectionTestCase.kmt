@@ -128,7 +128,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_SharedCustomizableNodeAsTarget_ShouldBuildInputProcessingNode() is do
 		var target:IwCustomizableNode init createIwCustomizableNode
-		setAsFirstRefToShared(target)
+		target.withFirstRefToShared
 		sut:=input.connect(target)
 		
 		sut.insertInputProcessingNode(input)

@@ -47,16 +47,6 @@ Node
 		result.name:="theCustomizableNode"
 	end
 	
-	operation setAsFirstRefToShared(customizableNode:IwCustomizableNode) is do
-		customizableNode.name:="shared"
-		customizableNode.customizableNodeRefId:="1"
-	end 
-
-	operation setAsSecondRefToShared(customizableNode:IwCustomizableNode) is do
-		customizableNode.name:="shared"
-		customizableNode.customizableNodeRefId:="2"
-	end 
-	
 	operation createIwOutput():IwOutput is do
 		result:=IwOutput.new
 		result.name:="theOutput"
@@ -66,11 +56,6 @@ Node
 		result:=IwStartPoint.new
 		result.name:="theStartPoint"
 		result.startPointType:="global"
-	end
-	
-	operation setupStartPointWithDefaultTarget(workflow:IwWorkflow):IwStartPoint is do
-		result:=createIwStartPoint.withWorkflow(workflow)
-		result.connect(createIwInput.withWorkflow(workflow)) 
 	end
 	
 	operation createIwEndPoint():IwEndPoint is do
@@ -103,8 +88,7 @@ Stub
 
 	operation createIwStaticStub():IwStub is do
 		result:=createIwStub
-		var pluginBinding:IwPluginBinding init createIwPluginBinding
-		pluginBinding.stub:=result
+		createIwPluginBinding.withStub(result)
 	end
 	
 	operation createIwPluginBinding():IwPluginBinding is do
@@ -149,4 +133,10 @@ Stub
 		//stle:single again
 		result.pluginBinding:=staticStub.pluginBindings.one
 	end
+	
+	operation setupStartPointWithDefaultTarget(workflow:IwWorkflow):IwStartPoint is do
+		result:=createIwStartPoint.withWorkflow(workflow)
+		result.connect(createIwInput.withWorkflow(workflow)) 
+	end
+	
 }

@@ -38,9 +38,9 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
-		setAsFirstRefToShared(customizableNode)
+		customizableNode.withFirstRefToShared
 		var shared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
-		setAsSecondRefToShared(shared)
+		shared.withSecondRefToShared
 	
 		sut.build
 		
