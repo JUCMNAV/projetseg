@@ -45,17 +45,26 @@ class IwToJavaInstantiator_IwWorkflow_LinkTestCase inherits TestCase,IwToJavaIns
 	end
 	
 	@feature "FeaWorkflowInstantiationWithoutStubs"
-	operation testToWorkflowInstantiator_ShouldInvokeAppendAddNextNodeStatementsOnNodeConnections() is do
-		var step:IwStep init createIwStep
-		var inBetween:IwNode init addNodeToSut.withStep(step)
-		addNodeToSut.withStep(step).connect(inBetween)
-		inBetween.connect(addNodeToSut.withStep(step))
+	operation testToWorkflowInstantiator_SequenceOf3Nodes_ShouldInvokeAppendAddNextNodeStatementsOnNodeConnections() is do
+		var inBetween:IwNode init addNodeToSut
+		addNodeToSut.connect(inBetween)
+		inBetween.connect(addNodeToSut)
 		
 		workflowInstantiator:=sut.jiToWorkflowInstantiator
 		
 		assertStringContainsNTime(2,".addNextNode",workflowInstantiator.content)
 	end
 	
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToWorkflowInstantiator_2Branches_ShouldInvokeAppendAddNextNodeStatementsOnNodeConnections() is do
+		var andFork:IwAndFork init createIwAndFork.withWorkflow(sut)
+		andFork.connect(addNodeToSut)
+		andFork.connect(addNodeToSut)
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContainsNTime(2,".addNextNode",workflowInstantiator.content)
+	end
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testToWorkflowInstantiator_ShouldLinkNodesToWorkflowMethod() is do
@@ -101,7 +110,7 @@ class IwToJavaInstantiator_IwWorkflow_LinkTestCase inherits TestCase,IwToJavaIns
 		assertStringContainsNTime(2,".addStartupNode",workflowInstantiator.content)
 	end
 	
-	operation addNodeToSut():IwInput is do
-		result:=createIwInput.withWorkflow(sut)
+	operation addNodeToSut():IwCustomizableNode is do
+		result:=createIwCustomizableNode.withWorkflow(sut).withStep(createIwStep)
 	end
 }

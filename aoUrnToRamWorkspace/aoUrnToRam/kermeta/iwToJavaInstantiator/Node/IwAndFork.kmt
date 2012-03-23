@@ -1,0 +1,14 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwAndFork
+{
+	method createStrategy():NodeInstantiationStrategy is do
+		//stle: is it possible to override with other signature (Ruby way?)
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"ParallelExecutionNode")
+	end
+}

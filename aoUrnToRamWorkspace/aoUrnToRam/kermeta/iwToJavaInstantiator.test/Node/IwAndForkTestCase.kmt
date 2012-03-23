@@ -1,0 +1,23 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwAndForkTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwAndFork
+	reference workflowInstantiator:WorkflowInstantiator
+
+	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
+		sut:=createIwAndFork
+		workflowInstantiator:=createWorkflowInstantiator
+		
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertEquals("    public ParallelExecutionNode _theAndFork=new ParallelExecutionNode();\n",workflowInstantiator.content)
+	end
+}

@@ -150,7 +150,11 @@ Node
 		result:=createIwOrFork
 		result.workflow:=workflow
 	end
-
+	
+	operation createIwAndFork():IwAndFork is do
+		result:=IwAndFork.new
+		result.name:="theAndFork"
+	end
 /*********************************************************
 Stub
 *********************************************************/
