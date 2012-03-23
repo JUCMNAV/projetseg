@@ -17,19 +17,9 @@ class IwTestFactory
 		result.name:="theConcern"
 	end
 
-	operation createIwConcern_Model(model:IwModel):IwConcern is do
-		result:=createIwConcern
-		result.model:=model
-	end
-	
 	operation createIwStep():IwStep is do
 		result:=IwStep.new
 		result.name:="theStep"
-	end
-
-	operation createIwStep_Concern(concern:IwConcern):IwStep is do
-	   	result:=createIwStep
-		result.concern:=concern
 	end
 
 	operation createIwWorkflow():IwWorkflow is do
@@ -41,15 +31,10 @@ class IwTestFactory
 		result:=createIwWorkflow.withName("thePlugin")
 	end
 
-	operation createIwWorkflow_Concern(concern:IwConcern):IwWorkflow is do
-	   	result:=createIwWorkflow
-		result.concern:=concern
-	end
-	
 	operation createIwWorkflowWithContainers():IwWorkflow is do
 		var model:IwModel init createIwModel
-		var concern:IwConcern init createIwConcern_Model(model)
-		result:=createIwWorkflow_Concern(concern)
+		var concern:IwConcern init createIwConcern.withModel(model)
+		result:=createIwWorkflow.withConcern(concern)
 	end
 	
 	operation createIwNodeConnection():IwNodeConnection is do
@@ -79,11 +64,6 @@ Node
 		result.name:="theInput"
 	end
 
-	operation createIwInput_Workflow(workflow:IwWorkflow):IwInput is do
-		result:=createIwInput
-		result.workflow:=workflow
-	end
-	
 	operation createIwCustomizableNode():IwCustomizableNode is do
 		result:=IwCustomizableNode.new
 		result.name:="theCustomizableNode"
@@ -99,19 +79,9 @@ Node
 		customizableNode.customizableNodeRefId:="2"
 	end 
 	
-	operation createIwCustomizableNode_Workflow(workflow:IwWorkflow):IwCustomizableNode is do
-		result:=createIwCustomizableNode
-		result.workflow:=workflow
-	end
-	
 	operation createIwOutput():IwOutput is do
 		result:=IwOutput.new
 		result.name:="theOutput"
-	end
-
-	operation createIwOutput_Workflow(workflow:IwWorkflow):IwOutput is do
-		result:=createIwOutput
-		result.workflow:=workflow
 	end
 
 	operation createIwStartPoint():IwStartPoint is do
@@ -125,32 +95,16 @@ Node
 		result.connect(createIwInput.withWorkflow(workflow)) 
 	end
 	
-
-	operation createIwStartPoint_Workflow(workflow:IwWorkflow):IwStartPoint is do
-		result:=createIwStartPoint
-		result.workflow:=workflow
-	end
-	
 	operation createIwEndPoint():IwEndPoint is do
 		result:=IwEndPoint.new
 		result.name:="theEndPoint"
 	end
 
-	operation createIwEndPoint_Workflow(workflow:IwWorkflow):IwEndPoint is do
-		result:=createIwEndPoint
-		result.workflow:=workflow
-	end
-	
 	operation createIwOrFork():IwOrFork is do
 		result:=IwOrFork.new
 		result.name:="theOrFork"
 	end
 
-	operation createIwOrFork_Workflow(workflow:IwWorkflow):IwOrFork is do
-		result:=createIwOrFork
-		result.workflow:=workflow
-	end
-	
 	operation createIwAndFork():IwAndFork is do
 		result:=IwAndFork.new
 		result.name:="theAndFork"
@@ -169,24 +123,11 @@ Stub
 		result.name:="theStub"
 	end
 
-	operation createIwStub_Workflow(workflow:IwWorkflow):IwStub is do
-		result:=createIwStub
-		result.workflow:=workflow
-	end
-	
-	//stle:toRefactor
-	operation createIwStaticStub_Workflow(workflow:IwWorkflow):IwStub is do
-		result:=createIwStub_Workflow(workflow)
-		var pluginBinding:IwPluginBinding init createIwPluginBinding
-		pluginBinding.stub:=result
-	end
-	
 	operation createIwStaticStub():IwStub is do
 		result:=createIwStub
 		var pluginBinding:IwPluginBinding init createIwPluginBinding
 		pluginBinding.stub:=result
 	end
-	
 	
 	operation createIwPluginBinding():IwPluginBinding is do
 		result:=IwPluginBinding.new

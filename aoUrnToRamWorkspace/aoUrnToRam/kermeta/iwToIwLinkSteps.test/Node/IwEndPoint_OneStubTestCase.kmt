@@ -20,21 +20,21 @@ class IwToIwLinkSteps_IwEndPoint_OneStubTestCase inherits TestCase,IwToIwLinkSte
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	stubWorkflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
-    	
-    	sut:=createIwEndPoint_Workflow(workflow)
+		workflow:=createIwWorkflow.withConcern(concern)
+		stubWorkflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
 
-		stub:=createIwStaticStub_Workflow(stubWorkflow)
-		stubExitNode:=createIwCustomizableNode_Workflow(stubWorkflow)
+		sut:=createIwEndPoint.withWorkflow(workflow)
+
+		stub:=createIwStaticStub.withWorkflow(stubWorkflow)
+		stubExitNode:=createIwCustomizableNode.withWorkflow(stubWorkflow)
 		bindStaticStubToPluginEndPoint(stub,stubExitNode,sut)
 	end
 	
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testDeepFirstSearch_UnexploredWithStubDifferentStep_ShouldAddOutboundStubsToCurrentStep() is do
-		var differentStep:IwStep init createIwStep_Concern(concern)
+		var differentStep:IwStep init createIwStep.withConcern(concern)
 		stub.step:=differentStep
 		
 		sut.step_DeepFirstSearch(currentStep)
@@ -44,7 +44,7 @@ class IwToIwLinkSteps_IwEndPoint_OneStubTestCase inherits TestCase,IwToIwLinkSte
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testDeepFirstSearch_UnexploredWithStubAlreadyOutbound_ShouldAddOutboundStubsToCurrentStep() is do
-		var differentStep:IwStep init createIwStep_Concern(concern)
+		var differentStep:IwStep init createIwStep.withConcern(concern)
 		stub.outboundInSteps.add(differentStep)
 		
 		sut.step_DeepFirstSearch(currentStep)

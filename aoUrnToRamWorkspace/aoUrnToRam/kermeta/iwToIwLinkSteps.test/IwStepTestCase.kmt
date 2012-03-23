@@ -16,10 +16,10 @@ class IwToIwLinkSteps_IwStepTestCase inherits TestCase,IwToIwLinkSteps_TestHelpe
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-		toMerge:=createIwStep_Concern(concern)
+	    workflow:=createIwWorkflow.withConcern(concern)
+		toMerge:=createIwStep.withConcern(concern)
 		toMerge.name:="ToMergeStepName"
-		sut:=createIwStep_Concern(concern)
+		sut:=createIwStep.withConcern(concern)
 		sut.name:="SutStepName"
 	end
 	

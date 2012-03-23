@@ -15,13 +15,12 @@ class IwToIwInsertInputProcessingNodes_IwModelTestCase inherits TestCase,IwToIwI
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNodes_ShouldInvokeInsertInputProcessingNodesOnNodes() is do
 		var sut:IwModel init createIwModel
-		var concern:IwConcern init createIwConcern_Model(sut)
-		var workflow:IwWorkflow init createIwWorkflow_Concern(concern)
-		var input1:IwNode init createIwInput_Workflow(workflow)
-		var input2:IwNode init createIwInput_Workflow(workflow)
-		var endPoint:IwNode init createIwEndPoint_Workflow(workflow)
-		linkNodes(input1,input2)
-		linkNodes(input2,endPoint)
+		var workflow:IwWorkflow init createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+		var input1:IwNode init createIwInput.withWorkflow(workflow)
+		var input2:IwNode init createIwInput.withWorkflow(workflow)
+		var endPoint:IwNode init createIwEndPoint.withWorkflow(workflow)
+		input1.connect(input2)
+		input2.connect(endPoint)
 		
 		sut.insertInputProcessingNodes
 		

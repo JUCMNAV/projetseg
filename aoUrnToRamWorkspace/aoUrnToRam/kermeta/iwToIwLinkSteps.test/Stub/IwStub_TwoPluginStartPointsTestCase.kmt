@@ -20,16 +20,16 @@ class IwToIwLinkSteps_IwStub_TwoPluginStartPointsTestCase inherits TestCase,IwTo
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	pluginWorkflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
-    	
-		sut:=createIwStaticStub_Workflow(workflow)
-		
-		pluginStartPoint1:=createIwStartPoint_Workflow(pluginWorkflow)		
+		workflow:=createIwWorkflow.withConcern(concern)
+		pluginWorkflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
+
+		sut:=createIwStaticStub.withWorkflow(workflow)
+
+		pluginStartPoint1:=createIwStartPoint.withWorkflow(pluginWorkflow)		
 		bindStaticStubToPluginStartPoint(sut,pluginStartPoint1)
-		
-		pluginStartPoint2:=createIwStartPoint_Workflow(pluginWorkflow)		
+
+		pluginStartPoint2:=createIwStartPoint.withWorkflow(pluginWorkflow)		
 		bindStaticStubToPluginStartPoint(sut,pluginStartPoint2)
 	end
 	

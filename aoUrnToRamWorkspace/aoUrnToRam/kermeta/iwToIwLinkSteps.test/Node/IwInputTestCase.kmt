@@ -16,9 +16,9 @@ class IwToIwLinkSteps_IwInputTestCase inherits TestCase,IwToIwLinkSteps_TestHelp
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
-    	sut:=createIwInput_Workflow(workflow)
+		workflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
+		sut:=createIwInput.withWorkflow(workflow)
 	end
 	
 	@feature "FeaNamingOfRAMStep"

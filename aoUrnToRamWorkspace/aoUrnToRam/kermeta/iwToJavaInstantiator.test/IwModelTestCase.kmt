@@ -12,18 +12,27 @@ class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiato
 {
 	reference sut:IwModel
 
-	@feature "FeaWorkflowInstantiationWithoutStubs"	operation testToJavaInstantiator_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToJavaInstantiator_ManyWorkflows_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
 		sut:=createIwModel
-		var concern1:IwConcern init createIwConcern_Model(sut)
-		//Many workflows
-		var workflow1_1:IwWorkflow init createIwWorkflow_Concern(concern1)
-		var workflow1_2:IwWorkflow init createIwWorkflow_Concern(concern1)
-		//Many concerns
-		var concern2:IwConcern init createIwConcern_Model(sut)
-		var workflow2_1:IwWorkflow init createIwWorkflow_Concern(concern2)
+		var concern:IwConcern init createIwConcern.withModel(sut)
+		createIwWorkflow.withConcern(concern)
+		createIwWorkflow.withConcern(concern)
 
 		var workflowInstantiators:WorkflowInstantiator[0..*] init sut.jiToJavaInstantiator
 
-		assertEquals(3,workflowInstantiators.size)
+		assertEquals(2,workflowInstantiators.size)
 	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToJavaInstantiator_ManyConcerns_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
+		sut:=createIwModel
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+
+		var workflowInstantiators:WorkflowInstantiator[0..*] init sut.jiToJavaInstantiator
+
+		assertEquals(2,workflowInstantiators.size)
+	end
+
 }

@@ -21,17 +21,17 @@ class IwToIwLinkSteps_IwStub_AspectMarkerTestCase inherits TestCase,IwToIwLinkSt
 	
 	method setUp() is do
 		sameConcern:=createIwConcern
-		currentStep:=createIwStep_Concern(sameConcern)
-    	workflow:=createIwWorkflow_Concern(sameConcern)
-		sut:=createIwStaticStub_Workflow(workflow)
+		currentStep:=createIwStep.withConcern(sameConcern)
+		workflow:=createIwWorkflow.withConcern(sameConcern)
+		sut:=createIwStaticStub.withWorkflow(workflow)
 		sut.stubType:="aspectMarker"
-		stubExitNode1:=createIwCustomizableNode_Workflow(workflow)
+		stubExitNode1:=createIwCustomizableNode.withWorkflow(workflow)
 		linkNodes(sut,stubExitNode1)
-		stubExitNode2:=createIwCustomizableNode_Workflow(workflow)
+		stubExitNode2:=createIwCustomizableNode.withWorkflow(workflow)
 		linkNodes(sut,stubExitNode2)
-		
-		pluginWorkflow:=createIwWorkflow_Concern(sameConcern)
-		pluginStartPoint:=createIwStartPoint_Workflow(pluginWorkflow)		
+
+		pluginWorkflow:=createIwWorkflow.withConcern(sameConcern)
+		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		
 		bindStaticStubToPluginStartPoint(sut,pluginStartPoint)
 	end
 

@@ -16,9 +16,9 @@ class IwToIwLinkSteps_IwNode_CustomizableNodeAsSutTestCase inherits TestCase,IwT
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
-	   	sut:=createIwCustomizableNode_Workflow(workflow)
+		workflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
+		sut:=createIwCustomizableNode.withWorkflow(workflow)
 	end
 	
 	@feature "FeaNamingOfRAMStep"
@@ -41,7 +41,7 @@ class IwToIwLinkSteps_IwNode_CustomizableNodeAsSutTestCase inherits TestCase,IwT
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testDeepFirstSearch_ExploredDifferentStep_ShouldMergeDifferentStep() is do
-	    var differentStep:IwStep init createIwStep_Concern(concern)
+	    var differentStep:IwStep init createIwStep.withConcern(concern)
 		sut.step:=differentStep
 		
 		sut.step_DeepFirstSearch(currentStep)

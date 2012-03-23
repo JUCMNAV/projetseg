@@ -18,14 +18,14 @@ class IwToIwLinkSteps_IwNode_OrForkAsSutTestCase inherits TestCase,IwToIwLinkSte
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
+		workflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
 
-		sut:=createIwOrFork_Workflow(workflow)
-		nextNode1:=createIwCustomizableNode_Workflow(workflow)
-		linkNodes(sut,nextNode1)
-		nextNode2:=createIwCustomizableNode_Workflow(workflow)
-		linkNodes(sut,nextNode2)
+		sut:=createIwOrFork.withWorkflow(workflow)
+		nextNode1:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(nextNode1)
+		nextNode2:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(nextNode2)
 	end
 	
 	@feature "FeaNamingOfRAMStep"

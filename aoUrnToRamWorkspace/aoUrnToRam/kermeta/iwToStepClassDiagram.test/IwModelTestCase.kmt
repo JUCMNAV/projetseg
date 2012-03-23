@@ -18,10 +18,8 @@ class IwToStepClassDiagram_IwModelTestCase inherits TestCase,IwToStepClassDiagra
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnConcerns() is do
-		var concern1:IwConcern init createIwConcern_Model(sut)
-		createNotEmptyStep_Concern(concern1)
-		var concern2:IwConcern init createIwConcern_Model(sut)
-		createNotEmptyStep_Concern(concern2)
+		createNotEmptyStep(createIwConcern.withModel(sut))
+		createNotEmptyStep(createIwConcern.withModel(sut))
 		sut.build
 
 		sut.link
@@ -31,18 +29,16 @@ class IwToStepClassDiagram_IwModelTestCase inherits TestCase,IwToStepClassDiagra
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnSteps() is do
-		var concern:IwConcern init createIwConcern_Model(sut)
-		createNotEmptyStep_Concern(concern)
-		createNotEmptyStep_Concern(concern)
+		var concern:IwConcern init createIwConcern.withModel(sut)
+		createNotEmptyStep(concern)
+		createNotEmptyStep(concern)
 		sut.build
 
 		sut.link
 
 		assertEquals(2,sut.ramAspects.size)
 	end
-	
-	operation createNotEmptyStep_Concern(concern:IwConcern) is do
-		var step:IwStep init createIwStep_Concern(concern)
-		createIwInput_Step(step)
+	operation createNotEmptyStep(concern:IwConcern) is do
+		createIwInput.withStep(createIwStep.withConcern(concern))
 	end
 }

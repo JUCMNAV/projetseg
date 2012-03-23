@@ -15,8 +15,8 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	sut:=createIwStartPoint_Workflow(workflow)
+		workflow:=createIwWorkflow.withConcern(concern)
+		sut:=createIwStartPoint.withWorkflow(workflow)
 	end
 
 	@feature "FeaTransformStaticStub"
@@ -68,11 +68,11 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 	end
 
 	operation createStubFromSameConcern():IwStub is do
-		result:=createIwStaticStub_Workflow(workflow)
+		result:=createIwStaticStub.withWorkflow(workflow)
 	end
 	
 	operation createStubFromDifferentConcern():IwStub is do
-		result:=createIwStaticStub_Workflow(createIwWorkflow_Concern(createIwConcern))
+		result:=createIwStaticStub.withWorkflow(createIwWorkflow.withConcern(createIwConcern))
 	end
 	
 	operation assertStepAdded() is do

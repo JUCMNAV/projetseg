@@ -22,18 +22,18 @@ class IwToIwLinkSteps_IwEndPoint_TwoStubsTestCase inherits TestCase,IwToIwLinkSt
 	
 	method setUp() is do
 		concern:= createIwConcern
-    	workflow:=createIwWorkflow_Concern(concern)
-    	stubWorkflow:=createIwWorkflow_Concern(concern)
-    	currentStep:=createIwStep_Concern(concern)
-    	
-    	sut:=createIwEndPoint_Workflow(workflow)
+		workflow:=createIwWorkflow.withConcern(concern)
+		stubWorkflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
 
-		stub1:=createIwStaticStub_Workflow(stubWorkflow)
-		stub1ExitNode:=createIwCustomizableNode_Workflow(stubWorkflow)
+		sut:=createIwEndPoint.withWorkflow(workflow)
+
+		stub1:=createIwStaticStub.withWorkflow(stubWorkflow)
+		stub1ExitNode:=createIwCustomizableNode.withWorkflow(stubWorkflow)
 		bindStaticStubToPluginEndPoint(stub1,stub1ExitNode,sut)
 		
-		stub2:=createIwStaticStub_Workflow(stubWorkflow)
-		stub2ExitNode:=createIwCustomizableNode_Workflow(stubWorkflow)
+		stub2:=createIwStaticStub.withWorkflow(stubWorkflow)
+		stub2ExitNode:=createIwCustomizableNode.withWorkflow(stubWorkflow)
 		bindStaticStubToPluginEndPoint(stub2,stub2ExitNode,sut)
 	end
 	

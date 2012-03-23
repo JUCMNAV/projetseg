@@ -22,17 +22,17 @@ class IwToIwLinkSteps_IwStub_PluginDifferentConcernTestCase inherits TestCase,Iw
 	
 	method setUp() is do
 		concern:=createIwConcern
-		currentStep:=createIwStep_Concern(concern)
-    	workflow:=createIwWorkflow_Concern(concern)
-		sut:=createIwStaticStub_Workflow(workflow)
-		stubExitNode1:=createIwCustomizableNode_Workflow(workflow)
+		currentStep:=createIwStep.withConcern(concern)
+		workflow:=createIwWorkflow.withConcern(concern)
+		sut:=createIwStaticStub.withWorkflow(workflow)
+		stubExitNode1:=createIwCustomizableNode.withWorkflow(workflow)
 		linkNodes(sut,stubExitNode1)
-		stubExitNode2:=createIwCustomizableNode_Workflow(workflow)
+		stubExitNode2:=createIwCustomizableNode.withWorkflow(workflow)
 		linkNodes(sut,stubExitNode2)
-		
+
 		pluginConcern:=createIwConcern
-		pluginWorkflow:=createIwWorkflow_Concern(pluginConcern)
-		pluginStartPoint:=createIwStartPoint_Workflow(pluginWorkflow)		
+		pluginWorkflow:=createIwWorkflow.withConcern(pluginConcern)
+		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		
 		bindStaticStubToPluginStartPoint(sut,pluginStartPoint)
 	end
 	
