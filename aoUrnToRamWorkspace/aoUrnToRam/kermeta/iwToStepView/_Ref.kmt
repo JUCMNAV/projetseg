@@ -4,13 +4,14 @@ require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate
-//Run: aoUrnToRam.ExternalTools.RefUpdater
+//Run: aoUrnToRam.codegen.RefCodeGenerator
 //Args: ${resource_loc} ${project_name}
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/IwModel.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/IwNodeConnection.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/IwStep.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/IwWorkflow.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Node/IwAndFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Node/IwAndJoin.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Node/IwCustomizableNode.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Node/IwEndPoint.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Node/IwInput.kmt"
@@ -22,3 +23,4 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/StepView.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Stub/IwInBinding.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Stub/IwOutBinding.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/Stub/IwStub.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"

@@ -88,5 +88,8 @@ aspect class IwNode {
 		result:=false//default
 	end
 	
-	operation getImageName():String is abstract
+	operation getImageName():String is do
+		//throw exception in this case because abstract in aspect produces meaningless excpetion msg
+		raise kermeta::exceptions::NotImplementedException.new
+	end
 }
