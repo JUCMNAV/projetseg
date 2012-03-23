@@ -10,6 +10,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
 //Args: ${resource_loc} ${project_name}
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Concern.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/AndFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/AndJoin.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/EndPoint.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/InOutExpression.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/OrFork.kmt"

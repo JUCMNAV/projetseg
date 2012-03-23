@@ -90,6 +90,10 @@ class IwAndFork inherits IwNode
 {
 }
 
+class IwAndJoin inherits IwNode
+{
+}
+
 class IwWaitingPlace inherits IwNode
 {
 	attribute transient:Boolean

@@ -146,6 +146,12 @@ Node
 		result.id:="1"
 	end
 	
+	operation createAndJoin():AndJoin is do
+		result:=AndJoin.new
+		result.name:="theAndJoin"
+		result.id:="1"
+	end
+	
 	operation createWaitingPlace():WaitingPlace is do
 		result:=WaitingPlace.new
 		result.name:="theWaitingPlace"

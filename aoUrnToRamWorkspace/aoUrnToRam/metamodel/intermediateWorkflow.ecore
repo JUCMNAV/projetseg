@@ -128,6 +128,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwAndFork" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwAndJoin" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwWaitingPlace" eSuperTypes="#/1/IwNode">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="#/1/Boolean">
         <eAnnotations source="kermeta">
