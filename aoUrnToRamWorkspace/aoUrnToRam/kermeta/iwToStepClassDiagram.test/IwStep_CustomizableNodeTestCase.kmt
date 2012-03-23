@@ -69,7 +69,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	end
 
 	operation setupAndExeLink() is do
-		attachDefaultConcernDefaultModel(sut)
+		sut.withDefaultContainers
 		var notSharedNode:IwCustomizableNode init createIwCustomizableNode_Step(sut)
 		notSharedNode.name:="notShared"
 		sut.model.build

@@ -4,8 +4,9 @@ require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/iw.testUtil/_Ref.kmt"
 
 using intermediateWorkflow
+using aoUrnToRam::test
 
-aspect class IwStep
+aspect class IwStep inherits IwTestFactory
 {
 	operation withName(name:String):IwStep is do
 		self.name:=name
@@ -15,5 +16,9 @@ aspect class IwStep
 	operation withConcern(concern:IwConcern):IwStep is do
 		self.concern:=concern
 		result:=self
+	end
+	
+	operation withDefaultContainers():IwStep is do
+		result:=self.withConcern(createIwConcern.withModel(createIwModel))
 	end
 }

@@ -34,7 +34,7 @@ class IwToIwLinkSteps_IwEndPoint_TwoStubsTestCase inherits TestCase,IwToIwLinkSt
 		
 		stub2:=createIwStaticStub.withWorkflow(stubWorkflow)
 		stub2ExitNode:=createIwCustomizableNode.withWorkflow(stubWorkflow)
-		sut.outbindTo(stub1,stub2.connect(stub2ExitNode))
+		sut.outbindTo(stub2,stub2.connect(stub2ExitNode))
 	end
 	
 	@feature "FeaNamingOfRAMStep"

@@ -32,12 +32,6 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		assertCollectionHasSingleElement(expectedRamClass,mapClasses)
 	end
 	
-	operation attachDefaultConcernDefaultModel(step:IwStep) is do
-		var model:IwModel init createIwModel
-		var concern:IwConcern init createIwConcern.withModel(createIwModel)
-		step.concern:=concern
-	end 
-	
 	operation setupAndExeLinkOnNode(node:IwNode):IwStep is do
 		result:=createIwStep
 		node.step:=result

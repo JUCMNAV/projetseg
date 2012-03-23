@@ -37,7 +37,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkRamReactiveWorkflowInstantiation() is do
-		attachDefaultConcernDefaultModel(sut)
+		sut.withDefaultContainers
 		sut.model.build
 
 		sut.link
@@ -47,7 +47,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamAspects() is do
-		attachDefaultConcernDefaultModel(sut)
+		sut.withDefaultContainers
 		sut.model.build
 		
 		sut.link
@@ -71,7 +71,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
-		attachDefaultConcernDefaultModel(sut)
+		sut.withDefaultContainers
 		createIwInput_Step(sut)
 		createIwInput_Step(sut)
 		sut.model.build
@@ -82,7 +82,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	end
 	
 	operation setupAndExeLinkNotEmptyStep() is do
-		attachDefaultConcernDefaultModel(sut)
+		sut.withDefaultContainers
 		createIwInput_Step(sut)
 		sut.model.build
 		
