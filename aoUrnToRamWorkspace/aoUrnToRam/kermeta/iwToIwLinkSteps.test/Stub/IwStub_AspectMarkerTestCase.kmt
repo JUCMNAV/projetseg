@@ -26,9 +26,9 @@ class IwToIwLinkSteps_IwStub_AspectMarkerTestCase inherits TestCase,IwToIwLinkSt
 		sut:=createIwStaticStub.withWorkflow(workflow)
 		sut.stubType:="aspectMarker"
 		stubExitNode1:=createIwCustomizableNode.withWorkflow(workflow)
-		linkNodes(sut,stubExitNode1)
+		sut.connect(stubExitNode1)
 		stubExitNode2:=createIwCustomizableNode.withWorkflow(workflow)
-		linkNodes(sut,stubExitNode2)
+		sut.connect(stubExitNode2)
 
 		pluginWorkflow:=createIwWorkflow.withConcern(sameConcern)
 		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		

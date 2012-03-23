@@ -13,7 +13,7 @@ class IwToStepClassDiagram_IwNodeConnectionTestCase inherits TestCase,IwToStepCl
 	reference sut:IwNodeConnection
 	
 	method setUp() is do
-		sut:=withCondition(connectSource(createIwOrFork))
+		sut:=createIwNodeConnection.withDefaultCondition.withSource(createIwOrFork)
 	end
 	
 	@feature "FeaTransformOrFork"

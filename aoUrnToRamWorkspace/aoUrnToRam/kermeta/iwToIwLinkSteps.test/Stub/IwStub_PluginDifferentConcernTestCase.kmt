@@ -26,9 +26,9 @@ class IwToIwLinkSteps_IwStub_PluginDifferentConcernTestCase inherits TestCase,Iw
 		workflow:=createIwWorkflow.withConcern(concern)
 		sut:=createIwStaticStub.withWorkflow(workflow)
 		stubExitNode1:=createIwCustomizableNode.withWorkflow(workflow)
-		linkNodes(sut,stubExitNode1)
+		sut.connect(stubExitNode1)
 		stubExitNode2:=createIwCustomizableNode.withWorkflow(workflow)
-		linkNodes(sut,stubExitNode2)
+		sut.connect(stubExitNode2)
 
 		pluginConcern:=createIwConcern
 		pluginWorkflow:=createIwWorkflow.withConcern(pluginConcern)

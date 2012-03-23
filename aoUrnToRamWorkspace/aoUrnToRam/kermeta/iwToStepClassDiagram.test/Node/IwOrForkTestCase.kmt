@@ -15,8 +15,8 @@ class IwToStepClassDiagram_IwOrForkTestCase inherits TestCase,IwToStepClassDiagr
 	@feature "FeaTransformOrFork"
 	operation testLink_ShouldInvokeLinkOnConditions() is do
 		sut:=createIwOrFork
-		withCondition(connectSource(sut))
-		withCondition(connectSource(sut))
+		createIwNodeConnection.withDefaultCondition.withSource(sut)
+		createIwNodeConnection.withDefaultCondition.withSource(sut)
 
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 

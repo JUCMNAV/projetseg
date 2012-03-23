@@ -27,4 +27,9 @@ aspect class IwNodeConnection
 		self.source:=theValue
 		result:=self
 	end
+	
+	operation withDefaultCondition():IwNodeConnection is do
+		self.conditionName:="theCondition"
+		result:=self
+	end
 }

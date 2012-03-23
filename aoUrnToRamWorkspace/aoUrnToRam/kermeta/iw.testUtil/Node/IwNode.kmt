@@ -8,6 +8,6 @@ using aoUrnToRam::test
 aspect class IwNode inherits IwTestFactory
 {
 	operation connect(target:IwNode):IwNodeConnection is do
-		result:=linkNodes(self,target)
+		result:=createIwNodeConnection.withSource(self).withTarget(target)
 	end
 }

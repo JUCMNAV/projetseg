@@ -24,7 +24,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldBuildInputProcessingNode() is do
-		sut:=linkNodes(input,createIwInput)
+		sut:=input.connect(createIwInput)
 		
 		sut.insertInputProcessingNode(input)
 		
@@ -37,7 +37,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldLinkInputProcessingToSource() is do
-		sut:=linkNodes(input,createIwInput)
+		sut:=input.connect(createIwInput)
 		
 		sut.insertInputProcessingNode(input)
 
@@ -51,7 +51,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_StubAsSource_ShouldSetStubExitIndex() is do
 		var expectedStubExitIndex:Integer init 1
-		sut:=linkNodes(createIwStub,createIwInput)
+		sut:=createIwStub.connect(createIwInput)
 		sut.stubExitIndex:=expectedStubExitIndex
 		
 		sut.insertInputProcessingNode(input)
@@ -66,7 +66,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldLinkInputProcessingToTarget() is do
 		var target:IwNode init createIwInput
-		sut:=linkNodes(input,target)
+		sut:=input.connect(target)
 		
 		sut.insertInputProcessingNode(input)
 		
@@ -81,7 +81,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	operation testInsertInputProcessingNode_StubAsTarget_ShouldSetStubEntryIndex() is do
 		var expectedStubEntryIndex:Integer init 1
 		var target:IwNode init createIwStub
-		sut:=linkNodes(input,target)
+		sut:=input.connect(target)
 		sut.stubEntryIndex:=expectedStubEntryIndex
 		
 		sut.insertInputProcessingNode(input)
@@ -94,7 +94,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	
 	@feature "FeaHandleTwoInputsInARow"
 	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldDeleteSut() is do
-		sut:=linkNodes(input,createIwInput)
+		sut:=input.connect(createIwInput)
 		
 		sut.insertInputProcessingNode(input)
 
@@ -118,7 +118,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	end
 
 	operation parameterizableTestInsertInputProcessingNode_ShouldNotBuildInputProcessingNode(target:IwNode) is do
-		sut:=linkNodes(input,target)
+		sut:=input.connect(target)
 		
 		sut.insertInputProcessingNode(input)
 		
@@ -129,7 +129,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 	operation testInsertInputProcessingNode_SharedCustomizableNodeAsTarget_ShouldBuildInputProcessingNode() is do
 		var target:IwCustomizableNode init createIwCustomizableNode
 		setAsFirstRefToShared(target)
-		sut:=linkNodes(input,target)
+		sut:=input.connect(target)
 		
 		sut.insertInputProcessingNode(input)
 
@@ -143,7 +143,7 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 		//Observe that input is not directly connected with sut
 		//It is passed by parameter, thus many aspectMarker can be chainned
 		sut:=createIwNodeConnection.withTarget(aspectMarker)
-		linkNodes(aspectMarker,target)
+		aspectMarker.connect(target)
 		
 		sut.insertInputProcessingNode(input)
 

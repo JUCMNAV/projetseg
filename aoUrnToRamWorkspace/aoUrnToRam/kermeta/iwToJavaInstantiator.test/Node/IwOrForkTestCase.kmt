@@ -27,8 +27,8 @@ class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiat
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldInvokeAppendBuildStatementOnSuccs() is do
-		withCondition(connectSource(sut))
-		withCondition(connectSource(sut))
+		createIwNodeConnection.withDefaultCondition.withSource(sut)
+		createIwNodeConnection.withDefaultCondition.withSource(sut)
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		

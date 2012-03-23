@@ -19,9 +19,8 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
-		var orFork:IwOrFork init createIwOrFork
-		orFork.step:=createIwStep
-		sut:=withCondition(connectSource(orFork))
+		var orFork:IwOrFork init createIwOrFork.withStep(createIwStep)
+		sut:=createIwNodeConnection.withDefaultCondition.withSource(orFork)
 		
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
@@ -31,7 +30,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendLinkStatement_NodeToNode_ShouldLinkSourceToTarget() is do
-		sut:=linkNodes(createIwCustomizableNode,createIwEndPoint)
+		sut:=createIwCustomizableNode.connect(createIwEndPoint)
 		
 		sut.jiAppendAddNextNodeStatements(workflowInstantiator)
 		
@@ -41,7 +40,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_NodeToStub_ShouldLinkSourceToTargetInPath() is do
-		sut:=linkNodes(createIwCustomizableNode,createIwStub)
+		sut:=createIwCustomizableNode.connect(createIwStub)
 		sut.stubEntryIndex:=1
 		
 		sut.jiAppendAddNextNodeStatements(workflowInstantiator)
@@ -52,7 +51,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_StubToNode_ShouldLinkSourceOutPathToTarget() is do
-		sut:=linkNodes(createIwStub,createIwCustomizableNode)
+		sut:=createIwStub.connect(createIwCustomizableNode)
 		sut.stubExitIndex:=1
 		
 		sut.jiAppendAddNextNodeStatements(workflowInstantiator)
@@ -63,7 +62,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_StubToStub_ShouldLinkSourceOutPathToTargetInPath() is do
-		sut:=linkNodes(createIwStub,createIwStub)
+		sut:=createIwStub.connect(createIwStub)
 		sut.target.name:="anotherStub"
 		sut.stubExitIndex:=1
 		sut.stubEntryIndex:=2
@@ -76,7 +75,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 	
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendLinkStatement_OrForkToNode_ShouldLinkSourceToTargetWithCondition() is do
-		sut:=withCondition(linkNodes(createIwOrFork,createIwEndPoint))
+		sut:=createIwOrFork.connect(createIwEndPoint).withDefaultCondition
 		
 		sut.jiAppendAddNextNodeStatements(workflowInstantiator)
 		
@@ -86,7 +85,7 @@ class IwToJavaInstantiator_IwNodeConnectionTestCase inherits TestCase,IwToJavaIn
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStatement_OrForkToStub_ShouldLinkSourceToTargetInPathWithCondition() is do
-		sut:=withCondition(linkNodes(createIwOrFork,createIwStub))
+		sut:=createIwOrFork.connect(createIwStub).withDefaultCondition
 		sut.stubEntryIndex:=1
 		
 		sut.jiAppendAddNextNodeStatements(workflowInstantiator)

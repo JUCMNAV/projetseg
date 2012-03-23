@@ -40,22 +40,6 @@ class IwTestFactory
 	operation createIwNodeConnection():IwNodeConnection is do
 		result:=IwNodeConnection.new
 	end
-	
-	operation linkNodes(source:IwNode,target:IwNode):IwNodeConnection is do
-		result:=connectSource(source)
-		result.target:=target
-	end
-	
-	operation connectSource(source:IwNode):IwNodeConnection is do
-		result:=createIwNodeConnection
-		result.source:=source
-	end
-	
-	operation withCondition(nodeConnection:IwNodeConnection):IwNodeConnection is do
-		nodeConnection.conditionName:="theCondition"
-		result:=nodeConnection
-	end
-
 /*********************************************************
 Node
 *********************************************************/
@@ -166,7 +150,7 @@ Stub
 	end
 	
 	operation bindStaticStubToPluginEndPoint(staticStub:IwStub,stubExitNode:IwNode,pluginEndPoint:IwEndPoint):IwOutBinding is do
-		var stubExit:IwNodeConnection init linkNodes(staticStub,stubExitNode)
+		var stubExit:IwNodeConnection init staticStub.connect(stubExitNode)
 		result:=createIwOutBinding(stubExit,pluginEndPoint)
 		//stle:single again
 		result.pluginBinding:=staticStub.pluginBindings.one
