@@ -14,6 +14,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflo
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflow_BuildTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflow_LinkTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwAndForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwAndJoinTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwCustomizableNodeTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwEndPointTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwInputTestCase.kmt"
@@ -41,6 +42,7 @@ class IwToJavaInstantiator_TestRunner inherits CustomTestRunner
 		result.add(IwToJavaInstantiator_IwWorkflow_BuildTestCase)
 		result.add(IwToJavaInstantiator_IwWorkflow_LinkTestCase)
 		result.add(IwToJavaInstantiator_IwAndForkTestCase)
+		result.add(IwToJavaInstantiator_IwAndJoinTestCase)
 		result.add(IwToJavaInstantiator_IwCustomizableNodeTestCase)
 		result.add(IwToJavaInstantiator_IwEndPointTestCase)
 		result.add(IwToJavaInstantiator_IwInputTestCase)

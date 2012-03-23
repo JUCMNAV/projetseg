@@ -155,6 +155,11 @@ Node
 		result:=IwAndFork.new
 		result.name:="theAndFork"
 	end
+	
+	operation createIwAndJoin():IwAndJoin is do
+		result:=IwAndJoin.new
+		result.name:="theAndJoin"
+	end
 /*********************************************************
 Stub
 *********************************************************/
