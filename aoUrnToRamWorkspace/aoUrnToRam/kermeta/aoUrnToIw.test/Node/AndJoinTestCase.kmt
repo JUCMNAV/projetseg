@@ -14,6 +14,7 @@ class AoUrnToIw_AndJoinTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut:=createAndJoin
 	end
 
+	@feature "FeaTransformAndJoin"
 	operation testBuild_ShouldBuildEquivalentNodeBeforeInput() is do
 		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeBeforeInput(sut)
 	end
