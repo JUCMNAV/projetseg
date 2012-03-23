@@ -30,12 +30,6 @@ class IwTestFactory
 	operation createIwPlugin():IwWorkflow is do
 		result:=createIwWorkflow.withName("thePlugin")
 	end
-
-	operation createIwWorkflowWithContainers():IwWorkflow is do
-		var model:IwModel init createIwModel
-		var concern:IwConcern init createIwConcern.withModel(model)
-		result:=createIwWorkflow.withConcern(concern)
-	end
 	
 	operation createIwNodeConnection():IwNodeConnection is do
 		result:=IwNodeConnection.new

@@ -14,7 +14,7 @@ class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaIn
 	reference workflowInstantiator:WorkflowInstantiator
 	
 	method setUp() is do
-		sut:=createIwWorkflowWithContainers
+		sut:=createIwWorkflow.withDefaultContainers
 	end
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
