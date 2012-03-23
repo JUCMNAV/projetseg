@@ -27,10 +27,10 @@ class IwToIwLinkSteps_IwStub_TwoPluginStartPointsTestCase inherits TestCase,IwTo
 		sut:=createIwStaticStub.withWorkflow(workflow)
 
 		pluginStartPoint1:=createIwStartPoint.withWorkflow(pluginWorkflow)		
-		bindStaticStubToPluginStartPoint(sut,pluginStartPoint1)
+		pluginStartPoint1.inbindTo(sut)
 
 		pluginStartPoint2:=createIwStartPoint.withWorkflow(pluginWorkflow)		
-		bindStaticStubToPluginStartPoint(sut,pluginStartPoint2)
+		pluginStartPoint2.inbindTo(sut)
 	end
 	
 	@feature "FeaNamingOfRAMStep"

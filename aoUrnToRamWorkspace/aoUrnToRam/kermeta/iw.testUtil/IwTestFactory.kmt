@@ -91,6 +91,11 @@ Stub
 		createIwPluginBinding.withStub(result)
 	end
 	
+	operation createIwAspectMarker():IwStub is do
+		result:=createIwStaticStub
+		result.stubType:="aspectMarker"
+	end
+	
 	operation createIwPluginBinding():IwPluginBinding is do
 		result:=IwPluginBinding.new
 	end
@@ -102,36 +107,10 @@ Stub
 		result.pluginStartPoint:=pluginStartPoint
 	end
 	
-	operation bindStaticStubToPluginStartPoint(staticStub:IwStub,pluginStartPoint:IwStartPoint):IwInBinding is do
-		result:=createIwInBinding(void,pluginStartPoint)
-		//stle:single again
-		result.pluginBinding:=staticStub.pluginBindings.one
-	end
-	
-	operation bindAspectMarkerToPluginStartPoint(staticStub:IwStub,pluginStartPoint:IwStartPoint):IwInBinding is do
-		result:=bindStaticStubToPluginStartPoint(staticStub,pluginStartPoint)
-		result.pluginBinding.stub.stubType:="aspectMarker"
-	end
-	
-	//stle:refactor to with
-	operation bindStaticStubToPluginStartPoint_withStubEntry(staticStub:IwStub,stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
-		result:=createIwInBinding(stubEntry,pluginStartPoint)
-		//stle:single again
-		result.pluginBinding:=staticStub.pluginBindings.one
-	end
-	
-	
 	operation createIwOutBinding(stubExit:IwNodeConnection,pluginEndPoint:IwEndPoint):IwOutBinding is do
 		result:=IwOutBinding.new
 		result.stubExit:=stubExit
 		result.pluginEndPoint:=pluginEndPoint
-	end
-	
-	operation bindStaticStubToPluginEndPoint(staticStub:IwStub,stubExitNode:IwNode,pluginEndPoint:IwEndPoint):IwOutBinding is do
-		var stubExit:IwNodeConnection init staticStub.connect(stubExitNode)
-		result:=createIwOutBinding(stubExit,pluginEndPoint)
-		//stle:single again
-		result.pluginBinding:=staticStub.pluginBindings.one
 	end
 	
 	operation setupStartPointWithDefaultTarget(workflow:IwWorkflow):IwStartPoint is do

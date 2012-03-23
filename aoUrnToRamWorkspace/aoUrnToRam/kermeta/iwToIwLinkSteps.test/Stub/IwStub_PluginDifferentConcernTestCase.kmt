@@ -33,7 +33,7 @@ class IwToIwLinkSteps_IwStub_PluginDifferentConcernTestCase inherits TestCase,Iw
 		pluginConcern:=createIwConcern
 		pluginWorkflow:=createIwWorkflow.withConcern(pluginConcern)
 		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		
-		bindStaticStubToPluginStartPoint(sut,pluginStartPoint)
+		pluginStartPoint.inbindTo(sut)
 	end
 	
 	@feature "FeaNamingOfRAMStep"

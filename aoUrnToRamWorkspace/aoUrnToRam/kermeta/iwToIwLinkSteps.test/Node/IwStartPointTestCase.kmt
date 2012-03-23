@@ -39,7 +39,7 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 
 	@feature "FeaNamingOfRAMStep"
 	operation testLinkStep_BoundFromDifferentConcern_ShouldAddStep() is do
-		bindStaticStubToPluginStartPoint(createStubFromDifferentConcern,sut)
+		sut.inbindTo(createStubFromDifferentConcern)
 		
 		sut.linkStep
 		
@@ -48,7 +48,7 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 
 	@feature "FeaTransformPointcutStub"
 	operation testLinkStep_BoundFromAspectMarker_ShouldAddStep() is do
-		bindAspectMarkerToPluginStartPoint(createStubFromSameConcern,sut)
+		sut.inbindTo(createAspectMarkerFromSameConcern)
 		
 		sut.linkStep
 		
@@ -57,9 +57,9 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 
 	@feature "FeaNamingOfRAMStep"
 	operation testLinkStep_BoundFromSameConcernOnce_ShouldNotAddStep() is do
-		bindStaticStubToPluginStartPoint(createStubFromDifferentConcern,sut)
-		bindAspectMarkerToPluginStartPoint(createStubFromSameConcern,sut)
-		bindStaticStubToPluginStartPoint(createStubFromSameConcern,sut)
+		sut.inbindTo(createStubFromDifferentConcern)
+		sut.inbindTo(createAspectMarkerFromSameConcern)
+		sut.inbindTo(createStubFromSameConcern)
 		
 		sut.linkStep
 		
@@ -67,10 +67,14 @@ class IwToIwLinkSteps_IwStartPointTestCase inherits TestCase,IwToIwLinkSteps_Tes
 		assertVoid(sut.step)
 	end
 
+	operation createAspectMarkerFromSameConcern():IwStub is do
+		result:=createIwAspectMarker.withWorkflow(workflow)
+	end
+	
 	operation createStubFromSameConcern():IwStub is do
 		result:=createIwStaticStub.withWorkflow(workflow)
 	end
-	
+
 	operation createStubFromDifferentConcern():IwStub is do
 		result:=createIwStaticStub.withWorkflow(createIwWorkflow.withConcern(createIwConcern))
 	end

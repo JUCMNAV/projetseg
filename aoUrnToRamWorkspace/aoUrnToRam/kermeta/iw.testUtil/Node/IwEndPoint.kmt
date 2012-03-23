@@ -15,4 +15,8 @@ aspect class IwEndPoint
 		self.step:=step
 		result:=self
 	end
+	
+	operation outbindTo(staticStub:IwStub,stubExit:IwNodeConnection):IwOutBinding is do
+		result:=createIwOutBinding(stubExit,self).withPluginBinding(staticStub.pluginBindings.one)
+	end
 }

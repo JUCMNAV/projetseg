@@ -32,7 +32,7 @@ class IwToIwLinkSteps_IwStub_AspectMarkerTestCase inherits TestCase,IwToIwLinkSt
 
 		pluginWorkflow:=createIwWorkflow.withConcern(sameConcern)
 		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		
-		bindStaticStubToPluginStartPoint(sut,pluginStartPoint)
+		pluginStartPoint.inbindTo(sut)
 	end
 
 	@feature "FeaTransformAspectMarker"

@@ -20,4 +20,7 @@ aspect class IwStartPoint{
 		result:=self
 	end
 	
+	operation inbindTo(staticStub:IwStub):IwInBinding is do
+		result:=createIwInBinding(void,self).withPluginBinding(staticStub.pluginBindings.one)
+	end
 }

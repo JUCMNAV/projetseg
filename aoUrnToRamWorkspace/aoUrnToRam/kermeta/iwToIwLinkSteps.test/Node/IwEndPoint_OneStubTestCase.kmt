@@ -28,7 +28,7 @@ class IwToIwLinkSteps_IwEndPoint_OneStubTestCase inherits TestCase,IwToIwLinkSte
 
 		stub:=createIwStaticStub.withWorkflow(stubWorkflow)
 		stubExitNode:=createIwCustomizableNode.withWorkflow(stubWorkflow)
-		bindStaticStubToPluginEndPoint(stub,stubExitNode,sut)
+		sut.outbindTo(stub,stub.connect(stubExitNode))
 	end
 	
 	
