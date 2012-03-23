@@ -21,22 +21,27 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 		registerMetamodels
 	end
 
+	@feature "FeaIntegrationTesting"
 	operation testDemo2_Sp4_WithAutAspect() is do
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
 	end
 
+	@feature "FeaIntegrationTesting"
 	operation testSimple() is do
 		parameterizableIntegrationTest("Simple.jucm")
 	end
 
+	@feature "FeaIntegrationTesting"
 	operation testDemoSp5_WithAutSameConcern() is do
 		parameterizableIntegrationTest("DemoSp5_WithAutSameConcern.jucm")
 	end
 
+	@feature "FeaIntegrationTesting"
 	operation testDemoSp5_WithAutDifferentConcern() is do
 		parameterizableIntegrationTest("DemoSp5_WithAutDifferentConcern.jucm")
 	end
-	
+
+	@feature "FeaIntegrationTesting"
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
