@@ -86,10 +86,6 @@ class IwOrFork inherits IwNode
 {
 }
 
-class IwOrJoin inherits IwNode
-{
-}
-
 class IwAndFork inherits IwNode
 {
 }

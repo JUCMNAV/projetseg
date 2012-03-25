@@ -13,7 +13,6 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/AndForkTestCase
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/AndJoinTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/EndPointTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/OrForkTestCase.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/OrJoinTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/PathNode_BuildTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/PathNode_LinkTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/RespRefTestCase.kmt"
@@ -43,7 +42,6 @@ class AoUrnToIw_TestRunner inherits CustomTestRunner
 		result.add(AoUrnToIw_AndJoinTestCase)
 		result.add(AoUrnToIw_EndPointTestCase)
 		result.add(AoUrnToIw_OrForkTestCase)
-		result.add(AoUrnToIw_OrJoinTestCase)
 		result.add(AoUrnToIw_PathNode_BuildTestCase)
 		result.add(AoUrnToIw_PathNode_LinkTestCase)
 		result.add(AoUrnToIw_RespRefTestCase)
