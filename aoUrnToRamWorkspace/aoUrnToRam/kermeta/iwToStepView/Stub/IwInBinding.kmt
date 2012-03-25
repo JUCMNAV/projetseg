@@ -8,7 +8,7 @@ using kermeta::standard
 aspect class IwInBinding{
 	operation appendBinding(stepView:StepView) is do
 		stepView.append("    ")
-		stepView.append(stubEntry.getTargetPortDotEscaped(stepView))
+		stepView.append(anyOfTheDisjunctiveStubEntries.getTargetPortDotEscaped(stepView))
 		stepView.append("->")
 		//stle: single again
 		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView))

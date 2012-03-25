@@ -15,5 +15,14 @@ aspect class IwInBinding{
 	getter is do
 		result:=pluginBinding.stub
 	end
-	
+
+	property readonly stubEntryIndex: Integer
+	getter is do
+		result:=anyOfTheDisjunctiveStubEntries.stubEntryIndex
+	end
+
+	property readonly anyOfTheDisjunctiveStubEntries:IwNodeConnection
+	getter is do
+		result:=disjunctiveStubEntries.one
+	end
 }

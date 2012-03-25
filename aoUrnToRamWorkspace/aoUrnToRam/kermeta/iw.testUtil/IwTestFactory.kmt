@@ -103,7 +103,7 @@ Stub
 	operation createIwInBinding(stubEntry:IwNodeConnection,pluginStartPoint:IwStartPoint):IwInBinding is do
 		pluginStartPoint.startPointType:="bound"
 		result:=IwInBinding.new
-		result.stubEntry:=stubEntry
+		result.disjunctiveStubEntries.add(stubEntry)
 		result.pluginStartPoint:=pluginStartPoint
 	end
 	

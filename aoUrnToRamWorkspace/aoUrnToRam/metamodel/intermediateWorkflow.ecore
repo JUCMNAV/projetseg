@@ -82,7 +82,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/preds"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" eType="#/1/IwInBinding"
-          eOpposite="#/1/IwInBinding/stubEntry"/>
+          eOpposite="#/1/IwInBinding/disjunctiveStubEntries"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubEntryIndexAsString"
           eType="#/1/String">
         <eAnnotations source="kermeta">
@@ -156,8 +156,8 @@
           eOpposite="#/1/IwStub/pluginBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInBinding">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="stubEntry" eType="#/1/IwNodeConnection"
-          eOpposite="#/1/IwNodeConnection/inBinding"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="disjunctiveStubEntries"
+          lowerBound="1" upperBound="-1" eType="#/1/IwNodeConnection" eOpposite="#/1/IwNodeConnection/inBinding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginStartPoint" eType="#/1/IwStartPoint"
           eOpposite="#/1/IwStartPoint/inBindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pluginBinding" eType="#/1/IwPluginBinding"

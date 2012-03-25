@@ -48,7 +48,7 @@ class IwNodeConnection{
 	reference source:IwNode#succs
 	reference target:IwNode#preds
 	
-	reference inBinding:IwInBinding#stubEntry
+	reference inBinding:IwInBinding#disjunctiveStubEntries
 	attribute stubEntryIndexAsString:String////See @IntegerCannotBeSerialized 
 	
 	reference outBinding:IwOutBinding#stubExit
@@ -115,7 +115,12 @@ class IwPluginBinding
 
 class IwInBinding
 {
-	reference stubEntry:IwNodeConnection#inBinding
+	//Or-Join are not part of the intermediate model because it simplifies
+	//the transformations applied to the intermediate model.
+ 	//In the case were there are more than one IwNodeConnection as disjunctiveStubEntry
+ 	//of the IwInBinding, all these IwNodeConnection are guarantee to have the same
+ 	//stubEntryIndexAsString.     
+	reference disjunctiveStubEntries:IwNodeConnection[1..*]#inBinding 
 	reference pluginStartPoint:IwStartPoint#inBindings
 	reference pluginBinding:IwPluginBinding#inBindings
 }
