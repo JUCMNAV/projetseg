@@ -127,6 +127,7 @@
           eType="#/1/IwOutBinding" eOpposite="#/1/IwOutBinding/pluginEndPoint"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwOrFork" eSuperTypes="#/1/IwNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IwOrJoin" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwAndFork" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwAndJoin" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwWaitingPlace" eSuperTypes="#/1/IwNode">

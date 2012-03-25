@@ -1,0 +1,21 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using oneurn::urncore
+using oneurn::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_OrJoinTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:OrJoin
+	
+	method setUp() is do
+		sut:=createOrJoin
+	end
+
+	operation testBuild_ShouldBuildEquivalentNodeBeforeInput() is do
+		pathNode_ParameterizableTestBuild_ShouldBuildEquivalentNodeBeforeInput(sut)
+	end
+	
+}
