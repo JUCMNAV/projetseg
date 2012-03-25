@@ -35,6 +35,7 @@ class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertCollectionHasSingleElement(sut.stubEntry.iwNodeConnection, sut.iwInBinding.disjunctiveStubEntries)
 	end
 	
+	@feature "FeaDisjunctiveStubEntries"
 	operation testLink_ManyStubEntries_ShouldLinkIwInBindingToIwStubEntries() is do
 		var pluginStartPoint:StartPoint init createStartPoint
 		sut.startPoint:=pluginStartPoint

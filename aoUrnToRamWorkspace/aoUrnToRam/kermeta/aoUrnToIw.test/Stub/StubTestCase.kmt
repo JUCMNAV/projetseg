@@ -90,6 +90,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(1,pred.iwNodeConnection.stubEntryIndex)
 	end
 
+	@feature "FeaDisjunctiveStubEntries"
 	operation testLink_OrJoinInBetweenStubEntry_ShouldInitStubEntryIndexWithTheSameIndexOnEachOrJoinPreds() is do
 		//stle:dry
 		var ucmMap:UCMmap init createUcmMap
