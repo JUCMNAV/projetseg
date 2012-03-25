@@ -27,14 +27,29 @@ aspect class NodeConnection{
 		end
 	end
 	
-	property readonly iwSinglePredNodeConnection : IwNodeConnection
+	operation initStubEntryIndex(stubEntryIndex:Integer) is do
+		iwDisjunctivePredNodeConnections.each{iwNodeConnection|
+			iwNodeConnection.stubEntryIndex:=stubEntryIndex	
+		}
+	end
+
+	//Only the orJoin is not converted to the intermediate workflow model.
+	//Thus, if a NodeConnection has more than one iwNodeConnection in pred, 
+	//it implies there is a disjunction (orJoin) between these iwNodeConnection 	
+	property readonly iwDisjunctivePredNodeConnections : IwNodeConnection[1..*]
 	getter is do
+		result:=OrderedSet<IwNodeConnection>.new
+		iwDisjunctivePredNodeConnections_Recurse(result)
+	end
+
+	operation iwDisjunctivePredNodeConnections_Recurse(disjunctivePredNodeConnections:IwNodeConnection[1..*]) is do
 		if(iwNodeConnection.isVoid==false) then
-			result:=iwNodeConnection
+			disjunctivePredNodeConnections.add(iwNodeConnection)
 		else
-		    //source has no iwNodeConnection implies a single IwNodeConnection exists before
-			//stle: single again
-			result:=source.pred.one.asType(NodeConnection).iwSinglePredNodeConnection
+		    //source has no iwNodeConnection implies a at least one IwNodeConnection exists before
+			sourceAsPathNode.predAsNodeConnection.each{nodeConnection|
+				nodeConnection.iwDisjunctivePredNodeConnections_Recurse(disjunctivePredNodeConnections)
+			}
 		end
 	end
 	

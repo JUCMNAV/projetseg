@@ -28,10 +28,10 @@ class RegularStubStrategy inherits StubStrategy {
 	end
 
 	operation initStubEntryIndexes() is do
-		var nextIndex:Integer init 1
-		stub.predAsNodeConnection.each{nodeConnection|
-			nodeConnection.iwSinglePredNodeConnection.stubEntryIndex:=nextIndex
-			nextIndex:=nextIndex+1
+		var stubEntryIndex:Integer init 1
+		stub.predAsNodeConnection.each{stubEntry|
+			stubEntry.initStubEntryIndex(stubEntryIndex)
+			stubEntryIndex:=stubEntryIndex+1
 		}
 	end
 	

@@ -27,12 +27,33 @@ class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end	
 	
 	@feature "FeaTransformStaticStub"
-	operation testLink_ShouldLinkIwInBindingToIwStubEntry() is do
+	operation testLink_OneStubEntry_ShouldLinkIwInBindingToIwStubEntries() is do
 		attachStubEntryAndStartPointToInBinding(sut)
 		
 		sut.link
 	
-		assertEquals(sut.stubEntry.iwNodeConnection, sut.iwInBinding.stubEntry)
+		assertCollectionHasSingleElement(sut.stubEntry.iwNodeConnection, sut.iwInBinding.disjunctiveStubEntries)
+	end
+	
+	operation testLink_ManyStubEntries_ShouldLinkIwInBindingToIwStubEntries() is do
+		var pluginStartPoint:StartPoint init createStartPoint
+		sut.startPoint:=pluginStartPoint
+		pluginStartPoint.build
+		var ucmMap:UCMmap init createUcmMap //To facilitate setup
+		var orJoin:OrJoin init createOrJoin_UcmMap(ucmMap)
+		var orJoinPred1:NodeConnection init connectStartPointAsSource(orJoin)
+		var orJoinPred2:NodeConnection init connectStartPointAsSource(orJoin)
+		sut.stubEntry:=createNodeConnection
+		sut.stubEntry.source:=orJoin
+		ucmMap.build
+		
+		sut.link
+	
+		assertCollectionHasTwoElements(
+			orJoinPred1.iwNodeConnection,
+			orJoinPred2.iwNodeConnection,
+			sut.iwInBinding.disjunctiveStubEntries
+		)
 	end
 	
 	@feature "FeaTransformStaticStub"
@@ -58,10 +79,11 @@ class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	//stle:dry
-	operation attachStubEntryToInBinding(inBinding:InBinding) is do
+	operation attachStubEntryToInBinding(inBinding:InBinding):NodeConnection is do
 		var stubEntry:NodeConnection init createNodeConnection
 		inBinding.stubEntry:=stubEntry
 		stubEntry.build
+		result:=stubEntry
 	end
 	
 }

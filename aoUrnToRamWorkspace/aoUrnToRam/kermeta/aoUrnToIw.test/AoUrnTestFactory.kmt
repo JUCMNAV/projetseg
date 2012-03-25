@@ -140,6 +140,11 @@ Node
 		result.id:="1"
 	end
 
+	operation createOrJoin_UcmMap(ucmMap:UCMmap):OrJoin is do
+		result:=createOrJoin
+		result.diagram:=ucmMap
+	end
+
 	operation createAndFork():AndFork is do
 		result:=AndFork.new
 		result.name:="theAndFork"

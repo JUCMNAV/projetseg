@@ -45,6 +45,12 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
+	
+	@feature "FeaIntegrationTesting"
+	operation testOrJoin() is do
+		parameterizableIntegrationTest("OrJoin.jucm")
+	end
+	
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		var sourceAbsoluteFileUri:String

@@ -13,7 +13,7 @@ aspect class InBinding {
 	
 	operation link() is do
 		linkStartPoint
-		linkStubEntry
+		linkDisjunctiveStubEntries
 		linkPluginBinding
 	end
 
@@ -21,8 +21,10 @@ aspect class InBinding {
 		binding.addIwInBinding(iwInBinding)	
 	end
 	
-	operation linkStubEntry() is do
-		iwInBinding.stubEntry:=stubEntry.iwSinglePredNodeConnection	
+	operation linkDisjunctiveStubEntries() is do
+		stubEntry.iwDisjunctivePredNodeConnections.each{iwDisjunctivePredNodeConnection|
+			iwInBinding.disjunctiveStubEntries.add(iwDisjunctivePredNodeConnection)
+		}
 	end
 	
 	operation linkStartPoint() is do

@@ -61,7 +61,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		assertCollectionHasSingleElement(sutIwStub,ucmMap.iwWorkflow.nodes)
 	end
-	
+
 	@feature "FeaTransformStaticStub"
 	operation testLink_TwoStubEntry_ShouldInitStubEntryIndexes() is do
 		var ucmMap:UCMmap init createUcmMap
@@ -77,7 +77,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	end
 	
 	@feature "FeaTransformStaticStub"
-	operation testLink_EmptyPointInBetweenStubEntry_ShouldInitStubEntryIndex() is do
+	operation testLink_EmptyPointInBetweenStubEntry_ShouldInitStubEntryIndexOnEmptyPointPred() is do
 		//stle:dry
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
@@ -88,6 +88,22 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut.link
 		
 		assertEquals(1,pred.iwNodeConnection.stubEntryIndex)
+	end
+
+	operation testLink_OrJoinInBetweenStubEntry_ShouldInitStubEntryIndexWithTheSameIndexOnEachOrJoinPreds() is do
+		//stle:dry
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var orJoin:OrJoin init createOrJoin_UcmMap(ucmMap)
+		connectNodes(orJoin,sut)
+		var orJoinPred1:NodeConnection init connectStartPointAsSource(orJoin)
+		var orJoinPred2:NodeConnection init connectStartPointAsSource(orJoin)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,orJoinPred1.iwNodeConnection.stubEntryIndex)
+		assertEquals(1,orJoinPred2.iwNodeConnection.stubEntryIndex)
 	end
 
 	@feature "FeaTransformStaticStub"
