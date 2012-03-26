@@ -7,25 +7,6 @@ using javaInstantiator
 
 aspect class IwNodeConnection
 {
-
-//*********************************************************
-//Build
-//*********************************************************/
-	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendPublicMember(
-			"Condition",
-			jiConditionInstanceName,
-			jiGetConditionMemberInitialization(workflowInstantiator)
-		)
-	end
-	
-	operation jiGetConditionMemberInitialization(workflowInstantiator:WorkflowInstantiator):String is do
-		var conditionFullyQualifiedName:String 
-		init workflowInstantiator.customizableClassSubPackage+"."+step.name+"."+conditionNameWithSourcePrefix
-		
-		result:="createCondition(\""+conditionFullyQualifiedName+"\")"
-	end
-	
 	
 //*********************************************************
 //Link
@@ -50,23 +31,21 @@ aspect class IwNodeConnection
 	end
 	
 	operation jiAppendAddNextNodeStatement_OrForkToNode(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+			source.jiMemberName,
+			jiAddNextNodeMethodName,
+			quote(conditionName),
+			target.jiMemberName
+		)
+	end
+	
+	operation jiAppendAddNextNodeStatement_OrForkToStub(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendMethodInvocationOn_3Params(
 			source.jiMemberName,
 			jiAddNextNodeMethodName,
 			quote(conditionName),
 			target.jiMemberName,
-			jiConditionInstanceName
-		)
-	end
-	
-	operation jiAppendAddNextNodeStatement_OrForkToStub(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendMethodInvocationOn_4Params(
-			source.jiMemberName,
-			jiAddNextNodeMethodName,
-			quote(conditionName),
-			target.jiMemberName,
-			quote(stubEntryIndex),
-			jiConditionInstanceName
+			quote(stubEntryIndex)
 		)
 	end
 
@@ -135,10 +114,4 @@ aspect class IwNodeConnection
 	operation quote(toQuote:Object):String is do
 		result:="\""+toQuote.toString+"\""
 	end
-	
-	property readonly jiConditionInstanceName:String 
-	getter is do
-		result:="_"+conditionNameWithSourcePrefix
-	end
-	
 }

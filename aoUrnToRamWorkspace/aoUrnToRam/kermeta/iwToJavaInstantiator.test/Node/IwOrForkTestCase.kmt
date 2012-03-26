@@ -12,26 +12,13 @@ class IwToJavaInstantiator_IwOrForkTestCase inherits TestCase,IwToJavaInstantiat
 	reference sut:IwOrFork
 	reference workflowInstantiator:WorkflowInstantiator
 
-	method setUp() is do
-		sut:=createIwOrFork
-		sut.step:=createIwStep
-		workflowInstantiator:=createWorkflowInstantiator
-	end
-
 	@feature "FeaWorkflowInstantiationWithoutStubs"
 	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
+		sut:=createIwOrFork
+		workflowInstantiator:=createWorkflowInstantiator
+	
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
 		assertStringContains("    public ConditionalExecutionNode _theOrFork=new ConditionalExecutionNode();\n",workflowInstantiator.content)
-	end
-
-	@feature "FeaWorkflowInstantiationWithoutStubs"
-	operation testAppendBuildStatement_ShouldInvokeAppendBuildStatementOnSuccs() is do
-		createIwNodeConnection.withDefaultCondition.withSource(sut)
-		createIwNodeConnection.withDefaultCondition.withSource(sut)
-		
-		sut.jiAppendBuildStatement(workflowInstantiator)
-		
-		assertStringContainsNTime(2,"public Condition ",workflowInstantiator.content)
 	end
 }

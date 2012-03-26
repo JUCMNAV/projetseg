@@ -8,6 +8,6 @@ using javaInstantiator
 aspect class IwOrFork
 {
 	method createStrategy():NodeInstantiationStrategy is do
-		result:=ConditionalExecutionNodeInstantiationStrategy.new.initialize_ConditionalExecutionNodeInstantiationStrategy(self)
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"ConditionalExecutionNode")
 	end
 }
