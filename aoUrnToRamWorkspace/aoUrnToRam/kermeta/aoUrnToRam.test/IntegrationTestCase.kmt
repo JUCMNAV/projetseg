@@ -3,6 +3,7 @@ package aoUrnToRam::test;
 require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/PlateformResolver.kmt"
 
 using kermeta::standard
 using kermeta::persistence
@@ -11,15 +12,10 @@ using aoUrnToRam
 using aoUrnToRam::util
 
 
-class AoUrnToRam_IntegrationTestCase inherits TestCase
+class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 {
 	attribute sut:AoUrnToRamTransformation
-	attribute projectFolderUri:String
-	
-	method setUp() is do
-		sut:=AoUrnToRamTransformation.new
-		registerMetamodels
-	end
+	attribute jucmSourceFileName:String
 
 	@feature "FeaIntegrationTesting"
 	operation testDemo2_Sp4_WithAutAspect() is do
@@ -50,45 +46,37 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	operation testOrJoin() is do
 		parameterizableIntegrationTest("OrJoin.jucm")
 	end
-	
 
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
-		var sourceAbsoluteFileUri:String
-		sourceAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"jucm")
-		sourceAbsoluteFileUri:=Path.new.combine(sourceAbsoluteFileUri,jucmSourceFileName)
+		self.jucmSourceFileName:=jucmSourceFileName
+		sut:=AoUrnToRamTransformation.new
 		
-		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-5) 
-		var destinationAbsoluteFileUri:String
-		destinationAbsoluteFileUri:=Path.new.combine(integrationFolderUri,"actual")
-		destinationAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFileUri,destinationDirName)
-		
-		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,dotAbsoluteFileUri,imgAbsoluteFileUri,"true","true")
+		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,"true","true",aoUrnToRamPlateformUrl)
+
 		stdio.writeln("For results, see "+destinationAbsoluteFileUri)
 	end
+
+	property readonly sourceAbsoluteFileUri:String 
+	getter is do
+		result:=Path.new.combine(integrationFolderUri,"jucm")
+		result:=Path.new.combine(result,jucmSourceFileName)
+	end
 	
-	operation registerMetamodels() is do
-		var repository : EMFRepository init EMFRepository.new
-		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/oneurn.ecore")
-		repository.registerEcoreFile("platform:/resource/aoUrnToRam/metamodel/intermediateWorkflow.ecore")
+	property readonly destinationAbsoluteFileUri:String 
+	getter is do
+		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-5) 
+		result:=Path.new.combine(integrationFolderUri,"actual")
+		result:=Path.new.combine(result,destinationDirName)
 	end
 	
 	property readonly integrationFolderUri:String
 	getter is do
-		result:=resolve("platform:/resource/aoUrnToRam/kermeta/aoUrnToRam.test")
+		result:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"kermeta/aoUrnToRam.test"))
 	end
 	
-	property readonly dotAbsoluteFileUri:String
+	property readonly aoUrnToRamPlateformUrl:String
 	getter is do
-		result:=resolve("platform:/resource/aoUrnToRam/thirdParty/Graphviz2.26.3/bin/dot.exe")
-	end
-	
-	property readonly imgAbsoluteFileUri:String
-	getter is do
-		result:=resolve("platform:/resource/aoUrnToRam/img")
-	end
-
-	operation resolve(plateformUrl:String):String is do
-		result ?=extern aoUrnToRam::javaExternalCall::PlateformUrlResolver.resolve(plateformUrl)	
+		result:="platform:/resource/aoUrnToRam"
 	end
 	
 }

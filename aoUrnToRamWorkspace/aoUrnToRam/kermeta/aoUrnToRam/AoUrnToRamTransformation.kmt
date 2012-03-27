@@ -10,6 +10,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/ModelRepository.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/textView/TextView.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/PlateformResolver.kmt"
 
 using kermeta::persistence
 using kermeta::standard
@@ -19,28 +20,44 @@ using intermediateWorkflow
 using ramstructural
 using aoUrnToRam::util
 
-class AoUrnToRamTransformation
+class AoUrnToRamTransformation inherits PlateformResolver
 {
 	attribute repository:ModelRepository
 	attribute sourceAbsoluteFileUri:String
 	attribute destinationAbsoluteFolderUri:String
+	
 	attribute dotAbsoluteFileUri:String
 	attribute isIwFileOutputEnabled:Boolean
 	attribute isRamStepViewAsDotOutputEnabled:Boolean
 	attribute imgFolderAbsoluteFileUri:String
+	attribute oneUrnMetamodel:String
+	attribute intermediateWorkflowMetamodel:String
+	attribute ramMetamodel:String
 	
 	property readonly iwModelName:String 
 	getter is do
 		result:=destinationAbsoluteFolderUri.split("/").last
 	end
 
-	operation transform(sourceAbsoluteFileUri:String,destinationAbsoluteFolderUri:String,dotAbsoluteFileUri:String,imgFolderAbsoluteFileUri:String,isRamStepViewAsDotOutputEnabled:String,isIwFileOutputEnabled:String) is do
-		initAttributes(sourceAbsoluteFileUri,destinationAbsoluteFolderUri,dotAbsoluteFileUri,imgFolderAbsoluteFileUri,isRamStepViewAsDotOutputEnabled,isIwFileOutputEnabled)
-		//stle: until destination merge is implemented
-		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFolderUri)
+	operation transform(
+		sourceAbsoluteFileUri:String,
+		destinationAbsoluteFolderUri:String,
+		isRamStepViewAsDotOutputEnabled:String,
+		isIwFileOutputEnabled:String, 
+		aoUrnToRamPlateformUrl:String
+	) is do
+		initAttributes(
+			sourceAbsoluteFileUri,
+			destinationAbsoluteFolderUri,
+			isRamStepViewAsDotOutputEnabled,
+			isIwFileOutputEnabled,
+			aoUrnToRamPlateformUrl
+		)
+		
+		//until FeaMergeGeneratedWorkflowsWithManuallyWrittenRam is implemented
+		deleteDestinationFolder
 	
 		var urnSpec:URNspec init loadUrnSpec()
-		
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		outputIwFile(iwModel)
 
@@ -50,18 +67,31 @@ class AoUrnToRamTransformation
 		ouptutRamJavaView(iwModel)
 	end
 	
-	operation initAttributes(sourceAbsoluteFileUri:String,destinationAbsoluteFolderUri:String,dotAbsoluteFileUri:String,imgFolderAbsoluteFileUri:String,isRamStepViewAsDotOutputEnabled:String,isIwFileOutputEnabled:String) is do
+	operation initAttributes(
+		sourceAbsoluteFileUri:String,
+		destinationAbsoluteFolderUri:String,
+		isRamStepViewAsDotOutputEnabled:String,
+		isIwFileOutputEnabled:String, 
+		aoUrnToRamPlateformUrl:String
+	) is do
 		repository:= ModelRepository.new
 		self.sourceAbsoluteFileUri:=sourceAbsoluteFileUri
 		self.destinationAbsoluteFolderUri:=destinationAbsoluteFolderUri
-		self.dotAbsoluteFileUri:=dotAbsoluteFileUri
-		self.imgFolderAbsoluteFileUri:=imgFolderAbsoluteFileUri
+		self.dotAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"thirdParty/Graphviz2.26.3/bin/dot.exe"))
+		self.imgFolderAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"img"))
+		self.oneUrnMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/oneurn.ecore")
+		self.intermediateWorkflowMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/intermediateWorkflow.ecore")
+		self.ramMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/RAMStructural.ecore")
 		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
 		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean
 	end
 	
+	operation deleteDestinationFolder() is do
+		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFolderUri)
+	end
+	
 	operation loadUrnSpec():URNspec is do
-		result?=repository.load(sourceAbsoluteFileUri)
+		result?=repository.load(sourceAbsoluteFileUri,oneUrnMetamodel)
 		//see @UrnSpecNameWorkAround
 		result.urnSpecName:=iwModelName
 	end
@@ -69,14 +99,14 @@ class AoUrnToRamTransformation
 	operation outputIwFile(iwModel:IwModel) is do
 		if(isIwFileOutputEnabled) then
 			var iwFileAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,"Iw.xmi")
-			repository.save(iwModel,iwFileAbsoluteFileUri,"http:///intermediateWorkflow.ecore")
+			repository.save(iwModel,iwFileAbsoluteFileUri,intermediateWorkflowMetamodel)
 		end
 	end
 	
 	operation outputRamStepClassDiagram(iwModel:IwModel) is do
 		iwModel.toRam.each{ramStepClassDiagram|
 			var ramStepClassDiagramAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,ramStepClassDiagram.workspacePath)+".xmi"
-			repository.save(ramStepClassDiagram,ramStepClassDiagramAbsoluteFileUri,"platform:/resource/aoUrnToRam/metamodel/RAMStructural.ecore")
+			repository.save(ramStepClassDiagram,ramStepClassDiagramAbsoluteFileUri,ramMetamodel)
 		}
 	end
 	

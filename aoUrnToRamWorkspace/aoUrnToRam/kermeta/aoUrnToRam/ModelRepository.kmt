@@ -8,9 +8,9 @@ using kermeta::io
 
 class ModelRepository
 {
-    operation load(uri : String) : Object is do
-     	var repository : EMFRepository init EMFRepository.new 
-    	var resource : Resource init repository.getResource(uri)
+    operation load(modelUri : String, metamodelUri: String) : Object is do
+    	var resource : Resource init EMFRepository.new.createResource(modelUri,metamodelUri)
+    	
     	resource.load
     	result:=resource.one
     end
@@ -18,8 +18,8 @@ class ModelRepository
     operation save(model: Object, modelUri : String, metamodelUri: String) is do
     	fileDoesNotExistWorkAround(modelUri)
     
-		var repository : EMFRepository init EMFRepository.new
-    	var resource : Resource init repository.createResource(modelUri,metamodelUri)
+    	var resource : Resource init EMFRepository.new.createResource(modelUri,metamodelUri)
+    	
     	resource.add(model)
     	resource.save()
     end

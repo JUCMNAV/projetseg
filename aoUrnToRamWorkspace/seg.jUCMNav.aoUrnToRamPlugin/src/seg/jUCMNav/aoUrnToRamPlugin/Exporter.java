@@ -75,40 +75,18 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 	public void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri)
 	{
 		KermetaInterpreterUtil.exeKermeta(
-				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation_TempDemo.kmt",
-				"aoUrnToRam::AoUrnToRamTransformation_TempDemo",
+				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt",
+				"aoUrnToRam::AoUrnToRamTransformation",
 				"transform",
 				new String[]{
 						sourceAbsoluteFileUri,
 						destinationAbsoluteFolderUri,
-						dotAbsoluteFileUri(),
-						imgAbsoluteFileUri(),
 						"false",
-						"false"
+						"false",
+						"platform:/plugin/aoUrnToRam"
 				},
 				new String[]{"aoUrnToRam"},
 				"AoUrnToRam"
 		);
 	}
-	
-    public String dotAbsoluteFileUri(){
-		try {
-			return FileLocator.resolve(aoUrnToRamBundle().getEntry("/thirdParty/Graphviz2.26.3/bin/dot.exe")).toString();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-    }
-    
-    public String imgAbsoluteFileUri(){
-		try {
-			return FileLocator.resolve(aoUrnToRamBundle().getEntry("/img")).toString();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-    }
-    
-    public Bundle aoUrnToRamBundle(){
-    	return Platform.getBundle("aoUrnToRam");
-    }
-
 }

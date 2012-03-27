@@ -1,0 +1,11 @@
+package aoUrnToRam::util;
+
+require kermeta
+using kermeta::standard
+
+class PlateformResolver{
+	operation resolvePlateformUrl(plateformUrl:String):String is do
+		result ?=extern aoUrnToRam::javaExternalCall::PlateformUrlResolver.resolve(plateformUrl)	
+	end
+}
+
