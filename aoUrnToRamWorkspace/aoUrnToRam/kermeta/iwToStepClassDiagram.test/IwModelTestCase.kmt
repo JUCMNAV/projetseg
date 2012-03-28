@@ -38,6 +38,7 @@ class IwToStepClassDiagram_IwModelTestCase inherits TestCase,IwToStepClassDiagra
 
 		assertEquals(2,sut.ramAspects.size)
 	end
+	
 	operation createNotEmptyStep(concern:IwConcern) is do
 		createIwInput.withStep(createIwStep.withConcern(concern))
 	end

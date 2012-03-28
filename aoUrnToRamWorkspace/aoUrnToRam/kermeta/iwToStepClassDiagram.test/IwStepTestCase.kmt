@@ -72,8 +72,8 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
 		sut.withDefaultContainers
-		createIwInput_Step(sut)
-		createIwInput_Step(sut)
+		createIwInput.withStep(sut)
+		createIwInput.withStep(sut)
 		sut.model.build
 
 		sut.link
@@ -83,7 +83,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	
 	operation setupAndExeLinkNotEmptyStep() is do
 		sut.withDefaultContainers
-		createIwInput_Step(sut)
+		createIwInput.withStep(sut)
 		sut.model.build
 		
 		sut.link

@@ -15,7 +15,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	
 	method setUp() is do
 		sut:=createIwStep 
-		customizableNode:=createIwCustomizableNode_Step(sut)
+		customizableNode:=createIwCustomizableNode.withStep(sut)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -28,7 +28,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesNotShared_ShouldBuildTwoClasses() is do
-		var notShared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		var notShared:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
 		notShared.name:="notShared"
 		
 		sut.build
@@ -39,7 +39,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
 		customizableNode.withFirstRefToShared
-		var shared:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		var shared:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
 		shared.withSecondRefToShared
 	
 		sut.build
@@ -70,7 +70,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 
 	operation setupAndExeLink() is do
 		sut.withDefaultContainers
-		var notSharedNode:IwCustomizableNode init createIwCustomizableNode_Step(sut)
+		var notSharedNode:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
 		notSharedNode.name:="notShared"
 		sut.model.build
 		
