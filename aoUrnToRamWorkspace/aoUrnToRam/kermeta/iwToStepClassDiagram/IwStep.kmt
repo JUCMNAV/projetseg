@@ -83,8 +83,7 @@ Link
 	operation link(ramWorkspace:RamWorkspace) is do
 		linkInstantiations
 		linkCustomizableNodeClasses
-		linkRamInputDataBaseClass(ramWorkspace)
-		linkRamOutputDataBaseClass(ramWorkspace)
+		linkBaseClasses(ramWorkspace)
 		nodes.each{node|node.link}
 		addAspectToRamWorkspace(ramWorkspace)
 	end
@@ -99,13 +98,24 @@ Link
 			addCustomizableNodeSubtype(ramClass)
 		}
 	end
+	
+	operation linkBaseClasses(ramWorkspace:RamWorkspace) is do
+		linkRamInputDataBaseClass(ramWorkspace)
+		linkRamOutputDataBaseClass(ramWorkspace)
+		linkCustomizableNodeBaseClass(ramWorkspace)
+	end
 
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
 		//Filter out empty aspect
-		if(ramStructuralView.classes.size>0) then
+		if(isEmtpyStepClassDiagram==false) then
 			var workspacePath:String init Path.new.combine("Steps",Path.new.combine(concern.name,name))
 			ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
 		end
+	end
+	
+	property isEmtpyStepClassDiagram:Boolean
+	getter is do
+		result:=ramStructuralView.classes.size<=1
 	end
 	
 	operation linkRamInputDataBaseClass(ramWorkspace:RamWorkspace) is do
@@ -133,6 +143,15 @@ Link
 				ramReactiveSystemWorkflowInstantiation
 			)
 		end
+	end
+	
+	operation linkCustomizableNodeBaseClass(ramWorkspace:RamWorkspace) is do
+		linkClassToClassDiagram(ramCustomizableNodeBaseClass)
+		ramCustomizableNodeBaseClassMapping:=mapExternalClass(
+			ramCustomizableNodeBaseClass,
+			ramWorkspace.customizableNode,
+			ramWorkflowInstantiation
+		)
 	end
 	
 	operation mapExternalClass(ramClass:Class,externalRamClass:Class,instantiation:Instantiation):Mapping is do

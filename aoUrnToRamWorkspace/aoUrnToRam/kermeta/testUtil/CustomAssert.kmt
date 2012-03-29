@@ -104,6 +104,11 @@ class CustomAssert inherits Assert
 	operation assertCollectionContainsElementWithMsg<T>(element:T,collection:Collection<T>,msg:String) is do
 		assertWithMsgNextLine(collection.contains(element),toFormattedString(element)+ "is not in collection."+msg)
 	end
+	
+	operation assertCollectionDoesNotContainsElement<T>(element:T,collection:Collection<T>) is do
+		assertWithMsgNextLine(collection.contains(element)==false,toFormattedString(element)+ "is in collection.")
+	end
+	
 
 //*********************************************************
 //Formatting

@@ -147,13 +147,35 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertCollectionHasSingleElement(sut.ramOutputDataBaseClassMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
 	end
 	
+	operation testLink_ShouldLinkCustomizableNodeBaseClassToClassDiagram() is do
+		sut.withConcern(createIwConcern)
+		sut.concern.build
+		
+		sut.link(createRamWorkspace)
+	
+		assertCollectionContainsElement(sut.ramCustomizableNodeBaseClass,sut.ramStructuralView.classes)
+	end
+	
+	operation testLink_ShouldMapCustomizableNodeBaseClass() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeBaseClassMapping.sourceModelElement)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,sut.ramCustomizableNodeBaseClassMapping.maps)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClassMapping,sut.ramWorkflowInstantiation.mappings)
+	end
+	
 	operation testLink_WithoutInputWithoutOutput_ShouldIgnoreBaseClassesWithoutSubtype() is do
 		sut.withConcern(createIwConcern)
 		sut.concern.build
 		
 		sut.link(createRamWorkspace)
 	
-		assertEquals(0,sut.ramStructuralView.classes.size)
+		assertCollectionDoesNotContainsElement(sut.ramInputDataBaseClass,sut.ramStructuralView.classes)
+		assertCollectionDoesNotContainsElement(sut.ramOutputDataBaseClass,sut.ramStructuralView.classes)
 		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
 	end
 }
