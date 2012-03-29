@@ -10,7 +10,6 @@ using ram
 
 class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
-/*
 	reference sut:IwOutput
 	
 	method setUp() is do
@@ -21,15 +20,17 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 	operation testBuild_ShouldBuildCustomizableNodeClass() is do
 		sut.build
 		
-		assertRamClassNameEquals(sut.name,sut.ramOutput)
+		assertEquals("theOutput",sut.ramOutput.name)
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldBuildOutputDataClass() is do
 		sut.build
-		assertRamClassNameEquals(sut.name+sut.OUTPUT_DATA_SUFFIX,sut.ramOutputData)
+		
+		assertEquals("theOutputOutput",sut.ramOutputData.name)
 	end
-	
+
+/*	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldAddTwoClassesToClassDiagram() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)

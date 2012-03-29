@@ -10,7 +10,6 @@ using ram
 
 class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
-/*
 	reference sut:IwInput
 	
 	method setUp() is do
@@ -21,9 +20,10 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 	operation testBuild_ShouldBuildInputDataClass() is do
 		sut.build
 		
-		assertRamClassNameEquals(sut.name+sut.INPUT_DATA_SUFFIX,sut.ramInputData)
+		assertEquals("theInputInput",sut.ramInputData.name)
 	end
-	
+
+/*	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldAddInputDataClassToClassDiagram() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
