@@ -10,8 +10,6 @@ using ram
 
 class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
-/*
-
 	reference sut:IwStep
 	reference customizableNode:IwCustomizableNode
 	
@@ -25,7 +23,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		sut.build
 		
 		assertEquals(1,sut.ramCustomizableNodeClasses.size)
-		assertRamClassNameEquals(customizableNode.name,sut.ramCustomizableNodeClasses.values.one)
+		assertEquals(customizableNode.name,sut.ramCustomizableNodeClasses.values.one.name)
 	end
 	
 	@feature "FeaTransformResponsibilityDefinition"
@@ -41,13 +39,14 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
 		customizableNode.withFirstRefToShared
-		var shared:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
-		shared.withSecondRefToShared
+		var shared:IwCustomizableNode init createIwCustomizableNode.withStep(sut).withSecondRefToShared
 	
 		sut.build
 		
 		assert(sut.ramCustomizableNodeClasses.size==1)
 	end
+
+/*
 	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testLink_TwoNodesNotShared_ShouldAddTwoClassesToClassDiagram() is do

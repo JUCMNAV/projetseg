@@ -26,15 +26,16 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertNotVoid(sut.ramAspect.structuralView)
 	end
 
-/*	
+	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldBuildReactiveWorkflowIntanciation() is do
+	operation testBuild_ShouldBuildExternalAspects() is do
 		sut.build
 		
-		assertNotVoid(sut.ramReactiveWorkflowInstantiation)
-		assertEquals("ReactiveWorkflow",sut.ramReactiveWorkflowInstantiation.externalAspect)
+		assertNotVoid(sut.ramWorkflowInstantiation)
+		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
 	end
 
+/*
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkRamReactiveWorkflowInstantiation() is do
 		sut.withDefaultContainers

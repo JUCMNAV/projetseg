@@ -9,7 +9,8 @@ using aoUrnToRam::util
 
 aspect class IwStep {
 	reference ramAspect:Aspect
-	reference ramReactiveWorkflowInstantiation:Instantiation
+	reference ramReactiveSystemWorkflowInstantiation:Instantiation
+	reference ramWorkflowInstantiation:Instantiation
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 
 	property readonly ramStructuralView : ClassDiagram
@@ -30,7 +31,7 @@ Build
 *********************************************************/
 	operation build() is do
 		buildRamAspect
-		buildRamReactiveWorkflowInstantiation
+		buildExternalAspects
 		buildCustomizableNodeClasses
 		nodes.each{node|node.build}
 	end
@@ -41,9 +42,9 @@ Build
 		ramAspect.structuralView:=ClassDiagram.new
 	end
 	
-	operation buildRamReactiveWorkflowInstantiation() is do
-//stle:		ramReactiveWorkflowInstantiation:=Instantiation.new
-//		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
+	operation buildExternalAspects() is do
+		ramReactiveSystemWorkflowInstantiation:=Instantiation.new
+		ramWorkflowInstantiation:=Instantiation.new
 	end
 
 	//For rational see @RamCustomizableNodeClassBuildByIwStep  	
