@@ -10,6 +10,7 @@ require kermeta
 
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/IwModelTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/IwStepTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/IwStep_BaseClassesTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/IwStep_CustomizableNodeTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/Node/IwInputTestCase.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/Node/IwOutputTestCase.kmt"
@@ -24,6 +25,7 @@ class IwToStepClassDiagram_TestRunner inherits CustomTestRunner
 		result:=OrderedSet<Class>.new
 		result.add(IwToStepClassDiagram_IwModelTestCase)
 		result.add(IwToStepClassDiagram_IwStepTestCase)
+		result.add(IwToStepClassDiagram_IwStep_BaseClassesTestCase)
 		result.add(IwToStepClassDiagram_IwStep_CustomizableNodeTestCase)
 		result.add(IwToStepClassDiagram_IwInputTestCase)
 		result.add(IwToStepClassDiagram_IwOutputTestCase)

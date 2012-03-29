@@ -1,0 +1,96 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+using aoUrnToRam::util
+
+class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwStep
+	reference ramWorkspace:RamWorkspace
+	
+	method setUp() is do
+		sut:=createIwStep.withConcern(createIwConcern) 
+		ramWorkspace:=createRamWorkspace
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_WithInput_ShouldLinkInputBaseClassToClassDiagram() is do
+		createIwInput.withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertCollectionContainsElement(sut.ramInputDataBaseClass,sut.ramStructuralView.classes)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_WithInput_ShouldMapInputDataBaseClass() is do
+		createIwInput.withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertEquals(ramWorkspace.inputData,sut.ramInputDataBaseClassMapping.sourceModelElement)
+		assertCollectionHasSingleElement(sut.ramInputDataBaseClass,sut.ramInputDataBaseClassMapping.maps)
+		assertCollectionHasSingleElement(sut.ramInputDataBaseClassMapping, sut.ramReactiveSystemWorkflowInstantiation.mappings)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_WithOutput_ShouldLinkOutputDataBaseClassToClassDiagram() is do
+		createIwOutput.withStep(sut)
+		sut.concern.build
+		
+		sut.link(createRamWorkspace)
+	
+		assertCollectionContainsElement(sut.ramOutputDataBaseClass,sut.ramStructuralView.classes)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_WithOutput_ShouldMapOutputDataBaseClass() is do
+		createIwOutput.withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertEquals(ramWorkspace.outputData,sut.ramOutputDataBaseClassMapping.sourceModelElement)
+		assertCollectionHasSingleElement(sut.ramOutputDataBaseClass,sut.ramOutputDataBaseClassMapping.maps)
+		assertCollectionHasSingleElement(sut.ramOutputDataBaseClassMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_ShouldLinkCustomizableNodeBaseClassToClassDiagram() is do
+		sut.concern.build
+		
+		sut.link(createRamWorkspace)
+	
+		assertCollectionContainsElement(sut.ramCustomizableNodeBaseClass,sut.ramStructuralView.classes)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_ShouldMapCustomizableNodeBaseClass() is do
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeBaseClassMapping.sourceModelElement)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,sut.ramCustomizableNodeBaseClassMapping.maps)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClassMapping,sut.ramWorkflowInstantiation.mappings)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testLink_WithoutInputWithoutOutput_ShouldIgnoreBaseClassesWithoutSubtype() is do
+		sut.concern.build
+		
+		sut.link(createRamWorkspace)
+	
+		assertCollectionDoesNotContainsElement(sut.ramInputDataBaseClass,sut.ramStructuralView.classes)
+		assertCollectionDoesNotContainsElement(sut.ramOutputDataBaseClass,sut.ramStructuralView.classes)
+		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
+	end
+}
