@@ -33,9 +33,8 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result.name:=name
 	end
 
-	operation assertRamMappingHasSingleElement(expectedRamClass:Class,expectedRamSourceModelElement:String,actualStep:IwStep) is do
-//stle		var mapClasses:Collection<MappableElement> init actualStep.ramMappingsGetValue(expectedRamSourceModelElement).maps 
-//		assertCollectionHasSingleElement(expectedRamClass,mapClasses)
+	operation assertNumOfClassesWithoutBaseClasses(expectedNumOfClasses:Integer,actualIwStep:IwStep) is do
+		assertEquals(expectedNumOfClasses,actualIwStep.ramAspect.structuralView.classes.select{ramClass|ramClass.superTypes.size==1}.size)
 	end
 	
 	operation setupAndExeLinkOnNode(node:IwNode):IwStep is do

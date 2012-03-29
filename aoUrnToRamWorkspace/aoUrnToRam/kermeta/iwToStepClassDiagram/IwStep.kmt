@@ -14,8 +14,11 @@ aspect class IwStep {
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	//base classes	
 	reference ramCustomizableNodeBaseClass:Class
+	reference ramCustomizableNodeBaseClassMapping:Mapping
 	reference ramInputDataBaseClass:Class
+	reference ramInputDataBaseClassMapping:Mapping
 	reference ramOutputDataBaseClass:Class
+	reference ramOutputDataBaseClassMapping:Mapping
 
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
@@ -80,9 +83,9 @@ Link
 	operation link(ramWorkspace:RamWorkspace) is do
 		linkInstantiations
 		linkCustomizableNodeClasses
-		
+		linkRamInputDataBaseClass(ramWorkspace)
+		linkRamOutputDataBaseClass(ramWorkspace)
 		nodes.each{node|node.link}
-		
 		addAspectToRamWorkspace(ramWorkspace)
 	end
 	
@@ -104,6 +107,46 @@ Link
 			ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
 		end
 	end
+	
+	operation linkRamInputDataBaseClass(ramWorkspace:RamWorkspace) is do
+		if(hasAtLeastOneInputClass) then
+			linkClassToClassDiagram(ramInputDataBaseClass)
+			ramInputDataBaseClassMapping:=mapExternalClass(
+				ramInputDataBaseClass,
+				ramWorkspace.inputData,
+				ramReactiveSystemWorkflowInstantiation
+			)
+		end
+	end
+	
+	property hasAtLeastOneInputClass:Boolean
+	getter is do
+		result:=nodes.exists{node|node.isInstanceOf(IwInput)}
+	end
+	
+	operation linkRamOutputDataBaseClass(ramWorkspace:RamWorkspace) is do
+		if(hasAtLeastOneOutputClass) then
+			linkClassToClassDiagram(ramOutputDataBaseClass)
+			ramOutputDataBaseClassMapping:=mapExternalClass(
+				ramOutputDataBaseClass,
+				ramWorkspace.outputData,
+				ramReactiveSystemWorkflowInstantiation
+			)
+		end
+	end
+	
+	operation mapExternalClass(ramClass:Class,externalRamClass:Class,instantiation:Instantiation):Mapping is do
+		result:=Mapping.new
+		result.sourceModelElement:=externalRamClass
+		result.maps.add(ramClass)
+		instantiation.mappings.add(result)
+	end
+	
+	property hasAtLeastOneOutputClass:Boolean
+	getter is do
+		result:=nodes.exists{node|node.isInstanceOf(IwOutput)}
+	end
+	
 
 /*********************************************************
 Add Ram Class API

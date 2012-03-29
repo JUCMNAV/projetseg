@@ -27,7 +27,7 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 	operation testLink_ShouldLinkInputDataClassToClassDiagram() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 
-		assertCollectionHasSingleElement(sut.ramInputData,step.ramStructuralView.classes)
+		assertCollectionContainsElement(sut.ramInputData,step.ramStructuralView.classes)
 	end
 
 	operation testLink_ShouldLinkInputDataClassToSuperType() is do
