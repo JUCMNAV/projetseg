@@ -18,7 +18,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldBuildRamAspect() is do
+	operation testBuild_ShouldBuildAspect() is do
 		sut.build
 		
 		assertNotVoid(sut.ramAspect)
@@ -28,47 +28,59 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldBuildExternalAspects() is do
+	operation testBuild_ShouldBuildInstantiations() is do
 		sut.build
 		
 		assertNotVoid(sut.ramWorkflowInstantiation)
 		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
 	end
 
-/*
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_ShouldLinkRamReactiveWorkflowInstantiation() is do
-		sut.withDefaultContainers
-		sut.model.build
+	operation testLink_ShouldLinkInstantiationsToAspect() is do
+		sut.build
 
-		sut.link
+		sut.link(createRamWorkspace)
 				
-		assertCollectionHasSingleElement(sut.ramReactiveWorkflowInstantiation,sut.ramAspect.structuralView.instantiations)
+		assertCollectionHasTwoElements(
+			sut.ramReactiveSystemWorkflowInstantiation,
+			sut.ramWorkflowInstantiation,
+			sut.ramAspect.instantiations
+		)
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamAspects() is do
-		sut.withDefaultContainers
-		sut.model.build
+	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamWorkspace() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.build
 		
-		sut.link
+		sut.link(ramWorkspace)
 		
-		assertEquals(0,sut.model.ramAspects.size)
+		assertEquals(0,ramWorkspace.aspectPerWorkspacePath.size)
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamAspects() is do
-		setupAndExeLinkNotEmptyStep
+	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamWorkspace() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		createIwInput.withStep(sut.withConcern(createIwConcern))
+		sut.concern.build
 		
-		assertEquals(1,sut.model.ramAspects.size)
+		sut.link(ramWorkspace)
+		
+		assertEquals(1,ramWorkspace.aspectPerWorkspacePath.size)
 	end
 
 	@feature "FeaNamingofRAMConcern"
 	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
-		setupAndExeLinkNotEmptyStep
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		createIwInput.withStep(sut.withConcern(createIwConcern))
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
 				
-		assertEquals("Steps/theConcern/theStep",sut.ramAspect.workspacePath)
+		assertCollectionContainsElement("Steps/theConcern/theStep",ramWorkspace.aspectPerWorkspacePath.keys)
 	end
+
+/*
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
@@ -82,13 +94,6 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertEquals(2,sut.ramAspect.structuralView.classes.size)
 	end
 	
-	
-	operation setupAndExeLinkNotEmptyStep() is do
-		sut.withDefaultContainers
-		createIwInput.withStep(sut)
-		sut.model.build
-		
-		sut.link
-	end
 	*/
+		
 }

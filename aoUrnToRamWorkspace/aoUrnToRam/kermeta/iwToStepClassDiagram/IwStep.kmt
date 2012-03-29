@@ -62,7 +62,7 @@ Link
 *********************************************************/
 	
 	operation link(ramWorkspace:RamWorkspace) is do
-		linkRamReactiveWorkflowInstantiation
+		linkInstantiations
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		
@@ -77,8 +77,9 @@ Link
 		end
 	end
 
-	operation linkRamReactiveWorkflowInstantiation() is do
-//stle:		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
+	operation linkInstantiations() is do
+		ramAspect.instantiations.add(ramReactiveSystemWorkflowInstantiation)
+		ramAspect.instantiations.add(ramWorkflowInstantiation)
 	end
 	
 	operation linkCustomizableNodeClasses() is do
