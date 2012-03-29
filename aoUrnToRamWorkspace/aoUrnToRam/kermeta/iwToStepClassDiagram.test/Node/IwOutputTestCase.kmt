@@ -30,9 +30,8 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 		assertEquals("theOutputOutput",sut.ramOutputData.name)
 	end
 
-/*	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_ShouldAddTwoClassesToClassDiagram() is do
+	operation testLink_ShouldLinkOutputAndOutputDataToClassDiagram() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 		
 		assertCollectionHasTwoElements(
@@ -42,6 +41,7 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 		)
 	end
 
+/*
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldMapCustomizableNodeClass() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)

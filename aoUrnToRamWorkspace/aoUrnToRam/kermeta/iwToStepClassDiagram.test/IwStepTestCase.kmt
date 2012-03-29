@@ -80,20 +80,16 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertCollectionContainsElement("Steps/theConcern/theStep",ramWorkspace.aspectPerWorkspacePath.keys)
 	end
 
-/*
-	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
-		sut.withDefaultContainers
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
 		createIwInput.withStep(sut)
 		createIwInput.withStep(sut)
-		sut.model.build
-
-		sut.link
-
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
 		assertEquals(2,sut.ramAspect.structuralView.classes.size)
 	end
-	
-	*/
-		
 }

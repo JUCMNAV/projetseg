@@ -46,18 +46,29 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		assert(sut.ramCustomizableNodeClasses.size==1)
 	end
 
-/*
-	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testLink_TwoNodesNotShared_ShouldAddTwoClassesToClassDiagram() is do
-		setupAndExeLink
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		createIwCustomizableNode.withStep(sut).withName("notShared")
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
 		
 		assertEquals(2,sut.ramStructuralView.classes.size)
 	end
-	
+
+
+/*	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testLink_TwoNodesNotShared_ShouldMapTwoCustomizableNodeClasses() is do
-		setupAndExeLink
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		createIwCustomizableNode.withStep(sut).withName("notShared")
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+
 		
 		var mapClasses:Collection<MappableElement> 
 		init sut.ramMappingsGetValue(sut.REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE).maps
@@ -67,15 +78,6 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 			getRamCustomizableNodeClassAt(1),
 			mapClasses
 		)
-	end
-
-	operation setupAndExeLink() is do
-		sut.withDefaultContainers
-		var notSharedNode:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
-		notSharedNode.name:="notShared"
-		sut.model.build
-		
-		sut.link
 	end
 	
 	operation getRamCustomizableNodeClassAt(index:Integer):MappableElement is do

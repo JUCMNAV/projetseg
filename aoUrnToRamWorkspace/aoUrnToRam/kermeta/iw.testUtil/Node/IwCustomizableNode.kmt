@@ -26,6 +26,10 @@ aspect class IwCustomizableNode
 		self.name:="shared"
 		self.customizableNodeRefId:="2"
 		result:=self
-	end 
+	end
 	
+	operation withName(name:String):IwCustomizableNode is do
+		self.name:=name
+		result:=self
+	end
 }
