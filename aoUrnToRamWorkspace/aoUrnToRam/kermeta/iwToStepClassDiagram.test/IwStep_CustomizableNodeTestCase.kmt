@@ -58,6 +58,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		assertNumOfClassesWithoutBaseClasses(2,sut)
 	end
 
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testLink_ShouldLinkTwoCustomizableNodeClassesToSuperType() is do
 		var ramWorkspace:RamWorkspace init createRamWorkspace
 		sut.withConcern(createIwConcern)
