@@ -3,31 +3,19 @@ package intermediateWorkflow;
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
 
 using kermeta::standard
-using ramstructural
+using ram
 
 aspect class IwModel {
-	reference ramAspects:Aspect[0..*]
-	
-	operation toRam():Aspect[0..*] is do
+	operation toStepClassDiagram(ramWorkspace:RamWorkspace) is do
 		build
-		link
-		removeEmptyRamAspects
-		result := ramAspects
+		link(ramWorkspace)
 	end
 	
 	operation build() is do
 		concerns.each{concern|concern.build}
 	end
 	
-	operation link() is do
-		concerns.each{concern|concern.link}
+	operation link(ramWorkspace:RamWorkspace) is do
+		concerns.each{concern|concern.link(ramWorkspace)}
 	end
-	
-	operation removeEmptyRamAspects() is do
-		var withoutEmptyRamAspects:Collection<Aspect> 
-		init ramAspects.reject{ramAspect|ramAspect.structuralView.classes.size==0}
-		ramAspects.clear
-		ramAspects.addAll(withoutEmptyRamAspects)
-	end
-	
 }

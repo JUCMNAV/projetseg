@@ -3,7 +3,7 @@ package intermediateWorkflow;
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
 
 using kermeta::standard
-using ramstructural
+using ram
 using kermeta::utils
 using aoUrnToRam::util
 
@@ -24,12 +24,10 @@ aspect class IwStep {
 		result:=nodes.select{node|node.isInstanceOf(IwCustomizableNode)}
 			 .collect{node|node.asType(IwCustomizableNode)}.asOrderedSet
 	end
-	
 
 /*********************************************************
 Build
 *********************************************************/
-
 	operation build() is do
 		buildRamAspect
 		buildRamReactiveWorkflowInstantiation
@@ -41,12 +39,11 @@ Build
 		ramAspect:=Aspect.new
 		ramAspect.name:=name
 		ramAspect.structuralView:=ClassDiagram.new
-		ramAspect.interface:=AspectInterface.new
 	end
 	
 	operation buildRamReactiveWorkflowInstantiation() is do
-		ramReactiveWorkflowInstantiation:=Instantiation.new
-		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
+//stle:		ramReactiveWorkflowInstantiation:=Instantiation.new
+//		ramReactiveWorkflowInstantiation.externalAspect:="ReactiveWorkflow"
 	end
 
 	//For rational see @RamCustomizableNodeClassBuildByIwStep  	
@@ -63,23 +60,24 @@ Build
 Link
 *********************************************************/
 	
-	operation link() is do
+	operation link(ramWorkspace:RamWorkspace) is do
 		linkRamReactiveWorkflowInstantiation
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		
-		if(ramStructuralView.classes.size>0) then
-			linkConcern
-		end
+		addAspectToRamWorkspace(ramWorkspace)
 	end
 	
-	operation linkConcern() is do
-		ramAspect.workspacePath:=Path.new.combine("Steps",Path.new.combine(concern.name,name))
-		concern.addRamAspect(ramAspect)
+	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
+		//Filter out empty aspect
+		if(ramStructuralView.classes.size>0) then
+			var workspacePath:String init Path.new.combine("Steps",Path.new.combine(concern.name,name))
+			ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
+		end
 	end
 
 	operation linkRamReactiveWorkflowInstantiation() is do
-		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
+//stle:		ramStructuralView.instantiations.add(ramReactiveWorkflowInstantiation)
 	end
 	
 	operation linkCustomizableNodeClasses() is do
@@ -98,30 +96,31 @@ Add Ram Class API
 	
 	operation addMappedRamClass(sourceModelElement:String,ramClass:Class) is do
 		addNotMappedRamClass(ramClass)
-		mapRamClass(sourceModelElement,ramClass)
+//stle:		mapRamClass(sourceModelElement,ramClass)
 	end
 	
 	operation addNotMappedRamClass(ramClass:Class) is do
 		ramStructuralView.classes.add(ramClass)
 	end
 	
-	operation mapRamClass(sourceModelElement:String,ramClass:Class) is do
-		if(ramMappingsContainsKey(sourceModelElement)==false) then
-			var mapping:Mapping init Mapping.new
-			mapping.sourceModelElement:=sourceModelElement
-			ramReactiveWorkflowInstantiation.mappings.add(mapping)
-		end
-		ramMappingsGetValue(sourceModelElement).maps.add(ramClass)
-	end
+	// operation mapRamClass(sourceModelElement:String,ramClass:Class) is do
+	// 	if(ramMappingsContainsKey(sourceModelElement)==false) then
+	// 		var mapping:Mapping init Mapping.new
+	// 		mapping.sourceModelElement:=sourceModelElement
+	// 		ramReactiveWorkflowInstantiation.mappings.add(mapping)
+	// 	end
+	// 	ramMappingsGetValue(sourceModelElement).maps.add(ramClass)
+	// end
 
-	operation ramMappingsContainsKey(sourceModelElement:String):Boolean is do
-		result:=ramReactiveWorkflowInstantiation.mappings.exists
-								{mapping|mapping.sourceModelElement==sourceModelElement}  
-	end
+	// operation ramMappingsContainsKey(sourceModelElement:String):Boolean is do
+	// 	result:=ramReactiveWorkflowInstantiation.mappings.exists
+	// 							{mapping|mapping.sourceModelElement==sourceModelElement}  
+	// end
 	
-	operation ramMappingsGetValue(sourceModelElement:String):Mapping is do
-		//stle:single again
-		result:=ramReactiveWorkflowInstantiation.mappings.select
-								{mapping|mapping.sourceModelElement==sourceModelElement}.one  
-	end
+	// operation ramMappingsGetValue(sourceModelElement:String):Mapping is do
+	// 	//stle:single again
+	// 	result:=ramReactiveWorkflowInstantiation.mappings.select
+	// 							{mapping|mapping.sourceModelElement==sourceModelElement}.one  
+	// end
+
 }

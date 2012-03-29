@@ -6,7 +6,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelpe
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using ramstructural
+using ram
 using aoUrnToRam::util
 
 class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
@@ -24,9 +24,9 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertNotVoid(sut.ramAspect)
 		assertEquals(sut.name,sut.ramAspect.name)
 		assertNotVoid(sut.ramAspect.structuralView)
-		assertNotVoid(sut.ramAspect.interface)
 	end
-	
+
+/*	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldBuildReactiveWorkflowIntanciation() is do
 		sut.build
@@ -81,6 +81,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertEquals(2,sut.ramAspect.structuralView.classes.size)
 	end
 	
+	
 	operation setupAndExeLinkNotEmptyStep() is do
 		sut.withDefaultContainers
 		createIwInput.withStep(sut)
@@ -88,4 +89,5 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		
 		sut.link
 	end
+	*/
 }

@@ -6,10 +6,11 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelpe
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using ramstructural
+using ram
 
 class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
+/*
 	reference sut:IwInput
 	
 	method setUp() is do
@@ -36,4 +37,5 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 		
 		assertRamMappingHasSingleElement(sut.ramInputData,step.REACTIVE_WORKFLOW_INPUT_DATA,step)
 	end
+*/
 }

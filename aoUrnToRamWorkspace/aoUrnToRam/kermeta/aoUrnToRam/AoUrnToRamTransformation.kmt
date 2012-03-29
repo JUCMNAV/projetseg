@@ -17,7 +17,7 @@ using kermeta::standard
 using kermeta::io
 using oneurn::urn
 using intermediateWorkflow
-using ramstructural
+using ram
 using aoUrnToRam::util
 
 class AoUrnToRamTransformation inherits PlateformResolver

@@ -3,7 +3,7 @@ package intermediateWorkflow;
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
 
 using kermeta::standard
-using ramstructural
+using ram
 
 aspect class IwOutput{
 	reference ramOutput : Class
