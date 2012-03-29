@@ -1,0 +1,46 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+using aoUrnToRam::util
+
+class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwStep
+	
+	method setUp() is do
+		sut:=createIwStep 
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildAspect() is do
+		sut.build
+		
+		assertNotVoid(sut.ramAspect)
+		assertEquals(sut.name,sut.ramAspect.name)
+		assertNotVoid(sut.ramAspect.structuralView)
+	end
+
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildInstantiations() is do
+		sut.build
+		
+		assertNotVoid(sut.ramWorkflowInstantiation)
+		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
+	end
+
+	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
+	operation testBuild_ShouldBuildBaseClasses() is do
+		sut.build
+		
+		assertEquals("CustomizableNode",sut.ramCustomizableNodeBaseClass.name)
+		assertEquals("InputData",sut.ramInputDataBaseClass.name)
+		assertEquals("OutputData",sut.ramOutputDataBaseClass.name)
+	end
+}

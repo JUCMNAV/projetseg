@@ -9,46 +9,21 @@ using intermediateWorkflow
 using ram
 using aoUrnToRam::util
 
-class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
 	reference sut:IwStep
+	reference ramWorkspace:RamWorkspace
 	
 	method setUp() is do
-		sut:=createIwStep 
-	end
-
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldBuildAspect() is do
-		sut.build
-		
-		assertNotVoid(sut.ramAspect)
-		assertEquals(sut.name,sut.ramAspect.name)
-		assertNotVoid(sut.ramAspect.structuralView)
-	end
-
-	
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testBuild_ShouldBuildInstantiations() is do
-		sut.build
-		
-		assertNotVoid(sut.ramWorkflowInstantiation)
-		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
-	end
-
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testBuild_ShouldBuildBaseClasses() is do
-		sut.build
-		
-		assertEquals("CustomizableNode",sut.ramCustomizableNodeBaseClass.name)
-		assertEquals("InputData",sut.ramInputDataBaseClass.name)
-		assertEquals("OutputData",sut.ramOutputDataBaseClass.name)
+		sut:=createIwStep.withConcern(createIwConcern) 
+		ramWorkspace:=createRamWorkspace
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkInstantiationsToAspect() is do
-		sut.build
+		sut.concern.build
 
-		sut.link(createRamWorkspace)
+		sut.link(ramWorkspace)
 				
 		assertCollectionHasTwoElements(
 			sut.ramReactiveSystemWorkflowInstantiation,
@@ -59,8 +34,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamWorkspace() is do
-		var ramWorkspace:RamWorkspace init createRamWorkspace
-		sut.build
+		sut.concern.build
 		
 		sut.link(ramWorkspace)
 		
@@ -69,8 +43,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamWorkspace() is do
-		var ramWorkspace:RamWorkspace init createRamWorkspace
-		createIwInput.withStep(sut.withConcern(createIwConcern))
+		createIwInput.withStep(sut)
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
@@ -80,8 +53,7 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 
 	@feature "FeaNamingofRAMConcern"
 	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
-		var ramWorkspace:RamWorkspace init createRamWorkspace
-		createIwInput.withStep(sut.withConcern(createIwConcern))
+		createIwInput.withStep(sut)
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
@@ -91,8 +63,6 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
-		var ramWorkspace:RamWorkspace init createRamWorkspace
-		sut.withConcern(createIwConcern)
 		createIwInput.withStep(sut)
 		createIwInput.withStep(sut)
 		sut.concern.build
