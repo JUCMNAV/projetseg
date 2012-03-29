@@ -13,6 +13,6 @@ aspect class IwInput{
 	end
 	
 	method link() is do
-		step.addMappedRamClass(step.REACTIVE_WORKFLOW_INPUT_DATA,ramInputData)
+		step.addInputDataSubtype(ramInputData)
 	end
 }

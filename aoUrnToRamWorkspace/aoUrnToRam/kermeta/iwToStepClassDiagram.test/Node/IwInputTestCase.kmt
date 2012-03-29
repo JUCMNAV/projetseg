@@ -13,7 +13,7 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 	reference sut:IwInput
 	
 	method setUp() is do
-		sut:=createIwInput 
+		sut:=createIwInput
 	end
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -26,16 +26,14 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkInputDataClassToClassDiagram() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
-		
+
 		assertCollectionHasSingleElement(sut.ramInputData,step.ramStructuralView.classes)
 	end
 
-/*
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_ShouldMapInputDataClass() is do
+	operation testLink_ShouldLinkInputDataClassToSuperType() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 		
-		assertRamMappingHasSingleElement(sut.ramInputData,step.REACTIVE_WORKFLOW_INPUT_DATA,step)
+		assertCollectionHasSingleElement(sut.step.ramInputDataBaseClass,sut.ramInputData.superTypes)
 	end
-*/
 }

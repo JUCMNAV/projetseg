@@ -12,6 +12,10 @@ aspect class IwStep {
 	reference ramReactiveSystemWorkflowInstantiation:Instantiation
 	reference ramWorkflowInstantiation:Instantiation
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
+	//base classes	
+	reference ramCustomizableNodeBaseClass:Class
+	reference ramInputDataBaseClass:Class
+	reference ramOutputDataBaseClass:Class
 
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
@@ -32,6 +36,7 @@ Build
 	operation build() is do
 		buildRamAspect
 		buildExternalAspects
+		buildBaseClasses
 		buildCustomizableNodeClasses
 		nodes.each{node|node.build}
 	end
@@ -46,15 +51,26 @@ Build
 		ramReactiveSystemWorkflowInstantiation:=Instantiation.new
 		ramWorkflowInstantiation:=Instantiation.new
 	end
+	
+	operation buildBaseClasses() is do
+		ramCustomizableNodeBaseClass:=createRamClass("CustomizableNode")
+		ramInputDataBaseClass:=createRamClass("InputData")
+		ramOutputDataBaseClass:=createRamClass("OutputData")
+	end
 
 	//For rational see @RamCustomizableNodeClassBuildByIwStep  	
 	operation buildCustomizableNodeClasses() is do
 		ramCustomizableNodeClasses:=Hashtable<String,Class>.new
 		customizableNodes.each{customizableNode|
 			if(ramCustomizableNodeClasses.containsKey(customizableNode.name)==false) then
-				ramCustomizableNodeClasses.put(customizableNode.name,customizableNode.createRamClass(customizableNode.name))
+				ramCustomizableNodeClasses.put(customizableNode.name,createRamClass(customizableNode.name))
 			end
 		}
+	end
+
+	operation createRamClass(name:String):Class is do
+		result:=Class.new
+		result.name:=name
 	end
 	
 /*********************************************************
@@ -64,11 +80,23 @@ Link
 	operation link(ramWorkspace:RamWorkspace) is do
 		linkInstantiations
 		linkCustomizableNodeClasses
+		
 		nodes.each{node|node.link}
 		
 		addAspectToRamWorkspace(ramWorkspace)
 	end
 	
+	operation linkInstantiations() is do
+		ramAspect.instantiations.add(ramReactiveSystemWorkflowInstantiation)
+		ramAspect.instantiations.add(ramWorkflowInstantiation)
+	end
+	
+	operation linkCustomizableNodeClasses() is do
+		ramCustomizableNodeClasses.values.each{ramClass|
+			addCustomizableNodeSubtype(ramClass)
+		}
+	end
+
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
 		//Filter out empty aspect
 		if(ramStructuralView.classes.size>0) then
@@ -77,52 +105,25 @@ Link
 		end
 	end
 
-	operation linkInstantiations() is do
-		ramAspect.instantiations.add(ramReactiveSystemWorkflowInstantiation)
-		ramAspect.instantiations.add(ramWorkflowInstantiation)
-	end
-	
-	operation linkCustomizableNodeClasses() is do
-		ramCustomizableNodeClasses.values.each{ramClass|
-			addMappedRamClass(REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE,ramClass)
-		}
-	end
-
 /*********************************************************
 Add Ram Class API
 *********************************************************/
-	property REACTIVE_WORKFLOW_INPUT_DATA : String getter is do result := "InputData" end
-	property REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE : String getter is do result := "|CustomizableNode" end
-	property REACTIVE_WORKFLOW_OUTPUT_DATA : String getter is do result := "OutputData" end
-	property REACTIVE_WORKFLOW_CONDITION : String getter is do result := "Condition" end
-	
-	operation addMappedRamClass(sourceModelElement:String,ramClass:Class) is do
-		addNotMappedRamClass(ramClass)
-//stle:		mapRamClass(sourceModelElement,ramClass)
+	operation addInputDataSubtype(subtype:Class) is do
+		linkClassToClassDiagram(subtype)
+		subtype.superTypes.add(ramInputDataBaseClass)
 	end
 	
-	operation addNotMappedRamClass(ramClass:Class) is do
+	operation addOutputDataSubtype(subtype:Class) is do
+		linkClassToClassDiagram(subtype)
+		subtype.superTypes.add(ramOutputDataBaseClass)
+	end
+	
+	operation addCustomizableNodeSubtype(subtype:Class) is do
+		linkClassToClassDiagram(subtype)
+		subtype.superTypes.add(ramCustomizableNodeBaseClass)
+	end
+
+	operation linkClassToClassDiagram(ramClass:Class) is do
 		ramStructuralView.classes.add(ramClass)
 	end
-	
-	// operation mapRamClass(sourceModelElement:String,ramClass:Class) is do
-	// 	if(ramMappingsContainsKey(sourceModelElement)==false) then
-	// 		var mapping:Mapping init Mapping.new
-	// 		mapping.sourceModelElement:=sourceModelElement
-	// 		ramReactiveWorkflowInstantiation.mappings.add(mapping)
-	// 	end
-	// 	ramMappingsGetValue(sourceModelElement).maps.add(ramClass)
-	// end
-
-	// operation ramMappingsContainsKey(sourceModelElement:String):Boolean is do
-	// 	result:=ramReactiveWorkflowInstantiation.mappings.exists
-	// 							{mapping|mapping.sourceModelElement==sourceModelElement}  
-	// end
-	
-	// operation ramMappingsGetValue(sourceModelElement:String):Mapping is do
-	// 	//stle:single again
-	// 	result:=ramReactiveWorkflowInstantiation.mappings.select
-	// 							{mapping|mapping.sourceModelElement==sourceModelElement}.one  
-	// end
-
 }

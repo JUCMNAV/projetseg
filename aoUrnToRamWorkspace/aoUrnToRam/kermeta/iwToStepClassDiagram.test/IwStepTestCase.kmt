@@ -34,6 +34,14 @@ class IwToStepClassDiagram_IwStepTestCase inherits TestCase,IwToStepClassDiagram
 		assertNotVoid(sut.ramWorkflowInstantiation)
 		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
 	end
+	
+	operation testBuild_ShouldBuildBaseClasses() is do
+		sut.build
+		
+		assertEquals("CustomizableNode",sut.ramCustomizableNodeBaseClass.name)
+		assertEquals("InputData",sut.ramInputDataBaseClass.name)
+		assertEquals("OutputData",sut.ramOutputDataBaseClass.name)
+	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkInstantiationsToAspect() is do

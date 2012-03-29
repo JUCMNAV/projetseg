@@ -15,7 +15,7 @@ aspect class IwOutput{
 	end
 	
 	method link() is do
-		step.addMappedRamClass(step.REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE,ramOutput)
-		step.addMappedRamClass(step.REACTIVE_WORKFLOW_OUTPUT_DATA,ramOutputData)
+		step.addOutputDataSubtype(ramOutputData)
+		step.addCustomizableNodeSubtype(ramOutput)
 	end
 }
