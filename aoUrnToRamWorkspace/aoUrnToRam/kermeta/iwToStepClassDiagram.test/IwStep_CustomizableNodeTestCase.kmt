@@ -58,10 +58,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		assertEquals(2,sut.ramStructuralView.classes.size)
 	end
 
-
-/*	
-	@feature "FeaTransformResponsibilityDefinition"
-	operation testLink_TwoNodesNotShared_ShouldMapTwoCustomizableNodeClasses() is do
+	operation testLink_ShouldLinkTwoCustomizableNodeClassesToSuperType() is do
 		var ramWorkspace:RamWorkspace init createRamWorkspace
 		sut.withConcern(createIwConcern)
 		createIwCustomizableNode.withStep(sut).withName("notShared")
@@ -69,19 +66,11 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		
 		sut.link(ramWorkspace)
 
-		
-		var mapClasses:Collection<MappableElement> 
-		init sut.ramMappingsGetValue(sut.REACTIVE_WORKFLOW_CUSTOMIZABLE_NODE).maps
-		
-		assertCollectionHasTwoElements(
-			getRamCustomizableNodeClassAt(0),
-			getRamCustomizableNodeClassAt(1),
-			mapClasses
-		)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,getRamCustomizableNodeClassAt(0).superTypes)
+		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,getRamCustomizableNodeClassAt(1).superTypes)		
 	end
 	
-	operation getRamCustomizableNodeClassAt(index:Integer):MappableElement is do
-		result:=sut.ramCustomizableNodeClasses.values.asOrderedSet.elementAt(index).asType(MappableElement)
+	operation getRamCustomizableNodeClassAt(index:Integer):Class is do
+		result:=sut.ramCustomizableNodeClasses.values.asOrderedSet.elementAt(index)
 	end
-*/	
 }

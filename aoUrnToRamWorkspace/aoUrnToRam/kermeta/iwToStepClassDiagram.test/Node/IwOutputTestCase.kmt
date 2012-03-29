@@ -48,7 +48,6 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 		assertCollectionHasSingleElement(sut.step.ramOutputDataBaseClass,sut.ramOutputData.superTypes)
 	end
 	
-	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkOutputDataToSuperType() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 		
