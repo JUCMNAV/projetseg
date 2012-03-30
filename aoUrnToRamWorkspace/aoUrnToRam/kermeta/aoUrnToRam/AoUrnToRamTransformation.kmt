@@ -32,15 +32,12 @@ class AoUrnToRamTransformation inherits PlateformResolver
 	attribute oneUrnMetamodel:String
 	attribute intermediateWorkflowMetamodel:String
 	attribute ramMetamodel:String
-	
 	attribute ramLibFolderSrcAbsoluteFileUri:String
 	attribute ramLibFolderDestAbsoluteFileUri:String
 	
-	property readonly iwModelName:String 
-	getter is do
-		result:=destinationAbsoluteFolderUri.split("/").last
-	end
-
+//*********************************************************
+//Transform
+//*********************************************************/
 	operation transform(
 		sourceAbsoluteFileUri:String,
 		destinationAbsoluteFolderUri:String,
@@ -63,9 +60,9 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		outputIwFile(iwModel)
 
-		outputRamStepView(iwModel)
 		ouptutRamJavaInstantiator(iwModel)
-		ouptutRamJavaView(iwModel)
+		ouptutRamJavaProgram(iwModel)
+		outputRamStepView(iwModel)
 		outputRamStepClassDiagram(iwModel)
 	end
 	
@@ -80,31 +77,31 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		self.destinationAbsoluteFolderUri:=destinationAbsoluteFolderUri
 		self.dotAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"thirdParty/Graphviz2.26.3/bin/dot.exe"))
 		self.imgFolderAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"img"))
+		self.ramLibFolderSrcAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"ramLib"))
+		self.ramLibFolderDestAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFolderUri,"Lib")
+
+		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
+		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean
+		
 		self.oneUrnMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/oneurn.ecore")
 		self.intermediateWorkflowMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/intermediateWorkflow.ecore")
 		self.ramMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/RAM.ecore")
-		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
-		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean
-		self.ramLibFolderSrcAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"ramLib"))
-		self.ramLibFolderDestAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFolderUri,"Lib")
 	end
 	
-	operation deleteDestinationFolder() is do
-		extern aoUrnToRam::javaExternalCall::FileSystem.removeDirectory(destinationAbsoluteFolderUri)
-	end
-	
-	operation copyRamLibFolder() is do
-		extern aoUrnToRam::javaExternalCall::FileSystem.copy(
-			ramLibFolderSrcAbsoluteFileUri,
-			ramLibFolderDestAbsoluteFileUri
-		)
-	end
-	
+//*********************************************************
+//AoUrnToIw
+//*********************************************************/
 	operation loadUrnSpec():URNspec is do
 		var repository:ModelRepository init ModelRepository.new.initialize
 		result?=repository.load(sourceAbsoluteFileUri,oneUrnMetamodel)
 		//see @UrnSpecNameWorkAround
 		result.urnSpecName:=iwModelName
+	end
+	
+	operation aoUrnToIw(urnSpec:URNspec):IwModel is do
+		result:=urnSpec.toIw
+		result.insertInputProcessingNodes
+		result.linkSteps
 	end
 	
 	operation outputIwFile(iwModel:IwModel) is do
@@ -114,7 +111,57 @@ class AoUrnToRamTransformation inherits PlateformResolver
 			repository.save(iwModel,iwFileAbsoluteFileUri,intermediateWorkflowMetamodel)
 		end
 	end
+
+//*********************************************************
+//IwToJava
+//*********************************************************/
+	operation ouptutRamJavaInstantiator(iwModel:IwModel) is do
+		iwModel.jiToJavaInstantiator.each{workflowInstantiator|
+			ouptutTextView(workflowInstantiator,".java")
+		}
+	end
 	
+	operation ouptutRamJavaProgram(iwModel:IwModel) is do
+		ouptutTextView(iwModel.jpToJavaProgram,".java")
+	end
+
+//*********************************************************
+//IwToStepView
+//*********************************************************/
+	operation outputRamStepView(iwModel:IwModel) is do
+		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
+		outputRamStepViewAsDot(stepViews)
+		outputRamStepViewAsImg(stepViews)
+	end
+
+	operation outputRamStepViewAsDot(stepViews:OrderedSet<StepView>) is do
+		if(isRamStepViewAsDotOutputEnabled) then
+			stepViews.each{stepView|
+				var stepViewAsDotAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,stepView.workspacePath)+".dot" 
+				FileIO.new.writeTextFile(stepViewAsDotAbsoluteFileUri,stepView.dot)
+			} 
+	    end
+	end
+
+	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>) is do
+		stepViews.each{stepView|
+			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,stepView.workspacePath)+".png"
+			var stepViewAsImgFilePath:String init absoluteFileUriToWindowsPath(stepViewAsImgAbsoluteFileUri)
+			var dotFilePath:String init absoluteFileUriToWindowsPath(dotAbsoluteFileUri)
+			
+		    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+stepViewAsImgFilePath+"\"",stepView.dot)
+	    }
+	end
+	
+	//Only Windows is supported at this point
+	operation absoluteFileUriToWindowsPath(absoluteFileUri:String):String is do
+		result:=absoluteFileUri.replace("file:/","")
+		result:=result.replace("/","\\")
+	end
+	
+//*********************************************************
+//IwToStepClassDiagram
+//*********************************************************/
 	operation outputRamStepClassDiagram(iwModel:IwModel) is do
 		//In order to resolve external aspect, 
 		//it is important to load/save from the same repository
@@ -171,15 +218,6 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		
 		rename(workaroundAbsoluteFileUri,normalAbsoluteFileUri)
 	end
-	
-	operation rename(srcUri:String,destUri:String) is do
-		extern aoUrnToRam::javaExternalCall::FileSystem.rename(srcUri,destUri)
-	end
-	
-	property ramWorkaroundExtension:String
-	getter is do
-		result:="ram_AoUrnToRamWorkaround"
-	end
 
 	operation loadWorkflowFromLib(repository:ModelRepository):Aspect is do
 		result:=loadRamModelFromLib(repository,"Workflow.ram")
@@ -196,55 +234,39 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		)
 	end
 	
-	operation outputRamStepView(iwModel:IwModel) is do
-		var stepViews:OrderedSet<StepView> init iwModel.toStepView(absoluteFileUriToWindowsPath(imgFolderAbsoluteFileUri))
-		outputRamStepViewAsDot(stepViews)
-		outputRamStepViewAsImg(stepViews)
-	end
-
-	operation outputRamStepViewAsDot(stepViews:OrderedSet<StepView>) is do
-		if(isRamStepViewAsDotOutputEnabled) then
-			stepViews.each{stepView|
-				var stepViewAsDotAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,stepView.workspacePath)+".dot" 
-				FileIO.new.writeTextFile(stepViewAsDotAbsoluteFileUri,stepView.dot)
-			} 
-	    end
-	end
-
-	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>) is do
-		stepViews.each{stepView|
-			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,stepView.workspacePath)+".png"
-			var stepViewAsImgFilePath:String init absoluteFileUriToWindowsPath(stepViewAsImgAbsoluteFileUri)
-			var dotFilePath:String init absoluteFileUriToWindowsPath(dotAbsoluteFileUri)
-			
-		    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+stepViewAsImgFilePath+"\"",stepView.dot)
-	    }
+//*********************************************************
+//Properties
+//*********************************************************/
+	property readonly iwModelName:String 
+	getter is do
+		result:=destinationAbsoluteFolderUri.split("/").last
 	end
 	
-	operation ouptutRamJavaInstantiator(iwModel:IwModel) is do
-		iwModel.jiToJavaInstantiator.each{workflowInstantiator|
-			ouptutTextView(workflowInstantiator,".java")
-		}
+	property ramWorkaroundExtension:String
+	getter is do
+		result:="ram_AoUrnToRamWorkaround"
 	end
 	
-	operation ouptutRamJavaView(iwModel:IwModel) is do
-		ouptutTextView(iwModel.jpToJavaProgram,".java")
-	end
-	
+//*********************************************************
+//Misc
+//*********************************************************/
 	operation ouptutTextView(textView:TextView,extension:String) is do
 		var absoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,textView.workspacePath)+extension
 		FileIO.new.writeTextFile(absoluteFileUri,textView.content)
 	end
-	
-	operation aoUrnToIw(urnSpec:URNspec):IwModel is do
-		result:=urnSpec.toIw
-		result.insertInputProcessingNodes
-		result.linkSteps
-	end
 
-	//Only Windows is supported at this point
-	operation absoluteFileUriToWindowsPath(absoluteFileUri:String):String is do
-		result:=absoluteFileUri.replace("file:/","")
-		result:=result.replace("/","\\")
+	operation deleteDestinationFolder() is do
+		extern aoUrnToRam::javaExternalCall::FileSystem.removeDirectory(destinationAbsoluteFolderUri)
+	end
+	
+	operation copyRamLibFolder() is do
+		extern aoUrnToRam::javaExternalCall::FileSystem.copy(
+			ramLibFolderSrcAbsoluteFileUri,
+			ramLibFolderDestAbsoluteFileUri
+		)
+	end
+	
+	operation rename(srcUri:String,destUri:String) is do
+		extern aoUrnToRam::javaExternalCall::FileSystem.rename(srcUri,destUri)
 	end
 }
