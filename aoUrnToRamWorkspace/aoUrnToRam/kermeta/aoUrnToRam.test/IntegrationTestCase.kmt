@@ -51,7 +51,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 		self.jucmSourceFileName:=jucmSourceFileName
 		sut:=AoUrnToRamTransformation.new
 		
-		registerRamResourceFactory //since we are not running as an Eclipse plugin
+		registerRamResourceFactory //In order to allow for running outside of Eclipse
 		
 		sut.transform(sourceAbsoluteFileUri,destinationAbsoluteFileUri,"true","true",aoUrnToRamPlateformUrl)
 

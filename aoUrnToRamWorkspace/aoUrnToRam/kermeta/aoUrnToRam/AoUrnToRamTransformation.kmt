@@ -141,7 +141,22 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		)
 	end
 
-	//stle: explain	
+// @RamResourceFactoryWorkaround
+// The RAM models use UUID for references instead of indexes which 
+// is the EMF default behaviour. Thus, a custom factory need to be 
+// registred to the EMF registry in order specify how RAM models 
+// should be serialized (using UUID for references).
+
+// Unfortunately, the EMF repository is shared by all Eclipse plugins
+// and the factory registration is based on file extension. In order
+// to prevent side effects between the RAM tool and AoUrnToRam, the 
+// RamResourceFactoryImpl of AoUrnToRam is registred for the extension
+// ".ram_AoUrnToRamWorkaround". The extensions of Ram models are changed to 
+// ".ram" after serialization. 
+
+// This is annoying, but it is the price to pay to be able to deploy
+// AoUrnToRAm independently from the RAM tool and to prevent side 
+// effects between the RAM tool and AoUrnToRam.   
 	operation saveRamAspect(repository:ModelRepository,workspacePath:String,theAspect:Aspect) is do
 		var workaroundAbsoluteFileUri:String 
 		init Path.new.combine(destinationAbsoluteFolderUri,workspacePath)+"."+ramWorkaroundExtension
