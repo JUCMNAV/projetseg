@@ -1,0 +1,37 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
+
+require kermeta
+
+using kermeta::standard
+using kermeta::utils
+using ram
+
+class RamWorkspace{
+	reference aspectPerWorkspacePath:Hashtable<String,Aspect>
+	reference workflow:Aspect
+	reference customizableNode:Class
+	reference inputData:Class
+	reference outputData:Class
+	reference reactiveSystemWorkflow:Aspect
+	
+	operation initialize(
+		workflow:Aspect,
+		reactiveSystemWorkflow:Aspect
+	):RamWorkspace is do
+		aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
+		self.workflow:=workflow
+		self.customizableNode:=findClass(workflow,"CustomizableNode")
+		self.reactiveSystemWorkflow:=reactiveSystemWorkflow
+		self.inputData:=findClass(reactiveSystemWorkflow,"InputData")
+		self.outputData:=findClass(reactiveSystemWorkflow,"OutputData")
+		result:=self
+	end
+	
+	operation findClass(theAspect:Aspect,className:String):Class is do
+		result:=theAspect.structuralView.classes.select{theClass|
+			theClass.name==className
+		}.one
+	end
+}

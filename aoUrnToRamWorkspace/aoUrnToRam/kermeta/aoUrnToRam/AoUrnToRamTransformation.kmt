@@ -22,7 +22,6 @@ using aoUrnToRam::util
 
 class AoUrnToRamTransformation inherits PlateformResolver
 {
-	attribute repository:ModelRepository
 	attribute sourceAbsoluteFileUri:String
 	attribute destinationAbsoluteFolderUri:String
 	
@@ -33,6 +32,9 @@ class AoUrnToRamTransformation inherits PlateformResolver
 	attribute oneUrnMetamodel:String
 	attribute intermediateWorkflowMetamodel:String
 	attribute ramMetamodel:String
+	
+	attribute ramLibFolderSrcAbsoluteFileUri:String
+	attribute ramLibFolderDestAbsoluteFileUri:String
 	
 	property readonly iwModelName:String 
 	getter is do
@@ -61,10 +63,10 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		outputIwFile(iwModel)
 
-		outputRamStepClassDiagram(iwModel)
 		outputRamStepView(iwModel)
 		ouptutRamJavaInstantiator(iwModel)
 		ouptutRamJavaView(iwModel)
+		outputRamStepClassDiagram(iwModel)
 	end
 	
 	operation initAttributes(
@@ -74,23 +76,32 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		isIwFileOutputEnabled:String, 
 		aoUrnToRamPlateformUrl:String
 	) is do
-		repository:= ModelRepository.new
 		self.sourceAbsoluteFileUri:=sourceAbsoluteFileUri
 		self.destinationAbsoluteFolderUri:=destinationAbsoluteFolderUri
 		self.dotAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"thirdParty/Graphviz2.26.3/bin/dot.exe"))
 		self.imgFolderAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"img"))
 		self.oneUrnMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/oneurn.ecore")
 		self.intermediateWorkflowMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/intermediateWorkflow.ecore")
-		self.ramMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/RAMStructural.ecore")
+		self.ramMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/RAM.ecore")
 		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
 		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean
+		self.ramLibFolderSrcAbsoluteFileUri:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"ramLib"))
+		self.ramLibFolderDestAbsoluteFileUri:=Path.new.combine(destinationAbsoluteFolderUri,"Lib")
 	end
 	
 	operation deleteDestinationFolder() is do
-		extern aoUrnToRam::javaExternalCall::File.removeDirectory_DirectoryUri(destinationAbsoluteFolderUri)
+		extern aoUrnToRam::javaExternalCall::FileSystem.removeDirectory(destinationAbsoluteFolderUri)
+	end
+	
+	operation copyRamLibFolder() is do
+		extern aoUrnToRam::javaExternalCall::FileSystem.copy(
+			ramLibFolderSrcAbsoluteFileUri,
+			ramLibFolderDestAbsoluteFileUri
+		)
 	end
 	
 	operation loadUrnSpec():URNspec is do
+		var repository:ModelRepository init ModelRepository.new.initialize
 		result?=repository.load(sourceAbsoluteFileUri,oneUrnMetamodel)
 		//see @UrnSpecNameWorkAround
 		result.urnSpecName:=iwModelName
@@ -98,16 +109,76 @@ class AoUrnToRamTransformation inherits PlateformResolver
 	
 	operation outputIwFile(iwModel:IwModel) is do
 		if(isIwFileOutputEnabled) then
+			var repository:ModelRepository init ModelRepository.new.initialize
 			var iwFileAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,"Iw.xmi")
 			repository.save(iwModel,iwFileAbsoluteFileUri,intermediateWorkflowMetamodel)
 		end
 	end
 	
 	operation outputRamStepClassDiagram(iwModel:IwModel) is do
-		iwModel.toRam.each{ramStepClassDiagram|
-			var ramStepClassDiagramAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,ramStepClassDiagram.workspacePath)+".xmi"
-			repository.save(ramStepClassDiagram,ramStepClassDiagramAbsoluteFileUri,ramMetamodel)
+		//In order to resolve external aspect, 
+		//it is important to load/save from the same repository
+		var repository:ModelRepository init ModelRepository.new.initialize
+		
+		var ramWorkspace:RamWorkspace init createRamWorkspace(repository)
+		iwModel.toStepClassDiagram(ramWorkspace)
+
+		ramWorkspace.aspectPerWorkspacePath.keys.each{workspacePath|
+			saveRamAspect(
+				repository,
+				workspacePath,
+				ramWorkspace.aspectPerWorkspacePath.getValue(workspacePath)
+			)
 		}
+	end
+	
+	operation createRamWorkspace(repository:ModelRepository):RamWorkspace is do
+		copyRamLibFolder //External aspect must be loaded from destination folder
+	
+		result:=RamWorkspace.new.initialize(
+			loadWorkflowFromLib(repository),
+			loadReactiveSystemWorkflowFromLib(repository)
+		)
+	end
+
+	//stle: explain	
+	operation saveRamAspect(repository:ModelRepository,workspacePath:String,theAspect:Aspect) is do
+		var workaroundAbsoluteFileUri:String 
+		init Path.new.combine(destinationAbsoluteFolderUri,workspacePath)+"."+ramWorkaroundExtension
+		var normalAbsoluteFileUri:String
+		init Path.new.combine(destinationAbsoluteFolderUri,workspacePath)+".ram"
+		
+		repository.save(
+			theAspect,
+			workaroundAbsoluteFileUri,
+			ramMetamodel
+		)
+		
+		rename(workaroundAbsoluteFileUri,normalAbsoluteFileUri)
+	end
+	
+	operation rename(srcUri:String,destUri:String) is do
+		extern aoUrnToRam::javaExternalCall::FileSystem.rename(srcUri,destUri)
+	end
+	
+	property ramWorkaroundExtension:String
+	getter is do
+		result:="ram_AoUrnToRamWorkaround"
+	end
+
+	operation loadWorkflowFromLib(repository:ModelRepository):Aspect is do
+		result:=loadRamModelFromLib(repository,"Workflow.ram")
+	end
+
+	operation loadReactiveSystemWorkflowFromLib(repository:ModelRepository):Aspect is do
+		result:=loadRamModelFromLib(repository,"ReactiveSystemWorkflow.ram")
+	end
+	
+	operation loadRamModelFromLib(repository:ModelRepository,ramModelName:String):Aspect is do
+		result?=repository.load(
+			Path.new.combine(ramLibFolderDestAbsoluteFileUri,ramModelName),
+			ramMetamodel
+		)
 	end
 	
 	operation outputRamStepView(iwModel:IwModel) is do

@@ -8,19 +8,20 @@ require "platform:/lookup/aoUrnToRam/kermeta/iw.testUtil/IwTestFactory.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
 
 using kermeta::standard
+using kermeta::utils
 using intermediateWorkflow
 using ram
 
 class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 {
 	operation createRamWorkspace():RamWorkspace is do
-		result:=RamWorkspace.new.initialize(
-			createRamAspect("Workflow"),
-			createRamClass("CustomizableNode"),
-			createRamAspect("ReactiveSystemWorkflow"),
-			createRamClass("InputData"),
-			createRamClass("OutputData")
-		)
+		result:=RamWorkspace.new
+		result.aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
+		result.workflow:=createRamAspect("Workflow")
+		result.customizableNode:=createRamClass("CustomizableNode")
+		result.reactiveSystemWorkflow:=createRamAspect("ReactiveSystemWorkflow")
+		result.inputData:=createRamClass("InputData")
+		result.outputData:=createRamClass("OutputData")
 	end
 	
 	operation createRamAspect(name:String):Aspect is do
