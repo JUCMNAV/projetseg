@@ -11,7 +11,7 @@ class Path{
 	
 	operation getParent(path:String):String is do
 		var withoutEndSlash:String init removeEndSlash(path)
-		result:=replaceFirst(withoutEndSlash,"/$","")
+		result:=replaceFirst(withoutEndSlash,"/.+$","")
 	end
 	
 	operation removeEndSlash(path:String):String is do
