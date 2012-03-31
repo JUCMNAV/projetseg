@@ -6,36 +6,20 @@ using kermeta::standard
 //stle: how can we have static util class???
 class Path{
 	operation combine(path1:String,path2:String):String is do
-		result:=removeEndSlash(path1)+"/"+path2
+		result:=removeEndSlash(path1)+"/"+path2	
 	end
 	
 	operation getParent(path:String):String is do
-		result:=getParent_Recurse(removeEndSlash(path))
-	end
-	
-	operation getParent_Recurse(path:String):String is do
-		var withoutLastChar:String init removeLastChar(path)
-		if(endWith(path,"/")) then
-			result:=withoutLastChar
-		else
-			result:=getParent_Recurse(withoutLastChar)	
-		end
+		var withoutEndSlash:String init removeEndSlash(path)
+		result:=replaceFirst(withoutEndSlash,"/$","")
 	end
 	
 	operation removeEndSlash(path:String):String is do
-		if(endWith(path,"/")) then
-			result:=removeLastChar(path)
-		else
-			result:=path
-		end
+		result:=replaceFirst(path,"/$","")
 	end
 	
-	operation removeLastChar(path:String):String is do
-		result:=path.substring(0,path.size-1)
-	end
-	
-	operation endWith(path:String,lastChar:String):Boolean is do
-		result:=path.elementAt(path.size-1)==lastChar.elementAt(0)
+	operation replaceFirst(str:String,regex:String,replacement:String):String is do
+		result?=extern aoUrnToRam::javaExternalCall::StringUtil.replaceFirst(str,regex,replacement)
 	end
 }
 
