@@ -1,29 +1,48 @@
 package seg.jUCMNav.aoUrnToRamPlugin;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.HashMap;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
-import org.osgi.framework.Bundle;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.extensionpoints.IURNExport;
+import seg.jUCMNav.extensionpoints.IURNExportCustomizedLabel;
 import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
 import urn.URNspec;
 
-public class Exporter implements IURNExport,IURNExportPrePostHooks {
+public class Exporter implements IURNExport,IURNExportPrePostHooks,IURNExportCustomizedLabel {
 	private URI sourceAbsoluteFileUri;
+
+// ****************************************************************
+// transformAoUrnToRam
+// ****************************************************************
+	public void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri)
+	{
+		KermetaInterpreterUtil.exeKermeta(
+				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt",
+				"aoUrnToRam::AoUrnToRamTransformation",
+				"transform",
+				new String[]{
+						sourceAbsoluteFileUri,
+						destinationAbsoluteFolderUri,
+						"false",
+						"false",
+						"platform:/plugin/aoUrnToRam"
+				},
+				new String[]{"aoUrnToRam"},
+				"AoUrnToRam"
+		);
+	}
 	
-	// ****************************************************************
-	// IURNExport
-	// ****************************************************************
+	
+// ****************************************************************
+// IURNExport
+// ****************************************************************
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
     	filename=workaround_UrnExport_ExtensionIsMandatory(filename); 
     	
@@ -44,9 +63,9 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 	public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
     }
 	
-	// ****************************************************************
-	// IURNExportPrePostHooks
-	// ****************************************************************
+// ****************************************************************
+// IURNExportPrePostHooks
+// ****************************************************************
 	@Override
 	public void postHook(IWorkbenchPage page) {
 		//do nothing
@@ -69,24 +88,11 @@ public class Exporter implements IURNExport,IURNExportPrePostHooks {
 		);
 	}
 
-	// ****************************************************************
-	// transformAoUrnToRam
-	// ****************************************************************
-	public void transformAoUrnToRam(String sourceAbsoluteFileUri, String destinationAbsoluteFolderUri)
-	{
-		KermetaInterpreterUtil.exeKermeta(
-				"platform:/plugin/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt",
-				"aoUrnToRam::AoUrnToRamTransformation",
-				"transform",
-				new String[]{
-						sourceAbsoluteFileUri,
-						destinationAbsoluteFolderUri,
-						"false",
-						"false",
-						"platform:/plugin/aoUrnToRam"
-				},
-				new String[]{"aoUrnToRam"},
-				"AoUrnToRam"
-		);
+// ****************************************************************
+// IURNExportCustomizedLabel
+// ****************************************************************
+	@Override
+	public String customizedLabel() {
+		return "System Name:";
 	}
 }
