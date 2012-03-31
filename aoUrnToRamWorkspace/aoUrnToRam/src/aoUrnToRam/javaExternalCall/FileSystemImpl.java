@@ -11,10 +11,7 @@ public class FileSystemImpl {
 	//adapted from http://www.mkyong.com/java/how-to-copy-directory-in-java/
 	public static void copy(File src, File dest) throws IOException{
 		if(src.isDirectory()){
-			//if directory not exists, create it
-			if(!dest.exists()){
-			   dest.mkdir();
-			}
+			createDirectory(dest);
 		
 			//list all the directory contents
 			String files[] = src.list();
@@ -49,4 +46,11 @@ public class FileSystemImpl {
 	public static void rename(File src, File dest){
 		src.renameTo(dest);
 	}
+	
+	public static void createDirectory(File dir){
+		if(!dir.exists()){
+		   dir.mkdirs();
+		}
+	}
+
 }

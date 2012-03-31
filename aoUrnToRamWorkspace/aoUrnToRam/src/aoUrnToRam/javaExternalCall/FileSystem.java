@@ -19,6 +19,17 @@ public class FileSystem {
 		}
 	}
 	
+	public static void createDirectory(RuntimeObject directoryUri) {
+		try{
+			FileSystemImpl.createDirectory(
+					toFile(directoryUri)
+			);
+		}
+		catch(Exception ex){
+			Logger.log("Error:"+ ex.toString());
+		}
+	}
+	
 	public static void copy(RuntimeObject srcUri,RuntimeObject destUri) {
 		try{
 			FileSystemImpl.copy(

@@ -60,10 +60,10 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		outputIwFile(iwModel)
 
+		outputRamStepClassDiagram(iwModel)
+		outputRamStepView(iwModel)
 		ouptutRamJavaInstantiator(iwModel)
 		ouptutRamJavaProgram(iwModel)
-		outputRamStepView(iwModel)
-		outputRamStepClassDiagram(iwModel)
 	end
 	
 	operation initAttributes(
@@ -146,11 +146,22 @@ class AoUrnToRamTransformation inherits PlateformResolver
 	operation outputRamStepViewAsImg(stepViews:OrderedSet<StepView>) is do
 		stepViews.each{stepView|
 			var stepViewAsImgAbsoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,stepView.workspacePath)+".png"
-			var stepViewAsImgFilePath:String init absoluteFileUriToWindowsPath(stepViewAsImgAbsoluteFileUri)
-			var dotFilePath:String init absoluteFileUriToWindowsPath(dotAbsoluteFileUri)
-			
-		    extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotFilePath+" -Tpng -o\""+stepViewAsImgFilePath+"\"",stepView.dot)
+			executeDot(
+				dotAbsoluteFileUri,
+				stepViewAsImgAbsoluteFileUri,
+				stepView.dot
+			)
 	    }
+	end
+	
+	operation executeDot(dotExeAbsoluteFileUri:String,destAbsoluteFileUri:String,dotInput:String) is do
+		//Ensure dest directory exists; otherwise, dot.exe wont work properly
+		ensureParentDirectoryExists(destAbsoluteFileUri)
+	
+		//dot.exe (Only windows is supported for now)
+		var dotExeFilePath:String init absoluteFileUriToWindowsPath(dotExeAbsoluteFileUri)
+		var destFilePath:String init absoluteFileUriToWindowsPath(destAbsoluteFileUri)
+		extern aoUrnToRam::javaExternalCall::CommandLine.exe(dotExeFilePath+" -Tpng -o\""+destFilePath+"\"",dotInput)
 	end
 	
 	//Only Windows is supported at this point
@@ -158,6 +169,11 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		result:=absoluteFileUri.replace("file:/","")
 		result:=result.replace("/","\\")
 	end
+	
+	operation ensureParentDirectoryExists(absoluteFileUri:String) is do
+		var parentDirectoryAbsoluteFileUri:String init Path.new.getParent(absoluteFileUri)
+		extern aoUrnToRam::javaExternalCall::FileSystem.createDirectory(parentDirectoryAbsoluteFileUri)
+	end 
 	
 //*********************************************************
 //IwToStepClassDiagram
