@@ -16,7 +16,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 {
 	attribute sut:AoUrnToRamTransformation
 	attribute jucmSourceFileName:String
-/*
+
 	@feature "FeaIntegrationTesting"
 	operation testDemo2_Sp4_WithAutAspect() is do
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
@@ -41,7 +41,7 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 	operation testStartupNodeAndSharedResp() is do
 		parameterizableIntegrationTest("StartupNodeAndSharedResp.jucm")
 	end
-*/	
+	
 	@feature "FeaIntegrationTesting"
 	operation testOrJoin() is do
 		parameterizableIntegrationTest("OrJoin.jucm")
