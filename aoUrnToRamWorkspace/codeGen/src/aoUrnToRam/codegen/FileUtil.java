@@ -41,6 +41,10 @@ public class FileUtil {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public static void overwriteFile(String filePath, String content) {
+		overwriteFile(new File(filePath),content);
+	}
 	
 	public static void overwriteFile(File file, String content) {
 		try {
