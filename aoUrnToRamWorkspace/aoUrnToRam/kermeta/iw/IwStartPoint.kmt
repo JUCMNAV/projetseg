@@ -15,4 +15,10 @@ aspect class IwStartPoint{
 	getter is do
 		result:=startPointType=="bound"
 	end
+	
+	property readonly isLocal:Boolean
+	getter is do
+		result:=startPointType=="local"
+	end
+	
 }

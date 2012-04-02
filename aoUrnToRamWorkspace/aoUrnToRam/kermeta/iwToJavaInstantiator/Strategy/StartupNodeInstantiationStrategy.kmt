@@ -12,10 +12,11 @@ class StartupNodeInstantiationStrategy inherits WorkflowNodeInstantiationStrateg
 	end
 	
 	method jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendMethodInvocationOn_1Param(
+		workflowInstantiator.appendMethodInvocationOn_2Params(
 			workflowInstantiator.workflowMemberName,
 			"addStartupNode",
-			node.jiMemberName
+			node.jiMemberName,
+			node.asType(IwStartPoint).isLocal.toString		
 		)
 	end
 	

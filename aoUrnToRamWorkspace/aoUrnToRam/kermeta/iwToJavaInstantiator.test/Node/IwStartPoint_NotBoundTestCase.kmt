@@ -13,7 +13,7 @@ class IwToJavaInstantiator_IwStartPoint_NotBoundTestCase inherits TestCase,IwToJ
 	reference workflowInstantiator:WorkflowInstantiator
 
 	method setUp() is do
-		sut:=createIwStartPoint.withStartPointType("global")
+		sut:=createIwStartPoint
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
@@ -41,9 +41,11 @@ class IwToJavaInstantiator_IwStartPoint_NotBoundTestCase inherits TestCase,IwToJ
 	end
 
 	@feature "FeaWorkflowInstantiationWithStubs"
-	operation testAppendLinkStartNodesToWorkflowStatement_ShouldLinkSutToWorkflowAsStartupNode() is do
+	operation testAppendLinkStartNodesToWorkflowStatement_Local_ShouldLinkSutToWorkflowAsStartupNode() is do
+		sut.withStartPointType("local")
+	
 		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
 		
-		assertEquals("        workflow.addStartupNode(_theStartPoint);\n",workflowInstantiator.content)
+		assertEquals("        workflow.addStartupNode(_theStartPoint,true);\n",workflowInstantiator.content)
 	end
 }
