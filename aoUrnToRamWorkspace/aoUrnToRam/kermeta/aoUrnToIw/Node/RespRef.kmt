@@ -15,7 +15,7 @@ aspect class RespRef {
 
 	method buildIwNodeTemplate() is do
 		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
-			if(isSystemComponentRef) then
+			if(isSystem) then
 				buildCustomizableNode
 			end
 		end
@@ -31,15 +31,13 @@ aspect class RespRef {
 		addIwEquivalentNodeAfterOutIn(iwCustomizableNode)
 	end
 	
-	property readonly isSystemComponentRef : Boolean 
+	property readonly isSystem : Boolean 
 	getter is do
-		result:=true
-		var component:Component
-		if(contRef.isVoid==false) then
-			component?=contRef.contDef
-			if(component.isVoid==false) then
-				result:=(component.kind==ComponentKind.Actor)==false
-			end
-		end			
+		if(contRef.isVoid==true) then
+			result:=true
+		else
+			var component:Component init contRef.contDef.asType(Component) 
+			result:=component.isSystem
+		end
 	end	
 }

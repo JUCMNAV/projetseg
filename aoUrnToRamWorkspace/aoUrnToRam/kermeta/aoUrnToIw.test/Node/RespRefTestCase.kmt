@@ -3,8 +3,9 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using oneurn::urncore
+using oneurn::urn
 using oneurn::ucm::map
+using oneurn::urncore
 using intermediateWorkflow
 
 class AoUrnToIw_RespRefTestCase inherits TestCase,AoUrnToIw_TestHelper {
@@ -24,15 +25,26 @@ class AoUrnToIw_RespRefTestCase inherits TestCase,AoUrnToIw_TestHelper {
 
 	
 	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testBuild_NotInComponent_ShouldBuildIwCustomizableNode() is do	
+	operation testBuild_NoComponent_ShouldBuildIwCustomizableNode() is do	
 		sut.build
 		
 		assertNotVoid(sut.iwCustomizableNode)
 	end
 	
 	@feature "FeaHandleUntaggedResponsibilityInActor"
-	operation testBuild_InSystemComponent_ShouldBuildIwCustomizableNode() is do
+	operation testBuild_NotInActorComponent_ShouldBuildIwCustomizableNode() is do
 		attachComponentRef(sut,ComponentKind.Object)	
+		sut.build
+		
+		assertNotVoid(sut.iwCustomizableNode)
+	end
+	
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testBuild_NestedComponentsWithoutActor_ShouldBuildIwCustomizableNode() is do
+		var rootComponent:Component init createComponent_ComponentKind(ComponentKind.Object)
+		attachComponentRef(sut,ComponentKind.Object)
+		sut.contRef.contDef.asType(Component).includingComponent:=rootComponent
+			
 		sut.build
 		
 		assertNotVoid(sut.iwCustomizableNode)
@@ -41,6 +53,19 @@ class AoUrnToIw_RespRefTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	@feature "FeaHandleUntaggedResponsibilityInActor"
 	operation testBuild_InActorComponent_ShouldNotBuildIwCustomizableNode() is do	
 		attachComponentRef(sut,ComponentKind.Actor)	
+		sut.build
+		
+		assertVoid(sut.iwCustomizableNode)
+	end
+	
+	@feature "FeaHandleUntaggedResponsibilityInActor"
+	operation testBuild_NestedComponentsWithActor_ShouldNotBuildIwCustomizableNode() is do	
+		var rootComponent:Component init createComponent_ComponentKind(ComponentKind.Object)
+		var middleComponent:Component init createComponent_ComponentKind(ComponentKind.Actor)
+		middleComponent.includingComponent:=rootComponent
+		attachComponentRef(sut,ComponentKind.Object)
+		sut.contRef.contDef.asType(Component).includingComponent:=middleComponent
+			
 		sut.build
 		
 		assertVoid(sut.iwCustomizableNode)

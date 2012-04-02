@@ -1,0 +1,25 @@
+package oneurn::urncore;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+using oneurn::urn
+
+aspect class Component{
+	property readonly isSystem: Boolean
+	getter is do
+		if(kind==ComponentKind.Actor) then
+			result:=false
+		else
+			result:=recurseIncludingComponentIsSystem
+		end
+	end
+	
+	operation recurseIncludingComponentIsSystem():Boolean is do
+		if(includingComponent.isVoid==true) then
+			result:=kind!=ComponentKind.Actor
+		else
+			result:=includingComponent.isSystem
+		end
+	end
+}
