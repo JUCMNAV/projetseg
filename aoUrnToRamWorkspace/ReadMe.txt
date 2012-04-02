@@ -3,8 +3,11 @@ In order to setup the AoURNtoRAM development environment, you should:
 *** Setup Eclipse ***
 - Install the Eclipse+Kermeta Bundle
   https://gforge.inria.fr/frs/download.php/27135/kermeta-1.4.1-all-platform.redirect.html
-- the kermeta eclipse needs to be started with the "-vmargs -Xmx2048M"
+- the kermeta eclipse needs to be started with the "-vmargs -Xmx3000M"
   switches (or higher) for performance reasons
+  On 32bits CPU/OS, the maximum value is "-vmargs -Xmx1200M"
+  For details, see: http://stackoverflow.com/questions/3769874/eclipse-memory-allocation-problem
+
 - Intall Web Tools Platform (WTP) from the Eclipse update site: http://download.eclipse.org/webtools/updates/ 
   Only "Web Tools Platform (WTP) $LatestVersion" need to be installed	
 - Uninstall Maven from Help/Install New Software. 
