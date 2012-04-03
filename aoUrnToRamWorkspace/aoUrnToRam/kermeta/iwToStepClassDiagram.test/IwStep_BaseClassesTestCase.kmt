@@ -64,26 +64,6 @@ class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStep
 	end
 
 	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testLink_ShouldLinkCustomizableNodeBaseClassToClassDiagram() is do
-		sut.concern.build
-		
-		sut.link(createRamWorkspace)
-	
-		assertCollectionContainsElement(sut.ramCustomizableNodeBaseClass,sut.ramStructuralView.classes)
-	end
-
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testLink_ShouldMapCustomizableNodeBaseClass() is do
-		sut.concern.build
-		
-		sut.link(ramWorkspace)
-	
-		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeBaseClassMapping.sourceModelElement)
-		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,sut.ramCustomizableNodeBaseClassMapping.maps)
-		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClassMapping,sut.ramWorkflowInstantiation.mappings)
-	end
-
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testLink_WithoutInputWithoutOutput_ShouldIgnoreBaseClassesWithoutSubtype() is do
 		sut.concern.build
 		

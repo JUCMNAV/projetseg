@@ -9,12 +9,12 @@ using aoUrnToRam::util
 
 aspect class IwStep {
 	reference ramAspect:Aspect
-	reference ramReactiveSystemWorkflowInstantiation:Instantiation
-	reference ramWorkflowInstantiation:Instantiation
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
-	//base classes	
-	reference ramCustomizableNodeBaseClass:Class
-	reference ramCustomizableNodeBaseClassMapping:Mapping
+	reference ramCustomizableNodeMapping:Mapping
+	reference ramReactiveSystemWorkflowInstantiation:Instantiation	
+	reference ramWorkflowInstantiation:Instantiation
+	
+	//base classes
 	reference ramInputDataBaseClass:Class
 	reference ramInputDataBaseClassMapping:Mapping
 	reference ramOutputDataBaseClass:Class
@@ -38,7 +38,8 @@ Build
 *********************************************************/
 	operation build() is do
 		buildRamAspect
-		buildExternalAspects
+		buildInstantiations
+		buildMappings
 		buildBaseClasses
 		buildCustomizableNodeClasses
 		nodes.each{node|node.build}
@@ -50,13 +51,16 @@ Build
 		ramAspect.structuralView:=ClassDiagram.new
 	end
 	
-	operation buildExternalAspects() is do
+	operation buildInstantiations() is do
 		ramReactiveSystemWorkflowInstantiation:=Instantiation.new
 		ramWorkflowInstantiation:=Instantiation.new
 	end
 	
+	operation buildMappings() is do
+		ramCustomizableNodeMapping:=Mapping.new
+	end
+	
 	operation buildBaseClasses() is do
-		ramCustomizableNodeBaseClass:=createRamClass("CustomizableNode")
 		ramInputDataBaseClass:=createRamClass("InputData")
 		ramOutputDataBaseClass:=createRamClass("OutputData")
 	end
@@ -87,6 +91,12 @@ Link
 		linkBaseClasses(ramWorkspace)
 		addAspectToRamWorkspace(ramWorkspace)
 	end
+
+	operation linkCustomizableNodeClasses() is do
+		ramCustomizableNodeClasses.values.each{ramClass|
+			linkCustomizableNode(ramClass)
+		}
+	end
 	
 	operation linkInstantiations(ramWorkspace:RamWorkspace) is do
 		ramReactiveSystemWorkflowInstantiation.externalAspect:=ramWorkspace.reactiveSystemWorkflow
@@ -94,18 +104,14 @@ Link
 
 		ramWorkflowInstantiation.externalAspect:=ramWorkspace.workflow
 		ramAspect.instantiations.add(ramWorkflowInstantiation)
-	end
-	
-	operation linkCustomizableNodeClasses() is do
-		ramCustomizableNodeClasses.values.each{ramClass|
-			addCustomizableNodeSubtype(ramClass)
-		}
+		
+		ramWorkflowInstantiation.mappings.add(ramCustomizableNodeMapping)
+		ramCustomizableNodeMapping.sourceModelElement:=ramWorkspace.customizableNode
 	end
 	
 	operation linkBaseClasses(ramWorkspace:RamWorkspace) is do
 		linkRamInputDataBaseClass(ramWorkspace)
 		linkRamOutputDataBaseClass(ramWorkspace)
-		linkCustomizableNodeBaseClass(ramWorkspace)
 	end
 
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
@@ -148,13 +154,9 @@ Link
 		end
 	end
 	
-	operation linkCustomizableNodeBaseClass(ramWorkspace:RamWorkspace) is do
-		linkClassToClassDiagram(ramCustomizableNodeBaseClass)
-		ramCustomizableNodeBaseClassMapping:=mapExternalClass(
-			ramCustomizableNodeBaseClass,
-			ramWorkspace.customizableNode,
-			ramWorkflowInstantiation
-		)
+	property hasAtLeastOneOutputClass:Boolean
+	getter is do
+		result:=nodes.exists{node|node.isInstanceOf(IwOutput)}
 	end
 	
 	operation mapExternalClass(ramClass:Class,externalRamClass:Class,instantiation:Instantiation):Mapping is do
@@ -163,12 +165,6 @@ Link
 		result.maps.add(ramClass)
 		instantiation.mappings.add(result)
 	end
-	
-	property hasAtLeastOneOutputClass:Boolean
-	getter is do
-		result:=nodes.exists{node|node.isInstanceOf(IwOutput)}
-	end
-	
 
 /*********************************************************
 Add Ram Class API
@@ -183,9 +179,9 @@ Add Ram Class API
 		subtype.superTypes.add(ramOutputDataBaseClass)
 	end
 	
-	operation addCustomizableNodeSubtype(subtype:Class) is do
-		linkClassToClassDiagram(subtype)
-		subtype.superTypes.add(ramCustomizableNodeBaseClass)
+	operation linkCustomizableNode(customizableNode:Class) is do
+		linkClassToClassDiagram(customizableNode)
+		ramCustomizableNodeMapping.maps.add(customizableNode)
 	end
 
 	operation linkClassToClassDiagram(ramClass:Class) is do

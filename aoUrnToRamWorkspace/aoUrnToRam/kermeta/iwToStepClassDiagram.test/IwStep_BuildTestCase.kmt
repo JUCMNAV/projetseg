@@ -25,7 +25,6 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 		assertEquals(sut.name,sut.ramAspect.name)
 		assertNotVoid(sut.ramAspect.structuralView)
 	end
-
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldBuildInstantiations() is do
@@ -35,11 +34,17 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
 	end
 
+	@feature "FeaMigrateToLatestRamMetaModel"	
+	operation testBuild_ShouldBuildCustomizableNodeMapping() is do
+		sut.build
+		
+		assertNotVoid(sut.ramCustomizableNodeMapping)
+	end
+
 	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testBuild_ShouldBuildBaseClasses() is do
 		sut.build
 		
-		assertEquals("CustomizableNode",sut.ramCustomizableNodeBaseClass.name)
 		assertEquals("InputData",sut.ramInputDataBaseClass.name)
 		assertEquals("OutputData",sut.ramOutputDataBaseClass.name)
 	end

@@ -43,15 +43,15 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldLinkOutputDataClassToSuperType() is do
-		var step:IwStep init setupAndExeLinkOnNode(sut)
+		setupAndExeLinkOnNode(sut)
 		
 		assertCollectionHasSingleElement(sut.step.ramOutputDataBaseClass,sut.ramOutputData.superTypes)
 	end
 
 	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testLink_ShouldLinkOutputDataToSuperType() is do
-		var step:IwStep init setupAndExeLinkOnNode(sut)
-		
-		assertCollectionHasSingleElement(sut.step.ramCustomizableNodeBaseClass,sut.ramOutput.superTypes)
+		setupAndExeLinkOnNode(sut)
+
+		assertCollectionHasSingleElement(sut.ramOutput,sut.step.ramCustomizableNodeMapping.maps)
 	end
 }

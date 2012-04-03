@@ -16,6 +16,6 @@ aspect class IwOutput{
 	
 	method link() is do
 		step.addOutputDataSubtype(ramOutputData)
-		step.addCustomizableNodeSubtype(ramOutput)
+		step.linkCustomizableNode(ramOutput)
 	end
 }

@@ -55,20 +55,27 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		
 		sut.link(ramWorkspace)
 		
-		assertNumOfClassesWithoutBaseClasses(2,sut)
+		assertCollectionHasTwoElements(
+			getRamCustomizableNodeClassAt(0),
+			getRamCustomizableNodeClassAt(1),
+			sut.ramAspect.structuralView.classes
+		)
 	end
 
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testLink_ShouldLinkTwoCustomizableNodeClassesToSuperType() is do
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_TwoNodesNotShared_ShouldMapTwoClassesToRamCustomizableNodeMapping() is do
 		var ramWorkspace:RamWorkspace init createRamWorkspace
 		sut.withConcern(createIwConcern)
 		createIwCustomizableNode.withStep(sut).withName("notShared")
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
-
-		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,getRamCustomizableNodeClassAt(0).superTypes)
-		assertCollectionHasSingleElement(sut.ramCustomizableNodeBaseClass,getRamCustomizableNodeClassAt(1).superTypes)		
+		
+		assertCollectionHasTwoElements(
+			getRamCustomizableNodeClassAt(0),
+			getRamCustomizableNodeClassAt(1),
+			sut.ramCustomizableNodeMapping.maps
+		)
 	end
 	
 	operation getRamCustomizableNodeClassAt(index:Integer):Class is do

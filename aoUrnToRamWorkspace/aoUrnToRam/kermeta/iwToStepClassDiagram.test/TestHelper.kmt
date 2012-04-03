@@ -35,7 +35,11 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 	end
 
 	operation assertNumOfClassesWithoutBaseClasses(expectedNumOfClasses:Integer,actualIwStep:IwStep) is do
-		assertEquals(expectedNumOfClasses,actualIwStep.ramAspect.structuralView.classes.select{ramClass|ramClass.superTypes.size==1}.size)
+		assertEquals(expectedNumOfClasses,actualIwStep.ramAspect.structuralView.classes.select{ramClass|isBaseClass(ramClass)==false}.size)
+	end
+	
+	operation isBaseClass(ramClass:Class):Boolean is do
+		result:=ramClass.name=="OutputData" or ramClass.name=="InputData" 
 	end
 	
 	operation setupAndExeLinkOnNode(node:IwNode):IwStep is do
