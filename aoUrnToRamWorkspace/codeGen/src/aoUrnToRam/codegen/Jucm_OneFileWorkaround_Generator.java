@@ -1,43 +1,31 @@
+//stle: need to support 1 to many links
+
 package aoUrnToRam.codegen;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Jucm_OneFileWorkaround_Generator {
 	private StringBuilder jucmPackage;
-	private String workspaceDirectoryPath;
 
 	public static void main(String[] args) {
-		Jucm_OneFileWorkaround_Generator generator = new Jucm_OneFileWorkaround_Generator(args[0]);
-		generator.generate();
+		List<String> argList = new ArrayList<String>(Arrays.asList(args));
+		String jucm_OneFileWorkaroundFilePath = argList.remove(argList.size()-1);
+		String[] metamodelFilePaths=argList.toArray(new String[]{});
+		
+		Jucm_OneFileWorkaround_Generator generator = new Jucm_OneFileWorkaround_Generator();
+		generator.mergeMetamodelsAsJucmSubPackagesIO(metamodelFilePaths,jucm_OneFileWorkaroundFilePath);
 	}
 	
-	public void generate(){
-		mergeMetamodelsAsJucmSubPackagesIO(
-				new String[]{
-						resolve("seg.jUCMNav\\src\\seg\\jUCMNav\\emf\\grl.ecore")
-				},
-				resolve("aoUrnToRam\\metamodel\\jucm_OneFileWorkaround.ecore")
-				);
-	}
-	
-	public Jucm_OneFileWorkaround_Generator(String workspaceDirectoryPath){
-		this.workspaceDirectoryPath=workspaceDirectoryPath+"\\";
-	} 
-	
-	private String resolve(String relativeFilePath){
-		return workspaceDirectoryPath+relativeFilePath;
-	}
 //*********************************************************
 //I/O
 //*********************************************************/
 	public void mergeMetamodelsAsJucmSubPackagesIO(String[] metamodelFilePaths,String jucm_OneFileWorkaroundFilePath){
-		System.out.println(jucm_OneFileWorkaroundFilePath);
-		
 		String[] metamodels=readMetamodels(metamodelFilePaths);
 		String jucm_OneFileWorkaround=mergeMetamodelsAsJucmSubPackages(metamodels);
 		FileUtil.overwriteFile(
@@ -64,7 +52,9 @@ public class Jucm_OneFileWorkaround_Generator {
 		appendJucmPackagePre();
 		appendSubPackages(metamodels);
 		appendJucmPackagePost();
-		removeAcrossFileReferences();
+		
+		removeEClassPrefix_fromAcrossFileReferences();
+		adaptAcrossFileReferences();
 		
 		return jucmPackage.toString();
 	}
@@ -76,9 +66,9 @@ public class Jucm_OneFileWorkaround_Generator {
 		jucmPackage.append("    xmlns:xmi=\"http://www.omg.org/XMI\"\n");
 		jucmPackage.append("    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
 		jucmPackage.append("    xmlns:ecore=\"http://www.eclipse.org/emf/2002/Ecore\"\n");
-		jucmPackage.append("    name=\"oneurn\"\n");
-		jucmPackage.append("    nsURI=\"http:///oneurn.ecore\"\n");
-		jucmPackage.append("    nsPrefix=\"oneurn\\n");
+		jucmPackage.append("    name=\"jucm_OneFileWorkaround\"\n");
+		jucmPackage.append("    nsURI=\"http:///jucm_OneFileWorkaround.ecore\"\n");
+		jucmPackage.append("    nsPrefix=\"jucm_OneFileWorkaround\"\n");
 		jucmPackage.append(">\n");
 	}
 	
@@ -88,12 +78,30 @@ public class Jucm_OneFileWorkaround_Generator {
 		}
 	}
 	
-	public String metamodelToSubPackage(String metamodel){
-		Pattern pattern=Pattern.compile(".*?<ecore:EPackage.*?nsPrefix=\\\"(.+?)\\\".*?>(.*?)</ecore:EPackage>",Pattern.CASE_INSENSITIVE|Pattern.MULTILINE|Pattern.DOTALL);
+	private String metamodelToSubPackage(String metamodel){
+		String metamodelName=parseMetamodelName(metamodel);
+		String withInternalReferencesAdapted=adaptInternalReferences(metamodel,metamodelName);
+		return replacePackageWithSubPackage(withInternalReferencesAdapted,metamodelName);
+	}
+
+	private String replacePackageWithSubPackage(String metamodel,String metamodelName){
+		Pattern pattern=Pattern.compile(".*?<ecore:EPackage.*?>(.*?)</ecore:EPackage>",Pattern.CASE_INSENSITIVE|Pattern.MULTILINE|Pattern.DOTALL);
 		Matcher matcher=pattern.matcher(metamodel);
-		return matcher.replaceAll(	"<eSubpackages name=\"$1\" nsURI=\"http:///$1.ecore\" nsPrefix=\"$1\">\n"+
-									"$2\n"+
+		matcher.find();
+		return matcher.replaceAll(	"<eSubpackages name=\""+metamodelName+"\" nsURI=\"http:///"+metamodelName+".ecore\" nsPrefix=\""+metamodelName+"\">"+
+									"$1"+
 									"</eSubpackages>");
+	}
+	
+	private String adaptInternalReferences(String metamodel,String metamodelName){
+		return metamodel.replace("(\"|\\s)#//", "\"#//"+metamodelName+"/");
+	}
+	
+	private String parseMetamodelName(String metamodel){
+		Pattern pattern=Pattern.compile("<ecore:EPackage.*?nsPrefix=\\\"(.+?)\\\"",Pattern.CASE_INSENSITIVE|Pattern.MULTILINE|Pattern.DOTALL);
+		Matcher matcher=pattern.matcher(metamodel);
+		matcher.find();
+		return matcher.group(1);
 	}
 	
 	private void appendJucmPackagePost(){
@@ -101,8 +109,16 @@ public class Jucm_OneFileWorkaround_Generator {
 	} 
 	
 	
-	public void removeAcrossFileReferences(){
-		Pattern pattern=Pattern.compile("([^\\\"|\\s]+)\\.ecore#//",Pattern.CASE_INSENSITIVE);
+	public void removeEClassPrefix_fromAcrossFileReferences(){
+		Pattern pattern=Pattern.compile("(\\\")ecore:EClass\\s(.+?\\.ecore#//)",Pattern.CASE_INSENSITIVE);
+		Matcher matcher=pattern.matcher(jucmPackage);
+		jucmPackage=new StringBuilder(
+						matcher.replaceAll("$1$2")
+					);
+	}
+	
+	public void adaptAcrossFileReferences(){
+		Pattern pattern=Pattern.compile("([^\\\"]+)\\.ecore#//",Pattern.CASE_INSENSITIVE);
 		Matcher matcher=pattern.matcher(jucmPackage);
 		jucmPackage=new StringBuilder(
 						matcher.replaceAll("#//$1/")
