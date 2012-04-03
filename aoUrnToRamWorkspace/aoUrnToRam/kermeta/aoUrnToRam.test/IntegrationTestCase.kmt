@@ -47,6 +47,11 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 		parameterizableIntegrationTest("OrJoin.jucm")
 	end
 
+	@feature "FeaIntegrationTesting"
+	operation testBellairs() is do
+		parameterizableIntegrationTest("Bellairs.jucm")
+	end
+	
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		self.jucmSourceFileName:=jucmSourceFileName
 		sut:=AoUrnToRamTransformation.new
