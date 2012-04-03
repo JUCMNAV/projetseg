@@ -1,8 +1,8 @@
-package oneurn::ucm::map;
+package jucm_OneFileWorkaround::ucm::map;
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 
 using kermeta::standard
-using oneurn::urncore
+using jucm_OneFileWorkaround::urncore
 using intermediateWorkflow
 
 aspect class PathNode {

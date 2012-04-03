@@ -7,8 +7,8 @@ require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
 
 using kermeta::standard
 using kermeta::language::structure
-using oneurn::ucm::map
-using oneurn::urncore
+using jucm_OneFileWorkaround::ucm::map
+using jucm_OneFileWorkaround::urncore
 using intermediateWorkflow
 
 class AoUrnToIw_TestHelper inherits CustomAssert,AoUrnTestFactory

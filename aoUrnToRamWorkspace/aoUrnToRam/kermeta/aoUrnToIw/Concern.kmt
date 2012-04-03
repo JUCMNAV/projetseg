@@ -1,9 +1,9 @@
-package oneurn::urncore;
+package jucm_OneFileWorkaround::urncore;
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 
 using kermeta::standard
 using intermediateWorkflow
-using oneurn::urn
+using jucm_OneFileWorkaround::urn
 
 aspect class Concern{
 	reference iwConcern:IwConcern

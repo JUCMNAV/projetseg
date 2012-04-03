@@ -3,9 +3,9 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
 
 using kermeta::standard
 using kermeta::kunit
-using oneurn::urn
-using oneurn::ucm::map
-using oneurn::urncore
+using jucm_OneFileWorkaround::urn
+using jucm_OneFileWorkaround::ucm::map
+using jucm_OneFileWorkaround::urncore
 using intermediateWorkflow
 
 class AoUrnToIw_RespRefTestCase inherits TestCase,AoUrnToIw_TestHelper {

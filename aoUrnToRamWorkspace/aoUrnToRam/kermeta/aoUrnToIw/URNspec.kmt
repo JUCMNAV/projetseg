@@ -1,9 +1,9 @@
-package oneurn::urn;
+package jucm_OneFileWorkaround::urn;
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 
 using kermeta::standard
-using oneurn::urncore
-using oneurn::ucm::map
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
 using intermediateWorkflow
 
 aspect class URNspec{

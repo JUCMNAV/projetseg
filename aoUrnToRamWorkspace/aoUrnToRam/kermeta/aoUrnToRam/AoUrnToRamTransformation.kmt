@@ -15,7 +15,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/PlateformResolver.kmt"
 using kermeta::persistence
 using kermeta::standard
 using kermeta::io
-using oneurn::urn
+using jucm_OneFileWorkaround::urn
 using intermediateWorkflow
 using ram
 using aoUrnToRam::util
@@ -83,7 +83,7 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
 		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean
 		
-		self.oneUrnMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/oneurn.ecore")
+		self.oneUrnMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/jucm_OneFileWorkaround.ecore")
 		self.intermediateWorkflowMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/intermediateWorkflow.ecore")
 		self.ramMetamodel:=Path.new.combine(aoUrnToRamPlateformUrl,"metamodel/RAM.ecore")
 	end
