@@ -37,6 +37,9 @@ In order to setup the AoURNtoRAM development environment, you should:
     Kermeta Constraint Application - Integration
   ->Launch all unit tests
     Kermeta Constraint Application - TDD All
+    *Note: After running large test suite (All unit test, Integration tests),
+           clicking on "Remove Kermeta Units from Memory" will significantly 
+           reduce the execution time of the other tests.
   ->Generate the code of _Ref.kmt 
     Java Application - Update Ref
     _Ref.kmt must be opened in the editor
