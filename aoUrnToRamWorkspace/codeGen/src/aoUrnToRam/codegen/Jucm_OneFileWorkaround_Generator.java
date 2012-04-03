@@ -94,7 +94,7 @@ public class Jucm_OneFileWorkaround_Generator {
 	}
 	
 	private String adaptInternalReferences(String metamodel,String metamodelName){
-		return metamodel.replace("(\"|\\s)#//", "\"#//"+metamodelName+"/");
+		return metamodel.replaceAll("(\"|\\s)#//", "$1#//"+metamodelName+"/");
 	}
 	
 	private String parseMetamodelName(String metamodel){
@@ -110,7 +110,7 @@ public class Jucm_OneFileWorkaround_Generator {
 	
 	
 	public void removeEClassPrefix_fromAcrossFileReferences(){
-		Pattern pattern=Pattern.compile("(\\\")ecore:EClass\\s(.+?\\.ecore#//)",Pattern.CASE_INSENSITIVE);
+		Pattern pattern=Pattern.compile("(\")ecore:EClass\\s(.+?\\.ecore#//)",Pattern.CASE_INSENSITIVE);
 		Matcher matcher=pattern.matcher(jucmPackage);
 		jucmPackage=new StringBuilder(
 						matcher.replaceAll("$1$2")
@@ -118,7 +118,7 @@ public class Jucm_OneFileWorkaround_Generator {
 	}
 	
 	public void adaptAcrossFileReferences(){
-		Pattern pattern=Pattern.compile("([^\\\"]+)\\.ecore#//",Pattern.CASE_INSENSITIVE);
+		Pattern pattern=Pattern.compile("([^\"\\s]+)\\.ecore#//",Pattern.CASE_INSENSITIVE);
 		Matcher matcher=pattern.matcher(jucmPackage);
 		jucmPackage=new StringBuilder(
 						matcher.replaceAll("#//$1/")
