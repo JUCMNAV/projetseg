@@ -9,7 +9,7 @@ public class RamResourceFactoryRegistrar {
 			RamResourceFactoryRegistrarImpl.registerRamResourceFactory(String.getValue(extension));
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 		}
 	}
 }

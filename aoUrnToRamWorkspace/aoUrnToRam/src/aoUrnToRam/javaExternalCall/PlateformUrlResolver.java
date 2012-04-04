@@ -10,7 +10,7 @@ public class PlateformUrlResolver {
 			return String.create(result,plateformUrl.getFactory());
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 			return String.create(null,plateformUrl.getFactory());
 		}
 	}

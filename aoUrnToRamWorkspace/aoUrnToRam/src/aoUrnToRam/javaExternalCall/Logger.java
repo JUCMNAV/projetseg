@@ -4,14 +4,19 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
-
 import org.eclipse.core.runtime.Platform;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 public class Logger {
-	
 	//static class
 	private Logger(){}
-
+	
+	public static void logError(Throwable ex){
+		log("Error:"+getStackTrace(ex));
+	}
+	
 	public static void log(String msg){
 		BufferedWriter writer=null;
 		try {
@@ -33,5 +38,13 @@ public class Logger {
 				}
 			}
 		}
+	}
+	
+	//adapted from http://www.javapractices.com/topic/TopicAction.do?Id=78
+	public static String getStackTrace(Throwable aThrowable) {
+		final Writer result = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(result);
+		aThrowable.printStackTrace(printWriter);
+		return result.toString();
 	}
 }

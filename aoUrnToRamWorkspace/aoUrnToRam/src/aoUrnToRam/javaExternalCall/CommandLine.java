@@ -10,7 +10,7 @@ public class CommandLine {
 			return String.create(result,command.getFactory());
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 			return String.create(null,command.getFactory());
 		}
 	}

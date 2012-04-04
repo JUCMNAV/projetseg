@@ -15,7 +15,6 @@ public class CommandLineImpl {
         ostream.write(input.getBytes());
         ostream.close();
 
-		//return ReadInputStream(new BufferedInputStream(p.getInputStream()));
 		return "noOutput";
 	}
 }

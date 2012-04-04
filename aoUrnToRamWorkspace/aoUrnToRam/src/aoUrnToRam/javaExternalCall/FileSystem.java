@@ -15,7 +15,7 @@ public class FileSystem {
 			);
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 		}
 	}
 	
@@ -26,7 +26,7 @@ public class FileSystem {
 			);
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class FileSystem {
 			);
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 		}
 	}
 	
@@ -50,7 +50,7 @@ public class FileSystem {
 			);
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 		}
 	}
 	

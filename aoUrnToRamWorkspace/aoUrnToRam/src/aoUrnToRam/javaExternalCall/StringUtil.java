@@ -14,7 +14,7 @@ public class StringUtil {
 			return String.create(result,str.getFactory());
 		}
 		catch(Exception ex){
-			Logger.log("Error:"+ ex.toString());
+			Logger.logError(ex);
 			return String.create(null,str.getFactory());
 		}
 	}
