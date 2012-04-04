@@ -124,7 +124,7 @@ Link
 	
 	property isEmtpyStepClassDiagram:Boolean
 	getter is do
-		result:=ramStructuralView.classes.size<=1
+		result:=ramStructuralView.classes.size==0
 	end
 	
 	operation linkRamInputDataBaseClass(ramWorkspace:RamWorkspace) is do

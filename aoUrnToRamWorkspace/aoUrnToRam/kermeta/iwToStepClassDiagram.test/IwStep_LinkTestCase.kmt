@@ -79,7 +79,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamWorkspace() is do
-		createIwInput.withStep(sut)
+		createIwCustomizableNode().withStep(sut)
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
@@ -89,7 +89,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 
 	@feature "FeaNamingofRAMConcern"
 	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
-		createIwInput.withStep(sut)
+		createIwCustomizableNode().withStep(sut)
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
