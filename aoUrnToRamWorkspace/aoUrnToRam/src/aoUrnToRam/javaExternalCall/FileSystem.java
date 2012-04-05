@@ -55,7 +55,8 @@ public class FileSystem {
 	}
 	
 	private static File toFile(RuntimeObject uri) throws URISyntaxException{
-		URI asUri = new URI(String.getValue(uri));
+		java.lang.String spaceEncoded = String.getValue(uri).replace(" ","%20");
+		URI asUri = new URI(spaceEncoded);
 		return new File(asUri);
 	}
 
