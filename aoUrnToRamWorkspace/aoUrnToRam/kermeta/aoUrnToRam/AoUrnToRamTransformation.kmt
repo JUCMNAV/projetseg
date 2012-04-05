@@ -117,12 +117,12 @@ class AoUrnToRamTransformation inherits PlateformResolver
 //*********************************************************/
 	operation ouptutRamJavaInstantiator(iwModel:IwModel) is do
 		iwModel.jiToJavaInstantiator.each{workflowInstantiator|
-			ouptutTextView(workflowInstantiator,".java")
+			outputTextView(workflowInstantiator,".java")
 		}
 	end
 	
 	operation ouptutRamJavaProgram(iwModel:IwModel) is do
-		ouptutTextView(iwModel.jpToJavaProgram,".java")
+		outputTextView(iwModel.jpToJavaProgram,".java")
 	end
 
 //*********************************************************
@@ -183,9 +183,10 @@ class AoUrnToRamTransformation inherits PlateformResolver
 		//it is important to load/save from the same repository
 		var repository:ModelRepository init ModelRepository.new.initialize
 		
+		copyRamLibFolder //External aspect must be loaded from destination folder
 		var ramWorkspace:RamWorkspace init createRamWorkspace(repository)
 		iwModel.toStepClassDiagram(ramWorkspace)
-
+		
 		ramWorkspace.aspectPerWorkspacePath.keys.each{workspacePath|
 			saveRamAspect(
 				repository,
@@ -196,8 +197,6 @@ class AoUrnToRamTransformation inherits PlateformResolver
 	end
 	
 	operation createRamWorkspace(repository:ModelRepository):RamWorkspace is do
-		copyRamLibFolder //External aspect must be loaded from destination folder
-	
 		result:=RamWorkspace.new.initialize(
 			loadWorkflowFromLib(repository),
 			loadReactiveSystemWorkflowFromLib(repository)
@@ -266,7 +265,7 @@ class AoUrnToRamTransformation inherits PlateformResolver
 //*********************************************************
 //Misc
 //*********************************************************/
-	operation ouptutTextView(textView:TextView,extension:String) is do
+	operation outputTextView(textView:TextView,extension:String) is do
 		var absoluteFileUri:String init Path.new.combine(destinationAbsoluteFolderUri,textView.workspacePath)+extension
 		FileIO.new.writeTextFile(absoluteFileUri,textView.content)
 	end
