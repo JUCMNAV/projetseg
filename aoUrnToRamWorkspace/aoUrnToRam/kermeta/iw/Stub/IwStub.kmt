@@ -6,14 +6,14 @@ using kermeta::standard
 
 aspect class IwStub{
 	
-	//stle: refactor on dynamic stub:Only aspect and static stub for now
+	//warning: refactor on dynamic stub:Only aspect and static stub for now
 	property readonly staticPluginBinding : IwPluginBinding
 	getter is do
 		//stle:Single again
 		result:=pluginBindings.one
 	end
 	
-	//stle: refactor on dynamic stub:Only aspect and static stub for now
+	//warning: refactor on dynamic stub:Only aspect and static stub for now
 	property readonly staticPlugin : IwWorkflow
 	getter is do
 		if(staticPluginBinding.inBindings.isEmpty==false) then

@@ -7,7 +7,6 @@ require kermeta
 using kermeta::standard
 using kermeta::utils
 
-//stle:dry with StepView
 class TextView{
 	attribute workspacePath: String
 	attribute _content:StringBuffer

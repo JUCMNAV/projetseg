@@ -14,7 +14,6 @@ aspect class IwOutBinding{
 		stepView.appendLine("[style=dashed,arrowhead=onormal]")
 	end
 
-	//stle:dry	
 	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
 		stepView.append("    ")
 		stepView.append(stepView.dotEscape(pluginEndPoint.getId))

@@ -19,7 +19,7 @@ aspect class IwStub{
 		if(isAspectMarker==true) then
 			result:=false
 		else
-			//stle: refactor on dynamic stub:Only aspect and static stub for now
+			//warning: refactor on dynamic stub:Only aspect and static stub for now
 			if(concern!=staticPlugin.concern) then
 				result:=false
 			else

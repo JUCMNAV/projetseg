@@ -31,7 +31,7 @@ aspect class IwStartPoint{
 	end
 	
 	method appendBindings(stepView:StepView) is do
-		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false //stle: refact this hack
+		var isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended:Boolean init false 
 		inBindings.each{inBinding|
 			if(inBinding.isInboundByAspectMarkerOrInDifferentConcern) then
 				if(isBindingsToStubFromOtherConcerPlaceholderAlreadyAppended==false) then

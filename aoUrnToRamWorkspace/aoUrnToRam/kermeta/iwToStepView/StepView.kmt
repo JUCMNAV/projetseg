@@ -7,7 +7,6 @@ using kermeta::standard
 using kermeta::utils
 
 class StepView{
-	//stle: naming of path
 	attribute imgFolderWindowsPath: String
 	attribute workspacePath: String
 	attribute _dot:StringBuffer

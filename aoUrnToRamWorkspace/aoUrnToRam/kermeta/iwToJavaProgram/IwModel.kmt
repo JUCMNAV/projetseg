@@ -8,7 +8,7 @@ using aoUrnToRam
 aspect class IwModel {
 	operation jpToJavaProgram():JavaView is do
 		result:=JavaView.new
-		result.initialize("Program")//stle:refact this
+		result.initialize("Program")
 
 		jpAppendContent(result)
 	end
@@ -54,7 +54,7 @@ aspect class IwModel {
 	
 	property readonly reactiveWorkflowSystemType:String 
 	getter is do
-		result:="ReactiveWorkflowSystem" //stle:use capitalize first letter function
+		result:="ReactiveWorkflowSystem"
 	end
 
 }
