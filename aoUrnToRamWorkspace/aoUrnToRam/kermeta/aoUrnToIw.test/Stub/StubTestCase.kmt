@@ -42,7 +42,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	operation testLink_ShouldInvokeLinkOnPluginBindings() is do
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
-		//stle:static stub for now, update this step once many plugins will be supported	
+		//warning:static stub for now, update this step once many plugins will be supported	
 		createPluginBinding_Stub(sut)
 		ucmMap.build
 		
@@ -78,7 +78,6 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 	
 	@feature "FeaTransformStaticStub"
 	operation testLink_EmptyPointInBetweenStubEntry_ShouldInitStubEntryIndexOnEmptyPointPred() is do
-		//stle:dry
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
 		var emptyPoint:PathNode init connectEmptyPointAsSource(sut).sourceAsPathNode 
@@ -92,7 +91,6 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 
 	@feature "FeaDisjunctiveStubEntries"
 	operation testLink_OrJoinInBetweenStubEntry_ShouldInitStubEntryIndexWithTheSameIndexOnEachOrJoinPreds() is do
-		//stle:dry
 		var ucmMap:UCMmap init createUcmMap
 		sut:=createStub_UcmMap(ucmMap)
 		var orJoin:OrJoin init createOrJoin_UcmMap(ucmMap)

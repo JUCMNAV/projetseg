@@ -26,8 +26,7 @@ class AoUrnToIw_PluginBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		sut.link
 		
-//stle: use public api		
-//		assertCollectionHasSingleElement(sut.iwPluginBinding,stub.iwStub.pluginBindings)
+		assertCollectionHasSingleElement(sut.iwPluginBinding,stub.iwStub.pluginBindings)
 	end
 
 	@feature "FeaTransformStaticStub"

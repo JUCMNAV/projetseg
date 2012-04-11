@@ -79,7 +79,6 @@ class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		assertEquals(pointcutStub.iwGetExitNode(sut.pointcutExit), sut.iwInBinding.pluginStartPoint)
 	end
 	
-	//stle:dry
 	operation attachStubEntryToInBinding(inBinding:InBinding):NodeConnection is do
 		var stubEntry:NodeConnection init createNodeConnection
 		inBinding.stubEntry:=stubEntry

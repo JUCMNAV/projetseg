@@ -14,8 +14,6 @@ class AoUrnToIw_NodeConnectionTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut:=createNodeConnection
 	end
 	
-	//stle: add not void test if not covered by invoke link test
-	
 	@feature "FeaTransformOrFork"
 	operation testBuild_WithCondition_ShouldSetConditionName() is do
 		withCondition(sut)
