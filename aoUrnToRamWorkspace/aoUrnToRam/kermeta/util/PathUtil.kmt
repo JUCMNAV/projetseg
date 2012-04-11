@@ -3,8 +3,7 @@ package aoUrnToRam::util;
 require kermeta
 using kermeta::standard
 
-//stle: how can we have static util class???
-class Path{
+class PathUtil{
 	operation combine(path1:String,path2:String):String is do
 		result:=removeEndSlash(path1)+"/"+path2	
 	end

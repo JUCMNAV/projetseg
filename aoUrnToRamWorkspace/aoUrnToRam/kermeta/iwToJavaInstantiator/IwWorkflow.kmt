@@ -6,7 +6,7 @@ using kermeta::standard
 using javaInstantiator
 using aoUrnToRam::util //stle:think about this
 
-aspect class IwWorkflow {
+aspect class IwWorkflow inherits PathUtil {
 
 //*********************************************************
 //Properties
@@ -28,7 +28,7 @@ aspect class IwWorkflow {
 	
 	property readonly jiWorkspacePath:String 
 	getter is do
-		result:=Path.new.combine(jiSUBPACKAGE,Path.new.combine(concern.name,workflowInstantiatorName))
+		result:=combine(jiSUBPACKAGE,combine(concern.name,workflowInstantiatorName))
 	end
 
 //*********************************************************

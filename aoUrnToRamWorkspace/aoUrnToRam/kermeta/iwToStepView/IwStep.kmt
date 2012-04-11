@@ -7,7 +7,7 @@ using kermeta::standard
 using kermeta::utils
 using aoUrnToRam::util
 
-aspect class IwStep {
+aspect class IwStep inherits PathUtil {
 	reference _nodesPerWorkflow:Hashtable<IwWorkflow,OrderedSet<IwNode>>
 	
 	operation toStepView(imgFolderWindowsPath:String):StepView is do
@@ -15,7 +15,7 @@ aspect class IwStep {
 		result.imgFolderWindowsPath:=imgFolderWindowsPath
 		result.step:=self
 		
-		result.workspacePath:=Path.new.combine("Steps",Path.new.combine(concern.name,name))
+		result.workspacePath:=combine("Steps",combine(concern.name,name))
 		result._dot:=StringBuffer.new
 		
 		appendStepViewPre(result)

@@ -3,7 +3,7 @@ package intermediateWorkflow;
 require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/metamodel/RAM.ecore"
-require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/PathUtil.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

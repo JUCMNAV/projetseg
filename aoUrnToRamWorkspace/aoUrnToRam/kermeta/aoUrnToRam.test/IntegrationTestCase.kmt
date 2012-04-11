@@ -2,7 +2,7 @@ package aoUrnToRam::test;
 
 require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToRam/AoUrnToRamTransformation.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/Util.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/PathUtil.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/PlateformResolver.kmt"
 
 using kermeta::standard
@@ -12,7 +12,7 @@ using aoUrnToRam
 using aoUrnToRam::util
 
 
-class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
+class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver,PathUtil
 {
 	attribute sut:AoUrnToRamTransformation
 	attribute jucmSourceFileName:String
@@ -65,20 +65,20 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 
 	property readonly sourceAbsoluteFileUri:String 
 	getter is do
-		result:=Path.new.combine(integrationFolderUri,"jucm")
-		result:=Path.new.combine(result,jucmSourceFileName)
+		result:=combine(integrationFolderUri,"jucm")
+		result:=combine(result,jucmSourceFileName)
 	end
 	
 	property readonly destinationAbsoluteFileUri:String 
 	getter is do
 		var destinationDirName:String init jucmSourceFileName.substring(0,jucmSourceFileName.size-5) 
-		result:=Path.new.combine(integrationFolderUri,"actual")
-		result:=Path.new.combine(result,destinationDirName)
+		result:=combine(integrationFolderUri,"actual")
+		result:=combine(result,destinationDirName)
 	end
 	
 	property readonly integrationFolderUri:String
 	getter is do
-		result:=resolvePlateformUrl(Path.new.combine(aoUrnToRamPlateformUrl,"kermeta/aoUrnToRam.test"))
+		result:=resolvePlateformUrl(combine(aoUrnToRamPlateformUrl,"kermeta/aoUrnToRam.test"))
 	end
 	
 	property readonly aoUrnToRamPlateformUrl:String
