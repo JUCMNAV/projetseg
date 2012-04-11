@@ -5,7 +5,7 @@
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="ca.mcgill.cs.sel.ram.util.RamResourceFactoryImpl"
-            type="ram_AoUrnToRamWorkaround">
+            type="ram">
       </parser>
    </extension>
 

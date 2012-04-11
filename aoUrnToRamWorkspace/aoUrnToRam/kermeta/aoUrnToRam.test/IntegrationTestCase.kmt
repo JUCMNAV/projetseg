@@ -87,6 +87,6 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase,PlateformResolver
 	end
 	
 	operation registerRamResourceFactory() is do
-	    extern aoUrnToRam::javaExternalCall::RamResourceFactoryRegistrar.registerRamResourceFactory(sut.ramWorkaroundExtension)
+	    extern aoUrnToRam::javaExternalCall::RamResourceFactoryRegistrar.registerRamResourceFactory("ram")
 	end
 }
