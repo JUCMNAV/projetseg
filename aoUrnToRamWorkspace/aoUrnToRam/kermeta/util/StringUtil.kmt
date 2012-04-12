@@ -1,0 +1,11 @@
+package kermeta::standard;
+
+require kermeta
+using kermeta::standard
+
+aspect class String{
+	operation replaceFirst(regex:String,replacement:String):String is do
+		result?=extern aoUrnToRam::javaExternalCall::StringUtil.replaceFirst(self,regex,replacement)
+	end
+}
+

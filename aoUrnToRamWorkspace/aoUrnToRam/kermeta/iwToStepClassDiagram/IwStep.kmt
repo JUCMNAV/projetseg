@@ -5,9 +5,8 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
 using kermeta::standard
 using ram
 using kermeta::utils
-using aoUrnToRam::util
 
-aspect class IwStep inherits PathUtil {
+aspect class IwStep{
 	reference ramAspect:Aspect
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	reference ramCustomizableNodeMapping:Mapping
@@ -117,7 +116,7 @@ Link
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
 		//Filter out empty aspect
 		if(isEmtpyStepClassDiagram==false) then
-			var workspacePath:String init combine("Steps",combine(concern.name,name))
+			var workspacePath:String init "Steps".uriAppend(concern.name).uriAppend(name)
 			ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
 		end
 	end

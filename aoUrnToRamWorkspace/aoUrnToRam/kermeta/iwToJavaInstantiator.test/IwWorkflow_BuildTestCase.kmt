@@ -5,7 +5,6 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelpe
 using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
-using aoUrnToRam::util 
 using javaInstantiator
 
 class IwToJavaInstantiator_IwWorkflow_BuildTestCase inherits TestCase,IwToJavaInstantiator_TestHelper

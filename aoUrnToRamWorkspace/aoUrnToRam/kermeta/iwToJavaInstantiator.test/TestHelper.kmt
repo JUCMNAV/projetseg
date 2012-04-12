@@ -5,7 +5,6 @@ require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomAssert.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iw.testUtil/IwTestFactory.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/util/PathUtil.kmt"
 
 using kermeta::standard
 using intermediateWorkflow

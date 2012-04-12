@@ -4,9 +4,8 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
 
 using kermeta::standard
 using javaInstantiator
-using aoUrnToRam::util //stle:think about this
 
-aspect class IwWorkflow inherits PathUtil {
+aspect class IwWorkflow{
 
 //*********************************************************
 //Properties
@@ -28,7 +27,7 @@ aspect class IwWorkflow inherits PathUtil {
 	
 	property readonly jiWorkspacePath:String 
 	getter is do
-		result:=combine(jiSUBPACKAGE,combine(concern.name,workflowInstantiatorName))
+		result:=jiSUBPACKAGE.uriAppend(concern.name).uriAppend(workflowInstantiatorName)
 	end
 
 //*********************************************************

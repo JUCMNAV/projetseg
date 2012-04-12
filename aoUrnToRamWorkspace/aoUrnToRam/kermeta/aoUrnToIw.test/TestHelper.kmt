@@ -3,7 +3,6 @@ package aoUrnToRam::test;
 require kermeta
 require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/AoUrnTestFactory.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomAssert.kmt"
-require "platform:/lookup/aoUrnToRam/kermeta/util/PathUtil.kmt"
 
 using kermeta::standard
 using kermeta::language::structure

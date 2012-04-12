@@ -7,7 +7,6 @@ using kermeta::standard
 using kermeta::kunit
 using intermediateWorkflow
 using ram
-using aoUrnToRam::util
 
 class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
 {
