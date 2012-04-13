@@ -1,6 +1,6 @@
 package kermeta::standard;
 
-require "platform:/lookup/aoUrnToRam/kermeta/util/StringUtil.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/String.kmt"
 require kermeta
 
 aspect class String{
