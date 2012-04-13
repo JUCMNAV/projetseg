@@ -94,8 +94,7 @@ In order to setup the AoURNtoRAM development environment, you should:
     1.4.0
     http://www.kermeta.org/update
 
-- (Optional)
-  For performance reasons, Kermeta requires more memory than standard eclipse applications.
+- For performance reasons, Kermeta requires more memory than standard eclipse applications.
   In order to increase the heap size, set -Xmx3000M in $EclipseDir$\eclipse.ini.
   On 32bits CPU/OS, the maximum value is -Xmx1200M
   
@@ -110,3 +109,4 @@ In order to setup the AoURNtoRAM development environment, you should:
   - Start Eclipse
   - You are ready to export from AoUrn to RAM!
     Create a new Use Case Map - Right click export on the Use Case Map diagram - Export whole URN file - Ram Reactive Workflows - Finish
+    Note: The first export from AoUrn to RAM takes an extra 30 secs. Please be patient.
