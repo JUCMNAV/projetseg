@@ -21,8 +21,8 @@ class StepView{
 	end
 	
 	operation appendImg(imageName:String) is do
-		//stle: handle append windows folder properly
-		append("<img src=\""+imgFolderWindowsPath+"\\"+imageName+"\"></img>") 
+		var imgWindowsPath:String init imgFolderWindowsPath.windowsPathAppend(imageName)
+		append("<img src=\""+imgWindowsPath+"\"></img>") 
 	end
 	
 	property readonly dot : String

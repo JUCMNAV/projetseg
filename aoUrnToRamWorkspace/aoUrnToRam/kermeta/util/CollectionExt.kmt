@@ -5,6 +5,19 @@ require kermeta
 using kermeta::standard
 
 class CollectionExt{
+	operation colExtMax(col:Collection<Integer>):Integer is do
+		result:=0
+		col.each{element|
+			if(result.isVoid) then
+				result:=element
+			else
+				if(result<element) then
+					result:=element
+				end
+			end
+		}
+	end
+
 	operation colExtSelectOfType<ORI_TYPE,CAST_TYPE>(source:Collection<ORI_TYPE>,dest:Collection<CAST_TYPE>) is do
 		var filtredOut:Collection<ORI_TYPE> init source.select{element|element.isInstanceOf(CAST_TYPE)}
 		colExtCast(filtredOut,dest)

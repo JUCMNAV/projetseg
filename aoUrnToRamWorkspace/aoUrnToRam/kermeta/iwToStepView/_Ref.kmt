@@ -1,7 +1,9 @@
 package intermediateWorkflow;
 
-require "platform:/lookup/aoUrnToRam/kermeta/util/Uri.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/Uri.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/WindowsPath.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

@@ -5,7 +5,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 
 using kermeta::standard
 
-aspect class IwWorkflow {
+aspect class IwWorkflow inherits CollectionExt {
 	operation appendStepViewPre(stepView:StepView) is do
 		stepView.appendLine("")
 		stepView.append("    subgraph ") stepView.append(stepView.dotEscape("cluster_"+name)) stepView.appendLine("{")
@@ -51,9 +51,8 @@ aspect class IwWorkflow {
 	
 	property readonly endPoints:IwEndPoint[0..*]
 	getter is do
-		//stle: dry
-		result:=nodes.select{node|node.isInstanceOf(IwEndPoint)}
-			         .collect{node|node.asType(IwEndPoint)}.asOrderedSet
+		result:=OrderedSet<IwEndPoint>.new
+		colExtSelectOfType(nodes,result)
 	end
 	
 	

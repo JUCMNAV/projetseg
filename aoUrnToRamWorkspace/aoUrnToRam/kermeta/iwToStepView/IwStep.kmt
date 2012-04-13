@@ -5,7 +5,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 using kermeta::standard
 using kermeta::utils
 
-aspect class IwStep {
+aspect class IwStep inherits CollectionExt{
 	reference _nodesPerWorkflow:Hashtable<IwWorkflow,OrderedSet<IwNode>>
 	
 	operation toStepView(imgFolderWindowsPath:String):StepView is do
@@ -94,9 +94,8 @@ aspect class IwStep {
 
 	property readonly inBoundStubs:IwStub[0..*] 
 	getter is do
-		//stle: dry
-		result:=nodes.select{node|node.isInstanceOf(IwStub)}
-			         .collect{node|node.asType(IwStub)}.asOrderedSet
+		result:=OrderedSet<IwStub>.new
+		colExtSelectOfType(nodes,result)
 	end
 
 	property readonly nodesPerWorkflow : Hashtable<IwWorkflow,OrderedSet<IwNode>>

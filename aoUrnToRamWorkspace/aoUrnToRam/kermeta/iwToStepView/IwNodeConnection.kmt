@@ -5,7 +5,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 
 using kermeta::standard
 
-aspect class IwNodeConnection {
+aspect class IwNodeConnection inherits CollectionExt {
 	operation appendNodeConnection(stepView:StepView) is do
 		stepView.append("        ") 
 		stepView.append(getSourcePortDotEscaped(stepView)) 
@@ -41,7 +41,7 @@ aspect class IwNodeConnection {
 	
 	operation getTargetPortDotEscaped(stepView:StepView):String is do
 		if(isTargetAnAspectMarker) then
-			result:=singleNextNodeConnection.getTargetPortDotEscaped(stepView)
+			result:=colExtSingle(target.succs).getTargetPortDotEscaped(stepView)
 		else
 			result:=target.getId
 			result:=stepView.dotEscape(result)
@@ -62,11 +62,5 @@ aspect class IwNodeConnection {
 				result:=true
 			end
 		end
-	end
-	
-	property readonly singleNextNodeConnection: IwNodeConnection
-	getter is do
-		//stle: single again
-		result:=target.succs.one
 	end
 }

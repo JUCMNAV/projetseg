@@ -4,13 +4,12 @@ require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
 
 using kermeta::standard
 
-aspect class IwStub{
+aspect class IwStub inherits CollectionExt{
 	
 	//warning: refactor on dynamic stub:Only aspect and static stub for now
 	property readonly staticPluginBinding : IwPluginBinding
 	getter is do
-		//stle:Single again
-		result:=pluginBindings.one
+		result:=colExtSingle(pluginBindings)
 	end
 	
 	//warning: refactor on dynamic stub:Only aspect and static stub for now

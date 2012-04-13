@@ -6,7 +6,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
 using kermeta::standard
 
 
-aspect class IwStub {
+aspect class IwStub inherits CollectionExt{
 	method getImageName():String is do
 		result:="Stub24.gif"
 	end
@@ -68,36 +68,21 @@ aspect class IwStub {
 		var maxOf:Set<Integer> init Set<Integer>.new
 		maxOf.add(numOfStubEntries)
     	maxOf.add(numOfStubExits)
-		var maxNumOfPorts:Integer init max(maxOf) 
+		var maxNumOfPorts:Integer init colExtMax(maxOf) 
 		result:=maxNumOfPorts*15
 	end
 
     property numOfStubEntries:Integer getter is do
-		result:= max(preds.collect{nodeConnection|nodeConnection.stubEntryIndex})
+		result:= colExtMax(preds.collect{nodeConnection|nodeConnection.stubEntryIndex})
 	end
 
     property numOfStubExits:Integer getter is do
-		result:= max(succs.collect{nodeConnection|nodeConnection.stubExitIndex})
+		result:= colExtMax(succs.collect{nodeConnection|nodeConnection.stubExitIndex})
 	end
 	
 	operation appendStubPorts(stepView:StepView,prefix:String,maxIndex:Integer) is do
 		maxIndex.times{i|
 			stepView.append("                            <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
-		}
-	end
-	
-	
-	//stle:max should be an extension of Collection
-	operation max(col:Collection<Integer>):Integer is do
-		result:=0
-		col.each{element|
-			if(result.isVoid) then
-				result:=element
-			else
-				if(result<element) then
-					result:=element
-				end
-			end
 		}
 	end
 	

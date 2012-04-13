@@ -2,6 +2,7 @@ package intermediateWorkflow;
 
 require kermeta
 require "platform:/lookup/aoUrnToRam/metamodel/intermediateWorkflow.ecore"
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

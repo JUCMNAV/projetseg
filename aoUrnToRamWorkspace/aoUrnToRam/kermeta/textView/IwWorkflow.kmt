@@ -22,7 +22,6 @@ aspect class IwWorkflow {
 //*********************************************************/
 	property readonly jiSUBPACKAGE:String 
 	getter is do
-		//STLE:DRY with other trans
 		result:="Instantiators"
 	end
 	

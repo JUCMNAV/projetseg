@@ -4,7 +4,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
 
 using kermeta::standard
 
-aspect class IwWorkflow{
+aspect class IwWorkflow inherits CollectionExt{
 	property readonly model:IwModel
 	getter is do
 		result:=concern.model
@@ -18,9 +18,8 @@ aspect class IwWorkflow{
 	
 	property readonly stubs : IwStub[0..*]
 	getter is do
-		//stle:dry
-		result:= nodes.select{node|node.isInstanceOf(IwStub)}
-		              .collect{stub|stub.asType(IwStub)}.asOrderedSet
+		result:=OrderedSet<IwStub>.new
+		colExtSelectOfType(nodes,result)
 	end
 	
 	

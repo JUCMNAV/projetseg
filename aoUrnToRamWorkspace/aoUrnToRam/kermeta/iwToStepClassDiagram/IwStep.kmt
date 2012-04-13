@@ -6,7 +6,7 @@ using kermeta::standard
 using ram
 using kermeta::utils
 
-aspect class IwStep{
+aspect class IwStep inherits CollectionExt{
 	reference ramAspect:Aspect
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	reference ramCustomizableNodeMapping:Mapping
@@ -26,10 +26,8 @@ aspect class IwStep{
 	
 	property readonly customizableNodes: IwCustomizableNode[0..*]
 	getter is do
-		//stle: DRY
-		//stle: refactor for reuse
-		result:=nodes.select{node|node.isInstanceOf(IwCustomizableNode)}
-			 .collect{node|node.asType(IwCustomizableNode)}.asOrderedSet
+		result:=OrderedSet<IwCustomizableNode>.new
+		colExtSelectOfType(nodes,result)
 	end
 
 /*********************************************************
