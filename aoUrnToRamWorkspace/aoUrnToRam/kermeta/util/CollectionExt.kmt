@@ -5,13 +5,13 @@ require kermeta
 using kermeta::standard
 
 class CollectionExt{
-	operation colExtSelectOfType<I,O>(source:Collection<I>,dest:Collection<O>) is do
-		var filtredOut:Collection<I> init source.select{element|element.isInstanceOf(O)}
+	operation colExtSelectOfType<ORI_TYPE,CAST_TYPE>(source:Collection<ORI_TYPE>,dest:Collection<CAST_TYPE>) is do
+		var filtredOut:Collection<ORI_TYPE> init source.select{element|element.isInstanceOf(CAST_TYPE)}
 		colExtCast(filtredOut,dest)
 	end
 
-	operation colExtCast<I,O>(source:Collection<I>,dest:Collection<O>) is do
-		dest.addAll(source.collect{element|element.asType(O)})
+	operation colExtCast<ORI_TYPE,CAST_TYPE>(source:Collection<ORI_TYPE>,dest:Collection<CAST_TYPE>) is do
+		dest.addAll(source.collect{element|element.asType(CAST_TYPE)})
 	end
 	
 	operation colExtSingle<G>(col:Collection<G>):G
