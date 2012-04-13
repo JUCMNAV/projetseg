@@ -13,7 +13,7 @@ class IwToJavaInstantiator_IwNodeTestCase inherits TestCase,IwToJavaInstantiator
 	reference workflowInstantiator:WorkflowInstantiator
 
 	method setUp() is do
-		sut:=createIwInput
+		sut:=createIwInput.withWorkflow(createIwWorkflow)
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 

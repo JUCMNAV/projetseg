@@ -1,0 +1,11 @@
+package kermeta::standard;
+
+require kermeta
+using kermeta::standard
+
+aspect class ValueType{
+	operation toQuotedString():String is do
+		result:="\""+self.toString+"\""
+	end
+}
+

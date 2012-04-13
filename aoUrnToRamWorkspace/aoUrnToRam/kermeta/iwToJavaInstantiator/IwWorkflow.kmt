@@ -62,7 +62,7 @@ aspect class IwWorkflow{
 	end
 
 	operation jiAppendBuildStatements(workflowInstantiator:WorkflowInstantiator) is do
-		workflowInstantiator.appendPublicMemberDefaultConstructor("Workflow",workflowInstantiator.workflowMemberName)
+		workflowInstantiator.appendPublicMemberDefaultConstructor("Workflow",workflowMemberName)
 		nodes.each{node|node.jiAppendBuildStatement(workflowInstantiator)}
 	end
 	

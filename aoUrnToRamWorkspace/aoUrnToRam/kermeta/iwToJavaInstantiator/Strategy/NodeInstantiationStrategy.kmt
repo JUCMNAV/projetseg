@@ -21,7 +21,7 @@ class NodeInstantiationStrategy {
 	
 	operation jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendMethodInvocationOn_1Param(
-			workflowInstantiator.workflowMemberName,
+			node.workflow.workflowMemberName,
 			"addNode",
 			node.jiMemberName
 		)

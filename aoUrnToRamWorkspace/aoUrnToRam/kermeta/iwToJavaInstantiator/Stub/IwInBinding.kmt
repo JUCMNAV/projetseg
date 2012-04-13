@@ -11,13 +11,8 @@ aspect class IwInBinding{
 			stub.jiMemberName,
 			"addInBinding",
 			pluginBinding.jiLocalVarName,
-			quote(stubEntryIndex),
+			stubEntryIndex.toQuotedString,
 			pluginStartPoint.workflow.jiBindMethod_PluginParamName+"."+pluginStartPoint.target.jiMemberName
 		)
-	end
-	
-	//stle:dry mix-in or static or textView (required analysis)
-	operation quote(toQuote:Object):String is do
-		result:="\""+toQuote.toString+"\""
 	end
 }

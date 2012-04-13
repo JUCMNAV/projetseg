@@ -35,6 +35,7 @@ class IwToJavaInstantiator_IwStartPoint_NotBoundTestCase inherits TestCase,IwToJ
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkNodesToWorkflowStatement_ShouldLinkSutToWorkflowAsNode() is do
+		sut.withWorkflow(createIwWorkflow)
 		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
 		
 		assertStringContains("workflow.addNode",workflowInstantiator.content)
@@ -42,6 +43,7 @@ class IwToJavaInstantiator_IwStartPoint_NotBoundTestCase inherits TestCase,IwToJ
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendLinkStartNodesToWorkflowStatement_Local_ShouldLinkSutToWorkflowAsStartupNode() is do
+		sut.withWorkflow(createIwWorkflow)
 		sut.withStartPointType("local")
 	
 		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)

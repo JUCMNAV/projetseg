@@ -12,12 +12,7 @@ aspect class IwOutBinding{
 			"addOutBinding",
 			pluginBinding.jiLocalVarName,
 			pluginEndPoint.workflow.jiBindMethod_PluginParamName+"."+pluginEndPoint.jiMemberName,
-			quote(stubExit.stubExitIndex)
+			stubExit.stubExitIndex.toQuotedString
 		)
-	end
-	
-	//stle:dry mix-in or static or textView (required analysis)
-	operation quote(toQuote:Object):String is do
-		result:="\""+toQuote.toString+"\""
 	end
 }

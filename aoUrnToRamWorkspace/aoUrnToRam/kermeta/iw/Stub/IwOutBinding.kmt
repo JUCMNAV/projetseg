@@ -15,5 +15,4 @@ aspect class IwOutBinding{
 	getter is do
 		result:=pluginBinding.stub
 	end
-	
 }
