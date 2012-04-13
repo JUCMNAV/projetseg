@@ -4,7 +4,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 using kermeta::standard
 using intermediateWorkflow
 
-aspect class StartPoint {
+aspect class StartPoint inherits CollectionExt {
 	reference iwStartPoint:IwStartPoint
 
 	method buildIwNodeTemplate() is do
@@ -36,8 +36,7 @@ aspect class StartPoint {
 	
 	property readonly hasReplacementPointcutStubAsTarget:Boolean 
 	getter is do
-		//stle: single again
-		var targetAsStub:Stub targetAsStub?=succAsNodeConnection.one.target
+		var targetAsStub:Stub targetAsStub?=colExtSingle(succAsNodeConnection).target
 		if(targetAsStub.isVoid==false) then
 			result:=targetAsStub.isReplacementPointcutStub
 		else

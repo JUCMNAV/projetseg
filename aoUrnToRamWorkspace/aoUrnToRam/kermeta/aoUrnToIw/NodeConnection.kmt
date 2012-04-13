@@ -4,7 +4,7 @@ require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
 using kermeta::standard
 using intermediateWorkflow
 
-aspect class NodeConnection{
+aspect class NodeConnection inherits CollectionExt{
 	reference iwNodeConnection: IwNodeConnection
 	
 	operation build() is do
@@ -71,8 +71,7 @@ aspect class NodeConnection{
 		//Pre-Condition: targetAsPathNode.iwHasNodes==false
 	    //target has no iwNodes implies target has always has a single succ
 
-		//stle: single again
-		result:=targetAsPathNode.succAsNodeConnection.one
+		result:=colExtSingle(targetAsPathNode.succAsNodeConnection)
 	end
 
 //*********************************************************

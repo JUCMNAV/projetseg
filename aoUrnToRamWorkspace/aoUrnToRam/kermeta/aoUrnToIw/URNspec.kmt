@@ -6,7 +6,7 @@ using jucm_OneFileWorkaround::urncore
 using jucm_OneFileWorkaround::ucm::map
 using intermediateWorkflow
 
-aspect class URNspec{
+aspect class URNspec inherits CollectionExt{
 	reference iwModel: IwModel
 	reference iwWithoutConcern:IwConcern
 	
@@ -61,11 +61,10 @@ aspect class URNspec{
 //*********************************************************
 //AoUrnToRam Extensions
 //*********************************************************/
-	property readonly ucmMaps : seq UCMmap[0..*]
+	property readonly ucmMaps : UCMmap[0..*]
 	getter is do
-		//stle: DRY
-		result:= urndef.specDiagrams.select{specDiagram|specDiagram.isInstanceOf(UCMmap)}
-						            .collect{specDiagram|specDiagram.asType(UCMmap)}
+		result:=OrderedSet<UCMmap>.new
+		colExtSelectOfType(urndef.specDiagrams,result)
 	end
 	
 	property readonly concerns : oset Concern[0..*]

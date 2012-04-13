@@ -1,0 +1,37 @@
+package kermeta::standard;
+
+require kermeta
+
+using kermeta::standard
+
+class CollectionExt{
+	operation colExtSelectOfType<I,O>(source:Collection<I>,dest:Collection<O>) is do
+		var filtredOut:Collection<I> init source.select{element|element.isInstanceOf(O)}
+		colExtCast(filtredOut,dest)
+	end
+
+	operation colExtCast<I,O>(source:Collection<I>,dest:Collection<O>) is do
+		dest.addAll(source.collect{element|element.asType(O)})
+	end
+	
+	operation colExtSingle<G>(col:Collection<G>):G
+	is do
+	    result:=colExtSelectSingle(col,function {notUsed:G|true})
+	end
+
+	operation colExtSelectSingle<G>(col:Collection<G>,selector:<G->Boolean>):G
+	is do
+		result:=_colExtSelectSequenceOfOne(col,selector).one
+	end
+
+	operation _colExtSelectSequenceOfOne<G>(col:Collection<G>,selector:<G->Boolean>):Sequence<G>
+	post MustBeSingle_FoundEmpty is do
+	    result.size>0
+	end
+	post MustBeSingle_FoundMany is do
+	    result.size<2
+	end
+	is do
+	    result:=col.select(selector)
+	end
+}

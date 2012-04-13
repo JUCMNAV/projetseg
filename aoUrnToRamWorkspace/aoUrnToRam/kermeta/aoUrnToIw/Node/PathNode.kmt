@@ -5,7 +5,7 @@ using kermeta::standard
 using jucm_OneFileWorkaround::urncore
 using intermediateWorkflow
 
-aspect class PathNode {
+aspect class PathNode inherits CollectionExt {
 	reference _iwNodes: oset IwNode[0..3]
 	reference iwOutput:IwOutput
 	reference iwInput:IwInput
@@ -127,14 +127,14 @@ aspect class PathNode {
 //*********************************************************/
 	property readonly predAsNodeConnection : OrderedSet<NodeConnection>
 	getter is do
-		//stle:dry
-		result:= pred.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
+		result:=OrderedSet<NodeConnection>.new
+		colExtCast(pred,result)
 	end
 	
 	property readonly succAsNodeConnection : OrderedSet<NodeConnection>
 	getter is do
-		//stle:dry
-		result:= succ.collect{iurnConnection|iurnConnection.asType(NodeConnection)}.asOrderedSet
+		result:=OrderedSet<NodeConnection>.new
+		colExtCast(succ,result)
 	end
 	
 	property ucmMap: UCMmap

@@ -5,7 +5,7 @@ using kermeta::standard
 using intermediateWorkflow
 using jucm_OneFileWorkaround::urn
 
-aspect class UCMmap{
+aspect class UCMmap inherits CollectionExt{
 	reference iwWorkflow: IwWorkflow
 
 //*********************************************************
@@ -41,12 +41,10 @@ aspect class UCMmap{
 //*********************************************************
 //AoUrnToRam Extensions
 //*********************************************************/
-	property readonly pathNodes : seq PathNode[0..*]
+	property readonly pathNodes : PathNode[0..*]
 	getter is do
-		//stle: DRY
-		//stle: refactor for reuse
-		result:=nodes.select{node|node.isInstanceOf(PathNode)}
-			 .collect{node|node.asType(PathNode)}
+		result:=OrderedSet<PathNode>.new
+		colExtSelectOfType(nodes,result)
 	end
 
 	property readonly urnSpec: URNspec
@@ -72,9 +70,8 @@ aspect class UCMmap{
 	
 	property readonly stubs: Stub[0..*]
 	getter is do
-		//stle:dry
-		result:= nodes.select{node|node.isInstanceOf(Stub)}
-		              .collect{stub|stub.asType(Stub)}.asOrderedSet
+		result:=OrderedSet<Stub>.new
+		colExtSelectOfType(nodes,result)
 	end
 	
 //*********************************************************
@@ -107,10 +104,8 @@ aspect class UCMmap{
 
 	property readonly startPoints: StartPoint[0..*]
 	getter is do
-		//stle: DRY
-		//stle: refactor for reuse
-		result:=nodes.select{node|node.isInstanceOf(StartPoint)}
-			 .collect{node|node.asType(StartPoint)}.asOrderedSet
+		result:=OrderedSet<StartPoint>.new
+		colExtSelectOfType(nodes,result)
 	end
 	
 	property readonly boundAsPluginInOutBindings: OutBinding[0..*]
@@ -121,9 +116,7 @@ aspect class UCMmap{
 	
 	property readonly endPoints: EndPoint[0..*]
 	getter is do
-		//stle: DRY
-		//stle: refactor for reuse
-		result:=nodes.select{node|node.isInstanceOf(EndPoint)}
-			 .collect{node|node.asType(EndPoint)}.asOrderedSet
+		result:=OrderedSet<EndPoint>.new
+		colExtSelectOfType(nodes,result)
 	end
 }
