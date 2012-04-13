@@ -70,23 +70,14 @@ public class KermetaInterpreterUtil {
 		List<URL> requiredBundleUrls = new ArrayList<URL>();
 		for (String requiredBundle: requiredBundles) {
 			Bundle bundle = Platform.getBundle(requiredBundle);
-			requiredBundleUrls.add(getBundleUrl_Debug(bundle));
-			requiredBundleUrls.add(getBundleUrl_Release(bundle));
+			requiredBundleUrls.add(getBundleUrl(bundle));
 		}
 		return requiredBundleUrls.toArray(new URL[0]);
 	}
 	
-	private static URL getBundleUrl_Debug(Bundle bundle){
+	private static URL getBundleUrl(Bundle bundle){
 		try {
 			return FileLocator.resolve(bundle.getEntry("/bin/"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	private static URL getBundleUrl_Release(Bundle bundle){
-		try {
-			return FileLocator.resolve(bundle.getEntry("/"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

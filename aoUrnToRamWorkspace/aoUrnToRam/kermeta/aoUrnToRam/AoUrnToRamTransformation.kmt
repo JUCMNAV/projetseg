@@ -169,6 +169,8 @@ class AoUrnToRamTransformation
 //IwToStepClassDiagram
 //*********************************************************/
 	operation outputRamStepClassDiagram(iwModel:IwModel) is do
+		registerRamResourceFactoryIfNotAlreadyRegistered
+	
 		//In order to resolve external aspect, 
 		//it is important to load/save from the same repository
 		var repository:ModelRepository init ModelRepository.new.initialize
@@ -215,6 +217,11 @@ class AoUrnToRamTransformation
 			ramMetamodel
 		)
 	end
+	
+	operation registerRamResourceFactoryIfNotAlreadyRegistered() is do
+	    extern aoUrnToRam::javaExternalCall::RamResourceFactoryRegistrar.registerRamResourceFactoryIfNotAlreadyRegistered("ram")
+	end
+	
 	
 //*********************************************************
 //Properties

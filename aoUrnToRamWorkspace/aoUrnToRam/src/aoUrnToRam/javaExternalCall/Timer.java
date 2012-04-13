@@ -1,16 +1,9 @@
 package aoUrnToRam.javaExternalCall;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 
-import org.eclipse.swt.widgets.DateTime;
-import org.kermeta.interpreter.api.Interpreter;
-
-import fr.irisa.triskell.kermeta.interpreter.InterpreterContext;
 import fr.irisa.triskell.kermeta.runtime.RuntimeObject;
 import fr.irisa.triskell.kermeta.runtime.basetypes.Integer;
-import fr.irisa.triskell.kermeta.runtime.basetypes.String;
 import fr.irisa.triskell.kermeta.runtime.factory.RuntimeObjectFactory;
 
 public class Timer {

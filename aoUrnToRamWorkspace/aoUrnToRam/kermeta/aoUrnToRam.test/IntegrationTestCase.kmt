@@ -9,11 +9,19 @@ using kermeta::persistence
 using kermeta::kunit
 using aoUrnToRam
 
+class AoUrnToRamTransformation_WithoutUuidReferences inherits AoUrnToRamTransformation{
+	method registerRamResourceFactoryIfNotAlreadyRegistered() is do
+		//ensure that the ramResourceFactory is unregistred
+	    extern aoUrnToRam::javaExternalCall::RamResourceFactoryRegistrar.unregisterRamResourceFactory("ram")
+	end
+}
+
 class AoUrnToRam_IntegrationTestCase inherits TestCase
 {
 	attribute sut:AoUrnToRamTransformation
 	attribute jucmSourceFileName:String
 
+/*
 	@feature "FeaIntegrationTesting"
 	operation testDemo2_Sp4_WithAutAspect() is do
 		parameterizableIntegrationTest("Demo2_Sp4_WithAutAspect.jucm")
@@ -40,21 +48,19 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	end
 	
 	@feature "FeaIntegrationTesting"
-	operation testOrJoin() is do
-		parameterizableIntegrationTest("OrJoin.jucm")
-	end
-
-	@feature "FeaIntegrationTesting"
 	operation testBellairs() is do
 		parameterizableIntegrationTest("Bellairs.jucm")
 	end
+*/	
 	
+	@feature "FeaIntegrationTesting"
+	operation testOrJoin() is do
+		parameterizableIntegrationTest("OrJoin.jucm")
+	end
 	
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		self.jucmSourceFileName:=jucmSourceFileName
-		sut:=AoUrnToRamTransformation.new
-		
-		registerRamResourceFactory //In order to allow for running outside of Eclipse
+		sut:=AoUrnToRamTransformation_WithoutUuidReferences.new
 		
 		sut.transform(source,destination,"true","true",aoUrnToRamPlateformUrl)
 
@@ -80,9 +86,5 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	property readonly aoUrnToRamPlateformUrl:String
 	getter is do
 		result:="platform:/resource/aoUrnToRam"
-	end
-	
-	operation registerRamResourceFactory() is do
-	    extern aoUrnToRam::javaExternalCall::RamResourceFactoryRegistrar.registerRamResourceFactory("ram")
 	end
 }
