@@ -44,7 +44,7 @@ class IwToJavaInstantiator_IwWorkflow_BindTestCase inherits TestCase,IwToJavaIns
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testToWorkflowInstantiator_TwoPlugins_ShouldInvokeAppendBindStatementOnPluginBindings() is do
-		//stle: update once dynamic stub are supported: one stub may have many pluginBindings
+		//warning: update once dynamic stub are supported: one stub may have many pluginBindings
 		bindPlugin(sut.concern).withName("thePlugin1")
 		bindPlugin(sut.concern).withName("thePlugin2")
 		
@@ -66,10 +66,4 @@ class IwToJavaInstantiator_IwWorkflow_BindTestCase inherits TestCase,IwToJavaIns
 	operation createPluginBindingWithContainers():IwPluginBinding is do
 		result:=createIwPluginBinding.withStub(createIwStub.withWorkflow(sut))
 	end
-	
-	//stle:node name shall start with an upper case
-	//stle:space transform to _
-	
-	//stle:create workflow
-	//stle:start nodes
 }

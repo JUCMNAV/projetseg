@@ -34,7 +34,7 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
-		//stle: maitain after dynamic stubs
+		//warning: maitain after dynamic stubs
 		var plugin:IwWorkflow init createIwPlugin
 		addInBinding(1,plugin)
 		addInBinding(2,plugin) 
@@ -53,7 +53,7 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnOutBindings() is do
-		//stle: maitain after dynamic stubs
+		//warning: maitain after dynamic stubs
 		var plugin:IwWorkflow init createIwPlugin
 		addOutBinding(1,plugin)
 		addOutBinding(2,plugin) 

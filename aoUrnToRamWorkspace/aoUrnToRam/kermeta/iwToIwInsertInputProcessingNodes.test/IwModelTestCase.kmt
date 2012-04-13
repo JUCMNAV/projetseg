@@ -1,7 +1,6 @@
 package aoUrnToRam::test;
 
 require kermeta
-//stle: rename all folder to lower cap
 require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestHelper.kmt"
 
 using kermeta::standard

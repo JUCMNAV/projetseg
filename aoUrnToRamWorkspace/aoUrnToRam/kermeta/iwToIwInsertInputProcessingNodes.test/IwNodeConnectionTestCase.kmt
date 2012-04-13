@@ -1,7 +1,6 @@
 package aoUrnToRam::test;
 
 require kermeta
-//stle: rename all folder to lower cap
 require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestHelper.kmt"
 
 using kermeta::standard
@@ -41,7 +40,6 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 		
 		sut.insertInputProcessingNode(input)
 
-		//stle:Single again
 		assertEquals(1,input.iwInputProcessingNode.preds.size)
 		var pred:IwNodeConnection init input.iwInputProcessingNode.preds.one
 		assertEquals(input,pred.source)
@@ -56,7 +54,6 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 		
 		sut.insertInputProcessingNode(input)
 
-		//stle:Single again
 		assertEquals(1,input.iwInputProcessingNode.preds.size)
 		var pred:IwNodeConnection init input.iwInputProcessingNode.preds.one
 		assertEquals(expectedStubExitIndex, pred.stubExitIndex)
@@ -70,7 +67,6 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 		
 		sut.insertInputProcessingNode(input)
 		
-		//stle:Single again
 		assertEquals(1,input.iwInputProcessingNode.succs.size)
 		var succ:IwNodeConnection init input.iwInputProcessingNode.succs.one
 		assertEquals(target,succ.target)
@@ -86,7 +82,6 @@ class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCas
 		
 		sut.insertInputProcessingNode(input)
 		
-		//stle:Single again
 		assertEquals(1,input.iwInputProcessingNode.succs.size)
 		var succ:IwNodeConnection init input.iwInputProcessingNode.succs.one
 		assertEquals(expectedStubEntryIndex,succ.stubEntryIndex)
