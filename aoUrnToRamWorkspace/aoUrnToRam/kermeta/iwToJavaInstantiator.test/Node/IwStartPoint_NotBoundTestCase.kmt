@@ -18,7 +18,7 @@ class IwToJavaInstantiator_IwStartPoint_NotBoundTestCase inherits TestCase,IwToJ
 	end
 
 	@feature "FeaWorkflowInstantiationWithoutStubs"
-	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
+	operation testAppendBuildStatement_ShouldDeclareAndInitializeWorkflowNode() is do
 		sut.jiAppendBuildStatement(workflowInstantiator)
 		
 		assertStringContains("    public StartupNode _theStartPoint=new StartupNode();\n",workflowInstantiator.content)
