@@ -1,9 +1,5 @@
-//stle: need to support 1 to many links
-
 package aoUrnToRam.codegen;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
