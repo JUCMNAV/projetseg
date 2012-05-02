@@ -19,13 +19,11 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
-	operation testLink_ShouldLinkInstantiationsToAspect() is do
+	operation testLink_ShouldLinkWorkflowInstantiationToAspect() is do
 		sut.concern.build
 
 		sut.link(ramWorkspace)
-				
-		assertCollectionHasTwoElements(
-			sut.ramReactiveSystemWorkflowInstantiation,
+		assertCollectionHasSingleElement(
 			sut.ramWorkflowInstantiation,
 			sut.ramAspect.instantiations
 		)
@@ -57,18 +55,18 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 
 		sut.link(ramWorkspace)
 		
-		assertCollectionHasSingleElement(sut.ramCustomizableInputDataMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
+		assertCollectionContainsElement(sut.ramInputInstantiation,sut.ramAspect.instantiations)
+		assertCollectionHasSingleElement(sut.ramCustomizableInputDataMapping,sut.ramInputInstantiation.mappings)
 		assertEquals(ramWorkspace.customizableInputData,sut.ramCustomizableInputDataMapping.sourceModelElement)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"
-	operation testLink_NoInputNoOutput_ShouldNotLinkCustomizableInputDataMapping() is do
+	operation testLink_NoInput_ShouldNotLinkCustomizableInputDataMapping() is do
 		sut.concern.build
 
 		sut.link(ramWorkspace)
 		
-		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
-		assertVoid(sut.ramCustomizableInputDataMapping.sourceModelElement)
+		assertCollectionDoesNotContainsElement(sut.ramInputInstantiation,sut.ramAspect.instantiations)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"
@@ -78,29 +76,20 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 
 		sut.link(ramWorkspace)
 		
-		assertCollectionHasSingleElement(sut.ramCustomizableOutputDataMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
+		assertCollectionContainsElement(sut.ramOutputInstantiation,sut.ramAspect.instantiations)
+		assertCollectionHasSingleElement(sut.ramCustomizableOutputDataMapping,sut.ramOutputInstantiation.mappings)
 		assertEquals(ramWorkspace.customizableOutputData,sut.ramCustomizableOutputDataMapping.sourceModelElement)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"
-	operation testLink_NoOutputNoOutput_ShouldNotLinkCustomizableOutputDataMapping() is do
+	operation testLink_NoOutput_ShouldNotLinkRamOutputInstantiation() is do
 		sut.concern.build
 
 		sut.link(ramWorkspace)
 		
-		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
-		assertVoid(sut.ramCustomizableOutputDataMapping.sourceModelElement)
+		assertCollectionDoesNotContainsElement(sut.ramOutputInstantiation,sut.ramAspect.instantiations)
 	end
-	
-	@feature "FeaMigrateToLatestRamMetaModel"
-	operation testLink_ShouldLinkRamReactiveSystemWorkflowInstantiationToExternalAspect() is do
-		sut.concern.build
-
-		sut.link(ramWorkspace)
 		
-		assertEquals(ramWorkspace.reactiveSystemWorkflow,sut.ramReactiveSystemWorkflowInstantiation.externalAspect)
-	end
-	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamWorkspace() is do
 		sut.concern.build

@@ -14,18 +14,21 @@ class RamWorkspace{
 	reference customizableNode:Class
 	reference customizableInputData:Class
 	reference customizableOutputData:Class
-	reference reactiveSystemWorkflow:Aspect
+	reference inputAspect:Aspect
+	reference outputAspect:Aspect
 	
 	operation initialize(
 		workflow:Aspect,
-		reactiveSystemWorkflow:Aspect
+		inputAspect:Aspect,
+		outputAspect:Aspect
 	):RamWorkspace is do
 		aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
 		self.workflow:=workflow
 		self.customizableNode:=findClass(workflow,"CustomizableNode")
-		self.reactiveSystemWorkflow:=reactiveSystemWorkflow
-		self.customizableInputData:=findClass(reactiveSystemWorkflow,"CustomizableInputData")
-		self.customizableOutputData:=findClass(reactiveSystemWorkflow,"CustomizableOutputData")
+		self.inputAspect:=inputAspect
+		self.outputAspect:=outputAspect
+		self.customizableInputData:=findClass(inputAspect,"CustomizableInputData")
+		self.customizableOutputData:=findClass(outputAspect,"CustomizableOutputData")
 		result:=self
 	end
 	

@@ -30,7 +30,8 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 		sut.build
 		
 		assertNotVoid(sut.ramWorkflowInstantiation)
-		assertNotVoid(sut.ramReactiveSystemWorkflowInstantiation)
+		assertNotVoid(sut.ramInputInstantiation)
+		assertNotVoid(sut.ramOutputInstantiation)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"	

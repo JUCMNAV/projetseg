@@ -17,7 +17,8 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result.aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
 		result.workflow:=createRamAspect("Workflow")
 		result.customizableNode:=createRamClass("CustomizableNode")
-		result.reactiveSystemWorkflow:=createRamAspect("ReactiveSystemWorkflow")
+		result.inputAspect:=createRamAspect("Input")
+		result.inputAspect:=createRamAspect("Output")
 		result.customizableInputData:=createRamClass("CustomizableInputData")
 		result.customizableOutputData:=createRamClass("CustomizableOutputData")
 	end

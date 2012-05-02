@@ -12,10 +12,10 @@ aspect class IwStep inherits CollectionExt{
 	reference ramCustomizableNodeMapping:Mapping
 	reference ramCustomizableInputDataMapping:Mapping
 	reference ramCustomizableOutputDataMapping:Mapping
-	reference ramReactiveSystemWorkflowInstantiation:Instantiation	
+	reference ramInputInstantiation:Instantiation
+	reference ramOutputInstantiation:Instantiation	
 	reference ramWorkflowInstantiation:Instantiation
 	
-
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
 		result := ramAspect.structuralView
@@ -45,7 +45,8 @@ Build
 	end
 	
 	operation buildInstantiations() is do
-		ramReactiveSystemWorkflowInstantiation:=Instantiation.new
+		ramInputInstantiation:=Instantiation.new
+		ramOutputInstantiation:=Instantiation.new
 		ramWorkflowInstantiation:=Instantiation.new
 	end
 	
@@ -78,8 +79,6 @@ Link
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		linkInstantiations(ramWorkspace)
-		linkRamCustomizableInputDataMapping(ramWorkspace)
-		linkRamCustomizableOutputDataMapping(ramWorkspace)
 		addAspectToRamWorkspace(ramWorkspace)
 	end
 
@@ -87,17 +86,6 @@ Link
 		ramCustomizableNodeClasses.values.each{ramClass|
 			linkCustomizableNode(ramClass)
 		}
-	end
-	
-	operation linkInstantiations(ramWorkspace:RamWorkspace) is do
-		ramReactiveSystemWorkflowInstantiation.externalAspect:=ramWorkspace.reactiveSystemWorkflow
-		ramAspect.instantiations.add(ramReactiveSystemWorkflowInstantiation)
-
-		ramWorkflowInstantiation.externalAspect:=ramWorkspace.workflow
-		ramAspect.instantiations.add(ramWorkflowInstantiation)
-		
-		ramWorkflowInstantiation.mappings.add(ramCustomizableNodeMapping)
-		ramCustomizableNodeMapping.sourceModelElement:=ramWorkspace.customizableNode
 	end
 
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
@@ -113,23 +101,54 @@ Link
 		result:=ramStructuralView.classes.size==0
 	end
 	
-	operation linkRamCustomizableInputDataMapping(ramWorkspace:RamWorkspace) is do
+	operation linkInstantiations(ramWorkspace:RamWorkspace) is do
+		linkWorkflowInstantiation(ramWorkspace)
+		linkInputInstantiation(ramWorkspace)
+		linkOutputInstantiation(ramWorkspace)
+	end
+	
+	operation linkWorkflowInstantiation(ramWorkspace:RamWorkspace) is do
+		linkInstantiationWithOneMapping(
+			ramWorkflowInstantiation,
+			ramWorkspace.workflow,
+			ramCustomizableNodeMapping,
+			ramWorkspace.customizableNode
+		)
+	end
+	
+	operation linkInputInstantiation(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneInputClass) then
-			ramCustomizableInputDataMapping.sourceModelElement:=ramWorkspace.customizableInputData
-			ramReactiveSystemWorkflowInstantiation.mappings.add(ramCustomizableInputDataMapping)
+			linkInstantiationWithOneMapping(
+				ramInputInstantiation,
+				ramWorkspace.inputAspect,
+				ramCustomizableInputDataMapping,
+				ramWorkspace.customizableInputData
+			)
 		end
 	end
 	
+	operation linkOutputInstantiation(ramWorkspace:RamWorkspace) is do
+		if(hasAtLeastOneOutputClass) then
+			linkInstantiationWithOneMapping(
+				ramOutputInstantiation,
+				ramWorkspace.outputAspect,
+				ramCustomizableOutputDataMapping,
+				ramWorkspace.customizableOutputData
+			)
+		end
+	end
+	
+	operation linkInstantiationWithOneMapping(instantiation:Instantiation,externalAspect:Aspect,mapping:Mapping,sourceModelElement:Class) is do
+		instantiation.externalAspect:=externalAspect
+		ramAspect.instantiations.add(instantiation)
+		
+		mapping.sourceModelElement:=sourceModelElement
+		instantiation.mappings.add(mapping)
+	end
+
 	property hasAtLeastOneInputClass:Boolean
 	getter is do
 		result:=nodes.exists{node|node.isInstanceOf(IwInput)}
-	end
-	
-	operation linkRamCustomizableOutputDataMapping(ramWorkspace:RamWorkspace) is do
-		if(hasAtLeastOneOutputClass) then
-			ramCustomizableOutputDataMapping.sourceModelElement:=ramWorkspace.customizableOutputData
-			ramReactiveSystemWorkflowInstantiation.mappings.add(ramCustomizableOutputDataMapping)		
-		end
 	end
 	
 	property hasAtLeastOneOutputClass:Boolean

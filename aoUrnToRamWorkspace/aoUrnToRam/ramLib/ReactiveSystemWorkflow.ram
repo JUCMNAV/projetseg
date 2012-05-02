@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="ReactiveSystemWorkflow">
-  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
-    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="InputData" partial="false"/>
-    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgx" name="OutputData" partial="false"/>
-  </structuralView>
-</ram:Aspect>
