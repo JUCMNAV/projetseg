@@ -10,14 +10,11 @@ aspect class IwStep inherits CollectionExt{
 	reference ramAspect:Aspect
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	reference ramCustomizableNodeMapping:Mapping
+	reference ramCustomizableInputDataMapping:Mapping
+	reference ramCustomizableOutputDataMapping:Mapping
 	reference ramReactiveSystemWorkflowInstantiation:Instantiation	
 	reference ramWorkflowInstantiation:Instantiation
 	
-	//base classes
-	reference ramInputDataBaseClass:Class
-	reference ramInputDataBaseClassMapping:Mapping
-	reference ramOutputDataBaseClass:Class
-	reference ramOutputDataBaseClassMapping:Mapping
 
 	property readonly ramStructuralView : ClassDiagram
 	getter is do
@@ -37,7 +34,6 @@ Build
 		buildRamAspect
 		buildInstantiations
 		buildMappings
-		buildBaseClasses
 		buildCustomizableNodeClasses
 		nodes.each{node|node.build}
 	end
@@ -55,12 +51,9 @@ Build
 	
 	operation buildMappings() is do
 		ramCustomizableNodeMapping:=Mapping.new
-	end
-	
-	operation buildBaseClasses() is do
-		ramInputDataBaseClass:=createRamClass("InputData")
-		ramOutputDataBaseClass:=createRamClass("OutputData")
-	end
+		ramCustomizableInputDataMapping:=Mapping.new
+		ramCustomizableOutputDataMapping:=Mapping.new
+	end	
 
 	//For rational see @RamCustomizableNodeClassBuildByIwStep  	
 	operation buildCustomizableNodeClasses() is do
@@ -156,14 +149,12 @@ Link
 /*********************************************************
 Add Ram Class API
 *********************************************************/
-	operation addInputDataSubtype(subtype:Class) is do
-		linkClassToClassDiagram(subtype)
-		subtype.superTypes.add(ramInputDataBaseClass)
+	operation linkInputData(inputData:Class) is do
+		linkClassToClassDiagram(inputData)
 	end
 	
-	operation addOutputDataSubtype(subtype:Class) is do
-		linkClassToClassDiagram(subtype)
-		subtype.superTypes.add(ramOutputDataBaseClass)
+	operation linkOutputData(outputData:Class) is do
+		linkClassToClassDiagram(outputData)
 	end
 	
 	operation linkCustomizableNode(customizableNode:Class) is do

@@ -13,6 +13,6 @@ aspect class IwInput{
 	end
 	
 	method link() is do
-		step.addInputDataSubtype(ramInputData)
+		step.linkInputData(ramInputData)
 	end
 }

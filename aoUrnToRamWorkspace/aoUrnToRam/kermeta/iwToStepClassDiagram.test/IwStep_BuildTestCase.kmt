@@ -34,9 +34,11 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"	
-	operation testBuild_ShouldBuildCustomizableNodeMapping() is do
+	operation testBuild_ShouldBuildMappings() is do
 		sut.build
 		
 		assertNotVoid(sut.ramCustomizableNodeMapping)
+		assertNotVoid(sut.ramCustomizableInputDataMapping)
+		assertNotVoid(sut.ramCustomizableOutputDataMapping)
 	end
 }
