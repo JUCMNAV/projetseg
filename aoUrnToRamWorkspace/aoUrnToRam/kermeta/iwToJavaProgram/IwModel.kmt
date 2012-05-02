@@ -29,7 +29,7 @@ aspect class IwModel {
 	
 	operation jpAppendMainMethod(javaView:JavaView) is do
 		javaView.appendMethod_Pre("public static void main(String[] args)")
-		javaView.appendLocalVarDefaultConstructor(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
+		javaView.appendLocalVarConstructor_0Param(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
 		javaView.appendNextLine
 		workflows.each{workflow|workflow.jpAppendBuild(javaView)}
 		jpAppendLinkAndBind(javaView)

@@ -8,7 +8,11 @@ using javaInstantiator
 aspect class IwPluginBinding{
 	operation jiAppendBindStatement(workflowInstantiator:WorkflowInstantiator) is do
 		workflowInstantiator.appendNextLine
-		workflowInstantiator.appendLocalVarDefaultConstructor("Binding",jiLocalVarName)
+		workflowInstantiator.appendLocalVarConstructor_1Param(
+			"Binding",
+			jiLocalVarName,
+			inBindings.one.pluginStartPoint.workflow.jiBindMethod_PluginParamName
+		)
 		workflowInstantiator.appendMethodInvocationOn_1Param(stub.jiMemberName,"addBinding",jiLocalVarName)
 		
 		inBindings.each{inBinding|inBinding.jiAppendBindStatement(workflowInstantiator)}

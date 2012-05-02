@@ -9,6 +9,7 @@ using javaInstantiator
 
 class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
 {
+	reference plugin:IwWorkflow
 	reference sut:IwPluginBinding
 	reference stub:IwStub
 	reference workflowInstantiator:WorkflowInstantiator
@@ -17,6 +18,9 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 	method setUp() is do
 		stub:=createIwStub
 		sut:=createIwPluginBinding.withStub(stub)
+		plugin:=createIwPlugin
+		addInBinding(1,plugin)
+		
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
@@ -24,9 +28,9 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 	operation testAppendBindStatement_ShouldDeclareAndInitializeBinding() is do
 		sut.jiAppendBindStatement(workflowInstantiator)
 		
-		assertEquals(
+		assertStringContains(
 "
-        Binding l_theStub_PluginBinding=new Binding();
+        Binding l_theStub_PluginBinding=new Binding(p_thePlugin);
         _theStub.addBinding(l_theStub_PluginBinding);
 "        
 		,workflowInstantiator.content)
@@ -35,8 +39,6 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
 		//warning: maitain after dynamic stubs
-		var plugin:IwWorkflow init createIwPlugin
-		addInBinding(1,plugin)
 		addInBinding(2,plugin) 
 	
 		sut.jiAppendBindStatement(workflowInstantiator)
@@ -44,23 +46,22 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 		assertStringContainsNTime(2,".addInBinding",workflowInstantiator.content)
 	end
 	
-	operation addInBinding(stubEntryIndex:Integer,plugin:IwWorkflow) is do
-		createIwInBinding(
-			createIwNodeConnection.withStubEntryIndex(stubEntryIndex),
-			setupStartPointWithDefaultTarget(plugin)
-		).withPluginBinding(sut)
-	end
-
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnOutBindings() is do
 		//warning: maitain after dynamic stubs
-		var plugin:IwWorkflow init createIwPlugin
 		addOutBinding(1,plugin)
 		addOutBinding(2,plugin) 
 	
 		sut.jiAppendBindStatement(workflowInstantiator)
 		
 		assertStringContainsNTime(2,".addOutBinding",workflowInstantiator.content)
+	end
+	
+	operation addInBinding(stubEntryIndex:Integer,plugin:IwWorkflow) is do
+		createIwInBinding(
+			createIwNodeConnection.withStubEntryIndex(stubEntryIndex),
+			setupStartPointWithDefaultTarget(plugin)
+		).withPluginBinding(sut)
 	end
 	
 	operation addOutBinding(stubExitIndex:Integer,plugin:IwWorkflow) is do

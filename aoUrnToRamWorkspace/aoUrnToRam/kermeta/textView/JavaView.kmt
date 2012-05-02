@@ -33,13 +33,20 @@ class JavaView inherits TextView{
 		append(";\n")
 	end
 
-	operation appendLocalVarDefaultConstructor(type:String,name:String) is do
+	operation appendLocalVarConstructor_0Param(type:String,name:String) is do
+		appendIndent(2,type)
+		append(" ")
+		append(name)
+		append("=new ")
+	end
+	
+	operation appendLocalVarConstructor_1Param(type:String,name:String,param1:String) is do
 		appendIndent(2,type)
 		append(" ")
 		append(name)
 		append("=new ")
 		append(type)
-		append("();\n")
+		append("("+param1+");\n")
 	end
 
 //*********************************************************

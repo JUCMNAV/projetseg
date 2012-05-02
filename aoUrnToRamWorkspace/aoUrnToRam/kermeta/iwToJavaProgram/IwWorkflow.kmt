@@ -11,7 +11,7 @@ aspect class IwWorkflow {
 	end
 	
 	operation jpAppendBuild(javaView:JavaView) is do
-		javaView.appendLocalVarDefaultConstructor(workflowInstantiatorName,jpLocalVar)
+		javaView.appendLocalVarConstructor_0Param(workflowInstantiatorName,jpLocalVar)
 	end
 	
 	operation jpAppendLink(javaView:JavaView) is do
