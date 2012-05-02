@@ -39,12 +39,4 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 		
 		assertNotVoid(sut.ramCustomizableNodeMapping)
 	end
-
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testBuild_ShouldBuildBaseClasses() is do
-		sut.build
-		
-		assertEquals("InputData",sut.ramInputDataBaseClass.name)
-		assertEquals("OutputData",sut.ramOutputDataBaseClass.name)
-	end
 }

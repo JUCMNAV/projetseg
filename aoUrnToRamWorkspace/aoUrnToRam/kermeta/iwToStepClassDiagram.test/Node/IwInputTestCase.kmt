@@ -29,11 +29,4 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 
 		assertCollectionContainsElement(sut.ramInputData,step.ramStructuralView.classes)
 	end
-
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testLink_ShouldLinkInputDataClassToSuperType() is do
-		var step:IwStep init setupAndExeLinkOnNode(sut)
-		
-		assertCollectionHasSingleElement(sut.step.ramInputDataBaseClass,sut.ramInputData.superTypes)
-	end
 }

@@ -18,16 +18,7 @@ class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStep
 		ramWorkspace:=createRamWorkspace
 	end
 
-	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
-	operation testLink_WithInput_ShouldLinkInputBaseClassToClassDiagram() is do
-		createIwInput.withStep(sut)
-		sut.concern.build
-		
-		sut.link(ramWorkspace)
-	
-		assertCollectionContainsElement(sut.ramInputDataBaseClass,sut.ramStructuralView.classes)
-	end
-
+/*
 	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testLink_WithInput_ShouldMapInputDataBaseClass() is do
 		createIwInput.withStep(sut)
@@ -35,11 +26,12 @@ class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStep
 		
 		sut.link(ramWorkspace)
 	
-		assertEquals(ramWorkspace.inputData,sut.ramInputDataBaseClassMapping.sourceModelElement)
+		assertEquals(ramWorkspace.customizableInputData,sut.ramInputDataBaseClassMapping.sourceModelElement)
 		assertCollectionHasSingleElement(sut.ramInputDataBaseClass,sut.ramInputDataBaseClassMapping.maps)
 		assertCollectionHasSingleElement(sut.ramInputDataBaseClassMapping, sut.ramReactiveSystemWorkflowInstantiation.mappings)
 	end
-
+*/
+/*
 	@feature "FeaInputDataAndOutputDataShallInheritFromBaseClass"
 	operation testLink_WithOutput_ShouldLinkOutputDataBaseClassToClassDiagram() is do
 		createIwOutput.withStep(sut)
@@ -72,4 +64,5 @@ class IwToStepClassDiagram_IwStep_BaseClassesTestCase inherits TestCase,IwToStep
 		assertCollectionDoesNotContainsElement(sut.ramOutputDataBaseClass,sut.ramStructuralView.classes)
 		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
 	end
+*/	
 }

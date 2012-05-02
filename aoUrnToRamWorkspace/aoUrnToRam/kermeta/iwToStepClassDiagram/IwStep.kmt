@@ -126,12 +126,7 @@ Link
 	
 	operation linkRamInputDataBaseClass(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneInputClass) then
-			linkClassToClassDiagram(ramInputDataBaseClass)
-			ramInputDataBaseClassMapping:=mapExternalClass(
-				ramInputDataBaseClass,
-				ramWorkspace.inputData,
-				ramReactiveSystemWorkflowInstantiation
-			)
+	
 		end
 	end
 	
@@ -142,12 +137,7 @@ Link
 	
 	operation linkRamOutputDataBaseClass(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneOutputClass) then
-			linkClassToClassDiagram(ramOutputDataBaseClass)
-			ramOutputDataBaseClassMapping:=mapExternalClass(
-				ramOutputDataBaseClass,
-				ramWorkspace.outputData,
-				ramReactiveSystemWorkflowInstantiation
-			)
+		
 		end
 	end
 	

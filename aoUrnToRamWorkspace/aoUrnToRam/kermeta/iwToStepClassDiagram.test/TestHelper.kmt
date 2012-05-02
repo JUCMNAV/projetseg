@@ -18,8 +18,8 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result.workflow:=createRamAspect("Workflow")
 		result.customizableNode:=createRamClass("CustomizableNode")
 		result.reactiveSystemWorkflow:=createRamAspect("ReactiveSystemWorkflow")
-		result.inputData:=createRamClass("InputData")
-		result.outputData:=createRamClass("OutputData")
+		result.customizableInputData:=createRamClass("CustomizableInputData")
+		result.customizableOutputData:=createRamClass("CustomizableOutputData")
 	end
 	
 	operation createRamAspect(name:String):Aspect is do
