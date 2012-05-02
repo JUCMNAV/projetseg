@@ -79,6 +79,7 @@ Link
 		nodes.each{node|node.link}
 		linkInstantiations(ramWorkspace)
 		linkRamCustomizableInputDataMapping(ramWorkspace)
+		linkRamCustomizableOutputDataMapping(ramWorkspace)
 		addAspectToRamWorkspace(ramWorkspace)
 	end
 
@@ -124,9 +125,10 @@ Link
 		result:=nodes.exists{node|node.isInstanceOf(IwInput)}
 	end
 	
-	operation linkRamOutputDataBaseClass(ramWorkspace:RamWorkspace) is do
+	operation linkRamCustomizableOutputDataMapping(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneOutputClass) then
-		
+			ramCustomizableOutputDataMapping.sourceModelElement:=ramWorkspace.customizableOutputData
+			ramReactiveSystemWorkflowInstantiation.mappings.add(ramCustomizableOutputDataMapping)		
 		end
 	end
 	
@@ -152,6 +154,7 @@ Add Ram Class API
 	
 	operation linkOutputData(outputData:Class) is do
 		linkClassToClassDiagram(outputData)
+		ramCustomizableOutputDataMapping.maps.add(outputData)
 	end
 	
 	operation linkCustomizableNode(customizableNode:Class) is do

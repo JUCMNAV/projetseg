@@ -71,18 +71,26 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		assertVoid(sut.ramCustomizableInputDataMapping.sourceModelElement)
 	end
 
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_OneOutput_ShouldLinkRamCustomizableOutputDataMapping() is do
+		createIwOutput.withStep(sut)
+		sut.concern.build
 
+		sut.link(ramWorkspace)
+		
+		assertCollectionHasSingleElement(sut.ramCustomizableOutputDataMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableOutputData,sut.ramCustomizableOutputDataMapping.sourceModelElement)
+	end
 
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_NoOutputNoOutput_ShouldNotLinkCustomizableOutputDataMapping() is do
+		sut.concern.build
 
-
-
-
-
-
-
-
-	
-	
+		sut.link(ramWorkspace)
+		
+		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
+		assertVoid(sut.ramCustomizableOutputDataMapping.sourceModelElement)
+	end
 	
 	@feature "FeaMigrateToLatestRamMetaModel"
 	operation testLink_ShouldLinkRamReactiveSystemWorkflowInstantiationToExternalAspect() is do
