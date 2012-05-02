@@ -33,20 +33,29 @@ class JavaView inherits TextView{
 		append(";\n")
 	end
 
+//*********************************************************
+//LocalVar init with constructor 
+//*********************************************************/
 	operation appendLocalVarConstructor_0Param(type:String,name:String) is do
-		appendIndent(2,type)
-		append(" ")
-		append(name)
-		append("=new ")
+		var params:Sequence<String> init Sequence<String>.new
+		appendLocalVarConstructor_NParams(type,name,params)
 	end
 	
 	operation appendLocalVarConstructor_1Param(type:String,name:String,param1:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1)
+		appendLocalVarConstructor_NParams(type,name,params) 
+	end
+	
+	operation appendLocalVarConstructor_NParams(type:String,name:String,params:Sequence<String>) is do
 		appendIndent(2,type)
 		append(" ")
 		append(name)
 		append("=new ")
 		append(type)
-		append("("+param1+");\n")
+		append("(")
+		appendWithDelimiter(params,",",function{param:String|param}) 
+		append(");\n")
 	end
 
 //*********************************************************

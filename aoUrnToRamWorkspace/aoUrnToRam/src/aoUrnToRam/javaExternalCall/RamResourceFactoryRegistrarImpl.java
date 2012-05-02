@@ -6,6 +6,7 @@ import ca.mcgill.cs.sel.ram.util.RamResourceFactoryImpl;
 
 public class RamResourceFactoryRegistrarImpl {
 	public static void registerRamResourceFactoryIfNotAlreadyRegistered(String extension) {
+		//@UsingGlobalRegistryForRamFactory 
 		//It Would be better if we could access the local registry used by Kermeta
 		//However, after a significant effort, we concludes that it is at least
 		//not obvious to do so. Thus, we have to rely on the GLOBAL registry
