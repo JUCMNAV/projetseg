@@ -29,4 +29,12 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 
 		assertCollectionContainsElement(sut.ramInputData,step.ramStructuralView.classes)
 	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldLinkInputDataClassToCustomizableInputDataMapping() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+
+		assertCollectionHasSingleElement(sut.ramInputData,step.ramCustomizableInputDataMapping.maps)
+	end
+	
 }

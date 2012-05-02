@@ -78,7 +78,7 @@ Link
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		linkInstantiations(ramWorkspace)
-		linkBaseClasses(ramWorkspace)
+		linkRamCustomizableInputDataMapping(ramWorkspace)
 		addAspectToRamWorkspace(ramWorkspace)
 	end
 
@@ -98,11 +98,6 @@ Link
 		ramWorkflowInstantiation.mappings.add(ramCustomizableNodeMapping)
 		ramCustomizableNodeMapping.sourceModelElement:=ramWorkspace.customizableNode
 	end
-	
-	operation linkBaseClasses(ramWorkspace:RamWorkspace) is do
-		linkRamInputDataBaseClass(ramWorkspace)
-		linkRamOutputDataBaseClass(ramWorkspace)
-	end
 
 	operation addAspectToRamWorkspace(ramWorkspace:RamWorkspace) is do
 		//Filter out empty aspect
@@ -117,9 +112,10 @@ Link
 		result:=ramStructuralView.classes.size==0
 	end
 	
-	operation linkRamInputDataBaseClass(ramWorkspace:RamWorkspace) is do
+	operation linkRamCustomizableInputDataMapping(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneInputClass) then
-	
+			ramCustomizableInputDataMapping.sourceModelElement:=ramWorkspace.customizableInputData
+			ramReactiveSystemWorkflowInstantiation.mappings.add(ramCustomizableInputDataMapping)
 		end
 	end
 	
@@ -151,6 +147,7 @@ Add Ram Class API
 *********************************************************/
 	operation linkInputData(inputData:Class) is do
 		linkClassToClassDiagram(inputData)
+		ramCustomizableInputDataMapping.maps.add(inputData)
 	end
 	
 	operation linkOutputData(outputData:Class) is do

@@ -41,22 +41,48 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 	end
 	
 	@feature "FeaMigrateToLatestRamMetaModel"
-	operation testLink_ShouldLinkRamCustomizableNodeMappingToRamWorkflowInstantiation() is do
+	operation testLink_ShouldLinkRamCustomizableNodeMapping() is do
 		sut.concern.build
 
 		sut.link(ramWorkspace)
 		
 		assertCollectionHasSingleElement(sut.ramCustomizableNodeMapping,sut.ramWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.sourceModelElement)
 	end
 	
 	@feature "FeaMigrateToLatestRamMetaModel"
-	operation testLink_ShouldLinkRamCustomizableNodeMappingToSourceModelElement() is do
+	operation testLink_OneInput_ShouldLinkRamCustomizableInputDataMapping() is do
+		createIwInput.withStep(sut)
 		sut.concern.build
 
 		sut.link(ramWorkspace)
 		
-		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.sourceModelElement)
+		assertCollectionHasSingleElement(sut.ramCustomizableInputDataMapping,sut.ramReactiveSystemWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableInputData,sut.ramCustomizableInputDataMapping.sourceModelElement)
 	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_NoInputNoOutput_ShouldNotLinkCustomizableInputDataMapping() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertEquals(0,sut.ramReactiveSystemWorkflowInstantiation.mappings.size)
+		assertVoid(sut.ramCustomizableInputDataMapping.sourceModelElement)
+	end
+
+
+
+
+
+
+
+
+
+
+
+	
+	
 	
 	@feature "FeaMigrateToLatestRamMetaModel"
 	operation testLink_ShouldLinkRamReactiveSystemWorkflowInstantiationToExternalAspect() is do
