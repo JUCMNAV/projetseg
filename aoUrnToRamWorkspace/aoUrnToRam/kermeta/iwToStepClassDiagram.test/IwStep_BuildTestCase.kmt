@@ -29,9 +29,9 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 	operation testBuild_ShouldBuildInstantiations() is do
 		sut.build
 		
-		assertNotVoid(sut.ramWorkflowInstantiation)
-		assertNotVoid(sut.ramInputInstantiation)
-		assertNotVoid(sut.ramOutputInstantiation)
+		assertEquals(instantiationTypes.Extends,sut.ramWorkflowInstantiation.type)
+		assertEquals(instantiationTypes.Extends,sut.ramInputInstantiation.type)
+		assertEquals(instantiationTypes.Extends,sut.ramOutputInstantiation.type)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"	

@@ -190,8 +190,9 @@ class AoUrnToRamTransformation
 	
 	operation createRamWorkspace(repository:ModelRepository):RamWorkspace is do
 		result:=RamWorkspace.new.initialize(
-			loadWorkflowFromLib(repository),
-			loadReactiveSystemWorkflowFromLib(repository)
+			loadRamModelFromLib(repository,"Workflow.ram"),
+			loadRamModelFromLib(repository,"Input.ram"),
+			loadRamModelFromLib(repository,"Output.ram")
 		)
 	end
 
@@ -201,14 +202,6 @@ class AoUrnToRamTransformation
 			destination.uriAppend(workspacePath+".ram"),
 			ramMetamodel
 		)
-	end
-
-	operation loadWorkflowFromLib(repository:ModelRepository):Aspect is do
-		result:=loadRamModelFromLib(repository,"Workflow.ram")
-	end
-
-	operation loadReactiveSystemWorkflowFromLib(repository:ModelRepository):Aspect is do
-		result:=loadRamModelFromLib(repository,"ReactiveSystemWorkflow.ram")
 	end
 	
 	operation loadRamModelFromLib(repository:ModelRepository,ramModelName:String):Aspect is do

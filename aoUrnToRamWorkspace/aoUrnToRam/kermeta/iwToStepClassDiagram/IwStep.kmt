@@ -16,7 +16,7 @@ aspect class IwStep inherits CollectionExt{
 	reference ramOutputInstantiation:Instantiation	
 	reference ramWorkflowInstantiation:Instantiation
 	
-	property readonly ramStructuralView : ClassDiagram
+	property readonly ramStructuralView : StructuralView
 	getter is do
 		result := ramAspect.structuralView
 	end
@@ -41,13 +41,18 @@ Build
 	operation buildRamAspect() is do
 		ramAspect:=Aspect.new
 		ramAspect.name:=name
-		ramAspect.structuralView:=ClassDiagram.new
+		ramAspect.structuralView:=StructuralView.new
 	end
 	
 	operation buildInstantiations() is do
-		ramInputInstantiation:=Instantiation.new
-		ramOutputInstantiation:=Instantiation.new
-		ramWorkflowInstantiation:=Instantiation.new
+		ramInputInstantiation:=createInstantiation_Extends
+		ramOutputInstantiation:=createInstantiation_Extends
+		ramWorkflowInstantiation:=createInstantiation_Extends
+	end
+	
+	operation createInstantiation_Extends():Instantiation is do
+		result:=Instantiation.new
+		result.type:=instantiationTypes.Extends
 	end
 	
 	operation buildMappings() is do
