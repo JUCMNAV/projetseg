@@ -121,12 +121,25 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testLink_ShouldInvokeLinkOnNodes() is do
-		createIwInput.withStep(sut)
-		createIwInput.withStep(sut)
+		var input1:IwInput init createIwInput.withStep(sut)
+		var input2:IwInput init createIwInput.withStep(sut)
 		sut.concern.build
 		
 		sut.link(ramWorkspace)
 	
-		assertNumOfClassesWithoutBaseClasses(2,sut)
+		assertCollectionContainsTwoElements(
+			input1.ramInputData,
+			input2.ramInputData,
+			sut.ramAspect.structuralView.classes
+		)
 	end
+	
+	operation testLink_ShouldLinkLocalContextClassToStructuralView() is do
+		sut.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramLocalContextClass,sut.ramStructuralView.classes)
+	end
+	
 }

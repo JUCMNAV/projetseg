@@ -8,6 +8,7 @@ using kermeta::utils
 
 aspect class IwStep inherits CollectionExt{
 	reference ramAspect:Aspect
+	reference ramLocalContextClass:Class
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	reference ramCustomizableNodeMapping:Mapping
 	reference ramCustomizableInputDataMapping:Mapping
@@ -35,6 +36,7 @@ Build
 		buildInstantiations
 		buildMappings
 		buildCustomizableNodeClasses
+		ramLocalContextClass:=createRamClass("LocalContext")
 		nodes.each{node|node.build}
 	end
 	
@@ -70,7 +72,7 @@ Build
 			end
 		}
 	end
-
+	
 	operation createRamClass(name:String):Class is do
 		result:=Class.new
 		result.name:=name
@@ -81,6 +83,7 @@ Link
 *********************************************************/
 	
 	operation link(ramWorkspace:RamWorkspace) is do
+		linkClassToClassDiagram(ramLocalContextClass)
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		linkInstantiations(ramWorkspace)
@@ -103,7 +106,7 @@ Link
 	
 	property isEmtpyStepClassDiagram:Boolean
 	getter is do
-		result:=ramStructuralView.classes.size==0
+		result:=customizableNodes.size==0
 	end
 	
 	operation linkInstantiations(ramWorkspace:RamWorkspace) is do

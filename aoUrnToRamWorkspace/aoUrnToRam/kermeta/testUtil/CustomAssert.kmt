@@ -83,11 +83,15 @@ class CustomAssert inherits Assert
 	
 	operation assertCollectionHasTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
 		assertEquals(2,collection.size)
+		assertCollectionContainsTwoElements(firstElement,secondElement,collection)
+	end
+
+	operation assertCollectionContainsTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
 		assertNotEquals(firstElement,secondElement)
 		assertCollectionContainsElementWithMsg(firstElement,collection,"(First element)")
 		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
 	end
-	
+
 	operation assertCollectionHasThreeElements<T>(firstElement:T,secondElement:T,thirdElement:T,collection:Collection<T>) is do
 		assertEquals(3,collection.size)
 		assertNotEquals(firstElement,secondElement)

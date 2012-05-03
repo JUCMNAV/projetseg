@@ -55,7 +55,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		
 		sut.link(ramWorkspace)
 		
-		assertCollectionHasTwoElements(
+		assertCollectionContainsTwoElements(
 			getRamCustomizableNodeClassAt(0),
 			getRamCustomizableNodeClassAt(1),
 			sut.ramAspect.structuralView.classes

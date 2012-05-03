@@ -42,6 +42,6 @@ class IwToStepClassDiagram_IwModelTestCase inherits TestCase,IwToStepClassDiagra
 	end
 	
 	operation createNotEmptyStep(name:String,concern:IwConcern) is do
-		createIwInput.withStep(createIwStep.withName(name).withConcern(concern))
+		createIwCustomizableNode.withStep(createIwStep.withName(name).withConcern(concern))
 	end
 }
