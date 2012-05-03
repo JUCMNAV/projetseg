@@ -7,6 +7,28 @@ using kermeta::standard
 aspect class IwStep {
 	attribute isStartupStep:Boolean
 	
+	property isEmptyStartupStep:Boolean 
+	getter is do
+		if(isStartupStep==false) then
+			result:=false
+		else	
+			result:=self.nodes.forAll{node|isNodePartOfEmptyStep(node)}
+		end
+	end
+	
+	operation isNodePartOfEmptyStep(node:IwNode):Boolean is do
+		if(node.isInstanceOf(IwStartPoint)) then
+			result:=true
+		else
+			if(node.isInstanceOf(IwStub)) then
+				var stub:IwStub stub?=node
+				result:=stub.isAspectMarker
+			else
+				result:=false
+			end
+		end
+	end
+	
 	operation merge(stepToMerge:IwStep) is do
 		mergeName(stepToMerge)
 		mergeIsStartupStep(stepToMerge)

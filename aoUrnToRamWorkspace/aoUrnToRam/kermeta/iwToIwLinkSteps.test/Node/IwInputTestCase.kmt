@@ -22,8 +22,10 @@ class IwToIwLinkSteps_IwInputTestCase inherits TestCase,IwToIwLinkSteps_TestHelp
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testDeepFirstSearch_StartupStep_ShouldRenameCurrentStep() is do
+	operation testDeepFirstSearch_EmptyStartuptStep_ShouldMergeWithCurrentStep() is do	
 		currentStep.isStartupStep:=true
+		currentStep.nodes.add(createIwStartPoint)
+		currentStep.nodes.add(createIwAspectMarker)
 		
 		sut.step_DeepFirstSearch(currentStep)
 		
@@ -32,8 +34,10 @@ class IwToIwLinkSteps_IwInputTestCase inherits TestCase,IwToIwLinkSteps_TestHelp
 	end
 	
 	@feature "FeaNamingOfRAMStep"
-	operation testDeepFirstSearch_StartupStep_ShouldNotAddAnyStepsToConcern() is do
+	operation testDeepFirstSearch_EmptyStartuptStep_ShouldNotAddAnyStepsToConcern() is do
 		currentStep.isStartupStep:=true
+		currentStep.nodes.add(createIwStartPoint)
+		currentStep.nodes.add(createIwAspectMarker)
 		
 		sut.step_DeepFirstSearch(currentStep)
 		
@@ -41,7 +45,30 @@ class IwToIwLinkSteps_IwInputTestCase inherits TestCase,IwToIwLinkSteps_TestHelp
 	end
 	
 	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_NotEmptyStartupStep_ShouldCreateNewStep() is do
+		currentStep.isStartupStep:=true
+		currentStep.nodes.add(createIwCustomizableNode)
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(sut.name,sut.step.name)
+		assertEquals(false,sut.step.isStartupStep)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_NotEmptyStartupStep_ShouldAddNewStepToConcern() is do
+		currentStep.isStartupStep:=true
+		currentStep.nodes.add(createIwCustomizableNode)
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertCollectionHasTwoElements(currentStep,sut.step,concern.steps)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
 	operation testDeepFirstSearch_ReactiveStep_ShouldCreateNewStep() is do
+		currentStep.isStartupStep:=false
+		
 		sut.step_DeepFirstSearch(currentStep)
 		
 		assertEquals(sut.name,sut.step.name)
@@ -50,6 +77,8 @@ class IwToIwLinkSteps_IwInputTestCase inherits TestCase,IwToIwLinkSteps_TestHelp
 	
 	@feature "FeaNamingOfRAMStep"
 	operation testDeepFirstSearch_ReactiveStep_ShouldAddNewStepToConcern() is do
+		currentStep.isStartupStep:=false
+		
 		sut.step_DeepFirstSearch(currentStep)
 		
 		assertCollectionHasTwoElements(currentStep,sut.step,concern.steps)
