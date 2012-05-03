@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleZXdvEeGm3uH8rYfPgw" name="Output">
-  <structuralView xmi:id="_stleBHdvEeGm3uH8rYfPgw">
-    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgx" name="CustomizableOutputData" partial="true"/>
-  </structuralView>
-</ram:Aspect>

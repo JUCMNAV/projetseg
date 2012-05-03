@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stle2XdvEeGm3uH8rYfPgw" name="Workflow">
-  <structuralView xmi:id="_stle2HdvEeGm3uH8rYfPgw">
-    <classes xmi:id="_stle2HdvEeGm3uH8rYfPgw" name="CustomizableNode" partial="true"/>
-  </structuralView>
-</ram:Aspect>

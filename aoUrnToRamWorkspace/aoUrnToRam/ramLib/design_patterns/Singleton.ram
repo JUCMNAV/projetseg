@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="Singleton">
+  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
+    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Singleton" partial="true">
+      <associationEnds xmi:id="_nQyL839yEeGCw_D1HgsaPA" name="self" assoc="_nQ8kAH9yEeGCw_D1HgsaPA"/>
+      <associationEnds xmi:id="_nQyL8H9yEeGCw_D1HgsaPA" name="" assoc="_nQ8kAH9yEeGCw_D1HgsaPA"/>
+      <operations xmi:id="_mRK_QIdYEeG0oPAT5BSQFQ" name="getInstance" returnType="_stleMHdvEeGm3uH8rYfPgw" static="true" partial="true"/>
+      <operations xmi:id="_mRK_QYdYEeG0oPAT5BSQFQ" name="create" visibility="private" returnType="_stleMHdvEeGm3uH8rYfPgw" static="true"/>
+    </classes>
+    <associations xmi:id="_nQ8kAH9yEeGCw_D1HgsaPA" name="instance" ends="_nQyL839yEeGCw_D1HgsaPA _nQyL8H9yEeGCw_D1HgsaPA"/>
+  </structuralView>
+</ram:Aspect>

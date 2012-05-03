@@ -54,7 +54,7 @@ class AoUrnToRamTransformation
 		
 		//until FeaMergeGeneratedWorkflowsWithManuallyWrittenRam is implemented
 		deleteDestinationFolder
-	
+			
 		var urnSpec:URNspec init loadUrnSpec()
 		var iwModel:IwModel init aoUrnToIw(urnSpec)
 		outputIwFile(iwModel)
@@ -63,6 +63,7 @@ class AoUrnToRamTransformation
 		outputRamStepView(iwModel)
 		ouptutRamJavaInstantiator(iwModel)
 		ouptutRamJavaProgram(iwModel)
+
 	end
 	
 	operation initAttributes(
@@ -190,9 +191,9 @@ class AoUrnToRamTransformation
 	
 	operation createRamWorkspace(repository:ModelRepository):RamWorkspace is do
 		result:=RamWorkspace.new.initialize(
-			loadRamModelFromLib(repository,"Workflow.ram"),
-			loadRamModelFromLib(repository,"Input.ram"),
-			loadRamModelFromLib(repository,"Output.ram")
+			loadRamModelFromLib(repository,"workflow/Workflow.ram"),
+			loadRamModelFromLib(repository,"workflow/Input.ram"),
+			loadRamModelFromLib(repository,"workflow/Output.ram")
 		)
 	end
 

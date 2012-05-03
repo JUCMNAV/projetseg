@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_pJWSkIpTEeG5EZ-nvE23vQ" name="NetworkCommand">
+  <structuralView xmi:id="_vjK7YIpTEeG5EZ-nvE23vQ">
+    <classes xmi:id="_NPEjkIpUEeG5EZ-nvE23vQ" name="Runnable" abstract="true">
+      <operations xmi:id="_Q21UcIpUEeG5EZ-nvE23vQ" name="run" abstract="true" visibility="package" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ"/>
+    </classes>
+    <classes xmi:id="_ZMLOwIpUEeG5EZ-nvE23vQ" name="CommandExecutor" superTypes="_NPEjkIpUEeG5EZ-nvE23vQ">
+      <associationEnds xmi:id="_7B394IpUEeG5EZ-nvE23vQ" name="in" assoc="_TO3HgIpvEeG5EZ-nvE23vQ" lowerBound="1"/>
+      <operations xmi:id="_ruaa4IpUEeG5EZ-nvE23vQ" name="create" visibility="package" returnType="_ZMLOwIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_wekXMIpUEeG5EZ-nvE23vQ" name="in" type="_bHV68IpUEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="_sHtrsIpUEeG5EZ-nvE23vQ" name="run" visibility="package" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ"/>
+    </classes>
+    <classes xmi:id="_Z4LZIIpUEeG5EZ-nvE23vQ" name="RemoteCommand" partial="true"/>
+    <classes xmi:id="_aQRwEIpUEeG5EZ-nvE23vQ" name="CommandChannel" superTypes="_NPEjkIpUEeG5EZ-nvE23vQ">
+      <operations xmi:id="_93evsIptEeG5EZ-nvE23vQ" name="create" returnType="_aQRwEIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_C-GEMIpuEeG5EZ-nvE23vQ" name="myPort" type="_wYTMkIpTEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="_-TadwIptEeG5EZ-nvE23vQ" name="createAndConnect" returnType="_aQRwEIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_IqsaoIpuEeG5EZ-nvE23vQ" name="host" type="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+        <parameters xmi:id="_I9hQAIpuEeG5EZ-nvE23vQ" name="port" type="_wYTMkIpTEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="_-vPeIIptEeG5EZ-nvE23vQ" name="send" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_Pku0kIpuEeG5EZ-nvE23vQ" name="cmd" type="_Z4LZIIpUEeG5EZ-nvE23vQ"/>
+        <parameters xmi:id="_P3xFUIpuEeG5EZ-nvE23vQ" name="host" type="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="__KR0UIptEeG5EZ-nvE23vQ" name="acceptsCommandFrom" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_YvUU0IpuEeG5EZ-nvE23vQ" name="host" type="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="__jwEQIptEeG5EZ-nvE23vQ" name="addSocket" visibility="package" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ">
+        <parameters xmi:id="_e5bGoIpuEeG5EZ-nvE23vQ" name="from" type="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+        <parameters xmi:id="_ffb9wIpuEeG5EZ-nvE23vQ" name="s" type="_uxmboI_REeG3_Nend2JnJg"/>
+      </operations>
+      <operations xmi:id="__7nKoIptEeG5EZ-nvE23vQ" name="getSocket" visibility="package">
+        <returnType xsi:type="ram:Class" href="SocketCommunication.ram#_yS0csIpMEeG5EZ-nvE23vQ"/>
+        <parameters xmi:id="_y3NqwIpuEeG5EZ-nvE23vQ" name="from" type="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+      </operations>
+      <operations xmi:id="_ASkSEIpuEeG5EZ-nvE23vQ" name="run" visibility="package" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ"/>
+      <attributes xmi:id="_1OLe8IpqEeG5EZ-nvE23vQ" name="myPort" type="_wYTMkIpTEeG5EZ-nvE23vQ"/>
+    </classes>
+    <classes xmi:id="_au9QIIpUEeG5EZ-nvE23vQ" name="ChannelWithAutoExecution" superTypes="_aQRwEIpUEeG5EZ-nvE23vQ">
+      <operations xmi:id="_Fs9owIpvEeG5EZ-nvE23vQ" name="run" visibility="package" returnType="_Tj5XoIpUEeG5EZ-nvE23vQ"/>
+    </classes>
+    <classes xmi:id="_bHV68IpUEeG5EZ-nvE23vQ" name="Stream">
+      <associationEnds xmi:id="_PITh0IpvEeG5EZ-nvE23vQ" navigable="false" assoc="_TO3HgIpvEeG5EZ-nvE23vQ"/>
+    </classes>
+    <classes xmi:id="_fVGu4I_FEeGojcw4pY4Jpw" name="String"/>
+    <classes xmi:id="_uxmboI_REeG3_Nend2JnJg" name="Socket"/>
+    <associations xmi:id="_TO3HgIpvEeG5EZ-nvE23vQ" name="COMMANDEXECUTOR_STREAM_ASSOC" ends="_PITh0IpvEeG5EZ-nvE23vQ _7B394IpUEeG5EZ-nvE23vQ"/>
+    <types xsi:type="ram:RInt" xmi:id="_wYTMkIpTEeG5EZ-nvE23vQ"/>
+    <types xsi:type="ram:RString" xmi:id="_xgRhQIpTEeG5EZ-nvE23vQ"/>
+    <types xsi:type="ram:RVoid" xmi:id="_Tj5XoIpUEeG5EZ-nvE23vQ"/>
+    <types xsi:type="ram:RString" xmi:id="_vDGWkIqHEeGP-shl74zfPQ"/>
+    <types xsi:type="ram:RAny" xmi:id="_P-DsYI_FEeGojcw4pY4Jpw"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_P-DsYY_FEeGojcw4pY4Jpw"/>
+    <types xsi:type="ram:RChar" xmi:id="_P-DsYo_FEeGojcw4pY4Jpw"/>
+  </structuralView>
+  <instantiations xmi:id="_mtFN0ZP-EeGV3r4VrRI_VQ">
+    <mappings xmi:id="_mtHDAJP-EeGV3r4VrRI_VQ" maps="_Z4LZIIpUEeG5EZ-nvE23vQ">
+      <sourceModelElement xsi:type="ram:Class" href="SocketCommunication.ram#_msgoQIpJEeG5EZ-nvE23vQ"/>
+    </mappings>
+    <mappings xmi:id="_i6NjsZP_EeGqOK1kSxThRQ" maps="_uxmboI_REeG3_Nend2JnJg">
+      <sourceModelElement xsi:type="ram:Class" href="SocketCommunication.ram#_yS0csIpMEeG5EZ-nvE23vQ"/>
+    </mappings>
+    <mappings xmi:id="_kHw78JP_EeGqOK1kSxThRQ" maps="_bHV68IpUEeG5EZ-nvE23vQ">
+      <sourceModelElement xsi:type="ram:Class" href="SocketCommunication.ram#_0bQv4IpMEeG5EZ-nvE23vQ"/>
+    </mappings>
+    <externalAspect href="SocketCommunication.ram#_ld11sIpJEeG5EZ-nvE23vQ"/>
+  </instantiations>
+  <instantiations xmi:id="_4v6wcZRnEeGVRJnvit1A4g">
+    <mappings xmi:id="_4v7-kJRnEeGVRJnvit1A4g" maps="_Z4LZIIpUEeG5EZ-nvE23vQ">
+      <sourceModelElement xsi:type="ram:Class" href="../design_patterns/Command.ram#_w2jP0IpIEeG5EZ-nvE23vQ"/>
+    </mappings>
+    <externalAspect href="../design_patterns/Command.ram#_ulZskYpIEeG5EZ-nvE23vQ"/>
+  </instantiations>
+  <instantiations xmi:id="_L5DkgJRoEeGVRJnvit1A4g">
+    <mappings xmi:id="_L5ELkJRoEeGVRJnvit1A4g" maps="_aQRwEIpUEeG5EZ-nvE23vQ">
+      <sourceModelElement xsi:type="ram:Class" href="../util/Map.ram#_UYHfQIimEeGxqtZ4yVqVGg"/>
+    </mappings>
+    <mappings xmi:id="_UK6tAJRoEeGVRJnvit1A4g" maps="_fVGu4I_FEeGojcw4pY4Jpw">
+      <sourceModelElement xsi:type="ram:Class" href="../util/Map.ram#_5Eij4IimEeGxqtZ4yVqVGg"/>
+    </mappings>
+    <mappings xmi:id="_VjXtsJRoEeGVRJnvit1A4g" maps="_uxmboI_REeG3_Nend2JnJg">
+      <sourceModelElement xsi:type="ram:Class" href="../util/Map.ram#_VHQdMIimEeGxqtZ4yVqVGg"/>
+    </mappings>
+    <mappings xmi:id="_bl0YUJRoEeGVRJnvit1A4g" maps="__jwEQIptEeG5EZ-nvE23vQ">
+      <sourceModelElement xsi:type="ram:Operation" href="../util/Map.ram#_2UdB4IimEeGxqtZ4yVqVGg"/>
+    </mappings>
+    <externalAspect href="../util/Map.ram#_SCiH8IimEeGxqtZ4yVqVGg"/>
+  </instantiations>
+  <layout xmi:id="_dIE1QJRoEeGVRJnvit1A4g">
+    <containers xmi:id="_dIE1QZRoEeGVRJnvit1A4g" key="_vjK7YIpTEeG5EZ-nvE23vQ">
+      <value xmi:id="_dIE1QpRoEeGVRJnvit1A4g" key="_Z4LZIIpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1Q5RoEeGVRJnvit1A4g" x="1257.5996" y="138.12708"/>
+      </value>
+      <value xmi:id="_dIE1RJRoEeGVRJnvit1A4g" key="_au9QIIpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1RZRoEeGVRJnvit1A4g" x="264.32108" y="807.5559"/>
+      </value>
+      <value xmi:id="_dIE1RpRoEeGVRJnvit1A4g" key="_aQRwEIpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1R5RoEeGVRJnvit1A4g" x="45.719505" y="388.15118"/>
+      </value>
+      <value xmi:id="_dIE1SJRoEeGVRJnvit1A4g" key="_uxmboI_REeG3_Nend2JnJg">
+        <value xmi:id="_dIE1SZRoEeGVRJnvit1A4g" x="1420.9388" y="589.2828"/>
+      </value>
+      <value xmi:id="_dIE1SpRoEeGVRJnvit1A4g" key="_bHV68IpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1S5RoEeGVRJnvit1A4g" x="1423.8358" y="412.1933"/>
+      </value>
+      <value xmi:id="_dIE1TJRoEeGVRJnvit1A4g" key="_ZMLOwIpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1TZRoEeGVRJnvit1A4g" x="625.2761" y="100.1272"/>
+      </value>
+      <value xmi:id="_dIE1TpRoEeGVRJnvit1A4g" key="_NPEjkIpUEeG5EZ-nvE23vQ">
+        <value xmi:id="_dIE1T5RoEeGVRJnvit1A4g" x="332.33762" y="121.127106"/>
+      </value>
+      <value xmi:id="_dIE1UJRoEeGVRJnvit1A4g" key="_fVGu4I_FEeGojcw4pY4Jpw">
+        <value xmi:id="_dIE1UZRoEeGVRJnvit1A4g" x="1155.791" y="590.8122"/>
+      </value>
+    </containers>
+  </layout>
+</ram:Aspect>
