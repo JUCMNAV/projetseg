@@ -14,18 +14,18 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 	reference stub:IwStub
 	reference workflowInstantiator:WorkflowInstantiator
 	
-	
 	method setUp() is do
 		stub:=createIwStub
 		sut:=createIwPluginBinding.withStub(stub)
 		plugin:=createIwPlugin
-		addInBinding(1,plugin)
 		
 		workflowInstantiator:=createWorkflowInstantiator
 	end
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldDeclareAndInitializeBinding() is do
+		addOutBinding(1,plugin)//At least one binding is required (Can be an InBinding or an OutBinding)
+		
 		sut.jiAppendBindStatement(workflowInstantiator)
 		
 		assertStringContains(
@@ -38,7 +38,8 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 
 	@feature "FeaWorkflowInstantiationWithStubs"
 	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
-		//warning: maitain after dynamic stubs
+		//warning: maintain after dynamic stubs
+		addInBinding(1,plugin)
 		addInBinding(2,plugin) 
 	
 		sut.jiAppendBindStatement(workflowInstantiator)

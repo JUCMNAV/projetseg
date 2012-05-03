@@ -15,12 +15,7 @@ aspect class IwStub inherits CollectionExt{
 	//warning: refactor on dynamic stub:Only aspect and static stub for now
 	property readonly staticPlugin : IwWorkflow
 	getter is do
-		if(staticPluginBinding.inBindings.isEmpty==false) then
-			result:=staticPluginBinding.inBindings.one.pluginStartPoint.workflow
-		else
-			//Some aspect marker are only bound by an outBinding
-			result:=staticPluginBinding.outBindings.one.pluginEndPoint.workflow
-		end
+		result:=staticPluginBinding.plugin
 	end
 	
 	property readonly isAspectMarker: Boolean

@@ -11,7 +11,7 @@ aspect class IwPluginBinding{
 		workflowInstantiator.appendLocalVarConstructor_1Param(
 			"Binding",
 			jiLocalVarName,
-			inBindings.one.pluginStartPoint.workflow.jiBindMethod_PluginParamName
+			plugin.jiBindMethod_PluginParamName
 		)
 		workflowInstantiator.appendMethodInvocationOn_1Param(stub.jiMemberName,"addBinding",jiLocalVarName)
 		
