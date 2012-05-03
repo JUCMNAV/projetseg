@@ -23,6 +23,16 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 		assertEquals("theOutput",sut.ramOutput.name)
 	end
 	
+	operation testBuild_ShouldBuildCustomizableNodeExecuteOperation() is do
+		sut.build
+		
+		var executeOperation:Operation init colExtSelectSingle(sut.ramOutput.operations,function {op:Operation|op.name=="execute"})
+		assertEquals(false,executeOperation.~abstract)
+		assertEquals(Visibility.public,executeOperation.visibility)
+		assertEquals(false,executeOperation.static)
+		assertEquals(false,executeOperation.partial)
+	end
+	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldBuildOutputDataClass() is do
 		sut.build

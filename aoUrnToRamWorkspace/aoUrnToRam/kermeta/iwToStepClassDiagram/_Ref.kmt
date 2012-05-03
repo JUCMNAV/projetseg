@@ -17,5 +17,6 @@ require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwCustomi
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwInput.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwNode.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwOutput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/RamFactory.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/RamWorkspace.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"

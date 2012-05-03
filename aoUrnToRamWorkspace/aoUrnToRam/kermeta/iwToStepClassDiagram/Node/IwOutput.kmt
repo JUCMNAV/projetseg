@@ -10,12 +10,12 @@ aspect class IwOutput{
 	reference ramOutputData : Class
 	
 	method build() is do
-		ramOutput:=createRamClass(name)
+		ramOutput:=createRamCustomizableNodeClass(name)
 		ramOutputData:=createRamClass(name+OUTPUT_DATA_SUFFIX)
 	end
 	
 	method link() is do
-		step.linkOutputData(ramOutputData)
 		step.linkCustomizableNode(ramOutput)
+		step.linkOutputData(ramOutputData)
 	end
 }

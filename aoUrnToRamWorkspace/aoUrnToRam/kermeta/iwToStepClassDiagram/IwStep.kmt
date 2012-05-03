@@ -6,7 +6,7 @@ using kermeta::standard
 using ram
 using kermeta::utils
 
-aspect class IwStep inherits CollectionExt{
+aspect class IwStep inherits CollectionExt,RamFactory{
 	reference ramAspect:Aspect
 	reference ramLocalContextClass:Class
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
@@ -71,11 +71,6 @@ Build
 				ramCustomizableNodeClasses.put(customizableNode.name,createRamClass(customizableNode.name))
 			end
 		}
-	end
-	
-	operation createRamClass(name:String):Class is do
-		result:=Class.new
-		result.name:=name
 	end
 	
 /*********************************************************
