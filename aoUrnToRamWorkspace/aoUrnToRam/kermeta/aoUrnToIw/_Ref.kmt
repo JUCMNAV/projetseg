@@ -4,6 +4,7 @@ require kermeta
 require "platform:/lookup/aoUrnToRam/metamodel/jucm_OneFileWorkaround.ecore"
 require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
 require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/String.kmt"
 
 //|||GENERATED CODE BEYOND THIS POINT|||
 //To regenerate

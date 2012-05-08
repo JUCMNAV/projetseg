@@ -30,7 +30,7 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		sut.build
 
-		assertEquals("thePointcutStub_In2",sut.iwGetEntryNode(nodeConnection2).name)
+		assertEquals("ThePointcutStub_In2",sut.iwGetEntryNode(nodeConnection2).name)
 		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection1).getMetaClass)
 		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection2).getMetaClass)
 	end
@@ -104,7 +104,7 @@ class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		
 		sut.build
 
-		assertEquals("thePointcutStub_Out2",sut.iwGetExitNode(nodeConnection2).name)
+		assertEquals("ThePointcutStub_Out2",sut.iwGetExitNode(nodeConnection2).name)
 		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection1).getMetaClass)
 		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection2).getMetaClass)
 	end

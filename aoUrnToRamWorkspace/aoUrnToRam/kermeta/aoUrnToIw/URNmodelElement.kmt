@@ -9,7 +9,7 @@ aspect class URNmodelElement{
 		if(name.isVoid or name=="") then 
 			result:=prefix+id
 		else
-			result:=name
+			result:=name.replaceSpaceByUnderscore.capitalizeFirstLetter
 		end
 	end
 }

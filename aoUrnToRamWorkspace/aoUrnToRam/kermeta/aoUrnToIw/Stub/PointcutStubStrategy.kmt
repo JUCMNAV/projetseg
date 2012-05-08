@@ -20,7 +20,7 @@ class PointcutStubStrategy inherits StubStrategy {
     	var index:Integer init 1
 		stub.predAsNodeConnection.each{nodeConnection|
 			var iwEndPoint:IwEndPoint init IwEndPoint.new
-			iwEndPoint.name:=stub.name+"_In"+index.toString
+			iwEndPoint.name:=stub.stubNameOrPrefixId+"_In"+index.toString
 			iwEndPoints.put(nodeConnection,iwEndPoint)
 			index:=index+1
 		}
@@ -38,7 +38,7 @@ class PointcutStubStrategy inherits StubStrategy {
     
     operation buildIwStartPoint(nodeConnection:NodeConnection,index:Integer):IwStartPoint is do
     	result:=IwStartPoint.new
-		result.name:=stub.name+"_Out"+index.toString
+		result.name:=stub.stubNameOrPrefixId+"_Out"+index.toString
 		if(nodeConnection.inBindingsPlugin.size>0) then
 			result.startPointType:="bound"
 		else

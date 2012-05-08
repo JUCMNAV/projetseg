@@ -30,7 +30,7 @@ class InOutExpression
 			var index:Integer init expression.indexOf(" ")	
 					
 			if(index==-1) then
-				out:=expression
+				out:=expression.replaceSpaceByUnderscore.capitalizeFirstLetter
 				expression:=""			
 			else
 				out:=expression.substring(0, index)
@@ -39,6 +39,7 @@ class InOutExpression
 		end	
 		if(expression.toLowerCase().indexOf(inKeyword)==0) then
 			in:=expression.substring(inKeyword.size(), expression.size())
+			in:=in.replaceSpaceByUnderscore.capitalizeFirstLetter
 		end
 		
 	end

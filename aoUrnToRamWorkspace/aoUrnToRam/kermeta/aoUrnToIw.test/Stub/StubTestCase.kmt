@@ -34,7 +34,7 @@ class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
 		sut.build
 
 		assertEquals(getSingleEntryNode(sut),getSingleExitNode(sut))
-		assertEquals("aspectMarker"+sut.id,sutIwStub.name)
+		assertEquals("AspectMarker"+sut.id,sutIwStub.name)
 		assertEquals("aspectMarker",sutIwStub.stubType)
 	end
 	

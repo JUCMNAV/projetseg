@@ -14,7 +14,7 @@ class AoUrnTestFactory
 {
 	operation createUrnSpec():URNspec is do
 		result:=URNspec.new
-		result.urnSpecName:="theUrnSpec"
+		result.urnSpecName:="TheUrnSpec"
 		result.urndef:=createURNdefinition
 	end
 	
@@ -24,7 +24,7 @@ class AoUrnTestFactory
 	
 	operation createUcmMap():UCMmap is do
 		result:=UCMmap.new
-		result.name:="theUcmMap"
+		result.name:="TheUcmMap"
 	end
 	
 	operation createUcmMap_UrnSpec(urnSpec:URNspec):UCMmap is do
@@ -39,7 +39,7 @@ class AoUrnTestFactory
 	
 	operation createConcern():Concern is do
 		result:=Concern.new
-		result.name:="theConcern"
+		result.name:="TheConcern"
 	end
 	
 	operation createConcern_UrnSpec(urnSpec:URNspec):Concern is do
@@ -79,7 +79,7 @@ class AoUrnTestFactory
 	
 	operation createCondition():Condition is do
 		result:=Condition.new
-		result.label:="theCondition" 
+		result.label:="TheCondition" 
 	end
 
 	operation withCondition(nodeConnection:NodeConnection):Condition is do
@@ -92,7 +92,7 @@ Node
 *********************************************************/
 	operation createStartPoint():StartPoint is do
 		result:=StartPoint.new
-		result.name:="theStartPoint"
+		result.name:="TheStartPoint"
 		result.id:="1"
 	end
 	
@@ -103,7 +103,7 @@ Node
 	
 	operation createEndPoint():EndPoint is do
 		result:=EndPoint.new
-		result.name:="theEndPoint"
+		result.name:="TheEndPoint"
 		result.id:="1"
 	end
 	
@@ -114,7 +114,7 @@ Node
 	
 	operation createEmptyPoint():EmptyPoint is do
 		result:=EmptyPoint.new
-		result.name:="theEmptyPoint"
+		result.name:="TheEmptyPoint"
 		result.id:="1"
 	end
 	
@@ -125,7 +125,7 @@ Node
 	
 	operation createOrFork():OrFork is do
 		result:=OrFork.new
-		result.name:="theOrFork"
+		result.name:="TheOrFork"
 		result.id:="1"
 	end
 	
@@ -136,7 +136,7 @@ Node
 
 	operation createOrJoin():OrJoin is do
 		result:=OrJoin.new
-		result.name:="theOrJoin"
+		result.name:="TheOrJoin"
 		result.id:="1"
 	end
 
@@ -147,19 +147,19 @@ Node
 
 	operation createAndFork():AndFork is do
 		result:=AndFork.new
-		result.name:="theAndFork"
+		result.name:="TheAndFork"
 		result.id:="1"
 	end
 	
 	operation createAndJoin():AndJoin is do
 		result:=AndJoin.new
-		result.name:="theAndJoin"
+		result.name:="TheAndJoin"
 		result.id:="1"
 	end
 	
 	operation createWaitingPlace():WaitingPlace is do
 		result:=WaitingPlace.new
-		result.name:="theWaitingPlace"
+		result.name:="TheWaitingPlace"
 		result.id:="1"
 		result.waitType:=WaitKind.Transient
 	end
@@ -171,7 +171,7 @@ Node
 
 	operation createConnect():Connect is do
 		result:=Connect.new
-		result.name:="theWaitingPlace"
+		result.name:="TheConnect"
 		result.id:="1"
 	end
 	
@@ -190,14 +190,14 @@ Stub
 *********************************************************/
 	operation createStub():Stub is do
 		result:=Stub.new
-		result.name:="theStub"
+		result.name:="TheStub"
 		result.id:="1"	
 	end
 	
 	operation createPointcutStub():Stub is do
 		result:=createStub
 		result.aopointcut:=PointcutKind.Regular
-		result.name:="thePointcutStub"
+		result.name:="ThePointcutStub"
 	end
 	
 	operation createStub_UcmMap(ucmMap:UCMmap):Stub is do
@@ -259,12 +259,12 @@ Misc
 *********************************************************/
 	property readonly DEFAULT_OUTPUT_NAME:String
 	getter is do
-		result:="theOutput"
+		result:="TheOutput"
 	end
 	
 	property readonly DEFAULT_INPUT_NAME:String 
 	getter is do
-		result:="theInput"
+		result:="TheInput"
 	end
 	
 
@@ -288,7 +288,7 @@ Misc
 
 	operation createResponsibility():Responsibility is do
 		result:=Responsibility.new
-		result.name:="theResponsibility"
+		result.name:="TheResponsibility"
 	end
 
 	operation attachComponentRef(pathNode:PathNode,componentKind:ComponentKind) is do
@@ -302,7 +302,7 @@ Misc
 	
 	operation createComponent_ComponentKind(componentKind:ComponentKind):Component is do
 		result:=Component.new
-		result.name:="theComponent"
+		result.name:="TheComponent"
 		result.kind:=componentKind
 	end
 }

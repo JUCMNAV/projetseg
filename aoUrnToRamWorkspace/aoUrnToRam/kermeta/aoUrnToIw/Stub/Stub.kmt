@@ -67,5 +67,10 @@ aspect class Stub {
 	getter is do
 		result:=aopointcut==PointcutKind.Replacement
 	end
+	
+	property readonly stubNameOrPrefixId:String
+	getter is do
+		result:=nameOrPrefixId("Stub")
+	end
 }
 

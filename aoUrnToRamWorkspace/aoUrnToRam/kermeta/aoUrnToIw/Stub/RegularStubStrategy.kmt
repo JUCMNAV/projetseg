@@ -11,9 +11,9 @@ class RegularStubStrategy inherits StubStrategy {
 		iwStub:=IwStub.new
 		iwStub.stubType:=iwStubType
 		if(iwStubType=="aspectMarker") then
-			iwStub.name:="aspectMarker"+stub.id
+			iwStub.name:="AspectMarker"+stub.id
 		else
-			iwStub.name:=stub.nameOrPrefixId("Stub")
+			iwStub.name:=stub.stubNameOrPrefixId
 		end
 		
 		stub.bindings.each{pluginBinding|pluginBinding.build}
