@@ -30,7 +30,7 @@ class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaIns
 		
 		assertStringContains(
 "
-        Binding l_theStub_PluginBinding=new Binding(p_thePlugin);
+        Binding l_theStub_PluginBinding=new Binding(p_thePlugin.workflow);
         _theStub.addBinding(l_theStub_PluginBinding);
 "        
 		,workflowInstantiator.content)
