@@ -17,8 +17,9 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result.aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
 		result.workflow:=createRamAspect("Workflow")
 		result.customizableNode:=createRamClass("CustomizableNode")
+		result.executeOperation:=createOperation("execute")
 		result.inputAspect:=createRamAspect("Input")
-		result.inputAspect:=createRamAspect("Output")
+		result.outputAspect:=createRamAspect("Output")
 		result.customizableInputData:=createRamClass("CustomizableInputData")
 		result.customizableOutputData:=createRamClass("CustomizableOutputData")
 	end
@@ -32,6 +33,12 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result:=Class.new
 		result.name:=name
 	end
+	
+	operation createOperation(name:String):Operation is do
+		result:=Operation.new
+		result.name:=name
+	end
+	
 
 	operation assertNumOfClassesWithoutBaseClasses(expectedNumOfClasses:Integer,actualIwStep:IwStep) is do
 		assertEquals(expectedNumOfClasses,actualIwStep.ramAspect.structuralView.classes.select{ramClass|isBaseClass(ramClass)==false}.size)
@@ -47,5 +54,21 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		result.build
 		
 		node.link
+	end
+	
+	operation assertShouldBuildCustomizableNodeExecuteOperation(executeOperation:Operation) is do
+		assertEquals(false,executeOperation.~abstract)
+		assertEquals(Visibility.public,executeOperation.visibility)
+		assertEquals(false,executeOperation.static)
+		assertEquals(false,executeOperation.partial)
+		var cParam:Parameter init colExtSingle(executeOperation.parameters)
+		assertEquals("c",cParam.name)
+	end
+	
+	operation assertShouldLinkExecuteOperation(step:IwStep,executeOperation:Operation) is do
+		var cParam:Parameter init colExtSingle(executeOperation.parameters)
+		assertEquals(step.ramLocalContextClass,cParam.type)
+		assertEquals(step.ramRVoid,executeOperation.returnType)
+		assertCollectionContainsElement(executeOperation,step.ramExecuteOperationMapping.maps)
 	end
 }

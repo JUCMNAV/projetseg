@@ -25,6 +25,13 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		assertEquals(1,sut.ramCustomizableNodeClasses.size)
 		assertEquals(customizableNode.name,sut.ramCustomizableNodeClasses.values.one.name)
 	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldBuildCustomizableNodeExecuteOperation() is do
+		sut.build
+		
+		assertShouldBuildCustomizableNodeExecuteOperation(executeOperation)
+	end
 	
 	@feature "FeaTransformResponsibilityDefinition"
 	operation testBuild_TwoNodesNotShared_ShouldBuildTwoClasses() is do
@@ -76,6 +83,22 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 			getRamCustomizableNodeClassAt(1),
 			sut.ramCustomizableNodeMapping.maps
 		)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkExecuteOperation() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+
+		assertShouldLinkExecuteOperation(sut,executeOperation)
+	end
+
+	property executeOperation:Operation
+	getter is do
+		result:=colExtSelectSingle(sut.ramCustomizableNodeClasses.values.one.operations,function {op:Operation|op.name=="execute"})
 	end
 	
 	operation getRamCustomizableNodeClassAt(index:Integer):Class is do

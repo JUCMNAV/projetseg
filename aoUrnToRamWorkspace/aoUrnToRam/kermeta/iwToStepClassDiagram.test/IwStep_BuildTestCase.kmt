@@ -39,14 +39,23 @@ class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassD
 		sut.build
 		
 		assertNotVoid(sut.ramCustomizableNodeMapping)
+		assertNotVoid(sut.ramExecuteOperationMapping)
 		assertNotVoid(sut.ramCustomizableInputDataMapping)
 		assertNotVoid(sut.ramCustomizableOutputDataMapping)
 	end
-	
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
 	operation testBuild_ShouldBuildLocalContextClass() is do
 		sut.build
 		
 		assertEquals("LocalContext",sut.ramLocalContextClass.name)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldRVoidClass() is do
+		sut.build
+		
+		assertEquals("void",sut.ramRVoid.name)
 	end
 	
 }

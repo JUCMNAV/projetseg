@@ -9,8 +9,10 @@ using kermeta::utils
 aspect class IwStep inherits CollectionExt,RamFactory{
 	reference ramAspect:Aspect
 	reference ramLocalContextClass:Class
+	reference ramRVoid:Type
 	reference ramCustomizableNodeClasses:Hashtable<String,Class>
 	reference ramCustomizableNodeMapping:Mapping
+	reference ramExecuteOperationMapping:Mapping
 	reference ramCustomizableInputDataMapping:Mapping
 	reference ramCustomizableOutputDataMapping:Mapping
 	reference ramInputInstantiation:Instantiation
@@ -37,6 +39,7 @@ Build
 		buildMappings
 		buildCustomizableNodeClasses
 		ramLocalContextClass:=createRamClass("LocalContext")
+		ramRVoid:=createRVoid
 		nodes.each{node|node.build}
 	end
 	
@@ -59,6 +62,7 @@ Build
 	
 	operation buildMappings() is do
 		ramCustomizableNodeMapping:=Mapping.new
+		ramExecuteOperationMapping:=Mapping.new
 		ramCustomizableInputDataMapping:=Mapping.new
 		ramCustomizableOutputDataMapping:=Mapping.new
 	end	
@@ -68,7 +72,7 @@ Build
 		ramCustomizableNodeClasses:=Hashtable<String,Class>.new
 		customizableNodes.each{customizableNode|
 			if(ramCustomizableNodeClasses.containsKey(customizableNode.name)==false) then
-				ramCustomizableNodeClasses.put(customizableNode.name,createRamClass(customizableNode.name))
+				ramCustomizableNodeClasses.put(customizableNode.name,createRamCustomizableNodeClass(customizableNode.name))
 			end
 		}
 	end
@@ -79,6 +83,7 @@ Link
 	
 	operation link(ramWorkspace:RamWorkspace) is do
 		linkClassToClassDiagram(ramLocalContextClass)
+		ramStructuralView.types.add(ramRVoid)
 		linkCustomizableNodeClasses
 		nodes.each{node|node.link}
 		linkInstantiations(ramWorkspace)
@@ -111,40 +116,47 @@ Link
 	end
 	
 	operation linkWorkflowInstantiation(ramWorkspace:RamWorkspace) is do
-		linkInstantiationWithOneMapping(
-			ramWorkflowInstantiation,
-			ramWorkspace.workflow,
+		linkInstantiation(ramWorkflowInstantiation,ramWorkspace.workflow)
+		linkMapping(
 			ramCustomizableNodeMapping,
-			ramWorkspace.customizableNode
+			ramWorkspace.customizableNode,
+			ramWorkflowInstantiation
+		)
+		linkMapping(
+			ramExecuteOperationMapping,
+			ramWorkspace.executeOperation,
+			ramWorkflowInstantiation
 		)
 	end
 	
 	operation linkInputInstantiation(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneInputClass) then
-			linkInstantiationWithOneMapping(
-				ramInputInstantiation,
-				ramWorkspace.inputAspect,
+			linkInstantiation(ramInputInstantiation,ramWorkspace.inputAspect)
+			linkMapping(
 				ramCustomizableInputDataMapping,
-				ramWorkspace.customizableInputData
+				ramWorkspace.customizableInputData,
+				ramInputInstantiation
 			)
 		end
 	end
 	
 	operation linkOutputInstantiation(ramWorkspace:RamWorkspace) is do
 		if(hasAtLeastOneOutputClass) then
-			linkInstantiationWithOneMapping(
-				ramOutputInstantiation,
-				ramWorkspace.outputAspect,
+			linkInstantiation(ramOutputInstantiation,ramWorkspace.outputAspect)
+			linkMapping(
 				ramCustomizableOutputDataMapping,
-				ramWorkspace.customizableOutputData
+				ramWorkspace.customizableOutputData,
+				ramOutputInstantiation
 			)
 		end
 	end
 	
-	operation linkInstantiationWithOneMapping(instantiation:Instantiation,externalAspect:Aspect,mapping:Mapping,sourceModelElement:Class) is do
+	operation linkInstantiation(instantiation:Instantiation,externalAspect:Aspect) is do
 		instantiation.externalAspect:=externalAspect
 		ramAspect.instantiations.add(instantiation)
-		
+	end
+	
+	operation linkMapping(mapping:Mapping,sourceModelElement:MappableElement,instantiation:Instantiation) is do
 		mapping.sourceModelElement:=sourceModelElement
 		instantiation.mappings.add(mapping)
 	end
@@ -182,6 +194,16 @@ Add Ram Class API
 	operation linkCustomizableNode(customizableNode:Class) is do
 		linkClassToClassDiagram(customizableNode)
 		ramCustomizableNodeMapping.maps.add(customizableNode)
+		
+		linkExecuteOperation(colExtSingle(customizableNode.operations))
+	end
+	
+	operation linkExecuteOperation(executeOperation:Operation) is do
+		ramExecuteOperationMapping.maps.add(executeOperation)
+		executeOperation.returnType:=ramRVoid
+
+		var cParam:Parameter init colExtSingle(executeOperation.parameters)
+		cParam.type:=ramLocalContextClass
 	end
 
 	operation linkClassToClassDiagram(ramClass:Class) is do

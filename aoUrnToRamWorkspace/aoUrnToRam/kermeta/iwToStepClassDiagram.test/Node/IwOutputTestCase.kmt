@@ -23,21 +23,18 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 		assertEquals("theOutput",sut.ramOutput.name)
 	end
 	
-	operation testBuild_ShouldBuildCustomizableNodeExecuteOperation() is do
-		sut.build
-		
-		var executeOperation:Operation init colExtSelectSingle(sut.ramOutput.operations,function {op:Operation|op.name=="execute"})
-		assertEquals(false,executeOperation.~abstract)
-		assertEquals(Visibility.public,executeOperation.visibility)
-		assertEquals(false,executeOperation.static)
-		assertEquals(false,executeOperation.partial)
-	end
-	
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
 	operation testBuild_ShouldBuildOutputDataClass() is do
 		sut.build
 		
 		assertEquals("theOutputOutput",sut.ramOutputData.name)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldBuildCustomizableNodeExecuteOperation() is do
+		sut.build
+		
+		assertShouldBuildCustomizableNodeExecuteOperation(executeOperation)
 	end
 
 	@feature "FeaTransformStartPointResponsibilityEndPoint"
@@ -57,5 +54,16 @@ class IwToStepClassDiagram_IwOutputTestCase inherits TestCase,IwToStepClassDiagr
 
 		assertCollectionHasSingleElement(sut.ramOutputData,step.ramCustomizableOutputDataMapping.maps)
 	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkExecuteOperation() is do
+		var step:IwStep init setupAndExeLinkOnNode(sut)
+		
+		assertShouldLinkExecuteOperation(step,executeOperation)
+	end
 	
+	property executeOperation:Operation
+	getter is do
+		result:=colExtSelectSingle(sut.ramOutput.operations,function {op:Operation|op.name=="execute"})
+	end
 }

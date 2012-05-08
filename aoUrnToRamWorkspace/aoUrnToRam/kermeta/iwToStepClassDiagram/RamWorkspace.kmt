@@ -8,10 +8,11 @@ using kermeta::standard
 using kermeta::utils
 using ram
 
-class RamWorkspace{
+class RamWorkspace inherits CollectionExt{
 	reference aspectPerWorkspacePath:Hashtable<String,Aspect>
 	reference workflow:Aspect
 	reference customizableNode:Class
+	reference executeOperation:Operation
 	reference customizableInputData:Class
 	reference customizableOutputData:Class
 	reference inputAspect:Aspect
@@ -25,6 +26,7 @@ class RamWorkspace{
 		aspectPerWorkspacePath:=Hashtable<String,Aspect>.new
 		self.workflow:=workflow
 		self.customizableNode:=findClass(workflow,"CustomizableNode")
+		self.executeOperation:=colExtSingle(customizableNode.operations)
 		self.inputAspect:=inputAspect
 		self.outputAspect:=outputAspect
 		self.customizableInputData:=findClass(inputAspect,"CustomizableInputData")

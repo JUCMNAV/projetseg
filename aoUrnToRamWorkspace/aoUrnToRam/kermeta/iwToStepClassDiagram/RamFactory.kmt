@@ -13,6 +13,11 @@ aspect class RamFactory {
 		result.name:=name
 	end
 	
+	operation createRVoid():RVoid is do
+		result:=RVoid.new
+		result.name:="void"
+	end
+	
 	operation createRamCustomizableNodeClass(name:String):Class is do
 		result:=createRamClass(name)
 		result.operations.add(createExecuteOperation)
@@ -25,5 +30,12 @@ aspect class RamFactory {
 		result.visibility:=Visibility.public
 		result.static:=false
 		result.partial:=false
+		result.parameters.add(createExecuteOperationCParam)
 	end
+	
+	operation createExecuteOperationCParam():Parameter is do
+		result:=Parameter.new
+		result.name:="c"
+	end
+	
 }

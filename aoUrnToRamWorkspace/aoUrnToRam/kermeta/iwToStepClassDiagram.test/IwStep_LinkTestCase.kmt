@@ -44,9 +44,20 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 
 		sut.link(ramWorkspace)
 		
-		assertCollectionHasSingleElement(sut.ramCustomizableNodeMapping,sut.ramWorkflowInstantiation.mappings)
+		assertCollectionContainsElement(sut.ramCustomizableNodeMapping,sut.ramWorkflowInstantiation.mappings)
 		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.sourceModelElement)
 	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkExecuteOperationMapping() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramExecuteOperationMapping,sut.ramWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.executeOperation,sut.ramExecuteOperationMapping.sourceModelElement)
+	end
+	
 	
 	@feature "FeaMigrateToLatestRamMetaModel"
 	operation testLink_OneInput_ShouldLinkRamCustomizableInputDataMapping() is do
@@ -133,7 +144,8 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 			sut.ramAspect.structuralView.classes
 		)
 	end
-	
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
 	operation testLink_ShouldLinkLocalContextClassToStructuralView() is do
 		sut.build
 		
@@ -141,5 +153,15 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		
 		assertCollectionContainsElement(sut.ramLocalContextClass,sut.ramStructuralView.classes)
 	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldLinkRVoidClassToStructuralView() is do
+		sut.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramRVoid,sut.ramStructuralView.types)
+	end
+	
 	
 }
