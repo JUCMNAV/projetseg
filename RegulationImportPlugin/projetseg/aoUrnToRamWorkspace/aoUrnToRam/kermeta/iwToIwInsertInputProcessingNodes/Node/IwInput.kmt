@@ -1,0 +1,19 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using kermeta::language::structure
+using kermeta::exceptions
+
+aspect class IwInput inherits CollectionExt{
+	reference iwInputProcessingNode:IwCustomizableNode
+
+	method insertInputProcessingNode() is do
+		colExtSingle(succs).insertInputProcessingNode(self)
+	end
+}
+
+
+

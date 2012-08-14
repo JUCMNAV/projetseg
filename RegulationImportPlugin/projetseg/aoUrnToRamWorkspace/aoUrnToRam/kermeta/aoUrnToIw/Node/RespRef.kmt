@@ -1,0 +1,43 @@
+package jucm_OneFileWorkaround::ucm::map;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using jucm_OneFileWorkaround::urncore
+using intermediateWorkflow
+
+aspect class RespRef {
+	reference iwCustomizableNode:IwCustomizableNode
+
+	//get RamMetadata from respDef instead of respRef
+	method getRamMetadata():Metadata is do
+		result:= respDef.metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+	end
+
+	method buildIwNodeTemplate() is do
+		if(inOutExpression.hasOut==false and inOutExpression.hasIn==false) then
+			if(isSystem) then
+				buildCustomizableNode
+			end
+		end
+	end
+
+	operation buildCustomizableNode()is do
+		iwCustomizableNode:=IwCustomizableNode.new
+		iwCustomizableNode.name:=respDef.nameOrPrefixId("CustomizableNode")
+		
+		if(respDef.respRefs.size>1) then
+			iwCustomizableNode.customizableNodeRefId:=id
+		end
+		addIwEquivalentNodeAfterOutIn(iwCustomizableNode)
+	end
+	
+	property readonly isSystem : Boolean 
+	getter is do
+		if(contRef.isVoid==true) then
+			result:=true
+		else
+			var component:Component init contRef.contDef.asType(Component) 
+			result:=component.isSystem
+		end
+	end	
+}

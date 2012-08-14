@@ -1,0 +1,107 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+
+class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwStep
+	reference customizableNode:IwCustomizableNode
+	
+	method setUp() is do
+		sut:=createIwStep 
+		customizableNode:=createIwCustomizableNode.withStep(sut)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildClassWithCustomizableNodeName() is do
+		sut.build
+		
+		assertEquals(1,sut.ramCustomizableNodeClasses.size)
+		assertEquals(customizableNode.name,sut.ramCustomizableNodeClasses.values.one.name)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldBuildCustomizableNodeExecuteOperation() is do
+		sut.build
+		
+		assertShouldBuildCustomizableNodeExecuteOperation(executeOperation)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_TwoNodesNotShared_ShouldBuildTwoClasses() is do
+		var notShared:IwCustomizableNode init createIwCustomizableNode.withStep(sut)
+		notShared.name:="notShared"
+		
+		sut.build
+		
+		assertEquals(2,sut.ramCustomizableNodeClasses.size)
+	end
+	
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testBuild_TwoNodesShared_ShouldBuildOneClass() is do
+		customizableNode.withFirstRefToShared
+		var shared:IwCustomizableNode init createIwCustomizableNode.withStep(sut).withSecondRefToShared
+	
+		sut.build
+		
+		assert(sut.ramCustomizableNodeClasses.size==1)
+	end
+
+	@feature "FeaTransformResponsibilityDefinition"
+	operation testLink_TwoNodesNotShared_ShouldAddTwoClassesToClassDiagram() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		createIwCustomizableNode.withStep(sut).withName("notShared")
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsTwoElements(
+			getRamCustomizableNodeClassAt(0),
+			getRamCustomizableNodeClassAt(1),
+			sut.ramAspect.structuralView.classes
+		)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_TwoNodesNotShared_ShouldMapTwoClassesToRamCustomizableNodeMapping() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		createIwCustomizableNode.withStep(sut).withName("notShared")
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionHasTwoElements(
+			getRamCustomizableNodeClassAt(0),
+			getRamCustomizableNodeClassAt(1),
+			sut.ramCustomizableNodeMapping.maps
+		)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkExecuteOperation() is do
+		var ramWorkspace:RamWorkspace init createRamWorkspace
+		sut.withConcern(createIwConcern)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+
+		assertShouldLinkExecuteOperation(sut,executeOperation)
+	end
+
+	property executeOperation:Operation
+	getter is do
+		result:=colExtSelectSingle(sut.ramCustomizableNodeClasses.values.one.operations,function {op:Operation|op.name=="execute"})
+	end
+	
+	operation getRamCustomizableNodeClassAt(index:Integer):Class is do
+		result:=sut.ramCustomizableNodeClasses.values.asOrderedSet.elementAt(index)
+	end
+}

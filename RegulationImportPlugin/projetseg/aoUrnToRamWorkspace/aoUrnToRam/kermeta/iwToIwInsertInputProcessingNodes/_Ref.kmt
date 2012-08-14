@@ -1,0 +1,18 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.codegen.RefCodeGenerator
+//Args: ${resource_loc} ${project_name}
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/IwModel.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/IwNodeConnection.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/Node/IwCustomizableNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/Node/IwInput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/Node/IwNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/Node/IwOutput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/Stub/IwStub.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"

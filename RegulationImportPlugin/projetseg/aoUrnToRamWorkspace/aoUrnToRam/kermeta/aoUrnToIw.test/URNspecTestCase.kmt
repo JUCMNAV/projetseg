@@ -1,0 +1,75 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::urn
+using intermediateWorkflow
+
+class AoUrnToIw_URNspecTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:URNspec
+	
+	method setUp() is do
+		sut:=createUrnSpec
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testBuild_ShouldBuildIwModel() is do
+		sut.build
+	
+		assertNotVoid(sut.iwModel)
+		assertEquals(sut.urnSpecName,sut.iwModel.name)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testBuild_ShouldBuildIwWithoutConcern() is do
+		sut.build
+	
+		assertNotVoid(sut.iwWithoutConcern)
+		assertEquals("WithoutConcern",sut.iwWithoutConcern.name)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnUcmMaps() is do
+		createUcmMap_UrnSpec(sut)
+		createUcmMap_UrnSpec(sut)
+		sut.build
+		
+		sut.link
+	
+		assertEquals(2,sut.iwWithoutConcern.workflows.size)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithoutConcernIsNotEmpty_ShouldLinkIwWithoutConcernToIwModel() is do
+		createUcmMap_UrnSpec(sut)
+		sut.build
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwWithoutConcern,sut.iwModel.concerns)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_WithoutConcernIsEmpty_ShouldNotLinkIwWithoutConcernToIwModel() is do
+		sut.build
+		
+		sut.link
+	
+		assertEquals(0,sut.iwModel.concerns.size)
+	end
+	
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_ShouldInvokeLinkOnConcerns() is do
+		createUcmMap_UrnSpec_Concern(sut,createConcern_UrnSpec(sut))
+		createUcmMap_UrnSpec_Concern(sut,createConcern_UrnSpec(sut))
+		sut.build
+		
+		sut.link
+	
+		assertEquals(2,sut.iwModel.concerns.size)
+	end
+}

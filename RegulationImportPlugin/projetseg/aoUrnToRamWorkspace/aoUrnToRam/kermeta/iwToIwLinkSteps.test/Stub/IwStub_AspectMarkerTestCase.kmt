@@ -1,0 +1,46 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class IwToIwLinkSteps_IwStub_AspectMarkerTestCase inherits TestCase,IwToIwLinkSteps_TestHelper
+{
+	reference sut:IwStub
+	reference sameConcern:IwConcern
+	reference currentStep:IwStep
+	reference workflow:IwWorkflow
+	reference stubExitNode1:IwNode
+	reference stubExitNode2:IwNode
+	
+	reference pluginWorkflow:IwWorkflow
+	reference pluginStartPoint:IwStartPoint
+	
+	method setUp() is do
+		sameConcern:=createIwConcern
+		currentStep:=createIwStep.withConcern(sameConcern)
+		workflow:=createIwWorkflow.withConcern(sameConcern)
+		sut:=createIwStaticStub.withWorkflow(workflow)
+		sut.stubType:="aspectMarker"
+		stubExitNode1:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(stubExitNode1)
+		stubExitNode2:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(stubExitNode2)
+
+		pluginWorkflow:=createIwWorkflow.withConcern(sameConcern)
+		pluginStartPoint:=createIwStartPoint.withWorkflow(pluginWorkflow)		
+		pluginStartPoint.inbindTo(sut)
+	end
+
+	@feature "FeaTransformAspectMarker"
+	operation testDeepFirstSearch_Unexplored_ShouldContinueExplorationOnStubExitNodes() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertVoid(pluginStartPoint.step)
+		assertEquals(currentStep,stubExitNode1.step)
+		assertEquals(currentStep,stubExitNode2.step)
+	end
+}

@@ -1,0 +1,23 @@
+package intermediateWorkflow;
+
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
+
+using kermeta::standard
+using ram
+
+aspect class IwCustomizableNode{
+	
+	//@RamCustomizableNodeClassBuildByIwStep
+	//If many instances of a shared IwCustomizableNode are part of a step, 
+	//only one CustomizableNode RamClass will be part of the step class diagram.
+	//Thus,IwStep is responsible to build and link ramClass for IwCustomizableNode
+	method build() is do
+		//do nothing
+	end
+	
+	method link() is do
+		//do nothing
+	end
+	
+}

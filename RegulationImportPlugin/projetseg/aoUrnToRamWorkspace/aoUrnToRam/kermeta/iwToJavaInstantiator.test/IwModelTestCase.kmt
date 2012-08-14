@@ -1,0 +1,38 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+using aoUrnToRam
+
+class IwToJavaInstantiator_IwModelTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwModel
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToJavaInstantiator_ManyWorkflows_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
+		sut:=createIwModel
+		var concern:IwConcern init createIwConcern.withModel(sut)
+		createIwWorkflow.withConcern(concern)
+		createIwWorkflow.withConcern(concern)
+
+		var workflowInstantiators:WorkflowInstantiator[0..*] init sut.jiToJavaInstantiator
+
+		assertEquals(2,workflowInstantiators.size)
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testToJavaInstantiator_ManyConcerns_ShouldInvokeToWorkflowInstantiatorOnWorkflows() is do
+		sut:=createIwModel
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+		createIwWorkflow.withConcern(createIwConcern.withModel(sut))
+
+		var workflowInstantiators:WorkflowInstantiator[0..*] init sut.jiToJavaInstantiator
+
+		assertEquals(2,workflowInstantiators.size)
+	end
+
+}

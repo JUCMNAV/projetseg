@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwStub
+{
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"StubNode")
+	end
+}

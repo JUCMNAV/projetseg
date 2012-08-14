@@ -1,0 +1,34 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/textView/IwWorkflow.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/Uri.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/ValueType.kmt"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.codegen.RefCodeGenerator
+//Args: ${resource_loc} ${project_name}
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/IwModel.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/IwNodeConnection.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/IwWorkflow.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwAndFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwAndJoin.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwCustomizableNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwEndPoint.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwInput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwOrFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwOutput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Node/IwStartPoint.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Strategy/CustomizableNodeInstantiationStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Strategy/NodeInstantiationStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Strategy/SkipNodeInstantiationStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Strategy/StartupNodeInstantiationStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Strategy/WorkflowNodeInstantiationStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Stub/IwInBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Stub/IwOutBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Stub/IwPluginBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/Stub/IwStubt.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/WorkflowInstantiator.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"

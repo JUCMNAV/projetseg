@@ -1,0 +1,72 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_URNmodelElementTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:URNmodelElement
+	attribute prefix:String
+	
+	method setUp() is do
+		sut:=createStartPoint//use StartPoint as URNmodelElementImpl
+		prefix:="thePrefix"
+	end
+	
+	@feature "FeaStepView"
+	operation testNameOrPrefixId_NotVoidName_ShouldReturnName() is do
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals(sut.name,actual)
+	end
+	
+	@feature "FeaStepView"
+	operation testNameOrPrefixId_VoidName_ShouldReturnPrefixId() is do
+		sut.name:=void
+	
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals(prefix+sut.id,actual)
+	end
+	
+	@feature "FeaStepView"
+	operation testNameOrPrefixId_EmptyName_ShouldReturnPrefixId() is do
+		sut.name:=""
+		
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals(prefix+sut.id,actual)
+	end
+	
+	operation testNameOrPrefixId_LeadingSpaces_ShouldRemoveLeadingSpaces() is do
+		sut.name:="  X"
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals("X",actual)
+	end
+	
+	operation testNameOrPrefixId_TrailingSpaces_ShouldRemoveTrailingSpaces() is do
+		sut.name:="X  "
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals("X",actual)
+	end
+	
+	operation testNameOrPrefixId_InsideSpaces_ShouldReplaceSpaceByUnderscore() is do
+		sut.name:="X Y Z"
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals("X_Y_Z",actual)
+	end
+	
+	operation testNameOrPrefixId_FirstLetterInLowercase_ShouldReplaceFirstLetterByUppercase() is do
+		sut.name:="xyz"
+		var actual:String init sut.nameOrPrefixId(prefix)
+		
+		assertEquals("Xyz",actual)
+	end
+	
+}

@@ -1,0 +1,75 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwPluginBindingTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference plugin:IwWorkflow
+	reference sut:IwPluginBinding
+	reference stub:IwStub
+	reference workflowInstantiator:WorkflowInstantiator
+	
+	method setUp() is do
+		stub:=createIwStub
+		sut:=createIwPluginBinding.withStub(stub)
+		plugin:=createIwPlugin
+		
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendBindStatement_ShouldDeclareAndInitializeBinding() is do
+		addOutBinding(1,plugin)//At least one binding is required (Can be an InBinding or an OutBinding)
+		
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertStringContains(
+"
+        Binding l_theStub_PluginBinding=new Binding(p_thePlugin.workflow);
+        _theStub.addBinding(l_theStub_PluginBinding);
+"        
+		,workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnInBindings() is do
+		//warning: maintain after dynamic stubs
+		addInBinding(1,plugin)
+		addInBinding(2,plugin) 
+	
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertStringContainsNTime(2,".addInBinding",workflowInstantiator.content)
+	end
+	
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendBindStatement_ShouldInvokeAppendBindStatementOnOutBindings() is do
+		//warning: maitain after dynamic stubs
+		addOutBinding(1,plugin)
+		addOutBinding(2,plugin) 
+	
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertStringContainsNTime(2,".addOutBinding",workflowInstantiator.content)
+	end
+	
+	operation addInBinding(stubEntryIndex:Integer,plugin:IwWorkflow) is do
+		createIwInBinding(
+			createIwNodeConnection.withStubEntryIndex(stubEntryIndex),
+			setupStartPointWithDefaultTarget(plugin)
+		).withPluginBinding(sut)
+	end
+	
+	operation addOutBinding(stubExitIndex:Integer,plugin:IwWorkflow) is do
+		createIwOutBinding(
+			createIwNodeConnection.withStubExitIndex(stubExitIndex),
+			createIwEndPoint.withWorkflow(plugin)
+		).withPluginBinding(sut)
+	end
+	
+}

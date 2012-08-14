@@ -1,0 +1,47 @@
+package jucm_OneFileWorkaround::ucm::map;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+class InOutExpression
+{
+	attribute out:String
+	attribute in:String
+	attribute outKeyword:String
+	attribute inKeyword:String
+	
+	property readonly hasOut : Boolean 
+	getter is do
+		result := not out.isVoid
+	end
+		
+	property readonly hasIn : Boolean 
+	getter is do
+		result := not in.isVoid
+	end	
+
+	operation construct(expression:String) is do
+		outKeyword:="out "
+		inKeyword:="in "
+	
+		if(expression.toLowerCase().indexOf(outKeyword)==0) then
+			expression:=expression.substring(outKeyword.size(), expression.size())		
+			var index:Integer init expression.indexOf(" ")	
+					
+			if(index==-1) then
+				out:=expression
+				expression:=""			
+			else
+				out:=expression.substring(0, index)
+				expression:=expression.substring(index+1, expression.size())				
+			end
+			out:=out.capitalizeFirstLetter
+		end	
+		if(expression.toLowerCase().indexOf(inKeyword)==0) then
+			in:=expression.substring(inKeyword.size(), expression.size())
+			in:=in.capitalizeFirstLetter
+		end
+		
+	end
+} 

@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwEndPoint
+{
+	method explore(currentStep:IwStep) is do
+		step:=currentStep
+		outBindings.each{outBinding|outBinding.explore(currentStep)}
+	end
+}

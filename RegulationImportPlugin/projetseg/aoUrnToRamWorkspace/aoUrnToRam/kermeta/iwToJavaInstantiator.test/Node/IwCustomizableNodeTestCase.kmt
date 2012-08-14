@@ -1,0 +1,39 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwCustomizableNodeTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwCustomizableNode
+	reference workflowInstantiator:WorkflowInstantiator
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testAppendBuildStatement_NotShared_ShouldDeclareAndInitializeStepNode() is do
+		sut:=createIwCustomizableNode
+		sut.step:=createIwStep
+		workflowInstantiator:=createWorkflowInstantiator		
+		
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertEquals("    public CustomizableNode _theCustomizableNode=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.theCustomizableNode\");\n",workflowInstantiator.content)
+	end
+	
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testAppendBuildStatement_Shared_ShouldDeclareAndInitializeStepNode() is do
+		sut:=createIwCustomizableNode
+		sut.withFirstRefToShared
+		
+		sut.step:=createIwStep
+		workflowInstantiator:=createWorkflowInstantiator		
+		
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertEquals("    public CustomizableNode _shared_1=createCustomizableNode(\"theCustomizableClassSubPackage.theStep.shared\");\n",workflowInstantiator.content)
+	end
+	
+}

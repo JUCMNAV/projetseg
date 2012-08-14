@@ -1,0 +1,149 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using kermeta::language::structure
+using aoUrnToRam::test
+
+class IwToIwInsertInputProcessingNodes_IwNodeConnectionTestCase inherits TestCase,IwToIwInsertInputProcessingNodes_TestHelper
+{
+	reference input:IwInput
+	reference sut:IwNodeConnection
+	reference workflow:IwWorkflow
+
+	method setUp() is do
+		workflow:=createIwWorkflow
+		input:=createIwInput
+		input.workflow:=workflow
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldBuildInputProcessingNode() is do
+		sut:=input.connect(createIwInput)
+		
+		sut.insertInputProcessingNode(input)
+		
+		assertNotVoid(input.iwInputProcessingNode)
+		assertEquals("Process"+input.name,input.iwInputProcessingNode.name)
+		assertEquals(workflow,input.iwInputProcessingNode.workflow)
+		assertVoid(input.iwInputProcessingNode.customizableNodeRefId)
+		assertEquals(false,input.iwInputProcessingNode.isShared)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldLinkInputProcessingToSource() is do
+		sut:=input.connect(createIwInput)
+		
+		sut.insertInputProcessingNode(input)
+
+		assertEquals(1,input.iwInputProcessingNode.preds.size)
+		var pred:IwNodeConnection init input.iwInputProcessingNode.preds.one
+		assertEquals(input,pred.source)
+		assertVoid(pred.stubExitIndex)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_StubAsSource_ShouldSetStubExitIndex() is do
+		var expectedStubExitIndex:Integer init 1
+		sut:=createIwStub.connect(createIwInput)
+		sut.stubExitIndex:=expectedStubExitIndex
+		
+		sut.insertInputProcessingNode(input)
+
+		assertEquals(1,input.iwInputProcessingNode.preds.size)
+		var pred:IwNodeConnection init input.iwInputProcessingNode.preds.one
+		assertEquals(expectedStubExitIndex, pred.stubExitIndex)
+	end
+	
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldLinkInputProcessingToTarget() is do
+		var target:IwNode init createIwInput
+		sut:=input.connect(target)
+		
+		sut.insertInputProcessingNode(input)
+		
+		assertEquals(1,input.iwInputProcessingNode.succs.size)
+		var succ:IwNodeConnection init input.iwInputProcessingNode.succs.one
+		assertEquals(target,succ.target)
+		assertVoid(succ.stubEntryIndex)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_StubAsTarget_ShouldSetStubEntryIndex() is do
+		var expectedStubEntryIndex:Integer init 1
+		var target:IwNode init createIwStub
+		sut:=input.connect(target)
+		sut.stubEntryIndex:=expectedStubEntryIndex
+		
+		sut.insertInputProcessingNode(input)
+		
+		assertEquals(1,input.iwInputProcessingNode.succs.size)
+		var succ:IwNodeConnection init input.iwInputProcessingNode.succs.one
+		assertEquals(expectedStubEntryIndex,succ.stubEntryIndex)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_TargetRequiresInputProcessing_ShouldDeleteSut() is do
+		sut:=input.connect(createIwInput)
+		
+		sut.insertInputProcessingNode(input)
+
+		assertVoid(sut.source)
+		assertVoid(sut.target)
+		assertVoid(sut.inBinding)
+		assertVoid(sut.outBinding)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_OutputAsTarget_ShouldNotBuildInputProcessingNode() is do
+		parameterizableTestInsertInputProcessingNode_ShouldNotBuildInputProcessingNode(createIwOutput)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_NotSharedCustomizableNodeAsTarget_ShouldNotBuildInputProcessingNode() is do
+		var target:IwCustomizableNode init createIwCustomizableNode
+		target.customizableNodeRefId:=void //Not Shared
+		
+		parameterizableTestInsertInputProcessingNode_ShouldNotBuildInputProcessingNode(target)
+	end
+
+	operation parameterizableTestInsertInputProcessingNode_ShouldNotBuildInputProcessingNode(target:IwNode) is do
+		sut:=input.connect(target)
+		
+		sut.insertInputProcessingNode(input)
+		
+		assertCollectionHasSingleElement(target,input.targets)
+	end
+	
+	@feature "FeaHandleTwoInputsInARow"
+	operation testInsertInputProcessingNode_SharedCustomizableNodeAsTarget_ShouldBuildInputProcessingNode() is do
+		var target:IwCustomizableNode init createIwCustomizableNode
+		target.withFirstRefToShared
+		sut:=input.connect(target)
+		
+		sut.insertInputProcessingNode(input)
+
+		assertNotVoid(input.iwInputProcessingNode)
+	end
+
+	@feature "FeaTransformAspectMarker"
+	operation testInsertInputProcessingNode_AspectMarkerAsTarget_ShouldInvokeInsertInputProcessingNodeOnAspectMarkerSucc() is do
+		var target:IwInput init createIwInput
+		var aspectMarker:IwStub init createIwStub.withStubType("aspectMarker")
+		//Observe that input is not directly connected with sut
+		//It is passed by parameter, thus many aspectMarker can be chainned
+		sut:=createIwNodeConnection.withTarget(aspectMarker)
+		aspectMarker.connect(target)
+		
+		sut.insertInputProcessingNode(input)
+
+		assertCollectionHasSingleElement(aspectMarker,input.iwInputProcessingNode.sources)
+		assertCollectionHasSingleElement(target,input.iwInputProcessingNode.targets)
+	end
+	
+}

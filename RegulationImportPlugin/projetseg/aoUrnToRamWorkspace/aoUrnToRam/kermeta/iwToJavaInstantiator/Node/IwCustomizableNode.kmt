@@ -1,0 +1,20 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwCustomizableNode
+{
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=CustomizableNodeInstantiationStrategy.new.initialize_CustomizableNodeInstantiationStrategy(self)
+	end
+	
+	method jiMemberName():String is do
+		result:=super
+		if(isShared) then
+			result:=result+"_"+customizableNodeRefId.toString
+		end 
+	end
+}

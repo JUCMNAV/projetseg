@@ -1,0 +1,23 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStartPoint inherits CollectionExt{
+	property readonly target:IwNode
+	getter is do
+		result:=colExtSingle(targets)
+	end
+	
+	property readonly isBound:Boolean
+	getter is do
+		result:=startPointType=="bound"
+	end
+	
+	property readonly isLocal:Boolean
+	getter is do
+		result:=startPointType=="local"
+	end
+	
+}

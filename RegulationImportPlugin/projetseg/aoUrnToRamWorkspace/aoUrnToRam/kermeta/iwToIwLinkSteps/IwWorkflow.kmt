@@ -1,0 +1,11 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwWorkflow {
+	operation linkSteps(concern:IwConcern) is do
+		startPoints.each{node|node.linkStep}
+	end
+}

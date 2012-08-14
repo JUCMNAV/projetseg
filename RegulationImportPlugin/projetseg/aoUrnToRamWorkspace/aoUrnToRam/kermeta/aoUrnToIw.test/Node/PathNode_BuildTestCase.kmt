@@ -1,0 +1,53 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PathNode_BuildTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:PathNode
+	
+	method setUp() is do
+		sut:=createStartPoint//use StartPoint as PathNodeImpl
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testBuild_NoInOut_ShouldNotCreateOutputNorInput() is do
+		sut.build
+
+		assertVoid(sut.iwOutput)
+		assertVoid(sut.iwInput)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testBuild_In_ShouldCreateInput() is do
+		attachInputRamMetadata(sut)
+		sut.build
+
+		assertVoid(sut.iwOutput)
+		assertNotVoid(sut.iwInput)
+		assertEquals(DEFAULT_INPUT_NAME,sut.iwInput.name)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testBuild_Out_ShouldCreateOutput() is do
+		attachOutputRamMetadata(sut)
+		sut.build
+	
+		assertNotVoid(sut.iwOutput)
+		assertEquals(DEFAULT_OUTPUT_NAME,sut.iwOutput.name)
+		assertVoid(sut.iwInput)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testBuild_OutIn_ShouldCreateOutputAndInput() is do
+		attachOutputInputRamMetadata(sut)
+		sut.build
+	
+		assertNotVoid(sut.iwOutput)
+		assertNotVoid(sut.iwInput)
+	end
+}

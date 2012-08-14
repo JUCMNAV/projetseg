@@ -1,0 +1,47 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+
+class IwToStepClassDiagram_IwModelTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwModel
+	reference ramWorkspace:RamWorkspace
+	
+	method setUp() is do
+		sut:=createIwModel
+		ramWorkspace:=createRamWorkspace 
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnConcerns() is do
+		createNotEmptyStep("theStep1",createIwConcern.withModel(sut))
+		createNotEmptyStep("theStep2",createIwConcern.withModel(sut))
+		sut.build
+
+		sut.link(ramWorkspace)
+
+		assertEquals(2,ramWorkspace.aspectPerWorkspacePath.size)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnSteps() is do
+		var concern:IwConcern init createIwConcern.withModel(sut)
+		createNotEmptyStep("theStep1",concern)
+		createNotEmptyStep("theStep2",concern)
+		sut.build
+
+		sut.link(ramWorkspace)
+
+		assertEquals(2,ramWorkspace.aspectPerWorkspacePath.size)
+	end
+	
+	operation createNotEmptyStep(name:String,concern:IwConcern) is do
+		createIwCustomizableNode.withStep(createIwStep.withName(name).withConcern(concern))
+	end
+}

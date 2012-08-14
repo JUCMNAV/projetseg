@@ -1,0 +1,24 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+class CustomizableNodeInstantiationStrategy inherits NodeInstantiationStrategy {
+
+	operation initialize_CustomizableNodeInstantiationStrategy(node:IwNode):CustomizableNodeInstantiationStrategy is do
+		initialize_NodeInstantiationStrategy(node)
+		result:=self
+	end
+
+	method jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		var customizableNodeFullyQualifiedName:String init workflowInstantiator.customizableClassSubPackage+"."+node.step.name+"."+node.name
+	
+		workflowInstantiator.appendPublicMember(
+			"CustomizableNode",
+			node.jiMemberName,
+			"createCustomizableNode(\""+customizableNodeFullyQualifiedName+"\")"
+		)
+	end
+}

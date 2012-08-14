@@ -1,0 +1,33 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwNodeTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwNode
+	reference workflowInstantiator:WorkflowInstantiator
+
+	method setUp() is do
+		sut:=createIwInput.withWorkflow(createIwWorkflow)
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkNodesToWorkflowStatement_ShouldLinkNodeToWorkflow() is do
+		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("        workflow.addNode(_theInput);\n",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkStartNodesToWorkflowStatement_NotStartPoint_ShouldNotLinkStartNodesToWorkflow() is do
+		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+}

@@ -1,0 +1,13 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwOrFork
+{
+	method createStrategy():NodeInstantiationStrategy is do
+		result:=WorkflowNodeInstantiationStrategy.new.initialize_WorkflowNodeInstantiationStrategy(self,"ConditionalExecutionNode")
+	end
+}

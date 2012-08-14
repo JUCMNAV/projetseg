@@ -1,0 +1,11 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwOutput {
+	method inputProcessingNodeAction():String is do
+		result:="stop"
+	end
+}

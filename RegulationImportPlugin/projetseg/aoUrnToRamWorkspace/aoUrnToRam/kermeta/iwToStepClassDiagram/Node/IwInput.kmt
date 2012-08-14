@@ -1,0 +1,18 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
+
+using kermeta::standard
+using ram
+
+aspect class IwInput{
+	reference ramInputData : Class
+	
+	method build() is do
+		ramInputData:=createRamClass(name+INPUT_DATA_SUFFIX)
+	end
+	
+	method link() is do
+		step.linkInputData(ramInputData)
+	end
+}

@@ -1,0 +1,9 @@
+//To annotate test with feature
+(^[\s\t]*\n)([\s\t]*)(operation test)
+\n\2@feature "FEATURE_ID_HERE"\n\2\3
+
+//To assert for debugging purposes
+		//stle:temp
+		var a:kermeta::kunit::Assert init kermeta::kunit::Assert.new
+		a.assertWithMsg(true,"msg")
+    

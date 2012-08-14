@@ -1,0 +1,80 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PathNode_LinkTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:PathNode
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutIn_ShouldLinkThreeIwNodesToIwWorklow() is do
+		setupAndExeLink_OutIn
+		
+		assertCollectionHasThreeElements(sut.iwEquivalentNode,sut.iwInput,sut.iwOutput,sut.ucmMap.iwWorkflow.nodes)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutIn_ShouldLinkIwOutputToIwInput() is do
+		setupAndExeLink_OutIn
+		
+		assertCollectionHasSingleElement(sut.iwInput,sut.iwOutput.targets)
+	end
+
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutputInputAfter_ShouldLinkIwEquivalentNodeToIwOutput() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStartPoint_UcmMap(ucmMap)//use StartPoint (OutputInputAfter)
+		connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		attachOutputInputRamMetadata(sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(sut.iwOutput,sut.iwEquivalentNode.targets)
+	end
+	
+	@feature "FeaTransformEmptyPointResponsibilityEndPoint"
+	operation testLink_OutputInputBefore_ShouldLinkIwInputToIwEquivalentNode() is do
+		setupAndExeLink_OutIn//use EndPoint (OutputInputBefore)
+		
+		assertCollectionHasSingleElement(sut.iwEquivalentNode,sut.iwInput.targets)
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testLink_NotEmpty_ShouldInvokeLinkOnNodeConnections() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createOrFork_UcmMap(ucmMap)
+		connectEndPointAsTarget(sut)
+		connectEndPointAsTarget(sut)
+		ucmMap.build
+
+		sut.link
+
+		assertEquals(2,sut.iwEquivalentNode.succs.size)
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testLink_Empty_ShouldNotInvokeLinkOnNodeConnections() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createEmptyPoint_UcmMap(ucmMap)
+		var nodeConnection:NodeConnection init connectEndPointAsTarget(sut)  
+		ucmMap.build
+
+		sut.link
+
+		assertVoid(nodeConnection.iwNodeConnection)
+	end
+	
+	operation setupAndExeLink_OutIn() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createEndPoint_UcmMap(ucmMap)
+		attachOutputInputRamMetadata(sut)
+		ucmMap.build
+		
+		sut.link
+	end
+}

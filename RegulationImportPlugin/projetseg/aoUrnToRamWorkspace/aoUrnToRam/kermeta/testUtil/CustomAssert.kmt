@@ -1,0 +1,142 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+
+class CustomAssert inherits Assert,CollectionExt
+{
+
+//*********************************************************
+//Object
+//*********************************************************/
+
+	//Observe that Assert contains an operation named assertEqual(without an 's' at the end)
+	//1)there is a syntactical mistake in Assert.assertEqual, it should end with an 's'
+	//2)KUnit does not allow running test that does not inherit direclty from TestCase.
+	//  Thus, it is not possible to create a CustomTestCase that would override assertEqual.
+	//3)Assert.assertEqual is not a generic method
+	//4)CustomAssert.assertEquals will be used very ofter, thus it is important to keep its name as short as possible
+	//For all these reason, we named this operation assertEquals even if it can possibly create confusion with assertEqual
+	operation assertEquals<T>(expected:T, actual:T) is do
+		assertSideBySideWithMsg(expected==actual,expected,actual,"The actual value was expected to be equals to the expected value:")
+	end
+	
+	operation assertNotEquals<T>(expected:T, actual:T) is do
+		assertSideBySideWithMsg(expected!=actual,expected,actual,"The actual value was expected to be different than the expected value:")
+	end
+	
+	operation assertVoid(actual:Object) is do
+		assertWithMsgNextLine(actual.isVoid,"The actual value was expected to be void.")
+	end
+	
+	operation assertNotVoid(actual:Object) is do
+		assertWithMsgNextLine(actual.isVoid==false,"The actual value was not expected to be void.")
+	end
+
+//*********************************************************
+//String
+//*********************************************************/
+	operation assertStringContains(expected:String, actual:String) is do
+		assertNotVoid(actual)
+		assertSideBySideWithMsg(actual.contains(expected),expected,actual,"The actual string was expected to contains the expected string.")
+	end
+	
+	operation assertStringDoesNotContains(expected:String, actual:String) is do
+		assertNotVoid(actual)
+		assertSideBySideWithMsg(actual.contains(expected)==false,expected,actual,"The actual string was not expected to contains the expected string.")
+	end
+
+	operation assertStringStartsWith(expected:String, actual:String) is do
+		assertNotVoid(actual)
+		var actualStart:String init actual.substring(0,expected.size)
+		assertSideBySideWithMsg(expected==actualStart,expected,actualStart,"The actual string was expected to start with the expected string.")
+	end
+
+	operation assertStringEndsWith(expected:String, actual:String) is do
+		assertNotVoid(actual)
+		assertSideBySideWithMsg(actual.size>=expected.size,expected,actual,"The length of the actual string was expected to be longer than the length of the expected string.")
+		
+		var actualEnd:String init actual.substring(actual.size-expected.size,actual.size)
+		assertSideBySideWithMsg(expected==actualEnd,expected,actualEnd,"The actual string was expected to end with the expected string.")
+	end
+
+	//Note: This assert will crash if the expected string contains some symbols (ex: '(').
+	//      Kermeta String function is too limited to implement this assert properly.
+	//      If this assert becomes a problem, create a java implementation and add
+	//      the project javaExternalCall to each test launcher.
+	operation assertStringContainsNTime(expectedNTime:Integer,expected:String,actual:String) is do
+		assertNotVoid(actual)
+		var actualNTime:Integer init actual.split(expected).size-1
+		
+		assertSideBySideWithMsg(expectedNTime==actualNTime,expected,actual,"The actual string was expected to contains the expected string "+expectedNTime.toString+" time. (found:"+actualNTime.toString+" time)")
+	end
+
+//*********************************************************
+//Collection
+//*********************************************************/
+	operation assertCollectionHasSingleElement<T>(singleElement:T,collection:Collection<T>) is do
+		assertEquals(1,collection.size)
+		assertEquals(singleElement,collection.one)
+	end
+	
+	operation assertCollectionHasTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
+		assertEquals(2,collection.size)
+		assertCollectionContainsTwoElements(firstElement,secondElement,collection)
+	end
+
+	operation assertCollectionContainsTwoElements<T>(firstElement:T,secondElement:T,collection:Collection<T>) is do
+		assertNotEquals(firstElement,secondElement)
+		assertCollectionContainsElementWithMsg(firstElement,collection,"(First element)")
+		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
+	end
+
+	operation assertCollectionHasThreeElements<T>(firstElement:T,secondElement:T,thirdElement:T,collection:Collection<T>) is do
+		assertEquals(3,collection.size)
+		assertNotEquals(firstElement,secondElement)
+		assertNotEquals(secondElement,thirdElement)
+		assertCollectionContainsElementWithMsg(firstElement,collection,"(First element)")
+		assertCollectionContainsElementWithMsg(secondElement,collection,"(Second element)")
+		assertCollectionContainsElementWithMsg(thirdElement,collection,"(Third element)")
+	end
+	
+	operation assertCollectionContainsElement<T>(element:T,collection:Collection<T>) is do
+		assertCollectionContainsElementWithMsg(element,collection,"")
+	end
+	
+	operation assertCollectionContainsElementWithMsg<T>(element:T,collection:Collection<T>,msg:String) is do
+		assertWithMsgNextLine(collection.contains(element),toFormattedString(element)+ "is not in collection."+msg)
+	end
+	
+	operation assertCollectionDoesNotContainsElement<T>(element:T,collection:Collection<T>) is do
+		assertWithMsgNextLine(collection.contains(element)==false,toFormattedString(element)+ "is in collection.")
+	end
+	
+
+//*********************************************************
+//Formatting
+//*********************************************************/
+
+	operation assertSideBySideWithMsg<T>(condition:Boolean,expected:T, actual:T,msg:String) is do
+		assertWithMsgNextLine(condition,formatSideBySide(expected,actual,msg))
+	end
+
+	operation assertWithMsgNextLine(condition:Boolean,msg:String) is do
+		assertWithMsg(condition,"\n"+msg)
+	end
+
+	operation formatSideBySide<T>(expected:T, actual:T,msg:String):String is do
+		result:=msg+"\n"+
+                "expected: "+toFormattedString(expected)+"\n"+
+                "actual:   "+toFormattedString(actual)
+	end
+	
+	operation toFormattedString(o:Object):String is do
+		result:=o.toString
+		if(o.isVoid==false and o.isInstanceOf(String)) then
+			result:="<String>"+result+"</String>"
+		end
+	end
+}

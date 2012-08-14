@@ -1,0 +1,308 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using kermeta::exceptions
+using jucm_OneFileWorkaround::urn
+using jucm_OneFileWorkaround::ucm::map
+using jucm_OneFileWorkaround::urncore
+
+class AoUrnTestFactory
+{
+	operation createUrnSpec():URNspec is do
+		result:=URNspec.new
+		result.urnSpecName:="TheUrnSpec"
+		result.urndef:=createURNdefinition
+	end
+	
+	operation createURNdefinition():URNdefinition is do
+		result:=URNdefinition.new
+	end
+	
+	operation createUcmMap():UCMmap is do
+		result:=UCMmap.new
+		result.name:="TheUcmMap"
+	end
+	
+	operation createUcmMap_UrnSpec(urnSpec:URNspec):UCMmap is do
+		result:=createUcmMap
+		urnSpec.urndef.specDiagrams.add(result)
+	end
+	
+	operation createUcmMap_UrnSpec_Concern(urnSpec:URNspec,concern:Concern):UCMmap is do
+		result:=createUcmMap_UrnSpec(urnSpec)
+		result.concern:=concern
+	end
+	
+	operation createConcern():Concern is do
+		result:=Concern.new
+		result.name:="TheConcern"
+	end
+	
+	operation createConcern_UrnSpec(urnSpec:URNspec):Concern is do
+		result:=createConcern
+		urnSpec.urndef.concerns.add(result)
+	end
+
+	operation createNodeConnection():NodeConnection is do
+		result:=NodeConnection.new
+	end
+	
+	operation connectNodes(source:IURNNode,target:IURNNode):NodeConnection is do
+		result:=createNodeConnection
+		result.source:=source
+		result.target:=target 
+	end
+	
+	operation connectEndPointAsTarget(pathNode:PathNode):NodeConnection is do
+		var target:PathNode init createEndPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(pathNode,target)
+	end
+	
+	operation connectStartPointAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createStartPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
+	
+	operation connectEmptyPointAsTarget(pathNode:PathNode):NodeConnection is do
+		var target:PathNode init createEmptyPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(pathNode,target)
+	end
+	
+	operation connectEmptyPointAsSource(pathNode:PathNode):NodeConnection is do
+		var source:PathNode init createEmptyPoint_UcmMap(pathNode.ucmMap)
+		result:=connectNodes(source,pathNode)
+	end
+	
+	operation createCondition():Condition is do
+		result:=Condition.new
+		result.label:="TheCondition" 
+	end
+
+	operation withCondition(nodeConnection:NodeConnection):Condition is do
+		result:=createCondition
+		nodeConnection.condition:=result
+	end
+
+/*********************************************************
+Node
+*********************************************************/
+	operation createStartPoint():StartPoint is do
+		result:=StartPoint.new
+		result.name:="TheStartPoint"
+		result.id:="1"
+	end
+	
+	operation createStartPoint_UcmMap(ucmMap:UCMmap):StartPoint is do
+		result:=createStartPoint
+		result.diagram:=ucmMap
+	end
+	
+	operation createEndPoint():EndPoint is do
+		result:=EndPoint.new
+		result.name:="TheEndPoint"
+		result.id:="1"
+	end
+	
+	operation createEndPoint_UcmMap(ucmMap:UCMmap):EndPoint is do
+		result:=createEndPoint
+		result.diagram:=ucmMap
+	end
+	
+	operation createEmptyPoint():EmptyPoint is do
+		result:=EmptyPoint.new
+		result.name:="TheEmptyPoint"
+		result.id:="1"
+	end
+	
+	operation createEmptyPoint_UcmMap(ucmMap:UCMmap):EmptyPoint is do
+		result:=createEmptyPoint
+		result.diagram:=ucmMap
+	end
+	
+	operation createOrFork():OrFork is do
+		result:=OrFork.new
+		result.name:="TheOrFork"
+		result.id:="1"
+	end
+	
+	operation createOrFork_UcmMap(ucmMap:UCMmap):OrFork is do
+		result:=createOrFork
+		result.diagram:=ucmMap
+	end
+
+	operation createOrJoin():OrJoin is do
+		result:=OrJoin.new
+		result.name:="TheOrJoin"
+		result.id:="1"
+	end
+
+	operation createOrJoin_UcmMap(ucmMap:UCMmap):OrJoin is do
+		result:=createOrJoin
+		result.diagram:=ucmMap
+	end
+
+	operation createAndFork():AndFork is do
+		result:=AndFork.new
+		result.name:="TheAndFork"
+		result.id:="1"
+	end
+	
+	operation createAndJoin():AndJoin is do
+		result:=AndJoin.new
+		result.name:="TheAndJoin"
+		result.id:="1"
+	end
+	
+	operation createWaitingPlace():WaitingPlace is do
+		result:=WaitingPlace.new
+		result.name:="TheWaitingPlace"
+		result.id:="1"
+		result.waitType:=WaitKind.Transient
+	end
+	
+	operation createWaitingPlace_UcmMap(ucmMap:UCMmap):WaitingPlace is do
+		result:=createWaitingPlace
+		result.diagram:=ucmMap
+	end
+
+	operation createConnect():Connect is do
+		result:=Connect.new
+		result.name:="TheConnect"
+		result.id:="1"
+	end
+	
+	operation createConnect_UcmMap(ucmMap:UCMmap):Connect is do
+		result:=createConnect
+		result.diagram:=ucmMap
+	end
+		
+	operation createRespRef():RespRef is do
+		result:=RespRef.new
+		result.respDef:=createResponsibility
+		result.id:="1"
+	end
+/*********************************************************
+Stub
+*********************************************************/
+	operation createStub():Stub is do
+		result:=Stub.new
+		result.name:="TheStub"
+		result.id:="1"	
+	end
+	
+	operation createPointcutStub():Stub is do
+		result:=createStub
+		result.aopointcut:=PointcutKind.Regular
+		result.name:="ThePointcutStub"
+	end
+	
+	operation createStub_UcmMap(ucmMap:UCMmap):Stub is do
+		result:=createStub
+		result.diagram:=ucmMap
+	end
+
+	operation createPluginBinding():PluginBinding is do
+		result:=PluginBinding.new
+	end
+	
+	operation createPluginBinding_Stub(stub:Stub):PluginBinding is do
+		result:=createPluginBinding
+		result.stub:=stub
+	end
+	
+	operation createInBinding():InBinding is do
+		result:=InBinding.new
+	end
+	
+	operation createInBinding_PluginBinding(pluginBinding:PluginBinding):InBinding is do
+		result:=createInBinding
+		result.binding:=pluginBinding
+	end
+	
+	operation attachStubEntryAndStartPointToInBinding(inBinding:InBinding) is do
+		var pluginStartPoint:StartPoint init createStartPoint
+		inBinding.startPoint:=pluginStartPoint
+		pluginStartPoint.build
+		
+		var stubEntry:NodeConnection init createNodeConnection
+		inBinding.stubEntry:=stubEntry
+		stubEntry.build
+	end
+
+	operation attachStubExitAndEndPointToOutBinding(outBinding:OutBinding) is do
+		var pluginEndPoint:EndPoint init createEndPoint
+		outBinding.endPoint:=pluginEndPoint
+		pluginEndPoint.build
+		
+		var stubExit:NodeConnection init createNodeConnection
+		outBinding.stubExit:=stubExit
+		stubExit.build
+	end
+	
+	operation createOutBinding():OutBinding is do
+		result:=OutBinding.new
+	end
+	
+	operation createOutBinding_PluginBinding(pluginBinding:PluginBinding):OutBinding is do
+		result:=createOutBinding
+		result.binding:=pluginBinding
+	end
+	
+
+
+/*********************************************************
+Misc
+*********************************************************/
+	property readonly DEFAULT_OUTPUT_NAME:String
+	getter is do
+		result:="TheOutput"
+	end
+	
+	property readonly DEFAULT_INPUT_NAME:String 
+	getter is do
+		result:="TheInput"
+	end
+	
+
+	operation attachOutputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("out "+DEFAULT_OUTPUT_NAME))
+	end
+	
+	operation attachInputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("in "+DEFAULT_INPUT_NAME))
+	end
+	
+	operation attachOutputInputRamMetadata(element:URNmodelElement) is do
+		element.metadata.add(createRamMetadata_RamExpresion("out "+DEFAULT_OUTPUT_NAME+" in "+DEFAULT_INPUT_NAME))
+	end
+	
+	operation createRamMetadata_RamExpresion(ramExpression:String):Metadata is do
+		result:=Metadata.new
+		result.name:="ram"
+		result.~value:=ramExpression
+	end
+
+	operation createResponsibility():Responsibility is do
+		result:=Responsibility.new
+		result.name:="TheResponsibility"
+	end
+
+	operation attachComponentRef(pathNode:PathNode,componentKind:ComponentKind) is do
+		pathNode.contRef:=createComponentRef_ComponentKind(componentKind)
+	end
+
+	operation createComponentRef_ComponentKind(componentKind:ComponentKind):ComponentRef is do
+		result:=ComponentRef.new
+		result.contDef:=createComponent_ComponentKind(componentKind)
+	end
+	
+	operation createComponent_ComponentKind(componentKind:ComponentKind):Component is do
+		result:=Component.new
+		result.name:="TheComponent"
+		result.kind:=componentKind
+	end
+}

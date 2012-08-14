@@ -1,0 +1,111 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_NodeConnectionTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:NodeConnection
+	
+	method setUp() is do
+		sut:=createNodeConnection
+	end
+	
+	@feature "FeaTransformOrFork"
+	operation testBuild_WithCondition_ShouldSetConditionName() is do
+		withCondition(sut)
+
+		sut.build
+	
+		assertEquals(sut.conditionLabel,sut.iwNodeConnection.conditionName)
+	end	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_SourceInOut_ShouldLinkInputAsSource() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createEndPoint_UcmMap(ucmMap)
+		attachOutputInputRamMetadata(sut.sourceAsPathNode)
+		ucmMap.build
+	
+		sut.link
+	
+		assertEquals(sut.sourceAsPathNode.iwInput,sut.iwNodeConnection.source)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_TargetInOut_ShouldLinkOutputAsTarget() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createEndPoint_UcmMap(ucmMap)
+		attachOutputInputRamMetadata(sut.targetAsPathNode)
+		ucmMap.build
+	
+		sut.link
+	
+		assertEquals(sut.targetAsPathNode.iwOutput,sut.iwNodeConnection.target)
+	end	
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_PathNodeWithoutIwNodesInBetween_ShouldLinkTarget() is do
+		var ucmMap:UCMmap init createUcmMap
+		var inBetween:PathNode init setupSut_PathNodeWithoutIwNodesAsTarget(ucmMap)
+		var target:EndPoint init createEndPoint_UcmMap(ucmMap)
+		connectNodes(inBetween,target) 
+		ucmMap.build
+	
+		sut.link
+		
+		assertEquals(target.iwEndPoint,sut.iwNodeConnection.target)
+	end
+
+	@feature "FeaTransformWaitingPlace"
+	operation testLink_TargetIsNotWaitingPlace_ShouldNotSetTrigger() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createEndPoint_UcmMap(ucmMap)
+		ucmMap.build
+	
+		sut.link
+	
+		assertVoid(sut.iwNodeConnection.trigger)
+	end
+	
+	@feature "FeaTransformWaitingPlace"
+	operation testLink_TargetIsWaitingPlace_ShouldSetTrigger() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		sut.target:=createConnectWithDefaultWaitingPlace(ucmMap)
+		ucmMap.build
+	
+		sut.link
+	
+		assertEquals(true,sut.iwNodeConnection.trigger)
+	end	
+	
+	@feature "FeaTransformWaitingPlace"
+	operation testLink_PathNodeWithoutIwNodesInBetween_ShouldSetTrigger() is do
+		var ucmMap:UCMmap init createUcmMap
+		var inBetween:PathNode init setupSut_PathNodeWithoutIwNodesAsTarget(ucmMap)
+		connectNodes(inBetween,createConnectWithDefaultWaitingPlace(ucmMap)) 
+		ucmMap.build
+	
+		sut.link
+		
+		assertEquals(true,sut.iwNodeConnection.trigger)
+	end
+
+	operation setupSut_PathNodeWithoutIwNodesAsTarget(ucmMap:UCMmap):PathNode is do
+		sut.source:=createStartPoint_UcmMap(ucmMap)
+		result:=createEmptyPoint_UcmMap(ucmMap)
+		sut.target:=result
+	end
+
+	operation createConnectWithDefaultWaitingPlace(ucmMap:UCMmap):Connect is do
+		result:=createConnect_UcmMap(ucmMap)
+		connectNodes(result,createWaitingPlace_UcmMap(ucmMap))
+	end
+}

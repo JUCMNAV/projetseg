@@ -1,0 +1,61 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+
+class IwToStepClassDiagram_IwStep_BuildTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwStep
+	
+	method setUp() is do
+		sut:=createIwStep 
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildAspect() is do
+		sut.build
+		
+		assertNotVoid(sut.ramAspect)
+		assertEquals(sut.name,sut.ramAspect.name)
+		assertNotVoid(sut.ramAspect.structuralView)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testBuild_ShouldBuildInstantiations() is do
+		sut.build
+		
+		assertEquals(instantiationTypes.Extends,sut.ramWorkflowInstantiation.type)
+		assertEquals(instantiationTypes.Extends,sut.ramInputInstantiation.type)
+		assertEquals(instantiationTypes.Extends,sut.ramOutputInstantiation.type)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"	
+	operation testBuild_ShouldBuildMappings() is do
+		sut.build
+		
+		assertNotVoid(sut.ramCustomizableNodeMapping)
+		assertNotVoid(sut.ramExecuteOperationMapping)
+		assertNotVoid(sut.ramCustomizableInputDataMapping)
+		assertNotVoid(sut.ramCustomizableOutputDataMapping)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldBuildLocalContextClass() is do
+		sut.build
+		
+		assertEquals("LocalContext",sut.ramLocalContextClass.name)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldRVoidClass() is do
+		sut.build
+		
+		assertEquals("void",sut.ramRVoid.name)
+	end
+	
+}

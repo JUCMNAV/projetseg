@@ -1,0 +1,13 @@
+package jucm_OneFileWorkaround::ucm::map;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class AndJoin {
+	method buildIwNodeTemplate() is do
+		var iwAndJoin:IwAndJoin init IwAndJoin.new
+		iwAndJoin.name:=nameOrPrefixId("AndJoin")
+		addIwEquivalentNodeBeforeOutIn(iwAndJoin)
+	end
+}

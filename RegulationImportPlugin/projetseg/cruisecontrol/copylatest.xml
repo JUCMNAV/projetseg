@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="CopyLatestBuild" default="copyall" basedir=".">
+        <target name="copylatest">
+		<property name="copyFromDir" value="checkout\get\seg.jUCMNav\build\" />
+		<delete includeEmptyDirs="true">
+		  <fileset dir="${copyToDir}" includes="**/*" defaultexcludes="no"/>
+		</delete>		
+
+		<copy todir="${copyToDir}" overwrite="true">
+			<fileset dir="${copyFromDir}" includes="**/*"/>
+		</copy>
+	</target>
+
+	<target name="copyall">
+		<antcall target="copylatest">
+		    <param name="copyToDir" value="artifacts\seg.jUCMNav\latest\"/>
+		</antcall>
+
+		<antcall target="copylatest">
+		    <param name="copyToDir" value="r:\public_html\artifacts\seg.jUCMNav\latest\"/>
+		</antcall>
+	</target>
+</project>
+

@@ -1,0 +1,16 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwCustomizableNode {
+
+	method inputProcessingNodeAction():String is do
+		if(isShared) then
+			result:="insert"
+		else
+			result:="stop"
+		end
+	end
+}

@@ -1,0 +1,84 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using jucm_OneFileWorkaround::urn
+using intermediateWorkflow
+
+class AoUrnToIw_UCMmap_IsPointcutExpressionTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:UCMmap
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_BoundAsPluginInTwoPointcutStubs_ShouldReturnsTrue() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInPointcutStub(startPoint)
+
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(true,actual)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_OutboundAsPluginInOnePointcutStub_ShouldReturnsTrue() is do
+		sut:=createUcmMap
+		var endPoint:EndPoint init createEndPoint_UcmMap(sut)
+		outbindAsPluginInPointcutStub(endPoint)
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(true,actual)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_NotBoundAsPlugin_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubFromDifferentConcernAndOnePointcutStubFromSameConcern_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInPointcutStub(startPoint).ucmMap.concern:=createConcern //DifferentConcern
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_BoundAsPluginInOnePointcutStubAndOneNormalStub_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		bindAsPluginInStub(startPoint)
+
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testIsPointcutExpression_HasPlugins_ShouldReturnsFalse() is do
+		sut:=createUcmMap
+		var startPoint:StartPoint init createStartPoint_UcmMap(sut)
+		bindAsPluginInPointcutStub(startPoint)
+		var pluginStartPoint:StartPoint init createStartPoint_UcmMap(createUcmMap)
+		bindAsPluginInStub(pluginStartPoint).ucmMap:=sut
+		
+		var actual:Boolean init sut.isPointcutExpression
+	
+		assertEquals(false,actual)
+	end
+	
+	
+}

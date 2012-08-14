@@ -1,0 +1,14 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw.testUtil/_Ref.kmt"
+
+using kermeta::standard
+using aoUrnToRam::test
+
+aspect class IwOutBinding inherits IwTestFactory
+{
+	operation withPluginBinding(theValue:IwPluginBinding):IwOutBinding is do
+		self.pluginBinding:=theValue
+		result:=self
+	end
+}

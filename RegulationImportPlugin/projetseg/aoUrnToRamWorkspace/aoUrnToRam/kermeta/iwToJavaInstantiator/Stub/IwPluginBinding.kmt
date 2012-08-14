@@ -1,0 +1,26 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwPluginBinding{
+	operation jiAppendBindStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendNextLine
+		workflowInstantiator.appendLocalVarConstructor_1Param(
+			"Binding",
+			jiLocalVarName,
+			plugin.jiBindMethod_PluginParamName+"."+plugin.workflowMemberName
+		)
+		workflowInstantiator.appendMethodInvocationOn_1Param(stub.jiMemberName,"addBinding",jiLocalVarName)
+		
+		inBindings.each{inBinding|inBinding.jiAppendBindStatement(workflowInstantiator)}
+		outBindings.each{outBinding|outBinding.jiAppendBindStatement(workflowInstantiator)}
+	end
+	
+	operation jiLocalVarName():String is do 
+		result:="l_"+stub.name+"_PluginBinding"
+	end
+ 
+}

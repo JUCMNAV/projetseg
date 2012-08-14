@@ -1,0 +1,167 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using ram
+
+class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDiagram_TestHelper
+{
+	reference sut:IwStep
+	reference ramWorkspace:RamWorkspace
+	
+	method setUp() is do
+		sut:=createIwStep.withConcern(createIwConcern) 
+		ramWorkspace:=createRamWorkspace
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldLinkWorkflowInstantiationToAspect() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		assertCollectionHasSingleElement(
+			sut.ramWorkflowInstantiation,
+			sut.ramAspect.instantiations
+		)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_ShouldLinkRamWorkflowInstantiationToExternalAspect() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertEquals(ramWorkspace.workflow,sut.ramWorkflowInstantiation.externalAspect)
+	end
+	
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_ShouldLinkRamCustomizableNodeMapping() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramCustomizableNodeMapping,sut.ramWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.sourceModelElement)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkExecuteOperationMapping() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramExecuteOperationMapping,sut.ramWorkflowInstantiation.mappings)
+		assertEquals(ramWorkspace.executeOperation,sut.ramExecuteOperationMapping.sourceModelElement)
+	end
+	
+	
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_OneInput_ShouldLinkRamCustomizableInputDataMapping() is do
+		createIwInput.withStep(sut)
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramInputInstantiation,sut.ramAspect.instantiations)
+		assertCollectionHasSingleElement(sut.ramCustomizableInputDataMapping,sut.ramInputInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableInputData,sut.ramCustomizableInputDataMapping.sourceModelElement)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_NoInput_ShouldNotLinkCustomizableInputDataMapping() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionDoesNotContainsElement(sut.ramInputInstantiation,sut.ramAspect.instantiations)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_OneOutput_ShouldLinkRamCustomizableOutputDataMapping() is do
+		createIwOutput.withStep(sut)
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramOutputInstantiation,sut.ramAspect.instantiations)
+		assertCollectionHasSingleElement(sut.ramCustomizableOutputDataMapping,sut.ramOutputInstantiation.mappings)
+		assertEquals(ramWorkspace.customizableOutputData,sut.ramCustomizableOutputDataMapping.sourceModelElement)
+	end
+
+	@feature "FeaMigrateToLatestRamMetaModel"
+	operation testLink_NoOutput_ShouldNotLinkRamOutputInstantiation() is do
+		sut.concern.build
+
+		sut.link(ramWorkspace)
+		
+		assertCollectionDoesNotContainsElement(sut.ramOutputInstantiation,sut.ramAspect.instantiations)
+	end
+		
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_EmptyRamAspect_ShouldNotBeAddedToRamWorkspace() is do
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+		
+		assertEquals(0,ramWorkspace.aspectPerWorkspacePath.size)
+	end
+	
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_NotEmptyRamAspect_ShouldBeAddedToRamWorkspace() is do
+		createIwCustomizableNode().withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+		
+		assertEquals(1,ramWorkspace.aspectPerWorkspacePath.size)
+	end
+
+	@feature "FeaNamingofRAMConcern"
+	operation testLink_NotEmptyRamAspect_ShouldCombineConcernNameAndStepNameAsWorkspacePath() is do
+		createIwCustomizableNode().withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+				
+		assertCollectionContainsElement("Steps/theConcern/theStep",ramWorkspace.aspectPerWorkspacePath.keys)
+	end
+
+	@feature "FeaTransformStartPointResponsibilityEndPoint"
+	operation testLink_ShouldInvokeLinkOnNodes() is do
+		var input1:IwInput init createIwInput.withStep(sut)
+		var input2:IwInput init createIwInput.withStep(sut)
+		sut.concern.build
+		
+		sut.link(ramWorkspace)
+	
+		assertCollectionContainsTwoElements(
+			input1.ramInputData,
+			input2.ramInputData,
+			sut.ramAspect.structuralView.classes
+		)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testLink_ShouldLinkLocalContextClassToStructuralView() is do
+		sut.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramLocalContextClass,sut.ramStructuralView.classes)
+	end
+
+	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
+	operation testBuild_ShouldLinkRVoidClassToStructuralView() is do
+		sut.build
+		
+		sut.link(ramWorkspace)
+		
+		assertCollectionContainsElement(sut.ramRVoid,sut.ramStructuralView.types)
+	end
+	
+	
+}

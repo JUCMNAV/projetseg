@@ -1,0 +1,29 @@
+package kermeta::standard;
+
+require kermeta
+using kermeta::standard
+
+aspect class String{
+	operation replaceFirst(regex:String,replacement:String):String is do
+		result?=extern aoUrnToRam::javaExternalCall::StringUtil.replaceFirst(self,regex,replacement)
+	end
+	
+	operation replaceAll(regex:String,replacement:String):String is do
+		result?=extern aoUrnToRam::javaExternalCall::StringUtil.replaceAll(self,regex,replacement)
+	end
+	
+	operation trim():String is do
+		result?=extern aoUrnToRam::javaExternalCall::StringUtil.trim(self)
+	end
+	
+	operation replaceSpaceByUnderscore():String is do
+		result:=self.trim
+		result:=result.replaceAll("\\s","_")
+	end
+	
+	operation capitalizeFirstLetter():String is do
+		result:=self.elementAt(0).toString.toUpperCase+self.substring(1,self.size) 
+	end
+	
+}
+

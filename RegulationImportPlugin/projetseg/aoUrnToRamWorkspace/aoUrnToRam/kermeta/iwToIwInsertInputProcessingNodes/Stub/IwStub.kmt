@@ -1,0 +1,15 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStub {
+	method inputProcessingNodeAction():String is do
+		if(isAspectMarker) then
+			result:="continue"
+		else
+			result:="insert"
+		end
+	end
+}

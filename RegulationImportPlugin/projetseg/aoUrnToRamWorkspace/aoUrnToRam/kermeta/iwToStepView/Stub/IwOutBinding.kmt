@@ -1,0 +1,24 @@
+package intermediateWorkflow;
+
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwOutBinding{
+	operation appendBinding(stepView:StepView) is do
+		stepView.append("    ")
+		stepView.append(stepView.dotEscape(pluginEndPoint.getId))
+		stepView.append("->")
+		stepView.append(stubExit.getSourcePortDotEscaped(stepView))
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
+	end
+
+	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
+		stepView.append("    ")
+		stepView.append(stepView.dotEscape(pluginEndPoint.getId))
+		stepView.append("->")
+		stepView.appendStubsFromOtherConcernsPlaceholder
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
+	end
+}

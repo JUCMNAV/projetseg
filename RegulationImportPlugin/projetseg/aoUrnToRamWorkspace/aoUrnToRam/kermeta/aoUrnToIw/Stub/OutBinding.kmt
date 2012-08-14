@@ -1,0 +1,40 @@
+package jucm_OneFileWorkaround::ucm::map;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+
+aspect class OutBinding {
+	reference iwOutBinding:IwOutBinding
+
+	operation build() is do
+		iwOutBinding:=IwOutBinding.new
+	end
+	
+	operation link() is do
+		linkEndPoint
+		linkStubExit
+		linkPluginBinding
+	end
+	
+	operation linkPluginBinding() is do
+		binding.addIwOutBinding(iwOutBinding)	
+	end
+	
+	operation linkStubExit() is do
+		iwOutBinding.stubExit:=stubExit.iwNodeConnection	
+	end
+	
+	operation linkEndPoint() is do
+		if(pointcutEntry.isVoid) then
+			iwOutBinding.pluginEndPoint:=endPoint.iwEndPoint
+		else
+			iwOutBinding.pluginEndPoint:=iwGetPluginEndPointFromPointcutStub
+		end
+	end
+	
+	operation iwGetPluginEndPointFromPointcutStub():IwEndPoint is do
+		var pointcutStub:PathNode init pointcutEntry.targetAsPathNode
+		result:=pointcutStub.iwGetEntryNode(pointcutEntry).asType(IwEndPoint)
+	end
+}

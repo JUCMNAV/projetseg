@@ -1,0 +1,22 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/metamodel/RAM.ecore"
+require "platform:/lookup/aoUrnToRam/kermeta/util/Uri.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.codegen.RefCodeGenerator
+//Args: ${resource_loc} ${project_name}
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/IwConcern.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/IwModel.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/IwStep.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwCustomizableNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwInput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/Node/IwOutput.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/RamFactory.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/RamWorkspace.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"

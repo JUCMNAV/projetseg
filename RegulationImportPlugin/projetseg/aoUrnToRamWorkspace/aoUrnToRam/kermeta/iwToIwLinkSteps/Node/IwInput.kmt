@@ -1,0 +1,17 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwInput {
+	method explore(currentStep:IwStep) is do
+		var newStep:IwStep init createStep(false) 
+		if(currentStep.isEmptyStartupStep) then
+			currentStep.merge(newStep)
+		else
+			currentStep:=newStep
+		end
+		super(currentStep)
+	end
+}

@@ -1,0 +1,14 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+using aoUrnToRam
+
+aspect class IwModel {
+	operation jiToJavaInstantiator():WorkflowInstantiator[0..*] is do
+		result:=OrderedSet<WorkflowInstantiator>.new
+		workflows.each{workflow|result.add(workflow.jiToWorkflowInstantiator)}
+	end
+}

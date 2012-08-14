@@ -1,0 +1,89 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_InBindingTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference pluginBinding:PluginBinding
+	reference sut:InBinding
+	
+	method setUp() is do
+		pluginBinding:=createPluginBinding
+		sut:=createInBinding_PluginBinding(pluginBinding)
+		pluginBinding.build
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwPluginBinding() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.iwInBinding, pluginBinding.iwPluginBinding.inBindings)
+	end	
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_OneStubEntry_ShouldLinkIwInBindingToIwStubEntries() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+		
+		sut.link
+	
+		assertCollectionHasSingleElement(sut.stubEntry.iwNodeConnection, sut.iwInBinding.disjunctiveStubEntries)
+	end
+	
+	@feature "FeaDisjunctiveStubEntries"
+	operation testLink_ManyStubEntries_ShouldLinkIwInBindingToIwStubEntries() is do
+		var pluginStartPoint:StartPoint init createStartPoint
+		sut.startPoint:=pluginStartPoint
+		pluginStartPoint.build
+		var ucmMap:UCMmap init createUcmMap //To facilitate setup
+		var orJoin:OrJoin init createOrJoin_UcmMap(ucmMap)
+		var orJoinPred1:NodeConnection init connectStartPointAsSource(orJoin)
+		var orJoinPred2:NodeConnection init connectStartPointAsSource(orJoin)
+		sut.stubEntry:=createNodeConnection
+		sut.stubEntry.source:=orJoin
+		ucmMap.build
+		
+		sut.link
+	
+		assertCollectionHasTwoElements(
+			orJoinPred1.iwNodeConnection,
+			orJoinPred2.iwNodeConnection,
+			sut.iwInBinding.disjunctiveStubEntries
+		)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldLinkIwInBindingToIwPluginStartPoint() is do
+		attachStubEntryAndStartPointToInBinding(sut)
+	
+		sut.link
+	
+		assertEquals(sut.startPoint.iwStartPoint, sut.iwInBinding.pluginStartPoint)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ShouldLinkIwInBindingToIwPointcutExit() is do
+		var pointcutStub:Stub init createPointcutStub
+		sut.pointcutExit:=createNodeConnection
+		sut.pointcutExit.source:=pointcutStub
+		pointcutStub.build
+		attachStubEntryToInBinding(sut)
+		
+		sut.link
+	
+		assertEquals(pointcutStub.iwGetExitNode(sut.pointcutExit), sut.iwInBinding.pluginStartPoint)
+	end
+	
+	operation attachStubEntryToInBinding(inBinding:InBinding):NodeConnection is do
+		var stubEntry:NodeConnection init createNodeConnection
+		inBinding.stubEntry:=stubEntry
+		stubEntry.build
+		result:=stubEntry
+	end
+	
+}

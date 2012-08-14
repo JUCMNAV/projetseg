@@ -1,0 +1,48 @@
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+
+class IwToIwLinkSteps_IwNode_OrForkAsSutTestCase inherits TestCase,IwToIwLinkSteps_TestHelper
+{
+	reference concern:IwConcern
+	reference workflow:IwWorkflow
+	reference currentStep:IwStep
+	reference sut:IwNode
+	reference nextNode1:IwNode 
+	reference nextNode2:IwNode
+	
+	method setUp() is do
+		concern:= createIwConcern
+		workflow:=createIwWorkflow.withConcern(concern)
+		currentStep:=createIwStep.withConcern(concern)
+
+		sut:=createIwOrFork.withWorkflow(workflow)
+		nextNode1:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(nextNode1)
+		nextNode2:=createIwCustomizableNode.withWorkflow(workflow)
+		sut.connect(nextNode2)
+	end
+	
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Unexplored_ShouldContinueExploration() is do
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertEquals(currentStep,nextNode1.step)
+		assertEquals(currentStep,nextNode2.step)
+	end
+
+	@feature "FeaNamingOfRAMStep"
+	operation testDeepFirstSearch_Explored_ShouldStopExploration() is do
+		sut.step:=currentStep
+		
+		sut.step_DeepFirstSearch(currentStep)
+		
+		assertVoid(nextNode1.step)
+		assertVoid(nextNode2.step)
+	end
+}

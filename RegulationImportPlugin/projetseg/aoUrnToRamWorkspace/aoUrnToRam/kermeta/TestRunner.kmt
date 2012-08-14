@@ -1,0 +1,28 @@
+@mainClass "aoUrnToRam::test::AllTestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwInsertInputProcessingNodes.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram.test/TestRunner.CodeGen.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class AllTestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.addAll(AoUrnToIw_TestRunner.new.getTestClasses)
+		result.addAll(IwToIwInsertInputProcessingNodes_TestRunner.new.getTestClasses)
+		result.addAll(IwToIwLinkSteps_TestRunner.new.getTestClasses)
+		result.addAll(IwToStepClassDiagram_TestRunner.new.getTestClasses)
+		result.addAll(IwToJavaInstantiator_TestRunner.new.getTestClasses)
+		result.addAll(IwToJavaProgram_TestRunner.new.getTestClasses)
+	end
+}

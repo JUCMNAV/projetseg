@@ -1,0 +1,120 @@
+<cruisecontrol>
+<plugin
+name="htmlemail"
+classname="net.sourceforge.cruisecontrol.publishers.HTMLEmailPublisher"
+mailhost="smtp-out.uottawa.ca"
+returnaddress="bugzilla-daemon@site.uottawa.ca"
+returnname="jUCMNav CruiseControl"
+defaultsuffix="@softwareengineering.ca"
+subjectprefix="jUCMNav CruiseControl - "
+spamwhilebroken="false"
+skipusers="false"
+reportsuccess="true"
+failasimportant="true"
+logdir="c:\work\cruisecontrol\logs\seg.jUCMNav"
+buildresultsurl="http://jucmnav.softwareengineering.ca/ccbuilds/artifacts/seg.jUCMNav/latest/" 
+css="c:\work\cruisecontrol\webapps\cruisecontrol\css\cruisecontrol.css"
+xsldir="c:\work\cruisecontrol\webapps\cruisecontrol\xsl">
+</plugin>
+
+    <project name="connectfour">
+
+        <listeners>
+            <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+        </listeners>
+
+        <bootstrappers>
+            <antbootstrapper anthome="apache-ant-1.7.0" buildfile="projects/${project.name}/build.xml" target="clean" />
+        </bootstrappers>
+
+        <modificationset quietperiod="30">
+            <!-- touch any file in connectfour project to trigger a build -->
+            <filesystem folder="projects/${project.name}"/>
+        </modificationset>
+
+        <schedule interval="300">
+            <ant anthome="apache-ant-1.7.0" buildfile="projects/${project.name}/build.xml"/>
+        </schedule>
+
+        <log>
+            <merge dir="projects/${project.name}/target/test-results"/>
+        </log>
+
+        <publishers>
+            <onsuccess>
+                <artifactspublisher dest="artifacts/${project.name}" file="projects/${project.name}/target/${project.name}.jar"/>
+            </onsuccess>
+        </publishers>
+
+    </project>
+	
+  <project name="seg.jUCMNav" buildafterfailed="true">
+    <listeners>
+      <currentbuildstatuslistener
+          file="logs/seg.jUCMNav/buildstatus.txt"/>
+      <currentbuildstatuslistener
+          file="r:/buildstatus.txt"/>
+    </listeners>
+
+    <!-- Bootstrappers are run every time the build runs, 
+        *before* the modification checks -->
+    <bootstrappers>
+    </bootstrappers>
+
+    <!-- Defines where cruise looks for changes, to decide
+         whether to run the build --> 
+    <modificationset quietperiod="60"> 
+      <svn localworkingcopy="checkout/get/seg.jUCMNav"/> 
+    </modificationset>
+
+    <!-- Configures the actual build loop, how often and which
+         build file/target --> 
+    <schedule interval="60">
+      <ant antscript="C:\Program Files (x86)\apache-ant-1.8.2\bin\ant.bat"
+           buildfile="build-seg.jUCMNav.xml"
+           target="build"
+           uselogger="true"
+           usedebug="false"/> 
+    </schedule>
+
+    <!-- directory to write build logs to --> 
+    <log dir="logs/seg.jUCMNav">
+	<!-- <merge file="checkout/get/seg.jUCMNav/testresults.xml" /> -->
+	Temporarily disabled tests. 
+	<!--<merge file="testing/results/xml/seg.jUCMNav_win32.win32.x86.xml" />-->
+    </log>
+
+    <!-- Publishers are run *after* a build completes --> 
+    <publishers>
+	<!--<htmlemail mailhost="smtp-out.uottawa.ca" 
+        	returnaddress="cruisecontrol@softwareengineering.ca" 
+	        buildresultsurl="http://cserg0.site.uottawa.ca/~ccbuilds/" 
+	        skipusers="true" spamwhilebroken="false"
+			css="C:/work/cruisecontrol/webapps/cruisecontrol/css/cruisecontrol.css"
+	        xsldir="c:/work/cruisecontrol/webapps/cruisecontrol/xsl"
+	        logdir="logs/seg.jUCMNav">
+	    <always address="jucmnav-dev@softwareengineering.ca"/>
+	</htmlemail>-->
+	<!--<htmlemail mailhost="www.lavablast.com" username="LavaBlastEmail" password="email!123"  mailport="2525"
+        	returnaddress="cruisecontrol@softwareengineering.ca" 
+	        buildresultsurl="http://cserg0.site.uottawa.ca/~ccbuilds/" 
+	        skipusers="false" spamwhilebroken="false"
+			css="C:/work/cruisecontrol/webapps/cruisecontrol/css/cruisecontrol.css"
+	        xsldir="c:/work/cruisecontrol/webapps/cruisecontrol/xsl"
+	        logdir="logs/seg.jUCMNav">
+	    <always address="jucmnav-dev@softwareengineering.ca"/>
+	</htmlemail>	-->
+	<htmlemail>
+	    <always address="jucmnav-dev@softwareengineering.ca"/>
+	</htmlemail>
+	<artifactspublisher 
+	    dir="checkout/get/seg.jUCMNav/build/"
+	    dest="artifacts/seg.jUCMNav"/>
+	<artifactspublisher 
+	    dir="checkout/get/seg.jUCMNav/build/"
+	    dest="r:\public_html\artifacts\seg.jUCMNav"/>
+	<antpublisher buildfile="C:\work\cruisecontrol\copylatest.xml" target="copyall"/>
+  </publishers> 
+  </project> 
+	
+</cruisecontrol>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="seg.jUCMNav.URNExport">
+		<exporter
+            class="seg.ucm2csm.Convert"
+            extension="csm"
+            id="seg.jUCMNav.UCM2CSM"           
+            name="UCM to CSM converter (.csm)"
+            useStream="true"/>
+   </extension>
+  
+
+</plugin>

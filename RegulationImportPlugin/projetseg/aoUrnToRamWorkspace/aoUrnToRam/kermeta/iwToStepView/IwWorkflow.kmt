@@ -1,0 +1,59 @@
+package intermediateWorkflow;
+
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwWorkflow inherits CollectionExt {
+	operation appendStepViewPre(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    subgraph ") stepView.append(stepView.dotEscape("cluster_"+name)) stepView.appendLine("{")
+		stepView.append("        label=") stepView.append(stepView.dotEscape(name)) stepView.appendLine("")
+	end
+	
+	operation appendStepViewPost(stepView:StepView) is do
+		stepView.appendLine("    }")
+	end
+
+	operation appendWorkflow_DifferentConcern(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("    subgraph ") stepView.append(stepView.dotEscape("cluster_"+name)) stepView.appendLine("{")
+		stepView.append("        label=\"") stepView.append(stepView.dotEscapeInner(concern.name)+"\\n"+stepView.dotEscapeInner(name)) stepView.appendLine("\"")
+		stepView.appendLine("        style=dashed")
+		boundStartPoints.each{boundStartPoint|boundStartPoint.target.appendVertex_NextStep(stepView)}
+		boundEndPoints.each{boundEndPoint|boundEndPoint.appendVertex_NextStep(stepView)}
+		enforceBoundStartPointTop_BoundEndPointDown(stepView)
+		stepView.appendLine("    }")
+	end
+	
+	operation enforceBoundStartPointTop_BoundEndPointDown(stepView:StepView) is do
+		boundStartPoints.each{boundStartPoint|
+			boundEndPoints.each{boundEndPoint|
+				stepView.append("        ") 
+				stepView.append(stepView.dotEscape(boundStartPoint.target.getId))
+				stepView.append("->")
+				stepView.append(stepView.dotEscape(boundEndPoint.getId)) 
+				stepView.appendLine("[style=\"invis\"]")
+			}
+		}
+	end
+	
+	property readonly boundStartPoints:IwStartPoint[0..*]
+	getter is do
+		result:=startPoints.select{startPoint|startPoint.startPointType=="bound"}.asOrderedSet
+	end
+	
+	property readonly boundEndPoints:IwEndPoint[0..*]
+	getter is do
+		result:=endPoints.select{endPoint|endPoint.outBindings.size>0}.asOrderedSet
+	end
+	
+	property readonly endPoints:IwEndPoint[0..*]
+	getter is do
+		result:=OrderedSet<IwEndPoint>.new
+		colExtSelectOfType(nodes,result)
+	end
+	
+	
+}

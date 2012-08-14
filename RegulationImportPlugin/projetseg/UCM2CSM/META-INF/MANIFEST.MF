@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UCM2CSM Plug-in
+Bundle-SymbolicName: UCM2CSM; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: seg.ucm2csm.UCM2CSMPlugin
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ seg.jUCMNav,
+ org.eclipse.emf.ecore,
+ org.eclipse.gef,
+ org.eclipse.emf.common.ui,
+ org.eclipse.ui.views,
+ org.eclipse.ui.ide
+Eclipse-LazyStart: true
+Bundle-ClassPath: src/,
+ .

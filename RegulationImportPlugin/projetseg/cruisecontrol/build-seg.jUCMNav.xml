@@ -1,0 +1,50 @@
+<!-- Delegating build script, used by cruisecontrol to build seg.jUCMNav
+     Note that the basedir is set to the checked out project -->
+<project name="build-seg.jUCMNav"
+        default="build"
+        basedir="checkout/get/seg.jUCMNav">
+    <target name="build">
+        <!-- Get the latest from CVS -->
+        <!--<cvs command="-q up -d -P"/>-->
+		<exec dir="./" executable="svn" resolveexecutable="true">
+			<arg line="update" />
+		</exec>
+
+		<antcall target="build-noupdate">
+		</antcall>
+
+		<delete>
+		  <fileset dir="build/">
+			<include name="seg.jUCMNav_*.zip" />
+		  </fileset>
+		</delete>
+
+    </target>
+
+    <target name="build-noupdate">
+	<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+
+        <!-- Call the target that does everything -->
+        <ant antfile="ccbuild.xml" target="build.fullzip"/>
+		<delete>
+		  <fileset dir="../../../testing/">
+			<include name="seg.jUCMNav_*.zip" />
+		  </fileset>
+		</delete>		
+		<copy todir="../../../testing/">
+			<fileset dir="build/">
+				<include name="seg.jUCMNav_*.zip" />
+			</fileset>
+		</copy>
+
+		<!-- Temporarily Disabled. Not working. 
+		<antcall target="test">
+		</antcall>-->
+    </target>
+    <target name="test">
+		<exec dir="../../../testing/" executable="../../../testing/runtests.bat" resolveexecutable="true" timeout="900000">
+			<arg line="-noclean jUCMNav" />
+		</exec>
+
+    </target>
+</project>

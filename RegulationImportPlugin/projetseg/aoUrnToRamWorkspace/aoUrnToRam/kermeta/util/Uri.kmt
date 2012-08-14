@@ -1,0 +1,33 @@
+package kermeta::standard;
+
+require "platform:/lookup/aoUrnToRam/kermeta/util/String.kmt"
+require kermeta
+
+aspect class String{
+	operation uriResolvePlateformUrl():String is do
+		result ?= extern aoUrnToRam::javaExternalCall::PlateformUrlResolver.resolve(self) 
+	end
+	
+	operation uriToWindowsPath():String is do
+		result:=self.replace("file:/","")
+		result:=result.replace("/","\\")
+	end
+	
+	operation uriAppend(toAppend:String):String is do
+		result:=self.uriWithoutPostSeparator+
+				"/"+
+				toAppend.uriWithoutPreSeparator
+	end
+	
+	operation uriParent():String is do
+		result:= self.uriWithoutPostSeparator.replaceFirst("[^/]+$","")
+	end
+	
+	operation uriWithoutPostSeparator():String is do
+		result:=self.replaceFirst("/$","")
+	end
+	
+	operation uriWithoutPreSeparator():String is do
+		result:=self.replaceFirst("^/","")
+	end
+}

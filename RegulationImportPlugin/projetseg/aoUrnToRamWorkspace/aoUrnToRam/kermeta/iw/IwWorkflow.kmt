@@ -1,0 +1,26 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwWorkflow inherits CollectionExt{
+	property readonly model:IwModel
+	getter is do
+		result:=concern.model
+	end
+	
+	property readonly plugins : IwWorkflow[0..*]
+	getter is do
+		//OrderedSet does not have duplicate
+		result:=stubs.collect{stub|stub.staticPlugin}.asOrderedSet
+	end
+	
+	property readonly stubs : IwStub[0..*]
+	getter is do
+		result:=OrderedSet<IwStub>.new
+		colExtSelectOfType(nodes,result)
+	end
+	
+	
+}

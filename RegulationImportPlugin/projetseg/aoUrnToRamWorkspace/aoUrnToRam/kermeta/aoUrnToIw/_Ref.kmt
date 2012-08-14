@@ -1,0 +1,35 @@
+package intermediateWorkflow;
+
+require kermeta
+require "platform:/lookup/aoUrnToRam/metamodel/jucm_OneFileWorkaround.ecore"
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/CollectionExt.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/util/String.kmt"
+
+//|||GENERATED CODE BEYOND THIS POINT|||
+//To regenerate
+//Run: aoUrnToRam.codegen.RefCodeGenerator
+//Args: ${resource_loc} ${project_name}
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Component.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Concern.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/AndFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/AndJoin.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/EndPoint.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/InOutExpression.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/OrFork.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/PathNode.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/RespRef.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/StartPoint.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Node/WaitingPlace.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/NodeConnection.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/InBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/OutBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/PluginBinding.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/PointcutStubStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/RegularStubStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/Stub.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/Stub/StubStrategy.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/UCMmap.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/URNmodelElement.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/URNspec.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"

@@ -1,0 +1,156 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_PointcutStubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:Stub
+	
+	method setUp() is do
+		sut:=createPointcutStub
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_OneInPath_ShouldHaveNode() is do
+		createInPath
+		
+		sut.build
+		
+		assertEquals(true,sut.iwHasNodes)		
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_TwoInPaths_ShouldBuildTwoIwEndPoints() is do
+		var nodeConnection1:NodeConnection init createInPath
+		var nodeConnection2:NodeConnection init createInPath
+		
+		sut.build
+
+		assertEquals("ThePointcutStub_In2",sut.iwGetEntryNode(nodeConnection2).name)
+		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection1).getMetaClass)
+		assertEquals(IwEndPoint,sut.iwGetEntryNode(nodeConnection2).getMetaClass)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_TwoInPaths_ShouldLinkIwNodesToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init createInPath
+		var nodeConnection2:NodeConnection init createInPath
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetEntryNode(nodeConnection1),
+			sut.iwGetEntryNode(nodeConnection2),
+			ucmMap.iwWorkflow.nodes
+		)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ReplacementPointcutStub_ShouldNotLinkIwEndPointToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.aopointcut:=PointcutKind.Replacement
+		sut.diagram:=ucmMap
+		var nodeConnection:NodeConnection init createInPath
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(0,ucmMap.iwWorkflow.nodes.size)
+	end
+	
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_OneOutPath_ShouldHaveNode() is do
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
+		
+		sut.build
+		
+		assertEquals(true,sut.iwHasNodes)		
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_OneUnboundOutPath_ShouldBuildGlobalStartPoint() is do
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
+		
+		sut.build
+		
+		assertEquals("global",sut.iwGetExitNode(nodeConnection).asType(IwStartPoint).startPointType)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_OneBoundOutPath_ShouldBuildBoundStartPoint() is do
+		var nodeConnection:NodeConnection init createNodeConnection
+		nodeConnection.source:=sut
+		createInBinding.pointcutExit:=nodeConnection
+		
+		sut.build
+		
+		assertEquals("bound",sut.iwGetExitNode(nodeConnection).asType(IwStartPoint).startPointType)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testBuild_TwoOutPaths_ShouldBuildTwoIwStartPoints() is do
+		var nodeConnection1:NodeConnection init createOutPath
+		var nodeConnection2:NodeConnection init createOutPath
+		
+		sut.build
+
+		assertEquals("ThePointcutStub_Out2",sut.iwGetExitNode(nodeConnection2).name)
+		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection1).getMetaClass)
+		assertEquals(IwStartPoint,sut.iwGetExitNode(nodeConnection2).getMetaClass)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_TwoOutPaths_ShouldLinkIwNodesToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		var nodeConnection2:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetExitNode(nodeConnection1),
+			sut.iwGetExitNode(nodeConnection2),
+			ucmMap.iwWorkflow.nodes
+		)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_TwoOutPaths_ShouldLinkIwStartPointsToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut.diagram:=ucmMap
+		var nodeConnection1:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		var nodeConnection2:NodeConnection init connectNodes(sut,createEndPoint_UcmMap(ucmMap))
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasTwoElements(
+			sut.iwGetExitNode(nodeConnection1).asType(IwStartPoint),
+			sut.iwGetExitNode(nodeConnection2).asType(IwStartPoint),
+			ucmMap.iwWorkflow.startPoints
+		)
+	end
+	
+	operation createInPath():NodeConnection is do
+		result:=createNodeConnection
+		result.target:=sut
+	end
+	
+	operation createOutPath():NodeConnection is do
+		result:=createNodeConnection
+		result.source:=sut
+	end
+	
+}

@@ -1,0 +1,49 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwStartPoint_BoundTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwStartPoint
+	reference workflowInstantiator:WorkflowInstantiator
+
+	method setUp() is do
+		sut:=createIwStartPoint.withStartPointType("bound")
+		workflowInstantiator:=createWorkflowInstantiator
+	end
+
+	@feature "FeaWorkflowInstantiationWithoutStubs"
+	operation testAppendBuildStatement_ShouldNotDeclareAndInitializeWorkflowNode() is do
+		sut.jiAppendBuildStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkNodesToNextNodesStatement_ShouldNotInvokeAppendLinkStatementOnNodeConnections() is do
+		sut.connect(createIwInput)
+		
+		sut.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkNodesToWorkflowStatement_ShouldNotLinkStartPointToWorkflow() is do
+		sut.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendLinkStartNodesToWorkflowStatement_ShouldNotLinkStartNodesToWorkflow() is do
+		sut.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
+		
+		assertEquals("",workflowInstantiator.content)
+	end
+}

@@ -1,0 +1,21 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
+
+using kermeta::standard
+using ram
+
+aspect class IwOutput{
+	reference ramOutput : Class
+	reference ramOutputData : Class
+	
+	method build() is do
+		ramOutput:=createRamCustomizableNodeClass(name)
+		ramOutputData:=createRamClass(name+OUTPUT_DATA_SUFFIX)
+	end
+	
+	method link() is do
+		step.linkCustomizableNode(ramOutput)
+		step.linkOutputData(ramOutputData)
+	end
+}

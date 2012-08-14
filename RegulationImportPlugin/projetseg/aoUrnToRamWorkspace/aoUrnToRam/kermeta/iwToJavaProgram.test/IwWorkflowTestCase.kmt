@@ -1,0 +1,66 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using aoUrnToRam
+
+class IwToJavaProgram_IwWorkflowTestCase inherits TestCase,IwToJavaProgram_TestHelper
+{
+	reference sut:IwWorkflow
+	reference javaView:JavaView
+	
+	method setUp() is do
+		sut:=createIwWorkflow
+		javaView:=createJavaView
+	end
+
+	@feature "FeaSystemInstantiation"
+	operation testAppendImport() is do
+		sut.withConcern(createIwConcern.withModel(createIwModel))
+		sut.jpAppendImport(javaView)
+		
+		assertStringContains( "import theModel.Instantiators.theConcern.theWorkflowWorkflowInstantiator;\n",javaView.content)
+	end
+
+	@feature "FeaSystemInstantiation"
+	operation testAppendBuild() is do
+		sut.jpAppendBuild(javaView)
+		
+		assertStringContains("theWorkflowWorkflowInstantiator l_theWorkflowWorkflowInstantiator=new theWorkflowWorkflowInstantiator();\n",javaView.content)
+	end
+
+	@feature "FeaSystemInstantiation"
+	operation testAppendLink() is do
+		sut.jpAppendLink(javaView)
+		
+		assertStringContains("l_theWorkflowWorkflowInstantiator.link();\n",javaView.content)
+	end
+
+	@feature "FeaSystemInstantiation"
+	operation testAppendBind_WithTwoPlugins_ShouldAppendBindWithTwoParams() is do
+		setupPlugin.withName("thePlugin1")
+		setupPlugin.withName("thePlugin2")
+	
+		sut.jpAppendBind(javaView)
+		
+		assertStringContains("l_theWorkflowWorkflowInstantiator.bind(l_thePlugin1WorkflowInstantiator,l_thePlugin2WorkflowInstantiator);\n",javaView.content)
+	end
+
+	@feature "FeaSystemInstantiation"
+	operation testAppendAddWorkflow() is do
+		sut.withConcern(createIwConcern.withModel(createIwModel))
+		
+		sut.jpAppendAddWorkflow(javaView)
+		
+		assertStringContains("reactiveWorkflowSystem.addWorkflow(l_theWorkflowWorkflowInstantiator.workflow);\n",javaView.content)
+	end
+	
+	operation setupPlugin():IwWorkflow is do
+		result:=createIwPlugin
+		var pluginStartPoint:IwStartPoint init setupStartPointWithDefaultTarget(result)
+		bindToPluginStartPoint(sut,pluginStartPoint)
+	end
+}

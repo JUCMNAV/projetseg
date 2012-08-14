@@ -1,0 +1,59 @@
+@mainClass "aoUrnToRam::test::IwToJavaInstantiator_TestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+//To regenerate
+//Run: aoUrnToRam.codegen.TestRunnerCodeGenerator
+//Args: ${resource_loc} ${project_name}
+
+require kermeta
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwModelTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwNodeConnectionTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflow_BindTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflow_BuildTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/IwWorkflow_LinkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwAndForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwAndJoinTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwCustomizableNodeTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwEndPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwInputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwNodeTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwOrForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwOutputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwStartPoint_BoundTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Node/IwStartPoint_NotBoundTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Stub/IwInBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Stub/IwOutBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Stub/IwPluginBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/Stub/IwStubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class IwToJavaInstantiator_TestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(IwToJavaInstantiator_IwModelTestCase)
+		result.add(IwToJavaInstantiator_IwNodeConnectionTestCase)
+		result.add(IwToJavaInstantiator_IwWorkflow_BindTestCase)
+		result.add(IwToJavaInstantiator_IwWorkflow_BuildTestCase)
+		result.add(IwToJavaInstantiator_IwWorkflow_LinkTestCase)
+		result.add(IwToJavaInstantiator_IwAndForkTestCase)
+		result.add(IwToJavaInstantiator_IwAndJoinTestCase)
+		result.add(IwToJavaInstantiator_IwCustomizableNodeTestCase)
+		result.add(IwToJavaInstantiator_IwEndPointTestCase)
+		result.add(IwToJavaInstantiator_IwInputTestCase)
+		result.add(IwToJavaInstantiator_IwNodeTestCase)
+		result.add(IwToJavaInstantiator_IwOrForkTestCase)
+		result.add(IwToJavaInstantiator_IwOutputTestCase)
+		result.add(IwToJavaInstantiator_IwStartPoint_BoundTestCase)
+		result.add(IwToJavaInstantiator_IwStartPoint_NotBoundTestCase)
+		result.add(IwToJavaInstantiator_IwInBindingTestCase)
+		result.add(IwToJavaInstantiator_IwOutBindingTestCase)
+		result.add(IwToJavaInstantiator_IwPluginBindingTestCase)
+		result.add(IwToJavaInstantiator_IwStubTestCase)
+	end
+}

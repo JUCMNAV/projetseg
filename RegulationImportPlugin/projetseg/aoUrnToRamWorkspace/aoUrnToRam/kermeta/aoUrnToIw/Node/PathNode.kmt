@@ -1,0 +1,153 @@
+package jucm_OneFileWorkaround::ucm::map;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using jucm_OneFileWorkaround::urncore
+using intermediateWorkflow
+
+aspect class PathNode inherits CollectionExt {
+	reference _iwNodes: oset IwNode[0..3]
+	reference iwOutput:IwOutput
+	reference iwInput:IwInput
+	reference iwEquivalentNode:IwNode
+	
+	
+//*********************************************************
+//Build
+//*********************************************************/
+	operation build() is do
+		buildIwOutputNode
+		buildIwInputNode
+		buildIwNodeTemplate
+		if(iwHasNodes) then
+			invokeBuildOnNodeConnections
+		end
+	end
+
+	operation buildIwOutputNode() is do
+		if(inOutExpression.hasOut) then
+			iwOutput:=IwOutput.new
+			iwOutput.name:=inOutExpression.out
+			_iwNodes.add(iwOutput)
+		end
+	end
+	
+	operation buildIwInputNode() is do
+		if(inOutExpression.hasIn) then
+			iwInput:=IwInput.new
+			iwInput.name:=inOutExpression.in
+			_iwNodes.add(iwInput)
+		end
+	end
+
+	operation invokeBuildOnNodeConnections() is do
+		succAsNodeConnection.each{nodeConnection|nodeConnection.build}
+	end
+	
+//*********************************************************
+//Template Method
+//*********************************************************/
+	//PathNode subclass should override this template method to build
+	//the iwNode that is equivalent to the PathNode.
+	//PathNode subclass should use addIwEquivalentNodeAfterOutIn or addIwEquivalentNodeBeforeOutIn
+	//to declare if the IwNode is the EntryNode or the ExitNode in the case
+	//where there is an InOut expression associated with the node.
+	operation buildIwNodeTemplate() is do
+		//default: do nothing
+	end
+	
+	operation addIwEquivalentNodeAfterOutIn(iwNode:IwNode) is do
+		iwEquivalentNode:=iwNode
+		_iwNodes.add(iwNode)
+	end
+	
+	operation addIwEquivalentNodeBeforeOutIn(iwNode:IwNode) is do
+		self.iwEquivalentNode:=iwNode
+		_iwNodes.addAt(0,iwNode)
+	end
+	
+//*********************************************************
+//Link
+//*********************************************************/
+	operation link() is do
+		linkUcmMap
+		linkInternal
+		
+		if(iwHasNodes) then
+			invokeLinkOnSuccs
+		end
+	end
+
+	operation linkUcmMap() is do
+		_iwNodes.each{iwNode|iwNode.workflow:=ucmMap.iwWorkflow}
+	end
+
+	operation linkInternal() is do
+		var numOfInternalLinks:Integer init _iwNodes.size-1 //-1 because last internal node has no outcoming internal link
+		numOfInternalLinks.times{i|
+			var connection:IwNodeConnection init IwNodeConnection.new
+			connection.source:=_iwNodes.at(i)
+			connection.target:=_iwNodes.at(i+1)
+		}
+	end
+	
+	operation invokeLinkOnSuccs() is do
+		succAsNodeConnection.each{nodeConnection|nodeConnection.link}
+	end
+	
+//*********************************************************
+// Properties
+//*********************************************************/
+	operation iwHasNodes():Boolean is do
+		result:=_iwNodes.isEmpty==false
+	end
+
+	operation iwGetEntryNode(nodeConnection:NodeConnection):IwNode is do
+		result:=_iwNodes.first
+	end
+	
+	operation iwGetExitNode(nodeConnection:NodeConnection):IwNode is do
+		result:=_iwNodes.last
+	end
+	
+	property readonly inOutExpression : InOutExpression
+	getter is do
+		var ramMetadata:Metadata init getRamMetadata()
+		var inOutExpression:InOutExpression init InOutExpression.new
+		inOutExpression.construct(if ramMetadata.isVoid then "" else ramMetadata.~value end)
+		result:=inOutExpression
+	end
+	
+	operation getRamMetadata():Metadata is do
+		result:= metadata.select{n|n.name.toLowerCase()=="ram"}.one()
+	end
+	
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
+	property readonly predAsNodeConnection : OrderedSet<NodeConnection>
+	getter is do
+		result:=OrderedSet<NodeConnection>.new
+		colExtCast(pred,result)
+	end
+	
+	property readonly succAsNodeConnection : OrderedSet<NodeConnection>
+	getter is do
+		result:=OrderedSet<NodeConnection>.new
+		colExtCast(succ,result)
+	end
+	
+	property ucmMap: UCMmap
+	getter is do
+		result:=diagram.asType(UCMmap)
+	end
+	setter is do
+		diagram:=value
+	end
+	
+	property readonly concern: Concern
+	getter is do
+		result:=ucmMap.concern
+	end
+	
+}

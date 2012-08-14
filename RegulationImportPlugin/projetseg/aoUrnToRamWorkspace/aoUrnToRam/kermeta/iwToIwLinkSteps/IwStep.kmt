@@ -1,0 +1,75 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwStep {
+	attribute isStartupStep:Boolean
+	
+	property isEmptyStartupStep:Boolean 
+	getter is do
+		if(isStartupStep==false) then
+			result:=false
+		else	
+			result:=self.nodes.forAll{node|isNodePartOfEmptyStep(node)}
+		end
+	end
+	
+	operation isNodePartOfEmptyStep(node:IwNode):Boolean is do
+		if(node.isInstanceOf(IwStartPoint)) then
+			result:=true
+		else
+			if(node.isInstanceOf(IwStub)) then
+				var stub:IwStub stub?=node
+				result:=stub.isAspectMarker
+			else
+				result:=false
+			end
+		end
+	end
+	
+	operation merge(stepToMerge:IwStep) is do
+		mergeName(stepToMerge)
+		mergeIsStartupStep(stepToMerge)
+		
+		nodes.addAll(stepToMerge.nodes)
+		outboundStubs.addAll(stepToMerge.outboundStubs)
+		stepToMerge.delete
+	end
+	
+	operation mergeName(stepToMerge:IwStep) is do
+		if(isStartupStep==stepToMerge.isStartupStep) then
+			combineNameInAlphabeticalOrder(stepToMerge)
+		else 
+			if(isStartupStep==true and stepToMerge.isStartupStep==false) then
+				name:=stepToMerge.name
+			end
+		end
+	end
+	
+	operation combineNameInAlphabeticalOrder(stepToMerge:IwStep) is do
+		if(name<stepToMerge.name) then
+			name:=combineName(name,stepToMerge.name)
+		else
+			name:=combineName(stepToMerge.name,name)
+		end
+	end
+	
+	operation combineName(name1:String,name2:String):String is do
+		result:=name1+"_"+name2
+	end
+	
+	operation mergeIsStartupStep(stepToMerge:IwStep) is do
+		if(isStartupStep==false or stepToMerge.isStartupStep==false) then
+			isStartupStep:=false
+		end
+	end
+	
+	operation delete() is do
+		nodes.clear
+		concern:=void
+		outboundStubs.clear
+	end
+	
+}

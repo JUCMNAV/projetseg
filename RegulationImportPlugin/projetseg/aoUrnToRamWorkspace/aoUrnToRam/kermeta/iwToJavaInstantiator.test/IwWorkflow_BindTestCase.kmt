@@ -1,0 +1,69 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwWorkflow_BindTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwWorkflow
+	reference workflowInstantiator:WorkflowInstantiator
+	
+	method setUp() is do
+		sut:=createIwWorkflow.withDefaultContainers
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testToWorkflowInstantiator_ShouldAppendBindMethod() is do
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void bind(){
+    }
+"
+		,workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testToWorkflowInstantiator_TwoPlugins_ShouldAppendTwoParameters() is do
+		bindPlugin(sut.concern).withName("thePlugin1")
+		bindPlugin(sut.concern).withName("thePlugin2")
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+		
+		assertStringContains(
+"
+    public void bind(theModel.Instantiators.theConcern.thePlugin1WorkflowInstantiator p_thePlugin1,
+                     theModel.Instantiators.theConcern.thePlugin2WorkflowInstantiator p_thePlugin2)"
+		,workflowInstantiator.content)
+	end
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testToWorkflowInstantiator_TwoPlugins_ShouldInvokeAppendBindStatementOnPluginBindings() is do
+		//warning: update once dynamic stub are supported: one stub may have many pluginBindings
+		bindPlugin(sut.concern).withName("thePlugin1")
+		bindPlugin(sut.concern).withName("thePlugin2")
+		
+		workflowInstantiator:=sut.jiToWorkflowInstantiator
+
+		assertStringContainsNTime(2,"=new Binding",workflowInstantiator.content)		
+	end
+
+	operation bindPlugin(concern:IwConcern):IwWorkflow is do
+		result:=createIwPlugin.withConcern(concern)
+		
+		createIwInBinding(
+			createIwNodeConnection.withStubEntryIndex(1),
+			setupStartPointWithDefaultTarget(result)
+		)
+		.withPluginBinding(createPluginBindingWithContainers)
+	end
+	
+	operation createPluginBindingWithContainers():IwPluginBinding is do
+		result:=createIwPluginBinding.withStub(createIwStub.withWorkflow(sut))
+	end
+}

@@ -1,0 +1,61 @@
+@mainClass "aoUrnToRam::test::AoUrnToIw_TestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+//To regenerate
+//Run: aoUrnToRam.codegen.TestRunnerCodeGenerator
+//Args: ${resource_loc} ${project_name}
+
+require kermeta
+
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/ConcernTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/AndForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/AndJoinTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/EndPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/OrForkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/PathNode_BuildTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/PathNode_LinkTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/RespRefTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/StartPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Node/WaitingPlaceTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/NodeConnectionTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Stub/InBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Stub/OutBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Stub/PluginBindingTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Stub/PointcutStubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/Stub/StubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/UCMmapTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/UCMmap_IsPointcutExpressionTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/URNmodelElementTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/URNspecTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class AoUrnToIw_TestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(AoUrnToIw_ConcernTestCase)
+		result.add(AoUrnToIw_AndForkTestCase)
+		result.add(AoUrnToIw_AndJoinTestCase)
+		result.add(AoUrnToIw_EndPointTestCase)
+		result.add(AoUrnToIw_OrForkTestCase)
+		result.add(AoUrnToIw_PathNode_BuildTestCase)
+		result.add(AoUrnToIw_PathNode_LinkTestCase)
+		result.add(AoUrnToIw_RespRefTestCase)
+		result.add(AoUrnToIw_StartPointTestCase)
+		result.add(AoUrnToIw_WaitingPlaceTestCase)
+		result.add(AoUrnToIw_NodeConnectionTestCase)
+		result.add(AoUrnToIw_InBindingTestCase)
+		result.add(AoUrnToIw_OutBindingTestCase)
+		result.add(AoUrnToIw_PluginBindingTestCase)
+		result.add(AoUrnToIw_PointcutStubTestCase)
+		result.add(AoUrnToIw_StubTestCase)
+		result.add(AoUrnToIw_UCMmapTestCase)
+		result.add(AoUrnToIw_UCMmap_IsPointcutExpressionTestCase)
+		result.add(AoUrnToIw_URNmodelElementTestCase)
+		result.add(AoUrnToIw_URNspecTestCase)
+	end
+}

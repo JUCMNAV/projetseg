@@ -1,0 +1,60 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaProgram/_Ref.kmt"
+
+using kermeta::standard
+using aoUrnToRam
+
+aspect class IwModel {
+	operation jpToJavaProgram():JavaView is do
+		result:=JavaView.new
+		result.initialize("Program")
+
+		jpAppendContent(result)
+	end
+	
+	operation jpAppendContent(javaView:JavaView) is do
+		javaView.appendPackage(name)
+		jpAppendImports(javaView)
+		
+		javaView.appendClass_Pre("public class Program")
+		jpAppendMainMethod(javaView)
+		javaView.appendClass_Post
+	end
+
+	operation jpAppendImports(javaView:JavaView) is do
+		javaView.appendImport("ram.reactiveworkflow.ReactiveWorkflowSystem")
+		workflows.each{workflow|workflow.jpAppendImport(javaView)}
+	end
+	
+	operation jpAppendMainMethod(javaView:JavaView) is do
+		javaView.appendMethod_Pre("public static void main(String[] args)")
+		javaView.appendLocalVarConstructor_0Param(reactiveWorkflowSystemType,reactiveWorkflowSystemLocalVar)
+		javaView.appendNextLine
+		workflows.each{workflow|workflow.jpAppendBuild(javaView)}
+		jpAppendLinkAndBind(javaView)
+		javaView.appendNextLine
+		javaView.appendMethodInvocationOn_0Param(reactiveWorkflowSystemLocalVar,"start")
+		javaView.appendMethod_Post
+	end
+	
+	operation jpAppendLinkAndBind(javaView:JavaView) is do
+		workflows.each{workflow|
+			javaView.appendNextLine
+			workflow.jpAppendLink(javaView)
+			workflow.jpAppendBind(javaView)
+			workflow.jpAppendAddWorkflow(javaView)
+		}
+	end
+	
+	property readonly reactiveWorkflowSystemLocalVar:String 
+	getter is do
+		result:="reactiveWorkflowSystem"
+	end
+	
+	property readonly reactiveWorkflowSystemType:String 
+	getter is do
+		result:="ReactiveWorkflowSystem"
+	end
+
+}

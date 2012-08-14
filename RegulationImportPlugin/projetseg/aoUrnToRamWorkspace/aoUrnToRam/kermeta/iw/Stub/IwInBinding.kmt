@@ -1,0 +1,28 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwInBinding{
+	property readonly isInboundByAspectMarkerOrInDifferentConcern: Boolean
+	getter is do
+		result:=pluginBinding.stub.isAspectMarker or
+				pluginStartPoint.concern!=pluginBinding.stub.concern
+	end
+	
+	property readonly stub : IwStub
+	getter is do
+		result:=pluginBinding.stub
+	end
+
+	property readonly stubEntryIndex: Integer
+	getter is do
+		result:=anyOfTheDisjunctiveStubEntries.stubEntryIndex
+	end
+
+	property readonly anyOfTheDisjunctiveStubEntries:IwNodeConnection
+	getter is do
+		result:=disjunctiveStubEntries.one
+	end
+}

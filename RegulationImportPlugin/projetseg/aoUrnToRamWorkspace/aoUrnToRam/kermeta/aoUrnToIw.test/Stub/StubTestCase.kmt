@@ -1,0 +1,128 @@
+package aoUrnToRam::test;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using jucm_OneFileWorkaround::urncore
+using jucm_OneFileWorkaround::ucm::map
+using intermediateWorkflow
+
+class AoUrnToIw_StubTestCase inherits TestCase,AoUrnToIw_TestHelper {
+	reference sut:Stub
+	
+	property readonly sutIwStub:IwStub 
+	getter is do
+		result:=getSingleEntryNode(sut).asType(IwStub)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testBuild_ShouldBuildIwStub() is do
+		sut:=createStub
+		sut.name:=void
+		
+		sut.build
+		
+		assertEquals(getSingleEntryNode(sut),getSingleExitNode(sut))
+		assertNameOrPrefixInvokedToSetName(sut,sutIwStub.name)
+		assertEquals("static",sutIwStub.stubType)
+	end
+	
+	@feature "FeaTransformAspectMarker"
+	operation testBuild_AspectMarker_ShouldSetStubTypeToAspectMarker() is do
+		sut:=createStub
+		sut.~aspect:=AspectKind.Regular
+		sut.build
+
+		assertEquals(getSingleEntryNode(sut),getSingleExitNode(sut))
+		assertEquals("AspectMarker"+sut.id,sutIwStub.name)
+		assertEquals("aspectMarker",sutIwStub.stubType)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_ShouldInvokeLinkOnPluginBindings() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		//warning:static stub for now, update this step once many plugins will be supported	
+		createPluginBinding_Stub(sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,sutIwStub.pluginBindings.size)
+	end
+
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ShouldLinkIwStubToIwWorkflow() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		ucmMap.build
+		
+		sut.link
+		
+		assertCollectionHasSingleElement(sutIwStub,ucmMap.iwWorkflow.nodes)
+	end
+
+	@feature "FeaTransformStaticStub"
+	operation testLink_TwoStubEntry_ShouldInitStubEntryIndexes() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var pred1:NodeConnection init connectStartPointAsSource(sut) 
+		var pred2:NodeConnection init connectStartPointAsSource(sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,pred1.iwNodeConnection.stubEntryIndex)
+		assertEquals(2,pred2.iwNodeConnection.stubEntryIndex)
+	end
+	
+	@feature "FeaTransformStaticStub"
+	operation testLink_EmptyPointInBetweenStubEntry_ShouldInitStubEntryIndexOnEmptyPointPred() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var emptyPoint:PathNode init connectEmptyPointAsSource(sut).sourceAsPathNode 
+		var pred:NodeConnection init connectStartPointAsSource(emptyPoint)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,pred.iwNodeConnection.stubEntryIndex)
+	end
+
+	@feature "FeaDisjunctiveStubEntries"
+	operation testLink_OrJoinInBetweenStubEntry_ShouldInitStubEntryIndexWithTheSameIndexOnEachOrJoinPreds() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var orJoin:OrJoin init createOrJoin_UcmMap(ucmMap)
+		connectNodes(orJoin,sut)
+		var orJoinPred1:NodeConnection init connectStartPointAsSource(orJoin)
+		var orJoinPred2:NodeConnection init connectStartPointAsSource(orJoin)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,orJoinPred1.iwNodeConnection.stubEntryIndex)
+		assertEquals(1,orJoinPred2.iwNodeConnection.stubEntryIndex)
+	end
+
+	@feature "FeaTransformStaticStub"
+	operation testLink_TwoStubExit_ShouldInitStubExitIndexes() is do
+		var ucmMap:UCMmap init createUcmMap
+		sut:=createStub_UcmMap(ucmMap)
+		var succ1:NodeConnection init connectEndPointAsTarget(sut) 
+		var succ2:NodeConnection init connectEndPointAsTarget(sut)
+		ucmMap.build
+		
+		sut.link
+		
+		assertEquals(1,succ1.iwNodeConnection.stubExitIndex)
+		assertEquals(2,succ2.iwNodeConnection.stubExitIndex)
+	end
+	
+	@feature "FeaTransformPointcutStub"
+	operation testLink_ShouldInvokeSuper() is do
+		sut:=createStub
+		pathNode_ParameterizableTestLink_ShouldInvokeSuper(sut)
+	end
+	
+}

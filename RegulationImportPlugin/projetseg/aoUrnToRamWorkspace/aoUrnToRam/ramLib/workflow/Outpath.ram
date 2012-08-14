@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_3VCSYIgoEeGxqtZ4yVqVGg" name="Outpath">
+  <structuralView xmi:id="_o7LokIr0EeGP-shl74zfPQ">
+    <classes xmi:id="_rrMSEIr0EeGP-shl74zfPQ" name="ICFNWithOutpaths" partial="true" superTypes="_g5YAEI7rEeGsMYoV23JA9Q">
+      <operations xmi:id="_E9jHIIr1EeGP-shl74zfPQ" name="addNextNode" returnType="_JWFNoIr1EeGP-shl74zfPQ">
+        <parameters xmi:id="_W7NmkIr1EeGP-shl74zfPQ" name="outpathName" type="_K1-TEIr1EeGP-shl74zfPQ"/>
+        <parameters xmi:id="_XawCQIr1EeGP-shl74zfPQ" name="n" type="_hii44I7rEeGsMYoV23JA9Q"/>
+      </operations>
+      <operations xmi:id="_FUH0EIr1EeGP-shl74zfPQ" name="getOutpath" returnType="_r_K-AIr0EeGP-shl74zfPQ">
+        <parameters xmi:id="_gUXHQIr1EeGP-shl74zfPQ" name="outPathname" type="_K1-TEIr1EeGP-shl74zfPQ"/>
+      </operations>
+      <operations xmi:id="_FoBAcIr1EeGP-shl74zfPQ" name="addOutpath" visibility="package" returnType="_JWFNoIr1EeGP-shl74zfPQ">
+        <parameters xmi:id="_lKFgEIr1EeGP-shl74zfPQ" name="pathname" type="_K1-TEIr1EeGP-shl74zfPQ"/>
+        <parameters xmi:id="_llRnQIr1EeGP-shl74zfPQ" name="n" type="_r_K-AIr0EeGP-shl74zfPQ"/>
+      </operations>
+    </classes>
+    <classes xmi:id="_r_K-AIr0EeGP-shl74zfPQ" name="OutpathNode" superTypes="_gSAeEI7rEeGsMYoV23JA9Q">
+      <operations xmi:id="_sWAqYIyZEeGP-shl74zfPQ" name="create" returnType="_r_K-AIr0EeGP-shl74zfPQ">
+        <parameters xmi:id="_zDTBwIyZEeGP-shl74zfPQ" name="outpathName" type="_K1-TEIr1EeGP-shl74zfPQ"/>
+      </operations>
+    </classes>
+    <classes xmi:id="_qK3rsIydEeGP-shl74zfPQ" name="String"/>
+    <classes xmi:id="_gSAeEI7rEeGsMYoV23JA9Q" name="SequenceNode"/>
+    <classes xmi:id="_g5YAEI7rEeGsMYoV23JA9Q" name="ControlFlowNode"/>
+    <classes xmi:id="_hii44I7rEeGsMYoV23JA9Q" name="WorkflowNode"/>
+    <types xsi:type="ram:RVoid" xmi:id="_JWFNoIr1EeGP-shl74zfPQ"/>
+    <types xsi:type="ram:RString" xmi:id="_K1-TEIr1EeGP-shl74zfPQ"/>
+    <types xsi:type="ram:RAny" xmi:id="_80mmgZRqEeG9isvLd_SRiA"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_80mmgpRqEeG9isvLd_SRiA"/>
+    <types xsi:type="ram:RInt" xmi:id="_80nNkJRqEeG9isvLd_SRiA"/>
+    <types xsi:type="ram:RChar" xmi:id="_80nNkZRqEeG9isvLd_SRiA"/>
+  </structuralView>
+  <instantiations xmi:id="_uB9ckYyeEeGpeIH37hJjzg" type="Extends">
+    <mappings xmi:id="_84cksJRqEeG9isvLd_SRiA"/>
+    <externalAspect href="Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations xmi:id="_-RMgUJRqEeG9isvLd_SRiA">
+    <mappings xmi:id="_-RNucJRqEeG9isvLd_SRiA" maps="_r_K-AIr0EeGP-shl74zfPQ">
+      <sourceModelElement xsi:type="ram:Class" href="../util/Named.ram#_aKtFoIybEeGP-shl74zfPQ"/>
+    </mappings>
+    <externalAspect href="../util/Named.ram#_SrF5cIybEeGP-shl74zfPQ"/>
+  </instantiations>
+  <layout xmi:id="_vsaLwJRrEeGoxf3u7_CqIQ">
+    <containers xmi:id="_vsaLwZRrEeGoxf3u7_CqIQ" key="_o7LokIr0EeGP-shl74zfPQ">
+      <value xmi:id="_vsaLwpRrEeGoxf3u7_CqIQ" key="_rrMSEIr0EeGP-shl74zfPQ">
+        <value xmi:id="_vsaLw5RrEeGoxf3u7_CqIQ" x="91.99982" y="454.00037"/>
+      </value>
+      <value xmi:id="_vsaLxJRrEeGoxf3u7_CqIQ" key="_r_K-AIr0EeGP-shl74zfPQ">
+        <value xmi:id="_vsaLxZRrEeGoxf3u7_CqIQ" x="1007.00024" y="457.00006"/>
+      </value>
+      <value xmi:id="_vsaLxpRrEeGoxf3u7_CqIQ" key="_gSAeEI7rEeGsMYoV23JA9Q">
+        <value xmi:id="_vsaLx5RrEeGoxf3u7_CqIQ" x="1189.0002" y="229.99982"/>
+      </value>
+      <value xmi:id="_vsaLyJRrEeGoxf3u7_CqIQ" key="_hii44I7rEeGsMYoV23JA9Q">
+        <value xmi:id="_vsaLyZRrEeGoxf3u7_CqIQ" x="828.0002" y="218.99927"/>
+      </value>
+      <value xmi:id="_vsaLypRrEeGoxf3u7_CqIQ" key="_qK3rsIydEeGP-shl74zfPQ">
+        <value xmi:id="_vsaLy5RrEeGoxf3u7_CqIQ" x="874.9997" y="454.00015"/>
+      </value>
+      <value xmi:id="_vsaLzJRrEeGoxf3u7_CqIQ" key="_g5YAEI7rEeGsMYoV23JA9Q">
+        <value xmi:id="_vsaLzZRrEeGoxf3u7_CqIQ" x="365.00034" y="220.99924"/>
+      </value>
+    </containers>
+  </layout>
+</ram:Aspect>

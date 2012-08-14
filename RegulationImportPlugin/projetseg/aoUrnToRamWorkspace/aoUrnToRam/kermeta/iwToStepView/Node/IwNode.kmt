@@ -1,0 +1,95 @@
+package intermediateWorkflow;
+
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwNode {
+	//virtual
+	operation appendVertex(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("        "+stepView.dotEscape(getId)) stepView.appendLine("[")
+		if(getIsCustomizable) then
+			stepView.appendLine("            style=filled,")
+			stepView.appendLine("            fillcolor="+stepView.customizableClassColor+",")
+		end
+		appendVertexContent(stepView)
+		stepView.appendLine("        ]")
+	end
+
+	operation appendVertexContent(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.appendLine("            label=")
+		stepView.appendLine("            <<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">")
+		appendNodeTitleRow(stepView)
+		stepView.appendLine("            </table>>")
+	end
+	
+	operation appendNodeTitleRow(stepView:StepView) is do
+		stepView.appendLine("                <tr>")
+		stepView.append("                    <td cellpadding=\"3\">") stepView.appendImg(getImageName) stepView.appendLine("</td>")
+		stepView.append("                    <td align=\"center\" width=\"") stepView.append(getMinWidth.toString) stepView.append("\">") stepView.append(name) stepView.appendLine("</td>")
+		stepView.appendLine("                </tr>")
+	end
+	
+	operation appendVertex_NextStep(stepView:StepView) is do
+		stepView.appendLine("")
+		stepView.append("        "+stepView.dotEscape(getId))  
+		stepView.append("[label=")
+
+		if(name==step.name) then
+			stepView.append(stepView.dotEscape(name))
+		else
+			stepView.append("\""+stepView.dotEscapeInner(step.name)+"\\n"+stepView.dotEscapeInner(name)+"\"")
+		end
+		stepView.appendLine(",style=dashed]")
+	end
+	
+	operation appendEdges(stepView:StepView) is do
+		getNodeConnectionFromCurrentStep(stepView).each{nodeConnection|
+			nodeConnection.appendNodeConnection(stepView)
+			stepView.appendLine("")
+		}
+	end
+	
+	operation appendFirstVerticesFromNextStep(stepView:StepView) is do
+		getNodeConnectionFromCurrentStep(stepView).each{nodeConnection|
+			if(nodeConnection.target.isFromCurrentStep(stepView)==false) then
+				nodeConnection.target.appendVertex_NextStep(stepView)
+			end
+		}
+	end
+	
+	operation getNodeConnectionFromCurrentStep(stepView:StepView):OrderedSet<IwNodeConnection> is do
+		result:=succs.select{nodeConnection|nodeConnection.isFromCurrentStep(stepView)}.asOrderedSet
+	end
+	
+	//virtual
+	operation appendBindings(stepView:StepView) is do
+		//default: do nothing
+	end
+	
+	operation getId():String is do
+		result:=workflow.name+"_"+name //Use workflow name as prefix to enforce node names are unique
+	end
+	
+	operation isFromCurrentStep(stepView:StepView):Boolean is do
+		result:=step==stepView.step
+	end
+	
+	//virtual
+	operation getMinWidth():Integer is do
+		result:=0//default
+	end
+	
+	//virtual
+	operation getIsCustomizable():Boolean is do
+		result:=false//default
+	end
+	
+	operation getImageName():String is do
+		//throw exception in this case because abstract in aspect produces meaningless excpetion msg
+		raise kermeta::exceptions::NotImplementedException.new
+	end
+}

@@ -1,0 +1,28 @@
+package intermediateWorkflow;
+
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepView/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwInBinding inherits CollectionExt{
+	operation appendBinding(stepView:StepView) is do
+		stepView.append("    ")
+		stepView.append(anyOfTheDisjunctiveStubEntries.getTargetPortDotEscaped(stepView))
+		stepView.append("->")
+		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView))
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
+	end
+
+	operation appendBindingToStubsFromOtherConcernsPlaceholder(stepView:StepView) is do
+		stepView.append("    ")
+		stepView.appendStubsFromOtherConcernsPlaceholder
+		stepView.append("->")
+		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView))
+		stepView.appendLine("[style=dashed,arrowhead=onormal]")
+	end
+	
+	operation getPluginStartPointTargetPortDotEscaped(stepView:StepView):String is do
+		result:=colExtSingle(pluginStartPoint.succs).getTargetPortDotEscaped(stepView)
+	end
+}

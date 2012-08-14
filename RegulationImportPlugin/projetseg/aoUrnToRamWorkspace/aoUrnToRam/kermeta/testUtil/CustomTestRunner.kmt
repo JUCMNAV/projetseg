@@ -1,0 +1,46 @@
+package aoUrnToRam::test;
+
+require kermeta
+
+using kermeta::standard
+using kermeta::kunit
+using kermeta::language::structure
+using kermeta::exceptions
+
+abstract class CustomTestRunner inherits TestRunner
+{
+	attribute numOfSec:Integer
+	
+	operation getTestClasses(): OrderedSet<Class> is abstract
+
+    operation runTestClassesWithReport() is do
+    	stdio.writeln("Running Tests...")
+    	runTestClasses
+		printTestResult
+    end
+    
+    operation runTestClasses() is do
+        extern aoUrnToRam::javaExternalCall::Timer.start()
+    	var testSuite:TestSuite init TestSuite.new
+    	getTestClasses.each{testClass|
+    		testSuite.addAllTestCasesFrom(testClass)
+    	}
+		runTest(testSuite)
+		numOfSec?=extern aoUrnToRam::javaExternalCall::Timer.stop("noParam")
+    end
+    
+    method printTestResult() is do
+    	super
+    	
+    	stdio.writeln("Execution Time: "+numOfSec.toString+" seconds")
+		var pass:Boolean init log.failures.size==0 and
+   					  log.errors.size==0
+		writePassFail(pass)
+    end
+    
+	operation writePassFail(pass:Boolean) is do
+		stdio.writeln("----")
+		stdio.writeln(if pass then "PASS" else "FAIL" end)
+		stdio.writeln("----")
+	end
+}

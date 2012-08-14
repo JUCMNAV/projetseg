@@ -1,0 +1,16 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToStepClassDiagram/_Ref.kmt"
+
+using kermeta::standard
+using ram
+
+aspect class IwConcern {
+	operation build() is do
+		steps.each{step|step.build}
+	end
+	
+	operation link(ramWorkspace:RamWorkspace) is do
+		steps.each{step|step.link(ramWorkspace)}
+	end
+}

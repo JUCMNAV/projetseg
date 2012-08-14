@@ -1,0 +1,27 @@
+package aoUrnToRam::test;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator.test/TestHelper.kmt"
+
+using kermeta::standard
+using kermeta::kunit
+using intermediateWorkflow
+using javaInstantiator
+
+class IwToJavaInstantiator_IwOutBindingTestCase inherits TestCase,IwToJavaInstantiator_TestHelper
+{
+	reference sut:IwOutBinding
+	reference workflowInstantiator:WorkflowInstantiator
+
+	@feature "FeaWorkflowInstantiationWithStubs"
+	operation testAppendBindStatement_ShouldAddInBinding() is do
+		sut:=createIwOutBinding(
+				createIwNodeConnection.withStubExitIndex(1),
+				createIwEndPoint.withWorkflow(createIwPlugin)
+		).withPluginBinding(createIwPluginBinding.withStub(createIwStub))
+		workflowInstantiator:=createWorkflowInstantiator
+	
+		sut.jiAppendBindStatement(workflowInstantiator)
+		
+		assertEquals("        _theStub.addOutBinding(l_theStub_PluginBinding,p_thePlugin._theEndPoint,\"1\");\n",workflowInstantiator.content)
+	end
+}

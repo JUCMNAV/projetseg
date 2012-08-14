@@ -1,0 +1,41 @@
+@mainClass "aoUrnToRam::test::IwToIwLinkSteps_TestRunner"
+@mainOperation "runTestClassesWithReport"
+package aoUrnToRam::test;
+
+//To regenerate
+//Run: aoUrnToRam.codegen.TestRunnerCodeGenerator
+//Args: ${resource_loc} ${project_name}
+
+require kermeta
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/IwStepTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwEndPoint_OneStubTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwEndPoint_TwoStubsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwInputTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwNode_CustomizableNodeAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwNode_OrForkAsSutTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Node/IwStartPointTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_AspectMarkerTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_PluginDifferentConcernTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/iwToIwLinkSteps.test/Stub/IwStub_TwoPluginStartPointsTestCase.kmt"
+require "platform:/lookup/aoUrnToRam/kermeta/testUtil/CustomTestRunner.kmt"
+
+using kermeta::standard
+using kermeta::language::structure
+
+class IwToIwLinkSteps_TestRunner inherits CustomTestRunner
+{
+	method getTestClasses(): OrderedSet<Class> is do
+		result:=OrderedSet<Class>.new
+		result.add(IwToIwLinkSteps_IwStepTestCase)
+		result.add(IwToIwLinkSteps_IwEndPoint_OneStubTestCase)
+		result.add(IwToIwLinkSteps_IwEndPoint_TwoStubsTestCase)
+		result.add(IwToIwLinkSteps_IwInputTestCase)
+		result.add(IwToIwLinkSteps_IwNode_CustomizableNodeAsSutTestCase)
+		result.add(IwToIwLinkSteps_IwNode_OrForkAsSutTestCase)
+		result.add(IwToIwLinkSteps_IwStartPointTestCase)
+		result.add(IwToIwLinkSteps_IwStub_AspectMarkerTestCase)
+		result.add(IwToIwLinkSteps_IwStub_PluginDifferentConcernTestCase)
+		result.add(IwToIwLinkSteps_IwStub_TwoPluginStartPointsTestCase)
+	end
+}

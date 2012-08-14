@@ -1,0 +1,33 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+class NodeInstantiationStrategy {
+	reference node:IwNode
+	
+	operation initialize_NodeInstantiationStrategy(node:IwNode):NodeInstantiationStrategy is do
+		self.node:=node
+		result:=self
+	end 
+
+	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is abstract
+
+	operation jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
+		node.succs.each{succ|succ.jiAppendAddNextNodeStatements(workflowInstantiator)}
+	end
+	
+	operation jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		workflowInstantiator.appendMethodInvocationOn_1Param(
+			node.workflow.workflowMemberName,
+			"addNode",
+			node.jiMemberName
+		)
+	end
+
+	operation jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		//default: do nothing
+	end
+}

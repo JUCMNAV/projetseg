@@ -1,0 +1,18 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw.testUtil/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwOrFork
+{
+	operation withWorkflow(workflow:IwWorkflow):IwOrFork is do
+		self.workflow:=workflow
+		result:=self
+	end
+	
+	operation withStep(step:IwStep):IwOrFork is do
+		self.step:=step
+		result:=self
+	end
+}

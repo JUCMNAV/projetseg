@@ -1,0 +1,142 @@
+package aoUrnToRam;
+
+require "platform:/lookup/aoUrnToRam/kermeta/textView/_Ref.kmt"
+
+using kermeta::standard
+using kermeta::utils
+using aoUrnToRam
+
+class JavaView inherits TextView{
+	operation appendPackage(name:String) is do
+		append("package ")
+		append(name)
+		append(";\n\n")
+	end
+	
+	operation appendImport(name:String) is do
+		append("import ")
+		append(name)
+		append(";\n")
+	end
+
+	operation appendPublicMemberDefaultConstructor(type:String,name:String) is do
+		appendPublicMember(type,name,"new "+type+"()")
+	end
+
+	operation appendPublicMember(type:String,name:String,initialization:String) is do
+		appendIndent(1,"public ")
+		append(type)
+		append(" ")
+		append(name)
+		append("=")
+		append(initialization)
+		append(";\n")
+	end
+
+//*********************************************************
+//LocalVar init with constructor 
+//*********************************************************/
+	operation appendLocalVarConstructor_0Param(type:String,name:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		appendLocalVarConstructor_NParams(type,name,params)
+	end
+	
+	operation appendLocalVarConstructor_1Param(type:String,name:String,param1:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1)
+		appendLocalVarConstructor_NParams(type,name,params) 
+	end
+	
+	operation appendLocalVarConstructor_NParams(type:String,name:String,params:Sequence<String>) is do
+		appendIndent(2,type)
+		append(" ")
+		append(name)
+		append("=new ")
+		append(type)
+		append("(")
+		appendWithDelimiter(params,",",function{param:String|param}) 
+		append(");\n")
+	end
+
+//*********************************************************
+//Class Declaration
+//*********************************************************/
+	operation appendClass_Pre(classHeader:String) is do
+		appendNextLine
+		append(classHeader)
+		append("{\n")	
+	end
+
+	operation appendClass_Post() is do
+		append("}\n")	
+	end
+
+
+//*********************************************************
+//Method Declaration
+//*********************************************************/
+	operation appendMethod_Pre(methodHeader:String) is do
+		appendNextLine
+		appendIndent(1,methodHeader)
+		append("{\n")	
+	end
+
+	operation appendMethod_Post() is do
+		appendIndent(1,"}\n")	
+	end
+
+//*********************************************************
+//MethodInvocation
+//*********************************************************/
+	operation appendMethodInvocation_0Param(methodName:String) is do
+		appendIndent(2,methodName)
+		append("();\n")
+	end
+
+//*********************************************************
+//MethodInvocationOn
+//*********************************************************/
+	operation appendMethodInvocationOn_0Param(methodOwner:String,methodName:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
+	end
+
+	operation appendMethodInvocationOn_1Param(methodOwner:String,methodName:String,param1:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1) 
+		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
+	end
+	
+	operation appendMethodInvocationOn_2Params(methodOwner:String,methodName:String,param1:String,param2:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1) 
+		params.add(param2)
+		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
+	end
+	
+	operation appendMethodInvocationOn_3Params(methodOwner:String,methodName:String,param1:String,param2:String,param3:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1) 
+		params.add(param2)
+		params.add(param3)
+		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
+	end
+
+	operation appendMethodInvocationOn_4Params(methodOwner:String,methodName:String,param1:String,param2:String,param3:String,param4:String) is do
+		var params:Sequence<String> init Sequence<String>.new
+		params.add(param1) 
+		params.add(param2)
+		params.add(param3)
+		params.add(param4)
+		appendMethodInvocationOn_NParams(methodOwner,methodName,params)
+	end
+	
+	operation appendMethodInvocationOn_NParams(methodOwner:String,methodName:String,params:Sequence<String>) is do
+		appendIndent(2,methodOwner)
+		append(".")
+		append(methodName)
+		append("(")
+		appendWithDelimiter(params,",",function{param:String|param}) 
+		append(");\n")
+	end
+}

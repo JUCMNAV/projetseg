@@ -1,0 +1,51 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iwToJavaInstantiator/_Ref.kmt"
+
+using kermeta::standard
+using javaInstantiator
+
+aspect class IwNode {
+
+//*********************************************************
+//Properties
+//*********************************************************/
+	//Virtual
+	operation jiMemberName():String is do 
+		result:="_"+name
+	end
+	
+//*********************************************************
+//Strategy
+//*********************************************************/
+	attribute _strategy:NodeInstantiationStrategy
+	//LazyLoad because the creation of IwNode is not under our control
+	property readonly strategy:NodeInstantiationStrategy
+	getter is do
+		if(_strategy.isVoid) then
+			_strategy:=createStrategy
+		end
+		result:=_strategy
+	end
+	
+	operation createStrategy():NodeInstantiationStrategy is do
+		//throw exception in this case because abstract in aspect produces meaningless excpetion msg
+		raise kermeta::exceptions::NotImplementedException.new
+	end
+
+	operation jiAppendBuildStatement(workflowInstantiator:WorkflowInstantiator) is do
+		strategy.jiAppendBuildStatement(workflowInstantiator)
+	end
+	
+	operation jiAppendLinkNodesToNextNodesStatement(workflowInstantiator:WorkflowInstantiator) is do
+		strategy.jiAppendLinkNodesToNextNodesStatement(workflowInstantiator)
+	end
+	
+	operation jiAppendLinkNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		strategy.jiAppendLinkNodesToWorkflowStatement(workflowInstantiator)
+	end
+	
+	operation jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator:WorkflowInstantiator) is do
+		strategy.jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator)
+	end
+}

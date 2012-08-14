@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="ZeroToManyAssociation">
+  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
+    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Data" partial="true">
+      <associationEnds xmi:id="_l14KYIdYEeG0oPAT5BSQFQ" name="mySet" assoc="__FhcIId4EeG0oPAT5BSQFQ" lowerBound="1" type="Composition"/>
+      <operations xmi:id="_l14xcIdYEeG0oPAT5BSQFQ" name="add" returnType="__pWrUIdfEeG0oPAT5BSQFQ">
+        <parameters xmi:id="_l14xcYdYEeG0oPAT5BSQFQ" name="a" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
+      </operations>
+      <operations xmi:id="_l14xcodYEeG0oPAT5BSQFQ" name="remove" returnType="__pWrUIdfEeG0oPAT5BSQFQ">
+        <parameters xmi:id="_l14xc4dYEeG0oPAT5BSQFQ" name="a" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
+      </operations>
+      <operations xmi:id="_FRO_wIfiEeG0oPAT5BSQFQ" name="getAssociated" returnType="_VobOoIf4EeGZL5DwZ7sEOw"/>
+    </classes>
+    <classes xmi:id="_R4j4oIdeEeG0oPAT5BSQFQ" name="Associated" partial="true">
+      <associationEnds xmi:id="_uh1mcJCDEeG7cMsksRMbkg" name="" navigable="false" assoc="_AH9wkId5EeG0oPAT5BSQFQ"/>
+    </classes>
+    <classes xmi:id="_U-27MIdeEeG0oPAT5BSQFQ" name="Set">
+      <associationEnds xmi:id="_ySLsgId4EeG0oPAT5BSQFQ" name="" navigable="false" assoc="__FhcIId4EeG0oPAT5BSQFQ" upperBound="-1"/>
+      <associationEnds xmi:id="_y4OY0Id4EeG0oPAT5BSQFQ" name="myAssociated" assoc="_AH9wkId5EeG0oPAT5BSQFQ" upperBound="-1" type="Aggregation"/>
+      <operations xmi:id="_se3zcIdfEeG0oPAT5BSQFQ" name="create" visibility="package" returnType="_U-27MIdeEeG0oPAT5BSQFQ"/>
+      <operations xmi:id="_uyNIAIdfEeG0oPAT5BSQFQ" name="add" visibility="package" returnType="__pWrUIdfEeG0oPAT5BSQFQ">
+        <parameters xmi:id="_NS97oIdgEeG0oPAT5BSQFQ" name="a" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
+      </operations>
+      <operations xmi:id="_wO7ksIdfEeG0oPAT5BSQFQ" name="remove" visibility="package" returnType="__pWrUIdfEeG0oPAT5BSQFQ">
+        <parameters xmi:id="_P0_zgIdgEeG0oPAT5BSQFQ" name="a" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
+      </operations>
+      <operations xmi:id="_xCehgIdfEeG0oPAT5BSQFQ" name="delete" visibility="package" returnType="__pWrUIdfEeG0oPAT5BSQFQ"/>
+      <attributes xmi:id="_x334cIdfEeG0oPAT5BSQFQ" name="size" type="_1gRigIdfEeG0oPAT5BSQFQ"/>
+    </classes>
+    <associations xmi:id="__FhcIId4EeG0oPAT5BSQFQ" name="DATA_SET_ASSOC" ends="_l14KYIdYEeG0oPAT5BSQFQ _ySLsgId4EeG0oPAT5BSQFQ"/>
+    <associations xmi:id="_AH9wkId5EeG0oPAT5BSQFQ" name="SET_ASSOCIATED_ASSOC" ends="_y4OY0Id4EeG0oPAT5BSQFQ _uh1mcJCDEeG7cMsksRMbkg"/>
+    <types xsi:type="ram:RInt" xmi:id="_1gRigIdfEeG0oPAT5BSQFQ"/>
+    <types xsi:type="ram:RVoid" xmi:id="__pWrUIdfEeG0oPAT5BSQFQ"/>
+    <types xsi:type="ram:RSet" xmi:id="_VobOoIf4EeGZL5DwZ7sEOw" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
+    <types xsi:type="ram:RAny" xmi:id="_fQmL8JF-EeGl6_HHEAkO0g"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_fQmL8ZF-EeGl6_HHEAkO0g"/>
+    <types xsi:type="ram:RChar" xmi:id="_fQmL8pF-EeGl6_HHEAkO0g"/>
+    <types xsi:type="ram:RString" xmi:id="_fQmL85F-EeGl6_HHEAkO0g"/>
+  </structuralView>
+  <layout xmi:id="_1rgSwJF-EeGl6_HHEAkO0g">
+    <containers xmi:id="_1rgSwZF-EeGl6_HHEAkO0g" key="_stleAHdvEeGm3uH8rYfPgw">
+      <value xmi:id="_1rgSwpF-EeGl6_HHEAkO0g" key="_stleMHdvEeGm3uH8rYfPgw">
+        <value xmi:id="_1rgSw5F-EeGl6_HHEAkO0g" x="230.99979" y="108.00015"/>
+      </value>
+      <value xmi:id="_1rgSxJF-EeGl6_HHEAkO0g" key="_U-27MIdeEeG0oPAT5BSQFQ">
+        <value xmi:id="_1rgSxZF-EeGl6_HHEAkO0g" x="825.9999" y="88.00009"/>
+      </value>
+      <value xmi:id="_1rgSxpF-EeGl6_HHEAkO0g" key="_R4j4oIdeEeG0oPAT5BSQFQ">
+        <value xmi:id="_1rgSx5F-EeGl6_HHEAkO0g" x="1356.0004" y="148.00009"/>
+      </value>
+    </containers>
+  </layout>
+</ram:Aspect>

@@ -1,0 +1,30 @@
+package jucm_OneFileWorkaround::urncore;
+require "platform:/lookup/aoUrnToRam/kermeta/aoUrnToIw/_Ref.kmt"
+
+using kermeta::standard
+using intermediateWorkflow
+using jucm_OneFileWorkaround::urn
+
+aspect class Concern{
+	reference iwConcern:IwConcern
+
+	operation build() is do
+		iwConcern:=IwConcern.new
+		iwConcern.name:=nameOrPrefixId("Concern")
+	end
+	
+	operation link() is do
+		//do not link empty concern
+		if(iwConcern.workflows.size>0) then
+			iwConcern.model:=urnSpec.iwModel
+		end
+	end
+	
+//*********************************************************
+//AoUrnToRam Extensions
+//*********************************************************/
+	property readonly urnSpec: URNspec
+	getter is do
+		result:=urndefinition.urnspec
+	end
+}

@@ -1,0 +1,96 @@
+package intermediateWorkflow;
+
+require "platform:/lookup/aoUrnToRam/kermeta/iw/_Ref.kmt"
+
+using kermeta::standard
+
+aspect class IwNodeConnection {
+
+	//@IntegerCannotBeSerialized
+	//Serialize Integers as string to work around the problem
+	//For more details, see http://lists.gforge.inria.fr/pipermail/kermeta-users/2008-November/000692.html
+	property stubEntryIndex:Integer
+	getter is do
+		if(stubEntryIndexAsString.isVoid) then
+			result:=void
+		else
+			result:=stubEntryIndexAsString.toInteger
+		end
+	end
+	setter is do
+		if(value.isVoid) then
+			stubEntryIndexAsString:=void
+		else
+			stubEntryIndexAsString:=value.toString
+		end
+	end
+
+	//See @IntegerCannotBeSerialized
+	property stubExitIndex:Integer
+	getter is do
+		if(stubExitIndexAsString.isVoid) then
+			result:=void
+		else
+			result:=stubExitIndexAsString.toInteger
+		end
+	end
+	setter is do
+		if(value.isVoid) then
+			stubExitIndexAsString:=void
+		else
+			stubExitIndexAsString:=value.toString
+		end
+	end
+	
+	property readonly hasCondition:Boolean
+	getter is do
+		result:=conditionName.isVoid==false
+	end
+
+	property readonly hasStubExitIndex:Boolean
+	getter is do
+		result:=stubExitIndex.isVoid==false
+	end
+	
+	property readonly hasStubEntryIndex:Boolean
+	getter is do
+		result:=stubEntryIndex.isVoid==false
+	end
+			
+	operation delete() is do
+		source:=void
+		target:=void
+		inBinding:=void
+		outBinding:=void
+	end
+	
+	property readonly step:IwStep
+	getter is do
+		if(outBinding.isVoid) then
+			result:=source.step //Source is not a stub
+		else
+			if(outBinding.pluginEndPoint.concern==target.concern) then
+				result:=outBinding.pluginEndPoint.step //At least one plugin is in the same concern 
+			else
+				result:=source.step //All plugins are in a different concern
+			end
+		end
+	end
+
+	property readonly concern:IwConcern
+	getter is do
+		result:=source.concern
+	end
+	
+	property readonly model:IwModel
+	getter is do
+		result:=source.model
+	end
+	
+	property readonly conditionNameWithSourcePrefix:String
+	getter is do
+		result:=source.name+"_"+conditionName
+	end
+	
+	
+}
