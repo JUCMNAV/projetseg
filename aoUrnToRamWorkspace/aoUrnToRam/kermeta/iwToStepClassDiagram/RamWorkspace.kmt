@@ -37,6 +37,6 @@ class RamWorkspace inherits CollectionExt{
 	operation findClass(theAspect:Aspect,className:String):Class is do
 		result:=theAspect.structuralView.classes.select{theClass|
 			theClass.name==className
-		}.one
+		}.one.asType(Class)
 	end
 }

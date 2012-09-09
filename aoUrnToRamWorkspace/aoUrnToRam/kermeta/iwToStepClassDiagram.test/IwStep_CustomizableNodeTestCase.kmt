@@ -81,7 +81,7 @@ class IwToStepClassDiagram_IwStep_CustomizableNodeTestCase inherits TestCase,IwT
 		assertCollectionHasTwoElements(
 			getRamCustomizableNodeClassAt(0),
 			getRamCustomizableNodeClassAt(1),
-			sut.ramCustomizableNodeMapping.maps
+			sut.ramCustomizableNodeMapping.toElements
 		)
 	end
 

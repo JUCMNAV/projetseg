@@ -55,7 +55,12 @@ class AoUrnToRam_IntegrationTestCase inherits TestCase
 	operation testOrJoin() is do
 		parameterizableIntegrationTest("OrJoin.jucm")
 	end
-	
+
+	@feature "FeaIntegrationTesting"
+	operation testAssignVehicleBasic() is do
+		parameterizableIntegrationTest("AssignVehicleBasic.jucm")
+	end
+		
 	operation parameterizableIntegrationTest(jucmSourceFileName:String) is do
 		self.jucmSourceFileName:=jucmSourceFileName
 		sut:=AoUrnToRamTransformation_WithoutUuidReferences.new

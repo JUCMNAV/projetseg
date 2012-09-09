@@ -647,6 +647,8 @@
         eType="#//grl/kpimodel/KPIModelLink" containment="true" eOpposite="#//grl/kpimodel/KPIModelLink/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="indicatorGroup" upperBound="-1"
         eType="#//grl/kpimodel/IndicatorGroup" containment="true" eOpposite="#//grl/kpimodel/IndicatorGroup/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="KPIConversion" upperBound="-1"
+        eType="#//grl/kpimodel/KPIConversion" containment="true" eOpposite="#//grl/kpimodel/KPIConversion/grlspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//grl/GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -669,6 +671,10 @@
         eOpposite="#//grl/IntentionalElementRef/def"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//grl/GRLLinkableElement #//urncore/IURNContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importance" eType="#//grl/ImportanceType"
+        defaultValueLiteral="None"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importanceQuantitative"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//grl/GRLspec" transient="true" eOpposite="#//grl/GRLspec/actors"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="includedActors" upperBound="-1"
@@ -752,6 +758,8 @@
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualitativeEvaluation"
         eType="#//grl/QualitativeLabel" defaultValueLiteral="None"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exceeds" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intElement" lowerBound="1"
         eType="#//grl/IntentionalElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" lowerBound="1"
@@ -918,8 +926,13 @@
           defaultValueLiteral="0"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualitativeEvaluationValue"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral=""/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="eval" lowerBound="1"
           eType="#//grl/Evaluation" transient="true" eOpposite="#//grl/Evaluation/kpiEvalValueSet"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiConv" eType="#//grl/kpimodel/KPIConversion"
+          eOpposite="#//grl/kpimodel/KPIConversion/kpiEvalValueSet"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="KPIInformationConfig">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="levelOfDimension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -934,6 +947,23 @@
           defaultValueLiteral="0"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="eval" lowerBound="1"
           eType="#//grl/Evaluation" transient="true" eOpposite="#//grl/Evaluation/kpiNewEvalValue"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIConversion" abstract="true" eSuperTypes="#//urncore/GRLmodelElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiEvalValueSet" upperBound="-1"
+          eType="#//grl/kpimodel/KPIEvalValueSet" eOpposite="#//grl/kpimodel/KPIEvalValueSet/kpiConv"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+          eType="#//grl/GRLspec" transient="true" eOpposite="#//grl/GRLspec/KPIConversion"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QualitativeMappings" eSuperTypes="#//grl/kpimodel/KPIConversion">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mapping" upperBound="-1"
+          eType="#//grl/kpimodel/QualitativeMapping" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QualitativeMapping">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="realWorldLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualitativeEvaluation"
+          eType="#//grl/QualitativeLabel"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="exceeds" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
   </eSubpackages>
 </eSubpackages>

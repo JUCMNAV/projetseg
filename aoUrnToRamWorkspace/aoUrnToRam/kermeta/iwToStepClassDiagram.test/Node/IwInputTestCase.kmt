@@ -34,7 +34,7 @@ class IwToStepClassDiagram_IwInputTestCase inherits TestCase,IwToStepClassDiagra
 	operation testLink_ShouldLinkInputDataClassToCustomizableInputDataMapping() is do
 		var step:IwStep init setupAndExeLinkOnNode(sut)
 
-		assertCollectionHasSingleElement(sut.ramInputData,step.ramCustomizableInputDataMapping.maps)
+		assertCollectionHasSingleElement(sut.ramInputData,step.ramCustomizableInputDataMapping.toElements)
 	end
 	
 }

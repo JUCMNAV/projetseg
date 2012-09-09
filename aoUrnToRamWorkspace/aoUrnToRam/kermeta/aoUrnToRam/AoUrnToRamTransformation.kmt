@@ -81,7 +81,7 @@ class AoUrnToRamTransformation
 		self.dotExe:=aoUrnToRamDir.uriAppend("thirdParty/Graphviz2.26.3/bin/dot.exe")
 		self.imgDir:=aoUrnToRamDir.uriAppend("img")
 		self.ramLibSourceDir:=aoUrnToRamDir.uriAppend("ramLib")
-		self.ramLibDestinationDir:=self.destination.uriAppend("Lib")
+		self.ramLibDestinationDir:=self.destination.uriAppend("reusable_model_library")
 
 		self.isRamStepViewAsDotOutputEnabled:=isRamStepViewAsDotOutputEnabled.toBoolean
 		self.isIwFileOutputEnabled:=isIwFileOutputEnabled.toBoolean

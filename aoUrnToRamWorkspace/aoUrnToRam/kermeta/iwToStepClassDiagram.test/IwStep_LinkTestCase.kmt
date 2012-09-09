@@ -45,7 +45,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		sut.link(ramWorkspace)
 		
 		assertCollectionContainsElement(sut.ramCustomizableNodeMapping,sut.ramWorkflowInstantiation.mappings)
-		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.sourceModelElement)
+		assertEquals(ramWorkspace.customizableNode,sut.ramCustomizableNodeMapping.fromElement)
 	end
 
 	@feature "FeaDefaultExecuteOperationOnCustomizableNode"
@@ -55,7 +55,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		sut.link(ramWorkspace)
 		
 		assertCollectionContainsElement(sut.ramExecuteOperationMapping,sut.ramWorkflowInstantiation.mappings)
-		assertEquals(ramWorkspace.executeOperation,sut.ramExecuteOperationMapping.sourceModelElement)
+		assertEquals(ramWorkspace.executeOperation,sut.ramExecuteOperationMapping.fromElement)
 	end
 	
 	
@@ -68,7 +68,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		
 		assertCollectionContainsElement(sut.ramInputInstantiation,sut.ramAspect.instantiations)
 		assertCollectionHasSingleElement(sut.ramCustomizableInputDataMapping,sut.ramInputInstantiation.mappings)
-		assertEquals(ramWorkspace.customizableInputData,sut.ramCustomizableInputDataMapping.sourceModelElement)
+		assertEquals(ramWorkspace.customizableInputData,sut.ramCustomizableInputDataMapping.fromElement)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"
@@ -89,7 +89,7 @@ class IwToStepClassDiagram_IwStep_LinkTestCase inherits TestCase,IwToStepClassDi
 		
 		assertCollectionContainsElement(sut.ramOutputInstantiation,sut.ramAspect.instantiations)
 		assertCollectionHasSingleElement(sut.ramCustomizableOutputDataMapping,sut.ramOutputInstantiation.mappings)
-		assertEquals(ramWorkspace.customizableOutputData,sut.ramCustomizableOutputDataMapping.sourceModelElement)
+		assertEquals(ramWorkspace.customizableOutputData,sut.ramCustomizableOutputDataMapping.fromElement)
 	end
 
 	@feature "FeaMigrateToLatestRamMetaModel"

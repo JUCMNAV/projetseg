@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="Output">
   <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
-    <classes xmi:id="_stleMHdvEeGm3uH8rYfPgx" name="CustomizableOutputData" partial="true">
+    <classes xsi:type="ram:Class" xmi:id="_stleMHdvEeGm3uH8rYfPgx" name="CustomizableOutputData" partial="true">
       <operations xmi:id="_VLH4UIy-EeGpeIH37hJjzg" name="send" returnType="_2gIj8Iy4EeGpeIH37hJjzg">
         <parameters xmi:id="_WOmukIy-EeGpeIH37hJjzg" name="host" type="_28XM8Iy4EeGpeIH37hJjzg"/>
       </operations>
@@ -15,19 +15,18 @@
     <types xsi:type="ram:RChar" xmi:id="_-_8Y1JCdEeGzlYpanN46YA"/>
   </structuralView>
   <instantiations xmi:id="_I0OZoZP8EeGny46d50MPHA">
-    <mappings xmi:id="_I0PnwJP8EeGny46d50MPHA" maps="_stleMHdvEeGm3uH8rYfPgx">
-      <sourceModelElement xsi:type="ram:Class" href="../network/NetworkCommand.ram#_Z4LZIIpUEeG5EZ-nvE23vQ"/>
+    <mappings xmi:id="_I0PnwJP8EeGny46d50MPHA" toElements="_stleMHdvEeGm3uH8rYfPgx">
+      <fromElement xsi:type="ram:Class" href="../network/NetworkCommand.ram#_Z4LZIIpUEeG5EZ-nvE23vQ"/>
     </mappings>
     <externalAspect href="../network/NetworkCommand.ram#_pJWSkIpTEeG5EZ-nvE23vQ"/>
   </instantiations>
-  <instantiations xmi:id="_IW5mkZTPEeGo4eWUP3cdlQ">
-    <mappings xmi:id="_IW60sJTPEeGo4eWUP3cdlQ"/>
+  <instantiations xmi:id="_IW5mkZTPEeGo4eWUP3cdlQ" type="Extends">
     <externalAspect href="Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <layout xmi:id="_p2kc4JUzEeGo5vMYqZiMtQ">
-    <containers xmi:id="_p2lrAJUzEeGo5vMYqZiMtQ" key="_stleAHdvEeGm3uH8rYfPgw">
-      <value xmi:id="_p2lrAZUzEeGo5vMYqZiMtQ" key="_stleMHdvEeGm3uH8rYfPgx">
-        <value xmi:id="_p2lrApUzEeGo5vMYqZiMtQ" x="300.0" y="100.0"/>
+  <layout xmi:id="_nUaUUfirEeG529jVaHEKbg">
+    <containers xmi:id="_nUaUUvirEeG529jVaHEKbg" key="_stleAHdvEeGm3uH8rYfPgw">
+      <value xmi:id="_nUaUU_irEeG529jVaHEKbg" key="_stleMHdvEeGm3uH8rYfPgx">
+        <value xmi:id="_nUaUVPirEeG529jVaHEKbg" x="271.76196" y="64.952385"/>
       </value>
     </containers>
   </layout>

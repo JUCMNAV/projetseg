@@ -44,7 +44,7 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		assertEquals(expectedNumOfClasses,actualIwStep.ramAspect.structuralView.classes.select{ramClass|isBaseClass(ramClass)==false}.size)
 	end
 	
-	operation isBaseClass(ramClass:Class):Boolean is do
+	operation isBaseClass(ramClass:Classifier):Boolean is do
 		result:=ramClass.name=="OutputData" or ramClass.name=="InputData" 
 	end
 	
@@ -69,6 +69,6 @@ class IwToStepClassDiagram_TestHelper inherits CustomAssert,IwTestFactory
 		var cParam:Parameter init colExtSingle(executeOperation.parameters)
 		assertEquals(step.ramLocalContextClass,cParam.type)
 		assertEquals(step.ramRVoid,executeOperation.returnType)
-		assertCollectionContainsElement(executeOperation,step.ramExecuteOperationMapping.maps)
+		assertCollectionContainsElement(executeOperation,step.ramExecuteOperationMapping.toElements)
 	end
 }

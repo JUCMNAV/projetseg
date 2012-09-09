@@ -57,7 +57,7 @@ Build
 	
 	operation createInstantiation_Extends():Instantiation is do
 		result:=Instantiation.new
-		result.type:=instantiationTypes.Extends
+		result.type:=InstantiationType.Extends
 	end
 	
 	operation buildMappings() is do
@@ -106,7 +106,8 @@ Link
 	
 	property isEmtpyStepClassDiagram:Boolean
 	getter is do
-		result:=customizableNodes.size==0
+		// by default a LocalContext class is generated all the time; at least one other class needs to exist
+		result:=ramStructuralView.classes.size==1
 	end
 	
 	operation linkInstantiations(ramWorkspace:RamWorkspace) is do
@@ -156,8 +157,8 @@ Link
 		ramAspect.instantiations.add(instantiation)
 	end
 	
-	operation linkMapping(mapping:Mapping,sourceModelElement:MappableElement,instantiation:Instantiation) is do
-		mapping.sourceModelElement:=sourceModelElement
+	operation linkMapping(mapping:Mapping,fromElement:MappableElement,instantiation:Instantiation) is do
+		mapping.fromElement:=fromElement
 		instantiation.mappings.add(mapping)
 	end
 
@@ -173,8 +174,8 @@ Link
 	
 	operation mapExternalClass(ramClass:Class,externalRamClass:Class,instantiation:Instantiation):Mapping is do
 		result:=Mapping.new
-		result.sourceModelElement:=externalRamClass
-		result.maps.add(ramClass)
+		result.fromElement:=externalRamClass
+		result.toElements.add(ramClass)
 		instantiation.mappings.add(result)
 	end
 
@@ -183,23 +184,23 @@ Add Ram Class API
 *********************************************************/
 	operation linkInputData(inputData:Class) is do
 		linkClassToClassDiagram(inputData)
-		ramCustomizableInputDataMapping.maps.add(inputData)
+		ramCustomizableInputDataMapping.toElements.add(inputData)
 	end
 	
 	operation linkOutputData(outputData:Class) is do
 		linkClassToClassDiagram(outputData)
-		ramCustomizableOutputDataMapping.maps.add(outputData)
+		ramCustomizableOutputDataMapping.toElements.add(outputData)
 	end
 	
 	operation linkCustomizableNode(customizableNode:Class) is do
 		linkClassToClassDiagram(customizableNode)
-		ramCustomizableNodeMapping.maps.add(customizableNode)
+		ramCustomizableNodeMapping.toElements.add(customizableNode)
 		
 		linkExecuteOperation(colExtSingle(customizableNode.operations))
 	end
 	
 	operation linkExecuteOperation(executeOperation:Operation) is do
-		ramExecuteOperationMapping.maps.add(executeOperation)
+		ramExecuteOperationMapping.toElements.add(executeOperation)
 		executeOperation.returnType:=ramRVoid
 
 		var cParam:Parameter init colExtSingle(executeOperation.parameters)

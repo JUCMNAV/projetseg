@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_SrF5cIybEeGP-shl74zfPQ" name="Named">
   <structuralView xmi:id="_VR8m8IybEeGP-shl74zfPQ">
-    <classes xmi:id="_aKtFoIybEeGP-shl74zfPQ" name="Named" partial="true">
+    <classes xsi:type="ram:Class" xmi:id="_aKtFoIybEeGP-shl74zfPQ" name="Named" partial="true">
       <operations xmi:id="_coJYcIybEeGP-shl74zfPQ" name="getName" returnType="_YKx1QIybEeGP-shl74zfPQ"/>
       <operations xmi:id="_dQHXYIybEeGP-shl74zfPQ" name="setName" returnType="_ZqSgMIybEeGP-shl74zfPQ">
         <parameters xmi:id="_zWA3gIybEeGP-shl74zfPQ" name="name" type="_YKx1QIybEeGP-shl74zfPQ"/>

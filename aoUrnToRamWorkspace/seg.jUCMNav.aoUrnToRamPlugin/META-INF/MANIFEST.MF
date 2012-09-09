@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AoUrnToRamPlugin
 Bundle-SymbolicName: seg.jUCMNav.aoUrnToRamPlugin;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1
 Bundle-Activator: seg.jUCMNav.aoUrnToRamPlugin.Activator
 Bundle-Vendor: usecasemaps.org
 Require-Bundle: org.eclipse.ui;bundle-version="3.5.2",

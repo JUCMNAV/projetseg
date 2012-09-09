@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_apfG0Io_EeGYMOvWx4MkYQ" name="Observer">
   <structuralView xmi:id="_d9FlkIo_EeGYMOvWx4MkYQ">
-    <classes xmi:id="_e7XywIo_EeGYMOvWx4MkYQ" name="Subject" partial="true">
+    <classes xsi:type="ram:Class" xmi:id="_e7XywIo_EeGYMOvWx4MkYQ" name="Subject" partial="true">
       <associationEnds xmi:id="_kEYWkZOYEeG7vMjhoa5XQA" navigable="false" assoc="_kEay0JOYEeG7vMjhoa5XQA"/>
       <operations xmi:id="_jQn7wIo_EeGYMOvWx4MkYQ" name="notify" visibility="package" returnType="_lu4t8Io_EeGYMOvWx4MkYQ"/>
       <operations xmi:id="_nqxL0Io_EeGYMOvWx4MkYQ" name="getObservers" returnType="_qR0GkIo_EeGYMOvWx4MkYQ"/>
       <operations xmi:id="_v3dgcIo_EeGYMOvWx4MkYQ" name="modify" returnType="_lu4t8Io_EeGYMOvWx4MkYQ" partial="true"/>
     </classes>
-    <classes xmi:id="_rSUhUIo_EeGYMOvWx4MkYQ" name="Observer" partial="true">
+    <classes xsi:type="ram:Class" xmi:id="_rSUhUIo_EeGYMOvWx4MkYQ" name="Observer" partial="true">
       <associationEnds xmi:id="_kEZksJOYEeG7vMjhoa5XQA" name="MySubject" assoc="_kEay0JOYEeG7vMjhoa5XQA" lowerBound="1"/>
       <operations xmi:id="_06EesIo_EeGYMOvWx4MkYQ" name="startObserving" returnType="_lu4t8Io_EeGYMOvWx4MkYQ">
         <parameters xmi:id="_B2bncIpAEeGYMOvWx4MkYQ" name="s" type="_e7XywIo_EeGYMOvWx4MkYQ"/>
@@ -27,14 +27,14 @@
     <types xsi:type="ram:RString" xmi:id="_kEqDYZOYEeG7vMjhoa5XQA"/>
   </structuralView>
   <instantiations xmi:id="_-tQucZSwEeGZwLAig1A3qg">
-    <mappings xmi:id="_-tSjoJSwEeGZwLAig1A3qg" maps="_e7XywIo_EeGYMOvWx4MkYQ">
-      <sourceModelElement xsi:type="ram:Class" href="../util/ZeroToMany.ram#_stleMHdvEeGm3uH8rYfPgw"/>
+    <mappings xmi:id="_-tSjoJSwEeGZwLAig1A3qg" toElements="_e7XywIo_EeGYMOvWx4MkYQ">
+      <fromElement xsi:type="ram:Class" href="../util/ZeroToMany.ram#_stleMHdvEeGm3uH8rYfPgw"/>
     </mappings>
-    <mappings xmi:id="_AKlBAJSxEeGZwLAig1A3qg" maps="_rSUhUIo_EeGYMOvWx4MkYQ">
-      <sourceModelElement xsi:type="ram:Class" href="../util/ZeroToMany.ram#_R4j4oIdeEeG0oPAT5BSQFQ"/>
+    <mappings xmi:id="_AKlBAJSxEeGZwLAig1A3qg" toElements="_rSUhUIo_EeGYMOvWx4MkYQ">
+      <fromElement xsi:type="ram:Class" href="../util/ZeroToMany.ram#_R4j4oIdeEeG0oPAT5BSQFQ"/>
     </mappings>
-    <mappings xmi:id="_Bv7OMJSxEeGZwLAig1A3qg" maps="_nqxL0Io_EeGYMOvWx4MkYQ">
-      <sourceModelElement xsi:type="ram:Operation" href="../util/ZeroToMany.ram#_FRO_wIfiEeG0oPAT5BSQFQ"/>
+    <mappings xmi:id="_Bv7OMJSxEeGZwLAig1A3qg" toElements="_nqxL0Io_EeGYMOvWx4MkYQ">
+      <fromElement xsi:type="ram:Operation" href="../util/ZeroToMany.ram#_FRO_wIfiEeG0oPAT5BSQFQ"/>
     </mappings>
     <externalAspect href="../util/ZeroToMany.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
