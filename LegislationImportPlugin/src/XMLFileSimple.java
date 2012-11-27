@@ -46,6 +46,7 @@ public class XMLFileSimple
     private ArrayList <String> NoRedundantMultipleAltKpi;
     private ArrayList <String> RedundantMultipleAltKpi;
     private ArrayList <String> Stereotype;
+    private ArrayList <ArrayList<String>> GoalStereoType;
     private ArrayList <ArrayList<String>> MultipleStereoType;
     private ArrayList <String> RefinedDecomposition; // to consider all the elements AND, except for OR
     private ArrayList <ElementDefinition> ElementDefinitionList; // for grl file
@@ -58,9 +59,9 @@ public class XMLFileSimple
     private ArrayList <String> LinkIDList; // list of ids of link definition of grl file elements
     private ArrayList <Integer> ContributionValueList; 
   
-    private boolean noKpi = true, noAltKpi = true, kpiStereotypeExists = false;
-    private int numberofIntentionalElement;
-    private final static int metadataArraySize = 6;
+    private boolean noKpi = true, noAltKpi = true, kpiStereotypeExists = false, goalStereotypeExists = false;
+    private int numberofIntentionalElement, endOfGoalsIndex;
+    private final static int metadataArraySize = 5;
     private static int columnSize;
     private static int currentColumn = 0;
   
@@ -69,9 +70,16 @@ public class XMLFileSimple
         columnSize = list.get(0).length;
         currentColumn = 0;
         System.out.println("The number of column is : " + columnSize);
+        for (int i = 0; i < list.size(); i++) // finding the last row of goals on csv file
+            if (list.get(i) [0].equals("KpiStereoTypes")) {
+                endOfGoalsIndex = i;
+                break;
+            }
+        
+        System.out.println("The number of rows of goals is : " + endOfGoalsIndex);
         LegislationID = new ArrayList<String>();    
         if (currentColumn < columnSize)
-            for (int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < endOfGoalsIndex; i++) {
                 row = list.get(i);
                 LegislationID.add(row[currentColumn]);
             }
@@ -90,7 +98,7 @@ public class XMLFileSimple
         String [] row;
         LegislationSection = new ArrayList<String>();
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 LegislationSection.add( row[ currentColumn ] );
             }
@@ -121,7 +129,7 @@ public class XMLFileSimple
         String [] row;
         IntentionalElement = new ArrayList<String>(); 
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 IntentionalElement.add( row[ currentColumn ] );
             }
@@ -144,7 +152,7 @@ public class XMLFileSimple
         String [] row;
         AltName = new ArrayList<String>();
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 AltName.add( row[ currentColumn ] );
             }
@@ -163,7 +171,7 @@ public class XMLFileSimple
         String [] row;
         hyperlink = new ArrayList<String>();    
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 hyperlink.add( row[ currentColumn ] );
             }
@@ -180,7 +188,7 @@ public class XMLFileSimple
     public void setAltDescription( List <String[]> list ) {
         AltDescription = new ArrayList<String>();    
         if (currentColumn < columnSize)
-          for ( int i = 0; i < list.size(); i++ )
+          for ( int i = 0; i < endOfGoalsIndex; i++ )
               AltDescription.add( "" );
              
         //currentColumn++;
@@ -196,7 +204,7 @@ public class XMLFileSimple
         String [] row;
         Importance = new ArrayList<String>();    
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 Importance.add( row[ currentColumn ] );            
             }
@@ -216,7 +224,7 @@ public class XMLFileSimple
         String [] row;
         Decomposition = new ArrayList<String>();    
         if (currentColumn < columnSize)
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 Decomposition.add( row[ currentColumn ] );            
             }
@@ -240,20 +248,47 @@ public class XMLFileSimple
         return RefinedDecomposition;
     }
     
+    public void setGoalStereoType( List <String[]> list ) {
+        String [] row;
+        Stereotype = new ArrayList<String>();
+        if (currentColumn < columnSize) {
+            if (list.get(0)[currentColumn].equals("STEREOTYPE")) // if STEREOTYPE column exists in the csv file
+                goalStereotypeExists = true;
+            
+            if (goalStereotypeExists) {
+                if (currentColumn < columnSize)
+                    for ( int i = 0; i < endOfGoalsIndex; i++ ) {
+                        row = list.get( i );
+                        Stereotype.add( row[ currentColumn ] );            
+                    }
+              
+                Stereotype.remove( 0 );
+                makeGoalStereoType();
+                currentColumn++;
+                System.out.println( "\nSimple Stereotype size for Goals is : " + Stereotype.size() );
+                System.out.println( "\nSimple GoalStereoType size is : " + GoalStereoType.size() );
+            }
+        }
+    }
+    
+    public ArrayList<ArrayList<String>> getGoalStereoType() {
+        return GoalStereoType;
+    }
+    
     public void setKpi( List <String[]> list ) {
         String [] row;
         Kpi = new ArrayList<String>();        
         if (currentColumn < columnSize) {
         //if (list.get(0).length > 7) {    
             noKpi = false;            
-            for ( int i = 0; i < list.size(); i++ ) {
+            for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 Kpi.add( row[ currentColumn ] );            
             }
           
             Kpi.remove( 0 );
         } else {
-            for ( int i = 0; i < list.size(); i++ )
+            for ( int i = 0; i < endOfGoalsIndex; i++ )
                 Kpi.add("");
         }
     
@@ -275,18 +310,18 @@ public class XMLFileSimple
             if (currentColumn < columnSize) {
             //if (list.get(0).length > 8) {
                 noAltKpi = false;                
-                for ( int i = 0; i < list.size(); i++ ) {
+                for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                     row = list.get( i );
                     AltKpi.add( row[ currentColumn ] );            
                 }
                   
                 AltKpi.remove( 0 );
             } else {
-                for ( int i = 0; i < list.size(); i++ )
+                for ( int i = 0; i < endOfGoalsIndex; i++ )
                     AltKpi.add("");
             }
         } else {
-            for ( int i = 0; i < list.size(); i++ )
+            for ( int i = 0; i < endOfGoalsIndex; i++ )
                 AltKpi.add("");
         }    
     
@@ -328,12 +363,6 @@ public class XMLFileSimple
                
                 counter++;
             }
-        }
-        
-        for (int i = 0; i < MultipleStereoType.size(); i++) {
-            for (int j = 0; j < MultipleStereoType.get(i).size(); j++)
-                System.out.print("stereotope[ " + i + ", " + j + " ] : " + MultipleStereoType.get(i).get(j) + "   ");
-            System.out.println("");
         }
         //makeMultipleStereoType(); // taking care of KPIs' stereotypes 
         //makeKpiStereotype(); // taking care of KPIs' stereotypes
@@ -480,13 +509,13 @@ public class XMLFileSimple
             
             Element intentionalelementElement;
             Attr idAttr, nameAttr, descriptionAttr, typeAttr, decompositiontypeAttr;
-            Element metadataelement1, metadataelement2, metadataelement3, metadataelement4, metadataelement5, metadataelement6;
-            Attr mdelemAttr1, mdnameAttr1, mdvalueAttr1;
-            Attr mdelemAttr2, mdnameAttr2, mdvalueAttr2;
-            Attr mdelemAttr3, mdnameAttr3, mdvalueAttr3;
-            Attr mdelemAttr4, mdnameAttr4, mdvalueAttr4;
-            Attr mdelemAttr5, mdnameAttr5, mdvalueAttr5;
-            Attr mdelemAttr6, mdnameAttr6, mdvalueAttr6;
+            Element metadataelement; //metadataelement2, metadataelement3, metadataelement4, metadataelement5, metadataelement6;
+            Attr mdelemAttr, mdnameAttr, mdvalueAttr;
+            //Attr mdelemAttr2, mdnameAttr2, mdvalueAttr2;
+            //Attr mdelemAttr3, mdnameAttr3, mdvalueAttr3;
+            //Attr mdelemAttr4, mdnameAttr4, mdvalueAttr4;
+            //Attr mdelemAttr5, mdnameAttr5, mdvalueAttr5;
+            //Attr mdelemAttr6, mdnameAttr6, mdvalueAttr6;
             //Attr mdelemAttr7, mdnameAttr7, mdvalueAttr7;
             MetadataAttribute [] mdAttributeArray;
                         
@@ -517,7 +546,24 @@ public class XMLFileSimple
                 
                 mdAttributeArray = ElementDefinitionList.get( i ).getMetadataAttrs();
                 
-                // First metadata element
+                for (int j = 0; j < mdAttributeArray.length; j++) {
+                    metadataelement = doc.createElement( "metadata" );
+                    elementdefElement.appendChild( metadataelement );
+                    
+                    mdelemAttr = doc.createAttribute( "elem" );
+                    mdelemAttr.setValue( mdAttributeArray[ j ].getElem() );
+                    metadataelement.setAttributeNode( mdelemAttr );
+                    
+                    mdnameAttr = doc.createAttribute( "name" );
+                    mdnameAttr.setValue( mdAttributeArray[ j ].getName() );
+                    metadataelement.setAttributeNode( mdnameAttr );
+                    
+                    mdvalueAttr = doc.createAttribute( "value" );
+                    mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
+                    metadataelement.setAttributeNode( mdvalueAttr );
+                }
+                
+                /*// First metadata element
                 metadataelement1 = doc.createElement( "metadata" );
                 elementdefElement.appendChild( metadataelement1 );
                                 
@@ -611,7 +657,7 @@ public class XMLFileSimple
                 
                 mdvalueAttr6 = doc.createAttribute( "value" );
                 mdvalueAttr6.setValue( mdAttributeArray[ 5 ].getvalue() );
-                metadataelement6.setAttributeNode( mdvalueAttr6 );
+                metadataelement6.setAttributeNode( mdvalueAttr6 );*/
             }
             
             if (!noKpi)
@@ -642,43 +688,23 @@ public class XMLFileSimple
                     intentionalelementElement.setAttributeNode( decompositiontypeAttr );             
                     
                     mdAttributeArray = KpiElementDefinitionList.get( i ).getMetadataAttrs();
+                    System.out.println(mdAttributeArray.length);
                                         
-                    // First metadata element
-                    /*metadataelement1 = doc.createElement( "metadata" );
-                    elementdefElement.appendChild( metadataelement1 );
-                                    
-                    mdelemAttr1 = doc.createAttribute( "elem" );
-                    mdelemAttr1.setValue( mdAttributeArray[ 0 ].getElem() );
-                    metadataelement1.setAttributeNode( mdelemAttr1 );
-                    
-                    mdnameAttr1 = doc.createAttribute( "name" );
-                    mdnameAttr1.setValue( mdAttributeArray[ 0 ].getName() );
-                    metadataelement1.setAttributeNode( mdnameAttr1 );
-                    
-                    mdvalueAttr1 = doc.createAttribute( "value" );
-                    mdvalueAttr1.setValue( mdAttributeArray[ 0 ].getvalue() );
-                    metadataelement1.setAttributeNode( mdvalueAttr1 );*/
-                    
-                    //ArrayList<MetadataAttribute> temp = new ArrayList<MetadataAttribute>();
-                    //MetadataAttribute [] temp = new MetadataAttribute[KpiElementDefinitionList.get( i ).getMetadataAttrs().length];
-                    System.out.println("Good to this point!!!");
-                    System.out.println("mdAtrributeArray size is : " + mdAttributeArray.length);
-                    System.out.println(mdAttributeArray.toString());
                     for (int j = 0; j < mdAttributeArray.length; j++) {
-                        metadataelement1 = doc.createElement( "metadata" );
-                        elementdefElement.appendChild( metadataelement1 );
+                        metadataelement = doc.createElement( "metadata" );
+                        elementdefElement.appendChild( metadataelement );
                         
-                        mdelemAttr1 = doc.createAttribute( "elem" );
-                        mdelemAttr1.setValue( mdAttributeArray[ j ].getElem() );
-                        metadataelement1.setAttributeNode( mdelemAttr1 );
+                        mdelemAttr = doc.createAttribute( "elem" );
+                        mdelemAttr.setValue( mdAttributeArray[ j ].getElem() );
+                        metadataelement.setAttributeNode( mdelemAttr );
                         
-                        mdnameAttr1 = doc.createAttribute( "name" );
-                        mdnameAttr1.setValue( mdAttributeArray[ j ].getName() );
-                        metadataelement1.setAttributeNode( mdnameAttr1 );
+                        mdnameAttr = doc.createAttribute( "name" );
+                        mdnameAttr.setValue( mdAttributeArray[ j ].getName() );
+                        metadataelement.setAttributeNode( mdnameAttr );
                         
-                        mdvalueAttr1 = doc.createAttribute( "value" );
-                        mdvalueAttr1.setValue( mdAttributeArray[ j ].getvalue() );
-                        metadataelement1.setAttributeNode( mdvalueAttr1 );
+                        mdvalueAttr = doc.createAttribute( "value" );
+                        mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
+                        metadataelement.setAttributeNode( mdvalueAttr );
                     }
                     System.out.println("Good to this point, number 2!!!");
                 }
@@ -816,11 +842,14 @@ public class XMLFileSimple
     public void makeElementDefinitionList() {
         ElementDefinition ed;
         IntentionalElementAttribute ieAttr;
-        MetadataAttribute maAttr1, maAttr2, maAttr3, maAttr4, maAttr5, maAttr6;
-        MetadataAttribute [] mdarray; 
+        MetadataAttribute maAttr1, maAttr2, maAttr3, maAttr4, maAttr5, maAttr;
+        MetadataAttribute [] mdarray, tempGoalMDArray = null; 
+        //MetadataAttribute [] tempMDArray; 
         Random rdNumber = new Random();
         int ID, fatherIndex = -1; 
-        String stringID, father; 
+        String stringID, father;
+        boolean hasStereotype = false;
+        ArrayList <MetadataAttribute> tempStereotype = null;
         
         ElementDefinitionList = new ArrayList<ElementDefinition>();
         IDList = new ArrayList <String>();      
@@ -832,7 +861,6 @@ public class XMLFileSimple
             maAttr3 = new MetadataAttribute();
             maAttr4 = new MetadataAttribute();
             maAttr5 = new MetadataAttribute();
-            maAttr6 = new MetadataAttribute();
             mdarray = new MetadataAttribute[ metadataArraySize ];
                
             while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
@@ -875,13 +903,36 @@ public class XMLFileSimple
             maAttr5.setValue(AltDescription.get(i));
             mdarray[ 4 ] = maAttr5;
             
-            maAttr6.setElem(stringID);
-            maAttr6.setName("ImportanceRange");
-            maAttr6.setValue(ImportanceRange.get(i));
-            mdarray[ 5 ] = maAttr6;
-              
+            if (goalStereotypeExists) { // if there is any stereotype defined in the csv file
+                if (GoalStereoType.get(i).size() != 0) { // if there is any stereotypes defined for a goal
+                    hasStereotype = true;
+                    tempStereotype = new ArrayList<MetadataAttribute>(); // creating a list to keep stereotype(s) of a goal in it
+                    for (int j = 1; j < GoalStereoType.get(i).size(); j++) { // adding stereotype into the list
+                        maAttr = new MetadataAttribute();
+                        maAttr.setElem(stringID);
+                        maAttr.setName("ST_CLASSTYPE");
+                        maAttr.setValue(GoalStereoType.get(i).get(j));
+                        tempStereotype.add(maAttr);
+                    }
+                }
+            }
+            
+            if (hasStereotype) { // if we have stereotypes in csv file and the goal has stereotype(s) defined
+                for (int j = 0; j < metadataArraySize; j++) // adding other metadata attributes into temporary list of metadata attributes
+                    tempStereotype.add(mdarray[ j ]);
+                
+                tempGoalMDArray = new MetadataAttribute[ tempStereotype.size() ]; // creating an array of size of the temporary metadata attribute list
+                for (int j = 0; j < tempGoalMDArray.length; j++) // adding all the items of temporary list into newly created array
+                    tempGoalMDArray[ j ] = tempStereotype.get(j);                
+            }
+            
+            if (hasStereotype)
+                ed.setMetadataAttrs(tempGoalMDArray);
+            else
+                ed.setMetadataAttrs(mdarray);
+            
+            hasStereotype = false;
             ed.setIntentionalElementAttribute(ieAttr);
-            ed.setMetadataAttrs(mdarray);
             ElementDefinitionList.add(ed);           
         }
         System.out.println("The size of the ElementDefinitionList is : " + ElementDefinitionList.size());
@@ -940,7 +991,7 @@ public class XMLFileSimple
                     else { // if we have steretotypes definition
                         int index = -1; // finding the index of the KPI in KpiSterepType if it exists
                         for (int j = 0; j < MultipleStereoType.size(); j++) {
-                            System.out.println("The searched KPI is : "+NoRedundantMultipleKpi.get(i));
+                            //System.out.println("The searched KPI is : "+NoRedundantMultipleKpi.get(i));
                             if (MultipleStereoType.get(j).get(0).equals(NoRedundantMultipleKpi.get(i))) {
                                 index = j;
                                 break;
@@ -1355,6 +1406,30 @@ public class XMLFileSimple
                 ImportanceRange.add(ImportanceRow.get(i).get(1));
             else    
                 ImportanceRange.add("");
+    }
+    
+    private void makeGoalStereoType() {
+        GoalStereoType = new ArrayList<ArrayList<String>>();
+        int beginIndex;
+        String row;
+        MultipleStereoType = new ArrayList<ArrayList<String>>();           
+        for (int i = 0; i < Stereotype.size(); i++ ) { // separating stereotypes of a goal, if a goal has multiple stereotypes
+            beginIndex = 0;
+            row = Stereotype.get( i );
+            GoalStereoType.add(new ArrayList<String>());
+            if (row.length() != 0) // adding name of the goal to the beginning of each row of GoalStereoType list, if there exists any stereotype
+                GoalStereoType.get(i).add(IntentionalElement.get(i));
+                           
+            for (int j = 0; j < row.length(); j++) {
+                if (row.charAt(j) != ';')
+                    continue;
+                else {
+                    GoalStereoType.get(i).add(row.substring(beginIndex, j));
+                    beginIndex = ++j;
+                }
+            }
+        }
+        
     }
     
     /*private void makeMultipleStereoType() { // reading all the stereotypes into MultipleStereotype, which is list of sublists

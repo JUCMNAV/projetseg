@@ -51,6 +51,7 @@ public class CSVLegislationImport extends DefaultHandler implements IURNImport
         xmlFileSimple.setAltDescription( legislationFileSimple.getStringValues() );
         xmlFileSimple.setImportance( legislationFileSimple.getStringValues() );
         xmlFileSimple.setDecomposition( legislationFileSimple.getStringValues() );
+        xmlFileSimple.setGoalStereoType( legislationFileSimple.getStringValues() );
         xmlFileSimple.setKpi( legislationFileSimple.getStringValues() );
         xmlFileSimple.setAltKpi( legislationFileSimple.getStringValues() );
         xmlFileSimple.setKpiStereotype( legislationFileSimple.getStringValues() );
