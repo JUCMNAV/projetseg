@@ -4,6 +4,7 @@
  */
 public class ContributionAttribute
 {
+    private String id;
     private String name;
     private String description;
     private String srcid;
@@ -11,6 +12,17 @@ public class ContributionAttribute
     private String contributiontype;
     private String quantitativeContribution;
     private String correlation;
+    private MetadataAttribute mdAttr;
+    
+    public void setID( String s )
+    {
+        id = s;
+    }
+  
+    public String getID()
+    {
+        return id;
+    }
   
     public void setName( String s )
     {
@@ -80,6 +92,16 @@ public class ContributionAttribute
     public String getCorrelation()
     {
         return correlation;
+    }
+    
+    public void setMDAttr( MetadataAttribute mdattr )
+    {
+        mdAttr = mdattr;
+    }
+    
+    public MetadataAttribute getMDAttr()
+    {
+        return mdAttr;
     }
   
     @Override

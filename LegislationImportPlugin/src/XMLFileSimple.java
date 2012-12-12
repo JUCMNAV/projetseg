@@ -41,10 +41,14 @@ public class XMLFileSimple
     private ArrayList <ArrayList <String>> MultipleKpi;
     private ArrayList <String> NoRedundantMultipleKpi;
     private ArrayList <String> RedundantMultipleKpi;
+    private ArrayList <String> KpiWeight;
+    private ArrayList <ArrayList<String>> MultipleKpiWeight;
     private ArrayList <String> AltKpi;
     private ArrayList <ArrayList <String>> MultipleAltKpi;
     private ArrayList <String> NoRedundantMultipleAltKpi;
     private ArrayList <String> RedundantMultipleAltKpi;
+    private ArrayList <ArrayList<String>> GoalKpiWeight;
+    private ArrayList <ArrayList<Integer>> KpiContributionValueList;
     private ArrayList <String> Stereotype;
     private ArrayList <ArrayList<String>> GoalStereoType;
     private ArrayList <ArrayList<String>> MultipleStereoType;
@@ -59,7 +63,8 @@ public class XMLFileSimple
     private ArrayList <String> LinkIDList; // list of ids of link definition of grl file elements
     private ArrayList <Integer> ContributionValueList; 
   
-    private boolean noKpi = true, noAltKpi = true, kpiStereotypeExists = false, goalStereotypeExists = false;
+    private boolean noKpi = true, noAltKpi = true, kpiStereotypeExists = false, goalStereotypeExists = false, 
+        noImportanceRange = true;
     private int numberofIntentionalElement, endOfGoalsIndex;
     private final static int metadataArraySize = 5;
     private static int columnSize;
@@ -74,8 +79,9 @@ public class XMLFileSimple
             if (list.get(i) [0].equals("KpiStereoTypes")) {
                 endOfGoalsIndex = i;
                 break;
-            }
-        
+            } else
+                endOfGoalsIndex = list.size();
+                
         System.out.println("The number of rows of goals is : " + endOfGoalsIndex);
         LegislationID = new ArrayList<String>();    
         if (currentColumn < columnSize)
@@ -284,25 +290,48 @@ public class XMLFileSimple
             for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 Kpi.add( row[ currentColumn ] );            
-            }
-          
-            Kpi.remove( 0 );
+            }          
+            
         } else {
             for ( int i = 0; i < endOfGoalsIndex; i++ )
                 Kpi.add("");
         }
     
+        Kpi.remove( 0 );
         currentColumn++;
         System.out.println( "\nSimple Kpi size is : " + Kpi.size() );
         makeMultipleKpi(); // taking care of KPIs by creating list of list of string. 
         refineNoRedundantMultipleKpi(); // removing redundancy by refining the name of redundant element.
         makeNoRedundantMultipleKpi(); // separating the redundancy into new list.
+        setKpiWeight(list); // taking care of the KPIs weights        
     } 
   
     public ArrayList <String> getKpi() {
         return Kpi;
     }
     
+    private void setKpiWeight( List <String[]> list ) {
+        String [] row;
+        KpiWeight = new ArrayList<String>();
+        if (!noKpi) {
+            if (currentColumn < columnSize)
+                for ( int i = 0; i < endOfGoalsIndex; i++ ) {
+                    row = list.get( i );
+                    KpiWeight.add( row[ currentColumn ] );
+                }                
+           else {
+                for ( int i = 0; i < endOfGoalsIndex; i++ )
+                    KpiWeight.add("");
+            }
+            
+            KpiWeight.remove( 0 );
+            currentColumn++;
+            System.out.println( "\nSimple KpiWeight size is : " + KpiWeight.size() );
+            makeMultipleKpiWeight();
+            makeKpiContributionValueList(); // calculating integer values of the KPIs contributions
+        }
+    }
+        
     public void setAltKpi( List <String[]> list ) {
         String [] row;
         AltKpi = new ArrayList<String>();
@@ -314,8 +343,6 @@ public class XMLFileSimple
                     row = list.get( i );
                     AltKpi.add( row[ currentColumn ] );            
                 }
-                  
-                AltKpi.remove( 0 );
             } else {
                 for ( int i = 0; i < endOfGoalsIndex; i++ )
                     AltKpi.add("");
@@ -325,6 +352,7 @@ public class XMLFileSimple
                 AltKpi.add("");
         }    
     
+        AltKpi.remove( 0 );
         currentColumn++;
         System.out.println( "\nSimple AltKpi size is : " + AltKpi.size() );        
         makeMultipleAltKpi();
@@ -688,7 +716,6 @@ public class XMLFileSimple
                     intentionalelementElement.setAttributeNode( decompositiontypeAttr );             
                     
                     mdAttributeArray = KpiElementDefinitionList.get( i ).getMetadataAttrs();
-                    System.out.println(mdAttributeArray.length);
                                         
                     for (int j = 0; j < mdAttributeArray.length; j++) {
                         metadataelement = doc.createElement( "metadata" );
@@ -706,7 +733,6 @@ public class XMLFileSimple
                         mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
                         metadataelement.setAttributeNode( mdvalueAttr );
                     }
-                    System.out.println("Good to this point, number 2!!!");
                 }
             }
             
@@ -735,14 +761,18 @@ public class XMLFileSimple
                 decompositionElement.setAttributeNode( destiddecompAttr );
             }
             
-            Element contributionElement;
+            Element contributionElement, mdelement;
             Attr namecontrAttr, descriptioncontrAttr, srcidcontrAttr, destidcontrAttr, contributiontypeAttr, 
-            quantitativeContributionAttr, correlationAttr;
+            quantitativeContributionAttr, correlationAttr, mdAttr;
             
             for ( int i = 0; i < ContributionLinkDefinitionList.size(); i++ )
             {
                 contributionElement = doc.createElement( "contribution" );
                 linkdefElement.appendChild( contributionElement );
+                
+                //namecontrAttr = doc.createAttribute( "id" );
+                //namecontrAttr.setValue( ContributionLinkDefinitionList.get( i ).getID() );
+                //contributionElement.setAttributeNode( namecontrAttr );
                 
                 namecontrAttr = doc.createAttribute( "name" );
                 namecontrAttr.setValue( ContributionLinkDefinitionList.get( i ).getName() );
@@ -771,6 +801,23 @@ public class XMLFileSimple
                 correlationAttr = doc.createAttribute( "correlation" );
                 correlationAttr.setValue( ContributionLinkDefinitionList.get( i ).getCorrelation() );
                 contributionElement.setAttributeNode( correlationAttr );
+                
+                if (!noImportanceRange) {
+                    mdelement = doc.createElement( "metadata" );
+                    linkdefElement.appendChild( mdelement );
+                    
+                    mdAttr = doc.createAttribute( "elem" );
+                    mdAttr.setValue( ContributionLinkDefinitionList.get(i).getMDAttr().getElem() );
+                    mdelement.setAttributeNode( mdAttr );
+                    
+                    mdAttr = doc.createAttribute( "name" );
+                    mdAttr.setValue( ContributionLinkDefinitionList.get(i).getMDAttr().getName() );
+                    mdelement.setAttributeNode( mdAttr );
+                    
+                    mdAttr = doc.createAttribute( "value" );
+                    mdAttr.setValue( ContributionLinkDefinitionList.get(i).getMDAttr().getvalue() );
+                    mdelement.setAttributeNode( mdAttr );
+                }
             }
             
             if (!noKpi)
@@ -991,7 +1038,6 @@ public class XMLFileSimple
                     else { // if we have steretotypes definition
                         int index = -1; // finding the index of the KPI in KpiSterepType if it exists
                         for (int j = 0; j < MultipleStereoType.size(); j++) {
-                            //System.out.println("The searched KPI is : "+NoRedundantMultipleKpi.get(i));
                             if (MultipleStereoType.get(j).get(0).equals(NoRedundantMultipleKpi.get(i))) {
                                 index = j;
                                 break;
@@ -1059,8 +1105,7 @@ public class XMLFileSimple
                 dcompAttr.setDescription("");               
                 dcompAttr.setSrcid(ElementDefinitionList.get(i).getIntentionalElementAttribute().getID());         
                 
-                //Finding father's id to set as the destid
-                fatherName = RelationList.get(i).getFather();                
+                fatherName = RelationList.get(i).getFather(); //Finding father's id to set as the destid                
                 for (int j = 0; j < RelationList.size(); j++)
                     if (RelationList.get(j).getName().equals(fatherName)) {
                         fatherIndex = j;
@@ -1074,7 +1119,7 @@ public class XMLFileSimple
   
     private void createContributionList() {
         Random rdNumber = new Random();
-        int ID, fatherIndex = 0, foundCounter = 0;
+        int ID, fatherIndex = 0;
         String stringID, fatherName;
         ContributionAttribute contrbAttr;
         
@@ -1091,6 +1136,7 @@ public class XMLFileSimple
                 LinkIDList.add(stringID);
               
                 contrbAttr = new ContributionAttribute();
+                //contrbAttr.setID( "Contribution" + stringID );
                 contrbAttr.setName( "Contribution" + stringID );
                 contrbAttr.setDescription( "" );               
                 contrbAttr.setSrcid( ElementDefinitionList.get( i ).getIntentionalElementAttribute().getID() );
@@ -1100,7 +1146,6 @@ public class XMLFileSimple
                 for (int j = 0; j < RelationList.size(); j++)
                     if ( RelationList.get( j ).getName().equals( fatherName ) ) {
                         fatherIndex = j;
-                        foundCounter++;
                         break;
                     }                  
                 
@@ -1117,32 +1162,33 @@ public class XMLFileSimple
                     contrbAttr.setContributionType("Make");
                                
                 contrbAttr.setCorrelation("false");
+                
+                if (!noImportanceRange) {
+                    MetadataAttribute mdattr = new MetadataAttribute();
+                    mdattr.setElem("Contribution" + stringID);
+                    mdattr.setName("ImportanceRange");
+                    mdattr.setValue(ImportanceRange.get(i));
+                    contrbAttr.setMDAttr(mdattr);
+                }
               
                 ContributionLinkDefinitionList.add(contrbAttr);
             }
         }
         
-        System.out.println("\nfoundCounter for contribution is : " + foundCounter + "\n");
-        int recentContributionValue, sumContributionValue;
-        ArrayList<Integer> fathersIndexArray;
+        ArrayList<Integer> fathersIndexArray, columnIndexArray;
         if (!noKpi) {
             KpiContributionLinkDefinitionList = new ArrayList<ContributionAttribute>();
             for (int i = 0; i < NoRedundantMultipleKpi.size(); i++) {   
-                // looking into the  list of KPIs in each row of the csv file to find the index of father(s) or the destination(s) of each KPI    
                 fathersIndexArray = new ArrayList<Integer>();
+                columnIndexArray = new ArrayList<Integer>();
                 for (int j = 0; j < MultipleKpi.size(); j++)
                     if (!MultipleKpi.get(j).isEmpty())
                         if (MultipleKpi.get( j ).contains(KpiElementDefinitionList.get(i).getIntentionalElementAttribute().getName())) {
-                            fathersIndexArray.add(j);                            
+                            fathersIndexArray.add(j); // saving row of KPI     
+                            columnIndexArray.add(MultipleKpi.get(j).indexOf(KpiElementDefinitionList.get(i).getIntentionalElementAttribute().getName())); // saving column of KPI
                         }
                 
-                sumContributionValue = 0;
-                recentContributionValue = 0;
-                // having all the father(s) indices, we create the same amount of contributions (since the number of fathers indices are the number of destinations from each KPI)
                 for (int j = 0; j < fathersIndexArray.size(); j++) {  
-                    recentContributionValue = 100 / fathersIndexArray.size();
-                    sumContributionValue += recentContributionValue;
-                    //To create a random number for the new abstract intentional element that is unique in whole xml file
                     while (true) {
                         ID = 1 + rdNumber.nextInt(1000);                   
                         stringID = Integer.toString(ID);                        
@@ -1155,16 +1201,9 @@ public class XMLFileSimple
                     contrbAttr = new ContributionAttribute();
                     contrbAttr.setName("Contribution" + stringID);
                     contrbAttr.setDescription("");
-                    contrbAttr.setSrcid(KpiElementDefinitionList.get(i).getIntentionalElementAttribute().getID());
-                  
-                    // father of the element is in the same row
-                    contrbAttr.setDestid(ElementDefinitionList.get(fathersIndexArray.get(j)).getIntentionalElementAttribute().getID());
-                      
-                    if (j < (fathersIndexArray.size() - 1))
-                        contrbAttr.setQuantitativeContribution(Integer.toString(recentContributionValue));
-                    else if (j == (fathersIndexArray.size() - 1)) // for the last destination of contribution of a Kpi
-                        contrbAttr.setQuantitativeContribution(Integer.toString(recentContributionValue + (100 - sumContributionValue)));
-                    
+                    contrbAttr.setSrcid(KpiElementDefinitionList.get(i).getIntentionalElementAttribute().getID());                  
+                    contrbAttr.setDestid(ElementDefinitionList.get(fathersIndexArray.get(j)).getIntentionalElementAttribute().getID()); // father of the element is in the same row
+                    contrbAttr.setQuantitativeContribution(String.valueOf(KpiContributionValueList.get(fathersIndexArray.get(j)).get(columnIndexArray.get(j)))); // setting quantitative contribution value for each contribution
                     if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) < 50)
                         contrbAttr.setContributionType("Help");
                     else if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) >= 50 && 
@@ -1172,9 +1211,9 @@ public class XMLFileSimple
                         contrbAttr.setContributionType("SomePositive");
                     else if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) == 100)
                         contrbAttr.setContributionType("Make");                    
-                                                       
+                    
                     contrbAttr.setCorrelation("false");
-                      
+                    
                     KpiContributionLinkDefinitionList.add(contrbAttr);
                 }   
             }            
@@ -1185,16 +1224,13 @@ public class XMLFileSimple
         String father;
         ArrayList <Integer> siblingsList;
         int weightSum = 0, contributionSum = 0, contributionValue = 0;
-        //boolean zeroFound = false;
         
         ContributionValueList = new ArrayList<Integer>();
-        //Initializing ContributionValueList to 0 for all the elements
-        for ( int i = 0; i < Importance.size(); i++ )
+        for ( int i = 0; i < Importance.size(); i++ ) //Initializing ContributionValueList to 0 for all the elements
             ContributionValueList.add( 0 );
-        System.out.println("size of ContributionValueList is : "+ContributionValueList.size());
         
-        // now, we are calculating!!!
-        for (int i = 1; i < Importance.size(); i++) {
+        System.out.println("size of ContributionValueList is : "+ContributionValueList.size());        
+        for (int i = 1; i < Importance.size(); i++) { // now, we are calculating!!!
             if (!Importance.get(i).equals("") && ContributionValueList.get(i) == 0) {
                 contributionSum = 0; 
                 contributionValue = 0;
@@ -1214,14 +1250,13 @@ public class XMLFileSimple
                     contributionValue = ( Integer.parseInt( Importance.get(siblingsList.get(k)) ) * 100 ) / weightSum;
                     contributionSum = contributionSum + contributionValue;                    
                     if (k < (siblingsList.size() - 1))
-                        ContributionValueList.set(siblingsList.get(k), contributionValue); 
-                                            
+                        ContributionValueList.set(siblingsList.get(k), contributionValue);                                            
                     if (k == (siblingsList.size() - 1)) {
                         if (contributionSum != 100)
                             ContributionValueList.set(siblingsList.get(k), contributionValue + (100 - contributionSum));
                         else
                             ContributionValueList.set(siblingsList.get(k), contributionValue);
-                    }                    
+                    }
                 }
             }
         }                
@@ -1235,15 +1270,15 @@ public class XMLFileSimple
             beginIndex = 0;
             row = Kpi.get( i );
             MultipleKpi.add(new ArrayList<String>());             
-            for (int j = 0; j < row.length(); j++) {
+            for (int j = 0; j < row.length(); j++)
                 if (row.charAt(j) != ';')
                     continue;
                 else {
                     MultipleKpi.get(i).add(row.substring(beginIndex, j));
                     beginIndex = ++j;
-                }
-            }
+                }            
         }
+        
         System.out.println( "\nSimple MultipleKpi size is : " + MultipleKpi.size() );        
     }
     
@@ -1251,12 +1286,11 @@ public class XMLFileSimple
         ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < MultipleKpi.size(); i++) {
             temp.add(new ArrayList<String>());
-            for (int j = 0; j < MultipleKpi.get(i).size(); j++) {
+            for (int j = 0; j < MultipleKpi.get(i).size(); j++)
                 if (IntentionalElement.contains(MultipleKpi.get(i).get(j))) // if a Kpi has the same name of one of IntentionalElement list, 
                     temp.get(i).add(MultipleKpi.get(i).get(j) + " - " + RefinedLegislationSection.get(i));
                 else
-                    temp.get(i).add(MultipleKpi.get(i).get(j));
-            }
+                    temp.get(i).add(MultipleKpi.get(i).get(j));            
         }
         
         MultipleKpi =  new ArrayList<ArrayList<String>>(temp);
@@ -1266,13 +1300,12 @@ public class XMLFileSimple
         NoRedundantMultipleKpi = new ArrayList<String>();
         RedundantMultipleKpi = new ArrayList<String>();         
         for (int i = 0; i < MultipleKpi.size(); i++)
-            for (int j = 0; j < MultipleKpi.get(i).size(); j++) {
+            for (int j = 0; j < MultipleKpi.get(i).size(); j++) 
                 if (!NoRedundantMultipleKpi.contains(MultipleKpi.get(i).get(j)))
                     NoRedundantMultipleKpi.add(MultipleKpi.get(i).get(j));                    
                 else
                     RedundantMultipleKpi.add(MultipleKpi.get(i).get(j));                    
-            }
-        
+                 
         System.out.println( "\nSimple NoRedundantMultipleKpi size is : " + NoRedundantMultipleKpi.size() );
         System.out.println( "\nSimple RedundantMultipleKpi size is : " + RedundantMultipleKpi.size() );                
     }   
@@ -1285,14 +1318,13 @@ public class XMLFileSimple
             beginIndex = 0;
             row = AltKpi.get( i );
             MultipleAltKpi.add(new ArrayList<String>());             
-            for (int j = 0; j < row.length(); j++) {
+            for (int j = 0; j < row.length(); j++)
                 if (row.charAt(j) != ';')
                     continue;
                 else {
                     MultipleAltKpi.get(i).add(row.substring(beginIndex, j));
                     beginIndex = ++j;
-                }
-            }
+                }            
         }
                
         System.out.println( "\nSimple MultipleAltKpi size is : " + MultipleAltKpi.size() );       
@@ -1302,12 +1334,11 @@ public class XMLFileSimple
         ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < MultipleAltKpi.size(); i++) {
             temp.add(new ArrayList<String>());
-            for (int j = 0; j < MultipleAltKpi.get(i).size(); j++) {
+            for (int j = 0; j < MultipleAltKpi.get(i).size(); j++) 
                 if (IntentionalElement.contains(MultipleAltKpi.get(i).get(j))) // if a Kpi has the same name of one of IntentionalElement list, 
                     temp.get(i).add(MultipleAltKpi.get(i).get(j) + " - " + RefinedLegislationSection.get(i));
                 else
-                    temp.get(i).add(MultipleAltKpi.get(i).get(j));
-            }
+                    temp.get(i).add(MultipleAltKpi.get(i).get(j));            
         }
         
         MultipleAltKpi =  new ArrayList<ArrayList<String>>(temp);
@@ -1317,13 +1348,12 @@ public class XMLFileSimple
         NoRedundantMultipleAltKpi = new ArrayList<String>();
         RedundantMultipleAltKpi = new ArrayList<String>();         
         for (int i = 0; i < MultipleAltKpi.size(); i++) 
-            for (int j = 0; j < MultipleAltKpi.get(i).size(); j++) {
+            for (int j = 0; j < MultipleAltKpi.get(i).size(); j++)
                 if (!NoRedundantMultipleAltKpi.contains(MultipleAltKpi.get(i).get(j)))
                     NoRedundantMultipleAltKpi.add(MultipleAltKpi.get(i).get(j));                    
                 else
                     RedundantMultipleAltKpi.add(MultipleAltKpi.get(i).get(j));                    
-            }
-        
+                    
         System.out.println( "\nSimple NoRedundantMultipleAltKpi size is : " + NoRedundantMultipleAltKpi.size() );
         System.out.println( "\nSimple RedundantMultipleAltKpi size is : " + RedundantMultipleAltKpi.size() );
     }
@@ -1340,15 +1370,13 @@ public class XMLFileSimple
     
     private void refineIntenionalElement() { // adding legislationSection to the goals that are redundant to avoid confusion for tool
         ArrayList<String> temp = new ArrayList<String>();
-        for (int i = 0; i < IntentionalElement.size(); i++) {
+        for (int i = 0; i < IntentionalElement.size(); i++)
             if (RedundantIntentionalElement.contains(IntentionalElement.get(i)))
                 temp.add(IntentionalElement.get(i) + " - " + RefinedLegislationSection.get(i));
             else
                 temp.add(IntentionalElement.get(i));
-        }
-        
+                
         IntentionalElement = new ArrayList<String>(temp);
-                //IntentionalElement.set(i, IntentionalElement.get(i) + " - " + RefinedLegislationSection.get(i));
     }
     
     private void refineAltName() { // adding legislationSection to the alternative name of goals that are redundant to avoid confusion for tool
@@ -1361,20 +1389,18 @@ public class XMLFileSimple
               }
         
         ArrayList<String> temp = new ArrayList<String>(); // refining AltName considering the redundancy list
-        for (int i = 0; i < AltName.size(); i++) {
+        for (int i = 0; i < AltName.size(); i++)
             if (redundantAltName.contains(AltName.get(i)))
                 temp.add(AltName.get(i) + " - " + RefinedLegislationSection.get(i));
             else
                 temp.add(AltName.get(i));
-        }
-        
+           
         AltName = new ArrayList<String>(temp);
     }
     
     private void makeImportanceRange() {
         int beginIndex;
-        String row;
-        
+        String row;        
         ImportanceRow = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < Importance.size(); i++ ) {
             if (!Importance.get( i ).equals("")) {
@@ -1400,12 +1426,16 @@ public class XMLFileSimple
         for (int i = 0; i < ImportanceRow.size(); i++)
             Importance.add(ImportanceRow.get(i).get(0));
         
-        ImportanceRange = new ArrayList<String>();
+        ImportanceRange = new ArrayList<String>(); // creating ImportanceRange by adding the second column of ImportanceRow into it
         for (int i = 0; i < ImportanceRow.size(); i++)
-            if (ImportanceRow.get(i).size() > 1)
+            if (ImportanceRow.get(i).size() > 1) // if a range is defined in csv file
                 ImportanceRange.add(ImportanceRow.get(i).get(1));
-            else    
+            else // if a range is not defined, we add an empty string   
                 ImportanceRange.add("");
+        
+        for (int i = 0; i < ImportanceRange.size(); i++) // if there is no range defined in csv file, we simply ignore this metadata attribute by making a flag false
+            if (!ImportanceRange.get(i).equals(""))
+                noImportanceRange = false;
     }
     
     private void makeGoalStereoType() {
@@ -1430,6 +1460,85 @@ public class XMLFileSimple
             }
         }
         
+    }
+    
+    private void makeMultipleKpiWeight() {
+        int beginIndex;
+        String row;     
+        MultipleKpiWeight = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < KpiWeight.size(); i++ ) {
+            if (!KpiWeight.get( i ).equals("")) {
+                beginIndex = 0;
+                row = KpiWeight.get( i );
+                MultipleKpiWeight.add(new ArrayList<String>());             
+                for (int j = 0; j < row.length(); j++) {
+                    if (row.charAt(j) != ';')
+                        continue;
+                    else {
+                        MultipleKpiWeight.get(i).add(row.substring(beginIndex, j));
+                        beginIndex = ++j;
+                    }
+                }
+            }
+            else if (KpiWeight.get( i ).equals(""))
+                MultipleKpiWeight.add(new ArrayList<String>());                              
+        }
+        // creating a list of lists that each row has goal name as first element and remaining elements are relative weights of KPIs in order of KPIs 
+        GoalKpiWeight = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < IntentionalElement.size(); i++) {
+            GoalKpiWeight.add(new ArrayList<String>());            
+            if (!Kpi.get(i).equals("")) { // if we have a KPI
+                //GoalKpiWeight.get(i).add(IntentionalElement.get(i));
+                if (MultipleKpiWeight.get(i).size() == 0) { // if there is no weights is defined, "1" will be inserted in the number of KPIs
+                    //for (int j = 0; j < MultipleKpi.get(i).size(); j++)
+                        GoalKpiWeight.get(i).add("1");
+                }
+                else if (MultipleKpiWeight.get(i).size() != 0) { // if there is weights defined, they will be inserted in respect of KPIs
+                    for (int j = 0; j < MultipleKpi.get(i).size(); j++) {
+                        if (!MultipleKpiWeight.get(i).get(j).equals(" "))
+                            GoalKpiWeight.get(i).add(MultipleKpiWeight.get(i).get(j));
+                        else if (MultipleKpiWeight.get(i).get(j).equals(" "))
+                            GoalKpiWeight.get(i).add("1");
+                    }
+                }
+            }
+        }
+        
+        /*System.out.println("The size of GoalKpiWeight is : " + GoalKpiWeight.size());
+        for (int i = 0; i < GoalKpiWeight.size(); i++) {
+            System.out.println("The size of GoalKpiWeight[ " + i + " ] is : " + GoalKpiWeight.get(i).size());
+            for (int j = 0; j < GoalKpiWeight.get(i).size(); j++)
+                System.out.println("The GoalKpiWeight[ " + i + " ][ " + j + " ] is : " + GoalKpiWeight.get(i).get(j));
+        }*/
+    }
+    
+    private void makeKpiContributionValueList() { // is not working properly!!!
+        int weightSum, weightValue, addedWeightValue;
+        KpiContributionValueList = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < GoalKpiWeight.size(); i++) {
+            weightValue = 0;
+            weightSum = 0;
+            addedWeightValue = 0;
+            for (int j = 0; j < GoalKpiWeight.get(i).size(); j++) // finding summation of all KPI weights
+                weightSum += Integer.parseInt(GoalKpiWeight.get(i).get(j));
+                        
+            KpiContributionValueList.add(new ArrayList<Integer>());
+            for (int j = 0; j < GoalKpiWeight.get(i).size(); j++) {
+                weightValue = (Integer.parseInt(GoalKpiWeight.get(i).get(j)) * 100) / weightSum;
+                addedWeightValue += weightValue;
+                if (j < GoalKpiWeight.get(i).size() - 1)
+                    KpiContributionValueList.get(i).add(weightValue);
+                else if (j == GoalKpiWeight.get(i).size() - 1)
+                    KpiContributionValueList.get(i).add(weightValue + (100 - addedWeightValue));
+            }
+        }
+        
+        /*System.out.println("The size of KpiContributionValueList is : " + KpiContributionValueList.size());
+        for (int i = 0; i < KpiContributionValueList.size(); i++) {
+            System.out.println("The size of KpiContributionValueList[ " + i + " ] is : " + KpiContributionValueList.get(i).size());
+            for (int j = 0; j < KpiContributionValueList.get(i).size(); j++)
+                System.out.println("The KpiContributionValueList[ " + i + " ][ " + j + " ] is : " + KpiContributionValueList.get(i).get(j));
+        }*/
     }
     
     /*private void makeMultipleStereoType() { // reading all the stereotypes into MultipleStereotype, which is list of sublists
