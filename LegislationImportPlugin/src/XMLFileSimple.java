@@ -43,6 +43,9 @@ public class XMLFileSimple
     private ArrayList <String> RedundantMultipleKpi;
     private ArrayList <String> KpiWeight;
     private ArrayList <ArrayList<String>> MultipleKpiWeight;
+    private ArrayList <ArrayList<String>> ConditionList;
+    private ArrayList <ElementDefinition> ConditionElementDefinitionList;
+    private ArrayList <DecompoitionAttribute> ConditionDependencyLinkDefinitionList;
     private ArrayList <String> AltKpi;
     private ArrayList <ArrayList <String>> MultipleAltKpi;
     private ArrayList <String> NoRedundantMultipleAltKpi;
@@ -52,6 +55,12 @@ public class XMLFileSimple
     private ArrayList <String> Stereotype;
     private ArrayList <ArrayList<String>> GoalStereoType;
     private ArrayList <ArrayList<String>> MultipleStereoType;
+    private ArrayList <ArrayList<String>> KpiSubQuestion;
+    private ArrayList <String> KpiSubQuestionList;
+    private ArrayList <ArrayList<String>> KpiSubQuestionAlt;
+    private ArrayList <String> KpiSubQuestionAltList;
+    private ArrayList <ElementDefinition> KpiSubQuestionElementDefinitionList;
+    private ArrayList <DecompoitionAttribute> KpiSubQuestionLinkDefinitionList;
     private ArrayList <String> RefinedDecomposition; // to consider all the elements AND, except for OR
     private ArrayList <ElementDefinition> ElementDefinitionList; // for grl file
     private ArrayList <ElementDefinition> KpiElementDefinitionList; // for KPIs in grl file
@@ -61,12 +70,17 @@ public class XMLFileSimple
     private ArrayList <RelationNode> RelationList; // to keep relations betweeen goals
     private ArrayList <String> IDList; // list of ids of element definitions of grl file elements
     private ArrayList <String> LinkIDList; // list of ids of link definition of grl file elements
-    private ArrayList <Integer> ContributionValueList; 
+    private ArrayList <Integer> ContributionValueList;
+    private ArrayList <Integer> IntentionalElementLevel;
+    private ArrayList <ArrayList <String>> DeamonKpiList;
+    private ArrayList <ElementDefinition> DeamonKpiElementDefinitionList;
+    private ArrayList <ContributionAttribute> DeamonKpiContributionLinkDefinition;
+    private ArrayList <ArrayList<String>> KpiConversionList;
   
     private boolean noKpi = true, noAltKpi = true, kpiStereotypeExists = false, goalStereotypeExists = false, 
         noImportanceRange = true;
-    private int numberofIntentionalElement, endOfGoalsIndex;
-    private final static int metadataArraySize = 5;
+    private int numberofIntentionalElement, endOfGoalsIndex, endOfKpiStereotypesIndex;
+    private final static int metadataArraySize = 6;
     private static int columnSize;
     private static int currentColumn = 0;
   
@@ -76,13 +90,22 @@ public class XMLFileSimple
         currentColumn = 0;
         System.out.println("The number of column is : " + columnSize);
         for (int i = 0; i < list.size(); i++) // finding the last row of goals on csv file
-            if (list.get(i) [0].equals("KpiStereoTypes")) {
+            if (list.get(i) [0].equals("KPI_STEREOTYPES")) {
                 endOfGoalsIndex = i;
                 break;
             } else
                 endOfGoalsIndex = list.size();
+        
+        for (int i = 0; i < list.size(); i++) // finding the last row of KPI_STEREOTYPES on csv file
+          if (list.get(i) [0].equals("DEAMON_KPI")) {
+              System.out.println("Can see DEAMON_KPI in beginning!!!");
+              endOfKpiStereotypesIndex = i;
+              break;
+          } else
+              endOfKpiStereotypesIndex = list.size();
                 
         System.out.println("The number of rows of goals is : " + endOfGoalsIndex);
+        System.out.println("The number of rows of goals + KPI_STEREOTYPES is : " + endOfKpiStereotypesIndex);
         LegislationID = new ArrayList<String>();    
         if (currentColumn < columnSize)
             for (int i = 0; i < endOfGoalsIndex; i++) {
@@ -290,20 +313,26 @@ public class XMLFileSimple
             for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                 row = list.get( i );
                 Kpi.add( row[ currentColumn ] );            
-            }          
+            }
             
+                        
         } else {
             for ( int i = 0; i < endOfGoalsIndex; i++ )
-                Kpi.add("");
+                Kpi.add("");          
+            
         }
     
-        Kpi.remove( 0 );
         currentColumn++;
+        Kpi.remove( 0 );
         System.out.println( "\nSimple Kpi size is : " + Kpi.size() );
         makeMultipleKpi(); // taking care of KPIs by creating list of list of string. 
         refineNoRedundantMultipleKpi(); // removing redundancy by refining the name of redundant element.
         makeNoRedundantMultipleKpi(); // separating the redundancy into new list.
-        setKpiWeight(list); // taking care of the KPIs weights        
+        if (noKpi == false) {
+            setKpiWeight(list); // taking care of the KPIs weights
+            makeDeamonKpiList(list); // taking care of Deamon Kpi and making a list of them
+        }
+        
     } 
   
     public ArrayList <String> getKpi() {
@@ -314,22 +343,49 @@ public class XMLFileSimple
         String [] row;
         KpiWeight = new ArrayList<String>();
         if (!noKpi) {
-            if (currentColumn < columnSize)
+            if (currentColumn < columnSize) {
                 for ( int i = 0; i < endOfGoalsIndex; i++ ) {
                     row = list.get( i );
                     KpiWeight.add( row[ currentColumn ] );
                 }                
-           else {
+                
+                
+            } else {
                 for ( int i = 0; i < endOfGoalsIndex; i++ )
-                    KpiWeight.add("");
+                    KpiWeight.add("");                
+                
             }
             
-            KpiWeight.remove( 0 );
             currentColumn++;
+            KpiWeight.remove( 0 );
             System.out.println( "\nSimple KpiWeight size is : " + KpiWeight.size() );
-            makeMultipleKpiWeight();
-            makeKpiContributionValueList(); // calculating integer values of the KPIs contributions
+            if (noKpi == false) {
+                makeConditionList();
+                makeMultipleKpiWeight(); // finding regulations and their relative KPIs and putting them into a list of lists
+                makeKpiContributionValueList(); // calculating integer values of the KPIs contributions
+            }
+            
         }
+    }
+    
+    private void makeDeamonKpiList( List <String[]> list ) {
+        DeamonKpiList = new ArrayList<ArrayList<String>>();
+        int currentIndex = 0;
+        System.out.println(endOfKpiStereotypesIndex + " " + list.size());
+        for (int i = endOfKpiStereotypesIndex + 1; i < list.size(); i++, currentIndex++) {
+            DeamonKpiList.add(new ArrayList<String>());
+            for (int j = 0; j < list.get(i).length; j++) {
+                if ( !(list.get(i) [j]).equals("") )
+                    DeamonKpiList.get(currentIndex).add(list.get(i) [ j ]);
+                else
+                    break;
+            }
+        }
+        
+        System.out.println("The size of DeamonKpiList is : " + DeamonKpiList.size());
+        //for (int i = 0; i < DeamonKpiList.size(); i++)
+            //for (int j = 0; j < DeamonKpiList.get(i).size(); j++)
+                //System.out.println("DeamonKpiList[ " + i + " , " + j + " ] is : " + DeamonKpiList.get(i).get(j));
     }
         
     public void setAltKpi( List <String[]> list ) {
@@ -343,21 +399,29 @@ public class XMLFileSimple
                     row = list.get( i );
                     AltKpi.add( row[ currentColumn ] );            
                 }
+                
+                
             } else {
                 for ( int i = 0; i < endOfGoalsIndex; i++ )
-                    AltKpi.add("");
+                    AltKpi.add("");                
+                
             }
         } else {
             for ( int i = 0; i < endOfGoalsIndex; i++ )
-                AltKpi.add("");
+                AltKpi.add("");            
+            
         }    
     
-        AltKpi.remove( 0 );
         currentColumn++;
+        AltKpi.remove( 0 );
+        if (noKpi == false && noAltKpi == false) {
+            makeMultipleAltKpi();
+            refineNoRedundantMultipleAltKpi();
+            makeNoRedundantMultipleAltKpi();
+        }
+        
         System.out.println( "\nSimple AltKpi size is : " + AltKpi.size() );        
-        makeMultipleAltKpi();
-        refineNoRedundantMultipleAltKpi();
-        makeNoRedundantMultipleAltKpi();
+        
     } 
   
     public ArrayList <String> getAltKpi() {
@@ -370,20 +434,30 @@ public class XMLFileSimple
         int index = -1;
         for (int i = 0; i < list.size(); i++) {
             row = list.get(i);
-            if (row[0].equals("KpiStereoTypes")) {
-                index = i + 1;
-                kpiStereotypeExists = true;
-                break;
+            if (row[0].equals("KPI_STEREOTYPES")) {
+                System.out.println("Can see KPI_STEREOTYPES!!!");
+                String s = list.get(i + 1) [ 0 ];
+                System.out.println("s is : " + s);
+                if (!s.equals("DEAMON_KPI")) {
+                    System.out.println("Can see DEAMON_KPI!!!");
+                    index = i + 1;
+                    kpiStereotypeExists = true;
+                    break;
+                }
             }
         }
         
+        if (kpiStereotypeExists)
+            System.out.println("Exists, GOOD!!!");
+        
         int counter = 0;
+        MultipleStereoType = new ArrayList<ArrayList<String>>(); // in case of kpiStereotypExists is false, we avoid receiving null pointer
         if (kpiStereotypeExists) {
             MultipleStereoType = new ArrayList<ArrayList<String>>();
-            for (int i = index; i < list.size(); i++)
+            for (int i = index; i < endOfKpiStereotypesIndex; i++) // list.size() is replaced
                 MultipleStereoType.add(new ArrayList<String>());
                 
-            for (int i = index; i < list.size(); i++) {
+            for (int i = index; i < endOfKpiStereotypesIndex; i++) { // list.size() is replaced
                 row = list.get( i );
                 for (int j = 0; j < row.length; j++)
                     if (!row[j].equals(""))
@@ -392,14 +466,20 @@ public class XMLFileSimple
                 counter++;
             }
         }
+        
+        System.out.println("GOOD!!!");
         //makeMultipleStereoType(); // taking care of KPIs' stereotypes 
         //makeKpiStereotype(); // taking care of KPIs' stereotypes
+        System.out.println("The size of KPIs Stereotype is : " + MultipleStereoType.size());
+        System.out.println("KPIs stereotypes are taken care of!!!");
+        System.out.println("GOOD!!!");
+        makeKpiSubQuestion(); // separating Kpi's stereotypes from sub-questions into two different lists
     } 
 
     public ArrayList <String> getStereotype() {
         return Stereotype;
     }
-  
+      
     public ArrayList <ElementDefinition> getElementDefinitionList() {
         return ElementDefinitionList;
     }
@@ -432,6 +512,10 @@ public class XMLFileSimple
         return IDList;
     }
     
+    public ArrayList<ArrayList<String>> getKpiConversionList() {
+        return KpiConversionList;
+    }
+    
     // This function starts making the relation list by considering the LegislationSection, Importance and Decomposition list
     void makeRelationList() {
         String tempFather = "";
@@ -461,6 +545,13 @@ public class XMLFileSimple
                 RelationList.get(i).setFather(RelationList.get(0).getName());
                 RelationList.get(i).setName(RefinedLegislationSection.get(i));
             }
+        
+        for (int i = 0; i < RelationList.size(); i++) {
+            System.out.println("The name of " + i + " is : " + RelationList.get(i).getName());
+            System.out.println("The name of father of " + i + " is : " + RelationList.get(i).getFather());
+        }
+        
+        makeIntentionalElmenetLevel(); // making levels of intentional elements        
     }
     
     // To find out the common string from the beginning of list of strings
@@ -518,6 +609,8 @@ public class XMLFileSimple
             Element linkdefElement = doc.createElement( "link-def" );
             Element actordefElement = doc.createElement( "actor-def" );
             Element actorIElinkElement = doc.createElement( "actor-IE-link-def" );
+            Element intentionalelementrefdefElement = doc.createElement( "intentional-element-ref-def" );
+            Element intentionalelementreflinkdefElement = doc.createElement( "intentional-element-ref-link-def" );
           
             doc.appendChild( rootElement );
             Attr attr1 = doc.createAttribute( "author" );
@@ -534,6 +627,8 @@ public class XMLFileSimple
             rootElement.appendChild( linkdefElement );
             rootElement.appendChild( actordefElement );
             rootElement.appendChild( actorIElinkElement );
+            rootElement.appendChild(intentionalelementrefdefElement);
+            rootElement.appendChild(intentionalelementreflinkdefElement);
             
             Element intentionalelementElement;
             Attr idAttr, nameAttr, descriptionAttr, typeAttr, decompositiontypeAttr;
@@ -589,103 +684,7 @@ public class XMLFileSimple
                     mdvalueAttr = doc.createAttribute( "value" );
                     mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
                     metadataelement.setAttributeNode( mdvalueAttr );
-                }
-                
-                /*// First metadata element
-                metadataelement1 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement1 );
-                                
-                mdelemAttr1 = doc.createAttribute( "elem" );
-                mdelemAttr1.setValue( mdAttributeArray[ 0 ].getElem() );
-                metadataelement1.setAttributeNode( mdelemAttr1 );
-                
-                mdnameAttr1 = doc.createAttribute( "name" );
-                mdnameAttr1.setValue( mdAttributeArray[ 0 ].getName() );
-                metadataelement1.setAttributeNode( mdnameAttr1 );
-                
-                mdvalueAttr1 = doc.createAttribute( "value" );
-                mdvalueAttr1.setValue( mdAttributeArray[ 0 ].getvalue() );
-                metadataelement1.setAttributeNode( mdvalueAttr1 ); 
-                
-                // Second metadata element
-                metadataelement2 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement2 );
-                
-                mdelemAttr2 = doc.createAttribute( "elem" );
-                mdelemAttr2.setValue( mdAttributeArray[ 1 ].getElem() );
-                metadataelement2.setAttributeNode( mdelemAttr2 );
-                
-                mdnameAttr2 = doc.createAttribute( "name" );
-                mdnameAttr2.setValue( mdAttributeArray[ 1 ].getName() );
-                metadataelement2.setAttributeNode( mdnameAttr2 );
-                
-                mdvalueAttr2 = doc.createAttribute( "value" );
-                mdvalueAttr2.setValue( mdAttributeArray[ 1 ].getvalue() );
-                metadataelement2.setAttributeNode( mdvalueAttr2 );
-                
-                // Third metadata element
-                metadataelement3 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement3 );
-                
-                mdelemAttr3 = doc.createAttribute( "elem" );
-                mdelemAttr3.setValue( mdAttributeArray[ 2 ].getElem() );
-                metadataelement3.setAttributeNode( mdelemAttr3 );
-                
-                mdnameAttr3 = doc.createAttribute( "name" );
-                mdnameAttr3.setValue( mdAttributeArray[ 2 ].getName() );
-                metadataelement3.setAttributeNode( mdnameAttr3 );
-                
-                mdvalueAttr3 = doc.createAttribute( "value" );
-                mdvalueAttr3.setValue( mdAttributeArray[ 2 ].getvalue() );
-                metadataelement3.setAttributeNode( mdvalueAttr3 );
-                
-                // Fourth metadata element
-                metadataelement4 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement4 );
-                
-                mdelemAttr4 = doc.createAttribute( "elem" );
-                mdelemAttr4.setValue( mdAttributeArray[ 3 ].getElem() );
-                metadataelement4.setAttributeNode( mdelemAttr4 );
-                
-                mdnameAttr4 = doc.createAttribute( "name" );
-                mdnameAttr4.setValue( mdAttributeArray[ 3 ].getName() );
-                metadataelement4.setAttributeNode( mdnameAttr4 );
-                
-                mdvalueAttr4 = doc.createAttribute( "value" );
-                mdvalueAttr4.setValue( mdAttributeArray[ 3 ].getvalue() );
-                metadataelement4.setAttributeNode( mdvalueAttr4 );
-                
-                // Fifth metadata element
-                metadataelement5 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement5 );
-                
-                mdelemAttr5 = doc.createAttribute( "elem" );
-                mdelemAttr5.setValue( mdAttributeArray[ 4 ].getElem() );
-                metadataelement5.setAttributeNode( mdelemAttr5 );
-                
-                mdnameAttr5 = doc.createAttribute( "name" );
-                mdnameAttr5.setValue( mdAttributeArray[ 4 ].getName() );
-                metadataelement5.setAttributeNode( mdnameAttr5 );
-                
-                mdvalueAttr5 = doc.createAttribute( "value" );
-                mdvalueAttr5.setValue( mdAttributeArray[ 4 ].getvalue() );
-                metadataelement5.setAttributeNode( mdvalueAttr5 );
-                
-                // Sixth metadata element
-                metadataelement6 = doc.createElement( "metadata" );
-                elementdefElement.appendChild( metadataelement6 );
-                
-                mdelemAttr6 = doc.createAttribute( "elem" );
-                mdelemAttr6.setValue( mdAttributeArray[ 5 ].getElem() );
-                metadataelement6.setAttributeNode( mdelemAttr6 );
-                
-                mdnameAttr6 = doc.createAttribute( "name" );
-                mdnameAttr6.setValue( mdAttributeArray[ 5 ].getName() );
-                metadataelement6.setAttributeNode( mdnameAttr6 );
-                
-                mdvalueAttr6 = doc.createAttribute( "value" );
-                mdvalueAttr6.setValue( mdAttributeArray[ 5 ].getvalue() );
-                metadataelement6.setAttributeNode( mdvalueAttr6 );*/
+                }               
             }
             
             if (!noKpi)
@@ -717,6 +716,52 @@ public class XMLFileSimple
                     
                     mdAttributeArray = KpiElementDefinitionList.get( i ).getMetadataAttrs();
                                         
+                    for (int j = 0; j < mdAttributeArray.length; j++) {
+                        metadataelement = doc.createElement( "metadata" );
+                        elementdefElement.appendChild( metadataelement );
+                        
+                        mdelemAttr = doc.createAttribute( "elem" );
+                        mdelemAttr.setValue( mdAttributeArray[ j ].getElem() );
+                        metadataelement.setAttributeNode( mdelemAttr );
+                        
+                        mdnameAttr = doc.createAttribute( "name" );
+                        mdnameAttr.setValue( mdAttributeArray[ j ].getName() );
+                        metadataelement.setAttributeNode( mdnameAttr );
+                        
+                        mdvalueAttr = doc.createAttribute( "value" );
+                        mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
+                        metadataelement.setAttributeNode( mdvalueAttr );
+                    }
+                }
+                
+                // Deamon KPIs used to be here
+                
+                for (int i = 0; i < ConditionElementDefinitionList.size(); i++) {
+                    intentionalelementElement = doc.createElement( "intentional-element" );
+                    elementdefElement.appendChild( intentionalelementElement );
+                    
+                    idAttr = doc.createAttribute( "id" );
+                    idAttr.setValue( ConditionElementDefinitionList.get( i ).getIntentionalElementAttribute().getID() );
+                    intentionalelementElement.setAttributeNode( idAttr );
+                    
+                    nameAttr = doc.createAttribute( "name" );
+                    nameAttr.setValue( ConditionElementDefinitionList.get( i ).getIntentionalElementAttribute().getName() );
+                    intentionalelementElement.setAttributeNode( nameAttr );
+                    
+                    descriptionAttr = doc.createAttribute( "description" );
+                    descriptionAttr.setValue( ConditionElementDefinitionList.get( i ).getIntentionalElementAttribute().getDescription() );
+                    intentionalelementElement.setAttributeNode( descriptionAttr );
+                    
+                    typeAttr = doc.createAttribute( "type" );
+                    typeAttr.setValue( ConditionElementDefinitionList.get( i ).getIntentionalElementAttribute().getType() );
+                    intentionalelementElement.setAttributeNode( typeAttr );
+                    
+                    decompositiontypeAttr = doc.createAttribute( "decompositiontype" );
+                    decompositiontypeAttr.setValue( ConditionElementDefinitionList.get( i ).getIntentionalElementAttribute().getDecompositiontype() );
+                    intentionalelementElement.setAttributeNode( decompositiontypeAttr );
+                    
+                    mdAttributeArray = ConditionElementDefinitionList.get( i ).getMetadataAttrs();
+                    
                     for (int j = 0; j < mdAttributeArray.length; j++) {
                         metadataelement = doc.createElement( "metadata" );
                         elementdefElement.appendChild( metadataelement );
@@ -855,6 +900,126 @@ public class XMLFileSimple
                     correlationAttr.setValue( KpiContributionLinkDefinitionList.get( i ).getCorrelation() );
                     contributionElement.setAttributeNode( correlationAttr );
                 }
+                
+                for ( int i = 0; i < ConditionDependencyLinkDefinitionList.size(); i++ ) {
+                    decompositionElement = doc.createElement( "dependency" );
+                    linkdefElement.appendChild( decompositionElement );
+                    
+                    namedecompAttr = doc.createAttribute( "name" );
+                    namedecompAttr.setValue( ConditionDependencyLinkDefinitionList.get( i ).getName() );
+                    decompositionElement.setAttributeNode( namedecompAttr );
+                    
+                    descriptiondecompAttr = doc.createAttribute( "description" );
+                    descriptiondecompAttr.setValue( ConditionDependencyLinkDefinitionList.get( i ).getDescription() );
+                    decompositionElement.setAttributeNode( descriptiondecompAttr );
+                    
+                    srciddecompAttr = doc.createAttribute( "dependerid" );
+                    srciddecompAttr.setValue( ConditionDependencyLinkDefinitionList.get( i ).getSrcid() );
+                    decompositionElement.setAttributeNode( srciddecompAttr );
+                    
+                    destiddecompAttr = doc.createAttribute( "dependeeid" );
+                    destiddecompAttr.setValue( ConditionDependencyLinkDefinitionList.get( i ).getDestid() );
+                    decompositionElement.setAttributeNode( destiddecompAttr );
+                }
+                
+                // Adding deamon KPIs at this point, since we need to first all the links and then add the deamons to remove proper links!!!
+                /*Element intentionalelementrefElement;
+                for (int i = 0; i < DeamonKpiElementDefinitionList.size(); i++) {
+                    intentionalelementrefElement = doc.createElement( "intentional-element-ref" );
+                    intentionalelementrefdefElement.appendChild( intentionalelementrefElement );
+                    
+                    idAttr = doc.createAttribute( "id" );
+                    idAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getID() );
+                    intentionalelementrefElement.setAttributeNode( idAttr );
+                    
+                    nameAttr = doc.createAttribute( "name" );
+                    nameAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getName() );
+                    intentionalelementrefElement.setAttributeNode( nameAttr );
+                    
+                    descriptionAttr = doc.createAttribute( "description" );
+                    descriptionAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getDescription() );
+                    intentionalelementrefElement.setAttributeNode( descriptionAttr );
+                    
+                    typeAttr = doc.createAttribute( "type" );
+                    typeAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getType() );
+                    intentionalelementrefElement.setAttributeNode( typeAttr );
+                    
+                    decompositiontypeAttr = doc.createAttribute( "decompositiontype" );
+                    decompositiontypeAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getDecompositiontype() );
+                    intentionalelementrefElement.setAttributeNode( decompositiontypeAttr );
+                    
+                    definitionidAttr = doc.createAttribute( "definitionid" );
+                    definitionidAttr.setValue( DeamonKpiElementDefinitionList.get( i ).getIntentionalElementAttribute().getDefinitionID() );
+                    intentionalelementrefElement.setAttributeNode( definitionidAttr );
+                                        
+                    mdAttributeArray = DeamonKpiElementDefinitionList.get( i ).getMetadataAttrs();
+                    
+                    for (int j = 0; j < mdAttributeArray.length; j++) {
+                        metadataelement = doc.createElement( "metadata" );
+                        intentionalelementrefdefElement.appendChild( metadataelement );
+                        
+                        mdelemAttr = doc.createAttribute( "elem" );
+                        mdelemAttr.setValue( mdAttributeArray[ j ].getElem() );
+                        metadataelement.setAttributeNode( mdelemAttr );
+                        
+                        mdnameAttr = doc.createAttribute( "name" );
+                        mdnameAttr.setValue( mdAttributeArray[ j ].getName() );
+                        metadataelement.setAttributeNode( mdnameAttr );
+                        
+                        mdvalueAttr = doc.createAttribute( "value" );
+                        mdvalueAttr.setValue( mdAttributeArray[ j ].getvalue() );
+                        metadataelement.setAttributeNode( mdvalueAttr );
+                    }
+                }*/
+                
+                for (int i = 0; i < DeamonKpiContributionLinkDefinition.size(); i++)
+                {
+                    contributionElement = doc.createElement( "contribution" );
+                    intentionalelementreflinkdefElement.appendChild( contributionElement );
+                    
+                    namecontrAttr = doc.createAttribute( "name" );
+                    namecontrAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getName() );
+                    contributionElement.setAttributeNode( namecontrAttr );
+                    
+                    descriptioncontrAttr = doc.createAttribute( "description" );
+                    descriptioncontrAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getDescription() );
+                    contributionElement.setAttributeNode( descriptioncontrAttr );
+                    
+                    srcidcontrAttr = doc.createAttribute( "srcid" );
+                    srcidcontrAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getSrcid() );
+                    contributionElement.setAttributeNode( srcidcontrAttr );
+                    
+                    destidcontrAttr = doc.createAttribute( "destid" );
+                    destidcontrAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getDestid() );
+                    contributionElement.setAttributeNode( destidcontrAttr );
+                    
+                    contributiontypeAttr = doc.createAttribute( "contributiontype" );
+                    contributiontypeAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getContributionType() );
+                    contributionElement.setAttributeNode( contributiontypeAttr );
+                    
+                    quantitativeContributionAttr = doc.createAttribute( "quantitativeContribution" );
+                    quantitativeContributionAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getQuantitativeContribution() );
+                    contributionElement.setAttributeNode( quantitativeContributionAttr );
+                    
+                    correlationAttr = doc.createAttribute( "correlation" );
+                    correlationAttr.setValue( DeamonKpiContributionLinkDefinition.get( i ).getCorrelation() );
+                    contributionElement.setAttributeNode( correlationAttr );
+                    
+                    metadataelement = doc.createElement( "metadata" );
+                    intentionalelementreflinkdefElement.appendChild( metadataelement );
+                        
+                    mdelemAttr = doc.createAttribute( "elem" );
+                    mdelemAttr.setValue( DeamonKpiContributionLinkDefinition.get(i).getMDAttr().getElem() );
+                    metadataelement.setAttributeNode( mdelemAttr );
+                       
+                    mdnameAttr = doc.createAttribute( "name" );
+                    mdnameAttr.setValue( DeamonKpiContributionLinkDefinition.get(i).getMDAttr().getName() );
+                    metadataelement.setAttributeNode( mdnameAttr );
+                        
+                    mdvalueAttr = doc.createAttribute( "value" );
+                    mdvalueAttr.setValue( DeamonKpiContributionLinkDefinition.get(i).getMDAttr().getvalue() );
+                    metadataelement.setAttributeNode( mdvalueAttr );                   
+                }
             }
             
             // Write the content into xml file
@@ -889,7 +1054,7 @@ public class XMLFileSimple
     public void makeElementDefinitionList() {
         ElementDefinition ed;
         IntentionalElementAttribute ieAttr;
-        MetadataAttribute maAttr1, maAttr2, maAttr3, maAttr4, maAttr5, maAttr;
+        MetadataAttribute maAttr1, maAttr2, maAttr3, maAttr4, maAttr5, maAttr6, maAttr;
         MetadataAttribute [] mdarray, tempGoalMDArray = null; 
         //MetadataAttribute [] tempMDArray; 
         Random rdNumber = new Random();
@@ -908,6 +1073,7 @@ public class XMLFileSimple
             maAttr3 = new MetadataAttribute();
             maAttr4 = new MetadataAttribute();
             maAttr5 = new MetadataAttribute();
+            maAttr6 = new MetadataAttribute();
             mdarray = new MetadataAttribute[ metadataArraySize ];
                
             while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
@@ -949,6 +1115,11 @@ public class XMLFileSimple
             maAttr5.setName("AltDescription");
             maAttr5.setValue(AltDescription.get(i));
             mdarray[ 4 ] = maAttr5;
+            
+            maAttr6.setElem(stringID);
+            maAttr6.setName("Level");
+            maAttr6.setValue(String.valueOf(IntentionalElementLevel.get(i)));
+            mdarray[ 5 ] = maAttr6;
             
             if (goalStereotypeExists) { // if there is any stereotype defined in the csv file
                 if (GoalStereoType.get(i).size() != 0) { // if there is any stereotypes defined for a goal
@@ -1003,8 +1174,9 @@ public class XMLFileSimple
                 ed = new ElementDefinition();
                 ieAttr = new IntentionalElementAttribute();
                 maAttr1 = new MetadataAttribute();
-                mdarray = new MetadataAttribute[ 1 ];
-                
+                maAttr2 = new MetadataAttribute();
+                mdarray = new MetadataAttribute[ 2 ];
+                    
                 if (!NoRedundantMultipleKpi.get(i).equals("")) {
                     while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
                         ID = 1 + rdNumber.nextInt(1000);                   
@@ -1012,27 +1184,52 @@ public class XMLFileSimple
                         if ( !IDList.contains( stringID ) )
                             break;
                     }
-                    
+                        
                     IDList.add(stringID);
                     
                     ieAttr.setID(stringID);
+                    //if (KpiDuplication == 0) // "Duplication-" will be added only to one set of copy of KPIs
                     ieAttr.setName(NoRedundantMultipleKpi.get( i ));
+                    //else if (KpiDuplication == 1) // "Duplication-" will be added only to one set of copy of KPIs
+                    //ieAttr.setName("Duplication-" + NoRedundantMultipleKpi.get( i ));
                     ieAttr.setDescription("");
                     ieAttr.setType("Indicator");
                     ieAttr.setDecompositionType("And");
-                    
+                        
                     if (!noAltKpi) {
                         maAttr1.setElem(stringID);
                         maAttr1.setName("AltName");
-                        maAttr1.setValue(NoRedundantMultipleAltKpi.get(i));
+                        //if (KpiDuplication == 0) // "Duplication-" will be added only to one set of copy of KPIs
+                        maAttr1.setValue(NoRedundantMultipleAltKpi.get( i ));
+                        //else if (KpiDuplication == 1) // "Duplication-" will be added only to one set of copy of KPIs
+                        //ieAttr.setName("Duplication-" + NoRedundantMultipleKpi.get( i ));
                         mdarray[ 0 ] = maAttr1;                        
                     } else if (noAltKpi) { // if there is no French kpi, regular kpi will be replaced instead!
                         maAttr1.setElem(stringID);
                         maAttr1.setName("AltName");
-                        maAttr1.setValue(NoRedundantMultipleKpi.get(i));
+                        //if (KpiDuplication == 0) // "Duplication-" will be added only to one set of copy of KPIs
+                        maAttr1.setValue(NoRedundantMultipleKpi.get( i ));
+                        //else if (KpiDuplication == 1) // "Duplication-" will be added only to one set of copy of KPIs
+                        //ieAttr.setName("Duplication-" + NoRedundantMultipleKpi.get( i ));
                         mdarray[ 0 ] = maAttr1;                        
-                    }                   
+                    }
+                        
+                    //System.out.println("before adding levels!!!");
                     
+                    int xIndex = 0; // finding index of relevant goal
+                    for (int x = 0; x < MultipleKpi.size(); x++)
+                        if (MultipleKpi.get(x).contains(NoRedundantMultipleKpi.get(i)))
+                            xIndex = x;
+                    //  adding level into metadata of KPIs
+                    maAttr2.setElem(stringID);
+                    maAttr2.setName("Level");
+                    //System.out.println("The value of level is : " + xIndex);
+                    maAttr2.setValue(String.valueOf(IntentionalElementLevel.get(xIndex) + 1));
+                    //maAttr2.setValue("");
+                    mdarray[ 1 ] = maAttr2;
+                        
+                    //System.out.println("KPIs are being created!!!");
+                        
                     if (kpiStereotypeExists == false)
                         ed.setMetadataAttrs(mdarray);
                     else { // if we have steretotypes definition
@@ -1044,11 +1241,15 @@ public class XMLFileSimple
                             }
                         }
                         
+                        System.out.println("KPI stereotypes exist!!!");
+                        
                         if (index == -1) { // if we have stereotype definition, but the KPI is not defined in the list of stereotype definition
                             ed.setMetadataAttrs(mdarray);
+                            System.out.println("KPI stereotypes exist, but not found!!!");
                         }   // if we have stereotype definition, and the KPI is defined in the list of stereotype definition
                         else if (index != -1) { // if we have stereotypes and KPI stereotyope is defined in the list of stereotypes
                             // adding stereotypes into metadata of the KPI into an arraylist
+                            System.out.println("KPI stereotypes exist, and found!!!");
                             ArrayList<MetadataAttribute> tempMDList = new ArrayList<MetadataAttribute>();
                             for (int j = 1; j < MultipleStereoType.get(index).size(); j++) {
                                 MetadataAttribute MDtemp = new MetadataAttribute();
@@ -1058,21 +1259,117 @@ public class XMLFileSimple
                                 tempMDList.add(MDtemp);
                             }                            
                             // transforming arraylist to array
-                            MetadataAttribute [] tempMDArray = new MetadataAttribute[tempMDList.size() + 1];
-                            tempMDArray[ 0 ] = maAttr1;
-                            for (int j = 0; j < tempMDList.size(); j++)
-                                tempMDArray[ j + 1 ] = tempMDList.get(j);
-                            
+                            MetadataAttribute [] tempMDArray = new MetadataAttribute[tempMDList.size() + mdarray.length];
+                            int j;
+                            for (j = 0; j < mdarray.length; j++)
+                                tempMDArray[ j ] = mdarray[ j ];
+                            for (int k = 0; k < tempMDList.size(); k++, j++)
+                                tempMDArray[ j ] = tempMDList.get(k);                               
+                                
                             ed.setMetadataAttrs(tempMDArray);
-                        }
-                    }
-                    
+                        }   
+                    }  
+                        
                     ed.setIntentionalElementAttribute( ieAttr );                    
                     KpiElementDefinitionList.add( ed );
+                }                     
+            } // end of adding KPIs from NoRedundantMultipleList
+            
+            // adding refs of redundant KPIs into KpiRedundantElementDefinitionList
+            DeamonKpiElementDefinitionList  = new ArrayList<ElementDefinition>();
+            for (int i = 0; i < DeamonKpiList.size(); i++) {
+                ed = new ElementDefinition();
+                ieAttr = new IntentionalElementAttribute();
+                maAttr1 = new MetadataAttribute();
+                //maAttr2 = new MetadataAttribute();
+                mdarray = new MetadataAttribute[ 1 ];
+                
+                while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                    ID = 1 + rdNumber.nextInt(1000);                   
+                    stringID = Integer.toString( ID );
+                    if ( !IDList.contains( stringID ) )
+                        break;
+                }
+                
+                IDList.add(stringID);
+                
+                ieAttr.setID(stringID);
+                ieAttr.setName(DeamonKpiList.get( i ).get(1));
+                ieAttr.setDescription("");
+                ieAttr.setType("Indicator");
+                ieAttr.setDecompositionType("And");
+                
+                // finding id of the definition element
+                for (int j = 0; j < KpiElementDefinitionList.size(); j++) {
+                    if ((KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getName()).equals(DeamonKpiList.get(i).get(1)))
+                        ieAttr.SetDefinitionID(KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getID());
+                }
+                /*
+                if (!noAltKpi) {
+                    maAttr1.setElem(stringID);
+                    maAttr1.setName("AltName");
+                    maAttr1.setValue(RedundantMultipleAltKpi.get( i ));
+                    mdarray[ 0 ] = maAttr1;                        
+                } else if (noAltKpi) { // if there is no French kpi, regular kpi will be replaced instead!
+                    maAttr1.setElem(stringID);
+                    maAttr1.setName("AltName");
+                    maAttr1.setValue(RedundantMultipleKpi.get( i ));
+                    mdarray[ 0 ] = maAttr1;                        
+                }
+                */
+                maAttr1.setElem(stringID);
+                maAttr1.setName("AltName");
+                maAttr1.setValue(DeamonKpiList.get( i ).get(1));
+                mdarray[ 0 ] = maAttr1;
+                //maAttr2.setElem(stringID);
+                //maAttr2.setName("ST_CLASSTYPE");
+                //maAttr2.setValue("view");
+                //mdarray[ 1 ] = maAttr2;
+                
+                ed.setIntentionalElementAttribute(ieAttr);
+                ed.setMetadataAttrs(mdarray);
+                
+                DeamonKpiElementDefinitionList.add(ed);
+            }
+            
+            // Adding Conditions to respective KPIs
+            ConditionElementDefinitionList = new ArrayList<ElementDefinition>();
+            ArrayList<String> listOfConditions = new ArrayList<String>();
+            for (int i = 0; i < ConditionList.size(); i++) {
+                if ( ConditionList.get(i).size() != 0 && !listOfConditions.contains(ConditionList.get(i).get(1)) ) { // we have a condition for the main (first) KPI of a goal
+                    ed = new ElementDefinition();
+                    ieAttr = new IntentionalElementAttribute();
+                    maAttr1 = new MetadataAttribute();
+                    mdarray = new MetadataAttribute[ 1 ];
+                    
+                    while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString( ID );
+                        if ( !IDList.contains( stringID ) )
+                            break;
+                    }
+                  
+                    IDList.add(stringID);
+                  
+                    ieAttr.setID(stringID);
+                    ieAttr.setName(ConditionList.get(i).get(1));
+                    ieAttr.setDescription("");
+                    ieAttr.setType("Ressource");
+                    ieAttr.setDecompositionType("And");
+                    ed.setIntentionalElementAttribute(ieAttr);
+                    maAttr1.setElem(stringID);
+                    maAttr1.setName("ST_CLASSTYPE");
+                    maAttr1.setValue("Condition");
+                    mdarray[ 0 ] = maAttr1;
+                    ed.setMetadataAttrs(mdarray);
+                    
+                    listOfConditions.add(ConditionList.get(i).get(1));
+                    ConditionElementDefinitionList.add(ed);
                 }
             }
             
             System.out.println("The size of the KpiElementDefinitionList is : " + KpiElementDefinitionList.size());
+            System.out.println("The size of the ConditionElementDefinitionList is : " + ConditionElementDefinitionList.size());
         }
     }
  
@@ -1090,7 +1387,8 @@ public class XMLFileSimple
         
         DecompositionLinkDefinitionList = new ArrayList<DecompoitionAttribute>();
         for (int i = 0; i < Decomposition.size(); i++)
-            if (!Decomposition.get(i).equals("")) { 
+          if (!Decomposition.get(i).equals("")) { 
+              if (Importance.get(i).equals("")) {
                 while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
                     ID = 1 + rdNumber.nextInt(1000);                   
                     stringID = Integer.toString(ID);                    
@@ -1115,6 +1413,7 @@ public class XMLFileSimple
                 dcompAttr.setDestid(ElementDefinitionList.get(fatherIndex).getIntentionalElementAttribute().getID());                
                 DecompositionLinkDefinitionList.add(dcompAttr);
             }
+          }
     }
   
     private void createContributionList() {
@@ -1215,9 +1514,268 @@ public class XMLFileSimple
                     contrbAttr.setCorrelation("false");
                     
                     KpiContributionLinkDefinitionList.add(contrbAttr);
-                }   
-            }            
-        }// end of noKpi's if
+                }
+            }
+            
+            // adding dependency links between conditions and their respective KPIs
+            ConditionDependencyLinkDefinitionList = new ArrayList<DecompoitionAttribute>();
+            for (int i = 0; i < ConditionList.size(); i++) {
+                if (ConditionList.get(i).size() != 0) {
+                    while (true) {
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString(ID);                        
+                        if (!LinkIDList.contains(stringID))
+                            break;
+                        }
+                  
+                    LinkIDList.add(stringID);
+                    DecompoitionAttribute decompAttr = new DecompoitionAttribute();
+                    decompAttr.setDescription("");
+                    decompAttr.setName("Dependnecy" + stringID);
+                    
+                    for (int j = 0; j < ConditionElementDefinitionList.size(); j++) // finding destionationID
+                        if (ConditionList.get(i).get(1).equals(ConditionElementDefinitionList.get(j).getIntentionalElementAttribute().getName()))
+                            decompAttr.setDestid(ConditionElementDefinitionList.get(j).getIntentionalElementAttribute().getID());
+                                        
+                    for (int j = 0; j < ElementDefinitionList.size(); j++) // finding sourceID
+                        if (ConditionList.get(i).get(0).equals(ElementDefinitionList.get(j).getIntentionalElementAttribute().getName()))
+                            decompAttr.setSrcid(ElementDefinitionList.get(j).getIntentionalElementAttribute().getID());
+                                        
+                    ConditionDependencyLinkDefinitionList.add(decompAttr);
+                }
+            } // end of adding Dependency links
+            
+            DeamonKpiContributionLinkDefinition = new ArrayList<ContributionAttribute>();
+            for (int i = 0; i < DeamonKpiList.size(); i++) {
+                while (true) {
+                    ID = 1 + rdNumber.nextInt(1000);                   
+                    stringID = Integer.toString(ID);                        
+                    if (!LinkIDList.contains(stringID))
+                        break;
+                    }
+            
+                LinkIDList.add(stringID);
+                contrbAttr = new ContributionAttribute();
+                contrbAttr.setName("Contribution" + stringID);
+                contrbAttr.setDescription("");
+                //contrbAttr.setSrcid(DeamonKpiElementDefinitionList.get(i).getIntentionalElementAttribute().getID());                  
+                for (int j = 0; j < KpiElementDefinitionList.size(); j++) { // setting source of contribution
+                    if (KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getName().equals(DeamonKpiList.get(i).get(1)))
+                        contrbAttr.setSrcid(KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getID());
+                }
+                
+                fatherIndex = -1;
+                for (int j = 0; j < ElementDefinitionList.size(); j++) { // setting destination of contribution
+                    for (int k = 0; k < ElementDefinitionList.get(i).getMetadataAttrs().length; k++) {
+                        if ((ElementDefinitionList.get(i).getMetadataAttrs() [ k ]).getName().equals("LegislationSection")) // finding LegislationSection part of metadata array
+                            if ((ElementDefinitionList.get(j).getMetadataAttrs() [ k ]).getvalue().equals(DeamonKpiList.get(i).get(0))) // finding the equal LegislationSection
+                                fatherIndex = j;
+                    }
+                }
+                
+                contrbAttr.setDestid(ElementDefinitionList.get(fatherIndex).getIntentionalElementAttribute().getID()); // father of the element is in the same row
+                contrbAttr.setQuantitativeContribution(String.valueOf(100)); // setting quantitative contribution value for each contribution
+                if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) < 50)
+                    contrbAttr.setContributionType("Help");
+                else if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) >= 50 && 
+                    Integer.parseInt(contrbAttr.getQuantitativeContribution()) < 100)
+                    contrbAttr.setContributionType("SomePositive");
+                else if (Integer.parseInt(contrbAttr.getQuantitativeContribution()) == 100)
+                    contrbAttr.setContributionType("Make");                    
+              
+                contrbAttr.setCorrelation("false");
+                
+                MetadataAttribute mdattr = new MetadataAttribute();
+                mdattr.setElem("Contribution" + stringID);
+                mdattr.setName("ST_CLASSTYPE");
+                mdattr.setValue("view");
+                contrbAttr.setMDAttr(mdattr);
+                
+                DeamonKpiContributionLinkDefinition.add(contrbAttr);
+            }
+        } // end of noKpi's if
+    }
+    
+    public void generatingKpiQuestionDefsLinks(int type) {
+        ElementDefinition ed;
+        IntentionalElementAttribute ieAttr;
+        MetadataAttribute maAttr1, maAttr2;
+        MetadataAttribute [] mdarray;
+        DecompoitionAttribute dcompAttr;
+        int ID;
+        Random rdNumber = new Random();
+        String stringID;
+        
+        if (type == 1) {            
+            System.out.println("KPI questions definitions start to be created in 1!!!");
+            System.out.println("in Compliance!!!");
+            KpiSubQuestionElementDefinitionList = new ArrayList<ElementDefinition>();
+            for (int i = 0; i < KpiSubQuestionList.size(); i += 2) { // adding KPIs sub-questions as new KPIs
+                ed = new ElementDefinition();
+                ieAttr = new IntentionalElementAttribute();
+                maAttr1 = new MetadataAttribute();
+                maAttr2 = new MetadataAttribute();
+                mdarray = new MetadataAttribute[ 2 ];
+                
+                if (!KpiSubQuestionList.get(i).equals("*")) { // if we have sub-questions that are not empty (empty ones are just a "*")
+                    while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString(ID);
+                        if (!IDList.contains(stringID))
+                            break;
+                    }
+                    
+                    IDList.add(stringID);
+                    
+                    ieAttr.setID(stringID);
+                    ieAttr.setName(KpiSubQuestionList.get(i));
+                    ieAttr.setDescription("");
+                    ieAttr.setType("Indicator");
+                    ieAttr.setDecompositionType("And");
+                    maAttr1.setElem(stringID);
+                    maAttr1.setName("AltName");
+                    maAttr1.setValue(KpiSubQuestionAltList.get(i));
+                    mdarray[ 0 ] = maAttr1;  
+                    maAttr2.setElem(stringID);
+                    maAttr2.setName("ST_CLASSTYPE");
+                    maAttr2.setValue("Compliance");
+                    mdarray[ 1 ] = maAttr2;
+                    
+                    ed.setMetadataAttrs(mdarray);
+                    ed.setIntentionalElementAttribute(ieAttr);
+                    KpiSubQuestionElementDefinitionList.add(ed);
+                }                                                  
+            } // end of Elementdefinition making
+            
+            System.out.println("SubQuestion are made properly!!!");
+            // making decompoaition links between each category of KPIs to their main KPI
+            KpiSubQuestionLinkDefinitionList = new ArrayList<DecompoitionAttribute>();
+            for (int i = 0; i < KpiSubQuestionElementDefinitionList.size(); i++)
+                if (KpiSubQuestionElementDefinitionList.get(i) != null) { 
+                    while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString(ID);                    
+                        if (!LinkIDList.contains(stringID))
+                          break;
+                    }
+                    
+                    LinkIDList.add(stringID);
+                    
+                    dcompAttr = new DecompoitionAttribute();
+                    dcompAttr.setName("Decomposition" + stringID);
+                    dcompAttr.setDescription("");               
+                    dcompAttr.setSrcid(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getID());
+                    
+                    System.out.println("finding father");
+                    
+                    int fatherIndex = -1; //Finding father's id to set as the destid                
+                    for (int j = 0; j < KpiSubQuestion.size(); j++)
+                        for (int k = 0; k < KpiSubQuestion.get(j).size(); k++)
+                            if (KpiSubQuestion.get(j).get(k).equals(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getName())) {
+                                fatherIndex = j;
+                                break;
+                            }
+                    System.out.println(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getName());
+                    System.out.println("fatherIndex is : " + fatherIndex);
+                    String fatherName = KpiSubQuestion.get(fatherIndex).get(0); // finding name of the father that is the first element of each row
+                    System.out.println("fatherName is : " + fatherName);
+                    for (int j = 0; j < KpiElementDefinitionList.size(); j++)
+                        if (KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getName().equals(fatherName)) {
+                            System.out.println("found");
+                            dcompAttr.setDestid(KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getID()); 
+                        }
+                    
+                    KpiSubQuestionLinkDefinitionList.add(dcompAttr);
+                }
+            
+            KpiElementDefinitionList.addAll(KpiSubQuestionElementDefinitionList);
+            DecompositionLinkDefinitionList.addAll(KpiSubQuestionLinkDefinitionList);
+        }
+        
+        if (type == 2) {
+            System.out.println("KPI questions definitions start to be created in 2!!!");
+            System.out.println("in Effectiveness!!!");
+            KpiSubQuestionElementDefinitionList = new ArrayList<ElementDefinition>();
+            for (int i = 1; i < KpiSubQuestionList.size(); i += 2) { // adding KPIs sub-questions as new KPIs 
+                ed = new ElementDefinition();
+                ieAttr = new IntentionalElementAttribute();
+                maAttr1 = new MetadataAttribute();
+                maAttr2 = new MetadataAttribute();
+                mdarray = new MetadataAttribute[ 2 ];
+                    
+                if (!KpiSubQuestionList.get(i).equals("*")) { // if we have sub-questions
+                    while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString(ID);
+                        if (!IDList.contains(stringID))
+                            break;
+                    }
+                      
+                    IDList.add(stringID);
+                       
+                    ieAttr.setID(stringID);
+                    ieAttr.setName(KpiSubQuestionList.get(i));
+                    ieAttr.setDescription("");
+                    ieAttr.setType("Indicator");
+                    ieAttr.setDecompositionType("And");
+                    maAttr1.setElem(stringID);
+                    maAttr1.setName("AltName");
+                    maAttr1.setValue(KpiSubQuestionAltList.get(i));
+                    mdarray[ 0 ] = maAttr1;  
+                    maAttr2.setElem(stringID);
+                    maAttr2.setName("ST_CLASSTYPE");
+                    maAttr2.setValue("Effectiveness");
+                    mdarray[ 1 ] = maAttr2;
+                    
+                    ed.setMetadataAttrs(mdarray);
+                    ed.setIntentionalElementAttribute(ieAttr);
+                    KpiSubQuestionElementDefinitionList.add(ed);
+                }               
+            }
+            
+            // making decompoaition links between each category of KPIs to their main KPI
+            KpiSubQuestionLinkDefinitionList = new ArrayList<DecompoitionAttribute>();
+            for (int i = 0; i < KpiSubQuestionElementDefinitionList.size(); i++)
+                if (KpiSubQuestionElementDefinitionList.get(i) != null) { 
+                    while (true) { //To create a random number for the new abstract intentional element that is unique in whole xml file
+                        ID = 1 + rdNumber.nextInt(1000);                   
+                        stringID = Integer.toString(ID);                    
+                        if (!LinkIDList.contains(stringID))
+                          break;
+                    }
+                    
+                    LinkIDList.add(stringID);
+                    
+                    dcompAttr = new DecompoitionAttribute();
+                    dcompAttr.setName("Decomposition" + stringID);
+                    dcompAttr.setDescription("");               
+                    dcompAttr.setSrcid(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getID());
+                    
+                    System.out.println("finding father");
+                    
+                    int fatherIndex = -1; //Finding father's id to set as the destid                
+                    for (int j = 0; j < KpiSubQuestion.size(); j++)
+                        for (int k = 0; k < KpiSubQuestion.get(j).size(); k++)
+                            if (KpiSubQuestion.get(j).get(k).equals(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getName())) {
+                                fatherIndex = j;
+                                break;
+                            }
+                    System.out.println(KpiSubQuestionElementDefinitionList.get(i).getIntentionalElementAttribute().getName());
+                    System.out.println("fatherIndex is : " + fatherIndex);
+                    String fatherName = KpiSubQuestion.get(fatherIndex).get(0); // finding name of the father that is the first element of each row
+                    System.out.println("fatherName is : " + fatherName);
+                    for (int j = 0; j < KpiElementDefinitionList.size(); j++)
+                        if (KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getName().equals(fatherName)) {
+                            System.out.println("found");
+                            dcompAttr.setDestid(KpiElementDefinitionList.get(j).getIntentionalElementAttribute().getID()); 
+                        }
+                    
+                    KpiSubQuestionLinkDefinitionList.add(dcompAttr);
+                }
+          
+            KpiElementDefinitionList.addAll(KpiSubQuestionElementDefinitionList);
+            DecompositionLinkDefinitionList.addAll(KpiSubQuestionLinkDefinitionList);
+        }
     }
     
     public void calculateContributionValueList() {
@@ -1279,7 +1837,7 @@ public class XMLFileSimple
                 }            
         }
         
-        System.out.println( "\nSimple MultipleKpi size is : " + MultipleKpi.size() );        
+        System.out.println( "\nSimple MultipleKpi size is : " + MultipleKpi.size() );
     }
     
     private void refineNoRedundantMultipleKpi() {
@@ -1294,6 +1852,8 @@ public class XMLFileSimple
         }
         
         MultipleKpi =  new ArrayList<ArrayList<String>>(temp);
+        
+        System.out.println( "\nSimple MultipleKpi size after refining is : " + MultipleKpi.size() );
     }
     
     private void makeNoRedundantMultipleKpi() {
@@ -1307,7 +1867,10 @@ public class XMLFileSimple
                     RedundantMultipleKpi.add(MultipleKpi.get(i).get(j));                    
                  
         System.out.println( "\nSimple NoRedundantMultipleKpi size is : " + NoRedundantMultipleKpi.size() );
-        System.out.println( "\nSimple RedundantMultipleKpi size is : " + RedundantMultipleKpi.size() );                
+        System.out.println( "\nSimple RedundantMultipleKpi size is : " + RedundantMultipleKpi.size() );
+        
+        for (int i = 0; i < RedundantMultipleKpi.size(); i++)
+            System.out.println(RedundantMultipleKpi.get(i));
     }   
     
     private void makeMultipleAltKpi() {
@@ -1462,11 +2025,41 @@ public class XMLFileSimple
         
     }
     
+    // Manipulating KpiWeight list and removing conditions from the end of each row if there is any and put them into separate list that
+    // has Goal name as its first node and Condition name as its second node, if any condition for that KPI exists! 
+    private void makeConditionList() {
+        System.out.println("in makeConditionList");
+        ConditionList = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < KpiWeight.size(); i++) {
+            ConditionList.add(new ArrayList<String>());  
+            //ConditionList.get(i).add(MultipleKpi.get(i).get(0)); // the condition in the first node
+            if (KpiWeight.get(i).contains("#C")) {
+                System.out.println("a condition in " + i);
+                ConditionList.get(i).add(IntentionalElement.get(i)); // adding name of the Goal of the condition in the first node
+                int conditionStartIndex = KpiWeight.get(i).indexOf(";#C_"); // finding index of condition from separating character ';'
+                String conditionName = KpiWeight.get(i).substring(conditionStartIndex + 4, KpiWeight.get(i).length() - 1); // finding the name of condition
+                ConditionList.get(i).add(conditionName); // adding the name of condition as the second node in Condition list
+                String tempSTR = KpiWeight.get(i).substring(0, conditionStartIndex + 1); // finding the string containing all the weights without having condition at the end
+                KpiWeight.set(i, tempSTR); // updating the value of string of weights with a correct one that has no condition at the end of it 
+            }
+        }
+        
+        System.out.println("The size of the ConditionList is : " + ConditionList.size());
+        for (int i = 0; i < ConditionList.size(); i++) {
+            for (int j = 0; j < ConditionList.get(i).size(); j++) {
+                System.out.println("a condition in " + i);
+                System.out.println("ConditionList[ " + i + " , " + j + " ] is : " + ConditionList.get(i).get(j));
+            }
+        }
+        
+        System.out.println("done with makingCondition!!!");
+    }
+    
     private void makeMultipleKpiWeight() {
         int beginIndex;
         String row;     
         MultipleKpiWeight = new ArrayList<ArrayList<String>>();
-        for (int i = 0; i < KpiWeight.size(); i++ ) {
+        for (int i = 0; i < KpiWeight.size(); i++) {
             if (!KpiWeight.get( i ).equals("")) {
                 beginIndex = 0;
                 row = KpiWeight.get( i );
@@ -1483,11 +2076,21 @@ public class XMLFileSimple
             else if (KpiWeight.get( i ).equals(""))
                 MultipleKpiWeight.add(new ArrayList<String>());                              
         }
+        
+        /*for (int i = 0; i < MultipleKpiWeight.size(); i++) {
+            for (int j = 0; j < MultipleKpiWeight.get(i).size(); j++)
+                System.out.print(MultipleKpiWeight.get(i).get(j) + "  ");
+            System.out.println();
+        }
+        
+        System.out.println("Good to here!!!");*/
+        
         // creating a list of lists that each row has goal name as first element and remaining elements are relative weights of KPIs in order of KPIs 
         GoalKpiWeight = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < IntentionalElement.size(); i++) {
             GoalKpiWeight.add(new ArrayList<String>());            
             if (!Kpi.get(i).equals("")) { // if we have a KPI
+                System.out.println("i is : " + i);
                 //GoalKpiWeight.get(i).add(IntentionalElement.get(i));
                 if (MultipleKpiWeight.get(i).size() == 0) { // if there is no weights is defined, "1" will be inserted in the number of KPIs
                     //for (int j = 0; j < MultipleKpi.get(i).size(); j++)
@@ -1504,7 +2107,9 @@ public class XMLFileSimple
             }
         }
         
-        /*System.out.println("The size of GoalKpiWeight is : " + GoalKpiWeight.size());
+        /*System.out.println("Good to here, Second!!!");
+        
+        System.out.println("The size of GoalKpiWeight is : " + GoalKpiWeight.size());
         for (int i = 0; i < GoalKpiWeight.size(); i++) {
             System.out.println("The size of GoalKpiWeight[ " + i + " ] is : " + GoalKpiWeight.get(i).size());
             for (int j = 0; j < GoalKpiWeight.get(i).size(); j++)
@@ -1538,6 +2143,143 @@ public class XMLFileSimple
             System.out.println("The size of KpiContributionValueList[ " + i + " ] is : " + KpiContributionValueList.get(i).size());
             for (int j = 0; j < KpiContributionValueList.get(i).size(); j++)
                 System.out.println("The KpiContributionValueList[ " + i + " ][ " + j + " ] is : " + KpiContributionValueList.get(i).get(j));
+        }*/
+    }
+    
+    private void makeKpiSubQuestion() {
+        KpiSubQuestion = new ArrayList<ArrayList<String>>();
+        KpiSubQuestionAlt = new ArrayList<ArrayList<String>>();
+        KpiConversionList = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < MultipleStereoType.size(); i++) { // putting Kpi name into the very first cell of each row for both lists
+            KpiSubQuestion.add(new ArrayList<String>());
+            KpiSubQuestion.get(i).add(MultipleStereoType.get(i).get(0));
+            KpiSubQuestionAlt.add(new ArrayList<String>());
+            KpiSubQuestionAlt.get(i).add(MultipleStereoType.get(i).get(0));
+            KpiConversionList.add(new ArrayList<String>());
+            KpiConversionList.get(i).add(MultipleStereoType.get(i).get(0));
+        }
+        
+        for (int i = 0; i < MultipleStereoType.size(); i++) // finding and adding sub-questions into KpiSubQuestion list
+            for (int j = 0; j < MultipleStereoType.get(i).size(); j++) { 
+                if (MultipleStereoType.get(i).get(j).charAt(0) == '*' && MultipleStereoType.get(i).get(j).length() == 1 ) // if string starts with '*', then it is a sub-question
+                    KpiSubQuestion.get(i).add(MultipleStereoType.get(i).get(j));
+                else if (MultipleStereoType.get(i).get(j).charAt(0) == '*' && MultipleStereoType.get(i).get(j).length() > 1 
+                        && MultipleStereoType.get(i).get(j).charAt(1) != '*')
+                    KpiSubQuestion.get(i).add(MultipleStereoType.get(i).get(j));
+                else if (MultipleStereoType.get(i).get(j).charAt(0) == '*' && MultipleStereoType.get(i).get(j).charAt(1) == '*') // if string starts with '**', then it is a sub-question alternative name
+                    KpiSubQuestionAlt.get(i).add(MultipleStereoType.get(i).get(j));                                    
+            }
+        
+        for (int i = 0; i < MultipleStereoType.size(); i++) // finding and adding KPIConversions into KpiConversionList
+            for (int j = 0; j < MultipleStereoType.get(i).size(); j++) {
+                if (MultipleStereoType.get(i).get(j).charAt(0) == '#') {
+                    //String s = MultipleStereoType.get(i).get(j).substring(1);
+                    KpiConversionList.get(i).add(MultipleStereoType.get(i).get(j).substring(1));                    
+                }
+            }
+        
+        System.out.println("size of KpiConverionList is : " + KpiConversionList.size());
+          for (int i = 0; i < KpiConversionList.size(); i++) {
+            for (int j = 0; j < KpiConversionList.get(i).size(); j++)
+              System.out.print(KpiConversionList.get(i).get(j) + "           ");
+            System.out.println("");
+          }
+        
+        System.out.println("good to before organizing!!!");
+        //System.out.println("size of KpiSubQuestion is : " + KpiSubQuestion.size());
+        //for (int i = 0; i < KpiSubQuestion.size(); i++)
+          //for (int j = 0; j < KpiSubQuestion.get(i).size(); j++)
+            //System.out.println(KpiSubQuestion.get(i).size());
+        //System.out.println("size of KpiSubQuestionAlt is : " + KpiSubQuestionAlt.size());
+        //for (int i = 0; i < KpiSubQuestionAlt.size(); i++)
+          //for (int j = 0; j < KpiSubQuestionAlt.get(i).size(); j++)
+            //System.out.println(KpiSubQuestionAlt.get(i).size());
+        
+        makeSubQuestionAltOrganized(); // to take care of the alternative names of sub-questions if they are not provided
+        
+        System.out.println("good to after organizing!!!");
+        
+        KpiSubQuestionList = new ArrayList<String>(); // creating a linear list
+        for (int i = 0; i < KpiSubQuestion.size(); i++) // putting sub-questions from a list of list of strings into a linear list
+            for (int j = 1; j < KpiSubQuestion.get(i).size(); j++)
+                KpiSubQuestionList.add(KpiSubQuestion.get(i).get(j));
+            
+        KpiSubQuestionAltList = new ArrayList<String>(); // creating a linear list
+        for (int i = 0; i < KpiSubQuestionAlt.size(); i++) // putting sub-questions alternative names from a list of list of strings into a linear list
+            for (int j = 1; j < KpiSubQuestionAlt.get(i).size(); j++)
+                KpiSubQuestionAltList.add(KpiSubQuestionAlt.get(i).get(j));        
+            
+        /*for (int i = 0; i < KpiSubQuestion.size(); i++) {
+          System.out.println("The size of KpiKpiSubQuestion[ " + i + " ] is : " + KpiSubQuestion.get(i).size());
+          for (int j = 0; j < KpiSubQuestion.get(i).size(); j++)
+              System.out.println("The KpiSubQuestion[ " + i + " ][ " + j + " ] is : " + KpiSubQuestion.get(i).get(j));
+        }
+        
+        for (int i = 0; i < KpiSubQuestionAlt.size(); i++) {
+          System.out.println("The size of KpiKpiSubQuestionAlt[ " + i + " ] is : " + KpiSubQuestionAlt.get(i).size());
+          for (int j = 0; j < KpiSubQuestionAlt.get(i).size(); j++)
+              System.out.println("The KpiSubQuestionAlt[ " + i + " ][ " + j + " ] is : " + KpiSubQuestionAlt.get(i).get(j));
+        }*/
+        
+        // removing sub-question form MultipleStereoType list by using a temproray list
+        ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>(); // creating a temp list
+        for (int i = 0; i < MultipleStereoType.size(); i++) {
+            temp.add(new ArrayList<String>());
+            for (int j = 0; j < MultipleStereoType.get(i).size(); j++)
+                if (MultipleStereoType.get(i).get(j).charAt(0) != '*' && MultipleStereoType.get(i).get(j).charAt(0) != '#')
+                    temp.get(i).add(MultipleStereoType.get(i).get(j));           
+        }
+        
+        MultipleStereoType = new ArrayList<ArrayList<String>>(temp);
+        System.out.println("The size of the list of KPIs stereotypes is : " + MultipleStereoType.size());
+        kpiStereotypeExists = false; // Althought there is a label designed in CSV file showing that stereotypes for KPIs exists, there might be cases that no
+        // stereotypes for KPIs exists and only sub-questions for KPIs are defined instead. Thus, it is changed to 'false' again and then it is being checked!!! 
+        for (int i = 0; i < MultipleStereoType.size(); i++) {
+            //System.out.println("size of the KPIStereotypes[ " + i + " ] is : " + MultipleStereoType.get(i).size());
+            if (MultipleStereoType.get(i).size() != 1) {
+                System.out.println("kpiStereotypeExists is true");
+                kpiStereotypeExists = true;
+                break;
+            }
+        }
+        
+        /*for (int i = 0; i < MultipleStereoType.size(); i++) {
+          System.out.println("The size of MultipleStereoType[ " + i + " ] is : " + MultipleStereoType.get(i).size());
+          for (int j = 0; j < MultipleStereoType.get(i).size(); j++)
+              System.out.println("The MultipleStereoType[ " + i + " ][ " + j + " ] is : " + MultipleStereoType.get(i).get(j));
+        }*/
+    }
+    
+    private void makeSubQuestionAltOrganized() { // if alternative name for sub-questions are not provided, the name of them will be added to the current string that is "**" 
+        for (int i = 0; i < KpiSubQuestionAlt.size(); i++) 
+            for (int j = 0; j < KpiSubQuestionAlt.get(i).size(); j++) 
+                if (KpiSubQuestionAlt.get(i).get(j).equals("**"))
+                    KpiSubQuestionAlt.get(i).set(j, KpiSubQuestionAlt.get(i).get(j).concat(KpiSubQuestion.get(i).get(j)));
+    }
+    
+    private void makeIntentionalElmenetLevel() {
+        int level;
+        String father, base;
+        IntentionalElementLevel = new ArrayList<Integer>();
+        IntentionalElementLevel.add(0); // adding head node (first element of IntentionalElmenet list) as level 0
+        base = RelationList.get(0).getName(); // settig a baseline for finding level of other elements
+        for (int i = 1; i < LegislationSection.size(); i++) { // finding level of other elements
+            //name = LegislationSection.get(i); // setting name of element
+            father = RelationList.get(i).getFather(); // setting father name of the element
+            level = 1;
+            while (!father.equals(base)) {
+                for (int j = 0; j < RelationList.size(); j++)
+                    if (RelationList.get(j).getName().equals(father))
+                        father = RelationList.get(j).getFather();
+                
+                level++;
+            }
+            
+            IntentionalElementLevel.add(level);
+        }
+        
+        /*for (int i = 0; i < IntentionalElementLevel.size(); i++) {
+            System.out.println("The level of " + i + " is : " + IntentionalElementLevel.get(i));
         }*/
     }
     

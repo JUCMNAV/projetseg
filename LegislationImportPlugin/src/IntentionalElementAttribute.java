@@ -9,6 +9,7 @@ public class IntentionalElementAttribute
     private String description;
     private String type;
     private String decompositiontype;
+    private String definitionid;
     
     public void setID( String s )
     {
@@ -58,6 +59,14 @@ public class IntentionalElementAttribute
     public String getDecompositiontype()
     {
         return decompositiontype;
+    }
+    
+    public void SetDefinitionID (String s) {
+        definitionid = s;
+    }
+    
+    public String getDefinitionID () {
+        return definitionid;
     }
     
     @Override

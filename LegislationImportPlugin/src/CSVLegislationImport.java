@@ -69,7 +69,7 @@ public class CSVLegislationImport extends DefaultHandler implements IURNImport
         System.out.println("createXMLFile is done!");
       
         IGR = new ImportGRLCatalog();
-        urn = ModelCreationFactory.getNewURNspec(false, false);
+        urn = ModelCreationFactory.getNewURNspec(false, false, false);
         
         try {
             grlFileStream = new FileInputStream(filename + "file.grl") ;

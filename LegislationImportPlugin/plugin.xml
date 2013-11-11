@@ -4,11 +4,19 @@
    <extension
          point="seg.jUCMNav.URNImport">
       <importer
-            class="CSVLegislationImport"
+            class="CSVLegislationImportWithKpiConversions"
             extension="csv"
-            id="LegislationImportPlugin.importer"
-            importInSelectedFile="false"
-            name="CSV Legislation Import (*.csv)"
+            id="LegislationImportPlugin.importer1"
+            importInSelectedFile="true"
+            name="CSV Legislation Import with Kpi Conversions Loaded (*.csv)"
+            useStream="false">
+      </importer>
+      <importer
+            class="CSVLegislationImportWithNoKpiConversions"
+            extension="csv"
+            id="LegislationImportPlugin.importer2"
+            importInSelectedFile="true"
+            name="CSV Legislation Import with No Kpi Conversions Loaded (*.csv)"
             useStream="false">
       </importer>
    </extension>
