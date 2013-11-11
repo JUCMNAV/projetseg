@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: QualitativeMappingsPlugin
+Bundle-SymbolicName: QualitativeMappingsPlugin;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Bundle-Activator: qualitativemappingsplugin.Activator
+Bundle-Vendor: jucmnav.softwareengineering.ca
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ seg.jUCMNav;bundle-version="5.2.0",
+ org.eclipse.gef;bundle-version="3.7.2",
+ org.eclipse.emf;bundle-version="2.6.0",
+ org.eclipse.emf.ecore;bundle-version="2.7.0",
+ org.eclipse.emf.common.ui;bundle-version="2.7.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

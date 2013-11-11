@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="seg.jUCMNav.URNImport">
+      <importer
+            class="QualitativeMappingsPlugin"
+            extension="csv"
+            id="QualitativeMappingsPlugin.importer"
+            importInSelectedFile="false"
+            name="Qualitative Mappings Import (*.csv)"
+            useStream="false">
+      </importer>
+   </extension>
+
+</plugin>
