@@ -1,0 +1,364 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+package jucm_OneFileWorkaround.grl.impl;
+
+import java.util.Collection;
+
+import jucm_OneFileWorkaround.grl.ContributionChange;
+import jucm_OneFileWorkaround.grl.ContributionContext;
+import jucm_OneFileWorkaround.grl.ContributionContextGroup;
+import jucm_OneFileWorkaround.grl.GRLspec;
+import jucm_OneFileWorkaround.grl.GrlPackage;
+
+import jucm_OneFileWorkaround.urncore.impl.GRLmodelElementImpl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Contribution Context</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link jucm_OneFileWorkaround.grl.impl.ContributionContextImpl#getGrlspec <em>Grlspec</em>}</li>
+ *   <li>{@link jucm_OneFileWorkaround.grl.impl.ContributionContextImpl#getGroups <em>Groups</em>}</li>
+ *   <li>{@link jucm_OneFileWorkaround.grl.impl.ContributionContextImpl#getChanges <em>Changes</em>}</li>
+ *   <li>{@link jucm_OneFileWorkaround.grl.impl.ContributionContextImpl#getParentContexts <em>Parent Contexts</em>}</li>
+ *   <li>{@link jucm_OneFileWorkaround.grl.impl.ContributionContextImpl#getIncludedContexts <em>Included Contexts</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class ContributionContextImpl extends GRLmodelElementImpl implements ContributionContext {
+	/**
+	 * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGroups()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ContributionContextGroup> groups;
+
+	/**
+	 * The cached value of the '{@link #getChanges() <em>Changes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChanges()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ContributionChange> changes;
+
+	/**
+	 * The cached value of the '{@link #getParentContexts() <em>Parent Contexts</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParentContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ContributionContext> parentContexts;
+
+	/**
+	 * The cached value of the '{@link #getIncludedContexts() <em>Included Contexts</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIncludedContexts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ContributionContext> includedContexts;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ContributionContextImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return GrlPackage.Literals.CONTRIBUTION_CONTEXT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GRLspec getGrlspec() {
+		if (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC) return null;
+		return (GRLspec)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetGrlspec(GRLspec newGrlspec, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGrlspec(GRLspec newGrlspec) {
+		if (newGrlspec != eInternalContainer() || (eContainerFeatureID() != GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC && newGrlspec != null)) {
+			if (EcoreUtil.isAncestor(this, newGrlspec))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newGrlspec != null)
+				msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
+			msgs = basicSetGrlspec(newGrlspec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC, newGrlspec, newGrlspec));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ContributionContextGroup> getGroups() {
+		if (groups == null) {
+			groups = new EObjectWithInverseResolvingEList.ManyInverse<ContributionContextGroup>(ContributionContextGroup.class, this, GrlPackage.CONTRIBUTION_CONTEXT__GROUPS, GrlPackage.CONTRIBUTION_CONTEXT_GROUP__CONTRIBS);
+		}
+		return groups;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ContributionChange> getChanges() {
+		if (changes == null) {
+			changes = new EObjectContainmentWithInverseEList<ContributionChange>(ContributionChange.class, this, GrlPackage.CONTRIBUTION_CONTEXT__CHANGES, GrlPackage.CONTRIBUTION_CHANGE__CONTEXT);
+		}
+		return changes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ContributionContext> getParentContexts() {
+		if (parentContexts == null) {
+			parentContexts = new EObjectWithInverseResolvingEList.ManyInverse<ContributionContext>(ContributionContext.class, this, GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS, GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS);
+		}
+		return parentContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ContributionContext> getIncludedContexts() {
+		if (includedContexts == null) {
+			includedContexts = new EObjectWithInverseResolvingEList.ManyInverse<ContributionContext>(ContributionContext.class, this, GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS, GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS);
+		}
+		return includedContexts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGrlspec((GRLspec)otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getGroups()).basicAdd(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChanges()).basicAdd(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getParentContexts()).basicAdd(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncludedContexts()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				return basicSetGrlspec(null, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				return ((InternalEList<?>)getGroups()).basicRemove(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				return ((InternalEList<?>)getChanges()).basicRemove(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				return ((InternalEList<?>)getParentContexts()).basicRemove(otherEnd, msgs);
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				return ((InternalEList<?>)getIncludedContexts()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__CONTRIBUTION_CONTEXTS, GRLspec.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				return getGrlspec();
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				return getGroups();
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				return getChanges();
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				return getParentContexts();
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				return getIncludedContexts();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				setGrlspec((GRLspec)newValue);
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				getGroups().clear();
+				getGroups().addAll((Collection<? extends ContributionContextGroup>)newValue);
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				getChanges().clear();
+				getChanges().addAll((Collection<? extends ContributionChange>)newValue);
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				getParentContexts().clear();
+				getParentContexts().addAll((Collection<? extends ContributionContext>)newValue);
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				getIncludedContexts().clear();
+				getIncludedContexts().addAll((Collection<? extends ContributionContext>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				setGrlspec((GRLspec)null);
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				getGroups().clear();
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				getChanges().clear();
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				getParentContexts().clear();
+				return;
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				getIncludedContexts().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case GrlPackage.CONTRIBUTION_CONTEXT__GRLSPEC:
+				return getGrlspec() != null;
+			case GrlPackage.CONTRIBUTION_CONTEXT__GROUPS:
+				return groups != null && !groups.isEmpty();
+			case GrlPackage.CONTRIBUTION_CONTEXT__CHANGES:
+				return changes != null && !changes.isEmpty();
+			case GrlPackage.CONTRIBUTION_CONTEXT__PARENT_CONTEXTS:
+				return parentContexts != null && !parentContexts.isEmpty();
+			case GrlPackage.CONTRIBUTION_CONTEXT__INCLUDED_CONTEXTS:
+				return includedContexts != null && !includedContexts.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
+
+} //ContributionContextImpl

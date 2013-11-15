@@ -1,0 +1,202 @@
+digraph "I1_I2"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_OnStub_Plugin"{
+        label="OnStub_Plugin"
+
+        "OnStub_Plugin_R10"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R10</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_R11"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R11</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_E10"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E10</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_E11"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E11</td>
+                </tr>
+            </table>>
+        ]
+        "OnStub_Plugin_R10"->"OnStub_Plugin_E10"
+        "OnStub_Plugin_R11"->"OnStub_Plugin_E11"
+    }
+
+    subgraph "cluster_OnStub_Base"{
+        label="OnStub_Base"
+
+        "OnStub_Base_I2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">I2</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_I1"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">I1</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_S2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">S2</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_ProcessI2"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessI2</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_S1"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">S1</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_ProcessI1"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessI1</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_TheStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                            <td port="in2" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="30">TheStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                            <td port="out2" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "OnStub_Base_E1"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E1</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Base_E2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E2</td>
+                </tr>
+            </table>>
+        ]
+        "OnStub_Base_S2"->"OnStub_Base_I2"
+        "OnStub_Base_I2"->"OnStub_Base_ProcessI2"
+        "OnStub_Base_ProcessI2"->"OnStub_Base_TheStub":in2
+        "OnStub_Base_S1"->"OnStub_Base_I1"
+        "OnStub_Base_I1"->"OnStub_Base_ProcessI1"
+        "OnStub_Base_ProcessI1"->"OnStub_Base_TheStub":in1
+        "OnStub_Base_TheStub":out1->"OnStub_Base_E1"
+        "OnStub_Base_TheStub":out2->"OnStub_Base_E2"
+    }
+    "OnStub_Base_TheStub":in1->"OnStub_Plugin_R10"[style=dashed,arrowhead=onormal]
+    "OnStub_Plugin_E10"->"OnStub_Base_TheStub":out1[style=dashed,arrowhead=onormal]
+    "OnStub_Base_TheStub":in2->"OnStub_Plugin_R11"[style=dashed,arrowhead=onormal]
+    "OnStub_Plugin_E11"->"OnStub_Base_TheStub":out2[style=dashed,arrowhead=onormal]
+}

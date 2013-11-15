@@ -1,0 +1,139 @@
+digraph "CaptureWitnessInfo"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Capture"{
+        label="Capture"
+
+        "Capture_CaptureWitnessInfo"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">CaptureWitnessInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Capture"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">Capture</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ProcessCaptureWitnessInfo"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessCaptureWitnessInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Aut1"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">Aut1</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "Capture_IsPhoneCompanyAvailable"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsPhoneCompanyAvailable</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_PhoneDataRequest"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">PhoneDataRequest</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_CrisisInfoRequest"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">CrisisInfoRequest</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ValidateWitness"[label="CaptureLocationType_ValidateWitness\nValidateWitness",style=dashed]
+
+        "Capture_CaptureLocationType"[label="CaptureLocationType_ValidateWitness\nCaptureLocationType",style=dashed]
+        "Capture_Capture"->"Capture_CaptureWitnessInfo"
+        "Capture_CaptureWitnessInfo"->"Capture_ProcessCaptureWitnessInfo"
+        "Capture_ProcessCaptureWitnessInfo"->"Capture_Aut1":in1
+        "Capture_Aut1":out1->"Capture_IsPhoneCompanyAvailable"
+        "Capture_IsPhoneCompanyAvailable"->"Capture_PhoneDataRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Capture_IsPhoneCompanyAvailable"->"Capture_CrisisInfoRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Capture_PhoneDataRequest"->"Capture_ValidateWitness"
+        "Capture_CrisisInfoRequest"->"Capture_CaptureLocationType"
+    }
+
+    subgraph "cluster_Authentication"{
+        label="AuthenticationConcern\nAuthentication"
+        style=dashed
+
+        "Authentication_IsAlreadyAuthenticated"[label="LoginInfo\nIsAlreadyAuthenticated",style=dashed]
+
+        "Authentication_AuthenticationVerified"[label="LoginInfo\nAuthenticationVerified",style=dashed]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[style="invis"]
+    }
+    "Capture_Aut1":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
+    "Authentication_AuthenticationVerified"->"Capture_Aut1":out1[style=dashed,arrowhead=onormal]
+}
+

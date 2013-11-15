@@ -1,0 +1,50 @@
+digraph "EndIn"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_AllFeatures"{
+        label="AllFeatures"
+
+        "AllFeatures_EndIn"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">EndIn</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_ProcessEndIn"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessEndIn</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_E2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E2</td>
+                </tr>
+            </table>>
+        ]
+        "AllFeatures_EndIn"->"AllFeatures_ProcessEndIn"
+        "AllFeatures_ProcessEndIn"->"AllFeatures_E2"
+    }
+}

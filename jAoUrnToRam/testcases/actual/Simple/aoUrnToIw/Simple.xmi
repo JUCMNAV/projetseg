@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="Simple">
+  <concerns name="WithoutConcern">
+    <workflows name="Simple" startPoints="//@concerns.0/@workflows.0/@nodes.0">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint21" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EndPoint23" preds="//@concerns.0/@workflows.0/@nodes.4/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="In" preds="//@concerns.0/@workflows.0/@nodes.0/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.3"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="Processing" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.4"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwOutput" name="Out" preds="//@concerns.0/@workflows.0/@nodes.3/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.1"/>
+      </nodes>
+    </workflows>
+    <workflows name="ToBeIgnoredInStepClassDiagram" startPoints="//@concerns.0/@workflows.1/@nodes.0">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint37" startPointType="global">
+        <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EndPoint39" preds="//@concerns.0/@workflows.1/@nodes.0/@succs.0"/>
+    </workflows>
+    <workflows name="AllFeatures" startPoints="//@concerns.0/@workflows.2/@nodes.0 //@concerns.0/@workflows.2/@nodes.8 //@concerns.0/@workflows.2/@nodes.14">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S1" startPointType="global">
+        <succs target="//@concerns.0/@workflows.2/@nodes.7"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="E1" preds="//@concerns.0/@workflows.2/@nodes.6/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="5" preds="//@concerns.0/@workflows.2/@nodes.3/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.6"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="4" preds="//@concerns.0/@workflows.2/@nodes.4/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="3" preds="//@concerns.0/@workflows.2/@nodes.5/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.3"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="2" preds="//@concerns.0/@workflows.2/@nodes.7/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.4"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwOutput" name="TheOutput" preds="//@concerns.0/@workflows.2/@nodes.2/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="TheInput" preds="//@concerns.0/@workflows.2/@nodes.0/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.5"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S2" startPointType="global">
+        <succs target="//@concerns.0/@workflows.2/@nodes.9"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwOutput" name="StartOut" preds="//@concerns.0/@workflows.2/@nodes.8/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.10"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="StartIn" preds="//@concerns.0/@workflows.2/@nodes.9/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.11"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwOutput" name="EndOut" preds="//@concerns.0/@workflows.2/@nodes.10/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.12"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="EndIn" preds="//@concerns.0/@workflows.2/@nodes.11/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.13"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="E2" preds="//@concerns.0/@workflows.2/@nodes.12/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S3" startPointType="global">
+        <succs target="//@concerns.0/@workflows.2/@nodes.15"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="FirstIn" preds="//@concerns.0/@workflows.2/@nodes.14/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.17"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="NoInputUntilTheEnd" preds="//@concerns.0/@workflows.2/@nodes.17/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="SecondIn" preds="//@concerns.0/@workflows.2/@nodes.15/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.16"/>
+      </nodes>
+    </workflows>
+  </concerns>
+</intermediateWorkflow:IwModel>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="Singleton">
+  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
+    <classes xsi:type="ram:Class" xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Singleton" partial="true">
+      <operations xmi:id="_mRK_QIdYEeG0oPAT5BSQFQ" name="getInstance" returnType="_stleMHdvEeGm3uH8rYfPgw" static="true" partial="true"/>
+      <operations xmi:id="_mRK_QYdYEeG0oPAT5BSQFQ" name="create" visibility="private" returnType="_stleMHdvEeGm3uH8rYfPgw"/>
+      <associationEnds xmi:id="_nQyL839yEeGCw_D1HgsaPA" name="self" static="true" assoc="_nQ8kAH9yEeGCw_D1HgsaPA"/>
+      <associationEnds xmi:id="_nQyL8H9yEeGCw_D1HgsaPA" name="" assoc="_nQ8kAH9yEeGCw_D1HgsaPA"/>
+    </classes>
+    <associations xmi:id="_nQ8kAH9yEeGCw_D1HgsaPA" name="instance" ends="_nQyL839yEeGCw_D1HgsaPA _nQyL8H9yEeGCw_D1HgsaPA"/>
+    <types xsi:type="ram:RVoid" xmi:id="__cCE8fhFEeGXUoL2lkgetQ"/>
+    <types xsi:type="ram:RAny" xmi:id="__cCsAPhFEeGXUoL2lkgetQ"/>
+    <types xsi:type="ram:RBoolean" xmi:id="__cDTEPhFEeGXUoL2lkgetQ"/>
+    <types xsi:type="ram:RInt" xmi:id="__cD6IPhFEeGXUoL2lkgetQ"/>
+    <types xsi:type="ram:RChar" xmi:id="__cEhMPhFEeGXUoL2lkgetQ"/>
+    <types xsi:type="ram:RString" xmi:id="__cEhMfhFEeGXUoL2lkgetQ"/>
+  </structuralView>
+  <layout xmi:id="_AcA7QPhGEeGXUoL2lkgetQ">
+    <containers xmi:id="_AcCJYPhGEeGXUoL2lkgetQ" key="_stleAHdvEeGm3uH8rYfPgw">
+      <value xmi:id="_AcCJYfhGEeGXUoL2lkgetQ" key="_stleMHdvEeGm3uH8rYfPgw">
+        <value xmi:id="_AcCJYvhGEeGXUoL2lkgetQ" x="300.0" y="100.0"/>
+      </value>
+    </containers>
+  </layout>
+</ram:Aspect>

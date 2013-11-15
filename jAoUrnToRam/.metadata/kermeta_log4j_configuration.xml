@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- $Id: kermeta_log4j_configuration.xml,v 1.1 2008-05-30 12:58:36 dvojtise Exp $ -->
+<!-- Description: This is the configuration file for log4j it allows to tune the level of log you will receive 
+	it also allows to tune where you will receive them. -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <!-- classic console appender, messages go to the standard output -->	
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <!--<param name="ConversionPattern" value="[%d{ISO8601}] %p %c - %m @ [%t] %l%n"/>-->
+      <param name="ConversionPattern" value="%-5p %-11c- %-50m \t@ [%t] %l%n"/>
+<!--      <param name="ConversionPattern" value="%C %d{ISO8601} %l  %M %-4r %-5p %x - %m%n"/>-->
+		<!-- notes about the syntax for the conversion pattern:
+			%m the message
+			%50m  the message with at least 50 characters aligned on the right
+			%-50m the message with at least 50 characters aligned on the left
+			
+			%p level of the log
+			%c name of the logger
+			%l java file that created this log
+			%d{ISO8601} time of the event
+			-->
+    </layout>
+  </appender>
+  
+  <!-- socket appender, messages go to the network on a special port, you will need a special client to receive them. many clients exist even as eclipse plugin -->
+  <appender name="CSOUT" class="org.apache.log4j.net.SocketAppender">
+    <param name="RemoteHost" value="localhost"/>
+    <param name="Port" value="4445"/>
+    <param name="LocationInfo" value="true"/>
+  </appender>
+  
+  	<!-- here is some selective appender (they use a filter) they get only message of a given level  -->
+  	<!-- this is usefull if you want to receive the message at different places depending on they level -->
+  	<!-- you may also use le LevelMax filter to have exactly one level -->
+  	<appender name= "DEBUG" class= "org.apache.log4j.RollingFileAppender" >
+		<param name= "File" value= "app-debug.log"/>
+		<param name= "Append" value= "true"/>
+		<param name= "MaxFileSize" value= "500KB"/>
+		<param name= "MaxBackupIndex" value= "2"/>
+       	<layout class= "org.apache.log4j.PatternLayout" >
+       		<param name= "ConversionPattern" value= "%c %d{ISO8601} -- %p -- %m%n"/>
+       	</layout >
+	</appender >
+
+    <appender name= "INFO" class= "org.apache.log4j.RollingFileAppender" >
+		<param name= "File" value= "app-info.log"/>
+		<param name= "Append" value= "true"/>
+		<param name= "MaxFileSize" value= "500KB"/>
+		<param name= "MaxBackupIndex" value= "2"/>
+       	<layout class= "org.apache.log4j.PatternLayout" >
+       		<param name= "ConversionPattern" value= "%c %d{ISO8601} -- %p -- %m%n"/>
+       	</layout >
+       	<filter class= "org.apache.log4j.varia.LevelRangeFilter" >
+          <param name= "LevelMin" value= "INFO" />
+       	</filter >
+	</appender >
+
+    <appender name= "WARN" class= "org.apache.log4j.RollingFileAppender" >
+		<param name= "File" value= "app-warn.log"/>
+		<param name= "Append" value= "true"/>
+		<param name= "MaxFileSize" value= "500KB"/>
+		<param name= "MaxBackupIndex" value= "2"/>
+       	<layout class= "org.apache.log4j.PatternLayout" >
+       		<param name= "ConversionPattern" value= "%c %d{ISO8601} -- %p -- %m%n"/>
+       	</layout >
+       	<filter class= "org.apache.log4j.varia.LevelRangeFilter" >
+          <param name= "LevelMin" value= "WARN" />
+       	</filter >
+	</appender >
+
+    <appender name= "ERROR" class= "org.apache.log4j.RollingFileAppender" >
+		<param name= "File" value= "app-error.log"/>
+		<param name= "Append" value= "true"/>
+		<param name= "MaxFileSize" value= "500KB"/>
+		<param name= "MaxBackupIndex" value= "2"/>
+       	<layout class= "org.apache.log4j.PatternLayout" >
+       		<param name= "ConversionPattern" value= "%c %d{ISO8601} -- %p -- %m%n"/>
+       	</layout >
+       	<filter class= "org.apache.log4j.varia.LevelRangeFilter" >
+        <!--  	<param name= "LevelMin" value= "ERROR" />-->
+       	</filter >
+	</appender >
+
+  <!-- tune the level depending on the module that send the log -->
+  <!-- Add a new logger for each of the one used in the project -->
+  <!--  if not found it will use the root level logger -->
+  <!-- if you want to decrease the level please DO NOT REMOVE THE LOGGER but change the level value ! -->
+	<logger name="KermetaUnit">
+		<level value="WARN"/> 
+	</logger>
+	<logger name="LoaderPlugin">
+		<level value="DEBUG"/> 
+	</logger>
+	<logger name="KPM">
+		<level value="DEBUG"/> 
+	</logger>
+	<logger name="KPMPlugin">
+		<level value="DEBUG"/> 
+	</logger>
+	<logger name="IO">
+		<level value="DEBUG"/> 
+	</logger>
+	<logger name="KermetaRunner">
+		<level value="DEBUG"/>
+	</logger>	
+	<logger name="KMT.launcher">
+		<level value="DEBUG"/>
+	</logger> 
+<!--  	<logger name="KMT.model">
+    	<level value="INFO"/>
+ 	</logger>-->
+	<logger name="KMT2Ecore">
+		<level value="INFO"/>
+	</logger>
+	<logger name="KMT">
+		<level value="INFO"/>
+	</logger>
+	
+	<logger name="KMT2KMPass2">
+		<level value="DEBUG"/>
+	</logger>
+	<logger name="KMT2KMPass3">
+		<level value="DEBUG"/>
+	</logger>
+	<logger name="KMT2KMPass6">
+		<level value="DEBUG"/>
+	</logger>
+
+	<logger name="KMUnitLoader">
+		<level value="DEBUG"/>
+	</logger>
+
+	<logger name="SintakstextEditor">
+		<level value="INFO"/>
+	</logger>  
+    <logger name="KMT.EMF2Runtime">
+    	<level value="DEBUG"/>
+	</logger>  
+    <logger name="MergerPlugin">
+		<level value="INFO"/>
+	</logger>
+	<logger name="kermeta.runner">
+		<level value="DEBUG"/> 
+	</logger>
+	<logger name="kermeta.interpreter">
+		<level value="DEBUG"/> 
+	</logger>
+  
+  <!-- define here which appender you want to use -->
+  <root>
+    <level value="DEBUG"/> <!-- to view all messages from unknown logger set this to DEBUG -->
+    <appender-ref ref="STDOUT"/>
+<!--    <appender-ref ref="CSOUT"/> -->
+<!--    <appender-ref ref= "DEBUG"/> -->
+<!--    <appender-ref ref= "INFO"/> -->
+<!--    <appender-ref ref= "WARN"/> -->
+<!--    <appender-ref ref= "ERROR"/> -->
+  </root>
+
+</log4j:configuration>

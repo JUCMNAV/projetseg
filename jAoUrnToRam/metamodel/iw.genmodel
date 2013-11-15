@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/test/src"
+    modelPluginID="test" modelName="Iw" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>intermediateWorkflow.ecore</foreignModel>
+  <genPackages prefix="IntermediateWorkflow" disposableProviderFactory="true" ecorePackage="intermediateWorkflow.ecore#/1">
+    <genDataTypes ecoreDataType="intermediateWorkflow.ecore#/1/String"/>
+    <genDataTypes ecoreDataType="intermediateWorkflow.ecore#/1/Boolean"/>
+    <genDataTypes ecoreDataType="intermediateWorkflow.ecore#/1/_KermetaSpecialTypesAlias_"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwModel/concerns"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwConcern">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwConcern/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwConcern/workflows"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwConcern/steps"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwConcern/model"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwStep">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwStep/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStep/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStep/concern"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStep/outboundStubs"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwWorkflow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwWorkflow/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/nodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/startPoints"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/concern"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="intermediateWorkflow.ecore#/1/IwNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNode/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNode/succs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNode/preds"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNode/step"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNode/workflow"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwNodeConnection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/conditionName"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNodeConnection/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNodeConnection/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNodeConnection/inBinding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/stubEntryIndexAsString"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNodeConnection/outBinding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/stubExitIndexAsString"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/trigger"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwInput"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwCustomizableNode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwCustomizableNode/customizableNodeRefId"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwOutput"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwStartPoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwStartPoint/startPointType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStartPoint/inBindings"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwEndPoint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwEndPoint/outBindings"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwOrFork"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwAndFork"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwAndJoin"/>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwWaitingPlace">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwWaitingPlace/transient"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwStub">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwStub/stubType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStub/pluginBindings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwStub/outboundInSteps"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwPluginBinding">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwPluginBinding/inBindings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwPluginBinding/outBindings"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwPluginBinding/stub"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwInBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwInBinding/disjunctiveStubEntries"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwInBinding/pluginStartPoint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwInBinding/pluginBinding"/>
+    </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwOutBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwOutBinding/stubExit"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwOutBinding/pluginEndPoint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwOutBinding/pluginBinding"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

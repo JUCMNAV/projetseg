@@ -1,0 +1,41 @@
+digraph "StartIn"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_AllFeatures"{
+        label="AllFeatures"
+
+        "AllFeatures_StartIn"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">StartIn</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_EndOut"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">EndOut</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_EndIn"[label="EndIn",style=dashed]
+        "AllFeatures_StartIn"->"AllFeatures_EndOut"
+        "AllFeatures_EndOut"->"AllFeatures_EndIn"
+    }
+}

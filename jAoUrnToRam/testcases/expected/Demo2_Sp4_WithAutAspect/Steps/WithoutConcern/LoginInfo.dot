@@ -1,0 +1,141 @@
+digraph "LoginInfo"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Authentication"{
+        label="Authentication"
+
+        "Authentication_IsAlreadyAuthenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsAlreadyAuthenticated</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticationVerified"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">AuthenticationVerified</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticateStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">AuthenticateStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticateStub":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Authentication_AuthenticateStub":out1->"Authentication_AuthenticationVerified"
+    }
+
+    subgraph "cluster_Authenticate"{
+        label="Authenticate"
+
+        "Authenticate_LoginRequest"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">LoginRequest</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_LoginInfo"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">LoginInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_PerformAuthentication"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">PerformAuthentication</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_IsAuthenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsAuthenticated</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_Authenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Authenticated</td>
+                </tr>
+            </table>>
+        ]
+        "Authenticate_LoginInfo"->"Authenticate_PerformAuthentication"
+        "Authenticate_PerformAuthentication"->"Authenticate_IsAuthenticated"
+        "Authenticate_IsAuthenticated"->"Authenticate_LoginRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Authenticate_IsAuthenticated"->"Authenticate_Authenticated"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Authenticate_LoginRequest"->"Authenticate_LoginInfo"
+    }
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
+    "Authentication_AuthenticationVerified"->StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[style=dashed,arrowhead=onormal]
+    "Authentication_AuthenticateStub":in1->"Authenticate_LoginRequest"[style=dashed,arrowhead=onormal]
+    "Authenticate_Authenticated"->"Authentication_AuthenticateStub":out1[style=dashed,arrowhead=onormal]
+
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[label="*",style=dashed]
+}

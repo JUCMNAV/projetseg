@@ -1,0 +1,41 @@
+digraph "RequestDriverConfirmation"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_DevelopRoutePlanMedium"{
+        label="DevelopRoutePlanMedium"
+
+        "DevelopRoutePlanMedium_RequestDriverConfirmation"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">RequestDriverConfirmation</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_ShowAssignment"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">ShowAssignment</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_ConfirmAssignment"[label="ConfirmAssignment",style=dashed]
+        "DevelopRoutePlanMedium_RequestDriverConfirmation"->"DevelopRoutePlanMedium_ShowAssignment"
+        "DevelopRoutePlanMedium_ShowAssignment"->"DevelopRoutePlanMedium_ConfirmAssignment"
+    }
+}

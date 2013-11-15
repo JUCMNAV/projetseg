@@ -1,0 +1,36 @@
+digraph "StartPoint37"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_ToBeIgnoredInStepClassDiagram"{
+        label="ToBeIgnoredInStepClassDiagram"
+
+        "ToBeIgnoredInStepClassDiagram_EndPoint39"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">EndPoint39</td>
+                </tr>
+            </table>>
+        ]
+
+        "ToBeIgnoredInStepClassDiagram_StartPoint37"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">StartPoint37</td>
+                </tr>
+            </table>>
+        ]
+        "ToBeIgnoredInStepClassDiagram_StartPoint37"->"ToBeIgnoredInStepClassDiagram_EndPoint39"
+    }
+}

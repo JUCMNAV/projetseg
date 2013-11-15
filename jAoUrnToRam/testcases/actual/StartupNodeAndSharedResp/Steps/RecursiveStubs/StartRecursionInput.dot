@@ -1,0 +1,202 @@
+digraph "StartRecursionInput"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_RecursivePluginSameConcern"{
+        label="RecursivePluginSameConcern"
+
+        "RecursivePluginSameConcern_InvokeBaseSameConcern"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">InvokeBaseSameConcern</td>
+                </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+    }
+
+    subgraph "cluster_RecursiveStubBase"{
+        label="RecursiveStubBase"
+
+        "RecursiveStubBase_DoThatAgain"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">DoThatAgain</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_ShouldBeAnAndJoin"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ShouldBeAnAndJoin</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_StartRecursionInput"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">StartRecursionInput</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_DoThisAgain"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">DoThisAgain</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_UsefulLocalStartPointOnRootMap"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\LocalStartPoint16.gif"></img></td>
+                    <td align="center" width="0">UsefulLocalStartPointOnRootMap</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_StartRecursion"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">StartRecursion</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_ProcessStartRecursionInput"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessStartRecursionInput</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_IsPluginInvokedInSameConcern"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsPluginInvokedInSameConcern</td>
+                </tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_InvokePluginSameConcern"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">InvokePluginSameConcern</td>
+                </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "RecursiveStubBase_InvokePluginDifferentConcern"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">InvokePluginDifferentConcern</td>
+                </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+        "RecursiveStubBase_DoThatAgain"->"RecursiveStubBase_InvokePluginDifferentConcern":in1
+        "RecursiveStubBase_UsefulLocalStartPointOnRootMap"->"RecursiveStubBase_ShouldBeAnAndJoin"
+        "RecursiveStubBase_StartRecursion"->"RecursiveStubBase_StartRecursionInput"
+        "RecursiveStubBase_StartRecursionInput"->"RecursiveStubBase_ProcessStartRecursionInput"
+        "RecursiveStubBase_ProcessStartRecursionInput"->"RecursiveStubBase_IsPluginInvokedInSameConcern"
+        "RecursiveStubBase_IsPluginInvokedInSameConcern"->"RecursiveStubBase_InvokePluginSameConcern":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>Yes</td></tr></table>>]
+        "RecursiveStubBase_IsPluginInvokedInSameConcern"->"RecursiveStubBase_InvokePluginDifferentConcern":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>No</td></tr></table>>]
+        "RecursiveStubBase_DoThisAgain"->"RecursiveStubBase_ShouldBeAnAndJoin"
+        "RecursiveStubBase_ShouldBeAnAndJoin"->"RecursiveStubBase_InvokePluginSameConcern":in1
+    }
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"RecursiveStubBase_DoThatAgain"[style=dashed,arrowhead=onormal]
+    "RecursiveStubBase_InvokePluginSameConcern":in1->"RecursivePluginSameConcern_InvokeBaseSameConcern":in1[style=dashed,arrowhead=onormal]
+    "RecursivePluginSameConcern_InvokeBaseSameConcern":in1->"RecursiveStubBase_DoThisAgain"[style=dashed,arrowhead=onormal]
+
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[label="*",style=dashed]
+
+    subgraph "cluster_RecursivePluginDifferenctConcern"{
+        label="RecusiveStubDifferentConcern\nRecursivePluginDifferenctConcern"
+        style=dashed
+
+        "RecursivePluginDifferenctConcern_InvokeBaseDifferentConcern"[label="StartPoint449\nInvokeBaseDifferentConcern",style=dashed]
+    }
+    "RecursiveStubBase_InvokePluginDifferentConcern":in1->"RecursivePluginDifferenctConcern_InvokeBaseDifferentConcern"[style=dashed,arrowhead=onormal]
+}
+

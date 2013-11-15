@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" name="LoginInfo">
+  <structuralView>
+    <classes xsi:type="ram:Class" name="LocalContext"/>
+    <classes xsi:type="ram:Class" name="PerformAuthentication">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="LoginInfoInput"/>
+    <classes xsi:type="ram:Class" name="LoginRequest">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="LoginRequestOutput"/>
+    <types xsi:type="ram:RVoid" name="void"/>
+  </structuralView>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.1 //@structuralView/@classes.3">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Workflow.ram#//@structuralView/@classes.0"/>
+    </mappings>
+    <mappings toElements="//@structuralView/@classes.1/@operations.0 //@structuralView/@classes.3/@operations.0">
+      <fromElement xsi:type="ram:Operation" href="../../reusable_model_library/workflow/Workflow.ram#//@structuralView/@classes.0/@operations.0"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.2">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Input.ram#//@structuralView/@classes.11"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.4">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Output.ram#//@structuralView/@classes.0"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+</ram:Aspect>

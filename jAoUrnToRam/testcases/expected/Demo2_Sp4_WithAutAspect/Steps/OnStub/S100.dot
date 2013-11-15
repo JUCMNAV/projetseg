@@ -1,0 +1,42 @@
+digraph "S100"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_OnStub_Aspect"{
+        label="OnStub_Aspect"
+
+        "OnStub_Aspect_AspectBefore100_1072"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\SharedResp24.gif"></img></td>
+                    <td align="center" width="0">AspectBefore100</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Aspect_ThePointcutStub_In1"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">ThePointcutStub_In1</td>
+                </tr>
+            </table>>
+        ]
+        "OnStub_Aspect_AspectBefore100_1072"->"OnStub_Aspect_ThePointcutStub_In1"
+    }
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"OnStub_Aspect_AspectBefore100_1072"[style=dashed,arrowhead=onormal]
+    "OnStub_Aspect_ThePointcutStub_In1"->StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[style=dashed,arrowhead=onormal]
+
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[label="*",style=dashed]
+}

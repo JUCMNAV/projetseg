@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="S" created="October 2, 2011 4:43:54 PM EDT" modified="November 11, 2013 2:26:03 PM EST" specVersion="12" urnVersion="0.925" nextGlobalID="141">
+  <ucmspec>
+    <scenarioGroups id="5" name="ScenarioGroup5">
+      <scenarios id="6" name="ScenarioDef6"/>
+    </scenarioGroups>
+  </ucmspec>
+  <grlspec>
+    <groups id="3" name="StrategiesGroup3" strategies="//@grlspec/@strategies.0"/>
+    <strategies id="4" name="EvaluationStrategy4" author="S" group="//@grlspec/@groups.0"/>
+    <indicatorGroup id="7" name="Time" isRedesignCategory="true"/>
+    <indicatorGroup id="8" name="Cost" isRedesignCategory="true"/>
+    <indicatorGroup id="9" name="Quality" isRedesignCategory="true"/>
+    <indicatorGroup id="10" name="Flexibility" isRedesignCategory="true"/>
+  </grlspec>
+  <urndef>
+    <responsibilities id="28" name="inResp" respRefs="//@urndef/@specDiagrams.0/@nodes.2">
+      <metadata name="RAM" value="in In"/>
+    </responsibilities>
+    <responsibilities id="30" name="Processing" respRefs="//@urndef/@specDiagrams.0/@nodes.3"/>
+    <responsibilities id="32" name="outResp" respRefs="//@urndef/@specDiagrams.0/@nodes.4">
+      <metadata name="RAM" value="out Out"/>
+    </responsibilities>
+    <responsibilities id="53" name="5" respRefs="//@urndef/@specDiagrams.2/@nodes.2"/>
+    <responsibilities id="55" name="6" respRefs="//@urndef/@specDiagrams.2/@nodes.3"/>
+    <responsibilities id="59" name="4" respRefs="//@urndef/@specDiagrams.2/@nodes.4"/>
+    <responsibilities id="61" name="3" respRefs="//@urndef/@specDiagrams.2/@nodes.5"/>
+    <responsibilities id="63" name="1" respRefs="//@urndef/@specDiagrams.2/@nodes.6"/>
+    <responsibilities id="67" name="2" respRefs="//@urndef/@specDiagrams.2/@nodes.7"/>
+    <responsibilities id="69" name="out" respRefs="//@urndef/@specDiagrams.2/@nodes.8">
+      <metadata name="ram" value="out theOutput"/>
+    </responsibilities>
+    <responsibilities id="73" name="7" respRefs="//@urndef/@specDiagrams.2/@nodes.9"/>
+    <responsibilities id="79" name="0" respRefs="//@urndef/@specDiagrams.2/@nodes.10"/>
+    <responsibilities id="86" name="in" respRefs="//@urndef/@specDiagrams.2/@nodes.11">
+      <metadata name="ram" value="in theInput"/>
+    </responsibilities>
+    <responsibilities id="113" name="anInputRespRef" respRefs="//@urndef/@specDiagrams.2/@nodes.16">
+      <metadata name="ram" value="in secondIn"/>
+    </responsibilities>
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="Simple">
+      <nodes xsi:type="ucm.map:StartPoint" id="21" name="StartPoint21" x="2" y="187" succ="//@urndef/@specDiagrams.0/@connections.0">
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="23" name="EndPoint23" x="927" y="193" pred="//@urndef/@specDiagrams.0/@connections.3">
+        <label/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="29" name="RespRef29" x="204" y="195" contRef="//@urndef/@specDiagrams.0/@contRefs.0" succ="//@urndef/@specDiagrams.0/@connections.1" pred="//@urndef/@specDiagrams.0/@connections.0" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="31" name="RespRef31" x="522" y="193" contRef="//@urndef/@specDiagrams.0/@contRefs.1" succ="//@urndef/@specDiagrams.0/@connections.2" pred="//@urndef/@specDiagrams.0/@connections.1" respDef="//@urndef/@responsibilities.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="33" name="RespRef33" x="691" y="191" contRef="//@urndef/@specDiagrams.0/@contRefs.1" succ="//@urndef/@specDiagrams.0/@connections.3" pred="//@urndef/@specDiagrams.0/@connections.2" respDef="//@urndef/@responsibilities.2">
+        <label/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" id="12" name="ComponentRef12" x="53" y="72" width="284" height="303" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.0/@nodes.2">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" id="16" name="ComponentRef16" x="436" y="76" width="417" height="301" contDef="//@urndef/@components.1" nodes="//@urndef/@specDiagrams.0/@nodes.3 //@urndef/@specDiagrams.0/@nodes.4">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.0" target="//@urndef/@specDiagrams.0/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.2" target="//@urndef/@specDiagrams.0/@nodes.3"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.3" target="//@urndef/@specDiagrams.0/@nodes.4"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.1"/>
+    </specDiagrams>
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="36" name="ToBeIgnoredInStepClassDiagram">
+      <nodes xsi:type="ucm.map:StartPoint" id="37" name="StartPoint37" x="129" y="122" succ="//@urndef/@specDiagrams.1/@connections.0">
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EmptyPoint" id="38" name="EmptyPoint38" x="229" y="122" succ="//@urndef/@specDiagrams.1/@connections.1" pred="//@urndef/@specDiagrams.1/@connections.0"/>
+      <nodes xsi:type="ucm.map:EndPoint" id="39" name="EndPoint39" x="329" y="122" pred="//@urndef/@specDiagrams.1/@connections.1">
+        <label/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.0" target="//@urndef/@specDiagrams.1/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.1/@nodes.1" target="//@urndef/@specDiagrams.1/@nodes.2"/>
+    </specDiagrams>
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="45" name="AllFeatures">
+      <nodes xsi:type="ucm.map:StartPoint" id="47" name="s1" x="63" y="124" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.0">
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="50" name="e1" x="59" y="294" contRef="//@urndef/@specDiagrams.2/@contRefs.1" pred="//@urndef/@specDiagrams.2/@connections.8">
+        <label/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="54" name="RespRef54" x="388" y="300" succ="//@urndef/@specDiagrams.2/@connections.1" pred="//@urndef/@specDiagrams.2/@connections.3" respDef="//@urndef/@responsibilities.3">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="56" name="RespRef56" x="285" y="291" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.2" pred="//@urndef/@specDiagrams.2/@connections.1" respDef="//@urndef/@responsibilities.4">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="60" name="RespRef60" x="555" y="287" contRef="//@urndef/@specDiagrams.2/@contRefs.0" succ="//@urndef/@specDiagrams.2/@connections.3" pred="//@urndef/@specDiagrams.2/@connections.4" respDef="//@urndef/@responsibilities.5">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="62" name="RespRef62" x="565" y="114" contRef="//@urndef/@specDiagrams.2/@contRefs.0" succ="//@urndef/@specDiagrams.2/@connections.4" pred="//@urndef/@specDiagrams.2/@connections.6" respDef="//@urndef/@responsibilities.6">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="64" name="RespRef64" x="262" y="135" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.5" pred="//@urndef/@specDiagrams.2/@connections.10" respDef="//@urndef/@responsibilities.7">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="68" name="RespRef68" x="393" y="125" succ="//@urndef/@specDiagrams.2/@connections.6" pred="//@urndef/@specDiagrams.2/@connections.5" respDef="//@urndef/@responsibilities.8">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="70" name="RespRef70" x="190" y="301" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.7" pred="//@urndef/@specDiagrams.2/@connections.2" respDef="//@urndef/@responsibilities.9">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="74" name="RespRef74" x="115" y="295" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.8" pred="//@urndef/@specDiagrams.2/@connections.7" respDef="//@urndef/@responsibilities.10">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="80" name="RespRef80" x="104" y="128" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.9" pred="//@urndef/@specDiagrams.2/@connections.0" respDef="//@urndef/@responsibilities.11">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="87" name="RespRef87" x="161" y="126" contRef="//@urndef/@specDiagrams.2/@contRefs.1" succ="//@urndef/@specDiagrams.2/@connections.10" pred="//@urndef/@specDiagrams.2/@connections.9" respDef="//@urndef/@responsibilities.12">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:StartPoint" id="91" name="s2" x="725" y="121" succ="//@urndef/@specDiagrams.2/@connections.11">
+        <metadata name="ram" value="out startOut in startIn"/>
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="93" name="e2" x="732" y="367" pred="//@urndef/@specDiagrams.2/@connections.11">
+        <metadata name="ram" value="out endOut in endIn"/>
+        <label deltaX="3" deltaY="-39"/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:StartPoint" id="105" name="s3" x="839" y="120" succ="//@urndef/@specDiagrams.2/@connections.12">
+        <metadata name="ram" value="in firstIn"/>
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="107" name="NoInputUntilTheEnd" x="835" y="362" pred="//@urndef/@specDiagrams.2/@connections.13">
+        <label deltaX="-11" deltaY="-38"/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="114" name="RespRef114" x="835" y="219" succ="//@urndef/@specDiagrams.2/@connections.13" pred="//@urndef/@specDiagrams.2/@connections.12" respDef="//@urndef/@responsibilities.13">
+        <label deltaX="-60" deltaY="-27"/>
+      </nodes>
+      <contRefs xsi:type="ucm.map:ComponentRef" id="51" name="ComponentRef51" x="431" y="11" width="219" height="460" contDef="//@urndef/@components.1" nodes="//@urndef/@specDiagrams.2/@nodes.4 //@urndef/@specDiagrams.2/@nodes.5">
+        <label/>
+      </contRefs>
+      <contRefs xsi:type="ucm.map:ComponentRef" id="52" name="ComponentRef52" x="18" y="21" width="324" height="452" contDef="//@urndef/@components.0" nodes="//@urndef/@specDiagrams.2/@nodes.0 //@urndef/@specDiagrams.2/@nodes.1 //@urndef/@specDiagrams.2/@nodes.3 //@urndef/@specDiagrams.2/@nodes.6 //@urndef/@specDiagrams.2/@nodes.8 //@urndef/@specDiagrams.2/@nodes.9 //@urndef/@specDiagrams.2/@nodes.10 //@urndef/@specDiagrams.2/@nodes.11">
+        <label/>
+      </contRefs>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.0" target="//@urndef/@specDiagrams.2/@nodes.10"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.2" target="//@urndef/@specDiagrams.2/@nodes.3"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.3" target="//@urndef/@specDiagrams.2/@nodes.8"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.4" target="//@urndef/@specDiagrams.2/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.5" target="//@urndef/@specDiagrams.2/@nodes.4"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.6" target="//@urndef/@specDiagrams.2/@nodes.7"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.7" target="//@urndef/@specDiagrams.2/@nodes.5"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.8" target="//@urndef/@specDiagrams.2/@nodes.9"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.9" target="//@urndef/@specDiagrams.2/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.10" target="//@urndef/@specDiagrams.2/@nodes.11"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.11" target="//@urndef/@specDiagrams.2/@nodes.6"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.12" target="//@urndef/@specDiagrams.2/@nodes.13"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.14" target="//@urndef/@specDiagrams.2/@nodes.16"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.2/@nodes.16" target="//@urndef/@specDiagrams.2/@nodes.15"/>
+    </specDiagrams>
+    <components id="11" name="User" contRefs="//@urndef/@specDiagrams.0/@contRefs.0 //@urndef/@specDiagrams.2/@contRefs.1" kind="Actor"/>
+    <components id="15" name="System" contRefs="//@urndef/@specDiagrams.0/@contRefs.1 //@urndef/@specDiagrams.2/@contRefs.0" kind="Object"/>
+  </urndef>
+</urn:URNspec>

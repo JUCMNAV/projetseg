@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_ulZskYpIEeG5EZ-nvE23vQ" name="Command">
+  <structuralView xmi:id="_wehKUIpIEeG5EZ-nvE23vQ">
+    <classes xsi:type="ram:Class" xmi:id="_w2jP0IpIEeG5EZ-nvE23vQ" name="Command" partial="true">
+      <operations xmi:id="_zCUj0IpIEeG5EZ-nvE23vQ" name="execute" abstract="true" returnType="_2miRcIpIEeG5EZ-nvE23vQ"/>
+    </classes>
+    <types xsi:type="ram:RVoid" xmi:id="_2miRcIpIEeG5EZ-nvE23vQ"/>
+  </structuralView>
+</ram:Aspect>

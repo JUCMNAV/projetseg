@@ -1,0 +1,202 @@
+digraph "CaptureLocationType_ValidateWitness"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Capture"{
+        label="Capture"
+
+        "Capture_CaptureLocationType"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">CaptureLocationType</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ProcessCaptureLocationType"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessCaptureLocationType</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Aut3"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">Aut3</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "Capture_ValidateWitness"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">ValidateWitness</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ProcessValidateWitness"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessValidateWitness</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Aut2"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">Aut2</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "Capture_ValidateWitnessInfo"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ValidateWitnessInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_OrFork70"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">OrFork70</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_FakeCrisisNotification"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">FakeCrisisNotification</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_FakeCrisis"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">FakeCrisis</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Captured"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Captured</td>
+                </tr>
+            </table>>
+        ]
+        "Capture_CaptureLocationType"->"Capture_ProcessCaptureLocationType"
+        "Capture_ProcessCaptureLocationType"->"Capture_Aut3":in1
+        "Capture_Aut3":out1->"Capture_OrFork70"
+        "Capture_ValidateWitness"->"Capture_ProcessValidateWitness"
+        "Capture_ProcessValidateWitness"->"Capture_Aut2":in1
+        "Capture_Aut2":out1->"Capture_ValidateWitnessInfo"
+        "Capture_ValidateWitnessInfo"->"Capture_OrFork70"
+        "Capture_OrFork70"->"Capture_FakeCrisisNotification"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>witnessInfoNotVerified</td></tr></table>>]
+        "Capture_OrFork70"->"Capture_Captured"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>else</td></tr></table>>]
+        "Capture_FakeCrisisNotification"->"Capture_FakeCrisis"
+    }
+
+    subgraph "cluster_Authentication"{
+        label="AuthenticationConcern\nAuthentication"
+        style=dashed
+
+        "Authentication_IsAlreadyAuthenticated"[label="LoginInfo\nIsAlreadyAuthenticated",style=dashed]
+
+        "Authentication_AuthenticationVerified"[label="LoginInfo\nAuthenticationVerified",style=dashed]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[style="invis"]
+    }
+    "Capture_Aut3":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
+    "Authentication_AuthenticationVerified"->"Capture_Aut3":out1[style=dashed,arrowhead=onormal]
+    "Capture_Aut2":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
+    "Authentication_AuthenticationVerified"->"Capture_Aut2":out1[style=dashed,arrowhead=onormal]
+}

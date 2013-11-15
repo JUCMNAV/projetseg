@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="Copyable">
+  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
+    <classes xsi:type="ram:Class" xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Copyable" partial="true">
+      <operations xmi:id="_18kZAH90EeGDavkSk2BUyw" name="copy" returnType="_stleMHdvEeGm3uH8rYfPgw">
+        <parameters xmi:id="_18uxEH90EeGDavkSk2BUyw" name="a" type="_stleMHdvEeGm3uH8rYfPgw"/>
+      </operations>
+      <operations xmi:id="_18vYIH90EeGDavkSk2BUyw" name="create" visibility="private" returnType="_stleMHdvEeGm3uH8rYfPgw">
+        <parameters xmi:id="_18vYIX90EeGDavkSk2BUyw" name="a" type="_stleMHdvEeGm3uH8rYfPgw"/>
+      </operations>
+      <operations xmi:id="_18vYIn90EeGDavkSk2BUyw" name="replaceStateWith" returnType="_vtGtcX9xEeGhx8hfQRstDA">
+        <parameters xmi:id="_18vYI390EeGDavkSk2BUyw" name="from" type="_stleMHdvEeGm3uH8rYfPgw"/>
+      </operations>
+    </classes>
+    <types xsi:type="ram:RVoid" xmi:id="_vtGtcX9xEeGhx8hfQRstDA"/>
+    <types xsi:type="ram:RString" xmi:id="_18vYJH90EeGDavkSk2BUyw"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_18vYJX90EeGDavkSk2BUyw"/>
+    <types xsi:type="ram:RChar" xmi:id="_18vYJn90EeGDavkSk2BUyw"/>
+    <types xsi:type="ram:RAny" xmi:id="_18vYJ390EeGDavkSk2BUyw"/>
+    <types xsi:type="ram:RInt" xmi:id="_18vYKH90EeGDavkSk2BUyw"/>
+  </structuralView>
+</ram:Aspect>

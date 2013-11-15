@@ -1,0 +1,50 @@
+digraph "S101"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_NotBound_Aspect"{
+        label="NotBound_Aspect"
+
+        "NotBound_Aspect_AspectBefore101_1132"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\SharedResp24.gif"></img></td>
+                    <td align="center" width="0">AspectBefore101</td>
+                </tr>
+            </table>>
+        ]
+
+        "NotBound_Aspect_S101"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">S101</td>
+                </tr>
+            </table>>
+        ]
+
+        "NotBound_Aspect_ThePointcutStub_In2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">ThePointcutStub_In2</td>
+                </tr>
+            </table>>
+        ]
+        "NotBound_Aspect_S101"->"NotBound_Aspect_AspectBefore101_1132"
+        "NotBound_Aspect_AspectBefore101_1132"->"NotBound_Aspect_ThePointcutStub_In2"
+    }
+}

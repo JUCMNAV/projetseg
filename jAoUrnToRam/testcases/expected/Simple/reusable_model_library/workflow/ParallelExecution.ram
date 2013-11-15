@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_1VuvsIyfEeGpeIH37hJjzg" name="ParallelExecution">
+  <structuralView xmi:id="_7nnvEIygEeGpeIH37hJjzg">
+    <classes xsi:type="ram:Class" xmi:id="_EH01kIyhEeGpeIH37hJjzg" name="ParallelExeuctionNode">
+      <operations xmi:id="_G-zpwIyhEeGpeIH37hJjzg" name="chooseNextNodes" returnType="_KumVQIyhEeGpeIH37hJjzg"/>
+    </classes>
+    <classes xsi:type="ram:Class" xmi:id="_sygfUI7tEeGsMYoV23JA9Q" name="WorkflowNode"/>
+    <types xsi:type="ram:RSet" xmi:id="_KumVQIyhEeGpeIH37hJjzg" type="_sygfUI7tEeGsMYoV23JA9Q"/>
+  </structuralView>
+  <instantiations xmi:id="_8RCfgIygEeGpeIH37hJjzg">
+    <mappings xmi:id="_Y3YN0IyhEeGpeIH37hJjzg" toElements="_EH01kIyhEeGpeIH37hJjzg">
+      <fromElement xsi:type="ram:Class" href="Outpath.ram#_rrMSEIr0EeGP-shl74zfPQ"/>
+    </mappings>
+    <externalAspect href="Outpath.ram#_3VCSYIgoEeGxqtZ4yVqVGg"/>
+  </instantiations>
+  <instantiations xmi:id="_8_EqMIygEeGpeIH37hJjzg" type="Extends">
+    <externalAspect href="Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+</ram:Aspect>

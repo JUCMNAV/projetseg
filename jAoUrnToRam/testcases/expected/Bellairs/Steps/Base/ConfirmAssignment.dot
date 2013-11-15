@@ -1,0 +1,91 @@
+digraph "ConfirmAssignment"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_DevelopRoutePlanMedium"{
+        label="DevelopRoutePlanMedium"
+
+        "DevelopRoutePlanMedium_ShowVehicleList"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">ShowVehicleList</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_ConfirmAssignment"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">ConfirmAssignment</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_ProcessConfirmAssignment"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessConfirmAssignment</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_OrFork117333"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">OrFork117333</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_EstablishRoutes"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">EstablishRoutes</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_RoutesEstablished"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">RoutesEstablished</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanMedium_RequestDriverConfirmation"[label="RequestDriverConfirmation",style=dashed]
+        "DevelopRoutePlanMedium_ConfirmAssignment"->"DevelopRoutePlanMedium_ProcessConfirmAssignment"
+        "DevelopRoutePlanMedium_ProcessConfirmAssignment"->"DevelopRoutePlanMedium_OrFork117333"
+        "DevelopRoutePlanMedium_OrFork117333"->"DevelopRoutePlanMedium_ShowVehicleList"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>else</td></tr></table>>]
+        "DevelopRoutePlanMedium_OrFork117333"->"DevelopRoutePlanMedium_RoutesEstablished"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>accepted</td></tr></table>>]
+        "DevelopRoutePlanMedium_EstablishRoutes"->"DevelopRoutePlanMedium_ShowVehicleList"
+        "DevelopRoutePlanMedium_ShowVehicleList"->"DevelopRoutePlanMedium_RequestDriverConfirmation"
+    }
+}

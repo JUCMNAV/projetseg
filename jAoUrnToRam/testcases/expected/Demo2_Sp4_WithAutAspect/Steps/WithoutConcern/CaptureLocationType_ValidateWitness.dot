@@ -1,0 +1,126 @@
+digraph "CaptureLocationType_ValidateWitness"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Capture"{
+        label="Capture"
+
+        "Capture_CaptureLocationType"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">CaptureLocationType</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ProcessCaptureLocationType"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessCaptureLocationType</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ValidateWitness"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">ValidateWitness</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_ValidateWitnessInfo"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ValidateWitnessInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_AndJoin1188"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\AndJoin16.gif"></img></td>
+                    <td align="center" width="0">AndJoin1188</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_OrFork70"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">OrFork70</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_FakeCrisisNotification"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">FakeCrisisNotification</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_FakeCrisis"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">FakeCrisis</td>
+                </tr>
+            </table>>
+        ]
+
+        "Capture_Captured"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Captured</td>
+                </tr>
+            </table>>
+        ]
+        "Capture_CaptureLocationType"->"Capture_ProcessCaptureLocationType"
+        "Capture_ProcessCaptureLocationType"->"Capture_AndJoin1188"
+        "Capture_ValidateWitness"->"Capture_ValidateWitnessInfo"
+        "Capture_ValidateWitnessInfo"->"Capture_AndJoin1188"
+        "Capture_AndJoin1188"->"Capture_OrFork70"
+        "Capture_OrFork70"->"Capture_FakeCrisisNotification"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>witnessInfoNotVerified</td></tr></table>>]
+        "Capture_OrFork70"->"Capture_Captured"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>else</td></tr></table>>]
+        "Capture_FakeCrisisNotification"->"Capture_FakeCrisis"
+    }
+}

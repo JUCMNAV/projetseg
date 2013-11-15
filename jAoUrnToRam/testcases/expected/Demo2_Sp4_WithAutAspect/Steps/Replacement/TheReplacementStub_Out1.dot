@@ -1,0 +1,56 @@
+digraph "TheReplacementStub_Out1"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Replacement_Aspect"{
+        label="Replacement_Aspect"
+
+        "Replacement_Aspect_ReplAspect1"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ReplAspect1</td>
+                </tr>
+            </table>>
+        ]
+
+        "Replacement_Aspect_ReplAspect2"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ReplAspect2</td>
+                </tr>
+            </table>>
+        ]
+
+        "Replacement_Aspect_E10"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\aoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E10</td>
+                </tr>
+            </table>>
+        ]
+        "Replacement_Aspect_ReplAspect1"->"Replacement_Aspect_ReplAspect2"
+        "Replacement_Aspect_ReplAspect2"->"Replacement_Aspect_E10"
+    }
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"Replacement_Aspect_ReplAspect1"[style=dashed,arrowhead=onormal]
+    "Replacement_Aspect_E10"->StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[style=dashed,arrowhead=onormal]
+
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[label="*",style=dashed]
+}

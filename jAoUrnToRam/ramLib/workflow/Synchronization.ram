@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_3WKkMNKtEeGrg5mJXcTORw" name="Synchronization">
+  <structuralView xmi:id="_3WKkMdKtEeGrg5mJXcTORw">
+    <classes xsi:type="ram:Class" xmi:id="_3WKkMtKtEeGrg5mJXcTORw" name="SynchronizationNode">
+      <operations xmi:id="_66iC0NKtEeGrg5mJXcTORw" name="initialize" visibility="package" returnType="_3WKkPdKtEeGrg5mJXcTORw"/>
+    </classes>
+    <classes xsi:type="ram:Class" xmi:id="_3WKkM9KtEeGrg5mJXcTORw" name="LocalContext">
+      <operations xmi:id="_3WKkNNKtEeGrg5mJXcTORw" name="mergeContext" visibility="package" returnType="_3WKkPdKtEeGrg5mJXcTORw">
+        <parameters xmi:id="_3WKkNdKtEeGrg5mJXcTORw" name="other" type="_3WKkM9KtEeGrg5mJXcTORw"/>
+      </operations>
+      <operations xmi:id="_3WKkNtKtEeGrg5mJXcTORw" name="getMergedContext" visibility="private" returnType="_3WKkM9KtEeGrg5mJXcTORw">
+        <parameters xmi:id="_3WKkN9KtEeGrg5mJXcTORw" name="index" type="_3WKkQNKtEeGrg5mJXcTORw"/>
+      </operations>
+      <operations xmi:id="_3WKkONKtEeGrg5mJXcTORw" name="addMergedContext" visibility="private" returnType="_3WKkPdKtEeGrg5mJXcTORw">
+        <parameters xmi:id="_3WKkOdKtEeGrg5mJXcTORw" name="index" type="_3WKkQNKtEeGrg5mJXcTORw"/>
+        <parameters xmi:id="_3WKkOtKtEeGrg5mJXcTORw" name="c" type="_3WKkM9KtEeGrg5mJXcTORw"/>
+      </operations>
+      <operations xmi:id="_3WKkO9KtEeGrg5mJXcTORw" name="removeMergedContext" visibility="private" returnType="_3WKkPdKtEeGrg5mJXcTORw">
+        <parameters xmi:id="_3WKkPNKtEeGrg5mJXcTORw" name="index" type="_3WKkQNKtEeGrg5mJXcTORw"/>
+      </operations>
+    </classes>
+    <types xsi:type="ram:RVoid" xmi:id="_3WKkPdKtEeGrg5mJXcTORw"/>
+    <types xsi:type="ram:RAny" xmi:id="_3WKkPtKtEeGrg5mJXcTORw"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_3WKkP9KtEeGrg5mJXcTORw"/>
+    <types xsi:type="ram:RInt" xmi:id="_3WKkQNKtEeGrg5mJXcTORw"/>
+    <types xsi:type="ram:RChar" xmi:id="_3WKkQdKtEeGrg5mJXcTORw"/>
+    <types xsi:type="ram:RString" xmi:id="_3WKkQtKtEeGrg5mJXcTORw"/>
+  </structuralView>
+  <instantiations xmi:id="_3WKkQ9KtEeGrg5mJXcTORw">
+    <mappings xmi:id="_3WKkRNKtEeGrg5mJXcTORw" toElements="_3WKkMtKtEeGrg5mJXcTORw">
+      <fromElement xsi:type="ram:Class" href="../util/ZeroToMany-Ordered.ram#_stleMHdvEeGm3uH8rYfPgw"/>
+    </mappings>
+    <mappings xmi:id="_3WKkRdKtEeGrg5mJXcTORw" toElements="_3WKkM9KtEeGrg5mJXcTORw">
+      <fromElement xsi:type="ram:Class" href="../util/ZeroToMany-Ordered.ram#_R4j4oIdeEeG0oPAT5BSQFQ"/>
+    </mappings>
+    <externalAspect href="../util/ZeroToMany-Ordered.ram#_stleYXdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations xmi:id="_tLvogdK2EeGU9oEtuc3b0Q">
+    <mappings xmi:id="_taKfANK2EeGU9oEtuc3b0Q" toElements="_3WKkMtKtEeGrg5mJXcTORw">
+      <fromElement xsi:type="ram:Class" href="Inpath.ram#_ntreWdKrEeGrg5mJXcTORw"/>
+    </mappings>
+    <externalAspect href="Inpath.ram#_ntreUdKrEeGrg5mJXcTORw"/>
+  </instantiations>
+  <instantiations xmi:id="_wSmrwNK2EeGU9oEtuc3b0Q">
+    <mappings xmi:id="_wq9hYNK2EeGU9oEtuc3b0Q" toElements="_3WKkMtKtEeGrg5mJXcTORw">
+      <fromElement xsi:type="ram:Class" href="../util/KeyCounter.ram#_20270dKKEeGldr_x9Y6bBQ"/>
+    </mappings>
+    <externalAspect href="../util/KeyCounter.ram#_202UwNKKEeGldr_x9Y6bBQ"/>
+  </instantiations>
+  <layout xmi:id="_G4znINK4EeGU9oEtuc3b0Q">
+    <containers xmi:id="_G4znIdK4EeGU9oEtuc3b0Q" key="_3WKkMdKtEeGrg5mJXcTORw">
+      <value xmi:id="_G4znItK4EeGU9oEtuc3b0Q" key="_3WKkMtKtEeGrg5mJXcTORw">
+        <value xmi:id="_G4znI9K4EeGU9oEtuc3b0Q" x="577.72485" y="317.00024"/>
+      </value>
+      <value xmi:id="_G4znJNK4EeGU9oEtuc3b0Q" key="_3WKkM9KtEeGrg5mJXcTORw">
+        <value xmi:id="_G4znJdK4EeGU9oEtuc3b0Q" x="1470.7252" y="342.00034"/>
+      </value>
+    </containers>
+  </layout>
+</ram:Aspect>

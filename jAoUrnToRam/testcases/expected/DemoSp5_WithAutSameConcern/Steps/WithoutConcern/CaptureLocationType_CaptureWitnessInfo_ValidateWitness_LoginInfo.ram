@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" name="CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo">
+  <structuralView>
+    <classes xsi:type="ram:Class" name="LocalContext"/>
+    <classes xsi:type="ram:Class" name="ProcessCaptureLocationType">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="PerformAuthentication">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="ProcessCaptureWitnessInfo">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="ProcessValidateWitness">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="ValidateWitnessInfo">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="LoginInfoInput"/>
+    <classes xsi:type="ram:Class" name="CaptureLocationTypeInput"/>
+    <classes xsi:type="ram:Class" name="ValidateWitnessInput"/>
+    <classes xsi:type="ram:Class" name="CaptureWitnessInfoInput"/>
+    <classes xsi:type="ram:Class" name="FakeCrisisNotification">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="FakeCrisisNotificationOutput"/>
+    <classes xsi:type="ram:Class" name="PhoneDataRequest">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="PhoneDataRequestOutput"/>
+    <classes xsi:type="ram:Class" name="CrisisInfoRequest">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="CrisisInfoRequestOutput"/>
+    <classes xsi:type="ram:Class" name="LoginRequest">
+      <operations name="execute" returnType="//@structuralView/@types.0">
+        <parameters name="c" type="//@structuralView/@classes.0"/>
+      </operations>
+    </classes>
+    <classes xsi:type="ram:Class" name="LoginRequestOutput"/>
+    <types xsi:type="ram:RVoid" name="void"/>
+  </structuralView>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.1 //@structuralView/@classes.2 //@structuralView/@classes.3 //@structuralView/@classes.4 //@structuralView/@classes.5 //@structuralView/@classes.10 //@structuralView/@classes.12 //@structuralView/@classes.14 //@structuralView/@classes.16">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Workflow.ram#//@structuralView/@classes.0"/>
+    </mappings>
+    <mappings toElements="//@structuralView/@classes.1/@operations.0 //@structuralView/@classes.2/@operations.0 //@structuralView/@classes.3/@operations.0 //@structuralView/@classes.4/@operations.0 //@structuralView/@classes.5/@operations.0 //@structuralView/@classes.10/@operations.0 //@structuralView/@classes.12/@operations.0 //@structuralView/@classes.14/@operations.0 //@structuralView/@classes.16/@operations.0">
+      <fromElement xsi:type="ram:Operation" href="../../reusable_model_library/workflow/Workflow.ram#//@structuralView/@classes.0/@operations.0"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.6 //@structuralView/@classes.7 //@structuralView/@classes.8 //@structuralView/@classes.9">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Input.ram#//@structuralView/@classes.11"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+  <instantiations type="Extends">
+    <mappings toElements="//@structuralView/@classes.11 //@structuralView/@classes.13 //@structuralView/@classes.15 //@structuralView/@classes.17">
+      <fromElement xsi:type="ram:Class" href="../../reusable_model_library/workflow/Output.ram#//@structuralView/@classes.0"/>
+    </mappings>
+    <externalAspect href="../../reusable_model_library/workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+</ram:Aspect>
