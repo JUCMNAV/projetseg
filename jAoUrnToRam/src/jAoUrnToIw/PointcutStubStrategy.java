@@ -7,8 +7,8 @@ import intermediateWorkflow.IwStartPoint;
 
 import java.util.Hashtable;
 
-import jucm_OneFileWorkaround.ucm.map.NodeConnection;
-import jucm_OneFileWorkaround.ucm.map.Stub;
+import ucm.map.NodeConnection;
+import ucm.map.Stub;
 
 public class PointcutStubStrategy extends StubStrategy {
 	private Hashtable<NodeConnection,IwEndPoint> iwEndPoints = new Hashtable<NodeConnection,IwEndPoint>();

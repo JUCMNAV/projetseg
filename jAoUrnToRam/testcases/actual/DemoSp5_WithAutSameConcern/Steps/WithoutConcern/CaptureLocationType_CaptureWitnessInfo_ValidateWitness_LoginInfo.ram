@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_KsrcUE4eEeOumLzN3TrfLw" name="CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo">
-  <structuralView xmi:id="_KsrcUU4eEeOumLzN3TrfLw">
-    <classes xsi:type="ram:Class" xmi:id="_KsrcUk4eEeOumLzN3TrfLw" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcU04eEeOumLzN3TrfLw" name="ProcessCaptureLocationType">
-      <operations xmi:id="_KsrcVE4eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcVU4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_S_TWEF7CEeOR6vnRwMyObw" name="CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo">
+  <structuralView xmi:id="_S_TWEV7CEeOR6vnRwMyObw">
+    <classes xsi:type="ram:Class" xmi:id="_S_TWEl7CEeOR6vnRwMyObw" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWE17CEeOR6vnRwMyObw" name="ProcessCaptureLocationType">
+      <operations xmi:id="_S_TWFF7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWFV7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcVk4eEeOumLzN3TrfLw" name="PerformAuthentication">
-      <operations xmi:id="_KsrcV04eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcWE4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWFl7CEeOR6vnRwMyObw" name="PerformAuthentication">
+      <operations xmi:id="_S_TWF17CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWGF7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcWU4eEeOumLzN3TrfLw" name="ProcessCaptureWitnessInfo">
-      <operations xmi:id="_KsrcWk4eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcW04eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWGV7CEeOR6vnRwMyObw" name="ProcessCaptureWitnessInfo">
+      <operations xmi:id="_S_TWGl7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWG17CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcXE4eEeOumLzN3TrfLw" name="ProcessValidateWitness">
-      <operations xmi:id="_KsrcXU4eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcXk4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWHF7CEeOR6vnRwMyObw" name="ProcessValidateWitness">
+      <operations xmi:id="_S_TWHV7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWHl7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcX04eEeOumLzN3TrfLw" name="ValidateWitnessInfo">
-      <operations xmi:id="_KsrcYE4eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcYU4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWH17CEeOR6vnRwMyObw" name="ValidateWitnessInfo">
+      <operations xmi:id="_S_TWIF7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWIV7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcYk4eEeOumLzN3TrfLw" name="LoginInfoInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcY04eEeOumLzN3TrfLw" name="CaptureLocationTypeInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcZE4eEeOumLzN3TrfLw" name="ValidateWitnessInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcZU4eEeOumLzN3TrfLw" name="CaptureWitnessInfoInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcZk4eEeOumLzN3TrfLw" name="FakeCrisisNotification">
-      <operations xmi:id="_KsrcZ04eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcaE4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWIl7CEeOR6vnRwMyObw" name="LoginInfoInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWI17CEeOR6vnRwMyObw" name="CaptureLocationTypeInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWJF7CEeOR6vnRwMyObw" name="ValidateWitnessInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWJV7CEeOR6vnRwMyObw" name="CaptureWitnessInfoInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWJl7CEeOR6vnRwMyObw" name="FakeCrisisNotification">
+      <operations xmi:id="_S_TWJ17CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWKF7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcaU4eEeOumLzN3TrfLw" name="FakeCrisisNotificationOutput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ksrcak4eEeOumLzN3TrfLw" name="PhoneDataRequest">
-      <operations xmi:id="_Ksrca04eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcbE4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWKV7CEeOR6vnRwMyObw" name="FakeCrisisNotificationOutput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWKl7CEeOR6vnRwMyObw" name="PhoneDataRequest">
+      <operations xmi:id="_S_TWK17CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_TWLF7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcbU4eEeOumLzN3TrfLw" name="PhoneDataRequestOutput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ksrcbk4eEeOumLzN3TrfLw" name="CrisisInfoRequest">
-      <operations xmi:id="_Ksrcb04eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrccE4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWLV7CEeOR6vnRwMyObw" name="PhoneDataRequestOutput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_TWLl7CEeOR6vnRwMyObw" name="CrisisInfoRequest">
+      <operations xmi:id="_S_T9IF7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_T9IV7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrccU4eEeOumLzN3TrfLw" name="CrisisInfoRequestOutput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ksrcck4eEeOumLzN3TrfLw" name="LoginRequest">
-      <operations xmi:id="_Ksrcc04eEeOumLzN3TrfLw" name="execute" returnType="_Ksrcdk4eEeOumLzN3TrfLw">
-        <parameters xmi:id="_KsrcdE4eEeOumLzN3TrfLw" name="c" type="_KsrcUk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_T9Il7CEeOR6vnRwMyObw" name="CrisisInfoRequestOutput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_T9I17CEeOR6vnRwMyObw" name="LoginRequest">
+      <operations xmi:id="_S_T9JF7CEeOR6vnRwMyObw" name="execute" returnType="_S_T9J17CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S_T9JV7CEeOR6vnRwMyObw" name="c" type="_S_TWEl7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_KsrcdU4eEeOumLzN3TrfLw" name="LoginRequestOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_Ksrcdk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S_T9Jl7CEeOR6vnRwMyObw" name="LoginRequestOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_S_T9J17CEeOR6vnRwMyObw"/>
   </structuralView>
-  <instantiations xmi:id="_Ksrcd04eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_KsrceE4eEeOumLzN3TrfLw" toElements="_KsrcU04eEeOumLzN3TrfLw _KsrcVk4eEeOumLzN3TrfLw _KsrcWU4eEeOumLzN3TrfLw _KsrcXE4eEeOumLzN3TrfLw _KsrcX04eEeOumLzN3TrfLw _KsrcZk4eEeOumLzN3TrfLw _Ksrcak4eEeOumLzN3TrfLw _Ksrcbk4eEeOumLzN3TrfLw _Ksrcck4eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S_T9KF7CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S_T9KV7CEeOR6vnRwMyObw" toElements="_S_TWE17CEeOR6vnRwMyObw _S_TWFl7CEeOR6vnRwMyObw _S_TWGV7CEeOR6vnRwMyObw _S_TWHF7CEeOR6vnRwMyObw _S_TWH17CEeOR6vnRwMyObw _S_TWJl7CEeOR6vnRwMyObw _S_TWKl7CEeOR6vnRwMyObw _S_TWLl7CEeOR6vnRwMyObw _S_T9I17CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_KsrceU4eEeOumLzN3TrfLw" toElements="_KsrcVE4eEeOumLzN3TrfLw _KsrcV04eEeOumLzN3TrfLw _KsrcWk4eEeOumLzN3TrfLw _KsrcXU4eEeOumLzN3TrfLw _KsrcYE4eEeOumLzN3TrfLw _KsrcZ04eEeOumLzN3TrfLw _Ksrca04eEeOumLzN3TrfLw _Ksrcb04eEeOumLzN3TrfLw _Ksrcc04eEeOumLzN3TrfLw">
+    <mappings xmi:id="_S_T9Kl7CEeOR6vnRwMyObw" toElements="_S_TWFF7CEeOR6vnRwMyObw _S_TWF17CEeOR6vnRwMyObw _S_TWGl7CEeOR6vnRwMyObw _S_TWHV7CEeOR6vnRwMyObw _S_TWIF7CEeOR6vnRwMyObw _S_TWJ17CEeOR6vnRwMyObw _S_TWK17CEeOR6vnRwMyObw _S_T9IF7CEeOR6vnRwMyObw _S_T9JF7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Operation" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_Ksrcek4eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_Ksrce04eEeOumLzN3TrfLw" toElements="_KsrcYk4eEeOumLzN3TrfLw _KsrcY04eEeOumLzN3TrfLw _KsrcZE4eEeOumLzN3TrfLw _KsrcZU4eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S_T9K17CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S_T9LF7CEeOR6vnRwMyObw" toElements="_S_TWIl7CEeOR6vnRwMyObw _S_TWI17CEeOR6vnRwMyObw _S_TWJF7CEeOR6vnRwMyObw _S_TWJV7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_KsrcfE4eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_KsrcfU4eEeOumLzN3TrfLw" toElements="_KsrcaU4eEeOumLzN3TrfLw _KsrcbU4eEeOumLzN3TrfLw _KsrccU4eEeOumLzN3TrfLw _KsrcdU4eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S_T9LV7CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S_T9Ll7CEeOR6vnRwMyObw" toElements="_S_TWKV7CEeOR6vnRwMyObw _S_TWLV7CEeOR6vnRwMyObw _S_T9Il7CEeOR6vnRwMyObw _S_T9Jl7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/DemoSp5_WithAutSameConcern/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

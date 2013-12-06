@@ -1,9 +1,9 @@
 package jAoUrnToIw;
 
-import jucm_OneFileWorkaround.ucm.map.AspectKind;
-import jucm_OneFileWorkaround.ucm.map.NodeConnection;
-import jucm_OneFileWorkaround.ucm.map.PluginBinding;
-import jucm_OneFileWorkaround.ucm.map.Stub;
+import ucm.map.AspectKind;
+import ucm.map.NodeConnection;
+import ucm.map.PluginBinding;
+import ucm.map.Stub;
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwStub;

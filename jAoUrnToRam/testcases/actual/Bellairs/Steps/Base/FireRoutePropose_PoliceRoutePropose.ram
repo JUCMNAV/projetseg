@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_Ko5vkE4eEeOumLzN3TrfLw" name="FireRoutePropose_PoliceRoutePropose">
-  <structuralView xmi:id="_Ko5vkU4eEeOumLzN3TrfLw">
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vkk4eEeOumLzN3TrfLw" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vk04eEeOumLzN3TrfLw" name="ProcessPoliceRoutePropose">
-      <operations xmi:id="_Ko5vlE4eEeOumLzN3TrfLw" name="execute" returnType="_Ko5vo04eEeOumLzN3TrfLw">
-        <parameters xmi:id="_Ko5vlU4eEeOumLzN3TrfLw" name="c" type="_Ko5vkk4eEeOumLzN3TrfLw"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_S74OoF7CEeOR6vnRwMyObw" name="FireRoutePropose_PoliceRoutePropose">
+  <structuralView xmi:id="_S74OoV7CEeOR6vnRwMyObw">
+    <classes xsi:type="ram:Class" xmi:id="_S74Ool7CEeOR6vnRwMyObw" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Oo17CEeOR6vnRwMyObw" name="ProcessPoliceRoutePropose">
+      <operations xmi:id="_S74OpF7CEeOR6vnRwMyObw" name="execute" returnType="_S741sF7CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S74OpV7CEeOR6vnRwMyObw" name="c" type="_S74Ool7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vlk4eEeOumLzN3TrfLw" name="ProcessFireRoutePropose">
-      <operations xmi:id="_Ko5vl04eEeOumLzN3TrfLw" name="execute" returnType="_Ko5vo04eEeOumLzN3TrfLw">
-        <parameters xmi:id="_Ko5vmE4eEeOumLzN3TrfLw" name="c" type="_Ko5vkk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Opl7CEeOR6vnRwMyObw" name="ProcessFireRoutePropose">
+      <operations xmi:id="_S74Op17CEeOR6vnRwMyObw" name="execute" returnType="_S741sF7CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S74OqF7CEeOR6vnRwMyObw" name="c" type="_S74Ool7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vmU4eEeOumLzN3TrfLw" name="FireRouteProposeInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vmk4eEeOumLzN3TrfLw" name="PoliceRouteProposeInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vm04eEeOumLzN3TrfLw" name="ProposedRouteToFSC">
-      <operations xmi:id="_Ko5vnE4eEeOumLzN3TrfLw" name="execute" returnType="_Ko5vo04eEeOumLzN3TrfLw">
-        <parameters xmi:id="_Ko5vnU4eEeOumLzN3TrfLw" name="c" type="_Ko5vkk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74OqV7CEeOR6vnRwMyObw" name="FireRouteProposeInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Oql7CEeOR6vnRwMyObw" name="PoliceRouteProposeInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Oq17CEeOR6vnRwMyObw" name="ProposedRouteToFSC">
+      <operations xmi:id="_S74OrF7CEeOR6vnRwMyObw" name="execute" returnType="_S741sF7CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S74OrV7CEeOR6vnRwMyObw" name="c" type="_S74Ool7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vnk4eEeOumLzN3TrfLw" name="ProposedRouteToFSCOutput"/>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vn04eEeOumLzN3TrfLw" name="AlertFSCNotCoordinated">
-      <operations xmi:id="_Ko5voE4eEeOumLzN3TrfLw" name="execute" returnType="_Ko5vo04eEeOumLzN3TrfLw">
-        <parameters xmi:id="_Ko5voU4eEeOumLzN3TrfLw" name="c" type="_Ko5vkk4eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Orl7CEeOR6vnRwMyObw" name="ProposedRouteToFSCOutput"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Or17CEeOR6vnRwMyObw" name="AlertFSCNotCoordinated">
+      <operations xmi:id="_S74OsF7CEeOR6vnRwMyObw" name="execute" returnType="_S741sF7CEeOR6vnRwMyObw">
+        <parameters xmi:id="_S74OsV7CEeOR6vnRwMyObw" name="c" type="_S74Ool7CEeOR6vnRwMyObw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_Ko5vok4eEeOumLzN3TrfLw" name="AlertFSCNotCoordinatedOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_Ko5vo04eEeOumLzN3TrfLw"/>
+    <classes xsi:type="ram:Class" xmi:id="_S74Osl7CEeOR6vnRwMyObw" name="AlertFSCNotCoordinatedOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_S741sF7CEeOR6vnRwMyObw"/>
   </structuralView>
-  <instantiations xmi:id="_Ko5vpE4eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_Ko5vpU4eEeOumLzN3TrfLw" toElements="_Ko5vk04eEeOumLzN3TrfLw _Ko5vlk4eEeOumLzN3TrfLw _Ko5vm04eEeOumLzN3TrfLw _Ko5vn04eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S741sV7CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S741sl7CEeOR6vnRwMyObw" toElements="_S74Oo17CEeOR6vnRwMyObw _S74Opl7CEeOR6vnRwMyObw _S74Oq17CEeOR6vnRwMyObw _S74Or17CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_Ko6WoE4eEeOumLzN3TrfLw" toElements="_Ko5vlE4eEeOumLzN3TrfLw _Ko5vl04eEeOumLzN3TrfLw _Ko5vnE4eEeOumLzN3TrfLw _Ko5voE4eEeOumLzN3TrfLw">
+    <mappings xmi:id="_S741s17CEeOR6vnRwMyObw" toElements="_S74OpF7CEeOR6vnRwMyObw _S74Op17CEeOR6vnRwMyObw _S74OrF7CEeOR6vnRwMyObw _S74OsF7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Operation" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_Ko6WoU4eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_Ko6Wok4eEeOumLzN3TrfLw" toElements="_Ko5vmU4eEeOumLzN3TrfLw _Ko5vmk4eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S741tF7CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S741tV7CEeOR6vnRwMyObw" toElements="_S74OqV7CEeOR6vnRwMyObw _S74Oql7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_Ko6Wo04eEeOumLzN3TrfLw" type="Extends">
-    <mappings xmi:id="_Ko6WpE4eEeOumLzN3TrfLw" toElements="_Ko5vnk4eEeOumLzN3TrfLw _Ko5vok4eEeOumLzN3TrfLw">
+  <instantiations xmi:id="_S741tl7CEeOR6vnRwMyObw" type="Extends">
+    <mappings xmi:id="_S741t17CEeOR6vnRwMyObw" toElements="_S74Orl7CEeOR6vnRwMyObw _S74Osl7CEeOR6vnRwMyObw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

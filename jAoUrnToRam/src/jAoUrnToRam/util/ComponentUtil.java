@@ -1,7 +1,7 @@
 package jAoUrnToRam.util;
 
-import jucm_OneFileWorkaround.urncore.Component;
-import jucm_OneFileWorkaround.urncore.ComponentKind;
+import urncore.Component;
+import urncore.ComponentKind;
 
 public class ComponentUtil {
 	public static boolean isSystem(Component aComponent){

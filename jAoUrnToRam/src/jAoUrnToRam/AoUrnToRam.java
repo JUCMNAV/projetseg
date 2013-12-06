@@ -1,12 +1,9 @@
 package jAoUrnToRam;
 
 import java.util.Map;
-
-import jucm_OneFileWorkaround.urn.UrnPackage;
-
+import urn.UrnPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
 import ram.RamPackage;
 import ca.mcgill.cs.sel.ram.util.RamResourceFactoryImpl;
 import jAoUrnToRam.transformation.AoUrnSource;

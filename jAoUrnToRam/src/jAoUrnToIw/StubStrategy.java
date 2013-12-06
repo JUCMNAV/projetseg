@@ -1,8 +1,8 @@
 package jAoUrnToIw;
 
 import intermediateWorkflow.IwNode;
-import jucm_OneFileWorkaround.ucm.map.NodeConnection;
-import jucm_OneFileWorkaround.ucm.map.Stub;
+import ucm.map.NodeConnection;
+import ucm.map.Stub;
 
 public abstract class StubStrategy {
 	protected Stub stub;

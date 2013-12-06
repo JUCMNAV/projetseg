@@ -1,6 +1,6 @@
 package jAoUrnToRam.util;
 
-import jucm_OneFileWorkaround.urncore.URNmodelElement;
+import urncore.URNmodelElement;
 
 public class URNmodelElementExtension {
 	public static String getNameOrPrefixId(URNmodelElement source, String prefix){
