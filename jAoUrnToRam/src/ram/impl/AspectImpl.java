@@ -28,6 +28,7 @@ import ram.Instantiation;
 import ram.Layout;
 import ram.MappableElement;
 import ram.RamPackage;
+import ram.StateView;
 import ram.StructuralView;
 
 /**
@@ -42,6 +43,7 @@ import ram.StructuralView;
  *   <li>{@link ram.impl.AspectImpl#getMessageViews <em>Message Views</em>}</li>
  *   <li>{@link ram.impl.AspectImpl#getInstantiations <em>Instantiations</em>}</li>
  *   <li>{@link ram.impl.AspectImpl#getLayout <em>Layout</em>}</li>
+ *   <li>{@link ram.impl.AspectImpl#getStateViews <em>State Views</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,6 +99,16 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 	 * @ordered
 	 */
 	protected Layout layout;
+
+	/**
+	 * The cached value of the '{@link #getStateViews() <em>State Views</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStateViews()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<StateView> stateViews;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -242,6 +254,18 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<StateView> getStateViews() {
+		if (stateViews == null) {
+			stateViews = new EObjectContainmentEList<StateView>(StateView.class, this, RamPackage.ASPECT__STATE_VIEWS);
+		}
+		return stateViews;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -253,6 +277,8 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 				return ((InternalEList<?>)getInstantiations()).basicRemove(otherEnd, msgs);
 			case RamPackage.ASPECT__LAYOUT:
 				return basicSetLayout(null, msgs);
+			case RamPackage.ASPECT__STATE_VIEWS:
+				return ((InternalEList<?>)getStateViews()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -275,6 +301,8 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 				return getInstantiations();
 			case RamPackage.ASPECT__LAYOUT:
 				return getLayout();
+			case RamPackage.ASPECT__STATE_VIEWS:
+				return getStateViews();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -302,6 +330,10 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 			case RamPackage.ASPECT__LAYOUT:
 				setLayout((Layout)newValue);
 				return;
+			case RamPackage.ASPECT__STATE_VIEWS:
+				getStateViews().clear();
+				getStateViews().addAll((Collection<? extends StateView>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -326,6 +358,9 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 			case RamPackage.ASPECT__LAYOUT:
 				setLayout((Layout)null);
 				return;
+			case RamPackage.ASPECT__STATE_VIEWS:
+				getStateViews().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -348,6 +383,8 @@ public class AspectImpl extends NamedElementImpl implements Aspect {
 				return instantiations != null && !instantiations.isEmpty();
 			case RamPackage.ASPECT__LAYOUT:
 				return layout != null;
+			case RamPackage.ASPECT__STATE_VIEWS:
+				return stateViews != null && !stateViews.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

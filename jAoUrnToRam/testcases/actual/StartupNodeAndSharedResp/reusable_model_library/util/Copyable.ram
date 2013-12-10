@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="Copyable">
-  <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
-    <classes xsi:type="ram:Class" xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Copyable" partial="true">
-      <operations xmi:id="_18kZAH90EeGDavkSk2BUyw" name="copy" returnType="_stleMHdvEeGm3uH8rYfPgw">
-        <parameters xmi:id="_18uxEH90EeGDavkSk2BUyw" name="a" type="_stleMHdvEeGm3uH8rYfPgw"/>
-      </operations>
-      <operations xmi:id="_18vYIH90EeGDavkSk2BUyw" name="create" visibility="private" returnType="_stleMHdvEeGm3uH8rYfPgw">
-        <parameters xmi:id="_18vYIX90EeGDavkSk2BUyw" name="a" type="_stleMHdvEeGm3uH8rYfPgw"/>
-      </operations>
-      <operations xmi:id="_18vYIn90EeGDavkSk2BUyw" name="replaceStateWith" returnType="_vtGtcX9xEeGhx8hfQRstDA">
-        <parameters xmi:id="_18vYI390EeGDavkSk2BUyw" name="from" type="_stleMHdvEeGm3uH8rYfPgw"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_8dXEsYedEeKfOvWg4bgPaQ" name="Copyable">
+  <structuralView xmi:id="_8dXEsoedEeKfOvWg4bgPaQ">
+    <classes xsi:type="ram:Class" xmi:id="_8dXEs4edEeKfOvWg4bgPaQ" name="Copyable" partial="true">
+      <operations xmi:id="_8dXEtIedEeKfOvWg4bgPaQ" name="create" visibility="private" returnType="_8dXEs4edEeKfOvWg4bgPaQ"/>
+      <operations xmi:id="_8dXEtYedEeKfOvWg4bgPaQ" name="copy" returnType="_8dXEs4edEeKfOvWg4bgPaQ"/>
+      <operations xmi:id="_8dXEtoedEeKfOvWg4bgPaQ" name="replaceStateWith" returnType="_8dXEuIedEeKfOvWg4bgPaQ">
+        <parameters xmi:id="_8dXEt4edEeKfOvWg4bgPaQ" name="from" type="_8dXEs4edEeKfOvWg4bgPaQ"/>
       </operations>
     </classes>
-    <types xsi:type="ram:RVoid" xmi:id="_vtGtcX9xEeGhx8hfQRstDA"/>
-    <types xsi:type="ram:RString" xmi:id="_18vYJH90EeGDavkSk2BUyw"/>
-    <types xsi:type="ram:RBoolean" xmi:id="_18vYJX90EeGDavkSk2BUyw"/>
-    <types xsi:type="ram:RChar" xmi:id="_18vYJn90EeGDavkSk2BUyw"/>
-    <types xsi:type="ram:RAny" xmi:id="_18vYJ390EeGDavkSk2BUyw"/>
-    <types xsi:type="ram:RInt" xmi:id="_18vYKH90EeGDavkSk2BUyw"/>
+    <types xsi:type="ram:RVoid" xmi:id="_8dXEuIedEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RAny" xmi:id="_8dXEuYedEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RBoolean" xmi:id="_8dXEuoedEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RInt" xmi:id="_8dXEu4edEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RChar" xmi:id="_8dXEvIedEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RString" xmi:id="_8dXEvYedEeKfOvWg4bgPaQ"/>
+    <types xsi:type="ram:RDouble" xmi:id="_8n9aMNHjEeKndf5avu7gLg"/>
+    <types xsi:type="ram:RFloat" xmi:id="_9a_ZoNHjEeKndf5avu7gLg"/>
   </structuralView>
+  <layout xmi:id="_8dXrwIedEeKfOvWg4bgPaQ">
+    <containers xmi:id="_8dXrwYedEeKfOvWg4bgPaQ" key="_8dXEsoedEeKfOvWg4bgPaQ">
+      <value xmi:id="_8dXrwoedEeKfOvWg4bgPaQ" key="_8dXEs4edEeKfOvWg4bgPaQ">
+        <value xmi:id="_8dXrw4edEeKfOvWg4bgPaQ" x="374.00043" y="164.00024"/>
+      </value>
+    </containers>
+  </layout>
 </ram:Aspect>

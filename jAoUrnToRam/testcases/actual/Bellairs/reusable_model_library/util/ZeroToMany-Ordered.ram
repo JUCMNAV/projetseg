@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.0" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="ZeroToManyAssociation">
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_stleYXdvEeGm3uH8rYfPgw" name="ZeroToMany-Ordered">
   <structuralView xmi:id="_stleAHdvEeGm3uH8rYfPgw">
     <classes xsi:type="ram:Class" xmi:id="_stleMHdvEeGm3uH8rYfPgw" name="Data" partial="true">
       <operations xmi:id="_l14xcIdYEeG0oPAT5BSQFQ" name="add" returnType="__pWrUIdfEeG0oPAT5BSQFQ">
@@ -22,7 +22,7 @@
       <associationEnds xmi:id="_l14KYIdYEeG0oPAT5BSQFQ" name="mySet" lowerBound="1" referenceType="Composition" assoc="__FhcIId4EeG0oPAT5BSQFQ"/>
     </classes>
     <classes xsi:type="ram:Class" xmi:id="_R4j4oIdeEeG0oPAT5BSQFQ" name="Associated" partial="true">
-      <associationEnds xmi:id="_uh1mcJCDEeG7cMsksRMbkg" name="" navigable="false" assoc="_AH9wkId5EeG0oPAT5BSQFQ"/>
+      <associationEnds xmi:id="_uh1mcJCDEeG7cMsksRMbkg" name="set" navigable="false" assoc="_AH9wkId5EeG0oPAT5BSQFQ"/>
     </classes>
     <classes xsi:type="ram:Class" xmi:id="_U-27MIdeEeG0oPAT5BSQFQ" name="Sequence">
       <operations xmi:id="_se3zcIdfEeG0oPAT5BSQFQ" name="create" visibility="package" returnType="_U-27MIdeEeG0oPAT5BSQFQ"/>
@@ -42,7 +42,7 @@
       <operations xmi:id="_l2QOMNKhEeGX8rB_WPxJ8w" name="contains" visibility="package" returnType="_fQmL8ZF-EeGl6_HHEAkO0g">
         <parameters xmi:id="_l2QOMdKhEeGX8rB_WPxJ8w" name="a" type="_R4j4oIdeEeG0oPAT5BSQFQ"/>
       </operations>
-      <associationEnds xmi:id="_ySLsgId4EeG0oPAT5BSQFQ" name="" upperBound="-1" navigable="false" assoc="__FhcIId4EeG0oPAT5BSQFQ"/>
+      <associationEnds xmi:id="_ySLsgId4EeG0oPAT5BSQFQ" name="data" upperBound="-1" navigable="false" assoc="__FhcIId4EeG0oPAT5BSQFQ"/>
       <associationEnds xmi:id="_y4OY0Id4EeG0oPAT5BSQFQ" name="myAssociated" upperBound="-1" referenceType="Aggregation" assoc="_AH9wkId5EeG0oPAT5BSQFQ"/>
       <attributes xmi:id="_x334cIdfEeG0oPAT5BSQFQ" name="size" type="_1gRigIdfEeG0oPAT5BSQFQ"/>
     </classes>
@@ -55,17 +55,19 @@
     <types xsi:type="ram:RBoolean" xmi:id="_fQmL8ZF-EeGl6_HHEAkO0g"/>
     <types xsi:type="ram:RChar" xmi:id="_fQmL8pF-EeGl6_HHEAkO0g"/>
     <types xsi:type="ram:RString" xmi:id="_fQmL85F-EeGl6_HHEAkO0g"/>
+    <types xsi:type="ram:RDouble" xmi:id="_8n9aMNHjEeKndf5avu7gLg"/>
+    <types xsi:type="ram:RFloat" xmi:id="_9a_ZoNHjEeKndf5avu7gLg"/>
   </structuralView>
   <layout xmi:id="_2YG28NKhEeGX8rB_WPxJ8w">
     <containers xmi:id="_2YG28dKhEeGX8rB_WPxJ8w" key="_stleAHdvEeGm3uH8rYfPgw">
       <value xmi:id="_2YG28tKhEeGX8rB_WPxJ8w" key="_R4j4oIdeEeG0oPAT5BSQFQ">
-        <value xmi:id="_2YG289KhEeGX8rB_WPxJ8w" x="1792.6722" y="454.50266"/>
+        <value xmi:id="_2YG289KhEeGX8rB_WPxJ8w" x="1083.8794" y="335.5028"/>
       </value>
       <value xmi:id="_2YG29NKhEeGX8rB_WPxJ8w" key="_stleMHdvEeGm3uH8rYfPgw">
-        <value xmi:id="_2YG29dKhEeGX8rB_WPxJ8w" x="120.67149" y="271.50296"/>
+        <value xmi:id="_2YG29dKhEeGX8rB_WPxJ8w" x="265.87878" y="265.50284"/>
       </value>
       <value xmi:id="_2YG29tKhEeGX8rB_WPxJ8w" key="_U-27MIdeEeG0oPAT5BSQFQ">
-        <value xmi:id="_2YG299KhEeGX8rB_WPxJ8w" x="1014.67163" y="297.50272"/>
+        <value xmi:id="_2YG299KhEeGX8rB_WPxJ8w" x="672.67175" y="238.5026"/>
       </value>
     </containers>
   </layout>

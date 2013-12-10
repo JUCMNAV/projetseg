@@ -21,8 +21,11 @@ import ram.AspectMessageView;
 import ram.Association;
 import ram.AssociationEnd;
 import ram.Attribute;
+import ram.AttributeMapping;
 import ram.Classifier;
+import ram.ClassifierMapping;
 import ram.CombinedFragment;
+import ram.Constraint;
 import ram.DestructionOccurrenceSpecification;
 import ram.ExecutionStatement;
 import ram.FragmentContainer;
@@ -51,8 +54,10 @@ import ram.ObjectType;
 import ram.OccurrenceSpecification;
 import ram.OpaqueExpression;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.OriginalBehaviorExecution;
 import ram.Parameter;
+import ram.ParameterMapping;
 import ram.ParameterValue;
 import ram.ParameterValueMapping;
 import ram.PrimitiveType;
@@ -61,19 +66,28 @@ import ram.RAny;
 import ram.RBoolean;
 import ram.RChar;
 import ram.RCollection;
+import ram.RDouble;
 import ram.REnum;
 import ram.REnumLiteral;
+import ram.RFloat;
 import ram.RInt;
+import ram.RSequence;
 import ram.RList;
 import ram.RSet;
 import ram.RString;
 import ram.RVoid;
 import ram.RamPackage;
 import ram.Reference;
+import ram.State;
+import ram.StateMachine;
+import ram.StateView;
 import ram.StructuralFeature;
 import ram.StructuralFeatureValue;
 import ram.StructuralView;
+import ram.Substitution;
 import ram.TemporaryProperty;
+import ram.Transition;
+import ram.TransitionSubstitution;
 import ram.Type;
 import ram.TypedElement;
 import ram.ValueSpecification;
@@ -214,6 +228,7 @@ public class RamSwitch<T> extends Switch<T> {
 				T result = caseAttribute(attribute);
 				if (result == null) result = caseStructuralFeature(attribute);
 				if (result == null) result = caseTemporaryProperty(attribute);
+				if (result == null) result = caseMappableElement(attribute);
 				if (result == null) result = caseTypedElement(attribute);
 				if (result == null) result = caseNamedElement(attribute);
 				if (result == null) result = defaultCase(theEObject);
@@ -230,6 +245,7 @@ public class RamSwitch<T> extends Switch<T> {
 				Parameter parameter = (Parameter)theEObject;
 				T result = caseParameter(parameter);
 				if (result == null) result = caseTypedElement(parameter);
+				if (result == null) result = caseMappableElement(parameter);
 				if (result == null) result = caseNamedElement(parameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -543,16 +559,16 @@ public class RamSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RamPackage.RLIST: {
-				RList rList = (RList)theEObject;
-				T result = caseRList(rList);
-				if (result == null) result = caseRCollection(rList);
-				if (result == null) result = caseImplementationClass(rList);
-				if (result == null) result = caseClassifier(rList);
-				if (result == null) result = caseObjectType(rList);
-				if (result == null) result = caseType(rList);
-				if (result == null) result = caseMappableElement(rList);
-				if (result == null) result = caseNamedElement(rList);
+			case RamPackage.RSEQUENCE: {
+				RSequence rSequence = (RSequence)theEObject;
+				T result = caseRSequence(rSequence);
+				if (result == null) result = caseRCollection(rSequence);
+				if (result == null) result = caseImplementationClass(rSequence);
+				if (result == null) result = caseClassifier(rSequence);
+				if (result == null) result = caseObjectType(rSequence);
+				if (result == null) result = caseType(rSequence);
+				if (result == null) result = caseMappableElement(rSequence);
+				if (result == null) result = caseNamedElement(rSequence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -655,6 +671,106 @@ public class RamSwitch<T> extends Switch<T> {
 				T result = caseLiteralBoolean(literalBoolean);
 				if (result == null) result = caseLiteralSpecification(literalBoolean);
 				if (result == null) result = caseValueSpecification(literalBoolean);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.CLASSIFIER_MAPPING: {
+				ClassifierMapping classifierMapping = (ClassifierMapping)theEObject;
+				T result = caseClassifierMapping(classifierMapping);
+				if (result == null) result = caseMapping(classifierMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.ATTRIBUTE_MAPPING: {
+				AttributeMapping attributeMapping = (AttributeMapping)theEObject;
+				T result = caseAttributeMapping(attributeMapping);
+				if (result == null) result = caseMapping(attributeMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.OPERATION_MAPPING: {
+				OperationMapping operationMapping = (OperationMapping)theEObject;
+				T result = caseOperationMapping(operationMapping);
+				if (result == null) result = caseMapping(operationMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.PARAMETER_MAPPING: {
+				ParameterMapping parameterMapping = (ParameterMapping)theEObject;
+				T result = caseParameterMapping(parameterMapping);
+				if (result == null) result = caseMapping(parameterMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.STATE_VIEW: {
+				StateView stateView = (StateView)theEObject;
+				T result = caseStateView(stateView);
+				if (result == null) result = caseNamedElement(stateView);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.STATE_MACHINE: {
+				StateMachine stateMachine = (StateMachine)theEObject;
+				T result = caseStateMachine(stateMachine);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.TRANSITION: {
+				Transition transition = (Transition)theEObject;
+				T result = caseTransition(transition);
+				if (result == null) result = caseNamedElement(transition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.STATE: {
+				State state = (State)theEObject;
+				T result = caseState(state);
+				if (result == null) result = caseNamedElement(state);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.RDOUBLE: {
+				RDouble rDouble = (RDouble)theEObject;
+				T result = caseRDouble(rDouble);
+				if (result == null) result = casePrimitiveType(rDouble);
+				if (result == null) result = caseImplementationClass(rDouble);
+				if (result == null) result = caseClassifier(rDouble);
+				if (result == null) result = caseObjectType(rDouble);
+				if (result == null) result = caseType(rDouble);
+				if (result == null) result = caseMappableElement(rDouble);
+				if (result == null) result = caseNamedElement(rDouble);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.RFLOAT: {
+				RFloat rFloat = (RFloat)theEObject;
+				T result = caseRFloat(rFloat);
+				if (result == null) result = casePrimitiveType(rFloat);
+				if (result == null) result = caseImplementationClass(rFloat);
+				if (result == null) result = caseClassifier(rFloat);
+				if (result == null) result = caseObjectType(rFloat);
+				if (result == null) result = caseType(rFloat);
+				if (result == null) result = caseMappableElement(rFloat);
+				if (result == null) result = caseNamedElement(rFloat);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.CONSTRAINT: {
+				Constraint constraint = (Constraint)theEObject;
+				T result = caseConstraint(constraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.SUBSTITUTION: {
+				Substitution substitution = (Substitution)theEObject;
+				T result = caseSubstitution(substitution);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RamPackage.TRANSITION_SUBSTITUTION: {
+				TransitionSubstitution transitionSubstitution = (TransitionSubstitution)theEObject;
+				T result = caseTransitionSubstitution(transitionSubstitution);
+				if (result == null) result = caseSubstitution(transitionSubstitution);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1413,17 +1529,17 @@ public class RamSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>RList</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>RSequence</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>RList</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>RSequence</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRList(RList object) {
+	public T caseRSequence(RSequence object) {
 		return null;
 	}
 
@@ -1619,6 +1735,201 @@ public class RamSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLiteralBoolean(LiteralBoolean object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Classifier Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Classifier Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseClassifierMapping(ClassifierMapping object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAttributeMapping(AttributeMapping object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationMapping(OperationMapping object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter Mapping</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParameterMapping(ParameterMapping object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>State View</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>State View</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStateView(StateView object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>State Machine</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>State Machine</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStateMachine(StateMachine object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Transition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTransition(Transition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>State</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>State</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseState(State object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RDouble</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RDouble</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRDouble(RDouble object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RFloat</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RFloat</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRFloat(RFloat object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConstraint(Constraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Substitution</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Substitution</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSubstitution(Substitution object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Transition Substitution</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Transition Substitution</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTransitionSubstitution(TransitionSubstitution object) {
 		return null;
 	}
 

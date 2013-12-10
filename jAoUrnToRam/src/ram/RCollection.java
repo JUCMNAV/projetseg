@@ -54,7 +54,7 @@ public interface RCollection extends Type, ImplementationClass {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation" required="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot body='let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then \'|\' else \'\' endif in let name : String = self.oclType().name.substring(2, self.oclType().name.size()) in if type.name.oclIsUndefined() then name else name + \'<\' + partial + type.name + \'>\' endif'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot body='let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then \'|\' else \'\' endif in let typeName : String = self.oclType().toString() in let name : String = typeName.substring(typeName.lastIndexOf(\':\') + 1, typeName.size()) in if type.name.oclIsUndefined() then name else name + \'<\' + partial + type.name + \'>\' endif'"
 	 * @generated
 	 */
 	String getName();

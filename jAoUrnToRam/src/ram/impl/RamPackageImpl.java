@@ -23,8 +23,11 @@ import ram.AspectMessageView;
 import ram.Association;
 import ram.AssociationEnd;
 import ram.Attribute;
+import ram.AttributeMapping;
 import ram.Classifier;
+import ram.ClassifierMapping;
 import ram.CombinedFragment;
+import ram.Constraint;
 import ram.DestructionOccurrenceSpecification;
 import ram.ExecutionStatement;
 import ram.FragmentContainer;
@@ -56,8 +59,10 @@ import ram.ObjectType;
 import ram.OccurrenceSpecification;
 import ram.OpaqueExpression;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.OriginalBehaviorExecution;
 import ram.Parameter;
+import ram.ParameterMapping;
 import ram.ParameterValue;
 import ram.ParameterValueMapping;
 import ram.PrimitiveType;
@@ -66,9 +71,12 @@ import ram.RAny;
 import ram.RBoolean;
 import ram.RChar;
 import ram.RCollection;
+import ram.RDouble;
 import ram.REnum;
 import ram.REnumLiteral;
+import ram.RFloat;
 import ram.RInt;
+import ram.RSequence;
 import ram.RList;
 import ram.RSet;
 import ram.RString;
@@ -77,10 +85,16 @@ import ram.RamFactory;
 import ram.RamPackage;
 import ram.Reference;
 import ram.ReferenceType;
+import ram.State;
+import ram.StateMachine;
+import ram.StateView;
 import ram.StructuralFeature;
 import ram.StructuralFeatureValue;
 import ram.StructuralView;
+import ram.Substitution;
 import ram.TemporaryProperty;
+import ram.Transition;
+import ram.TransitionSubstitution;
 import ram.Type;
 import ram.TypedElement;
 import ram.ValueSpecification;
@@ -450,7 +464,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass rListEClass = null;
+	private EClass rSequenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -542,6 +556,97 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 * @generated
 	 */
 	private EClass literalBooleanEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass classifierMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass attributeMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stateViewEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stateMachineEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass transitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rDoubleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rFloatEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass constraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass substitutionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass transitionSubstitutionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -700,6 +805,15 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 */
 	public EReference getAspect_Layout() {
 		return (EReference)aspectEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAspect_StateViews() {
+		return (EReference)aspectEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -916,24 +1030,6 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 */
 	public EClass getMapping() {
 		return mappingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMapping_ToElements() {
-		return (EReference)mappingEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getMapping_FromElement() {
-		return (EReference)mappingEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1751,8 +1847,8 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRList() {
-		return rListEClass;
+	public EClass getRSequence() {
+		return rSequenceEClass;
 	}
 
 	/**
@@ -2012,6 +2108,357 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getClassifierMapping() {
+		return classifierMappingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassifierMapping_OperationMappings() {
+		return (EReference)classifierMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassifierMapping_AttributeMappings() {
+		return (EReference)classifierMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassifierMapping_FromElement() {
+		return (EReference)classifierMappingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassifierMapping_ToElement() {
+		return (EReference)classifierMappingEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAttributeMapping() {
+		return attributeMappingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAttributeMapping_FromElement() {
+		return (EReference)attributeMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAttributeMapping_ToElement() {
+		return (EReference)attributeMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationMapping() {
+		return operationMappingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationMapping_ParameterMappings() {
+		return (EReference)operationMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationMapping_FromElement() {
+		return (EReference)operationMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationMapping_ToElement() {
+		return (EReference)operationMappingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParameterMapping() {
+		return parameterMappingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getParameterMapping_FromElement() {
+		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getParameterMapping_ToElement() {
+		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStateView() {
+		return stateViewEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateView_StateMachines() {
+		return (EReference)stateViewEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateView_Specifies() {
+		return (EReference)stateViewEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStateMachine() {
+		return stateMachineEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_Start() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_States() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_Transitions() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateMachine_Substitutions() {
+		return (EReference)stateMachineEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTransition() {
+		return transitionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransition_EndState() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransition_StartState() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransition_Signature() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransition_Guard() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getState() {
+		return stateEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_Incomings() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_Outgoings() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRDouble() {
+		return rDoubleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRFloat() {
+		return rFloatEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getConstraint() {
+		return constraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConstraint_Specification() {
+		return (EReference)constraintEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSubstitution() {
+		return substitutionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTransitionSubstitution() {
+		return transitionSubstitutionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransitionSubstitution_From() {
+		return (EReference)transitionSubstitutionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransitionSubstitution_To() {
+		return (EReference)transitionSubstitutionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getVisibility() {
 		return visibilityEEnum;
 	}
@@ -2086,6 +2533,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		createEReference(aspectEClass, ASPECT__MESSAGE_VIEWS);
 		createEReference(aspectEClass, ASPECT__INSTANTIATIONS);
 		createEReference(aspectEClass, ASPECT__LAYOUT);
+		createEReference(aspectEClass, ASPECT__STATE_VIEWS);
 
 		mappableElementEClass = createEClass(MAPPABLE_ELEMENT);
 
@@ -2118,8 +2566,6 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		createEAttribute(instantiationEClass, INSTANTIATION__TYPE);
 
 		mappingEClass = createEClass(MAPPING);
-		createEReference(mappingEClass, MAPPING__TO_ELEMENTS);
-		createEReference(mappingEClass, MAPPING__FROM_ELEMENT);
 
 		operationEClass = createEClass(OPERATION);
 		createEAttribute(operationEClass, OPERATION__ABSTRACT);
@@ -2252,7 +2698,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 
 		rSetEClass = createEClass(RSET);
 
-		rListEClass = createEClass(RLIST);
+		rSequenceEClass = createEClass(RSEQUENCE);
 
 		layoutEClass = createEClass(LAYOUT);
 		createEReference(layoutEClass, LAYOUT__CONTAINERS);
@@ -2294,6 +2740,58 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 
 		literalBooleanEClass = createEClass(LITERAL_BOOLEAN);
 		createEAttribute(literalBooleanEClass, LITERAL_BOOLEAN__VALUE);
+
+		classifierMappingEClass = createEClass(CLASSIFIER_MAPPING);
+		createEReference(classifierMappingEClass, CLASSIFIER_MAPPING__OPERATION_MAPPINGS);
+		createEReference(classifierMappingEClass, CLASSIFIER_MAPPING__ATTRIBUTE_MAPPINGS);
+		createEReference(classifierMappingEClass, CLASSIFIER_MAPPING__FROM_ELEMENT);
+		createEReference(classifierMappingEClass, CLASSIFIER_MAPPING__TO_ELEMENT);
+
+		attributeMappingEClass = createEClass(ATTRIBUTE_MAPPING);
+		createEReference(attributeMappingEClass, ATTRIBUTE_MAPPING__FROM_ELEMENT);
+		createEReference(attributeMappingEClass, ATTRIBUTE_MAPPING__TO_ELEMENT);
+
+		operationMappingEClass = createEClass(OPERATION_MAPPING);
+		createEReference(operationMappingEClass, OPERATION_MAPPING__PARAMETER_MAPPINGS);
+		createEReference(operationMappingEClass, OPERATION_MAPPING__FROM_ELEMENT);
+		createEReference(operationMappingEClass, OPERATION_MAPPING__TO_ELEMENT);
+
+		parameterMappingEClass = createEClass(PARAMETER_MAPPING);
+		createEReference(parameterMappingEClass, PARAMETER_MAPPING__FROM_ELEMENT);
+		createEReference(parameterMappingEClass, PARAMETER_MAPPING__TO_ELEMENT);
+
+		stateViewEClass = createEClass(STATE_VIEW);
+		createEReference(stateViewEClass, STATE_VIEW__STATE_MACHINES);
+		createEReference(stateViewEClass, STATE_VIEW__SPECIFIES);
+
+		stateMachineEClass = createEClass(STATE_MACHINE);
+		createEReference(stateMachineEClass, STATE_MACHINE__START);
+		createEReference(stateMachineEClass, STATE_MACHINE__STATES);
+		createEReference(stateMachineEClass, STATE_MACHINE__TRANSITIONS);
+		createEReference(stateMachineEClass, STATE_MACHINE__SUBSTITUTIONS);
+
+		transitionEClass = createEClass(TRANSITION);
+		createEReference(transitionEClass, TRANSITION__END_STATE);
+		createEReference(transitionEClass, TRANSITION__START_STATE);
+		createEReference(transitionEClass, TRANSITION__SIGNATURE);
+		createEReference(transitionEClass, TRANSITION__GUARD);
+
+		stateEClass = createEClass(STATE);
+		createEReference(stateEClass, STATE__INCOMINGS);
+		createEReference(stateEClass, STATE__OUTGOINGS);
+
+		rDoubleEClass = createEClass(RDOUBLE);
+
+		rFloatEClass = createEClass(RFLOAT);
+
+		constraintEClass = createEClass(CONSTRAINT);
+		createEReference(constraintEClass, CONSTRAINT__SPECIFICATION);
+
+		substitutionEClass = createEClass(SUBSTITUTION);
+
+		transitionSubstitutionEClass = createEClass(TRANSITION_SUBSTITUTION);
+		createEReference(transitionSubstitutionEClass, TRANSITION_SUBSTITUTION__FROM);
+		createEReference(transitionSubstitutionEClass, TRANSITION_SUBSTITUTION__TO);
 
 		// Create enums
 		visibilityEEnum = createEEnum(VISIBILITY);
@@ -2340,8 +2838,10 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		operationEClass.getESuperTypes().add(this.getMappableElement());
 		attributeEClass.getESuperTypes().add(this.getStructuralFeature());
 		attributeEClass.getESuperTypes().add(this.getTemporaryProperty());
+		attributeEClass.getESuperTypes().add(this.getMappableElement());
 		typeEClass.getESuperTypes().add(this.getNamedElement());
 		parameterEClass.getESuperTypes().add(this.getTypedElement());
+		parameterEClass.getESuperTypes().add(this.getMappableElement());
 		primitiveTypeEClass.getESuperTypes().add(this.getType());
 		primitiveTypeEClass.getESuperTypes().add(this.getImplementationClass());
 		objectTypeEClass.getESuperTypes().add(this.getType());
@@ -2376,7 +2876,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		rCollectionEClass.getESuperTypes().add(this.getType());
 		rCollectionEClass.getESuperTypes().add(this.getImplementationClass());
 		rSetEClass.getESuperTypes().add(this.getRCollection());
-		rListEClass.getESuperTypes().add(this.getRCollection());
+		rSequenceEClass.getESuperTypes().add(this.getRCollection());
 		classifierEClass.getESuperTypes().add(this.getObjectType());
 		implementationClassEClass.getESuperTypes().add(this.getClassifier());
 		structuralFeatureEClass.getESuperTypes().add(this.getTypedElement());
@@ -2387,6 +2887,16 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		gateEClass.getESuperTypes().add(this.getMessageEnd());
 		gateEClass.getESuperTypes().add(this.getNamedElement());
 		literalBooleanEClass.getESuperTypes().add(this.getLiteralSpecification());
+		classifierMappingEClass.getESuperTypes().add(this.getMapping());
+		attributeMappingEClass.getESuperTypes().add(this.getMapping());
+		operationMappingEClass.getESuperTypes().add(this.getMapping());
+		parameterMappingEClass.getESuperTypes().add(this.getMapping());
+		stateViewEClass.getESuperTypes().add(this.getNamedElement());
+		transitionEClass.getESuperTypes().add(this.getNamedElement());
+		stateEClass.getESuperTypes().add(this.getNamedElement());
+		rDoubleEClass.getESuperTypes().add(this.getPrimitiveType());
+		rFloatEClass.getESuperTypes().add(this.getPrimitiveType());
+		transitionSubstitutionEClass.getESuperTypes().add(this.getSubstitution());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(aspectEClass, Aspect.class, "Aspect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2395,6 +2905,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		initEReference(getAspect_MessageViews(), this.getAbstractMessageView(), null, "messageViews", null, 0, -1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getAspect_Instantiations(), this.getInstantiation(), null, "instantiations", null, 0, -1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAspect_Layout(), this.getLayout(), null, "layout", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAspect_StateViews(), this.getStateView(), null, "stateViews", null, 0, -1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappableElementEClass, MappableElement.class, "MappableElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2424,13 +2935,15 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 1, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(instantiationEClass, Instantiation.class, "Instantiation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInstantiation_Mappings(), this.getMapping(), null, "mappings", null, 0, -1, Instantiation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstantiation_Mappings(), this.getClassifierMapping(), null, "mappings", null, 0, -1, Instantiation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInstantiation_ExternalAspect(), this.getAspect(), null, "externalAspect", null, 1, 1, Instantiation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getInstantiation_Type(), this.getInstantiationType(), "type", "", 1, 1, Instantiation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInstantiation_Type(), this.getInstantiationType(), "type", "Depends", 1, 1, Instantiation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMapping_ToElements(), this.getMappableElement(), null, "toElements", null, 1, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMapping_FromElement(), this.getMappableElement(), null, "fromElement", null, 1, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(mappingEClass, Mapping.class, "Mapping", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(mappingEClass, this.getMappableElement(), "getFromElement", 1, 1, IS_UNIQUE, !IS_ORDERED);
+
+		addEOperation(mappingEClass, this.getMappableElement(), "getToElement", 1, 1, IS_UNIQUE, !IS_ORDERED);
 
 		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperation_Abstract(), ecorePackage.getEBoolean(), "abstract", "false", 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2585,7 +3098,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 
 		initEClass(rSetEClass, RSet.class, "RSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(rListEClass, RList.class, "RList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(rSequenceEClass, RSequence.class, "RSequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(layoutEClass, Layout.class, "Layout", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLayout_Containers(), this.getContainerMap(), null, "containers", null, 1, -1, Layout.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2629,6 +3142,66 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 
 		initEClass(literalBooleanEClass, LiteralBoolean.class, "LiteralBoolean", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLiteralBoolean_Value(), ecorePackage.getEBoolean(), "value", null, 1, 1, LiteralBoolean.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(classifierMappingEClass, ClassifierMapping.class, "ClassifierMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getClassifierMapping_OperationMappings(), this.getOperationMapping(), null, "operationMappings", null, 0, -1, ClassifierMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassifierMapping_AttributeMappings(), this.getAttributeMapping(), null, "attributeMappings", null, 0, -1, ClassifierMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassifierMapping_FromElement(), this.getClassifier(), null, "fromElement", null, 1, 1, ClassifierMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getClassifierMapping_ToElement(), this.getClassifier(), null, "toElement", null, 1, 1, ClassifierMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(attributeMappingEClass, AttributeMapping.class, "AttributeMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAttributeMapping_FromElement(), this.getAttribute(), null, "fromElement", null, 1, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAttributeMapping_ToElement(), this.getAttribute(), null, "toElement", null, 1, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(operationMappingEClass, OperationMapping.class, "OperationMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationMapping_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, OperationMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperationMapping_FromElement(), this.getOperation(), null, "fromElement", null, 1, 1, OperationMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getOperationMapping_ToElement(), this.getOperation(), null, "toElement", null, 1, 1, OperationMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(parameterMappingEClass, ParameterMapping.class, "ParameterMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterMapping_FromElement(), this.getParameter(), null, "fromElement", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getParameterMapping_ToElement(), this.getParameter(), null, "toElement", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(stateViewEClass, StateView.class, "StateView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStateView_StateMachines(), this.getStateMachine(), null, "stateMachines", null, 1, -1, StateView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateView_Specifies(), this.getClassifier(), null, "specifies", null, 1, 1, StateView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stateMachineEClass, StateMachine.class, "StateMachine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStateMachine_Start(), this.getState(), null, "start", null, 1, 1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateMachine_States(), this.getState(), null, "states", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateMachine_Transitions(), this.getTransition(), null, "transitions", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateMachine_Substitutions(), this.getSubstitution(), null, "substitutions", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTransition_EndState(), this.getState(), this.getState_Incomings(), "endState", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_StartState(), this.getState(), this.getState_Outgoings(), "startState", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_Signature(), this.getOperation(), null, "signature", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_Guard(), this.getConstraint(), null, "guard", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getState_Incomings(), this.getTransition(), this.getTransition_EndState(), "incomings", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_Outgoings(), this.getTransition(), this.getTransition_StartState(), "outgoings", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rDoubleEClass, RDouble.class, "RDouble", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(rDoubleEClass, ecorePackage.getEString(), "getName", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rDoubleEClass, ecorePackage.getEString(), "getInstanceClassName", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(rFloatEClass, RFloat.class, "RFloat", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(rFloatEClass, ecorePackage.getEString(), "getName", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(rFloatEClass, ecorePackage.getEString(), "getInstanceClassName", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getConstraint_Specification(), this.getValueSpecification(), null, "Specification", null, 1, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(substitutionEClass, Substitution.class, "Substitution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(transitionSubstitutionEClass, TransitionSubstitution.class, "TransitionSubstitution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTransitionSubstitution_From(), this.getTransition(), null, "from", null, 1, 1, TransitionSubstitution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransitionSubstitution_To(), this.getTransition(), null, "to", null, 1, -1, TransitionSubstitution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(visibilityEEnum, Visibility.class, "Visibility");
@@ -2714,13 +3287,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "aspectCannotMapSelf mandatoryAspectParametersMapped"
-		   });			
-		addAnnotation
-		  (mappingEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "validSourceModelElement sameTypesMapped validMapping"
-		   });			
+		   });					
 		addAnnotation
 		  (operationEClass, 
 		   source, 
@@ -2786,7 +3353,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "validUpperBound validLowerBound validMultiplicity"
-		   });	
+		   });					
 	}
 
 	/**
@@ -2847,23 +3414,24 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 			 "aspectCannotMapSelf$message", "\'Aspect may not depend on itself\'",
 			 "mandatoryAspectParametersMapped", "if self.type = InstantiationType::Depends then self.externalAspect.mandatoryAspectParameters->forAll(element : MappableElement | self.mappings->exists(fromElement = element)) else true endif",
 			 "mandatoryAspectParametersMapped$message", "\'Partial elements from lower-level aspects have to be mapped\'"
-		   });			
+		   });		
 		addAnnotation
-		  (mappingEClass, 
+		  (mappingEClass.getEOperations().get(0), 
 		   source, 
 		   new String[] {
-			 "validSourceModelElement", "self.fromElement.oclIsTypeOf(Class) or self.fromElement.oclIsTypeOf(Operation)",
-			 "validSourceModelElement$message", "\'The source model element may only be of type Class or Operation\'",
-			 "sameTypesMapped", "self.toElements->forAll(element : MappableElement | if element.oclIsKindOf(Classifier) then self.fromElement.oclIsKindOf(Classifier) else element.oclIsTypeOf(self.fromElement.oclType()) endif)",
-			 "sameTypesMapped$message", "\'Mapping must be between same types of elements\'",
-			 "validMapping", "let clazz : Class = if fromElement.oclIsTypeOf(Operation) then fromElement.oclAsType(Operation).Classifier else fromElement endif in self.Instantiation.externalAspect.structuralView.classes->includes(clazz) and self.toElements->forAll(element : MappableElement | let clazz : Class = if element.oclIsTypeOf(Operation) then element.oclAsType(Operation).Classifier else element endif in if clazz.oclIsKindOf(PrimitiveType) then self.Instantiation.Aspect.structuralView.types->includes(clazz) else self.Instantiation.Aspect.structuralView.classes->includes(clazz) endif)",
-			 "validMapping$message", "\'Source must be from depending aspect and targets must be from current aspect\'"
+			 "body", "null"
+		   });		
+		addAnnotation
+		  (mappingEClass.getEOperations().get(1), 
+		   source, 
+		   new String[] {
+			 "body", "null"
 		   });			
 		addAnnotation
 		  (operationEClass, 
 		   source, 
 		   new String[] {
-			 "messageViewDefined", "if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.StructuralView.Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif",
+			 "messageViewDefined", "if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.oclContainer().oclAsType(StructuralView).Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif",
 			 "messageViewDefined$message", "\'MessageView missing for public operation\'"
 		   });			
 		addAnnotation
@@ -2962,7 +3530,7 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		  (messageEClass, 
 		   source, 
 		   new String[] {
-			 "validSelfMessage", "if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then if self.sendEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) = self.receiveEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) then self.interaction.fragments->indexOf(self.sendEvent) < self.interaction.fragments->indexOf(self.receiveEvent) else true endif else true endif",
+			 "validSelfMessage", "if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then let sendEvent : InteractionFragment = self.sendEvent.oclAsType(InteractionFragment) in let receiveEvent : InteractionFragment = self.receiveEvent.oclAsType(InteractionFragment) in if sendEvent.covered->asOrderedSet()->at(1) = receiveEvent.covered->asOrderedSet()->at(1) then sendEvent.container.fragments->indexOf(self.sendEvent) < receiveEvent.container.fragments->indexOf(self.receiveEvent) else true endif else true endif",
 			 "validSelfMessage$message", "\'receiveEvent of a self message may not come before the sendEvent\'",
 			 "argumentsSpecified", "if self.messageSort <> MessageSort::reply and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.signature.oclIsUndefined() then let container : FragmentContainer = self.sendEvent.oclAsType(MessageOccurrenceSpecification).container in if container.fragments->includes(self.sendEvent) then self.signature.parameters->size() = self.arguments->size() and self.signature.parameters->forAll(currentParameter : Parameter | self.arguments->one(argument : ParameterValueMapping | argument.parameter = currentParameter)) else true endif else true endif",
 			 "argumentsSpecified$message", "\'All arguments of the operation must be specified\'",
@@ -3025,18 +3593,42 @@ public class RamPackageImpl extends EPackageImpl implements RamPackage {
 		  (rCollectionEClass.getEOperations().get(0), 
 		   source, 
 		   new String[] {
-			 "body", "let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then \'|\' else \'\' endif in let name : String = self.oclType().name.substring(2, self.oclType().name.size()) in if type.name.oclIsUndefined() then name else name + \'<\' + partial + type.name + \'>\' endif"
+			 "body", "let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then \'|\' else \'\' endif in let typeName : String = self.oclType().toString() in let name : String = typeName.substring(typeName.lastIndexOf(\':\') + 1, typeName.size()) in if type.name.oclIsUndefined() then name else name + \'<\' + partial + type.name + \'>\' endif"
 		   });			
 		addAnnotation
 		  (propertyEClass, 
 		   source, 
 		   new String[] {
-			 "validUpperBound", "self.upperBound > 0 or self.upperBound = - 1",
+			 "validUpperBound", "self.upperBound > 0 or self.upperBound = -1",
 			 "validUpperBound$message", "\'The upperbound must be greater than zero or -1 representing *\'",
 			 "validLowerBound", "self.lowerBound >= 0",
 			 "validLowerBound$message", "\'The lowerbound must be greater than or equal to zero\'",
-			 "validMultiplicity", "self.lowerBound <= self.upperBound or self.upperBound = - 1",
+			 "validMultiplicity", "self.lowerBound <= self.upperBound or self.upperBound = -1",
 			 "validMultiplicity$message", "\'The lowerBound must be less than or equal to the upperBound\'"
+		   });		
+		addAnnotation
+		  (rDoubleEClass.getEOperations().get(0), 
+		   source, 
+		   new String[] {
+			 "body", "\'double\'"
+		   });		
+		addAnnotation
+		  (rDoubleEClass.getEOperations().get(1), 
+		   source, 
+		   new String[] {
+			 "body", "\'java.lang.Double\'"
+		   });		
+		addAnnotation
+		  (rFloatEClass.getEOperations().get(0), 
+		   source, 
+		   new String[] {
+			 "body", "\'float\'"
+		   });		
+		addAnnotation
+		  (rFloatEClass.getEOperations().get(1), 
+		   source, 
+		   new String[] {
+			 "body", "\'java.lang.Float\'"
 		   });
 	}
 

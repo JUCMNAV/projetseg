@@ -37,7 +37,8 @@ public class RListImpl extends RCollectionImpl implements RList {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return RamPackage.Literals.RLIST;
+		//return RamPackage.Literals.RLIST;
+		return null;
 	}
 
 } //RListImpl

@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ram.Aspect#getMessageViews <em>Message Views</em>}</li>
  *   <li>{@link ram.Aspect#getInstantiations <em>Instantiations</em>}</li>
  *   <li>{@link ram.Aspect#getLayout <em>Layout</em>}</li>
+ *   <li>{@link ram.Aspect#getStateViews <em>State Views</em>}</li>
  * </ul>
  * </p>
  *
@@ -129,5 +130,21 @@ public interface Aspect extends NamedElement {
 	 * @generated
 	 */
 	void setLayout(Layout value);
+
+	/**
+	 * Returns the value of the '<em><b>State Views</b></em>' containment reference list.
+	 * The list contents are of type {@link ram.StateView}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>State Views</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>State Views</em>' containment reference list.
+	 * @see ram.RamPackage#getAspect_StateViews()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<StateView> getStateViews();
 
 } // Aspect

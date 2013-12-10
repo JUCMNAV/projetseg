@@ -43,7 +43,7 @@ public interface RamPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://cs.mcgill.ca/sel/ram/2.0";
+	String eNS_URI = "http://cs.mcgill.ca/sel/ram/2.1";
 
 	/**
 	 * The package namespace name.
@@ -154,13 +154,22 @@ public interface RamPackage extends EPackage {
 	int ASPECT__LAYOUT = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>State Views</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__STATE_VIEWS = NAMED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Aspect</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASPECT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int ASPECT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link ram.impl.MappableElementImpl <em>Mappable Element</em>}' class.
@@ -725,31 +734,13 @@ public interface RamPackage extends EPackage {
 	int MAPPING = 8;
 
 	/**
-	 * The feature id for the '<em><b>To Elements</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__TO_ELEMENTS = 0;
-
-	/**
-	 * The feature id for the '<em><b>From Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__FROM_ELEMENT = 1;
-
-	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = 2;
+	int MAPPING_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link ram.impl.OperationImpl <em>Operation</em>}' class.
@@ -2402,14 +2393,14 @@ public interface RamPackage extends EPackage {
 	int RSET_FEATURE_COUNT = RCOLLECTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link ram.impl.RListImpl <em>RList</em>}' class.
+	 * The meta object id for the '{@link ram.impl.RSequenceImpl <em>RSequence</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ram.impl.RListImpl
-	 * @see ram.impl.RamPackageImpl#getRList()
+	 * @see ram.impl.RSequenceImpl
+	 * @see ram.impl.RamPackageImpl#getRSequence()
 	 * @generated
 	 */
-	int RLIST = 50;
+	int RSEQUENCE = 50;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2418,7 +2409,7 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RLIST__NAME = RCOLLECTION__NAME;
+	int RSEQUENCE__NAME = RCOLLECTION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
@@ -2427,7 +2418,7 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RLIST__OPERATIONS = RCOLLECTION__OPERATIONS;
+	int RSEQUENCE__OPERATIONS = RCOLLECTION__OPERATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Instance Class Name</b></em>' attribute.
@@ -2436,7 +2427,7 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RLIST__INSTANCE_CLASS_NAME = RCOLLECTION__INSTANCE_CLASS_NAME;
+	int RSEQUENCE__INSTANCE_CLASS_NAME = RCOLLECTION__INSTANCE_CLASS_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -2445,16 +2436,16 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RLIST__TYPE = RCOLLECTION__TYPE;
+	int RSEQUENCE__TYPE = RCOLLECTION__TYPE;
 
 	/**
-	 * The number of structural features of the '<em>RList</em>' class.
+	 * The number of structural features of the '<em>RSequence</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RLIST_FEATURE_COUNT = RCOLLECTION_FEATURE_COUNT + 0;
+	int RSEQUENCE_FEATURE_COUNT = RCOLLECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link ram.impl.LayoutImpl <em>Layout</em>}' class.
@@ -2799,6 +2790,568 @@ public interface RamPackage extends EPackage {
 	int LITERAL_BOOLEAN_FEATURE_COUNT = LITERAL_SPECIFICATION_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link ram.impl.ClassifierMappingImpl <em>Classifier Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.ClassifierMappingImpl
+	 * @see ram.impl.RamPackageImpl#getClassifierMapping()
+	 * @generated
+	 */
+	int CLASSIFIER_MAPPING = 64;
+
+	/**
+	 * The feature id for the '<em><b>Operation Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_MAPPING__OPERATION_MAPPINGS = MAPPING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Attribute Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_MAPPING__ATTRIBUTE_MAPPINGS = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>From Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_MAPPING__FROM_ELEMENT = MAPPING_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>To Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_MAPPING__TO_ELEMENT = MAPPING_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Classifier Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER_MAPPING_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.AttributeMappingImpl <em>Attribute Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.AttributeMappingImpl
+	 * @see ram.impl.RamPackageImpl#getAttributeMapping()
+	 * @generated
+	 */
+	int ATTRIBUTE_MAPPING = 65;
+
+	/**
+	 * The feature id for the '<em><b>From Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_MAPPING__FROM_ELEMENT = MAPPING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>To Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_MAPPING__TO_ELEMENT = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Attribute Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_MAPPING_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.OperationMappingImpl <em>Operation Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.OperationMappingImpl
+	 * @see ram.impl.RamPackageImpl#getOperationMapping()
+	 * @generated
+	 */
+	int OPERATION_MAPPING = 66;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_MAPPING__PARAMETER_MAPPINGS = MAPPING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>From Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_MAPPING__FROM_ELEMENT = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>To Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_MAPPING__TO_ELEMENT = MAPPING_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Operation Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_MAPPING_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.ParameterMappingImpl <em>Parameter Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.ParameterMappingImpl
+	 * @see ram.impl.RamPackageImpl#getParameterMapping()
+	 * @generated
+	 */
+	int PARAMETER_MAPPING = 67;
+
+	/**
+	 * The feature id for the '<em><b>From Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_MAPPING__FROM_ELEMENT = MAPPING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>To Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_MAPPING__TO_ELEMENT = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Parameter Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_MAPPING_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.StateViewImpl <em>State View</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.StateViewImpl
+	 * @see ram.impl.RamPackageImpl#getStateView()
+	 * @generated
+	 */
+	int STATE_VIEW = 68;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_VIEW__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>State Machines</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_VIEW__STATE_MACHINES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Specifies</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_VIEW__SPECIFIES = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>State View</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_VIEW_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.StateMachineImpl <em>State Machine</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.StateMachineImpl
+	 * @see ram.impl.RamPackageImpl#getStateMachine()
+	 * @generated
+	 */
+	int STATE_MACHINE = 69;
+
+	/**
+	 * The feature id for the '<em><b>Start</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__START = 0;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__STATES = 1;
+
+	/**
+	 * The feature id for the '<em><b>Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__TRANSITIONS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Substitutions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE__SUBSTITUTIONS = 3;
+
+	/**
+	 * The number of structural features of the '<em>State Machine</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE_FEATURE_COUNT = 4;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.TransitionImpl <em>Transition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.TransitionImpl
+	 * @see ram.impl.RamPackageImpl#getTransition()
+	 * @generated
+	 */
+	int TRANSITION = 70;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>End State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__END_STATE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Start State</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__START_STATE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Signature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__SIGNATURE = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__GUARD = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Transition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.StateImpl <em>State</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.StateImpl
+	 * @see ram.impl.RamPackageImpl#getState()
+	 * @generated
+	 */
+	int STATE = 71;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Incomings</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__INCOMINGS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Outgoings</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__OUTGOINGS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>State</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.RDoubleImpl <em>RDouble</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.RDoubleImpl
+	 * @see ram.impl.RamPackageImpl#getRDouble()
+	 * @generated
+	 */
+	int RDOUBLE = 72;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RDOUBLE__NAME = PRIMITIVE_TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RDOUBLE__OPERATIONS = PRIMITIVE_TYPE__OPERATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Instance Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RDOUBLE__INSTANCE_CLASS_NAME = PRIMITIVE_TYPE__INSTANCE_CLASS_NAME;
+
+	/**
+	 * The number of structural features of the '<em>RDouble</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RDOUBLE_FEATURE_COUNT = PRIMITIVE_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.RFloatImpl <em>RFloat</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.RFloatImpl
+	 * @see ram.impl.RamPackageImpl#getRFloat()
+	 * @generated
+	 */
+	int RFLOAT = 73;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFLOAT__NAME = PRIMITIVE_TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFLOAT__OPERATIONS = PRIMITIVE_TYPE__OPERATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Instance Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFLOAT__INSTANCE_CLASS_NAME = PRIMITIVE_TYPE__INSTANCE_CLASS_NAME;
+
+	/**
+	 * The number of structural features of the '<em>RFloat</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFLOAT_FEATURE_COUNT = PRIMITIVE_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.ConstraintImpl <em>Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.ConstraintImpl
+	 * @see ram.impl.RamPackageImpl#getConstraint()
+	 * @generated
+	 */
+	int CONSTRAINT = 74;
+
+	/**
+	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRAINT__SPECIFICATION = 0;
+
+	/**
+	 * The number of structural features of the '<em>Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRAINT_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.SubstitutionImpl <em>Substitution</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.SubstitutionImpl
+	 * @see ram.impl.RamPackageImpl#getSubstitution()
+	 * @generated
+	 */
+	int SUBSTITUTION = 75;
+
+	/**
+	 * The number of structural features of the '<em>Substitution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBSTITUTION_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link ram.impl.TransitionSubstitutionImpl <em>Transition Substitution</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ram.impl.TransitionSubstitutionImpl
+	 * @see ram.impl.RamPackageImpl#getTransitionSubstitution()
+	 * @generated
+	 */
+	int TRANSITION_SUBSTITUTION = 76;
+
+	/**
+	 * The feature id for the '<em><b>From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_SUBSTITUTION__FROM = SUBSTITUTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_SUBSTITUTION__TO = SUBSTITUTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Transition Substitution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_SUBSTITUTION_FEATURE_COUNT = SUBSTITUTION_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link ram.Visibility <em>Visibility</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2806,7 +3359,7 @@ public interface RamPackage extends EPackage {
 	 * @see ram.impl.RamPackageImpl#getVisibility()
 	 * @generated
 	 */
-	int VISIBILITY = 64;
+	int VISIBILITY = 77;
 
 	/**
 	 * The meta object id for the '{@link ram.ReferenceType <em>Reference Type</em>}' enum.
@@ -2816,7 +3369,7 @@ public interface RamPackage extends EPackage {
 	 * @see ram.impl.RamPackageImpl#getReferenceType()
 	 * @generated
 	 */
-	int REFERENCE_TYPE = 65;
+	int REFERENCE_TYPE = 78;
 
 	/**
 	 * The meta object id for the '{@link ram.MessageSort <em>Message Sort</em>}' enum.
@@ -2826,7 +3379,7 @@ public interface RamPackage extends EPackage {
 	 * @see ram.impl.RamPackageImpl#getMessageSort()
 	 * @generated
 	 */
-	int MESSAGE_SORT = 66;
+	int MESSAGE_SORT = 79;
 
 	/**
 	 * The meta object id for the '{@link ram.InteractionOperatorKind <em>Interaction Operator Kind</em>}' enum.
@@ -2836,7 +3389,7 @@ public interface RamPackage extends EPackage {
 	 * @see ram.impl.RamPackageImpl#getInteractionOperatorKind()
 	 * @generated
 	 */
-	int INTERACTION_OPERATOR_KIND = 67;
+	int INTERACTION_OPERATOR_KIND = 80;
 
 	/**
 	 * The meta object id for the '{@link ram.InstantiationType <em>Instantiation Type</em>}' enum.
@@ -2846,7 +3399,7 @@ public interface RamPackage extends EPackage {
 	 * @see ram.impl.RamPackageImpl#getInstantiationType()
 	 * @generated
 	 */
-	int INSTANTIATION_TYPE = 68;
+	int INSTANTIATION_TYPE = 81;
 
 
 	/**
@@ -2913,6 +3466,17 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAspect_Layout();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.Aspect#getStateViews <em>State Views</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>State Views</em>'.
+	 * @see ram.Aspect#getStateViews()
+	 * @see #getAspect()
+	 * @generated
+	 */
+	EReference getAspect_StateViews();
 
 	/**
 	 * Returns the meta object for class '{@link ram.MappableElement <em>Mappable Element</em>}'.
@@ -3169,28 +3733,6 @@ public interface RamPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMapping();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ram.Mapping#getToElements <em>To Elements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>To Elements</em>'.
-	 * @see ram.Mapping#getToElements()
-	 * @see #getMapping()
-	 * @generated
-	 */
-	EReference getMapping_ToElements();
-
-	/**
-	 * Returns the meta object for the reference '{@link ram.Mapping#getFromElement <em>From Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>From Element</em>'.
-	 * @see ram.Mapping#getFromElement()
-	 * @see #getMapping()
-	 * @generated
-	 */
-	EReference getMapping_FromElement();
 
 	/**
 	 * Returns the meta object for class '{@link ram.Operation <em>Operation</em>}'.
@@ -4142,14 +4684,14 @@ public interface RamPackage extends EPackage {
 	EClass getRSet();
 
 	/**
-	 * Returns the meta object for class '{@link ram.RList <em>RList</em>}'.
+	 * Returns the meta object for class '{@link ram.RSequence <em>RSequence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RList</em>'.
-	 * @see ram.RList
+	 * @return the meta object for class '<em>RSequence</em>'.
+	 * @see ram.RSequence
 	 * @generated
 	 */
-	EClass getRList();
+	EClass getRSequence();
 
 	/**
 	 * Returns the meta object for class '{@link ram.Layout <em>Layout</em>}'.
@@ -4451,6 +4993,422 @@ public interface RamPackage extends EPackage {
 	EAttribute getLiteralBoolean_Value();
 
 	/**
+	 * Returns the meta object for class '{@link ram.ClassifierMapping <em>Classifier Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Classifier Mapping</em>'.
+	 * @see ram.ClassifierMapping
+	 * @generated
+	 */
+	EClass getClassifierMapping();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.ClassifierMapping#getOperationMappings <em>Operation Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Operation Mappings</em>'.
+	 * @see ram.ClassifierMapping#getOperationMappings()
+	 * @see #getClassifierMapping()
+	 * @generated
+	 */
+	EReference getClassifierMapping_OperationMappings();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.ClassifierMapping#getAttributeMappings <em>Attribute Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attribute Mappings</em>'.
+	 * @see ram.ClassifierMapping#getAttributeMappings()
+	 * @see #getClassifierMapping()
+	 * @generated
+	 */
+	EReference getClassifierMapping_AttributeMappings();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.ClassifierMapping#getFromElement <em>From Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From Element</em>'.
+	 * @see ram.ClassifierMapping#getFromElement()
+	 * @see #getClassifierMapping()
+	 * @generated
+	 */
+	EReference getClassifierMapping_FromElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.ClassifierMapping#getToElement <em>To Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>To Element</em>'.
+	 * @see ram.ClassifierMapping#getToElement()
+	 * @see #getClassifierMapping()
+	 * @generated
+	 */
+	EReference getClassifierMapping_ToElement();
+
+	/**
+	 * Returns the meta object for class '{@link ram.AttributeMapping <em>Attribute Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute Mapping</em>'.
+	 * @see ram.AttributeMapping
+	 * @generated
+	 */
+	EClass getAttributeMapping();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.AttributeMapping#getFromElement <em>From Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From Element</em>'.
+	 * @see ram.AttributeMapping#getFromElement()
+	 * @see #getAttributeMapping()
+	 * @generated
+	 */
+	EReference getAttributeMapping_FromElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.AttributeMapping#getToElement <em>To Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>To Element</em>'.
+	 * @see ram.AttributeMapping#getToElement()
+	 * @see #getAttributeMapping()
+	 * @generated
+	 */
+	EReference getAttributeMapping_ToElement();
+
+	/**
+	 * Returns the meta object for class '{@link ram.OperationMapping <em>Operation Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation Mapping</em>'.
+	 * @see ram.OperationMapping
+	 * @generated
+	 */
+	EClass getOperationMapping();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.OperationMapping#getParameterMappings <em>Parameter Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameter Mappings</em>'.
+	 * @see ram.OperationMapping#getParameterMappings()
+	 * @see #getOperationMapping()
+	 * @generated
+	 */
+	EReference getOperationMapping_ParameterMappings();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.OperationMapping#getFromElement <em>From Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From Element</em>'.
+	 * @see ram.OperationMapping#getFromElement()
+	 * @see #getOperationMapping()
+	 * @generated
+	 */
+	EReference getOperationMapping_FromElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.OperationMapping#getToElement <em>To Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>To Element</em>'.
+	 * @see ram.OperationMapping#getToElement()
+	 * @see #getOperationMapping()
+	 * @generated
+	 */
+	EReference getOperationMapping_ToElement();
+
+	/**
+	 * Returns the meta object for class '{@link ram.ParameterMapping <em>Parameter Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter Mapping</em>'.
+	 * @see ram.ParameterMapping
+	 * @generated
+	 */
+	EClass getParameterMapping();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.ParameterMapping#getFromElement <em>From Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From Element</em>'.
+	 * @see ram.ParameterMapping#getFromElement()
+	 * @see #getParameterMapping()
+	 * @generated
+	 */
+	EReference getParameterMapping_FromElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.ParameterMapping#getToElement <em>To Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>To Element</em>'.
+	 * @see ram.ParameterMapping#getToElement()
+	 * @see #getParameterMapping()
+	 * @generated
+	 */
+	EReference getParameterMapping_ToElement();
+
+	/**
+	 * Returns the meta object for class '{@link ram.StateView <em>State View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State View</em>'.
+	 * @see ram.StateView
+	 * @generated
+	 */
+	EClass getStateView();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.StateView#getStateMachines <em>State Machines</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>State Machines</em>'.
+	 * @see ram.StateView#getStateMachines()
+	 * @see #getStateView()
+	 * @generated
+	 */
+	EReference getStateView_StateMachines();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.StateView#getSpecifies <em>Specifies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Specifies</em>'.
+	 * @see ram.StateView#getSpecifies()
+	 * @see #getStateView()
+	 * @generated
+	 */
+	EReference getStateView_Specifies();
+
+	/**
+	 * Returns the meta object for class '{@link ram.StateMachine <em>State Machine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State Machine</em>'.
+	 * @see ram.StateMachine
+	 * @generated
+	 */
+	EClass getStateMachine();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.StateMachine#getStart <em>Start</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Start</em>'.
+	 * @see ram.StateMachine#getStart()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_Start();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.StateMachine#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>States</em>'.
+	 * @see ram.StateMachine#getStates()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_States();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.StateMachine#getTransitions <em>Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Transitions</em>'.
+	 * @see ram.StateMachine#getTransitions()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_Transitions();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ram.StateMachine#getSubstitutions <em>Substitutions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Substitutions</em>'.
+	 * @see ram.StateMachine#getSubstitutions()
+	 * @see #getStateMachine()
+	 * @generated
+	 */
+	EReference getStateMachine_Substitutions();
+
+	/**
+	 * Returns the meta object for class '{@link ram.Transition <em>Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Transition</em>'.
+	 * @see ram.Transition
+	 * @generated
+	 */
+	EClass getTransition();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.Transition#getEndState <em>End State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>End State</em>'.
+	 * @see ram.Transition#getEndState()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_EndState();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.Transition#getStartState <em>Start State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Start State</em>'.
+	 * @see ram.Transition#getStartState()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_StartState();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.Transition#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Signature</em>'.
+	 * @see ram.Transition#getSignature()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_Signature();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ram.Transition#getGuard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Guard</em>'.
+	 * @see ram.Transition#getGuard()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_Guard();
+
+	/**
+	 * Returns the meta object for class '{@link ram.State <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State</em>'.
+	 * @see ram.State
+	 * @generated
+	 */
+	EClass getState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ram.State#getIncomings <em>Incomings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incomings</em>'.
+	 * @see ram.State#getIncomings()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Incomings();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ram.State#getOutgoings <em>Outgoings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoings</em>'.
+	 * @see ram.State#getOutgoings()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Outgoings();
+
+	/**
+	 * Returns the meta object for class '{@link ram.RDouble <em>RDouble</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RDouble</em>'.
+	 * @see ram.RDouble
+	 * @generated
+	 */
+	EClass getRDouble();
+
+	/**
+	 * Returns the meta object for class '{@link ram.RFloat <em>RFloat</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RFloat</em>'.
+	 * @see ram.RFloat
+	 * @generated
+	 */
+	EClass getRFloat();
+
+	/**
+	 * Returns the meta object for class '{@link ram.Constraint <em>Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Constraint</em>'.
+	 * @see ram.Constraint
+	 * @generated
+	 */
+	EClass getConstraint();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ram.Constraint#getSpecification <em>Specification</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Specification</em>'.
+	 * @see ram.Constraint#getSpecification()
+	 * @see #getConstraint()
+	 * @generated
+	 */
+	EReference getConstraint_Specification();
+
+	/**
+	 * Returns the meta object for class '{@link ram.Substitution <em>Substitution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Substitution</em>'.
+	 * @see ram.Substitution
+	 * @generated
+	 */
+	EClass getSubstitution();
+
+	/**
+	 * Returns the meta object for class '{@link ram.TransitionSubstitution <em>Transition Substitution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Transition Substitution</em>'.
+	 * @see ram.TransitionSubstitution
+	 * @generated
+	 */
+	EClass getTransitionSubstitution();
+
+	/**
+	 * Returns the meta object for the reference '{@link ram.TransitionSubstitution#getFrom <em>From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>From</em>'.
+	 * @see ram.TransitionSubstitution#getFrom()
+	 * @see #getTransitionSubstitution()
+	 * @generated
+	 */
+	EReference getTransitionSubstitution_From();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ram.TransitionSubstitution#getTo <em>To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>To</em>'.
+	 * @see ram.TransitionSubstitution#getTo()
+	 * @see #getTransitionSubstitution()
+	 * @generated
+	 */
+	EReference getTransitionSubstitution_To();
+
+	/**
 	 * Returns the meta object for enum '{@link ram.Visibility <em>Visibility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4571,6 +5529,14 @@ public interface RamPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ASPECT__LAYOUT = eINSTANCE.getAspect_Layout();
+
+		/**
+		 * The meta object literal for the '<em><b>State Views</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASPECT__STATE_VIEWS = eINSTANCE.getAspect_StateViews();
 
 		/**
 		 * The meta object literal for the '{@link ram.impl.MappableElementImpl <em>Mappable Element</em>}' class.
@@ -4779,22 +5745,6 @@ public interface RamPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MAPPING = eINSTANCE.getMapping();
-
-		/**
-		 * The meta object literal for the '<em><b>To Elements</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MAPPING__TO_ELEMENTS = eINSTANCE.getMapping_ToElements();
-
-		/**
-		 * The meta object literal for the '<em><b>From Element</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MAPPING__FROM_ELEMENT = eINSTANCE.getMapping_FromElement();
 
 		/**
 		 * The meta object literal for the '{@link ram.impl.OperationImpl <em>Operation</em>}' class.
@@ -5599,14 +6549,14 @@ public interface RamPackage extends EPackage {
 		EClass RSET = eINSTANCE.getRSet();
 
 		/**
-		 * The meta object literal for the '{@link ram.impl.RListImpl <em>RList</em>}' class.
+		 * The meta object literal for the '{@link ram.impl.RSequenceImpl <em>RSequence</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see ram.impl.RListImpl
-		 * @see ram.impl.RamPackageImpl#getRList()
+		 * @see ram.impl.RSequenceImpl
+		 * @see ram.impl.RamPackageImpl#getRSequence()
 		 * @generated
 		 */
-		EClass RLIST = eINSTANCE.getRList();
+		EClass RSEQUENCE = eINSTANCE.getRSequence();
 
 		/**
 		 * The meta object literal for the '{@link ram.impl.LayoutImpl <em>Layout</em>}' class.
@@ -5857,6 +6807,344 @@ public interface RamPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LITERAL_BOOLEAN__VALUE = eINSTANCE.getLiteralBoolean_Value();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.ClassifierMappingImpl <em>Classifier Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.ClassifierMappingImpl
+		 * @see ram.impl.RamPackageImpl#getClassifierMapping()
+		 * @generated
+		 */
+		EClass CLASSIFIER_MAPPING = eINSTANCE.getClassifierMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASSIFIER_MAPPING__OPERATION_MAPPINGS = eINSTANCE.getClassifierMapping_OperationMappings();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASSIFIER_MAPPING__ATTRIBUTE_MAPPINGS = eINSTANCE.getClassifierMapping_AttributeMappings();
+
+		/**
+		 * The meta object literal for the '<em><b>From Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASSIFIER_MAPPING__FROM_ELEMENT = eINSTANCE.getClassifierMapping_FromElement();
+
+		/**
+		 * The meta object literal for the '<em><b>To Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLASSIFIER_MAPPING__TO_ELEMENT = eINSTANCE.getClassifierMapping_ToElement();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.AttributeMappingImpl <em>Attribute Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.AttributeMappingImpl
+		 * @see ram.impl.RamPackageImpl#getAttributeMapping()
+		 * @generated
+		 */
+		EClass ATTRIBUTE_MAPPING = eINSTANCE.getAttributeMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>From Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ATTRIBUTE_MAPPING__FROM_ELEMENT = eINSTANCE.getAttributeMapping_FromElement();
+
+		/**
+		 * The meta object literal for the '<em><b>To Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ATTRIBUTE_MAPPING__TO_ELEMENT = eINSTANCE.getAttributeMapping_ToElement();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.OperationMappingImpl <em>Operation Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.OperationMappingImpl
+		 * @see ram.impl.RamPackageImpl#getOperationMapping()
+		 * @generated
+		 */
+		EClass OPERATION_MAPPING = eINSTANCE.getOperationMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_MAPPING__PARAMETER_MAPPINGS = eINSTANCE.getOperationMapping_ParameterMappings();
+
+		/**
+		 * The meta object literal for the '<em><b>From Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_MAPPING__FROM_ELEMENT = eINSTANCE.getOperationMapping_FromElement();
+
+		/**
+		 * The meta object literal for the '<em><b>To Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_MAPPING__TO_ELEMENT = eINSTANCE.getOperationMapping_ToElement();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.ParameterMappingImpl <em>Parameter Mapping</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.ParameterMappingImpl
+		 * @see ram.impl.RamPackageImpl#getParameterMapping()
+		 * @generated
+		 */
+		EClass PARAMETER_MAPPING = eINSTANCE.getParameterMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>From Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARAMETER_MAPPING__FROM_ELEMENT = eINSTANCE.getParameterMapping_FromElement();
+
+		/**
+		 * The meta object literal for the '<em><b>To Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARAMETER_MAPPING__TO_ELEMENT = eINSTANCE.getParameterMapping_ToElement();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.StateViewImpl <em>State View</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.StateViewImpl
+		 * @see ram.impl.RamPackageImpl#getStateView()
+		 * @generated
+		 */
+		EClass STATE_VIEW = eINSTANCE.getStateView();
+
+		/**
+		 * The meta object literal for the '<em><b>State Machines</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_VIEW__STATE_MACHINES = eINSTANCE.getStateView_StateMachines();
+
+		/**
+		 * The meta object literal for the '<em><b>Specifies</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_VIEW__SPECIFIES = eINSTANCE.getStateView_Specifies();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.StateMachineImpl <em>State Machine</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.StateMachineImpl
+		 * @see ram.impl.RamPackageImpl#getStateMachine()
+		 * @generated
+		 */
+		EClass STATE_MACHINE = eINSTANCE.getStateMachine();
+
+		/**
+		 * The meta object literal for the '<em><b>Start</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__START = eINSTANCE.getStateMachine_Start();
+
+		/**
+		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__STATES = eINSTANCE.getStateMachine_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Transitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__TRANSITIONS = eINSTANCE.getStateMachine_Transitions();
+
+		/**
+		 * The meta object literal for the '<em><b>Substitutions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_MACHINE__SUBSTITUTIONS = eINSTANCE.getStateMachine_Substitutions();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.TransitionImpl <em>Transition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.TransitionImpl
+		 * @see ram.impl.RamPackageImpl#getTransition()
+		 * @generated
+		 */
+		EClass TRANSITION = eINSTANCE.getTransition();
+
+		/**
+		 * The meta object literal for the '<em><b>End State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__END_STATE = eINSTANCE.getTransition_EndState();
+
+		/**
+		 * The meta object literal for the '<em><b>Start State</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__START_STATE = eINSTANCE.getTransition_StartState();
+
+		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__SIGNATURE = eINSTANCE.getTransition_Signature();
+
+		/**
+		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__GUARD = eINSTANCE.getTransition_Guard();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.StateImpl <em>State</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.StateImpl
+		 * @see ram.impl.RamPackageImpl#getState()
+		 * @generated
+		 */
+		EClass STATE = eINSTANCE.getState();
+
+		/**
+		 * The meta object literal for the '<em><b>Incomings</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__INCOMINGS = eINSTANCE.getState_Incomings();
+
+		/**
+		 * The meta object literal for the '<em><b>Outgoings</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__OUTGOINGS = eINSTANCE.getState_Outgoings();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.RDoubleImpl <em>RDouble</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.RDoubleImpl
+		 * @see ram.impl.RamPackageImpl#getRDouble()
+		 * @generated
+		 */
+		EClass RDOUBLE = eINSTANCE.getRDouble();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.RFloatImpl <em>RFloat</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.RFloatImpl
+		 * @see ram.impl.RamPackageImpl#getRFloat()
+		 * @generated
+		 */
+		EClass RFLOAT = eINSTANCE.getRFloat();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.ConstraintImpl <em>Constraint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.ConstraintImpl
+		 * @see ram.impl.RamPackageImpl#getConstraint()
+		 * @generated
+		 */
+		EClass CONSTRAINT = eINSTANCE.getConstraint();
+
+		/**
+		 * The meta object literal for the '<em><b>Specification</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONSTRAINT__SPECIFICATION = eINSTANCE.getConstraint_Specification();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.SubstitutionImpl <em>Substitution</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.SubstitutionImpl
+		 * @see ram.impl.RamPackageImpl#getSubstitution()
+		 * @generated
+		 */
+		EClass SUBSTITUTION = eINSTANCE.getSubstitution();
+
+		/**
+		 * The meta object literal for the '{@link ram.impl.TransitionSubstitutionImpl <em>Transition Substitution</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ram.impl.TransitionSubstitutionImpl
+		 * @see ram.impl.RamPackageImpl#getTransitionSubstitution()
+		 * @generated
+		 */
+		EClass TRANSITION_SUBSTITUTION = eINSTANCE.getTransitionSubstitution();
+
+		/**
+		 * The meta object literal for the '<em><b>From</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION_SUBSTITUTION__FROM = eINSTANCE.getTransitionSubstitution_From();
+
+		/**
+		 * The meta object literal for the '<em><b>To</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION_SUBSTITUTION__TO = eINSTANCE.getTransitionSubstitution_To();
 
 		/**
 		 * The meta object literal for the '{@link ram.Visibility <em>Visibility</em>}' enum.

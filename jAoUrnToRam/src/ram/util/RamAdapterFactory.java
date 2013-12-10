@@ -23,8 +23,11 @@ import ram.AspectMessageView;
 import ram.Association;
 import ram.AssociationEnd;
 import ram.Attribute;
+import ram.AttributeMapping;
 import ram.Classifier;
+import ram.ClassifierMapping;
 import ram.CombinedFragment;
+import ram.Constraint;
 import ram.DestructionOccurrenceSpecification;
 import ram.ExecutionStatement;
 import ram.FragmentContainer;
@@ -53,8 +56,10 @@ import ram.ObjectType;
 import ram.OccurrenceSpecification;
 import ram.OpaqueExpression;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.OriginalBehaviorExecution;
 import ram.Parameter;
+import ram.ParameterMapping;
 import ram.ParameterValue;
 import ram.ParameterValueMapping;
 import ram.PrimitiveType;
@@ -63,19 +68,28 @@ import ram.RAny;
 import ram.RBoolean;
 import ram.RChar;
 import ram.RCollection;
+import ram.RDouble;
 import ram.REnum;
 import ram.REnumLiteral;
+import ram.RFloat;
 import ram.RInt;
+import ram.RSequence;
 import ram.RList;
 import ram.RSet;
 import ram.RString;
 import ram.RVoid;
 import ram.RamPackage;
 import ram.Reference;
+import ram.State;
+import ram.StateMachine;
+import ram.StateView;
 import ram.StructuralFeature;
 import ram.StructuralFeatureValue;
 import ram.StructuralView;
+import ram.Substitution;
 import ram.TemporaryProperty;
+import ram.Transition;
+import ram.TransitionSubstitution;
 import ram.Type;
 import ram.TypedElement;
 import ram.ValueSpecification;
@@ -337,8 +351,8 @@ public class RamAdapterFactory extends AdapterFactoryImpl {
 				return createRSetAdapter();
 			}
 			@Override
-			public Adapter caseRList(RList object) {
-				return createRListAdapter();
+			public Adapter caseRSequence(RSequence object) {
+				return createRSequenceAdapter();
 			}
 			@Override
 			public Adapter caseLayout(Layout object) {
@@ -391,6 +405,58 @@ public class RamAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseLiteralBoolean(LiteralBoolean object) {
 				return createLiteralBooleanAdapter();
+			}
+			@Override
+			public Adapter caseClassifierMapping(ClassifierMapping object) {
+				return createClassifierMappingAdapter();
+			}
+			@Override
+			public Adapter caseAttributeMapping(AttributeMapping object) {
+				return createAttributeMappingAdapter();
+			}
+			@Override
+			public Adapter caseOperationMapping(OperationMapping object) {
+				return createOperationMappingAdapter();
+			}
+			@Override
+			public Adapter caseParameterMapping(ParameterMapping object) {
+				return createParameterMappingAdapter();
+			}
+			@Override
+			public Adapter caseStateView(StateView object) {
+				return createStateViewAdapter();
+			}
+			@Override
+			public Adapter caseStateMachine(StateMachine object) {
+				return createStateMachineAdapter();
+			}
+			@Override
+			public Adapter caseTransition(Transition object) {
+				return createTransitionAdapter();
+			}
+			@Override
+			public Adapter caseState(State object) {
+				return createStateAdapter();
+			}
+			@Override
+			public Adapter caseRDouble(RDouble object) {
+				return createRDoubleAdapter();
+			}
+			@Override
+			public Adapter caseRFloat(RFloat object) {
+				return createRFloatAdapter();
+			}
+			@Override
+			public Adapter caseConstraint(Constraint object) {
+				return createConstraintAdapter();
+			}
+			@Override
+			public Adapter caseSubstitution(Substitution object) {
+				return createSubstitutionAdapter();
+			}
+			@Override
+			public Adapter caseTransitionSubstitution(TransitionSubstitution object) {
+				return createTransitionSubstitutionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -1113,16 +1179,16 @@ public class RamAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ram.RList <em>RList</em>}'.
+	 * Creates a new adapter for an object of class '{@link ram.RSequence <em>RSequence</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ram.RList
+	 * @see ram.RSequence
 	 * @generated
 	 */
-	public Adapter createRListAdapter() {
+	public Adapter createRSequenceAdapter() {
 		return null;
 	}
 
@@ -1305,6 +1371,188 @@ public class RamAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLiteralBooleanAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.ClassifierMapping <em>Classifier Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.ClassifierMapping
+	 * @generated
+	 */
+	public Adapter createClassifierMappingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.AttributeMapping <em>Attribute Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.AttributeMapping
+	 * @generated
+	 */
+	public Adapter createAttributeMappingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.OperationMapping <em>Operation Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.OperationMapping
+	 * @generated
+	 */
+	public Adapter createOperationMappingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.ParameterMapping <em>Parameter Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.ParameterMapping
+	 * @generated
+	 */
+	public Adapter createParameterMappingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.StateView <em>State View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.StateView
+	 * @generated
+	 */
+	public Adapter createStateViewAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.StateMachine <em>State Machine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.StateMachine
+	 * @generated
+	 */
+	public Adapter createStateMachineAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.Transition <em>Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.Transition
+	 * @generated
+	 */
+	public Adapter createTransitionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.State <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.State
+	 * @generated
+	 */
+	public Adapter createStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.RDouble <em>RDouble</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.RDouble
+	 * @generated
+	 */
+	public Adapter createRDoubleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.RFloat <em>RFloat</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.RFloat
+	 * @generated
+	 */
+	public Adapter createRFloatAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.Constraint <em>Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.Constraint
+	 * @generated
+	 */
+	public Adapter createConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.Substitution <em>Substitution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.Substitution
+	 * @generated
+	 */
+	public Adapter createSubstitutionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ram.TransitionSubstitution <em>Transition Substitution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ram.TransitionSubstitution
+	 * @generated
+	 */
+	public Adapter createTransitionSubstitutionAdapter() {
 		return null;
 	}
 

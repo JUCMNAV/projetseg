@@ -24,7 +24,10 @@ import ram.AspectMessageView;
 import ram.Association;
 import ram.AssociationEnd;
 import ram.Attribute;
+import ram.AttributeMapping;
+import ram.ClassifierMapping;
 import ram.CombinedFragment;
+import ram.Constraint;
 import ram.DestructionOccurrenceSpecification;
 import ram.ExecutionStatement;
 import ram.Gate;
@@ -49,16 +52,21 @@ import ram.MessageViewReference;
 import ram.OccurrenceSpecification;
 import ram.OpaqueExpression;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.OriginalBehaviorExecution;
 import ram.Parameter;
+import ram.ParameterMapping;
 import ram.ParameterValue;
 import ram.ParameterValueMapping;
 import ram.RAny;
 import ram.RBoolean;
 import ram.RChar;
+import ram.RDouble;
 import ram.REnum;
 import ram.REnumLiteral;
+import ram.RFloat;
 import ram.RInt;
+import ram.RSequence;
 import ram.RList;
 import ram.RSet;
 import ram.RString;
@@ -67,8 +75,14 @@ import ram.RamFactory;
 import ram.RamPackage;
 import ram.Reference;
 import ram.ReferenceType;
+import ram.State;
+import ram.StateMachine;
+import ram.StateView;
 import ram.StructuralFeatureValue;
 import ram.StructuralView;
+import ram.Substitution;
+import ram.Transition;
+import ram.TransitionSubstitution;
 import ram.Visibility;
 
 /**
@@ -154,7 +168,7 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 	 */
 	public static RamFactory init() {
 		try {
-			RamFactory theRamFactory = (RamFactory)EPackage.Registry.INSTANCE.getEFactory("http://cs.mcgill.ca/sel/ram/2.0"); 
+			RamFactory theRamFactory = (RamFactory)EPackage.Registry.INSTANCE.getEFactory("http://cs.mcgill.ca/sel/ram/2.1"); 
 			if (theRamFactory != null) {
 				return theRamFactory;
 			}
@@ -189,7 +203,6 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 			case RamPackage.ASSOCIATION_END: return createAssociationEnd();
 			case RamPackage.ASSOCIATION: return createAssociation();
 			case RamPackage.INSTANTIATION: return createInstantiation();
-			case RamPackage.MAPPING: return createMapping();
 			case RamPackage.OPERATION: return createOperation();
 			case RamPackage.ATTRIBUTE: return createAttribute();
 			case RamPackage.PARAMETER: return createParameter();
@@ -221,7 +234,7 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 			case RamPackage.LITERAL_STRING: return createLiteralString();
 			case RamPackage.LITERAL_INTEGER: return createLiteralInteger();
 			case RamPackage.RSET: return createRSet();
-			case RamPackage.RLIST: return createRList();
+			case RamPackage.RSEQUENCE: return createRSequence();
 			case RamPackage.LAYOUT: return createLayout();
 			case RamPackage.CONTAINER_MAP: return (EObject)createContainerMap();
 			case RamPackage.ELEMENT_MAP: return (EObject)createElementMap();
@@ -230,6 +243,19 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 			case RamPackage.REFERENCE: return createReference();
 			case RamPackage.GATE: return createGate();
 			case RamPackage.LITERAL_BOOLEAN: return createLiteralBoolean();
+			case RamPackage.CLASSIFIER_MAPPING: return createClassifierMapping();
+			case RamPackage.ATTRIBUTE_MAPPING: return createAttributeMapping();
+			case RamPackage.OPERATION_MAPPING: return createOperationMapping();
+			case RamPackage.PARAMETER_MAPPING: return createParameterMapping();
+			case RamPackage.STATE_VIEW: return createStateView();
+			case RamPackage.STATE_MACHINE: return createStateMachine();
+			case RamPackage.TRANSITION: return createTransition();
+			case RamPackage.STATE: return createState();
+			case RamPackage.RDOUBLE: return createRDouble();
+			case RamPackage.RFLOAT: return createRFloat();
+			case RamPackage.CONSTRAINT: return createConstraint();
+			case RamPackage.SUBSTITUTION: return createSubstitution();
+			case RamPackage.TRANSITION_SUBSTITUTION: return createTransitionSubstitution();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -339,16 +365,6 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 	public Instantiation createInstantiation() {
 		InstantiationImpl instantiation = new InstantiationImpl();
 		return instantiation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Mapping createMapping() {
-		MappingImpl mapping = new MappingImpl();
-		return mapping;
 	}
 
 	/**
@@ -666,9 +682,9 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RList createRList() {
-		RListImpl rList = new RListImpl();
-		return rList;
+	public RSequence createRSequence() {
+		RSequenceImpl rSequence = new RSequenceImpl();
+		return rSequence;
 	}
 
 	/**
@@ -749,6 +765,136 @@ public class RamFactoryImpl extends EFactoryImpl implements RamFactory {
 	public LiteralBoolean createLiteralBoolean() {
 		LiteralBooleanImpl literalBoolean = new LiteralBooleanImpl();
 		return literalBoolean;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ClassifierMapping createClassifierMapping() {
+		ClassifierMappingImpl classifierMapping = new ClassifierMappingImpl();
+		return classifierMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeMapping createAttributeMapping() {
+		AttributeMappingImpl attributeMapping = new AttributeMappingImpl();
+		return attributeMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationMapping createOperationMapping() {
+		OperationMappingImpl operationMapping = new OperationMappingImpl();
+		return operationMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterMapping createParameterMapping() {
+		ParameterMappingImpl parameterMapping = new ParameterMappingImpl();
+		return parameterMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateView createStateView() {
+		StateViewImpl stateView = new StateViewImpl();
+		return stateView;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateMachine createStateMachine() {
+		StateMachineImpl stateMachine = new StateMachineImpl();
+		return stateMachine;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Transition createTransition() {
+		TransitionImpl transition = new TransitionImpl();
+		return transition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public State createState() {
+		StateImpl state = new StateImpl();
+		return state;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RDouble createRDouble() {
+		RDoubleImpl rDouble = new RDoubleImpl();
+		return rDouble;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RFloat createRFloat() {
+		RFloatImpl rFloat = new RFloatImpl();
+		return rFloat;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Constraint createConstraint() {
+		ConstraintImpl constraint = new ConstraintImpl();
+		return constraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Substitution createSubstitution() {
+		SubstitutionImpl substitution = new SubstitutionImpl();
+		return substitution;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TransitionSubstitution createTransitionSubstitution() {
+		TransitionSubstitutionImpl transitionSubstitution = new TransitionSubstitutionImpl();
+		return transitionSubstitution;
 	}
 
 	/**

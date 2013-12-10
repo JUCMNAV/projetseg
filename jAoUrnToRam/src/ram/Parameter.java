@@ -24,7 +24,7 @@ package ram;
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot notVoid='not self.type.oclIsTypeOf(RVoid)' notVoid$message='\'The type of the parameter may not be void\''"
  * @generated
  */
-public interface Parameter extends TypedElement {
+public interface Parameter extends TypedElement, MappableElement {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

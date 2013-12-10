@@ -19,10 +19,13 @@ import org.eclipse.emf.ecore.EObject;
 
 import ram.Aspect;
 import ram.Class;
+import ram.Classifier;
+import ram.ClassifierMapping;
 import ram.Instantiation;
 import ram.MappableElement;
 import ram.Mapping;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.StructuralView;
 import ram.Type;
 
@@ -168,8 +171,8 @@ public interface IwStep extends EObject {
 	/***********iw to ram**********/
 	Aspect getRamAspect();
 	void setRamAspect(Aspect ramAspect);
-	void setRamCustomizableNodeMapping(Mapping ramCustomizableNodeMapping);
-	Mapping getRamCustomizableNodeMapping();
+	//void setRamCustomizableNodeMapping(Mapping ramCustomizableNodeMapping);
+	//Mapping getRamCustomizableNodeMapping();
 	void setRamCustomizableNodeClasses(
 			Hashtable<String, Class> ramCustomizableNodeClasses);
 	Hashtable<String, Class> getRamCustomizableNodeClasses();
@@ -177,20 +180,20 @@ public interface IwStep extends EObject {
 	Type getRamRVoid();
 	void setRamLocalContextClass(Class ramLocalContextClass);
 	Class getRamLocalContextClass();
-	Mapping getRamCustomizableInputDataMapping();
-	void setRamExecuteOperationMapping(Mapping ramExecuteOperationMapping);
-	Mapping getRamExecuteOperationMapping();
+	//Mapping getRamCustomizableInputDataMapping();
+	//void setRamExecuteOperationMapping(Mapping ramExecuteOperationMapping);
+	//Mapping getRamExecuteOperationMapping();
 	void setRamWorkflowInstantiation(Instantiation ramWorkflowInstantiation);
 	Instantiation getRamWorkflowInstantiation();
 	void setRamOutputInstantiation(Instantiation ramOutputInstantiation);
 	Instantiation getRamOutputInstantiation();
 	void setRamInputInstantiation(Instantiation ramInputInstantiation);
 	Instantiation getRamInputInstantiation();
-	void setRamCustomizableOutputDataMapping(
-			Mapping ramCustomizableOutputDataMapping);
-	Mapping getRamCustomizableOutputDataMapping();
-	void setRamCustomizableInputDataMapping(
-			Mapping ramCustomizableInputDataMapping);
+	//void setRamCustomizableOutputDataMapping(
+		//	Mapping ramCustomizableOutputDataMapping);
+	//Mapping getRamCustomizableOutputDataMapping();
+	//void setRamCustomizableInputDataMapping(
+		//	Mapping ramCustomizableInputDataMapping);
 	StructuralView ramStructuralView();
 	List<IwCustomizableNode> customizableNodes();
 	void buildCustomizableNodeClasses();
@@ -203,8 +206,8 @@ public interface IwStep extends EObject {
 			Instantiation instantiation);
 	boolean hasAtLeastOneOutputClass();
 	boolean hasAtLeastOneInputClass();
-	void linkMapping(Mapping mapping, MappableElement fromElement,
-			Instantiation instantiation);
+	//void linkMapping(Mapping mapping, MappableElement fromElement,
+		//	Instantiation instantiation);
 	void linkInstantiation(Instantiation instantiation, Aspect externalAspect);
 	void linkOutputInstantiation(RamWorkspace ramWorkspace);
 	void linkInputInstantiation(RamWorkspace ramWorkspace);
@@ -219,6 +222,20 @@ public interface IwStep extends EObject {
 	void linkCustomizableNode(Class customizableNode);
 	void linkOutputData(Class outputData);
 	void linkInputData(Class inputData);
+	//void setRamCustomizableNodeMapping(
+		//	ClassifierMapping ramCustomizableNodeMapping);
+	//void setRamCustomizableInputDataMapping(
+		//	ClassifierMapping ramCustomizableInputDataMapping);
+	//void setRamCustomizableOutputDataMapping(
+		//	ClassifierMapping ramCustomizableOutputDataMapping);
+	//void setRamExecuteOperationMapping(
+			//ClassifierMapping ramExecuteOperationMapping);
+	/*void setRamExecuteOperationMapping(
+			OperationMapping ramExecuteOperationMapping);*/
+	void linkMapping(ClassifierMapping mapping, Classifier fromElement,
+			Instantiation instantiation);
+	void linkOperationMapping(OperationMapping mapping, Operation fromElement,
+			Instantiation instantiation);
 	
 
 } // IwStep

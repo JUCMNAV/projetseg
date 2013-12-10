@@ -40,6 +40,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Aspect/messageViews"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Aspect/instantiations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Aspect/layout"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Aspect/stateViews"/>
     </genClasses>
     <genClasses image="false" ecoreClass="RAM.ecore#//MappableElement"/>
     <genClasses ecoreClass="RAM.ecore#//StructuralView">
@@ -72,8 +73,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RAM.ecore#//Instantiation/type"/>
     </genClasses>
     <genClasses ecoreClass="RAM.ecore#//Mapping">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//Mapping/toElements"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//Mapping/fromElement"/>
+      <genOperations ecoreOperation="RAM.ecore#//Mapping/getFromElement"/>
+      <genOperations ecoreOperation="RAM.ecore#//Mapping/getToElement"/>
     </genClasses>
     <genClasses ecoreClass="RAM.ecore#//Operation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RAM.ecore#//Operation/abstract"/>
@@ -207,7 +208,7 @@
       <genOperations ecoreOperation="RAM.ecore#//RCollection/getName"/>
     </genClasses>
     <genClasses ecoreClass="RAM.ecore#//RSet"/>
-    <genClasses ecoreClass="RAM.ecore#//RList"/>
+    <genClasses ecoreClass="RAM.ecore#//RSequence"/>
     <genClasses ecoreClass="RAM.ecore#//Layout">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Layout/containers"/>
     </genClasses>
@@ -247,6 +248,61 @@
     <genClasses ecoreClass="RAM.ecore#//Gate"/>
     <genClasses ecoreClass="RAM.ecore#//LiteralBoolean">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RAM.ecore#//LiteralBoolean/value"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//ClassifierMapping">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//ClassifierMapping/operationMappings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//ClassifierMapping/attributeMappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//ClassifierMapping/fromElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//ClassifierMapping/toElement"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//AttributeMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//AttributeMapping/fromElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//AttributeMapping/toElement"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//OperationMapping">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//OperationMapping/parameterMappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//OperationMapping/fromElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//OperationMapping/toElement"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//ParameterMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//ParameterMapping/fromElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//ParameterMapping/toElement"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//StateView">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//StateView/stateMachines"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//StateView/specifies"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//StateMachine">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//StateMachine/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//StateMachine/states"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//StateMachine/transitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//StateMachine/substitutions"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//Transition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//Transition/endState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//Transition/startState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//Transition/signature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Transition/guard"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//State">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//State/incomings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//State/outgoings"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//RDouble">
+      <genOperations ecoreOperation="RAM.ecore#//RDouble/getName"/>
+      <genOperations ecoreOperation="RAM.ecore#//RDouble/getInstanceClassName"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//RFloat">
+      <genOperations ecoreOperation="RAM.ecore#//RFloat/getName"/>
+      <genOperations ecoreOperation="RAM.ecore#//RFloat/getInstanceClassName"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//Constraint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RAM.ecore#//Constraint/Specification"/>
+    </genClasses>
+    <genClasses ecoreClass="RAM.ecore#//Substitution"/>
+    <genClasses ecoreClass="RAM.ecore#//TransitionSubstitution">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//TransitionSubstitution/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RAM.ecore#//TransitionSubstitution/to"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

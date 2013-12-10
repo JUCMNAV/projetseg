@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see ram.RamPackage#getOperation()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='messageViewDefined'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot messageViewDefined='if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.StructuralView.Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif' messageViewDefined$message='\'MessageView missing for public operation\''"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot messageViewDefined='if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.oclContainer().oclAsType(StructuralView).Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif' messageViewDefined$message='\'MessageView missing for public operation\''"
  * @generated
  */
 public interface Operation extends NamedElement, MappableElement {

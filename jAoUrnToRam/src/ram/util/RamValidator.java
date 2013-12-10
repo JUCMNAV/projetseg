@@ -23,8 +23,11 @@ import ram.AspectMessageView;
 import ram.Association;
 import ram.AssociationEnd;
 import ram.Attribute;
+import ram.AttributeMapping;
 import ram.Classifier;
+import ram.ClassifierMapping;
 import ram.CombinedFragment;
+import ram.Constraint;
 import ram.DestructionOccurrenceSpecification;
 import ram.ExecutionStatement;
 import ram.FragmentContainer;
@@ -56,8 +59,10 @@ import ram.ObjectType;
 import ram.OccurrenceSpecification;
 import ram.OpaqueExpression;
 import ram.Operation;
+import ram.OperationMapping;
 import ram.OriginalBehaviorExecution;
 import ram.Parameter;
+import ram.ParameterMapping;
 import ram.ParameterValue;
 import ram.ParameterValueMapping;
 import ram.PrimitiveType;
@@ -66,9 +71,12 @@ import ram.RAny;
 import ram.RBoolean;
 import ram.RChar;
 import ram.RCollection;
+import ram.RDouble;
 import ram.REnum;
 import ram.REnumLiteral;
+import ram.RFloat;
 import ram.RInt;
+import ram.RSequence;
 import ram.RList;
 import ram.RSet;
 import ram.RString;
@@ -76,10 +84,16 @@ import ram.RVoid;
 import ram.RamPackage;
 import ram.Reference;
 import ram.ReferenceType;
+import ram.State;
+import ram.StateMachine;
+import ram.StateView;
 import ram.StructuralFeature;
 import ram.StructuralFeatureValue;
 import ram.StructuralView;
+import ram.Substitution;
 import ram.TemporaryProperty;
+import ram.Transition;
+import ram.TransitionSubstitution;
 import ram.Type;
 import ram.TypedElement;
 import ram.ValueSpecification;
@@ -257,8 +271,8 @@ public class RamValidator extends EObjectValidator {
 				return validateRCollection((RCollection)value, diagnostics, context);
 			case RamPackage.RSET:
 				return validateRSet((RSet)value, diagnostics, context);
-			case RamPackage.RLIST:
-				return validateRList((RList)value, diagnostics, context);
+			case RamPackage.RSEQUENCE:
+				return validateRSequence((RSequence)value, diagnostics, context);
 			case RamPackage.LAYOUT:
 				return validateLayout((Layout)value, diagnostics, context);
 			case RamPackage.CONTAINER_MAP:
@@ -285,6 +299,32 @@ public class RamValidator extends EObjectValidator {
 				return validateGate((Gate)value, diagnostics, context);
 			case RamPackage.LITERAL_BOOLEAN:
 				return validateLiteralBoolean((LiteralBoolean)value, diagnostics, context);
+			case RamPackage.CLASSIFIER_MAPPING:
+				return validateClassifierMapping((ClassifierMapping)value, diagnostics, context);
+			case RamPackage.ATTRIBUTE_MAPPING:
+				return validateAttributeMapping((AttributeMapping)value, diagnostics, context);
+			case RamPackage.OPERATION_MAPPING:
+				return validateOperationMapping((OperationMapping)value, diagnostics, context);
+			case RamPackage.PARAMETER_MAPPING:
+				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
+			case RamPackage.STATE_VIEW:
+				return validateStateView((StateView)value, diagnostics, context);
+			case RamPackage.STATE_MACHINE:
+				return validateStateMachine((StateMachine)value, diagnostics, context);
+			case RamPackage.TRANSITION:
+				return validateTransition((Transition)value, diagnostics, context);
+			case RamPackage.STATE:
+				return validateState((State)value, diagnostics, context);
+			case RamPackage.RDOUBLE:
+				return validateRDouble((RDouble)value, diagnostics, context);
+			case RamPackage.RFLOAT:
+				return validateRFloat((RFloat)value, diagnostics, context);
+			case RamPackage.CONSTRAINT:
+				return validateConstraint((Constraint)value, diagnostics, context);
+			case RamPackage.SUBSTITUTION:
+				return validateSubstitution((Substitution)value, diagnostics, context);
+			case RamPackage.TRANSITION_SUBSTITUTION:
+				return validateTransitionSubstitution((TransitionSubstitution)value, diagnostics, context);
 			case RamPackage.VISIBILITY:
 				return validateVisibility((Visibility)value, diagnostics, context);
 			case RamPackage.REFERENCE_TYPE:
@@ -668,106 +708,7 @@ public class RamValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateMapping(Mapping mapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(mapping, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validateMapping_validSourceModelElement(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validateMapping_sameTypesMapped(mapping, diagnostics, context);
-		if (result || diagnostics != null) result &= validateMapping_validMapping(mapping, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * The cached validation expression for the validSourceModelElement constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected static final String MAPPING__VALID_SOURCE_MODEL_ELEMENT__EEXPRESSION = "self.fromElement.oclIsTypeOf(Class) or self.fromElement.oclIsTypeOf(Operation)";
-
-	/**
-	 * Validates the validSourceModelElement constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMapping_validSourceModelElement(Mapping mapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return
-			validate
-				(RamPackage.Literals.MAPPING,
-				 mapping,
-				 diagnostics,
-				 context,
-				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-				 "validSourceModelElement",
-				 MAPPING__VALID_SOURCE_MODEL_ELEMENT__EEXPRESSION,
-				 Diagnostic.ERROR,
-				 DIAGNOSTIC_SOURCE,
-				 0);
-	}
-
-	/**
-	 * The cached validation expression for the sameTypesMapped constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected static final String MAPPING__SAME_TYPES_MAPPED__EEXPRESSION = "self.toElements->forAll(element : MappableElement | if element.oclIsKindOf(Classifier) then self.fromElement.oclIsKindOf(Classifier) else element.oclIsTypeOf(self.fromElement.oclType()) endif)";
-
-	/**
-	 * Validates the sameTypesMapped constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMapping_sameTypesMapped(Mapping mapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return
-			validate
-				(RamPackage.Literals.MAPPING,
-				 mapping,
-				 diagnostics,
-				 context,
-				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-				 "sameTypesMapped",
-				 MAPPING__SAME_TYPES_MAPPED__EEXPRESSION,
-				 Diagnostic.ERROR,
-				 DIAGNOSTIC_SOURCE,
-				 0);
-	}
-
-	/**
-	 * The cached validation expression for the validMapping constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected static final String MAPPING__VALID_MAPPING__EEXPRESSION = "let clazz : Class = if fromElement.oclIsTypeOf(Operation) then fromElement.oclAsType(Operation).Classifier else fromElement endif in self.Instantiation.externalAspect.structuralView.classes->includes(clazz) and self.toElements->forAll(element : MappableElement | let clazz : Class = if element.oclIsTypeOf(Operation) then element.oclAsType(Operation).Classifier else element endif in if clazz.oclIsKindOf(PrimitiveType) then self.Instantiation.Aspect.structuralView.types->includes(clazz) else self.Instantiation.Aspect.structuralView.classes->includes(clazz) endif)";
-
-	/**
-	 * Validates the validMapping constraint of '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMapping_validMapping(Mapping mapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return
-			validate
-				(RamPackage.Literals.MAPPING,
-				 mapping,
-				 diagnostics,
-				 context,
-				 "http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot",
-				 "validMapping",
-				 MAPPING__VALID_MAPPING__EEXPRESSION,
-				 Diagnostic.ERROR,
-				 DIAGNOSTIC_SOURCE,
-				 0);
+		return validate_EveryDefaultConstraint(mapping, diagnostics, context);
 	}
 
 	/**
@@ -796,7 +737,7 @@ public class RamValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String OPERATION__MESSAGE_VIEW_DEFINED__EEXPRESSION = "if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.StructuralView.Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif";
+	protected static final String OPERATION__MESSAGE_VIEW_DEFINED__EEXPRESSION = "if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.oclContainer().oclAsType(StructuralView).Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif";
 
 	/**
 	 * Validates the messageViewDefined constraint of '<em>Operation</em>'.
@@ -1364,7 +1305,7 @@ public class RamValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String MESSAGE__VALID_SELF_MESSAGE__EEXPRESSION = "if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then if self.sendEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) = self.receiveEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) then self.interaction.fragments->indexOf(self.sendEvent) < self.interaction.fragments->indexOf(self.receiveEvent) else true endif else true endif";
+	protected static final String MESSAGE__VALID_SELF_MESSAGE__EEXPRESSION = "if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then let sendEvent : InteractionFragment = self.sendEvent.oclAsType(InteractionFragment) in let receiveEvent : InteractionFragment = self.receiveEvent.oclAsType(InteractionFragment) in if sendEvent.covered->asOrderedSet()->at(1) = receiveEvent.covered->asOrderedSet()->at(1) then sendEvent.container.fragments->indexOf(self.sendEvent) < receiveEvent.container.fragments->indexOf(self.receiveEvent) else true endif else true endif";
 
 	/**
 	 * Validates the validSelfMessage constraint of '<em>Message</em>'.
@@ -2118,17 +2059,17 @@ public class RamValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateRList(RList rList, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(rList, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rList, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_validName(rList, diagnostics, context);
+	public boolean validateRSequence(RSequence rSequence, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(rSequence, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rSequence, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(rSequence, diagnostics, context);
 		return result;
 	}
 
@@ -2284,7 +2225,7 @@ public class RamValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String PROPERTY__VALID_UPPER_BOUND__EEXPRESSION = "self.upperBound > 0 or self.upperBound = - 1";
+	protected static final String PROPERTY__VALID_UPPER_BOUND__EEXPRESSION = "self.upperBound > 0 or self.upperBound = -1";
 
 	/**
 	 * Validates the validUpperBound constraint of '<em>Property</em>'.
@@ -2342,7 +2283,7 @@ public class RamValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static final String PROPERTY__VALID_MULTIPLICITY__EEXPRESSION = "self.lowerBound <= self.upperBound or self.upperBound = - 1";
+	protected static final String PROPERTY__VALID_MULTIPLICITY__EEXPRESSION = "self.lowerBound <= self.upperBound or self.upperBound = -1";
 
 	/**
 	 * Validates the validMultiplicity constraint of '<em>Property</em>'.
@@ -2410,6 +2351,173 @@ public class RamValidator extends EObjectValidator {
 	 */
 	public boolean validateLiteralBoolean(LiteralBoolean literalBoolean, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint(literalBoolean, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateClassifierMapping(ClassifierMapping classifierMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(classifierMapping, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAttributeMapping(AttributeMapping attributeMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(attributeMapping, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateOperationMapping(OperationMapping operationMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(operationMapping, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateParameterMapping(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(parameterMapping, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStateView(StateView stateView, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(stateView, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(stateView, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(stateView, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStateMachine(StateMachine stateMachine, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(stateMachine, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTransition(Transition transition, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(transition, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(transition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(transition, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateState(State state, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(state, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(state, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(state, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRDouble(RDouble rDouble, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(rDouble, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rDouble, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(rDouble, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRFloat(RFloat rFloat, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(rFloat, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rFloat, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_validName(rFloat, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateConstraint(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(constraint, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateSubstitution(Substitution substitution, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(substitution, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTransitionSubstitution(TransitionSubstitution transitionSubstitution, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(transitionSubstitution, diagnostics, context);
 	}
 
 	/**

@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ram.Aspect;
+import ram.ClassifierMapping;
 import ram.Instantiation;
 import ram.InstantiationType;
 import ram.Mapping;
@@ -52,7 +53,7 @@ public class InstantiationImpl extends EObjectImpl implements Instantiation {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Mapping> mappings;
+	protected EList<ClassifierMapping> mappings;
 
 	/**
 	 * The cached value of the '{@link #getExternalAspect() <em>External Aspect</em>}' reference.
@@ -108,9 +109,9 @@ public class InstantiationImpl extends EObjectImpl implements Instantiation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Mapping> getMappings() {
+	public EList<ClassifierMapping> getMappings() {
 		if (mappings == null) {
-			mappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, RamPackage.INSTANTIATION__MAPPINGS);
+			mappings = new EObjectContainmentEList<ClassifierMapping>(ClassifierMapping.class, this, RamPackage.INSTANTIATION__MAPPINGS);
 		}
 		return mappings;
 	}
@@ -218,7 +219,7 @@ public class InstantiationImpl extends EObjectImpl implements Instantiation {
 		switch (featureID) {
 			case RamPackage.INSTANTIATION__MAPPINGS:
 				getMappings().clear();
-				getMappings().addAll((Collection<? extends Mapping>)newValue);
+				getMappings().addAll((Collection<? extends ClassifierMapping>)newValue);
 				return;
 			case RamPackage.INSTANTIATION__EXTERNAL_ASPECT:
 				setExternalAspect((Aspect)newValue);

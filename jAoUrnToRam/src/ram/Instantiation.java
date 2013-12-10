@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Instantiation extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
-	 * The list contents are of type {@link ram.Mapping}.
+	 * The list contents are of type {@link ram.ClassifierMapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
@@ -44,7 +44,7 @@ public interface Instantiation extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Mapping> getMappings();
+	EList<ClassifierMapping> getMappings();
 
 	/**
 	 * Returns the value of the '<em><b>External Aspect</b></em>' reference.
@@ -74,7 +74,7 @@ public interface Instantiation extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
-	 * The default value is <code>""</code>.
+	 * The default value is <code>"Depends"</code>.
 	 * The literals are from the enumeration {@link ram.InstantiationType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -86,7 +86,7 @@ public interface Instantiation extends EObject {
 	 * @see ram.InstantiationType
 	 * @see #setType(InstantiationType)
 	 * @see ram.RamPackage#getInstantiation_Type()
-	 * @model default="" required="true"
+	 * @model default="Depends" required="true"
 	 * @generated
 	 */
 	InstantiationType getType();

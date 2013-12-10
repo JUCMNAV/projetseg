@@ -23,7 +23,7 @@ package ram;
  * @model
  * @generated
  */
-public interface Attribute extends StructuralFeature, TemporaryProperty {
+public interface Attribute extends StructuralFeature, TemporaryProperty, MappableElement {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

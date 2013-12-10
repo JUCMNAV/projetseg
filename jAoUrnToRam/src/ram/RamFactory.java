@@ -95,15 +95,6 @@ public interface RamFactory extends EFactory {
 	Instantiation createInstantiation();
 
 	/**
-	 * Returns a new object of class '<em>Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mapping</em>'.
-	 * @generated
-	 */
-	Mapping createMapping();
-
-	/**
 	 * Returns a new object of class '<em>Operation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -383,13 +374,13 @@ public interface RamFactory extends EFactory {
 	RSet createRSet();
 
 	/**
-	 * Returns a new object of class '<em>RList</em>'.
+	 * Returns a new object of class '<em>RSequence</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RList</em>'.
+	 * @return a new object of class '<em>RSequence</em>'.
 	 * @generated
 	 */
-	RList createRList();
+	RSequence createRSequence();
 
 	/**
 	 * Returns a new object of class '<em>Layout</em>'.
@@ -444,6 +435,123 @@ public interface RamFactory extends EFactory {
 	 * @generated
 	 */
 	LiteralBoolean createLiteralBoolean();
+
+	/**
+	 * Returns a new object of class '<em>Classifier Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Classifier Mapping</em>'.
+	 * @generated
+	 */
+	ClassifierMapping createClassifierMapping();
+
+	/**
+	 * Returns a new object of class '<em>Attribute Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Attribute Mapping</em>'.
+	 * @generated
+	 */
+	AttributeMapping createAttributeMapping();
+
+	/**
+	 * Returns a new object of class '<em>Operation Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Mapping</em>'.
+	 * @generated
+	 */
+	OperationMapping createOperationMapping();
+
+	/**
+	 * Returns a new object of class '<em>Parameter Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parameter Mapping</em>'.
+	 * @generated
+	 */
+	ParameterMapping createParameterMapping();
+
+	/**
+	 * Returns a new object of class '<em>State View</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>State View</em>'.
+	 * @generated
+	 */
+	StateView createStateView();
+
+	/**
+	 * Returns a new object of class '<em>State Machine</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>State Machine</em>'.
+	 * @generated
+	 */
+	StateMachine createStateMachine();
+
+	/**
+	 * Returns a new object of class '<em>Transition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Transition</em>'.
+	 * @generated
+	 */
+	Transition createTransition();
+
+	/**
+	 * Returns a new object of class '<em>State</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>State</em>'.
+	 * @generated
+	 */
+	State createState();
+
+	/**
+	 * Returns a new object of class '<em>RDouble</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RDouble</em>'.
+	 * @generated
+	 */
+	RDouble createRDouble();
+
+	/**
+	 * Returns a new object of class '<em>RFloat</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RFloat</em>'.
+	 * @generated
+	 */
+	RFloat createRFloat();
+
+	/**
+	 * Returns a new object of class '<em>Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Constraint</em>'.
+	 * @generated
+	 */
+	Constraint createConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Substitution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Substitution</em>'.
+	 * @generated
+	 */
+	Substitution createSubstitution();
+
+	/**
+	 * Returns a new object of class '<em>Transition Substitution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Transition Substitution</em>'.
+	 * @generated
+	 */
+	TransitionSubstitution createTransitionSubstitution();
 
 	/**
 	 * Returns the package supported by this factory.

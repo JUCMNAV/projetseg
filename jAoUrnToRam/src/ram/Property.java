@@ -24,7 +24,7 @@ package ram;
  * @see ram.RamPackage#getProperty()
  * @model abstract="true"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='validUpperBound validLowerBound validMultiplicity'"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot validUpperBound='self.upperBound > 0 or self.upperBound = - 1' validUpperBound$message='\'The upperbound must be greater than zero or -1 representing *\'' validLowerBound='self.lowerBound >= 0' validLowerBound$message='\'The lowerbound must be greater than or equal to zero\'' validMultiplicity='self.lowerBound <= self.upperBound or self.upperBound = - 1' validMultiplicity$message='\'The lowerBound must be less than or equal to the upperBound\''"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot validUpperBound='self.upperBound > 0 or self.upperBound = -1' validUpperBound$message='\'The upperbound must be greater than zero or -1 representing *\'' validLowerBound='self.lowerBound >= 0' validLowerBound$message='\'The lowerbound must be greater than or equal to zero\'' validMultiplicity='self.lowerBound <= self.upperBound or self.upperBound = -1' validMultiplicity$message='\'The lowerBound must be less than or equal to the upperBound\''"
  * @generated
  */
 public interface Property extends StructuralFeature {

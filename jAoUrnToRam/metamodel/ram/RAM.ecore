@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ram"
-    nsURI="http://cs.mcgill.ca/sel/ram/2.0" nsPrefix="ram">
+    nsURI="http://cs.mcgill.ca/sel/ram/2.1" nsPrefix="ram">
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
     <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
     <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
@@ -24,6 +24,8 @@
         eType="#//Instantiation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="layout" eType="#//Layout"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateViews" upperBound="-1"
+        eType="#//StateView" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappableElement" abstract="true" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="StructuralView">
@@ -106,35 +108,30 @@
       <details key="mandatoryAspectParametersMapped$message" value="'Partial elements from lower-level aspects have to be mapped'"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
-        eType="#//Mapping" containment="true"/>
+        eType="#//ClassifierMapping" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalAspect" lowerBound="1"
         eType="#//Aspect"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//InstantiationType"
-        defaultValueLiteral=""/>
+        defaultValueLiteral="Depends"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="validSourceModelElement sameTypesMapped validMapping"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="validSourceModelElement" value="self.fromElement.oclIsTypeOf(Class) or self.fromElement.oclIsTypeOf(Operation)"/>
-      <details key="validSourceModelElement$message" value="'The source model element may only be of type Class or Operation'"/>
-      <details key="sameTypesMapped" value="self.toElements->forAll(element : MappableElement | if element.oclIsKindOf(Classifier) then self.fromElement.oclIsKindOf(Classifier) else element.oclIsTypeOf(self.fromElement.oclType()) endif)"/>
-      <details key="sameTypesMapped$message" value="'Mapping must be between same types of elements'"/>
-      <details key="validMapping" value="let clazz : Class = if fromElement.oclIsTypeOf(Operation) then fromElement.oclAsType(Operation).Classifier else fromElement endif in self.Instantiation.externalAspect.structuralView.classes->includes(clazz) and self.toElements->forAll(element : MappableElement | let clazz : Class = if element.oclIsTypeOf(Operation) then element.oclAsType(Operation).Classifier else element endif in if clazz.oclIsKindOf(PrimitiveType) then self.Instantiation.Aspect.structuralView.types->includes(clazz) else self.Instantiation.Aspect.structuralView.classes->includes(clazz) endif)"/>
-      <details key="validMapping$message" value="'Source must be from depending aspect and targets must be from current aspect'"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="toElements" lowerBound="1"
-        upperBound="-1" eType="#//MappableElement"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElement" lowerBound="1"
-        eType="#//MappableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping" abstract="true">
+    <eOperations name="getFromElement" ordered="false" lowerBound="1" eType="#//MappableElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="null"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getToElement" ordered="false" lowerBound="1" eType="#//MappableElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="null"/>
+      </eAnnotations>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//NamedElement #//MappableElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="messageViewDefined"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="messageViewDefined" value="if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.StructuralView.Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif"/>
+      <details key="messageViewDefined" value="if visibility = Visibility::public and self.Classifier.oclIsTypeOf(Class) then self.Classifier.oclContainer().oclAsType(StructuralView).Aspect.messageViews->select(messageView : AbstractMessageView | messageView.oclIsTypeOf(MessageView))->one(messageView : AbstractMessageView | messageView.oclAsType(MessageView).specifies = self) else true endif"/>
       <details key="messageViewDefined$message" value="'MessageView missing for public operation'"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -149,11 +146,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="partial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//StructuralFeature #//TemporaryProperty">
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//StructuralFeature #//TemporaryProperty #//MappableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//PrimitiveType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TypedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TypedElement #//MappableElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="notVoid"/>
     </eAnnotations>
@@ -314,7 +311,7 @@
       <details key="constraints" value="validSelfMessage argumentsSpecified createMessageIsFirst returnsSpecified boundariesNotCrossed validReturns validAssignTo deleteMessageIsLast validReturnsValue assignToAllowed noCrossingMessages validSignature"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="validSelfMessage" value="if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then if self.sendEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) = self.receiveEvent.oclAsType(MessageOccurrenceSpecification).covered->asOrderedSet()->at(1) then self.interaction.fragments->indexOf(self.sendEvent) &lt; self.interaction.fragments->indexOf(self.receiveEvent) else true endif else true endif"/>
+      <details key="validSelfMessage" value="if not self.receiveEvent.oclIsUndefined() and self.receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) then let sendEvent : InteractionFragment = self.sendEvent.oclAsType(InteractionFragment) in let receiveEvent : InteractionFragment = self.receiveEvent.oclAsType(InteractionFragment) in if sendEvent.covered->asOrderedSet()->at(1) = receiveEvent.covered->asOrderedSet()->at(1) then sendEvent.container.fragments->indexOf(self.sendEvent) &lt; receiveEvent.container.fragments->indexOf(self.receiveEvent) else true endif else true endif"/>
       <details key="validSelfMessage$message" value="'receiveEvent of a self message may not come before the sendEvent'"/>
       <details key="argumentsSpecified" value="if self.messageSort &lt;> MessageSort::reply and not self.sendEvent.oclIsUndefined() and self.sendEvent.oclIsKindOf(MessageOccurrenceSpecification) and not self.signature.oclIsUndefined() then let container : FragmentContainer = self.sendEvent.oclAsType(MessageOccurrenceSpecification).container in if container.fragments->includes(self.sendEvent) then self.signature.parameters->size() = self.arguments->size() and self.signature.parameters->forAll(currentParameter : Parameter | self.arguments->one(argument : ParameterValueMapping | argument.parameter = currentParameter)) else true endif else true endif"/>
       <details key="argumentsSpecified$message" value="'All arguments of the operation must be specified'"/>
@@ -471,13 +468,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="RCollection" abstract="true" eSuperTypes="#//Type #//ImplementationClass">
     <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-        <details key="body" value="let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then '|' else '' endif in let name : String = self.oclType().name.substring(2, self.oclType().name.size()) in if type.name.oclIsUndefined() then name else name + '&lt;' + partial + type.name + '>' endif"/>
+        <details key="body" value="let partial : String = if type.oclIsTypeOf(Class) and type.oclAsType(Class).partial or type.oclIsTypeOf(Operation) and type.oclAsType(Operation).partial then '|' else '' endif in let typeName : String = self.oclType().toString() in let name : String = typeName.substring(typeName.lastIndexOf(':') + 1, typeName.size()) in if type.name.oclIsUndefined() then name else name + '&lt;' + partial + type.name + '>' endif"/>
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ObjectType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RSet" eSuperTypes="#//RCollection"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RList" eSuperTypes="#//RCollection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RSequence" eSuperTypes="#//RCollection"/>
   <eClassifiers xsi:type="ecore:EClass" name="Layout">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containers" lowerBound="1"
         upperBound="-1" eType="#//ContainerMap" containment="true"/>
@@ -521,11 +518,11 @@
       <details key="constraints" value="validUpperBound validLowerBound validMultiplicity"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
-      <details key="validUpperBound" value="self.upperBound > 0 or self.upperBound = - 1"/>
+      <details key="validUpperBound" value="self.upperBound > 0 or self.upperBound = -1"/>
       <details key="validUpperBound$message" value="'The upperbound must be greater than zero or -1 representing *'"/>
       <details key="validLowerBound" value="self.lowerBound >= 0"/>
       <details key="validLowerBound$message" value="'The lowerbound must be greater than or equal to zero'"/>
-      <details key="validMultiplicity" value="self.lowerBound &lt;= self.upperBound or self.upperBound = - 1"/>
+      <details key="validMultiplicity" value="self.lowerBound &lt;= self.upperBound or self.upperBound = -1"/>
       <details key="validMultiplicity$message" value="'The lowerBound must be less than or equal to the upperBound'"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
@@ -541,5 +538,99 @@
   <eClassifiers xsi:type="ecore:EClass" name="Gate" eSuperTypes="#//MessageEnd #//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="LiteralBoolean" eSuperTypes="#//LiteralSpecification">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassifierMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationMappings" upperBound="-1"
+        eType="#//OperationMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeMappings" upperBound="-1"
+        eType="#//AttributeMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElement" ordered="false"
+        lowerBound="1" eType="#//Classifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toElement" ordered="false"
+        lowerBound="1" eType="#//Classifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElement" ordered="false"
+        lowerBound="1" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toElement" ordered="false"
+        lowerBound="1" eType="#//Attribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterMappings" upperBound="-1"
+        eType="#//ParameterMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElement" ordered="false"
+        lowerBound="1" eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toElement" ordered="false"
+        lowerBound="1" eType="#//Operation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElement" ordered="false"
+        lowerBound="1" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toElement" ordered="false"
+        lowerBound="1" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateView" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachines" lowerBound="1"
+        upperBound="-1" eType="#//StateMachine" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specifies" lowerBound="1"
+        eType="#//Classifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateMachine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//Transition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="substitutions" upperBound="-1"
+        eType="#//Substitution" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endState" lowerBound="1"
+        eType="#//State" eOpposite="#//State/incomings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startState" lowerBound="1"
+        eType="#//State" eOpposite="#//State/outgoings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signature" eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+        eType="#//Constraint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomings" upperBound="-1"
+        eType="#//Transition" eOpposite="#//Transition/endState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"
+        eType="#//Transition" eOpposite="#//Transition/startState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RDouble" eSuperTypes="#//PrimitiveType">
+    <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="'double'"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getInstanceClassName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="'java.lang.Double'"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RFloat" eSuperTypes="#//PrimitiveType">
+    <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="'float'"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getInstanceClassName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="'java.lang.Float'"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Specification" ordered="false"
+        lowerBound="1" eType="#//ValueSpecification" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Substitution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransitionSubstitution" eSuperTypes="#//Substitution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//Transition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" upperBound="-1"
+        eType="#//Transition"/>
   </eClassifiers>
 </ecore:EPackage>
