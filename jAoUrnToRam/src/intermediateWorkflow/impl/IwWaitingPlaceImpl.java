@@ -7,7 +7,10 @@
 package intermediateWorkflow.impl;
 
 import intermediateWorkflow.IntermediateWorkflowPackage;
+import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWaitingPlace;
+import iwToStepView.StepView;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -29,6 +32,35 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
+	
+	@Override
+	public void step_DeepFirstSearch(IwStep currentStep) {
+		IwNode nextNode = getSuccs().get(0).getTarget();
+		nextNode.explore(currentStep);
+	}
+	
+	@Override
+	public void appendFirstVerticesFromNextStep(StepView stepView) {
+	}
+	
+	@Override
+	public void appendEdges(StepView stepView) {
+	}
+	
+	@Override
+	public void appendVertex_NextStep(StepView stepView) {
+	}
+	
+	@Override
+	public boolean isFromCurrentStep(StepView stepView) {
+		return false;
+	}
+	
+	@Override
+	public String getInputProcessingNodeAction() {
+		return "continue";
+	}
+	
 	/**
 	 * The default value of the '{@link #getTransient() <em>Transient</em>}' attribute.
 	 * <!-- begin-user-doc -->

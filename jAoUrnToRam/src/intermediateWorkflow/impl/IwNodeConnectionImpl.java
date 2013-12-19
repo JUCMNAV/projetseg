@@ -18,6 +18,7 @@ import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwOutBinding;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwStub;
+import intermediateWorkflow.IwWaitingPlace;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
 
@@ -97,10 +98,15 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			result = getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
 		}
 		else {
-			result = getTarget().getId();
-			result = stepView.dotEscape(result);
-			if(getStubEntryIndex() != null && getTarget().isFromCurrentStep(stepView)) {
-				result = result+":in"+getStubEntryIndex().toString();
+			if(getTarget() instanceof IwWaitingPlace){
+				getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
+			}
+			else {
+				result = getTarget().getId();
+				result = stepView.dotEscape(result);
+				if(getStubEntryIndex() != null && getTarget().isFromCurrentStep(stepView)) {
+					result = result+":in"+getStubEntryIndex().toString();
+				}
 			}
 		}
 		return result;
