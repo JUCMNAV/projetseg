@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
-	private boolean visited = false;
+	protected boolean visited = false;
 	
 	private boolean stepViewVisit = false;
 	@Override

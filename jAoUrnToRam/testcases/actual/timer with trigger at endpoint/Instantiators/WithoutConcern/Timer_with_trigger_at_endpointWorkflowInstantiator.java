@@ -24,8 +24,8 @@ public class Timer_with_trigger_at_endpointWorkflowInstantiator extends Workflow
         _TheInput.addNextNode(_Timer);
         _SP.addNextNode(_TheInput);
         _Timer.addNextNode("cond1",_TheOuput);
-        _Timer.addNextNode(_Ep2);
-        _Sp2.addNextNode(_Timer);
+        _Sp2.addNextNode(_Ep2);
+        _Ep2.addNextNode(_Timer);
     }
 
     public void linkNodesToWorkflow(){

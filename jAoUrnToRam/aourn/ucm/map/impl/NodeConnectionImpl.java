@@ -129,7 +129,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 			if(targetAsPathNode().iwHasNodes()) 
 				return null; //Trigger is an optional flag
 			else {
-					return iwNextNodeConnection().iwIsTrigger();
+				return iwNextNodeConnection().iwIsTrigger();
 			}
 		}
 	}

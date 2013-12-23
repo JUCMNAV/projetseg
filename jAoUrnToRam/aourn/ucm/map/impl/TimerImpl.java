@@ -7,6 +7,8 @@
 package ucm.map.impl;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwTimer;
 import intermediateWorkflow.IwWaitingPlace;
 
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 import ucm.map.Timer;
 import ucm.map.WaitKind;
 
@@ -50,7 +53,16 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		iwWaitingPlace.setName(nameOrPrefixId("Timer"));
 		iwWaitingPlace.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
 		addIwEquivalentNodeAfterOutIn(iwWaitingPlace);
+		
+		if(getSucc().size() == 2){
+			NodeConnection timeoutPath = (NodeConnection)getSucc().get(1);
+			PathNode timeOuthPathFirstNode = (PathNode)timeoutPath.getTarget();
+			
+			((IwTimer)iwWaitingPlace).setTimeoutpathFirstNode(timeOuthPathFirstNode);
+		}	
 	}
+	
+	
 
 	/*@Override
 	public IwWaitingPlace getIwTimer() {

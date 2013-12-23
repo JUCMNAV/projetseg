@@ -96,6 +96,7 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 	}
 
 	private IwNode iwEquivalentNode;
+	@Override
 	public IwNode getIwEquivalentNode() {
 		return iwEquivalentNode;
 	}
@@ -227,12 +228,6 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 
 	@Override
 	public List<NodeConnection> predAsNodeConnection() {
-		/*LinkedHashSet<NodeConnection> res = new LinkedHashSet<NodeConnection>();
-		
-		for(IURNConnection conn : getPred())
-			res.add((NodeConnection)conn);
-		
-		return res;*/
 		List<NodeConnection> result = new ArrayList<NodeConnection>();
 		for(IURNConnection conn : getPred())
 			result.add((NodeConnection)conn);
@@ -242,10 +237,6 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 
 	@Override
 	public List<NodeConnection> succAsNodeConnection() {
-		/*LinkedHashSet<NodeConnection> res = new LinkedHashSet<NodeConnection>();
-		for(IURNConnection conn : getSucc())
-			res.add((NodeConnection)conn);*/
-		
 		List<NodeConnection> result = new ArrayList<NodeConnection>();
 		for(IURNConnection conn : getSucc())
 			result.add((NodeConnection)conn);

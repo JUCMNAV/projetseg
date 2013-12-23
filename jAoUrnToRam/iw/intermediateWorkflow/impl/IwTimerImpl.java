@@ -7,11 +7,16 @@
 package intermediateWorkflow.impl;
 
 import intermediateWorkflow.IntermediateWorkflowPackage;
+import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwNodeConnection;
+import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwTimer;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
 
 import org.eclipse.emf.ecore.EClass;
+
+import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +29,24 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
+	private IwNodeConnection timeoutpath; 
+	
+	@Override
+	public IwNodeConnection getTimeoutpath() {
+		return timeoutpath;
+	}
+
+	@Override
+	public void setTimeoutpath(IwNodeConnection timeoutpath) {
+		this.timeoutpath = timeoutpath;
+	}
+	
+	private PathNode timeoutPathFirstNode;
+	@Override
+	public void setTimeoutpathFirstNode(PathNode node){
+		timeoutPathFirstNode = node;
+	}
+
 	@Override
 	public  NodeInstantiationStrategy createStrategy() {
 		return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
@@ -46,6 +69,17 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		}
 		else {
 			return false;
+		}
+	}
+	
+	@Override
+	public void step_DeepFirstSearch(IwStep currentStep) {
+		super.step_DeepFirstSearch(currentStep);
+		
+		if(timeoutPathFirstNode != null) {
+			IwStep step = createStep(false);
+			IwNode iwTimeoutPathFirstNode = timeoutPathFirstNode.getIwEquivalentNode();
+			iwTimeoutPathFirstNode.explore(step);
 		}
 	}
 	

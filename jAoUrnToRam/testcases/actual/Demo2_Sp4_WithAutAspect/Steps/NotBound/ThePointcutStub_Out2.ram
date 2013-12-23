@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_pp_OIGvPEeOenfNorr0FiA" name="ThePointcutStub_Out2">
-  <structuralView xmi:id="_pp_OIWvPEeOenfNorr0FiA">
-    <classes xsi:type="ram:Class" xmi:id="_pp_OImvPEeOenfNorr0FiA" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_pp_OI2vPEeOenfNorr0FiA" name="AspectAfter101">
-      <operations xmi:id="_pp_1MGvPEeOenfNorr0FiA" name="execute" returnType="_pp_1MmvPEeOenfNorr0FiA">
-        <parameters xmi:id="_pp_1MWvPEeOenfNorr0FiA" name="c" type="_pp_OImvPEeOenfNorr0FiA"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_z1g9QGvrEeOwwaahslX_tA" name="ThePointcutStub_Out2">
+  <structuralView xmi:id="_z1g9QWvrEeOwwaahslX_tA">
+    <classes xsi:type="ram:Class" xmi:id="_z1g9QmvrEeOwwaahslX_tA" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_z1g9Q2vrEeOwwaahslX_tA" name="AspectAfter101">
+      <operations xmi:id="_z1g9RGvrEeOwwaahslX_tA" name="execute" returnType="_z1g9RmvrEeOwwaahslX_tA">
+        <parameters xmi:id="_z1g9RWvrEeOwwaahslX_tA" name="c" type="_z1g9QmvrEeOwwaahslX_tA"/>
       </operations>
     </classes>
-    <types xsi:type="ram:RVoid" xmi:id="_pp_1MmvPEeOenfNorr0FiA"/>
+    <types xsi:type="ram:RVoid" xmi:id="_z1g9RmvrEeOwwaahslX_tA"/>
   </structuralView>
-  <instantiations xmi:id="_pp_1M2vPEeOenfNorr0FiA" type="Extends">
-    <mappings xmi:id="_pp_1NGvPEeOenfNorr0FiA" toElement="_pp_OI2vPEeOenfNorr0FiA">
-      <operationMappings xmi:id="_pp_1NWvPEeOenfNorr0FiA" toElement="_pp_1MGvPEeOenfNorr0FiA">
+  <instantiations xmi:id="_z1g9R2vrEeOwwaahslX_tA" type="Extends">
+    <mappings xmi:id="_z1g9SGvrEeOwwaahslX_tA" toElement="_z1g9Q2vrEeOwwaahslX_tA">
+      <operationMappings xmi:id="_z1hkUGvrEeOwwaahslX_tA" toElement="_z1g9RGvrEeOwwaahslX_tA">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
