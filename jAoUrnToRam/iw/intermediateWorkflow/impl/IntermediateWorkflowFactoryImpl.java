@@ -79,6 +79,7 @@ public class IntermediateWorkflowFactoryImpl extends EFactoryImpl implements Int
 			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING: return createIwPluginBinding();
 			case IntermediateWorkflowPackage.IW_IN_BINDING: return createIwInBinding();
 			case IntermediateWorkflowPackage.IW_OUT_BINDING: return createIwOutBinding();
+			case IntermediateWorkflowPackage.IW_TIMER: return createIwTimer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -300,6 +301,16 @@ public class IntermediateWorkflowFactoryImpl extends EFactoryImpl implements Int
 	public IwOutBinding createIwOutBinding() {
 		IwOutBindingImpl iwOutBinding = new IwOutBindingImpl();
 		return iwOutBinding;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IwTimer createIwTimer() {
+		IwTimerImpl iwTimer = new IwTimerImpl();
+		return iwTimer;
 	}
 
 	/**

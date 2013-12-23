@@ -20,7 +20,7 @@
     <responsibilities id="59" name="enter input" respRefs="//@urndef/@specDiagrams.0/@nodes.2">
       <metadata name="RAM" value="in theInput"/>
     </responsibilities>
-    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="waiting place simple">
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="timer simple">
       <nodes xsi:type="ucm.map:EndPoint" id="57" name="EP" x="373" y="147" pred="//@urndef/@specDiagrams.0/@connections.2">
         <label/>
         <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>

@@ -25,6 +25,7 @@ import intermediateWorkflow.IwPluginBinding;
 import intermediateWorkflow.IwStartPoint;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwStub;
+import intermediateWorkflow.IwTimer;
 import intermediateWorkflow.IwWaitingPlace;
 import intermediateWorkflow.IwWorkflow;
 
@@ -175,6 +176,13 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 * @generated
 	 */
 	private EClass iwOutBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iwTimerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -830,6 +838,15 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIwTimer() {
+		return iwTimerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getString() {
 		return stringEDataType;
 	}
@@ -962,6 +979,8 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		createEReference(iwOutBindingEClass, IW_OUT_BINDING__PLUGIN_END_POINT);
 		createEReference(iwOutBindingEClass, IW_OUT_BINDING__PLUGIN_BINDING);
 
+		iwTimerEClass = createEClass(IW_TIMER);
+
 		// Create data types
 		stringEDataType = createEDataType(STRING);
 		booleanEDataType = createEDataType(BOOLEAN);
@@ -1006,6 +1025,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		iwAndJoinEClass.getESuperTypes().add(this.getIwNode());
 		iwWaitingPlaceEClass.getESuperTypes().add(this.getIwNode());
 		iwStubEClass.getESuperTypes().add(this.getIwNode());
+		iwTimerEClass.getESuperTypes().add(this.getIwWaitingPlace());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(iwModelEClass, IwModel.class, "IwModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1089,6 +1109,8 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEReference(getIwOutBinding_StubExit(), this.getIwNodeConnection(), this.getIwNodeConnection_OutBinding(), "stubExit", null, 0, 1, IwOutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwOutBinding_PluginEndPoint(), this.getIwEndPoint(), this.getIwEndPoint_OutBindings(), "pluginEndPoint", null, 0, 1, IwOutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwOutBinding_PluginBinding(), this.getIwPluginBinding(), this.getIwPluginBinding_OutBindings(), "pluginBinding", null, 0, 1, IwOutBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iwTimerEClass, IwTimer.class, "IwTimer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize data types
 		initEDataType(stringEDataType, String.class, "String", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

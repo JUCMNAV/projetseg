@@ -148,6 +148,10 @@ public class IntermediateWorkflowAdapterFactory extends AdapterFactoryImpl {
 				return createIwOutBindingAdapter();
 			}
 			@Override
+			public Adapter caseIwTimer(IwTimer object) {
+				return createIwTimerAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -430,6 +434,20 @@ public class IntermediateWorkflowAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIwOutBindingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link intermediateWorkflow.IwTimer <em>Iw Timer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see intermediateWorkflow.IwTimer
+	 * @generated
+	 */
+	public Adapter createIwTimerAdapter() {
 		return null;
 	}
 

@@ -6,6 +6,10 @@
  */
 package ucm.map.impl;
 
+import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwTimer;
+import intermediateWorkflow.IwWaitingPlace;
+
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -16,6 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.Timer;
+import ucm.map.WaitKind;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +36,23 @@ import ucm.map.Timer;
  * @generated
  */
 public class TimerImpl extends WaitingPlaceImpl implements Timer {
+	
+	private IwTimer iwTimer;
+	
+	@Override
+	public void buildIwNodeTemplate() {
+		iwTimer = IntermediateWorkflowFactory.eINSTANCE.createIwTimer();
+		iwTimer.setName(nameOrPrefixId("Timer"));
+		iwTimer.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
+		addIwEquivalentNodeAfterOutIn(iwTimer);
+	}
+
+	@Override
+	public IwWaitingPlace getIwTimer() {
+		return iwTimer;
+	}
+	
+	
 	/**
 	 * The cached value of the '{@link #getTimeoutPath() <em>Timeout Path</em>}' reference.
 	 * <!-- begin-user-doc -->

@@ -20,7 +20,7 @@
     <responsibilities id="27" name="display output" respRefs="//@urndef/@specDiagrams.0/@nodes.3">
       <metadata name="RAM" value="out theOuput"/>
     </responsibilities>
-    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="waiting place simple">
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="waiting place with trigger">
       <nodes xsi:type="ucm.map:StartPoint" id="11" name="SP" x="120" y="151" succ="//@urndef/@specDiagrams.0/@connections.0">
         <label/>
         <precondition deltaX="40" deltaY="-17" label="" expression="true"/>

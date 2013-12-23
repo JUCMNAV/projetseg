@@ -16,7 +16,7 @@ public class AoUrnToRamTestCases {
 	
 	public static String[] getTestCases(){
 		return new String[] {
-				ASSIGN_VEHICLE_BASIC,
+				/*ASSIGN_VEHICLE_BASIC,
 				BELLAIRS,
 				DEMO2_SP4_WITH_AUT_ASPECT,
 				DEMO_SP5_WITH_AUT_DIFFERENT_CONCERN,
@@ -26,8 +26,8 @@ public class AoUrnToRamTestCases {
 				START_UP_NODE_AND_SHARED_RESP,
 				WAITINGPLACE_SIMPLE,
 				WAITINGPLACE_WITH_TRIGGER,
-				WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT
-				//TIMER_SIMPLE
+				WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT*/
+				TIMER_SIMPLE
 		};
 	}
 

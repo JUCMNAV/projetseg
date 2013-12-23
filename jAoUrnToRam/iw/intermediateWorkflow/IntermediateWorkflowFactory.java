@@ -188,6 +188,15 @@ public interface IntermediateWorkflowFactory extends EFactory {
 	IwOutBinding createIwOutBinding();
 
 	/**
+	 * Returns a new object of class '<em>Iw Timer</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Iw Timer</em>'.
+	 * @generated
+	 */
+	IwTimer createIwTimer();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

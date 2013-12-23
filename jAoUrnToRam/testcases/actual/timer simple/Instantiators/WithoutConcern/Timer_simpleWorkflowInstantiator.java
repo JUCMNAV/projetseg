@@ -3,13 +3,13 @@ package timer simple.Instantiators.WithoutConcern;
 import ram.reactiveworkflow.*;
 import ram.workflow.*;
 
-public class Waiting_place_simpleWorkflowInstantiator extends WorkflowInstantiator{
+public class Timer_simpleWorkflowInstantiator extends WorkflowInstantiator{
     public Workflow workflow=new Workflow();
     public EndNode _EP=new EndNode();
     public CustomizableNode _TheOuput=createCustomizableNode("timer simple.Steps.WithoutConcern.TheInput.TheOuput");
     public InputNode _TheInput=new InputNode();
     public StartupNode _SP=new StartupNode();
-    public WaitingPlace _Timer=new WaitingPlace();
+    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode();
 
     public void link(){
         linkNodesToNextNodes();

@@ -1268,6 +1268,79 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_OUT_BINDING_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link intermediateWorkflow.impl.IwTimerImpl <em>Iw Timer</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see intermediateWorkflow.impl.IwTimerImpl
+	 * @see intermediateWorkflow.impl.IntermediateWorkflowPackageImpl#getIwTimer()
+	 * @generated
+	 */
+	int IW_TIMER = 19;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__NAME = IW_WAITING_PLACE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Succs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__SUCCS = IW_WAITING_PLACE__SUCCS;
+
+	/**
+	 * The feature id for the '<em><b>Preds</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__PREDS = IW_WAITING_PLACE__PREDS;
+
+	/**
+	 * The feature id for the '<em><b>Step</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__STEP = IW_WAITING_PLACE__STEP;
+
+	/**
+	 * The feature id for the '<em><b>Workflow</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__WORKFLOW = IW_WAITING_PLACE__WORKFLOW;
+
+	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER__TRANSIENT = IW_WAITING_PLACE__TRANSIENT;
+
+	/**
+	 * The number of structural features of the '<em>Iw Timer</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_TIMER_FEATURE_COUNT = IW_WAITING_PLACE_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '<em>String</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1275,7 +1348,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	 * @see intermediateWorkflow.impl.IntermediateWorkflowPackageImpl#getString()
 	 * @generated
 	 */
-	int STRING = 19;
+	int STRING = 20;
 
 	/**
 	 * The meta object id for the '<em>Boolean</em>' data type.
@@ -1285,7 +1358,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	 * @see intermediateWorkflow.impl.IntermediateWorkflowPackageImpl#getBoolean()
 	 * @generated
 	 */
-	int BOOLEAN = 20;
+	int BOOLEAN = 21;
 
 	/**
 	 * The meta object id for the '<em>Kermeta Special Types Alias </em>' data type.
@@ -1295,7 +1368,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	 * @see intermediateWorkflow.impl.IntermediateWorkflowPackageImpl#get_KermetaSpecialTypesAlias_()
 	 * @generated
 	 */
-	int _KERMETA_SPECIAL_TYPES_ALIAS_ = 21;
+	int _KERMETA_SPECIAL_TYPES_ALIAS_ = 22;
 
 
 	/**
@@ -1973,6 +2046,16 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	EReference getIwOutBinding_PluginBinding();
 
 	/**
+	 * Returns the meta object for class '{@link intermediateWorkflow.IwTimer <em>Iw Timer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Iw Timer</em>'.
+	 * @see intermediateWorkflow.IwTimer
+	 * @generated
+	 */
+	EClass getIwTimer();
+
+	/**
 	 * Returns the meta object for data type '{@link java.lang.String <em>String</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2568,6 +2651,16 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IW_OUT_BINDING__PLUGIN_BINDING = eINSTANCE.getIwOutBinding_PluginBinding();
+
+		/**
+		 * The meta object literal for the '{@link intermediateWorkflow.impl.IwTimerImpl <em>Iw Timer</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see intermediateWorkflow.impl.IwTimerImpl
+		 * @see intermediateWorkflow.impl.IntermediateWorkflowPackageImpl#getIwTimer()
+		 * @generated
+		 */
+		EClass IW_TIMER = eINSTANCE.getIwTimer();
 
 		/**
 		 * The meta object literal for the '<em>String</em>' data type.
