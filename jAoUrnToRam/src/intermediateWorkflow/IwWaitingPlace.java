@@ -51,4 +51,8 @@ public interface IwWaitingPlace extends IwNode {
 	 */
 	void setTransient(Boolean value);
 
+	boolean getStepViewVisit();
+
+	void setStepViewVisit(boolean stepViewVisit);
+
 } // IwWaitingPlace

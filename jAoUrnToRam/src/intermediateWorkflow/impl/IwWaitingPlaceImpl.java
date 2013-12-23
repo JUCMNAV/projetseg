@@ -10,6 +10,8 @@ import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWaitingPlace;
+import iwToJavaInstantiator.NodeInstantiationStrategy;
+import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
 import iwToStepView.StepView;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,10 +34,28 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
+	private boolean visited = false;
 	
+	private boolean stepViewVisit = false;
+	@Override
+	public boolean getStepViewVisit() {
+		return stepViewVisit;
+	}
+	@Override
+	public void setStepViewVisit(boolean stepViewVisit) {
+		this.stepViewVisit = stepViewVisit;
+	}
+
 	@Override
 	public void step_DeepFirstSearch(IwStep currentStep) {
-		IwNode nextNode = getSuccs().get(0).getTarget();
+		IwNode nextNode;
+		if(!visited) {
+			nextNode = getFirstSucc().getTarget();
+			visited = true;
+		}
+		else {
+			nextNode = getSuccs().get(1).getTarget();
+		}
 		nextNode.explore(currentStep);
 	}
 	
@@ -59,6 +79,11 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	@Override
 	public String getInputProcessingNodeAction() {
 		return "continue";
+	}
+	
+	@Override
+	public  NodeInstantiationStrategy createStrategy() {
+		return new WorkflowNodeInstantiationStrategy(this, "WaitingPlace");
 	}
 	
 	/**

@@ -293,6 +293,7 @@ public interface IwNodeConnection extends EObject {
 	 * @generated
 	 */
 	void setTrigger(Boolean value);
+	boolean isSourceEndPoint();
 
 
 } // IwNodeConnection

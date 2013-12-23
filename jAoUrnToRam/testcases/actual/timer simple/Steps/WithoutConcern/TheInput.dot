@@ -1,4 +1,4 @@
-digraph "Input"{
+digraph "TheInput"{
     rankdir=TD;
     node[
         shape=box,
@@ -10,13 +10,13 @@ digraph "Input"{
     subgraph "cluster_Waiting_place_simple"{
         label="Waiting_place_simple"
 
-        "Waiting_place_simple_Input"[
+        "Waiting_place_simple_TheInput"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
-                    <td align="center" width="0">Input</td>
+                    <td align="center" width="0">TheInput</td>
                 </tr>
             </table>>
         ]
@@ -32,7 +32,7 @@ digraph "Input"{
             </table>>
         ]
 
-        "Waiting_place_simple_Ouput"[
+        "Waiting_place_simple_TheOuput"[
             style=filled,
             fillcolor=gray,
 
@@ -40,7 +40,7 @@ digraph "Input"{
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
-                    <td align="center" width="0">Ouput</td>
+                    <td align="center" width="0">TheOuput</td>
                 </tr>
             </table>>
         ]
@@ -55,9 +55,9 @@ digraph "Input"{
                 </tr>
             </table>>
         ]
-        "Waiting_place_simple_SP"->"Waiting_place_simple_Input"
-        "Waiting_place_simple_Input"->
-        "Waiting_place_simple_Ouput"->"Waiting_place_simple_EP"
+        "Waiting_place_simple_SP"->"Waiting_place_simple_TheInput"
+        "Waiting_place_simple_TheInput"->"Waiting_place_simple_TheOuput"
+        "Waiting_place_simple_TheOuput"->"Waiting_place_simple_EP"
     }
 }
 

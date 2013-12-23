@@ -10,6 +10,9 @@ public class AoUrnToRamTestCases {
 	private static final String SIMPLE  = "testcases\\in\\Simple.jucm";
 	private static final String START_UP_NODE_AND_SHARED_RESP = "testcases\\in\\StartupNodeAndSharedResp.jucm";  
 	private static final String WAITINGPLACE_SIMPLE = "testcases\\in\\waiting place simple.jucm"; 
+	private static final String WAITINGPLACE_WITH_TRIGGER = "testcases\\in\\waiting place with trigger.jucm"; 
+	private static final String WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT = "testcases\\in\\waiting place with trigger at end point.jucm"; 
+	private static final String TIMER_SIMPLE = "testcases\\in\\timer simple.jucm";
 	
 	public static String[] getTestCases(){
 		return new String[] {
@@ -21,7 +24,10 @@ public class AoUrnToRamTestCases {
 				OR_JOIN,
 				SIMPLE,
 				START_UP_NODE_AND_SHARED_RESP,
-				WAITINGPLACE_SIMPLE
+				WAITINGPLACE_SIMPLE,
+				WAITINGPLACE_WITH_TRIGGER,
+				WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT
+				//TIMER_SIMPLE
 		};
 	}
 

@@ -70,6 +70,16 @@ import urncore.impl.UCMmodelElementImpl;
  */
 public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNode {
 	
+	@Override
+	public NodeConnection getFirstPred(){
+		return (NodeConnection)getPred().get(0);
+	}
+	
+	@Override
+	public NodeConnection getFirstSucc() {
+		return (NodeConnection)getSucc().get(0);
+	}
+	
 	private LinkedList<IwNode> _iwNodes = new LinkedList<IwNode>();
 	public LinkedList<IwNode> getIwNodes() {
 		return _iwNodes;

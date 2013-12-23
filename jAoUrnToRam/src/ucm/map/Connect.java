@@ -18,4 +18,6 @@ package ucm.map;
  * @generated
  */
 public interface Connect extends PathNode {
+
+	WaitingPlace getWaitingPlace();
 } // Connect

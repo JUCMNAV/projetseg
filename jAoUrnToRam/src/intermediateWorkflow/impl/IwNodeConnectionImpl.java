@@ -10,6 +10,7 @@ package intermediateWorkflow.impl;
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwConcern;
+import intermediateWorkflow.IwEndPoint;
 import intermediateWorkflow.IwInBinding;
 import intermediateWorkflow.IwInput;
 import intermediateWorkflow.IwModel;
@@ -57,14 +58,23 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	/*********** Step View Transformation ***********************/
 	@Override
 	public void appendNodeConnection(StepView stepView) {
+		if(isSourceEndPoint())
+			return;
+		
 		stepView.append("        ");
 		stepView.append(getSourcePortDotEscaped(stepView));
 		
 		stepView.append("->");
+	
 		stepView.append(getTargetPortDotEscaped(stepView));
 
 		if(hasCondition()) 
 			appendConnectionLabel(stepView);
+	}
+	
+	@Override
+	public boolean isSourceEndPoint() {
+		return getSource() instanceof IwEndPoint;
 	}
 	
 	@Override
@@ -99,7 +109,21 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		}
 		else {
 			if(getTarget() instanceof IwWaitingPlace){
-				getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
+				
+				IwWaitingPlace iwWaitingPlace = (IwWaitingPlace)getTarget();
+				
+				if(iwWaitingPlace.getStepViewVisit() == false) {
+					result = getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
+					iwWaitingPlace.setStepViewVisit(true);
+				}
+				else {
+					/*if(this.getSource() instanceof IwEndPoint){
+						System.out.println("boo");
+					}
+					else {*/
+						result =  getTarget().getSuccs().get(1).getTargetPortDotEscaped(stepView);
+					//}
+				}
 			}
 			else {
 				result = getTarget().getId();

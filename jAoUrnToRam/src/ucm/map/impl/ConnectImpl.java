@@ -10,6 +10,9 @@ import org.eclipse.emf.ecore.EClass;
 
 import ucm.map.Connect;
 import ucm.map.MapPackage;
+import ucm.map.WaitingPlace;
+import urncore.IURNConnection;
+import urncore.IURNNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +24,21 @@ import ucm.map.MapPackage;
  * @generated
  */
 public class ConnectImpl extends PathNodeImpl implements Connect {
+	
+	@Override
+	public WaitingPlace getWaitingPlace() {
+		IURNConnection firstSucc = this.getFirstSucc();
+		IURNNode target = firstSucc.getTarget();
+		
+		if(target instanceof WaitingPlace){
+			WaitingPlace waitingPlace = (WaitingPlace)target;
+			return waitingPlace;
+		} 
+		else {
+			return null;
+		}
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="December 22, 2013 8:08:24 PM EST" specVersion="21" urnVersion="0.925" nextGlobalID="57">
+  <ucmspec>
+    <scenarioGroups id="5" name="ScenarioGroup5">
+      <scenarios id="6" name="ScenarioDef6"/>
+    </scenarioGroups>
+  </ucmspec>
+  <grlspec>
+    <groups id="3" name="StrategiesGroup3" strategies="//@grlspec/@strategies.0"/>
+    <strategies id="4" name="EvaluationStrategy4" author="Administrator" group="//@grlspec/@groups.0"/>
+    <indicatorGroup id="7" name="Time" isRedesignCategory="true"/>
+    <indicatorGroup id="8" name="Cost" isRedesignCategory="true"/>
+    <indicatorGroup id="9" name="Quality" isRedesignCategory="true"/>
+    <indicatorGroup id="10" name="Flexibility" isRedesignCategory="true"/>
+  </grlspec>
+  <urndef>
+    <responsibilities id="15" name="enter input" respRefs="//@urndef/@specDiagrams.0/@nodes.2">
+      <metadata name="RAM" value="in theInput"/>
+    </responsibilities>
+    <responsibilities id="27" name="display output" respRefs="//@urndef/@specDiagrams.0/@nodes.3">
+      <metadata name="RAM" value="out theOuput"/>
+    </responsibilities>
+    <specDiagrams xsi:type="ucm.map:UCMmap" id="2" name="waiting place simple">
+      <nodes xsi:type="ucm.map:StartPoint" id="11" name="SP" x="120" y="151" succ="//@urndef/@specDiagrams.0/@connections.0">
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="13" name="EP" x="690" y="149" pred="//@urndef/@specDiagrams.0/@connections.2">
+        <label/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="16" name="RespRef16" x="210" y="154" succ="//@urndef/@specDiagrams.0/@connections.1" pred="//@urndef/@specDiagrams.0/@connections.0" respDef="//@urndef/@responsibilities.0">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:RespRef" id="28" name="RespRef28" x="533" y="154" succ="//@urndef/@specDiagrams.0/@connections.2" pred="//@urndef/@specDiagrams.0/@connections.3" respDef="//@urndef/@responsibilities.1">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:WaitingPlace" id="47" name="wp" x="380" y="153" succ="//@urndef/@specDiagrams.0/@connections.3" pred="//@urndef/@specDiagrams.0/@connections.1 //@urndef/@specDiagrams.0/@connections.6">
+        <label/>
+      </nodes>
+      <nodes xsi:type="ucm.map:StartPoint" id="49" name="sp2" x="290" y="77" succ="//@urndef/@specDiagrams.0/@connections.4">
+        <label/>
+        <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:EndPoint" id="51" name="ep2" x="380" y="153" succ="//@urndef/@specDiagrams.0/@connections.5" pred="//@urndef/@specDiagrams.0/@connections.4">
+        <label/>
+        <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
+      </nodes>
+      <nodes xsi:type="ucm.map:Connect" id="57" name="Connect57" x="380" y="153" succ="//@urndef/@specDiagrams.0/@connections.6" pred="//@urndef/@specDiagrams.0/@connections.5"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.0" target="//@urndef/@specDiagrams.0/@nodes.2"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.2" target="//@urndef/@specDiagrams.0/@nodes.4"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.3" target="//@urndef/@specDiagrams.0/@nodes.1"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.3">
+        <condition label="" expression="true"/>
+      </connections>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.5" target="//@urndef/@specDiagrams.0/@nodes.6"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.6" target="//@urndef/@specDiagrams.0/@nodes.7"/>
+      <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.7" target="//@urndef/@specDiagrams.0/@nodes.4"/>
+    </specDiagrams>
+  </urndef>
+  <metadata name="_Use0to100EvaluationRange" value="false"/>
+</urn:URNspec>

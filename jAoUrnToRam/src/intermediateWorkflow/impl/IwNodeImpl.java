@@ -60,6 +60,18 @@ import ram.RamFactory;
  * @generated
  */
 public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
+	
+	@Override
+	public IwNodeConnection getFirstSucc() {
+		return getSuccs().get(0);
+	}
+	
+	
+	@Override
+	public void addSucc(IwNodeConnection succ){
+		this.getSuccs().add(succ);
+	}
+	
 	/*********** iw to ram ***********************/
 	
 	/*********kermeta's multiple inheritance doesn't work in Java, so inheritance simulated by aggregation******/
@@ -223,9 +235,6 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 		//raise kermeta::exceptions::NotImplementedException.new
 		throw new UnsupportedOperationException(); 
 	}
-	//{
-		
-	//}
 	
 	@Override
 	public void jiAppendBuildStatement(WorkflowInstantiator workflowInstantiator) {

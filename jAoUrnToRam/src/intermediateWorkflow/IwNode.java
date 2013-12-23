@@ -205,6 +205,8 @@ public interface IwNode extends EObject {
 	 * @generated
 	 */
 	void setWorkflow(IwWorkflow value);
+	void addSucc(IwNodeConnection succ);
+	IwNodeConnection getFirstSucc();
 	
 	
 	
