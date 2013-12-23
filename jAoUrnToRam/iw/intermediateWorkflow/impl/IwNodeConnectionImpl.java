@@ -117,12 +117,7 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 					iwWaitingPlace.setStepViewVisit(true);
 				}
 				else {
-					/*if(this.getSource() instanceof IwEndPoint){
-						System.out.println("boo");
-					}
-					else {*/
-						result =  getTarget().getSuccs().get(1).getTargetPortDotEscaped(stepView);
-					//}
+					result =  getTarget().getSuccs().get(1).getTargetPortDotEscaped(stepView);
 				}
 			}
 			else {

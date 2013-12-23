@@ -62,8 +62,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		}	
 	}
 	
-	
-
 	/*@Override
 	public IwWaitingPlace getIwTimer() {
 		return iwTimer;

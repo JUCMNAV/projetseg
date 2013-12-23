@@ -16,10 +16,12 @@ public class AoUrnToRamTestCases {
 	private static final String TIMER_WITH_TRIGGER = "testcases\\in\\timer with trigger.jucm";
 	private static final String TIMER_WITH_TRIGGER_AT_ENDPOINT = "testcases\\in\\timer with trigger at endpoint.jucm";
 	private static final String TIMER_TIMEOUTPATH = "testcases\\in\\timer with timeoutpath.jucm";
+	private static final String TIMER_WITH_TRIGGER_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger and timeoutpath.jucm";
+	private static final String TIMER_WITH_TRIGGER_AT_ENDPOINT_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger at endpoint and timeoutpath.jucm";
 	
 	public static String[] getTestCases(){
 		return new String[] {
-				/*ASSIGN_VEHICLE_BASIC,
+				ASSIGN_VEHICLE_BASIC,
 				BELLAIRS,
 				DEMO2_SP4_WITH_AUT_ASPECT,
 				DEMO_SP5_WITH_AUT_DIFFERENT_CONCERN,
@@ -32,8 +34,10 @@ public class AoUrnToRamTestCases {
 				WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT,
 				TIMER_SIMPLE,
 				TIMER_WITH_TRIGGER,
-				TIMER_WITH_TRIGGER_AT_ENDPOINT,*/
-				TIMER_TIMEOUTPATH
+				TIMER_WITH_TRIGGER_AT_ENDPOINT,
+				TIMER_TIMEOUTPATH,
+				TIMER_WITH_TRIGGER_AT_ENDPOINT_AND_TIMEOUTPATH,
+				TIMER_WITH_TRIGGER_AND_TIMEOUTPATH 
 		};
 	}
 

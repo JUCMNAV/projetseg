@@ -72,15 +72,33 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		}
 	}
 	
-	@Override
-	public void step_DeepFirstSearch(IwStep currentStep) {
-		super.step_DeepFirstSearch(currentStep);
-		
+	private IwNode iwTimeoutPathFirstNode;
+	private void exploreTimeoutPath(){
+		iwTimeoutPathFirstNode = null;
 		if(timeoutPathFirstNode != null) {
 			IwStep step = createStep(false);
-			IwNode iwTimeoutPathFirstNode = timeoutPathFirstNode.getIwEquivalentNode();
+			iwTimeoutPathFirstNode = timeoutPathFirstNode.getIwEquivalentNode();
 			iwTimeoutPathFirstNode.explore(step);
 		}
+	}
+	
+	@Override
+	public void step_DeepFirstSearch(IwStep currentStep) {
+		exploreTimeoutPath();
+		
+		IwNode nextNode;
+		if(!visited) {
+			nextNode = getFirstSucc().getTarget();
+			visited = true;
+		}
+		else {
+			nextNode = getSuccs().get(1).getTarget();
+			
+			if(iwTimeoutPathFirstNode == nextNode){
+				nextNode = getSuccs().get(2).getTarget();
+			}
+		}
+		nextNode.explore(currentStep);
 	}
 	
 	
