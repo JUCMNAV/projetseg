@@ -7,10 +7,10 @@ digraph "TheInput"{
         fontsize=12
     ];
 
-    subgraph "cluster_Waiting_place_simple"{
-        label="Waiting_place_simple"
+    subgraph "cluster_Waiting_place_with_trigger"{
+        label="Waiting_place_with_trigger"
 
-        "Waiting_place_simple_TheInput"[
+        "Waiting_place_with_trigger_TheInput"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
@@ -21,7 +21,7 @@ digraph "TheInput"{
             </table>>
         ]
 
-        "Waiting_place_simple_SP"[
+        "Waiting_place_with_trigger_SP"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
@@ -32,7 +32,7 @@ digraph "TheInput"{
             </table>>
         ]
 
-        "Waiting_place_simple_TheOuput"[
+        "Waiting_place_with_trigger_TheOuput"[
             style=filled,
             fillcolor=gray,
 
@@ -45,7 +45,7 @@ digraph "TheInput"{
             </table>>
         ]
 
-        "Waiting_place_simple_EP"[
+        "Waiting_place_with_trigger_EP"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
@@ -55,9 +55,9 @@ digraph "TheInput"{
                 </tr>
             </table>>
         ]
-        "Waiting_place_simple_SP"->"Waiting_place_simple_TheInput"
-        "Waiting_place_simple_TheInput"->"Waiting_place_simple_TheOuput"
-        "Waiting_place_simple_TheOuput"->"Waiting_place_simple_EP"
+        "Waiting_place_with_trigger_SP"->"Waiting_place_with_trigger_TheInput"
+        "Waiting_place_with_trigger_TheInput"->"Waiting_place_with_trigger_TheOuput"
+        "Waiting_place_with_trigger_TheOuput"->"Waiting_place_with_trigger_EP"
     }
 }
 

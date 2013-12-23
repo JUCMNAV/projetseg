@@ -7,62 +7,6 @@ digraph "I1_I2_I3"{
         fontsize=12
     ];
 
-    subgraph "cluster_Plugin"{
-        label="Plugin"
-
-        "Plugin_E11"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">E11</td>
-                </tr>
-            </table>>
-        ]
-
-        "Plugin_Shared1_221"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\SharedResp24.gif"></img></td>
-                    <td align="center" width="0">Shared1</td>
-                </tr>
-            </table>>
-        ]
-
-        "Plugin_IsCondition"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
-                    <td align="center" width="0">IsCondition</td>
-                </tr>
-            </table>>
-        ]
-
-        "Plugin_LocalInSub"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\LocalStartPoint16.gif"></img></td>
-                    <td align="center" width="0">LocalInSub</td>
-                </tr>
-            </table>>
-        ]
-
-        "Plugin_I10"[label="I10",style=dashed]
-        "Plugin_LocalInSub"->"Plugin_E11"
-        "Plugin_Shared1_221"->"Plugin_IsCondition"
-        "Plugin_IsCondition"->"Plugin_E11"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>false</td></tr></table>>]
-        "Plugin_IsCondition"->"Plugin_I10"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>true</td></tr></table>>]
-    }
-
     subgraph "cluster_StartupNodeAndSharedRespBase"{
         label="StartupNodeAndSharedRespBase"
 
@@ -225,6 +169,62 @@ digraph "I1_I2_I3"{
         "StartupNodeAndSharedRespBase_I1"->"StartupNodeAndSharedRespBase_ProcessI1"
         "StartupNodeAndSharedRespBase_ProcessI1"->"StartupNodeAndSharedRespBase_AStub":in1
         "StartupNodeAndSharedRespBase_AStub":out2->"StartupNodeAndSharedRespBase_E2"
+    }
+
+    subgraph "cluster_Plugin"{
+        label="Plugin"
+
+        "Plugin_E11"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E11</td>
+                </tr>
+            </table>>
+        ]
+
+        "Plugin_Shared1_221"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\SharedResp24.gif"></img></td>
+                    <td align="center" width="0">Shared1</td>
+                </tr>
+            </table>>
+        ]
+
+        "Plugin_IsCondition"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsCondition</td>
+                </tr>
+            </table>>
+        ]
+
+        "Plugin_LocalInSub"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\LocalStartPoint16.gif"></img></td>
+                    <td align="center" width="0">LocalInSub</td>
+                </tr>
+            </table>>
+        ]
+
+        "Plugin_I10"[label="I10",style=dashed]
+        "Plugin_LocalInSub"->"Plugin_E11"
+        "Plugin_Shared1_221"->"Plugin_IsCondition"
+        "Plugin_IsCondition"->"Plugin_E11"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>false</td></tr></table>>]
+        "Plugin_IsCondition"->"Plugin_I10"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>true</td></tr></table>>]
     }
     "StartupNodeAndSharedRespBase_AStub":in1->"Plugin_Shared1_221"[style=dashed,arrowhead=onormal]
     "Plugin_E11"->"StartupNodeAndSharedRespBase_AStub":out2[style=dashed,arrowhead=onormal]

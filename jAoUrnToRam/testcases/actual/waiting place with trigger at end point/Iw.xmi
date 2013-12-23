@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="waiting place with trigger at end point">
   <concerns name="WithoutConcern">
-    <workflows name="Waiting_place_simple" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.5">
+    <workflows name="Waiting_place_with_trigger_at_end_point" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.5">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="SP" step="//@concerns.0/@steps.0" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.2"/>
       </nodes>

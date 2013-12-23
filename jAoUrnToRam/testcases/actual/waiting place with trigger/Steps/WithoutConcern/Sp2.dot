@@ -7,10 +7,10 @@ digraph "Sp2"{
         fontsize=12
     ];
 
-    subgraph "cluster_Waiting_place_simple"{
-        label="Waiting_place_simple"
+    subgraph "cluster_Waiting_place_with_trigger"{
+        label="Waiting_place_with_trigger"
 
-        "Waiting_place_simple_Sp2"[
+        "Waiting_place_with_trigger_Sp2"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
@@ -21,7 +21,7 @@ digraph "Sp2"{
             </table>>
         ]
 
-        "Waiting_place_simple_Ep2"[
+        "Waiting_place_with_trigger_Ep2"[
 
             label=
             <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
@@ -31,7 +31,7 @@ digraph "Sp2"{
                 </tr>
             </table>>
         ]
-        "Waiting_place_simple_Sp2"->"Waiting_place_simple_Ep2"
+        "Waiting_place_with_trigger_Sp2"->"Waiting_place_with_trigger_Ep2"
     }
 }
 
