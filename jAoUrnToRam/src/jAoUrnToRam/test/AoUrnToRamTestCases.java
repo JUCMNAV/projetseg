@@ -13,6 +13,7 @@ public class AoUrnToRamTestCases {
 	private static final String WAITINGPLACE_WITH_TRIGGER = "testcases\\in\\waiting place with trigger.jucm"; 
 	private static final String WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT = "testcases\\in\\waiting place with trigger at end point.jucm"; 
 	private static final String TIMER_SIMPLE = "testcases\\in\\timer simple.jucm";
+	private static final String TIMER_WITH_TRIGGER = "testcases\\in\\timer with trigger.jucm";
 	
 	public static String[] getTestCases(){
 		return new String[] {
@@ -27,7 +28,8 @@ public class AoUrnToRamTestCases {
 				WAITINGPLACE_SIMPLE,
 				WAITINGPLACE_WITH_TRIGGER,
 				WAITINGPLACE_WITH_TRIGGER_AT_ENDPOINT*/
-				TIMER_SIMPLE
+				TIMER_SIMPLE,
+				TIMER_WITH_TRIGGER
 		};
 	}
 

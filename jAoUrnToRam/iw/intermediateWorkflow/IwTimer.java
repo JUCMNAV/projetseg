@@ -18,4 +18,7 @@ package intermediateWorkflow;
  * @generated
  */
 public interface IwTimer extends IwWaitingPlace {
+
+	boolean hasTimeoutPath();
+	boolean hasTriggerPath();
 } // IwTimer

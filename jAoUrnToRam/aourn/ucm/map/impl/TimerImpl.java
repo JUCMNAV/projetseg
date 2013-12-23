@@ -37,20 +37,25 @@ import ucm.map.WaitKind;
  */
 public class TimerImpl extends WaitingPlaceImpl implements Timer {
 	
-	private IwTimer iwTimer;
+	//private IwTimer iwTimer;
 	
 	@Override
 	public void buildIwNodeTemplate() {
-		iwTimer = IntermediateWorkflowFactory.eINSTANCE.createIwTimer();
+		/*iwTimer = IntermediateWorkflowFactory.eINSTANCE.createIwTimer();
 		iwTimer.setName(nameOrPrefixId("Timer"));
 		iwTimer.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
-		addIwEquivalentNodeAfterOutIn(iwTimer);
+		addIwEquivalentNodeAfterOutIn(iwTimer);*/
+		
+		iwWaitingPlace = IntermediateWorkflowFactory.eINSTANCE.createIwTimer();
+		iwWaitingPlace.setName(nameOrPrefixId("Timer"));
+		iwWaitingPlace.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
+		addIwEquivalentNodeAfterOutIn(iwWaitingPlace);
 	}
 
-	@Override
+	/*@Override
 	public IwWaitingPlace getIwTimer() {
 		return iwTimer;
-	}
+	}*/
 	
 	
 	/**

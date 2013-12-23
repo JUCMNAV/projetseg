@@ -20,4 +20,6 @@ package ucm.map;
 public interface Connect extends PathNode {
 
 	WaitingPlace getWaitingPlace();
+
+	Timer getTimer();
 } // Connect

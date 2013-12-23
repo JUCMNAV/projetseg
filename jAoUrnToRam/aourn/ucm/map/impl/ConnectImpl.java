@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import ucm.map.Connect;
 import ucm.map.MapPackage;
+import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -38,6 +39,21 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
 			return null;
 		}
 	}
+	
+	@Override
+	public Timer getTimer() {
+		IURNConnection firstSucc = this.getFirstSucc();
+		IURNNode target = firstSucc.getTarget();
+		
+		if(target instanceof Timer){
+			Timer timer = (Timer)target;
+			return timer;
+		} 
+		else {
+			return null;
+		}
+	}
+	
 	
 	/**
 	 * <!-- begin-user-doc -->

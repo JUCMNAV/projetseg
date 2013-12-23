@@ -29,6 +29,27 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
 	}
 	
+	@Override
+	public boolean hasTimeoutPath() {
+		if(getSuccs().size() == 2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean hasTriggerPath() {
+		if(getPreds().size() == 2){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -34,7 +34,7 @@ import ucm.map.WaitingPlace;
  */
 public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	
-	private IwWaitingPlace iwWaitingPlace;
+	protected IwWaitingPlace iwWaitingPlace;
 	@Override
 	public void buildIwNodeTemplate() {
 		iwWaitingPlace = IntermediateWorkflowFactory.eINSTANCE.createIwWaitingPlace();

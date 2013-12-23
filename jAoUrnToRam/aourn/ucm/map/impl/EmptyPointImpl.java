@@ -11,6 +11,7 @@ import java.util.List;
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
+import intermediateWorkflow.IwTimer;
 import intermediateWorkflow.IwWaitingPlace;
 
 import org.eclipse.emf.ecore.EClass;
@@ -40,7 +41,7 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
 		for(IURNConnection edge : getSucc()){
 			IURNNode node = edge.getTarget();
 			
-			//check if empty point is connected to waiting place
+			//check if empty point is connected to waiting place or timer
 			if(node instanceof Connect){
 				Connect connectNode = (Connect)node;
 				
