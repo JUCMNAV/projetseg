@@ -31,6 +31,8 @@ digraph "Sp2"{
                 </tr>
             </table>>
         ]
+
+        "Timer_with_trigger_at_endpoint_Timer"[label="TheInput\nTimer",style=dashed]
         "Timer_with_trigger_at_endpoint_Sp2"->"Timer_with_trigger_at_endpoint_Ep2"
 
     }

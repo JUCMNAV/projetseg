@@ -103,13 +103,13 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		return result;
 	}
 	
-	public boolean isTargetWaitingPlace(){
+	/*public boolean isTargetWaitingPlace(){
 		boolean result = false;
 		if(getTarget() instanceof IwWaitingPlace){
 			result = true;
 		}
 		return result;
-	}
+	}*/
 	
 	public IwNodeConnection getNextNodeConnection(int index){
 		List<IwNodeConnection> succs = getTarget().getSuccs();

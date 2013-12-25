@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_xWxK8G1AEeO8o7UkosY4CQ" name="TheReplacementStub_Out1">
-  <structuralView xmi:id="_xWxK8W1AEeO8o7UkosY4CQ">
-    <classes xsi:type="ram:Class" xmi:id="_xWxK8m1AEeO8o7UkosY4CQ" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_xWxK821AEeO8o7UkosY4CQ" name="ReplAspect2">
-      <operations xmi:id="_xWxK9G1AEeO8o7UkosY4CQ" name="execute" returnType="_xWxyAm1AEeO8o7UkosY4CQ">
-        <parameters xmi:id="_xWxK9W1AEeO8o7UkosY4CQ" name="c" type="_xWxK8m1AEeO8o7UkosY4CQ"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_YtXSoG1IEeO82oA717S8wg" name="TheReplacementStub_Out1">
+  <structuralView xmi:id="_YtXSoW1IEeO82oA717S8wg">
+    <classes xsi:type="ram:Class" xmi:id="_YtXSom1IEeO82oA717S8wg" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_YtXSo21IEeO82oA717S8wg" name="ReplAspect2">
+      <operations xmi:id="_YtXSpG1IEeO82oA717S8wg" name="execute" returnType="_YtX5tG1IEeO82oA717S8wg">
+        <parameters xmi:id="_YtX5sG1IEeO82oA717S8wg" name="c" type="_YtXSom1IEeO82oA717S8wg"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_xWxK9m1AEeO8o7UkosY4CQ" name="ReplAspect1">
-      <operations xmi:id="_xWxyAG1AEeO8o7UkosY4CQ" name="execute" returnType="_xWxyAm1AEeO8o7UkosY4CQ">
-        <parameters xmi:id="_xWxyAW1AEeO8o7UkosY4CQ" name="c" type="_xWxK8m1AEeO8o7UkosY4CQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_YtX5sW1IEeO82oA717S8wg" name="ReplAspect1">
+      <operations xmi:id="_YtX5sm1IEeO82oA717S8wg" name="execute" returnType="_YtX5tG1IEeO82oA717S8wg">
+        <parameters xmi:id="_YtX5s21IEeO82oA717S8wg" name="c" type="_YtXSom1IEeO82oA717S8wg"/>
       </operations>
     </classes>
-    <types xsi:type="ram:RVoid" xmi:id="_xWxyAm1AEeO8o7UkosY4CQ"/>
+    <types xsi:type="ram:RVoid" xmi:id="_YtX5tG1IEeO82oA717S8wg"/>
   </structuralView>
-  <instantiations xmi:id="_xWxyA21AEeO8o7UkosY4CQ" type="Extends">
-    <mappings xmi:id="_xWxyBG1AEeO8o7UkosY4CQ" toElement="_xWxK821AEeO8o7UkosY4CQ">
-      <operationMappings xmi:id="_xWxyBW1AEeO8o7UkosY4CQ" toElement="_xWxK9G1AEeO8o7UkosY4CQ">
+  <instantiations xmi:id="_YtX5tW1IEeO82oA717S8wg" type="Extends">
+    <mappings xmi:id="_YtX5tm1IEeO82oA717S8wg" toElement="_YtXSo21IEeO82oA717S8wg">
+      <operationMappings xmi:id="_YtX5t21IEeO82oA717S8wg" toElement="_YtXSpG1IEeO82oA717S8wg">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_xWxyBm1AEeO8o7UkosY4CQ" toElement="_xWxK9m1AEeO8o7UkosY4CQ">
-      <operationMappings xmi:id="_xWxyB21AEeO8o7UkosY4CQ" toElement="_xWxyAG1AEeO8o7UkosY4CQ">
+    <mappings xmi:id="_YtX5uG1IEeO82oA717S8wg" toElement="_YtX5sW1IEeO82oA717S8wg">
+      <operationMappings xmi:id="_YtX5uW1IEeO82oA717S8wg" toElement="_YtX5sm1IEeO82oA717S8wg">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>

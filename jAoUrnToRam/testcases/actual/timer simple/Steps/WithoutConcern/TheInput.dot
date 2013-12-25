@@ -32,6 +32,17 @@ digraph "TheInput"{
             </table>>
         ]
 
+        "Timer_simple_Timer"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\"></img></td>
+                    <td align="center" width="0">Timer</td>
+                </tr>
+            </table>>
+        ]
+
         "Timer_simple_TheOuput"[
             style=filled,
             fillcolor=gray,
@@ -56,7 +67,8 @@ digraph "TheInput"{
             </table>>
         ]
         "Timer_simple_SP"->"Timer_simple_TheInput"
-        "Timer_simple_TheInput"->"Timer_simple_TheOuput"
+        "Timer_simple_TheInput"->"Timer_simple_Timer"
+        "Timer_simple_Timer"->"Timer_simple_TheOuput"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>cond</td></tr></table>>]
         "Timer_simple_TheOuput"->"Timer_simple_EP"
     }
 }

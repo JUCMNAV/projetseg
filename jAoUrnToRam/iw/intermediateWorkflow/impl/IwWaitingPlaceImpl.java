@@ -37,9 +37,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
-	protected boolean visited = false;
+	//protected boolean visited = false;
 	
-	protected boolean stepViewVisit = false;
+	/*protected boolean stepViewVisit = false;
 	@Override
 	public boolean getStepViewVisit() {
 		return stepViewVisit;
@@ -47,9 +47,9 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	@Override
 	public void setStepViewVisit(boolean stepViewVisit) {
 		this.stepViewVisit = stepViewVisit;
-	}
+	}*/
 
-	protected IwNode getNextNodeToExplore(){
+	/*protected IwNode getNextNodeToExplore(){
 		IwNode nextNode = null;
 		IwNodeConnection nextSucc = null;
 		
@@ -63,30 +63,30 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 			nextNode = nextSucc.getTarget();
 		}
 		return nextNode;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void step_DeepFirstSearch(IwStep currentStep) {
 		IwNode nextNode = getNextNodeToExplore();
 		nextNode.explore(currentStep);
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void appendFirstVerticesFromNextStep(StepView stepView) {
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void appendEdges(StepView stepView) {
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void appendVertex_NextStep(StepView stepView) {
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public boolean isFromCurrentStep(StepView stepView) {
 		return false;
-	}
+	}*/
 	
 	@Override
 	public String getInputProcessingNodeAction() {
@@ -98,7 +98,7 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 		return new WorkflowNodeInstantiationStrategy(this, "WaitingPlace");
 	}
 	
-	protected IwNodeConnection chooseSucc(){
+	/*protected IwNodeConnection chooseSucc(){
 		IwNodeConnection succ = null;
 		if(!stepViewVisit){
 			succ = getSucc(0);
@@ -108,19 +108,19 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 			succ = getSucc(1);
 		}
 		return succ;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex) {
 		IwNodeConnection succ = chooseSucc();
 		String result = succ.getTargetPortDotEscaped(stepView);
 		return result;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public IwNodeConnection getSecondSucc() {
 		return this.getSucc(1);
-	}
+	}*/
 	
 	/**
 	 * The default value of the '{@link #getTransient() <em>Transient</em>}' attribute.

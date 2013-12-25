@@ -31,6 +31,8 @@ digraph "Sp2"{
                 </tr>
             </table>>
         ]
+
+        "Waiting_place_with_trigger_at_end_point_Wp"[label="TheInput\nWp",style=dashed]
         "Waiting_place_with_trigger_at_end_point_Sp2"->"Waiting_place_with_trigger_at_end_point_Ep2"
 
     }

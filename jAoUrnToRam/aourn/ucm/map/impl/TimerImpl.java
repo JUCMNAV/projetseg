@@ -54,12 +54,12 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		iwWaitingPlace.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
 		addIwEquivalentNodeAfterOutIn(iwWaitingPlace);
 		
-		if(getSucc().size() == 2){
+		/*if(getSucc().size() == 2){
 			NodeConnection timeoutPath = (NodeConnection)getSucc().get(1);
 			PathNode timeOuthPathFirstNode = (PathNode)timeoutPath.getTarget();
 			
 			((IwTimer)iwWaitingPlace).setTimeoutpathFirstNode(timeOuthPathFirstNode);
-		}	
+		}*/	
 	}
 	
 	/*@Override

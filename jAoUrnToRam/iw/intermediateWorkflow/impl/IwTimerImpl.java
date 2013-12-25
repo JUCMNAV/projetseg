@@ -30,60 +30,52 @@ import ucm.map.PathNode;
  */
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
-	private IwNodeConnection timeoutpath; 
+	//private IwNodeConnection timeoutpath; 
 	
-	@Override
+	/*@Override
 	public IwNodeConnection getTimeoutpath() {
+		System.out.println("1");
 		return timeoutpath;
 	}
 
 	@Override
 	public void setTimeoutpath(IwNodeConnection timeoutpath) {
+		System.out.println("3");
 		this.timeoutpath = timeoutpath;
-	}
+	}*/
 	
-	private PathNode timeoutPathFirstNode;
+	/*private PathNode timeoutPathFirstNode;
 	@Override
 	public void setTimeoutpathFirstNode(PathNode node){
 		timeoutPathFirstNode = node;
-	}
+	}*/
 
 	@Override
 	public  NodeInstantiationStrategy createStrategy() {
 		return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
 	}
 	
-	@Override
+	/*@Override
 	public boolean hasTimeoutPath() {
-		if(getSuccs().size() == 2) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return getSuccs().size() >= 2;
 	}
 	
 	@Override
 	public boolean hasTriggerPath() {
-		if(getPreds().size() == 2){
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+		return getPreds().size() == 2;
+	}*/
 	
-	private IwNode iwTimeoutPathFirstNode;
-	private void exploreTimeoutPath(){
+	//private IwNode iwTimeoutPathFirstNode;
+	/*private void exploreTimeoutPath(){
 		iwTimeoutPathFirstNode = null;
 		if(timeoutPathFirstNode != null) {
 			IwStep step = createStep(false);
 			iwTimeoutPathFirstNode = timeoutPathFirstNode.getIwEquivalentNode();
 			iwTimeoutPathFirstNode.explore(step);
 		}
-	}
+	}*/
 	
-	@Override 
+	/*@Override 
 	protected IwNode getNextNodeToExplore(){
 		IwNode nextNode = super.getNextNodeToExplore();
 		
@@ -92,30 +84,30 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		}
 		
 		return nextNode;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void step_DeepFirstSearch(IwStep currentStep) {
 		exploreTimeoutPath();
 		
 		super.step_DeepFirstSearch(currentStep);
-	}
+	}*/
 	
-	private boolean isTimoutPathFirstNode(IwNode node){
+	/*private boolean isTimoutPathFirstNode(IwNode node){
 		return iwTimeoutPathFirstNode == node;
-	}
+	}*/
 	
 	
-	@Override
+	/*@Override
 	protected IwNodeConnection chooseSucc(){
 		IwNodeConnection succ = super.chooseSucc();
 		if(isTimeoutPathPred(succ)){
 			succ = getSucc(2);
 		}
 		return succ;
-	}
+	}*/
 	
-	private boolean isTimeoutPathPred(IwNodeConnection nodeConnection){
+	/*private boolean isTimeoutPathPred(IwNodeConnection nodeConnection){
 		IwNode target = nodeConnection.getTarget();
 		
 		boolean result = false;
@@ -123,7 +115,7 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 			result = true;
 		}
 		return result;
-	}
+	}*/
 	
 	/**
 	 * <!-- begin-user-doc -->

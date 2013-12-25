@@ -12,7 +12,7 @@
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="SP" step="//@concerns.0/@steps.0" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.2"/>
       </nodes>
-      <nodes xsi:type="intermediateWorkflow:IwTimer" name="Timer" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0 //@concerns.0/@workflows.0/@nodes.6/@succs.0" transient="true">
+      <nodes xsi:type="intermediateWorkflow:IwTimer" name="Timer" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0 //@concerns.0/@workflows.0/@nodes.6/@succs.0" step="//@concerns.0/@steps.0" transient="true">
         <succs conditionName="cond1" target="//@concerns.0/@workflows.0/@nodes.1"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="Sp2" step="//@concerns.0/@steps.1" startPointType="global">
@@ -22,7 +22,7 @@
         <succs target="//@concerns.0/@workflows.0/@nodes.4" trigger="true"/>
       </nodes>
     </workflows>
-    <steps name="TheInput" nodes="//@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.2 //@concerns.0/@workflows.0/@nodes.1 //@concerns.0/@workflows.0/@nodes.0"/>
+    <steps name="TheInput" nodes="//@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.2 //@concerns.0/@workflows.0/@nodes.4 //@concerns.0/@workflows.0/@nodes.1 //@concerns.0/@workflows.0/@nodes.0"/>
     <steps name="Sp2" nodes="//@concerns.0/@workflows.0/@nodes.5 //@concerns.0/@workflows.0/@nodes.6"/>
   </concerns>
 </intermediateWorkflow:IwModel>
