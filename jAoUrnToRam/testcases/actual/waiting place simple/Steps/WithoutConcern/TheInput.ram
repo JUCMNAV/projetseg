@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_ZguCMG1IEeO82oA717S8wg" name="TheInput">
-  <structuralView xmi:id="_ZguCMW1IEeO82oA717S8wg">
-    <classes xsi:type="ram:Class" xmi:id="_ZguCMm1IEeO82oA717S8wg" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_ZguCM21IEeO82oA717S8wg" name="TheInputInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_ZguCNG1IEeO82oA717S8wg" name="TheOuput">
-      <operations xmi:id="_ZguCNW1IEeO82oA717S8wg" name="execute" returnType="_ZgupQG1IEeO82oA717S8wg">
-        <parameters xmi:id="_ZguCNm1IEeO82oA717S8wg" name="c" type="_ZguCMm1IEeO82oA717S8wg"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_YvwQwG1zEeO51-U0dhPnPg" name="TheInput">
+  <structuralView xmi:id="_YvwQwW1zEeO51-U0dhPnPg">
+    <classes xsi:type="ram:Class" xmi:id="_YvwQwm1zEeO51-U0dhPnPg" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_YvwQw21zEeO51-U0dhPnPg" name="TheInputInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_YvwQxG1zEeO51-U0dhPnPg" name="TheOuput">
+      <operations xmi:id="_YvwQxW1zEeO51-U0dhPnPg" name="execute" returnType="_YvwQyG1zEeO51-U0dhPnPg">
+        <parameters xmi:id="_YvwQxm1zEeO51-U0dhPnPg" name="c" type="_YvwQwm1zEeO51-U0dhPnPg"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_ZguCN21IEeO82oA717S8wg" name="TheOuputOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_ZgupQG1IEeO82oA717S8wg"/>
+    <classes xsi:type="ram:Class" xmi:id="_YvwQx21zEeO51-U0dhPnPg" name="TheOuputOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_YvwQyG1zEeO51-U0dhPnPg"/>
   </structuralView>
-  <instantiations xmi:id="_ZgupQW1IEeO82oA717S8wg" type="Extends">
-    <mappings xmi:id="_ZgupQm1IEeO82oA717S8wg" toElement="_ZguCNG1IEeO82oA717S8wg">
-      <operationMappings xmi:id="_ZgupQ21IEeO82oA717S8wg" toElement="_ZguCNW1IEeO82oA717S8wg">
+  <instantiations xmi:id="_YvwQyW1zEeO51-U0dhPnPg" type="Extends">
+    <mappings xmi:id="_YvwQym1zEeO51-U0dhPnPg" toElement="_YvwQxG1zEeO51-U0dhPnPg">
+      <operationMappings xmi:id="_YvwQy21zEeO51-U0dhPnPg" toElement="_YvwQxW1zEeO51-U0dhPnPg">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_ZgupRG1IEeO82oA717S8wg" type="Extends">
-    <mappings xmi:id="_ZgupRW1IEeO82oA717S8wg" toElement="_ZguCM21IEeO82oA717S8wg">
+  <instantiations xmi:id="_YvwQzG1zEeO51-U0dhPnPg" type="Extends">
+    <mappings xmi:id="_Yvw30G1zEeO51-U0dhPnPg" toElement="_YvwQw21zEeO51-U0dhPnPg">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_ZgvQUG1IEeO82oA717S8wg" type="Extends">
-    <mappings xmi:id="_ZgvQUW1IEeO82oA717S8wg" toElement="_ZguCN21IEeO82oA717S8wg">
+  <instantiations xmi:id="_Yvw30W1zEeO51-U0dhPnPg" type="Extends">
+    <mappings xmi:id="_Yvw30m1zEeO51-U0dhPnPg" toElement="_YvwQx21zEeO51-U0dhPnPg">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/waiting%20place%20simple/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

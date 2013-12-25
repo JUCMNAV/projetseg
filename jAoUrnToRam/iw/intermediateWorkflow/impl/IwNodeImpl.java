@@ -278,7 +278,7 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 		strategy().jiAppendLinkStartNodesToWorkflowStatement(workflowInstantiator);
 	}
 	
-	//Step 3
+	/***************iw to link steps****************************/
 	@Override
 	public void step_DeepFirstSearch(IwStep currentStep) {
 		if(isUnexplored()) {
@@ -294,7 +294,7 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 	@Override
 	public void explore(IwStep currentStep) {
 		setStep(currentStep);
-		//succs.each{nodeConnection|nodeConnection.target.step_DeepFirstSearch(step)}
+		
 		for(IwNodeConnection nodeConnection : getSuccs()) {
 			nodeConnection.getTarget().step_DeepFirstSearch(getStep());
 		}
@@ -312,6 +312,7 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 	
 	@Override
 	public IwStep createStep(boolean isStartupStep) {
+		
 		IwStep result = IntermediateWorkflowFactory.eINSTANCE.createIwStep();
 		result.setName(name);
 		result.setStartupStep(isStartupStep);

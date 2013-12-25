@@ -75,40 +75,11 @@ import ram.StructuralView;
  */
 public class IwStepImpl extends EObjectImpl implements IwStep {
 	
-	/*private Mapping ramCustomizableNodeMapping;
-	private Mapping ramExecuteOperationMapping;
-	private Mapping ramCustomizableInputDataMapping;
-	private Mapping ramCustomizableOutputDataMapping;*/
-	
-	/*private ClassifierMapping ramCustomizableNodeMapping;
-	private OperationMapping ramExecuteOperationMapping;
-	private ClassifierMapping ramCustomizableInputDataMapping;
-	private ClassifierMapping ramCustomizableOutputDataMapping;*/
-	
 	private List<ClassifierMapping> ramCustomizableNodeMappings;
 	private List<OperationMapping> ramExecuteOperationMappings;
 	private List<ClassifierMapping> ramCustomizableInputDataMappings;
 	private List<ClassifierMapping> ramCustomizableOutputDataMappings;
 	
-	/*@Override
-	public void setRamCustomizableNodeMapping( ClassifierMapping ramCustomizableNodeMapping) {
-		this.ramCustomizableNodeMapping = ramCustomizableNodeMapping;
-	}
-	
-	@Override
-	public void setRamCustomizableInputDataMapping(
-			ClassifierMapping ramCustomizableInputDataMapping) {
-		this.ramCustomizableInputDataMapping = ramCustomizableInputDataMapping;
-	}
-	@Override
-	public void setRamCustomizableOutputDataMapping(
-			ClassifierMapping ramCustomizableOutputDataMapping) {
-		this.ramCustomizableOutputDataMapping = ramCustomizableOutputDataMapping;
-	}
-	@Override
-	public void setRamExecuteOperationMapping( OperationMapping ramExecuteOperationMapping) {
-		this.ramExecuteOperationMapping = ramExecuteOperationMapping;
-	}*/
 	/*********************************************************
 	Add Ram Class API
 	*********************************************************/
@@ -120,13 +91,7 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkInputData(ram.Class inputData) {
-		/*linkClassToClassDiagram(inputData)
-		ramCustomizableInputDataMapping.toElements.add(inputData)*/
-		
 		linkClassToClassDiagram(inputData);
-		//ramCustomizableInputDataMapping.getToElements().add(inputData);
-		
-		//ramCustomizableInputDataMapping.setToElement(inputData);
 		
 		ClassifierMapping cm = RamFactory.eINSTANCE.createClassifierMapping();
 		cm.setToElement(inputData);
@@ -136,9 +101,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	@Override
 	public void linkOutputData(ram.Class outputData) {
 		linkClassToClassDiagram(outputData);
-		//ramCustomizableOutputDataMapping.getToElements().add(outputData);
-		
-		//ramCustomizableOutputDataMapping.setToElement(outputData);
 		
 		ClassifierMapping cm = RamFactory.eINSTANCE.createClassifierMapping();
 		cm.setToElement(outputData);
@@ -147,15 +109,9 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkCustomizableNode(ram.Class customizableNode) {
-		/*linkClassToClassDiagram(customizableNode)
-		ramCustomizableNodeMapping.toElements.add(customizableNode)
-		
-		linkExecuteOperation(colExtSingle(customizableNode.operations))*/
 		
 		linkClassToClassDiagram(customizableNode);
-		//ramCustomizableNodeMapping.getToElements().add(customizableNode);
-		
-		//ramCustomizableNodeMapping.setToElement(customizableNode);
+	
 		ClassifierMapping cm = RamFactory.eINSTANCE.createClassifierMapping();
 		cm.setToElement(customizableNode);
 		ramCustomizableNodeMappings.add(cm);
@@ -172,19 +128,10 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 		Parameter cParam = executeOperation.getParameters().get(0);
 		cParam.setType(ramLocalContextClass);
 		
-		//linkExecuteOperation(customizableNode.getOperations().get(0));
 	}
 	
 	@Override
 	public void linkExecuteOperation(Operation executeOperation) {
-		/*ramExecuteOperationMapping.toElements.add(executeOperation)
-		executeOperation.returnType:=ramRVoid
-
-		var cParam:Parameter init colExtSingle(executeOperation.parameters)
-		cParam.type:=ramLocalContextClass*/
-		
-		//ramExecuteOperationMapping.getToElements().add(executeOperation);
-		//ramExecuteOperationMapping.setToElement(executeOperation);
 		
 		OperationMapping om = RamFactory.eINSTANCE.createOperationMapping();
 		om.setToElement(executeOperation);
@@ -196,51 +143,21 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 		cParam.setType(ramLocalContextClass);
 	}
 	
-	/*@Override
-	public void linkMapping(Mapping mapping, MappableElement fromElement, Instantiation instantiation) {
-		/*mapping.fromElement:=fromElement
-		instantiation.mappings.add(mapping)*/
-		
-		/*mapping.setFromElement(fromElement);
-		instantiation.getMappings().add(mapping);
-	}*/
-	
 	@Override
 	public void linkMapping(ClassifierMapping mapping, Classifier fromElement, Instantiation instantiation) {
-		/*mapping.fromElement:=fromElement
-		instantiation.mappings.add(mapping)*/
-		
 		mapping.setFromElement(fromElement);
 		instantiation.getMappings().add(mapping);
 	}
 	
 	@Override
 	public void linkOperationMapping(OperationMapping mapping, Operation fromElement, Instantiation instantiation) {
-		/*mapping.fromElement:=fromElement
-		instantiation.mappings.add(mapping)*/
-		
 		mapping.setFromElement(fromElement);
 		
-		//instantiation.getMappings().get(0).getOperationMappings().add(mapping);
-		//instantiation.getMappings().add(mapping);
 	}
 	
 	
 	@Override
 	public Mapping mapExternalClass(ram.Class ramClass, ram.Class externalRamClass, Instantiation instantiation) {
-		/*result:=Mapping.new
-		result.fromElement:=externalRamClass
-		result.toElements.add(ramClass)
-		instantiation.mappings.add(result)*/
-		
-		/*Mapping mapping = RamFactory.eINSTANCE.createMapping();
-		mapping.setFromElement(externalRamClass);
-		System.out.println(mapping.getToElements().size());
-		mapping.getToElements().add(ramClass);
-		System.out.println(mapping.getToElements().size());
-		instantiation.getMappings().add(mapping);
-		
-		return mapping;*/
 		return null;
 	}
 	
@@ -289,20 +206,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 			Hashtable<String, ram.Class> ramCustomizableNodeClasses) {
 		this.ramCustomizableNodeClasses = ramCustomizableNodeClasses;
 	}
-	/*@Override
-	public Mapping getRamCustomizableNodeMapping() {
-		return ramCustomizableNodeMapping;
-	}
-	
-	@Override
-	public Mapping getRamCustomizableInputDataMapping() {
-		return ramCustomizableInputDataMapping;
-	}
-	
-	@Override
-	public Mapping getRamCustomizableOutputDataMapping() {
-		return ramCustomizableOutputDataMapping;
-	}*/
 	
 	@Override
 	public Instantiation getRamInputInstantiation() {
@@ -328,11 +231,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	public void setRamWorkflowInstantiation(Instantiation ramWorkflowInstantiation) {
 		this.ramWorkflowInstantiation = ramWorkflowInstantiation;
 	}
-	/*@Override
-	public Mapping getRamExecuteOperationMapping() {
-		return ramExecuteOperationMapping;
-	}*/
-	
 
 	@Override
 	public  StructuralView ramStructuralView() {
@@ -355,13 +253,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void build() {
-		/*buildRamAspect
-		buildInstantiations
-		buildMappings
-		buildCustomizableNodeClasses
-		ramLocalContextClass:=createRamClass("LocalContext")
-		ramRVoid:=createRVoid
-		nodes.each{node|node.build}*/
 		ramFactory = RamFactory.eINSTANCE; //init ram factory
 
 		buildRamAspect();
@@ -393,9 +284,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public Instantiation createInstantiation_Extends() {
-		//result:=Instantiation.new
-		//result.type:=InstantiationType.Extends
-		
 		Instantiation instntn = RamFactory.eINSTANCE.createInstantiation();
 		instntn.setType(InstantiationType.EXTENDS);
 		
@@ -404,16 +292,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void buildMappings() {
-		/*ramCustomizableNodeMapping:=Mapping.new
-		ramExecuteOperationMapping:=Mapping.new
-		ramCustomizableInputDataMapping:=Mapping.new
-		ramCustomizableOutputDataMapping:=Mapping.new*/
-		
-		/*ramCustomizableNodeMapping = RamFactory.eINSTANCE.createClassifierMapping(); //RamFactory.eINSTANCE.createMapping()
-		ramExecuteOperationMapping =  RamFactory.eINSTANCE.createOperationMapping(); //RamFactory.eINSTANCE.createMapping()
-		ramCustomizableInputDataMapping = RamFactory.eINSTANCE.createClassifierMapping(); //RamFactory.eINSTANCE.createMapping()
-		ramCustomizableOutputDataMapping = RamFactory.eINSTANCE.createClassifierMapping(); //RamFactory.eINSTANCE.createMapping()*/
-		
 		ramCustomizableNodeMappings = new ArrayList<ClassifierMapping>();
 		ramExecuteOperationMappings = new ArrayList<OperationMapping>();
 		ramCustomizableInputDataMappings = new ArrayList<ClassifierMapping>();
@@ -422,12 +300,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 		
 	@Override //For rational see @RamCustomizableNodeClassBuildByIwStep  
 	public void buildCustomizableNodeClasses() {
-			/*ramCustomizableNodeClasses:=Hashtable<String,Class>.new
-			customizableNodes.each{customizableNode|
-				if(ramCustomizableNodeClasses.containsKey(customizableNode.name)==false) then
-					ramCustomizableNodeClasses.put(customizableNode.name,createRamCustomizableNodeClass(customizableNode.name))
-				end
-			}*/
 		ramCustomizableNodeClasses = new Hashtable<String,ram.Class>();
 		for(IwCustomizableNode customizableNode : customizableNodes()){
 			if(ramCustomizableNodeClasses.containsKey(customizableNode.getName()) == false){
@@ -455,10 +327,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override 
 	public void linkCustomizableNodeClasses() {
-		/*ramCustomizableNodeClasses.values.each{ramClass|
-			linkCustomizableNode(ramClass)
-		}*/
-		
 		for(ram.Class ramClass : ramCustomizableNodeClasses.values()){
 			linkCustomizableNode(ramClass);
 		}
@@ -466,12 +334,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void addAspectToRamWorkspace(RamWorkspace ramWorkspace) {
-		//Filter out empty aspect
-		/*if(isEmtpyStepClassDiagram==false) then
-			var workspacePath:String init "Steps".uriAppend(concern.name).uriAppend(name)
-			ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
-		end*/
-		
 		if(isEmtpyStepClassDiagram()==false) {
 			//var workspacePath:String init "Steps".uriAppend(concern.name).uriAppend(name)
 			//ramWorkspace.aspectPerWorkspacePath.put(workspacePath,ramAspect) 
@@ -496,10 +358,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkInstantiations(RamWorkspace ramWorkspace) {
-		/*linkWorkflowInstantiation(ramWorkspace)
-		linkInputInstantiation(ramWorkspace)
-		linkOutputInstantiation(ramWorkspace)*/
-		
 		linkWorkflowInstantiation(ramWorkspace);
 		linkInputInstantiation(ramWorkspace);
 		linkOutputInstantiation(ramWorkspace);
@@ -507,24 +365,8 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkWorkflowInstantiation(RamWorkspace ramWorkspace) {
-		/*linkInstantiation(ramWorkflowInstantiation,ramWorkspace.workflow)
-		linkMapping(
-			ramCustomizableNodeMapping,
-			ramWorkspace.customizableNode,
-			ramWorkflowInstantiation
-		)
-		linkMapping(
-			ramExecuteOperationMapping,
-			ramWorkspace.executeOperation,
-			ramWorkflowInstantiation
-		)*/
-		
 		linkInstantiation(ramWorkflowInstantiation, 
 				ramWorkspace.getWorkflow());
-		
-		/*linkMapping(ramCustomizableNodeMapping, 
-				ramWorkspace.getCustomizableNode(), 
-				ramWorkflowInstantiation);*/
 		
 		for(ClassifierMapping ramCustomizableNodeMapping : ramCustomizableNodeMappings) {
 			linkMapping(ramCustomizableNodeMapping, 
@@ -532,13 +374,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 					ramWorkflowInstantiation);
 		}
 		
-		/*linkMapping(ramExecuteOperationMapping, 
-				ramWorkspace.getExecuteOperation(), 
-				ramWorkflowInstantiation);*/
-		
-		/*linkOperationMapping(ramExecuteOperationMapping, 
-				ramWorkspace.getExecuteOperation(), 
-				ramWorkflowInstantiation);*/
 		for(OperationMapping ramExecuteOperationMapping : ramExecuteOperationMappings) {
 			linkOperationMapping(ramExecuteOperationMapping, 
 					ramWorkspace.getExecuteOperation(), 
@@ -548,19 +383,9 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkInputInstantiation(RamWorkspace ramWorkspace) {
-		/*if(hasAtLeastOneInputClass) then
-			linkInstantiation(ramInputInstantiation,ramWorkspace.inputAspect)
-			linkMapping(
-				ramCustomizableInputDataMapping,
-				ramWorkspace.customizableInputData,
-				ramInputInstantiation
-			)
-		end*/
 		if(hasAtLeastOneInputClass()){
 			linkInstantiation(ramInputInstantiation,ramWorkspace.getInputAspect());
-			/*linkMapping(ramCustomizableInputDataMapping,
-					ramWorkspace.getCustomizableInputData(),
-					ramInputInstantiation);*/
+			
 			for(ClassifierMapping ramCustomizableInputDataMapping : ramCustomizableInputDataMappings){
 				linkMapping(ramCustomizableInputDataMapping,
 						ramWorkspace.getCustomizableInputData(),
@@ -571,21 +396,9 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkOutputInstantiation(RamWorkspace ramWorkspace){
-		/*
-		 * if(hasAtLeastOneOutputClass) then
-			linkInstantiation(ramOutputInstantiation,ramWorkspace.outputAspect)
-			linkMapping(
-				ramCustomizableOutputDataMapping,
-				ramWorkspace.customizableOutputData,
-				ramOutputInstantiation
-			)
-		end
-		 */
 		if(hasAtLeastOneOutputClass()){
 			linkInstantiation(ramOutputInstantiation,ramWorkspace.getOutputAspect());
-			/*linkMapping(ramCustomizableOutputDataMapping,
-					ramWorkspace.getCustomizableOutputData(),
-					ramOutputInstantiation);*/
+			
 			
 			for(ClassifierMapping ramCustomizableOutputDataMapping : ramCustomizableOutputDataMappings){
 				linkMapping(ramCustomizableOutputDataMapping,
@@ -598,8 +411,6 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 	
 	@Override
 	public void linkInstantiation(Instantiation instantiation, Aspect externalAspect) {
-		/*instantiation.externalAspect:=externalAspect
-		ramAspect.instantiations.add(instantiation)*/
 		
 		instantiation.setExternalAspect(externalAspect);
 		ramAspect.getInstantiations().add(instantiation);
@@ -801,7 +612,7 @@ public class IwStepImpl extends EObjectImpl implements IwStep {
 		Set<IwNode> nodes = nodesPerWorkflow().get(node.getWorkflow());
 		nodes.add(node); 
 	}
-	/*********** Step View Transformation ***********************/
+	/*********** iw to link steps ***********************/
 	//Step 3
 	
 	@Override

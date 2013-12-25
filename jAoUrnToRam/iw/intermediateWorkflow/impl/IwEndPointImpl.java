@@ -8,6 +8,7 @@ package intermediateWorkflow.impl;
 
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwEndPoint;
+import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwOutBinding;
 import intermediateWorkflow.IwStep;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
@@ -71,8 +72,8 @@ public class IwEndPointImpl extends IwNodeImpl implements IwEndPoint {
 	/**************************************************/
 	@Override
 	public void explore(IwStep currentStep) {
-		setStep(currentStep);
-	
+		super.explore(currentStep);
+		
 		for(IwOutBinding outBinding : getOutBindings()) {
 			outBinding.explore(currentStep);
 		}

@@ -60,8 +60,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	/*********** Step View Transformation ***********************/
 	@Override
 	public void appendNodeConnection(StepView stepView) {
-		if(isSourceEndPoint())
-			return;
+		/*if(isSourceEndPoint())
+			return;*/
 		
 		stepView.append("        ");
 		stepView.append(getSourcePortDotEscaped(stepView));

@@ -79,13 +79,6 @@ public class IwModelImpl extends EObjectImpl implements IwModel {
 	
 	@Override
 	public List<StepView> toStepView(String imgFolderWindowsPath) {
-		/*result:=OrderedSet<StepView>.new
-		concerns.each{concern|
-			concern.steps.each{step|
-				result.add(step.toStepView(imgFolderWindowsPath))
-			}
-		}*/
-		
 		List<StepView> result = new ArrayList<StepView>();
 		for(IwConcern concern : getConcerns()){
 			for(IwStep step : concern.getSteps()){
@@ -94,6 +87,7 @@ public class IwModelImpl extends EObjectImpl implements IwModel {
 		}
 		return result;
 	}
+	/***************iw to link steps****************/
 	
 	public void linkSteps() {
 		for(IwConcern concern : getConcerns()){

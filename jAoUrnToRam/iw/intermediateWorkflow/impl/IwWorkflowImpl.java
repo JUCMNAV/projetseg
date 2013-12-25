@@ -290,15 +290,6 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 	
 	@Override
 	public void enforceBoundStartPointTop_BoundEndPointDown(StepView stepView) {
-		/*boundStartPoints.each{boundStartPoint|
-			boundEndPoints.each{boundEndPoint|
-				stepView.append("        ") 
-				stepView.append(stepView.dotEscape(boundStartPoint.target.getId))
-				stepView.append("->")
-				stepView.append(stepView.dotEscape(boundEndPoint.getId)) 
-				stepView.appendLine("[style=\"invis\"]")
-			}
-		}*/
 		for(IwStartPoint boundStartPoint : boundStartPoints()){
 			for(IwEndPoint boundEndPoint : boundEndPoints()) {
 				stepView.append("        ");
@@ -346,7 +337,7 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		}
 		return result;
 	}
-	/*********** Step View Transformation ***********************/
+	/*****************iw to link steps***********************************************/
 	@Override
 	public void linkSteps(IwConcern concern) {
 		for(IwStartPoint node : getStartPoints()){
