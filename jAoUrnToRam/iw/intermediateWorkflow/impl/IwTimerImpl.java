@@ -13,6 +13,7 @@ import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwTimer;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
+import iwToStepView.StepView;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -82,25 +83,47 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		}
 	}
 	
+	@Override 
+	protected IwNode getNextNodeToExplore(){
+		IwNode nextNode = super.getNextNodeToExplore();
+		
+		if(isTimoutPathFirstNode(nextNode)){
+			nextNode = getSucc(2).getTarget();
+		}
+		
+		return nextNode;
+	}
+	
 	@Override
 	public void step_DeepFirstSearch(IwStep currentStep) {
 		exploreTimeoutPath();
 		
-		IwNode nextNode;
-		if(!visited) {
-			nextNode = getFirstSucc().getTarget();
-			visited = true;
-		}
-		else {
-			nextNode = getSuccs().get(1).getTarget();
-			
-			if(iwTimeoutPathFirstNode == nextNode){
-				nextNode = getSuccs().get(2).getTarget();
-			}
-		}
-		nextNode.explore(currentStep);
+		super.step_DeepFirstSearch(currentStep);
 	}
 	
+	private boolean isTimoutPathFirstNode(IwNode node){
+		return iwTimeoutPathFirstNode == node;
+	}
+	
+	
+	@Override
+	protected IwNodeConnection chooseSucc(){
+		IwNodeConnection succ = super.chooseSucc();
+		if(isTimeoutPathPred(succ)){
+			succ = getSucc(2);
+		}
+		return succ;
+	}
+	
+	private boolean isTimeoutPathPred(IwNodeConnection nodeConnection){
+		IwNode target = nodeConnection.getTarget();
+		
+		boolean result = false;
+		if(iwTimeoutPathFirstNode == target){
+			result = true;
+		}
+		return result;
+	}
 	
 	/**
 	 * <!-- begin-user-doc -->

@@ -6,8 +6,11 @@
  */
 package intermediateWorkflow.impl;
 
+import java.util.List;
+
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWaitingPlace;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
@@ -36,7 +39,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	protected boolean visited = false;
 	
-	private boolean stepViewVisit = false;
+	protected boolean stepViewVisit = false;
 	@Override
 	public boolean getStepViewVisit() {
 		return stepViewVisit;
@@ -46,16 +49,25 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 		this.stepViewVisit = stepViewVisit;
 	}
 
-	@Override
-	public void step_DeepFirstSearch(IwStep currentStep) {
-		IwNode nextNode;
+	protected IwNode getNextNodeToExplore(){
+		IwNode nextNode = null;
+		IwNodeConnection nextSucc = null;
+		
 		if(!visited) {
-			nextNode = getFirstSucc().getTarget();
+			nextSucc = getSucc(0);
+			nextNode = nextSucc.getTarget();
 			visited = true;
 		}
 		else {
-			nextNode = getSuccs().get(1).getTarget();
+			nextSucc = getSucc(1);
+			nextNode = nextSucc.getTarget();
 		}
+		return nextNode;
+	}
+	
+	@Override
+	public void step_DeepFirstSearch(IwStep currentStep) {
+		IwNode nextNode = getNextNodeToExplore();
 		nextNode.explore(currentStep);
 	}
 	
@@ -84,6 +96,30 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	@Override
 	public  NodeInstantiationStrategy createStrategy() {
 		return new WorkflowNodeInstantiationStrategy(this, "WaitingPlace");
+	}
+	
+	protected IwNodeConnection chooseSucc(){
+		IwNodeConnection succ = null;
+		if(!stepViewVisit){
+			succ = getSucc(0);
+			stepViewVisit = true;
+		}
+		else {
+			succ = getSucc(1);
+		}
+		return succ;
+	}
+	
+	@Override
+	public String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex) {
+		IwNodeConnection succ = chooseSucc();
+		String result = succ.getTargetPortDotEscaped(stepView);
+		return result;
+	}
+	
+	@Override
+	public IwNodeConnection getSecondSucc() {
+		return this.getSucc(1);
 	}
 	
 	/**

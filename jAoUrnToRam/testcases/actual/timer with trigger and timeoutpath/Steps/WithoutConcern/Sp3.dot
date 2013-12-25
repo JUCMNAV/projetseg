@@ -31,7 +31,7 @@ digraph "Sp3"{
                 </tr>
             </table>>
         ]
-        "Timer_with_timeoutpath_Sp3"->"Timer_with_timeoutpath_Ep2"
+        "Timer_with_timeoutpath_Sp3"->"Timer_with_timeoutpath_Ep3"
     }
 }
 

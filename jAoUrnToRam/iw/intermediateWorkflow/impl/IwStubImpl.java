@@ -56,6 +56,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class IwStubImpl extends IwNodeImpl implements IwStub {
 	/*********** Step View Transformation ***********************/
 	@Override
+	public String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex) {
+		String result = "";
+		if(isAspectMarker()) {
+			IwNodeConnection succ = getSucc(0);
+			
+			result = succ.getTargetPortDotEscaped(stepView);
+		}
+		else {
+			result = super.getTargetPortDotEscaped(stepView, stubEntryIndex);
+		}
+		return result;
+	}
+	
+	
+	@Override
 	public String getImageName() {
 		return "Stub24.gif";
 	}

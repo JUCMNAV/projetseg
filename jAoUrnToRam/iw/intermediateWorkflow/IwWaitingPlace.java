@@ -55,4 +55,6 @@ public interface IwWaitingPlace extends IwNode {
 
 	void setStepViewVisit(boolean stepViewVisit);
 
+	IwNodeConnection getSecondSucc();
+
 } // IwWaitingPlace

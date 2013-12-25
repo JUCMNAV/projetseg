@@ -207,6 +207,8 @@ public interface IwNode extends EObject {
 	void setWorkflow(IwWorkflow value);
 	void addSucc(IwNodeConnection succ);
 	IwNodeConnection getFirstSucc();
+	String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex);
+	IwNodeConnection getSucc(int index);
 	
 	
 	

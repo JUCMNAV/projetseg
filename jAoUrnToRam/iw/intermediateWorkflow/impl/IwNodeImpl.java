@@ -63,9 +63,13 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 	
 	@Override
 	public IwNodeConnection getFirstSucc() {
-		return getSuccs().get(0);
+		return getSucc(0);
 	}
 	
+	@Override
+	public IwNodeConnection getSucc(int index) {
+		return getSuccs().get(index);
+	}
 	
 	@Override
 	public void addSucc(IwNodeConnection succ){
@@ -106,6 +110,24 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 		//default: do nothing
 	}
 	/*********** Step View Transformation ***********************/
+	@Override
+	public String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex) {
+		StringBuilder result = new StringBuilder();
+		
+		String id = getId();
+		String stepViewDotEscape = stepView.dotEscape(id);
+		
+		result.append(stepViewDotEscape);
+		
+		if(stubEntryIndex != null && isFromCurrentStep(stepView)) {
+			result.append(":in");
+			
+			String stubEntryIndexAsStr = stubEntryIndex.toString();
+			result.append(stubEntryIndexAsStr);
+		}
+		return result.toString();
+	}
+	
 	@Override
 	public void appendVertex(StepView stepView) {
 		stepView.appendLine("");

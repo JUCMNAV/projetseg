@@ -7,6 +7,8 @@
 package intermediateWorkflow.impl;
 
 
+import java.util.List;
+
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwConcern;
@@ -101,33 +103,27 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		return result;
 	}
 	
+	public boolean isTargetWaitingPlace(){
+		boolean result = false;
+		if(getTarget() instanceof IwWaitingPlace){
+			result = true;
+		}
+		return result;
+	}
+	
+	public IwNodeConnection getNextNodeConnection(int index){
+		List<IwNodeConnection> succs = getTarget().getSuccs();
+		IwNodeConnection next = succs.get(index);
+		
+		return next;
+	}
+	
 	@Override
 	public String getTargetPortDotEscaped(StepView stepView) {
-		String result = "";
-		if(isTargetAnAspectMarker()) {
-			result = getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
-		}
-		else {
-			if(getTarget() instanceof IwWaitingPlace){
-				
-				IwWaitingPlace iwWaitingPlace = (IwWaitingPlace)getTarget();
-				
-				if(iwWaitingPlace.getStepViewVisit() == false) {
-					result = getTarget().getSuccs().get(0).getTargetPortDotEscaped(stepView);
-					iwWaitingPlace.setStepViewVisit(true);
-				}
-				else {
-					result =  getTarget().getSuccs().get(1).getTargetPortDotEscaped(stepView);
-				}
-			}
-			else {
-				result = getTarget().getId();
-				result = stepView.dotEscape(result);
-				if(getStubEntryIndex() != null && getTarget().isFromCurrentStep(stepView)) {
-					result = result+":in"+getStubEntryIndex().toString();
-				}
-			}
-		}
+		IwNode target = getTarget();
+		Integer stubEntryIndex = getStubEntryIndex();
+		
+		String result = target.getTargetPortDotEscaped(stepView, stubEntryIndex);
 		return result;
 	}
 	
