@@ -98,6 +98,11 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 		return new WorkflowNodeInstantiationStrategy(this, "WaitingPlace");
 	}
 	
+	@Override
+	public String getImageName(){
+		return "Wait16.gif";
+	}
+	
 	/*protected IwNodeConnection chooseSucc(){
 		IwNodeConnection succ = null;
 		if(!stepViewVisit){

@@ -7,8 +7,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
     public Workflow workflow=new Workflow();
     public EndNode _E100=new EndNode();
     public CustomizableNode _AspectAfter100_1127=createCustomizableNode("Demo2_Sp4_WithAutAspect.Steps.NotBound.ThePointcutStub_Out1.AspectAfter100");
-    public EndNode _ThePointcutStub_In1=new EndNode();
     public EndNode _ThePointcutStub_In2=new EndNode();
+    public EndNode _ThePointcutStub_In1=new EndNode();
     public StartupNode _ThePointcutStub_Out1=new StartupNode();
     public StartupNode _ThePointcutStub_Out2=new StartupNode();
     public StartupNode _S100=new StartupNode();
@@ -38,8 +38,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
     public void linkNodesToWorkflow(){
         workflow.addNode(_E100);
         workflow.addNode(_AspectAfter100_1127);
-        workflow.addNode(_ThePointcutStub_In1);
         workflow.addNode(_ThePointcutStub_In2);
+        workflow.addNode(_ThePointcutStub_In1);
         workflow.addNode(_ThePointcutStub_Out1);
         workflow.addNode(_ThePointcutStub_Out2);
         workflow.addNode(_S100);

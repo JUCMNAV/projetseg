@@ -30,6 +30,11 @@ import ucm.map.PathNode;
  */
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
+	@Override
+	public String getImageName(){
+		return "Timer16.gif";
+	}
+	
 	//private IwNodeConnection timeoutpath; 
 	
 	/*@Override
