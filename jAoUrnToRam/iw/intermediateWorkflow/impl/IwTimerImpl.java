@@ -17,6 +17,7 @@ import iwToStepView.StepView;
 
 import org.eclipse.emf.ecore.EClass;
 
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
@@ -35,18 +36,31 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		return "Timer16.gif";
 	}
 	
-	//private IwNodeConnection timeoutpath; 
-	
 	/*@Override
-	public IwNodeConnection getTimeoutpath() {
-		System.out.println("1");
-		return timeoutpath;
+	public String getInputProcessingNodeAction(){
+		if(hasTimeoutPath()) {
+			return "insert";
+		}
+		else {
+			return super.getInputProcessingNodeAction();
+		}
+	}*/
+	
+	/*private NodeConnection timeoutSucc; 
+	
+	@Override
+	public NodeConnection getTimeoutSucc() {
+		return timeoutSucc;
 	}
 
 	@Override
-	public void setTimeoutpath(IwNodeConnection timeoutpath) {
-		System.out.println("3");
-		this.timeoutpath = timeoutpath;
+	public void setTimeoutSucc(NodeConnection timeoutSucc) {
+		this.timeoutSucc = timeoutSucc;
+	}
+	
+	@Override
+	public IwNodeConnection getIwTimeoutSucc(){
+		return timeoutSucc.getIwNodeConnection();
 	}*/
 	
 	/*private PathNode timeoutPathFirstNode;
@@ -62,10 +76,20 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
 	/*@Override
 	public boolean hasTimeoutPath() {
-		return getSuccs().size() >= 2;
-	}
+		return timeoutSucc != null;
+	}*/
 	
-	@Override
+	/*@Override
+	public String getInputProcessingNodeAction() {
+		if(hasTimeoutPath()){
+			return "timeoutpath";
+		}
+		else {
+			return super.getInputProcessingNodeAction();
+		}
+	}*/
+	
+	/*@Override
 	public boolean hasTriggerPath() {
 		return getPreds().size() == 2;
 	}*/

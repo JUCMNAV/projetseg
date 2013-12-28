@@ -6,7 +6,9 @@
  */
 package intermediateWorkflow;
 
-import ucm.map.PathNode;
+import ucm.map.NodeConnection;
+
+
 
 
 /**
@@ -20,6 +22,14 @@ import ucm.map.PathNode;
  * @generated
  */
 public interface IwTimer extends IwWaitingPlace {
+
+	//boolean hasTimeoutPath();
+
+	//NodeConnection getTimeoutSucc();
+
+	//void setTimeoutSucc(NodeConnection timeoutpath);
+
+	//IwNodeConnection getIwTimeoutSucc();
 
 	//boolean hasTimeoutPath();
 	//boolean hasTriggerPath();

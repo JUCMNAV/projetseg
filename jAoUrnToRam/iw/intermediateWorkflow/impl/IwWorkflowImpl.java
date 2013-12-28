@@ -60,6 +60,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
+	@Override
+	public void insertInputProcessingNodes() {
+		//cannot use foreach loop because of concurrent modification exception
+		for(int i = 0; i < getNodes().size(); i++){
+			IwNode node = getNodes().get(i);
+			node.insertInputProcessingNode();
+		}
+	}
+	
 	/*********** Iw to Java Program ***********************/
 	@Override
 	public void jpAppendImport(JavaView javaView) {

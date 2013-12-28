@@ -78,7 +78,20 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 
 	@Override
 	public void link() {
-		iwNodeConnection.setSource(sourceAsPathNode().iwGetExitNode(this));		
+		PathNode source = sourceAsPathNode();
+		IwNode sourceExitNode = source.iwGetExitNode(this);
+		
+		iwNodeConnection.setSource(sourceExitNode);		
+		iwNodeConnection.setTarget(iwSingleTarget());
+		iwNodeConnection.setTrigger(iwIsTrigger());
+	}
+	
+	@Override
+	public void linkTimerSource() {
+		PathNode source = sourceAsPathNode();
+		IwNode iwSource = source.iwGetEntryNode(this);
+		
+		iwNodeConnection.setSource(iwSource);		
 		iwNodeConnection.setTarget(iwSingleTarget());
 		iwNodeConnection.setTrigger(iwIsTrigger());
 	}

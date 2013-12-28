@@ -129,4 +129,6 @@ public interface IwConcern extends EObject {
 
 	void link(RamWorkspace ramWorkspace);
 
+	void insertInputProcessingNodes();
+
 } // IwConcern

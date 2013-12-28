@@ -21,6 +21,7 @@ import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwOutBinding;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwStub;
+import intermediateWorkflow.IwTimer;
 import intermediateWorkflow.IwWaitingPlace;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
@@ -361,12 +362,17 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 
 	@Override
 	public void insertInputProcessingNode(IwInput input) {
-		if(getTarget().getInputProcessingNodeAction().equals("continue")) {
+		IwNode nextNode = getTarget();
+		String nextNodeInputProcessingAction = nextNode.getInputProcessingNodeAction();
+		
+		if(nextNodeInputProcessingAction.equals("continue")){
 			//action==continue implies that there is a single succ
-			getTarget().getSuccs().get(0).insertInputProcessingNode(input);
+			// first successors dont go towards trigger path
+			IwNodeConnection nextNodeSucc = nextNode.getSucc(0);
+			nextNodeSucc.insertInputProcessingNode(input);
 		}
 		else {
-			if(getTarget().getInputProcessingNodeAction().equals("insert")) {
+			if(nextNodeInputProcessingAction.equals("insert")) {
 				buildInputProcessingNode(input);
 				linkInputProcessingNodePred(input);
 				linkInputProcessingNodeSucc(input);

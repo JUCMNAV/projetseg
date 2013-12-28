@@ -167,5 +167,6 @@ public interface IwWorkflow extends EObject {
 	void jpAppendLink(JavaView javaView);
 	void jpAppendBuild(JavaView javaView);
 	void jpAppendImport(JavaView javaView);
+	void insertInputProcessingNodes();
 
 } // IwWorkflow

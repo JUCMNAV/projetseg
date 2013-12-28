@@ -18,13 +18,13 @@ public class AoUrnToIw extends AbstractTransformer {
 	@Override
 	public void transform(){
 		target = source.toIw();
-		//save("aoUrnToIw"); // delete for plugin build
+		save("aoUrnToIw"); // delete for plugin build
 		
 		target.insertInputProcessingNodes();
-		//save("iwToIwInsertInputProcessingNodes"); // delete for plugin build
+		save("iwToIwInsertInputProcessingNodes"); // delete for plugin build
 		
 		target.linkSteps();
-		//save("iwToIwLinkSteps"); // delete for plugin build
+		save("iwToIwLinkSteps"); // delete for plugin build
 		
 		persistIwModel();
 	}
@@ -43,7 +43,7 @@ public class AoUrnToIw extends AbstractTransformer {
 		target.setName(sourceName);
 		save(outPath, target);
 		
-		System.out.println(step + " finish");
+		//System.out.println(step + " finish");
 	}
 	
 	private void persistIwModel() {

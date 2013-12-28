@@ -52,6 +52,8 @@ public interface Timer extends WaitingPlace {
 	 */
 	void setTimeoutPath(NodeConnection value);
 
+	boolean hasTimeoutPath();
+
 	//IwWaitingPlace getIwTimer();
 
 } // Timer

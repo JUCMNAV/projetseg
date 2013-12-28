@@ -208,5 +208,6 @@ public interface NodeConnection extends IURNConnection {
 	 * @generated
 	 */
 	EList<InBinding> getInBindingsPlugin();
+	void linkTimerSource();
 
 } // NodeConnection

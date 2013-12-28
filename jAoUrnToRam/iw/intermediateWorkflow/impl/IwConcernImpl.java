@@ -9,11 +9,13 @@ package intermediateWorkflow.impl;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwConcern;
 import intermediateWorkflow.IwModel;
+import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWorkflow;
 import iwToRam.RamWorkspace;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -68,6 +70,15 @@ public class IwConcernImpl extends EObjectImpl implements IwConcern {
 	public void linkSteps() {
 		for(IwWorkflow workflow : getWorkflows()){
 			workflow.linkSteps(this);
+		}
+	}
+	
+	@Override
+	public void insertInputProcessingNodes() {
+		//cannot use foreach loop because of concurrent modification exception
+		for(int i=0; i < getWorkflows().size(); i++){
+			IwWorkflow workflow = getWorkflows().get(i);
+			workflow.insertInputProcessingNodes();
 		}
 	}
 	

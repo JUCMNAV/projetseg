@@ -9,6 +9,7 @@ package intermediateWorkflow.impl;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwCustomizableNode;
 import intermediateWorkflow.IwInput;
+import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwStep;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
@@ -69,7 +70,9 @@ public class IwInputImpl extends IwNodeImpl implements IwInput {
 	/*********************************************/
 	@Override
 	public void insertInputProcessingNode() {
-		getSuccs().get(0).insertInputProcessingNode(this);
+		IwNodeConnection succ = getSucc(0);
+		succ.insertInputProcessingNode(this);
+		//getSuccs().get(0).insertInputProcessingNode(this);
 		//colExtSingle(succs).insertInputProcessingNode(this);
 	}
 	

@@ -97,7 +97,7 @@ public class IwModelImpl extends EObjectImpl implements IwModel {
 	
 	@Override
 	public void insertInputProcessingNodes() {
-		for(int i=0; i< getConcerns().size(); i++){
+		/*for(int i=0; i< getConcerns().size(); i++){
 			IwConcern concern = getConcerns().get(i);
 			
 			List<IwWorkflow> workflows = concern.getWorkflows();
@@ -110,6 +110,11 @@ public class IwModelImpl extends EObjectImpl implements IwModel {
 					node.insertInputProcessingNode();
 				}
 			}
+		}*/
+		//cannot use foreach loop because of concurrent modification exception
+		for(int i=0; i< getConcerns().size(); i++){
+			IwConcern concern = getConcerns().get(i);
+			concern.insertInputProcessingNodes();
 		}
 	}
 

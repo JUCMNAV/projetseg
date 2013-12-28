@@ -52,14 +52,93 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		iwWaitingPlace = IntermediateWorkflowFactory.eINSTANCE.createIwTimer();
 		iwWaitingPlace.setName(nameOrPrefixId("Timer"));
 		iwWaitingPlace.setTransient(getWaitType().equals(WaitKind.TRANSIENT));
-		addIwEquivalentNodeAfterOutIn(iwWaitingPlace);
+		//addIwEquivalentNodeAfterOutIn(iwWaitingPlace);
+		addIwEquivalentNodeBeforeOutIn(iwWaitingPlace);
 		
 		/*if(getSucc().size() == 2){
-			NodeConnection timeoutPath = (NodeConnection)getSucc().get(1);
-			PathNode timeOuthPathFirstNode = (PathNode)timeoutPath.getTarget();
+			//NodeConnection timerSucc = getSucc(0);
+			NodeConnection timeoutSucc = getSucc(1);
+			//PathNode timeOuthPathFirstNode = (PathNode)timeoutPath.getTarget();
 			
-			((IwTimer)iwWaitingPlace).setTimeoutpathFirstNode(timeOuthPathFirstNode);
+			((IwTimer)iwWaitingPlace).setTimeoutSucc(timeoutSucc);
 		}*/	
+	}
+	
+	private NodeConnection nonTimeoutPathSucc(){
+		return getSucc(0);
+	}
+	
+	private NodeConnection timeoutPathSucc(){
+		return getSucc(1);
+	}
+	
+	@Override
+	public void invokeLinkOnSuccs() {
+		if(hasTimeoutPath()) {
+			
+			NodeConnection nonTimeoutPathSucc = nonTimeoutPathSucc();
+			nonTimeoutPathSucc.linkTimerSource();
+			
+			NodeConnection timeoutPathSucc = timeoutPathSucc();
+			timeoutPathSucc.link();
+		}
+		else {
+			super.invokeLinkOnSuccs();
+		}
+	}
+	
+	@Override
+	public void link() {
+		if(hasTimeoutPath()) {
+			linkUcmMap();
+			
+			//warning: linkInternal must be called after invokeLinkOnSuccs()
+			
+			if(iwHasNodes()) 
+				invokeLinkOnSuccs();
+			
+			linkInternal();
+		}
+		else {
+			super.link();
+		}
+	}
+	
+	/*@Override
+	public IwNode iwGetExitNode(NodeConnection nodeConnection) {
+		return _iwNodes.get(0); //because timer should preced the implicit processing node
+	}*/
+	
+	@Override
+	public void buildIwInputNode() {
+		if(hasTimeoutPath()) {
+			iwInput = IntermediateWorkflowFactory.eINSTANCE.createIwInput();
+			iwInput.setName(getName() + "Input");
+			_iwNodes.add(iwInput);
+		}
+		else {
+			super.buildIwInputNode();
+		}
+	}
+	
+	/*@Override
+	public void invokeBuildOnNodeConnections() {
+		for(NodeConnection nodeConnection: succAsNodeConnection()){
+			//nodeConnection.build();
+		}
+	}*/
+	
+	/*@Override
+	public void linkInternal() {
+		IwNodeConnection connection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		
+		connection.setSource(_iwNodes.get(1)); //add implicit input node
+		connection.setTarget(_iwNodes.get(0)); //add timer
+	}*/
+	
+	@Override
+	public boolean hasTimeoutPath(){
+		return getSucc().size() == 2;
 	}
 	
 	/*@Override

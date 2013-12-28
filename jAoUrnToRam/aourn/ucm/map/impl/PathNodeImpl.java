@@ -69,6 +69,10 @@ import urncore.impl.UCMmodelElementImpl;
  * @generated
  */
 public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNode {
+	@Override
+	public NodeConnection getSucc(int index){
+		return (NodeConnection)getSucc().get(index);
+	}
 	
 	@Override
 	public NodeConnection getFirstPred(){
@@ -80,22 +84,22 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 		return (NodeConnection)getSucc().get(0);
 	}
 	
-	private LinkedList<IwNode> _iwNodes = new LinkedList<IwNode>();
+	protected LinkedList<IwNode> _iwNodes = new LinkedList<IwNode>();
 	public LinkedList<IwNode> getIwNodes() {
 		return _iwNodes;
 	}
 
-	private IwOutput iwOutput;
+	protected IwOutput iwOutput;
 	public IwOutput getIwOutput() {
 		return iwOutput;
 	}
 
-	private IwInput iwInput;
+	protected IwInput iwInput;
 	public IwInput getIwInput() {
 		return iwInput;
 	}
 
-	private IwNode iwEquivalentNode;
+	protected IwNode iwEquivalentNode;
 	@Override
 	public IwNode getIwEquivalentNode() {
 		return iwEquivalentNode;
@@ -129,6 +133,7 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 		}
 	}
 
+	@Override
 	public void buildIwInputNode() {
 		if(inOutExpression().hasIn()) {
 			iwInput = IntermediateWorkflowFactory.eINSTANCE.createIwInput();

@@ -23,6 +23,11 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public class IwOutputImpl extends IwNodeImpl implements IwOutput {
+	@Override
+	public String getInputProcessingNodeAction() {
+		return "stop";
+	}
+	
 	/*********** iw to ram ***********************/
 	
 	private ram.Class ramOutput;
@@ -95,9 +100,6 @@ public class IwOutputImpl extends IwNodeImpl implements IwOutput {
 		return IntermediateWorkflowPackage.Literals.IW_OUTPUT;
 	}
 
-	@Override
-	public String getInputProcessingNodeAction() {
-		return "stop";
-	}
+	
 
 } //IwOutputImpl
