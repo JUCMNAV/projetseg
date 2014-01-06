@@ -5,7 +5,7 @@ import ram.workflow.*;
 
 public class Waiting_place_simpleWorkflowInstantiator extends WorkflowInstantiator{
     public Workflow workflow=new Workflow();
-    public WaitingPlace _Wp=new WaitingPlace();
+    public ConditionalSynchronizationNode _Wp=new ConditionalSynchronizationNode();
     public EndNode _EP=new EndNode();
     public CustomizableNode _TheOuput=createCustomizableNode("waiting place simple.Steps.WithoutConcern.TheInput.TheOuput");
     public InputNode _TheInput=new InputNode();

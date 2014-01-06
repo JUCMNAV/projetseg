@@ -9,7 +9,7 @@ public class Waiting_place_with_triggerWorkflowInstantiator extends WorkflowInst
     public EndNode _EP=new EndNode();
     public InputNode _TheInput=new InputNode();
     public CustomizableNode _TheOuput=createCustomizableNode("waiting place with trigger.Steps.WithoutConcern.TheInput.TheOuput");
-    public WaitingPlace _Wp=new WaitingPlace();
+    public ConditionalSynchronizationNode _Wp=new ConditionalSynchronizationNode();
     public StartupNode _Sp2=new StartupNode();
     public EndNode _Ep2=new EndNode();
 

@@ -7,32 +7,6 @@ digraph "StartRecursionInput"{
         fontsize=12
     ];
 
-    subgraph "cluster_RecursivePluginSameConcern"{
-        label="RecursivePluginSameConcern"
-
-        "RecursivePluginSameConcern_InvokeBaseSameConcern"[
-            shape=plaintext,
-            label=
-            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="in1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
-                    <td align="center" width="15">InvokeBaseSameConcern</td>
-                </tr>
-                    </table>
-                </td></tr>
-            </table>>
-        ]
-    }
-
     subgraph "cluster_RecursiveStubBase"{
         label="RecursiveStubBase"
 
@@ -184,6 +158,32 @@ digraph "StartRecursionInput"{
         "RecursiveStubBase_IsPluginInvokedInSameConcern"->"RecursiveStubBase_InvokePluginDifferentConcern":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>No</td></tr></table>>]
         "RecursiveStubBase_DoThisAgain"->"RecursiveStubBase_ShouldBeAnAndJoin"
         "RecursiveStubBase_ShouldBeAnAndJoin"->"RecursiveStubBase_InvokePluginSameConcern":in1
+    }
+
+    subgraph "cluster_RecursivePluginSameConcern"{
+        label="RecursivePluginSameConcern"
+
+        "RecursivePluginSameConcern_InvokeBaseSameConcern"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">InvokeBaseSameConcern</td>
+                </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
     }
     StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"RecursiveStubBase_DoThatAgain"[style=dashed,arrowhead=onormal]
     "RecursiveStubBase_InvokePluginSameConcern":in1->"RecursivePluginSameConcern_InvokeBaseSameConcern":in1[style=dashed,arrowhead=onormal]

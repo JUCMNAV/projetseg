@@ -95,7 +95,7 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	
 	@Override
 	public  NodeInstantiationStrategy createStrategy() {
-		return new WorkflowNodeInstantiationStrategy(this, "WaitingPlace");
+		return new WorkflowNodeInstantiationStrategy(this, "ConditionalSynchronizationNode");
 	}
 	
 	@Override
