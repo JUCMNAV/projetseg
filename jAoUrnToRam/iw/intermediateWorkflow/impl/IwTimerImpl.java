@@ -12,6 +12,7 @@ import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwTimer;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
+import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
 import iwToStepView.StepView;
 
@@ -34,6 +35,12 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	@Override
 	public String getImageName(){
 		return "Timer16.gif";
+	}
+	
+	@Override
+	public  NodeInstantiationStrategy createStrategy() {
+		//return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
+		return new WaitingplaceNodeInstantiatorStrategy(this, "TimedSynchronizationNode", getTransient());
 	}
 	
 	/*@Override
@@ -69,11 +76,6 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 		timeoutPathFirstNode = node;
 	}*/
 
-	@Override
-	public  NodeInstantiationStrategy createStrategy() {
-		return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
-	}
-	
 	/*@Override
 	public boolean hasTimeoutPath() {
 		return timeoutSucc != null;

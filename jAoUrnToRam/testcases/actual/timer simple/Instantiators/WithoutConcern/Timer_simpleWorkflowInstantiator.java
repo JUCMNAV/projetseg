@@ -9,7 +9,7 @@ public class Timer_simpleWorkflowInstantiator extends WorkflowInstantiator{
     public CustomizableNode _TheOuput=createCustomizableNode("timer simple.Steps.WithoutConcern.TheInput.TheOuput");
     public InputNode _TheInput=new InputNode();
     public StartupNode _SP=new StartupNode();
-    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode();
+    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode(true);
 
     public void link(){
         linkNodesToNextNodes();

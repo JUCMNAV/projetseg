@@ -9,7 +9,7 @@ public class Timer_with_triggerWorkflowInstantiator extends WorkflowInstantiator
     public CustomizableNode _TheOuput=createCustomizableNode("timer with trigger.Steps.WithoutConcern.TheInput.TheOuput");
     public InputNode _TheInput=new InputNode();
     public StartupNode _SP=new StartupNode();
-    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode();
+    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode(true);
     public StartupNode _Sp2=new StartupNode();
     public EndNode _Ep2=new EndNode();
 

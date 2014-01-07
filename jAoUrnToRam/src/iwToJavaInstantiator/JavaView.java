@@ -25,6 +25,18 @@ public class JavaView extends TextView {
 		appendPublicMember(type,name,"new "+type+"()");
 	}
 	
+	public void appendPublicMember_1Param(String type, String name, String param) {
+		StringBuilder initialization = new StringBuilder();
+		initialization.append("new");
+		initialization.append(" ");
+		initialization.append(type);
+		initialization.append("(");
+		initialization.append(param);
+		initialization.append(")");
+		
+		appendPublicMember(type,name, initialization.toString());
+	}
+	
 	public void appendPublicMember(String type, String name, String initialization) {
 		appendIndent(1,"public ");
 		append(type);

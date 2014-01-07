@@ -235,7 +235,8 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 		return "_"+ getName();
 	}
 	
-	private NodeInstantiationStrategy  _strategy;
+	//private NodeInstantiationStrategy  _strategy;
+	protected NodeInstantiationStrategy  _strategy;
 	
 	//????LazyLoad because the creation of IwNode is not under our control
 	@Override

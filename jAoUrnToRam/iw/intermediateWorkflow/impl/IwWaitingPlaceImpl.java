@@ -14,6 +14,7 @@ import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWaitingPlace;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
+import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
 import iwToStepView.StepView;
 
@@ -37,6 +38,22 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
+	@Override
+	public String getInputProcessingNodeAction() {
+		return "continue";
+	}
+	
+	@Override
+	public NodeInstantiationStrategy createStrategy() {
+		//return new WorkflowNodeInstantiationStrategy(this, "ConditionalSynchronizationNode");
+		return new WaitingplaceNodeInstantiatorStrategy(this, "ConditionalSynchronizationNode", getTransient());
+	}
+	
+	@Override
+	public String getImageName(){
+		return "Wait16.gif";
+	}
+	
 	//protected boolean visited = false;
 	
 	/*protected boolean stepViewVisit = false;
@@ -87,21 +104,6 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	public boolean isFromCurrentStep(StepView stepView) {
 		return false;
 	}*/
-	
-	@Override
-	public String getInputProcessingNodeAction() {
-		return "continue";
-	}
-	
-	@Override
-	public  NodeInstantiationStrategy createStrategy() {
-		return new WorkflowNodeInstantiationStrategy(this, "ConditionalSynchronizationNode");
-	}
-	
-	@Override
-	public String getImageName(){
-		return "Wait16.gif";
-	}
 	
 	/*protected IwNodeConnection chooseSucc(){
 		IwNodeConnection succ = null;

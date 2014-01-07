@@ -18,5 +18,4 @@ public class StartupNodeInstantiationStrategy extends WorkflowNodeInstantiationS
 			String.valueOf(((IwStartPoint)getNode()).isLocal())	//node.asType(IwStartPoint).isLocal.toString	
 		);
 	}
-	
 }

@@ -4,7 +4,8 @@ import intermediateWorkflow.IwNode;
 
 public class WorkflowNodeInstantiationStrategy extends NodeInstantiationStrategy {
 	
-	private String workflowNodeType;
+	//private String workflowNodeType;
+	protected String workflowNodeType;
 	
 	public String getWorkflowNodeType() {
 		return workflowNodeType;

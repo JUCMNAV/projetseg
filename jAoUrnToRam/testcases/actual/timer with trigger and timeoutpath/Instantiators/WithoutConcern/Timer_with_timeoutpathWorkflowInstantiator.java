@@ -9,7 +9,7 @@ public class Timer_with_timeoutpathWorkflowInstantiator extends WorkflowInstanti
     public CustomizableNode _TheOuput=createCustomizableNode("timer with trigger and timeoutpath.Steps.WithoutConcern.TheInput.TheOuput");
     public InputNode _TheInput=new InputNode();
     public StartupNode _SP=new StartupNode();
-    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode();
+    public TimedSynchronizationNode _Timer=new TimedSynchronizationNode(true);
     public InputNode _timerInput=new InputNode();
     public EndNode _Ep2=new EndNode();
     public StartupNode _Sp3=new StartupNode();

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_7qbpwHcdEeOsbPVJy_HC4Q" name="timerInput">
-  <structuralView xmi:id="_7qbpwXcdEeOsbPVJy_HC4Q">
-    <classes xsi:type="ram:Class" xmi:id="_7qbpwncdEeOsbPVJy_HC4Q" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_7qbpw3cdEeOsbPVJy_HC4Q" name="ProcesstimerInput">
-      <operations xmi:id="_7qbpxHcdEeOsbPVJy_HC4Q" name="execute" returnType="_7qbpx3cdEeOsbPVJy_HC4Q">
-        <parameters xmi:id="_7qbpxXcdEeOsbPVJy_HC4Q" name="c" type="_7qbpwncdEeOsbPVJy_HC4Q"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_lftV8HfLEeOProRoMo2Qdw" name="timerInput">
+  <structuralView xmi:id="_lftV8XfLEeOProRoMo2Qdw">
+    <classes xsi:type="ram:Class" xmi:id="_lftV8nfLEeOProRoMo2Qdw" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_lftV83fLEeOProRoMo2Qdw" name="ProcesstimerInput">
+      <operations xmi:id="_lftV9HfLEeOProRoMo2Qdw" name="execute" returnType="_lft9AnfLEeOProRoMo2Qdw">
+        <parameters xmi:id="_lft9AHfLEeOProRoMo2Qdw" name="c" type="_lftV8nfLEeOProRoMo2Qdw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_7qbpxncdEeOsbPVJy_HC4Q" name="timerInputInput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_7qbpx3cdEeOsbPVJy_HC4Q"/>
+    <classes xsi:type="ram:Class" xmi:id="_lft9AXfLEeOProRoMo2Qdw" name="timerInputInput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_lft9AnfLEeOProRoMo2Qdw"/>
   </structuralView>
-  <instantiations xmi:id="_7qbpyHcdEeOsbPVJy_HC4Q" type="Extends">
-    <mappings xmi:id="_7qbpyXcdEeOsbPVJy_HC4Q" toElement="_7qbpw3cdEeOsbPVJy_HC4Q">
-      <operationMappings xmi:id="_7qbpyncdEeOsbPVJy_HC4Q" toElement="_7qbpxHcdEeOsbPVJy_HC4Q">
+  <instantiations xmi:id="_lft9A3fLEeOProRoMo2Qdw" type="Extends">
+    <mappings xmi:id="_lft9BHfLEeOProRoMo2Qdw" toElement="_lftV83fLEeOProRoMo2Qdw">
+      <operationMappings xmi:id="_lft9BXfLEeOProRoMo2Qdw" toElement="_lftV9HfLEeOProRoMo2Qdw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/timer%20with%20trigger%20at%20endpoint%20and%20timeoutpath/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/timer%20with%20trigger%20at%20endpoint%20and%20timeoutpath/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/timer%20with%20trigger%20at%20endpoint%20and%20timeoutpath/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_7qbpy3cdEeOsbPVJy_HC4Q" type="Extends">
-    <mappings xmi:id="_7qbpzHcdEeOsbPVJy_HC4Q" toElement="_7qbpxncdEeOsbPVJy_HC4Q">
+  <instantiations xmi:id="_lft9BnfLEeOProRoMo2Qdw" type="Extends">
+    <mappings xmi:id="_lft9B3fLEeOProRoMo2Qdw" toElement="_lft9AXfLEeOProRoMo2Qdw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/timer%20with%20trigger%20at%20endpoint%20and%20timeoutpath/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/timer%20with%20trigger%20at%20endpoint%20and%20timeoutpath/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
