@@ -27,7 +27,7 @@ public class Timer_with_trigger_at_endpoint_and_timeoutpathWorkflowInstantiator 
         _TheInput.addNextNode(_Timer);
         _SP.addNextNode(_TheInput);
         _Timer.addNextNode("cond1",_TheOuput);
-        _Timer.addNextNode(_timerInput);
+        _Timer.addNextNode("cond2",_timerInput);
         _timerInput.addNextNode(_ProcesstimerInput);
         _Sp3.addNextNode(_Ep3);
         _Ep3.addNextNode(_Timer);

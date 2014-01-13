@@ -1,4 +1,4 @@
-package jAoUrnToRam.test;
+package jAoUrnToRam.transformation.test;
 
 public class AoUrnToRamTestCases {
 	private static final String ASSIGN_VEHICLE_BASIC = "testcases\\in\\AssignVehicleBasic.jucm";  
@@ -18,6 +18,7 @@ public class AoUrnToRamTestCases {
 	private static final String TIMER_TIMEOUTPATH = "testcases\\in\\timer with timeoutpath.jucm";
 	private static final String TIMER_WITH_TRIGGER_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger and timeoutpath.jucm";
 	private static final String TIMER_WITH_TRIGGER_AT_ENDPOINT_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger at endpoint and timeoutpath.jucm";
+	private static final String AND_JOIN = "testcases\\in\\andjoin.jucm";
 	
 	public static String[] getTestCases(){
 		return new String[] {
@@ -37,7 +38,8 @@ public class AoUrnToRamTestCases {
 				TIMER_WITH_TRIGGER_AT_ENDPOINT,
 				TIMER_TIMEOUTPATH,
 				TIMER_WITH_TRIGGER_AT_ENDPOINT_AND_TIMEOUTPATH,
-				TIMER_WITH_TRIGGER_AND_TIMEOUTPATH
+				TIMER_WITH_TRIGGER_AND_TIMEOUTPATH,
+				AND_JOIN
 		};
 	}
 

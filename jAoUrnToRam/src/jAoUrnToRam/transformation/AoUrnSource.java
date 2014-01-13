@@ -13,6 +13,10 @@ public class AoUrnSource {
 	private String name;
 	private URNspec root;
 	
+	public URNspec getRoot() {
+		return root;
+	}
+
 	public AoUrnSource(String path)  {
 		this.path = path;
 		initName();
@@ -32,7 +36,7 @@ public class AoUrnSource {
 		return iwModel;
 	}
 
-	private void initRoot(){
+	private void initRoot() { 
 		URI sourceUri = URI.createURI(path);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();

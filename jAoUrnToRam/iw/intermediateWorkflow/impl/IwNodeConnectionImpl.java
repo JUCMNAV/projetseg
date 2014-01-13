@@ -52,6 +52,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getOutBinding <em>Out Binding</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getStubExitIndexAsString <em>Stub Exit Index As String</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getTrigger <em>Trigger</em>}</li>
+ *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -517,6 +518,26 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	protected Boolean trigger = TRIGGER_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String LABEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String label = LABEL_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -845,6 +866,27 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabel(String newLabel) {
+		String oldLabel = label;
+		label = newLabel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL, oldLabel, label));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -929,6 +971,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return getStubExitIndexAsString();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:
 				return getTrigger();
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
+				return getLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -964,6 +1008,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:
 				setTrigger((Boolean)newValue);
+				return;
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
+				setLabel((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1001,6 +1048,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:
 				setTrigger(TRIGGER_EDEFAULT);
 				return;
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
+				setLabel(LABEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1029,6 +1079,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return STUB_EXIT_INDEX_AS_STRING_EDEFAULT == null ? stubExitIndexAsString != null : !STUB_EXIT_INDEX_AS_STRING_EDEFAULT.equals(stubExitIndexAsString);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:
 				return TRIGGER_EDEFAULT == null ? trigger != null : !TRIGGER_EDEFAULT.equals(trigger);
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
+				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 		}
 		return super.eIsSet(featureID);
 	}

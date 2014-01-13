@@ -12,7 +12,7 @@
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="SP" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.2"/>
       </nodes>
-      <nodes xsi:type="intermediateWorkflow:IwTimer" name="Timer" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0" transient="true">
+      <nodes xsi:type="intermediateWorkflow:IwTimer" name="Timer" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0" transient="false">
         <succs conditionName="cond" target="//@concerns.0/@workflows.0/@nodes.1"/>
       </nodes>
     </workflows>

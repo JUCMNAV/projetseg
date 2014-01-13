@@ -47,6 +47,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwNodeConnection/outBinding"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/stubExitIndexAsString"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/trigger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/label"/>
     </genClasses>
     <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwInput"/>
     <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwCustomizableNode">
@@ -86,5 +87,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwOutBinding/pluginEndPoint"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwOutBinding/pluginBinding"/>
     </genClasses>
+    <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwTimer"/>
   </genPackages>
 </genmodel:GenModel>

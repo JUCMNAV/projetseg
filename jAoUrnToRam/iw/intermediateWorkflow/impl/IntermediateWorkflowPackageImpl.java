@@ -568,6 +568,15 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIwNodeConnection_Label() {
+		return (EAttribute)iwNodeConnectionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIwInput() {
 		return iwInputEClass;
 	}
@@ -935,6 +944,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		createEReference(iwNodeConnectionEClass, IW_NODE_CONNECTION__OUT_BINDING);
 		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING);
 		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__TRIGGER);
+		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__LABEL);
 
 		iwInputEClass = createEClass(IW_INPUT);
 
@@ -1066,6 +1076,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEReference(getIwNodeConnection_OutBinding(), this.getIwOutBinding(), this.getIwOutBinding_StubExit(), "outBinding", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_StubExitIndexAsString(), this.getString(), "stubExitIndexAsString", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_Trigger(), this.getBoolean(), "trigger", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIwNodeConnection_Label(), this.getString(), "label", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iwInputEClass, IwInput.class, "IwInput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

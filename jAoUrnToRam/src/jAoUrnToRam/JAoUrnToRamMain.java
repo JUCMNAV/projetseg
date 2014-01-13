@@ -1,6 +1,6 @@
 package jAoUrnToRam;
 
-import jAoUrnToRam.test.AoUrnToRamTestCases;
+import jAoUrnToRam.transformation.test.AoUrnToRamTestCases;
 
 public class JAoUrnToRamMain {
 	private static final String testRoot = "testcases\\actual"; 

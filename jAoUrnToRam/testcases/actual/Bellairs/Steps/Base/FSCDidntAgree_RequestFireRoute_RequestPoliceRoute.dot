@@ -7,6 +7,96 @@ digraph "FSCDidntAgree_RequestFireRoute_RequestPoliceRoute"{
         fontsize=12
     ];
 
+    subgraph "cluster_DevelopRoutePlanComplex"{
+        label="DevelopRoutePlanComplex"
+
+        "DevelopRoutePlanComplex_RequestPoliceRoute"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">RequestPoliceRoute</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanComplex_ProcessRequestPoliceRoute"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessRequestPoliceRoute</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanComplex_RequestFireRoute"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">RequestFireRoute</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanComplex_ProcessRequestFireRoute"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessRequestFireRoute</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanComplex_OrJoin115936"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\AndJoin16.gif"></img></td>
+                    <td align="center" width="0">OrJoin115936</td>
+                </tr>
+            </table>>
+        ]
+
+        "DevelopRoutePlanComplex_ProposeRouteStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">ProposeRouteStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+        "DevelopRoutePlanComplex_RequestPoliceRoute"->"DevelopRoutePlanComplex_ProcessRequestPoliceRoute"
+        "DevelopRoutePlanComplex_ProcessRequestPoliceRoute"->"DevelopRoutePlanComplex_OrJoin115936"
+        "DevelopRoutePlanComplex_RequestFireRoute"->"DevelopRoutePlanComplex_ProcessRequestFireRoute"
+        "DevelopRoutePlanComplex_ProcessRequestFireRoute"->"DevelopRoutePlanComplex_OrJoin115936"
+        "DevelopRoutePlanComplex_OrJoin115936"->"DevelopRoutePlanComplex_ProposeRouteStub":in1
+    }
+
     subgraph "cluster_ProposeRoute"{
         label="ProposeRoute"
 
@@ -104,96 +194,6 @@ digraph "FSCDidntAgree_RequestFireRoute_RequestPoliceRoute"{
         "ProposeRoute_AndFork115939"->"ProposeRoute_AskForfireVehicles"
         "ProposeRoute_AskForPoliceVehicles"->"ProposeRoute_PoliceRoutePropose"
         "ProposeRoute_AskForfireVehicles"->"ProposeRoute_FireRoutePropose"
-    }
-
-    subgraph "cluster_DevelopRoutePlanComplex"{
-        label="DevelopRoutePlanComplex"
-
-        "DevelopRoutePlanComplex_RequestPoliceRoute"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
-                    <td align="center" width="0">RequestPoliceRoute</td>
-                </tr>
-            </table>>
-        ]
-
-        "DevelopRoutePlanComplex_ProcessRequestPoliceRoute"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">ProcessRequestPoliceRoute</td>
-                </tr>
-            </table>>
-        ]
-
-        "DevelopRoutePlanComplex_RequestFireRoute"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
-                    <td align="center" width="0">RequestFireRoute</td>
-                </tr>
-            </table>>
-        ]
-
-        "DevelopRoutePlanComplex_ProcessRequestFireRoute"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">ProcessRequestFireRoute</td>
-                </tr>
-            </table>>
-        ]
-
-        "DevelopRoutePlanComplex_OrJoin115936"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\AndJoin16.gif"></img></td>
-                    <td align="center" width="0">OrJoin115936</td>
-                </tr>
-            </table>>
-        ]
-
-        "DevelopRoutePlanComplex_ProposeRouteStub"[
-            shape=plaintext,
-            label=
-            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="in1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
-                    <td align="center" width="15">ProposeRouteStub</td>
-                </tr>
-                    </table>
-                </td></tr>
-            </table>>
-        ]
-        "DevelopRoutePlanComplex_RequestPoliceRoute"->"DevelopRoutePlanComplex_ProcessRequestPoliceRoute"
-        "DevelopRoutePlanComplex_ProcessRequestPoliceRoute"->"DevelopRoutePlanComplex_OrJoin115936"
-        "DevelopRoutePlanComplex_RequestFireRoute"->"DevelopRoutePlanComplex_ProcessRequestFireRoute"
-        "DevelopRoutePlanComplex_ProcessRequestFireRoute"->"DevelopRoutePlanComplex_OrJoin115936"
-        "DevelopRoutePlanComplex_OrJoin115936"->"DevelopRoutePlanComplex_ProposeRouteStub":in1
     }
     "DevelopRoutePlanComplex_ProposeRouteStub":in1->"ProposeRoute_AndFork115939"[style=dashed,arrowhead=onormal]
 }

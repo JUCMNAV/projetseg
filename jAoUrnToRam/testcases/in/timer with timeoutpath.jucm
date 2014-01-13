@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="December 23, 2013 9:43:15 AM EST" specVersion="43" urnVersion="0.925" nextGlobalID="159">
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="January 13, 2014 3:34:47 PM EST" specVersion="49" urnVersion="0.925" nextGlobalID="159">
   <ucmspec>
     <scenarioGroups id="5" name="ScenarioGroup5">
       <scenarios id="6" name="ScenarioDef6"/>
@@ -28,17 +28,17 @@
       <nodes xsi:type="ucm.map:RespRef" id="49" name="RespRef28" x="387" y="263" succ="//@urndef/@specDiagrams.0/@connections.2" pred="//@urndef/@specDiagrams.0/@connections.3" respDef="//@urndef/@responsibilities.0">
         <label/>
       </nodes>
-      <nodes xsi:type="ucm.map:RespRef" id="51" name="RespRef16" x="48" y="221" succ="//@urndef/@specDiagrams.0/@connections.1" pred="//@urndef/@specDiagrams.0/@connections.0" respDef="//@urndef/@responsibilities.1">
+      <nodes xsi:type="ucm.map:RespRef" id="51" name="RespRef16" x="104" y="200" succ="//@urndef/@specDiagrams.0/@connections.1" pred="//@urndef/@specDiagrams.0/@connections.0" respDef="//@urndef/@responsibilities.1">
         <label/>
       </nodes>
-      <nodes xsi:type="ucm.map:StartPoint" id="52" name="SP" x="62" y="126" succ="//@urndef/@specDiagrams.0/@connections.0">
+      <nodes xsi:type="ucm.map:StartPoint" id="52" name="SP" x="130" y="86" succ="//@urndef/@specDiagrams.0/@connections.0">
         <label/>
         <precondition deltaX="40" deltaY="-17" label="" expression="true"/>
       </nodes>
-      <nodes xsi:type="ucm.map:Timer" id="63" name="timer" x="136" y="271" succ="//@urndef/@specDiagrams.0/@connections.3 //@urndef/@specDiagrams.0/@connections.4" pred="//@urndef/@specDiagrams.0/@connections.1">
+      <nodes xsi:type="ucm.map:Timer" id="63" name="timer" x="229" y="212" succ="//@urndef/@specDiagrams.0/@connections.3 //@urndef/@specDiagrams.0/@connections.4" pred="//@urndef/@specDiagrams.0/@connections.1">
         <label/>
       </nodes>
-      <nodes xsi:type="ucm.map:EndPoint" id="153" name="ep2" x="330" y="87" pred="//@urndef/@specDiagrams.0/@connections.4">
+      <nodes xsi:type="ucm.map:EndPoint" id="153" name="ep2" x="536" y="145" pred="//@urndef/@specDiagrams.0/@connections.4">
         <label/>
         <postcondition deltaX="-40" deltaY="-20" label="" expression="true"/>
       </nodes>
@@ -46,10 +46,10 @@
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.2" target="//@urndef/@specDiagrams.0/@nodes.4"/>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.1" target="//@urndef/@specDiagrams.0/@nodes.0"/>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.1">
-        <condition deltaX="43" deltaY="26" label="cond1" expression="true" description=""/>
+        <condition deltaX="47" deltaY="2" label="cond1" expression="true" description=""/>
       </connections>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.5">
-        <condition deltaX="90" deltaY="-17" label="cond2" expression="false" description=""/>
+        <condition deltaX="93" deltaY="14" label="cond2" expression="false" description=""/>
       </connections>
     </specDiagrams>
   </urndef>

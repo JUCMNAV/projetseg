@@ -61,5 +61,5 @@ public interface PathNode extends UCMmodelElement, IURNNode {
 	NodeConnection getFirstSucc();
 	/********************************************************************************/
 	NodeConnection getSucc(int index);
-	
+	int getNumSucc();
 } // PathNode

@@ -69,6 +69,15 @@ import urncore.impl.UCMmodelElementImpl;
  * @generated
  */
 public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNode {
+	
+	@Override
+	public int getNumSucc(){
+		List<IURNConnection> succs = getSucc();
+		int size = succs.size();
+		
+		return size;
+	}
+	
 	@Override
 	public NodeConnection getSucc(int index){
 		return (NodeConnection)getSucc().get(index);
@@ -107,7 +116,6 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 
 	@Override
 	public void build() {
-		//_iwNodes = new LinkedList<IwNode>();
 		buildIwOutputNode();
 		buildIwInputNode();
 		buildIwNodeTemplate();

@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getOutBinding <em>Out Binding</em>}</li>
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getStubExitIndexAsString <em>Stub Exit Index As String</em>}</li>
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getTrigger <em>Trigger</em>}</li>
+ *   <li>{@link intermediateWorkflow.IwNodeConnection#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -293,6 +294,30 @@ public interface IwNodeConnection extends EObject {
 	 * @generated
 	 */
 	void setTrigger(Boolean value);
+	/**
+	 * Returns the value of the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Label</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Label</em>' attribute.
+	 * @see #setLabel(String)
+	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwNodeConnection_Label()
+	 * @model dataType="intermediateWorkflow.String"
+	 * @generated
+	 */
+	String getLabel();
+	/**
+	 * Sets the value of the '{@link intermediateWorkflow.IwNodeConnection#getLabel <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' attribute.
+	 * @see #getLabel()
+	 * @generated
+	 */
+	void setLabel(String value);
 	boolean isSourceEndPoint();
 
 
