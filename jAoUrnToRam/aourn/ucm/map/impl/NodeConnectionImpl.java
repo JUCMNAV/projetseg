@@ -75,6 +75,12 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 		iwNodeConnection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		iwNodeConnection.setConditionName(conditionLabel());
 	}
+	
+	@Override
+	public void build(String label) {
+		iwNodeConnection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		iwNodeConnection.setLabel(label);
+	}
 
 	@Override
 	public void link() {
@@ -149,11 +155,6 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 
 	@Override
 	public NodeConnection iwNextNodeConnection() {
-		/*LinkedHashSet<NodeConnection> nodeConnections = targetAsPathNode().succAsNodeConnection();
-		Iterator<NodeConnection> itr = nodeConnections.iterator();
-		
-		return itr.next();*/
-		
 		List<NodeConnection> nodeConnections = targetAsPathNode().succAsNodeConnection();
 		NodeConnection nc = nodeConnections.get(0);
 		return nc;

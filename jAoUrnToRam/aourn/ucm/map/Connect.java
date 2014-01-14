@@ -22,4 +22,6 @@ public interface Connect extends PathNode {
 	WaitingPlace getWaitingPlace();
 
 	Timer getTimer();
+
+	void linkTriggerPath(NodeConnection pred, NodeConnection succ);
 } // Connect

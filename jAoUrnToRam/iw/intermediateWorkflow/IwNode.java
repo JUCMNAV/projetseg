@@ -209,6 +209,8 @@ public interface IwNode extends EObject {
 	IwNodeConnection getFirstSucc();
 	String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex);
 	IwNodeConnection getSucc(int index);
+	void addPred(IwNodeConnection pred);
+	
 	
 	
 	

@@ -8,6 +8,7 @@ package intermediateWorkflow.impl;
 
 import java.util.List;
 
+import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
@@ -24,6 +25,8 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import ucm.map.NodeConnection;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Iw Waiting Place</b></em>'.
@@ -38,6 +41,17 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
+	
+	@Override
+	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget) {
+		addPred(iwPred);
+		
+		IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		iwSucc.setLabel("trigger");
+		iwSucc.setTarget(iwTarget);
+		addSucc(iwSucc);
+	}
+	
 	@Override
 	public String getInputProcessingNodeAction() {
 		return "continue";

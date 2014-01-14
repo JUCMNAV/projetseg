@@ -36,14 +36,36 @@ import urncore.IURNNode;
  */
 public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
 	
+	/*private PathNode previousNode() {
+		return (PathNode)getPred().get(0);
+	}
+	
+	private PathNode nextNode() {
+		return (PathNode)getPred().get(0);
+	}*/
+	/*public Connect getConnect() {
+		NodeConnection succ = getSucc(1);
+		if(succ instanceof Connect) {
+			return (Connect)succ;
+		} else {
+			return null;
+		}
+	}*/
+	
 	@Override
 	public void link(){
 		for(IURNConnection edge : getSucc()){
-			IURNNode node = edge.getTarget();
+			IURNNode succNode = edge.getTarget();
 			
-			//check if empty point is connected to waiting place or timer
-			if(node instanceof Connect){
-				Connect connectNode = (Connect)node;
+			if(succNode instanceof Connect){
+				Connect connectNode = (Connect)succNode;
+				
+				NodeConnection pred = getFirstPred();
+				NodeConnection succ = getFirstSucc();
+				
+				connectNode.linkTriggerPath(pred, succ);
+				
+				/*Connect connectNode = (Connect)node;
 				
 				WaitingPlace waitingPlace = connectNode.getWaitingPlace();
 				IwWaitingPlace iwWaitingPlace = waitingPlace.getIwWaitingPlace();
@@ -61,9 +83,14 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
 				IwNode iwTarget = target.getIwEquivalentNode();
 				
 				iwSucc.setTarget(iwTarget);
-				iwWaitingPlace.addSucc(iwSucc);
+				iwWaitingPlace.addSucc(iwSucc);*/
+				
+				/////////
+				//NodeConnection pred = getFirstPred();
+				//NodeConnection succ = getFirstSucc();
+				//waitingPlace.linkTriggerPath(pred, succ);
 			}
-		}	
+		}
 	}
 	
 	

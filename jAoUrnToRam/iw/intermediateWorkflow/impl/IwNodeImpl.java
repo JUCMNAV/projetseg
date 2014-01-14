@@ -60,7 +60,6 @@ import ram.RamFactory;
  * @generated
  */
 public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
-	
 	@Override
 	public IwNodeConnection getFirstSucc() {
 		return getSucc(0);
@@ -74,6 +73,11 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 	@Override
 	public void addSucc(IwNodeConnection succ){
 		this.getSuccs().add(succ);
+	}
+	
+	@Override
+	public void addPred(IwNodeConnection pred){
+		getPreds().add(pred);
 	}
 	
 	/*********** iw to ram ***********************/

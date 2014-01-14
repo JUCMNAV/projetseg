@@ -66,4 +66,8 @@ public interface WaitingPlace extends PathNode {
 	 */
 	void setWaitType(WaitKind value);
 
+	void linkTriggerPath(NodeConnection pred, NodeConnection succ);
+
+	//void linkTriggerPath();
+
 } // WaitingPlace

@@ -319,6 +319,8 @@ public interface IwNodeConnection extends EObject {
 	 */
 	void setLabel(String value);
 	boolean isSourceEndPoint();
+	boolean hasLabel();
+	void appendLabel(StepView stepView, String label);
 
 
 } // IwNodeConnection

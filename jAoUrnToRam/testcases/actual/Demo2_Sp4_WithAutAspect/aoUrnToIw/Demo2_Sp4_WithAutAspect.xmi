@@ -128,14 +128,14 @@
         <succs target="//@concerns.1/@workflows.0/@nodes.3" inBinding="//@concerns.1/@workflows.0/@nodes.3/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1" outBinding="//@concerns.1/@workflows.0/@nodes.7/@pluginBindings.0/@outBindings.0" stubExitIndexAsString="1"/>
         <pluginBindings>
           <inBindings disjunctiveStubEntries="//@concerns.1/@workflows.0/@nodes.1/@succs.0" pluginStartPoint="//@concerns.1/@workflows.2/@nodes.6"/>
-          <outBindings stubExit="//@concerns.1/@workflows.0/@nodes.7/@succs.0" pluginEndPoint="//@concerns.1/@workflows.2/@nodes.2"/>
+          <outBindings stubExit="//@concerns.1/@workflows.0/@nodes.7/@succs.0" pluginEndPoint="//@concerns.1/@workflows.2/@nodes.3"/>
         </pluginBindings>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStub" name="AspectMarker1120" preds="//@concerns.1/@workflows.0/@nodes.5/@succs.0" stubType="aspectMarker">
         <succs target="//@concerns.1/@workflows.0/@nodes.3" inBinding="//@concerns.1/@workflows.0/@nodes.3/@pluginBindings.0/@inBindings.1" stubEntryIndexAsString="2" outBinding="//@concerns.1/@workflows.0/@nodes.8/@pluginBindings.0/@outBindings.0" stubExitIndexAsString="1"/>
         <pluginBindings>
           <inBindings disjunctiveStubEntries="//@concerns.1/@workflows.0/@nodes.5/@succs.0" pluginStartPoint="//@concerns.1/@workflows.2/@nodes.8"/>
-          <outBindings stubExit="//@concerns.1/@workflows.0/@nodes.8/@succs.0" pluginEndPoint="//@concerns.1/@workflows.2/@nodes.3"/>
+          <outBindings stubExit="//@concerns.1/@workflows.0/@nodes.8/@succs.0" pluginEndPoint="//@concerns.1/@workflows.2/@nodes.2"/>
         </pluginBindings>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStub" name="AspectMarker1121" preds="//@concerns.1/@workflows.0/@nodes.3/@succs.0" stubType="aspectMarker">
@@ -174,8 +174,8 @@
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter100" preds="//@concerns.1/@workflows.2/@nodes.4/@succs.0" customizableNodeRefId="913">
         <succs target="//@concerns.1/@workflows.2/@nodes.0"/>
       </nodes>
-      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In1" preds="//@concerns.1/@workflows.2/@nodes.7/@succs.0" outBindings="//@concerns.1/@workflows.0/@nodes.7/@pluginBindings.0/@outBindings.0"/>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In2" preds="//@concerns.1/@workflows.2/@nodes.9/@succs.0" outBindings="//@concerns.1/@workflows.0/@nodes.8/@pluginBindings.0/@outBindings.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In1" preds="//@concerns.1/@workflows.2/@nodes.7/@succs.0" outBindings="//@concerns.1/@workflows.0/@nodes.7/@pluginBindings.0/@outBindings.0"/>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="ThePointcutStub_Out1" startPointType="bound" inBindings="//@concerns.1/@workflows.0/@nodes.9/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.1/@workflows.2/@nodes.1"/>
       </nodes>
@@ -186,13 +186,13 @@
         <succs target="//@concerns.1/@workflows.2/@nodes.7"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectBefore100" preds="//@concerns.1/@workflows.2/@nodes.6/@succs.0" customizableNodeRefId="1072">
-        <succs target="//@concerns.1/@workflows.2/@nodes.2"/>
+        <succs target="//@concerns.1/@workflows.2/@nodes.3"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S101" startPointType="bound" inBindings="//@concerns.1/@workflows.0/@nodes.8/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.1/@workflows.2/@nodes.9"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectBefore101" preds="//@concerns.1/@workflows.2/@nodes.8/@succs.0" customizableNodeRefId="1089">
-        <succs target="//@concerns.1/@workflows.2/@nodes.3"/>
+        <succs target="//@concerns.1/@workflows.2/@nodes.2"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="End101" preds="//@concerns.1/@workflows.2/@nodes.11/@succs.0" outBindings="//@concerns.1/@workflows.0/@nodes.10/@pluginBindings.0/@outBindings.0"/>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter101" preds="//@concerns.1/@workflows.2/@nodes.5/@succs.0" customizableNodeRefId="1118">
@@ -203,31 +203,31 @@
   <concerns name="NotBound">
     <workflows name="NotBound_Aspect" startPoints="//@concerns.2/@workflows.0/@nodes.4 //@concerns.2/@workflows.0/@nodes.5 //@concerns.2/@workflows.0/@nodes.6 //@concerns.2/@workflows.0/@nodes.8">
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="E100" preds="//@concerns.2/@workflows.0/@nodes.1/@succs.0"/>
-      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter100" preds="//@concerns.2/@workflows.0/@nodes.5/@succs.0" customizableNodeRefId="1127">
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter100" preds="//@concerns.2/@workflows.0/@nodes.4/@succs.0" customizableNodeRefId="1127">
         <succs target="//@concerns.2/@workflows.0/@nodes.0"/>
       </nodes>
-      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In1" preds="//@concerns.2/@workflows.0/@nodes.7/@succs.0"/>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In2" preds="//@concerns.2/@workflows.0/@nodes.9/@succs.0"/>
-      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="ThePointcutStub_Out2" startPointType="global">
-        <succs target="//@concerns.2/@workflows.0/@nodes.11"/>
-      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="ThePointcutStub_In1" preds="//@concerns.2/@workflows.0/@nodes.7/@succs.0"/>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="ThePointcutStub_Out1" startPointType="global">
         <succs target="//@concerns.2/@workflows.0/@nodes.1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="ThePointcutStub_Out2" startPointType="global">
+        <succs target="//@concerns.2/@workflows.0/@nodes.11"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S100" startPointType="global">
         <succs target="//@concerns.2/@workflows.0/@nodes.7"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectBefore100" preds="//@concerns.2/@workflows.0/@nodes.6/@succs.0" customizableNodeRefId="1130">
-        <succs target="//@concerns.2/@workflows.0/@nodes.2"/>
+        <succs target="//@concerns.2/@workflows.0/@nodes.3"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S101" startPointType="global">
         <succs target="//@concerns.2/@workflows.0/@nodes.9"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectBefore101" preds="//@concerns.2/@workflows.0/@nodes.8/@succs.0" customizableNodeRefId="1132">
-        <succs target="//@concerns.2/@workflows.0/@nodes.3"/>
+        <succs target="//@concerns.2/@workflows.0/@nodes.2"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="End101" preds="//@concerns.2/@workflows.0/@nodes.11/@succs.0"/>
-      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter101" preds="//@concerns.2/@workflows.0/@nodes.4/@succs.0" customizableNodeRefId="1134">
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="AspectAfter101" preds="//@concerns.2/@workflows.0/@nodes.5/@succs.0" customizableNodeRefId="1134">
         <succs target="//@concerns.2/@workflows.0/@nodes.10"/>
       </nodes>
     </workflows>

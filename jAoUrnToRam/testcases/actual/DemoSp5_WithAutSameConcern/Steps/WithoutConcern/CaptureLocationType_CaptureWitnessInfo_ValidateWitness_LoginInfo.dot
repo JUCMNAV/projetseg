@@ -7,6 +7,132 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
         fontsize=12
     ];
 
+    subgraph "cluster_Authenticate"{
+        label="Authenticate"
+
+        "Authenticate_LoginRequest"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">LoginRequest</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_LoginInfo"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">LoginInfo</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_PerformAuthentication"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">PerformAuthentication</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_IsAuthenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsAuthenticated</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authenticate_Authenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Authenticated</td>
+                </tr>
+            </table>>
+        ]
+        "Authenticate_LoginInfo"->"Authenticate_PerformAuthentication"
+        "Authenticate_PerformAuthentication"->"Authenticate_IsAuthenticated"
+        "Authenticate_IsAuthenticated"->"Authenticate_LoginRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Authenticate_IsAuthenticated"->"Authenticate_Authenticated"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Authenticate_LoginRequest"->"Authenticate_LoginInfo"
+    }
+
+    subgraph "cluster_Authentication"{
+        label="Authentication"
+
+        "Authentication_IsAlreadyAuthenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsAlreadyAuthenticated</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticationVerified"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">AuthenticationVerified</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticateStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">AuthenticateStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10"></td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticateStub":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Authentication_AuthenticateStub":out1->"Authentication_AuthenticationVerified"
+    }
+
     subgraph "cluster_Capture"{
         label="Capture"
 
@@ -293,132 +419,6 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
         "Capture_IsPhoneCompanyAvailable"->"Capture_CrisisInfoRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
         "Capture_PhoneDataRequest"->"Capture_ValidateWitness"
         "Capture_CrisisInfoRequest"->"Capture_CaptureLocationType"
-    }
-
-    subgraph "cluster_Authentication"{
-        label="Authentication"
-
-        "Authentication_IsAlreadyAuthenticated"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
-                    <td align="center" width="0">IsAlreadyAuthenticated</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authentication_AuthenticationVerified"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">AuthenticationVerified</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authentication_AuthenticateStub"[
-            shape=plaintext,
-            label=
-            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="in1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
-                    <td align="center" width="15">AuthenticateStub</td>
-                </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="out1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-            </table>>
-        ]
-        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
-        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticateStub":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
-        "Authentication_AuthenticateStub":out1->"Authentication_AuthenticationVerified"
-    }
-
-    subgraph "cluster_Authenticate"{
-        label="Authenticate"
-
-        "Authenticate_LoginRequest"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
-                    <td align="center" width="0">LoginRequest</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authenticate_LoginInfo"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
-                    <td align="center" width="0">LoginInfo</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authenticate_PerformAuthentication"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">PerformAuthentication</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authenticate_IsAuthenticated"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
-                    <td align="center" width="0">IsAuthenticated</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authenticate_Authenticated"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">Authenticated</td>
-                </tr>
-            </table>>
-        ]
-        "Authenticate_LoginInfo"->"Authenticate_PerformAuthentication"
-        "Authenticate_PerformAuthentication"->"Authenticate_IsAuthenticated"
-        "Authenticate_IsAuthenticated"->"Authenticate_LoginRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
-        "Authenticate_IsAuthenticated"->"Authenticate_Authenticated"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
-        "Authenticate_LoginRequest"->"Authenticate_LoginInfo"
     }
     "Capture_Aut3":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
     "Capture_Aut2":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]

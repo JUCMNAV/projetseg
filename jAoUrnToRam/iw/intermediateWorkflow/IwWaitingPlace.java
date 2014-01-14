@@ -51,6 +51,12 @@ public interface IwWaitingPlace extends IwNode {
 	 */
 	void setTransient(Boolean value);
 
+	//void linkTriggerPath(IwNodeConnection iwPred, IwNodeConnection iwSucc);
+
+	void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget);
+
+	//void linkTriggerPath();
+
 	//boolean getStepViewVisit();
 
 	//void setStepViewVisit(boolean stepViewVisit);

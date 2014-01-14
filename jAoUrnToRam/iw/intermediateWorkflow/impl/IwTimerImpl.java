@@ -6,20 +6,14 @@
  */
 package intermediateWorkflow.impl;
 
+import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
-import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwTimer;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
-import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
-import iwToStepView.StepView;
-
 import org.eclipse.emf.ecore.EClass;
-
-import ucm.map.NodeConnection;
-import ucm.map.PathNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +25,16 @@ import ucm.map.PathNode;
  * @generated
  */
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
+	
+	@Override
+	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget) {
+		addPred(iwPred);
+		
+		IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		iwSucc.setLabel("release");
+		iwSucc.setTarget(iwTarget);
+		addSucc(iwSucc);
+	}
 	
 	@Override
 	public String getImageName(){

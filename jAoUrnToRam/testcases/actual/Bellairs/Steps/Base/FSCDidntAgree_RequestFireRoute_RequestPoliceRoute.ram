@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_WpkQ0HycEeOFiM0QtHjKlQ" name="FSCDidntAgree_RequestFireRoute_RequestPoliceRoute">
-  <structuralView xmi:id="_WpkQ0XycEeOFiM0QtHjKlQ">
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ0nycEeOFiM0QtHjKlQ" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ03ycEeOFiM0QtHjKlQ" name="ProcessRequestPoliceRoute">
-      <operations xmi:id="_WpkQ1HycEeOFiM0QtHjKlQ" name="execute" returnType="_WpkQ53ycEeOFiM0QtHjKlQ">
-        <parameters xmi:id="_WpkQ1XycEeOFiM0QtHjKlQ" name="c" type="_WpkQ0nycEeOFiM0QtHjKlQ"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_FaLFMH1jEeO2jZSp3S9LUw" name="FSCDidntAgree_RequestFireRoute_RequestPoliceRoute">
+  <structuralView xmi:id="_FaLFMX1jEeO2jZSp3S9LUw">
+    <classes xsi:type="ram:Class" xmi:id="_FaLFMn1jEeO2jZSp3S9LUw" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLFM31jEeO2jZSp3S9LUw" name="ProcessRequestPoliceRoute">
+      <operations xmi:id="_FaLFNH1jEeO2jZSp3S9LUw" name="execute" returnType="_FaLsTn1jEeO2jZSp3S9LUw">
+        <parameters xmi:id="_FaLFNX1jEeO2jZSp3S9LUw" name="c" type="_FaLFMn1jEeO2jZSp3S9LUw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ1nycEeOFiM0QtHjKlQ" name="ProcessRequestFireRoute">
-      <operations xmi:id="_WpkQ13ycEeOFiM0QtHjKlQ" name="execute" returnType="_WpkQ53ycEeOFiM0QtHjKlQ">
-        <parameters xmi:id="_WpkQ2HycEeOFiM0QtHjKlQ" name="c" type="_WpkQ0nycEeOFiM0QtHjKlQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLFNn1jEeO2jZSp3S9LUw" name="ProcessRequestFireRoute">
+      <operations xmi:id="_FaLFN31jEeO2jZSp3S9LUw" name="execute" returnType="_FaLsTn1jEeO2jZSp3S9LUw">
+        <parameters xmi:id="_FaLFOH1jEeO2jZSp3S9LUw" name="c" type="_FaLFMn1jEeO2jZSp3S9LUw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ2XycEeOFiM0QtHjKlQ" name="ProcessFSCDidntAgree">
-      <operations xmi:id="_WpkQ2nycEeOFiM0QtHjKlQ" name="execute" returnType="_WpkQ53ycEeOFiM0QtHjKlQ">
-        <parameters xmi:id="_WpkQ23ycEeOFiM0QtHjKlQ" name="c" type="_WpkQ0nycEeOFiM0QtHjKlQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsQH1jEeO2jZSp3S9LUw" name="ProcessFSCDidntAgree">
+      <operations xmi:id="_FaLsQX1jEeO2jZSp3S9LUw" name="execute" returnType="_FaLsTn1jEeO2jZSp3S9LUw">
+        <parameters xmi:id="_FaLsQn1jEeO2jZSp3S9LUw" name="c" type="_FaLFMn1jEeO2jZSp3S9LUw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ3HycEeOFiM0QtHjKlQ" name="RequestPoliceRouteInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ3XycEeOFiM0QtHjKlQ" name="FSCDidntAgreeInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ3nycEeOFiM0QtHjKlQ" name="RequestFireRouteInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ33ycEeOFiM0QtHjKlQ" name="AskForPoliceVehicles">
-      <operations xmi:id="_WpkQ4HycEeOFiM0QtHjKlQ" name="execute" returnType="_WpkQ53ycEeOFiM0QtHjKlQ">
-        <parameters xmi:id="_WpkQ4XycEeOFiM0QtHjKlQ" name="c" type="_WpkQ0nycEeOFiM0QtHjKlQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsQ31jEeO2jZSp3S9LUw" name="RequestPoliceRouteInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsRH1jEeO2jZSp3S9LUw" name="FSCDidntAgreeInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsRX1jEeO2jZSp3S9LUw" name="RequestFireRouteInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsRn1jEeO2jZSp3S9LUw" name="AskForPoliceVehicles">
+      <operations xmi:id="_FaLsR31jEeO2jZSp3S9LUw" name="execute" returnType="_FaLsTn1jEeO2jZSp3S9LUw">
+        <parameters xmi:id="_FaLsSH1jEeO2jZSp3S9LUw" name="c" type="_FaLFMn1jEeO2jZSp3S9LUw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ4nycEeOFiM0QtHjKlQ" name="AskForPoliceVehiclesOutput"/>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ43ycEeOFiM0QtHjKlQ" name="AskForfireVehicles">
-      <operations xmi:id="_WpkQ5HycEeOFiM0QtHjKlQ" name="execute" returnType="_WpkQ53ycEeOFiM0QtHjKlQ">
-        <parameters xmi:id="_WpkQ5XycEeOFiM0QtHjKlQ" name="c" type="_WpkQ0nycEeOFiM0QtHjKlQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsSX1jEeO2jZSp3S9LUw" name="AskForPoliceVehiclesOutput"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsSn1jEeO2jZSp3S9LUw" name="AskForfireVehicles">
+      <operations xmi:id="_FaLsS31jEeO2jZSp3S9LUw" name="execute" returnType="_FaLsTn1jEeO2jZSp3S9LUw">
+        <parameters xmi:id="_FaLsTH1jEeO2jZSp3S9LUw" name="c" type="_FaLFMn1jEeO2jZSp3S9LUw"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_WpkQ5nycEeOFiM0QtHjKlQ" name="AskForfireVehiclesOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_WpkQ53ycEeOFiM0QtHjKlQ"/>
+    <classes xsi:type="ram:Class" xmi:id="_FaLsTX1jEeO2jZSp3S9LUw" name="AskForfireVehiclesOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_FaLsTn1jEeO2jZSp3S9LUw"/>
   </structuralView>
-  <instantiations xmi:id="_WpkQ6HycEeOFiM0QtHjKlQ" type="Extends">
-    <mappings xmi:id="_WpkQ6XycEeOFiM0QtHjKlQ" toElement="_WpkQ03ycEeOFiM0QtHjKlQ">
-      <operationMappings xmi:id="_WpkQ6nycEeOFiM0QtHjKlQ" toElement="_WpkQ1HycEeOFiM0QtHjKlQ">
+  <instantiations xmi:id="_FaLsT31jEeO2jZSp3S9LUw" type="Extends">
+    <mappings xmi:id="_FaLsUH1jEeO2jZSp3S9LUw" toElement="_FaLFM31jEeO2jZSp3S9LUw">
+      <operationMappings xmi:id="_FaLsUX1jEeO2jZSp3S9LUw" toElement="_FaLFNH1jEeO2jZSp3S9LUw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_WpkQ63ycEeOFiM0QtHjKlQ" toElement="_WpkQ1nycEeOFiM0QtHjKlQ">
-      <operationMappings xmi:id="_WpkQ7HycEeOFiM0QtHjKlQ" toElement="_WpkQ13ycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsUn1jEeO2jZSp3S9LUw" toElement="_FaLFNn1jEeO2jZSp3S9LUw">
+      <operationMappings xmi:id="_FaLsU31jEeO2jZSp3S9LUw" toElement="_FaLFN31jEeO2jZSp3S9LUw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_WpkQ7XycEeOFiM0QtHjKlQ" toElement="_WpkQ2XycEeOFiM0QtHjKlQ">
-      <operationMappings xmi:id="_WpkQ7nycEeOFiM0QtHjKlQ" toElement="_WpkQ2nycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsVH1jEeO2jZSp3S9LUw" toElement="_FaLsQH1jEeO2jZSp3S9LUw">
+      <operationMappings xmi:id="_FaLsVX1jEeO2jZSp3S9LUw" toElement="_FaLsQX1jEeO2jZSp3S9LUw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_WpkQ73ycEeOFiM0QtHjKlQ" toElement="_WpkQ33ycEeOFiM0QtHjKlQ">
-      <operationMappings xmi:id="_WpkQ8HycEeOFiM0QtHjKlQ" toElement="_WpkQ4HycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsVn1jEeO2jZSp3S9LUw" toElement="_FaLsRn1jEeO2jZSp3S9LUw">
+      <operationMappings xmi:id="_FaLsV31jEeO2jZSp3S9LUw" toElement="_FaLsR31jEeO2jZSp3S9LUw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_WpkQ8XycEeOFiM0QtHjKlQ" toElement="_WpkQ43ycEeOFiM0QtHjKlQ">
-      <operationMappings xmi:id="_WpkQ8nycEeOFiM0QtHjKlQ" toElement="_WpkQ5HycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsWH1jEeO2jZSp3S9LUw" toElement="_FaLsSn1jEeO2jZSp3S9LUw">
+      <operationMappings xmi:id="_FaLsWX1jEeO2jZSp3S9LUw" toElement="_FaLsS31jEeO2jZSp3S9LUw">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_WpkQ83ycEeOFiM0QtHjKlQ" type="Extends">
-    <mappings xmi:id="_WpkQ9HycEeOFiM0QtHjKlQ" toElement="_WpkQ3HycEeOFiM0QtHjKlQ">
+  <instantiations xmi:id="_FaLsWn1jEeO2jZSp3S9LUw" type="Extends">
+    <mappings xmi:id="_FaLsW31jEeO2jZSp3S9LUw" toElement="_FaLsQ31jEeO2jZSp3S9LUw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
-    <mappings xmi:id="_WpkQ9XycEeOFiM0QtHjKlQ" toElement="_WpkQ3XycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsXH1jEeO2jZSp3S9LUw" toElement="_FaLsRH1jEeO2jZSp3S9LUw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
-    <mappings xmi:id="_WpkQ9nycEeOFiM0QtHjKlQ" toElement="_WpkQ3nycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsXX1jEeO2jZSp3S9LUw" toElement="_FaLsRX1jEeO2jZSp3S9LUw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_WpkQ93ycEeOFiM0QtHjKlQ" type="Extends">
-    <mappings xmi:id="_WpkQ-HycEeOFiM0QtHjKlQ" toElement="_WpkQ4nycEeOFiM0QtHjKlQ">
+  <instantiations xmi:id="_FaLsXn1jEeO2jZSp3S9LUw" type="Extends">
+    <mappings xmi:id="_FaLsX31jEeO2jZSp3S9LUw" toElement="_FaLsSX1jEeO2jZSp3S9LUw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_WpkQ-XycEeOFiM0QtHjKlQ" toElement="_WpkQ5nycEeOFiM0QtHjKlQ">
+    <mappings xmi:id="_FaLsYH1jEeO2jZSp3S9LUw" toElement="_FaLsTX1jEeO2jZSp3S9LUw">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Bellairs/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

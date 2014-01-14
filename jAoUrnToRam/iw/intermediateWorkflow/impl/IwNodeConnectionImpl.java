@@ -59,6 +59,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * @generated
  */
 public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnection {
+	
+	@Override
+	public boolean hasLabel(){
+		return label != null && !label.equals("");
+	}
+	
 	/*********** Step View Transformation ***********************/
 	@Override
 	public void appendNodeConnection(StepView stepView) {
@@ -72,8 +78,17 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	
 		stepView.append(getTargetPortDotEscaped(stepView));
 
-		if(hasCondition()) 
-			appendConnectionLabel(stepView);
+		//if(hasCondition()) 
+			//appendConnectionLabel(stepView);
+		
+		if(hasCondition()) {
+			String condition = getConditionName();
+			appendLabel(stepView, condition);
+		}
+		if(hasLabel()){
+			String label = getLabel();
+			appendLabel(stepView, label);
+		}
 	}
 	
 	@Override
@@ -84,6 +99,15 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	@Override
 	public boolean isFromCurrentStep(StepView stepView) {
 		return getStep()==stepView.getStep();
+	}
+	
+	@Override
+	public void appendLabel(StepView stepView, String label) {
+		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"");
+		stepView.append(" bgcolor=\""+stepView.getCustomizableClassColor()+"\">");
+		stepView.append("<tr><td>");
+		stepView.append(label);
+		stepView.append("</td></tr></table>>]");
 	}
 	
 	@Override

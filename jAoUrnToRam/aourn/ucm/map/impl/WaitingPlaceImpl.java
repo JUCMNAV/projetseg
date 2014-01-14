@@ -6,7 +6,11 @@
  */
 package ucm.map.impl;
 
+import java.util.List;
+
 import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwWaitingPlace;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -16,6 +20,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
 
@@ -47,6 +53,51 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	public IwWaitingPlace getIwWaitingPlace() {
 		return iwWaitingPlace;
 	}
+	
+	@Override
+	public void linkTriggerPath(NodeConnection pred, NodeConnection succ) {
+		IwNodeConnection iwPred = pred.getIwNodeConnection();
+		//IwNodeConnection iwSucc = succ.getIwNodeConnection();
+		
+		PathNode target = (PathNode)succ.getTarget();
+		IwNode iwTarget = target.getIwEquivalentNode();
+		
+		iwWaitingPlace.linkTriggerPath(iwPred, iwTarget);
+	}
+	
+	/*@Override
+	public void invokeBuildOnNodeConnections() {
+		//for(NodeConnection nodeConnection: succAsNodeConnection()){
+			//nodeConnection.build();
+		//}
+		if(hasTriggerPathAtEmptyPoint()) {
+			NodeConnection waitingPathSucc = getWaitingPathSucc();
+			waitingPathSucc.build();
+		
+			NodeConnection triggerPathSucc = getTriggerPathSucc();
+			triggerPathSucc.build("trigger");
+		} else {
+			super.invokeBuildOnNodeConnections();
+		}
+	}*/
+	
+	/*public boolean hasTriggerPathAtEmptyPoint(){
+		return false;
+	}
+	
+	
+	public NodeConnection getWaitingPathSucc() {
+		List<NodeConnection> nodeConnection = succAsNodeConnection();
+		NodeConnection succ = nodeConnection.get(0);
+		return succ;
+	}
+	
+	public NodeConnection getTriggerPathSucc() {
+		List<NodeConnection> nodeConnection = succAsNodeConnection();
+		NodeConnection succ = nodeConnection.get(1);
+		return succ;
+	}*/
+	
 	
 	/**
 	 * The default value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
