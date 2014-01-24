@@ -61,6 +61,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnection {
 	
 	@Override
+	public boolean hasTriggerLabel() {
+		if(hasLabel()) {
+			return label.equals("trigger");
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean hasLabel(){
 		return label != null && !label.equals("");
 	}
@@ -103,8 +111,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	
 	@Override
 	public void appendLabel(StepView stepView, String label) {
-		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"");
-		stepView.append(" bgcolor=\""+stepView.getCustomizableClassColor()+"\">");
+		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+		//stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"");
+		//stepView.append(" bgcolor=\""+stepView.getCustomizableClassColor()+"\">");
 		stepView.append("<tr><td>");
 		stepView.append(label);
 		stepView.append("</td></tr></table>>]");
@@ -171,7 +180,10 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	public void jiAppendAddNextNodeStatements(WorkflowInstantiator workflowInstantiator) {
 		if(hasCondition()) {
 			jiAppendAddNextNodeStatementWithCondition(workflowInstantiator);
-		} else {
+		} else if(hasLabel()) {
+			jiAppendAddNextNodeStatementWithLabel(workflowInstantiator);
+		}
+		else {
 			jiAppendAddNextNodeStatementWithoutCondition(workflowInstantiator);
 		}
 	}
@@ -208,7 +220,7 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			quote(getStubEntryIndex())
 		);
 	}
-
+	
 	//*********************************************************
 	//LinkWithoutCondition
 	//*********************************************************/
@@ -238,6 +250,26 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			getTarget().jiMemberName()
 		);
 	}
+	
+	@Override
+	public void jiAppendAddNextNodeStatement_WaitingPlaceToNode(WorkflowInstantiator workflowInstantiator, String inPathName) {
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+				getSource().jiMemberName(),
+				jiAddNextNodeMethodName(),
+				getTarget().jiMemberName(),
+				quote(inPathName)
+		);
+	}	
+	
+	@Override
+	public void jiAppendAddNextNodeStatementWithLabel(WorkflowInstantiator workflowInstantiator) {
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+				getSource().jiMemberName(),
+				jiAddNextNodeMethodName(),
+				getTarget().jiMemberName(),
+				quote(getLabel())
+		);
+	}	
 	
 	@Override
 	public void jiAppendAddNextNodeStatement_NodeToStub(WorkflowInstantiator workflowInstantiator) {

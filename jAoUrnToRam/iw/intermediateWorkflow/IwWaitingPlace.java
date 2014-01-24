@@ -53,7 +53,16 @@ public interface IwWaitingPlace extends IwNode {
 
 	//void linkTriggerPath(IwNodeConnection iwPred, IwNodeConnection iwSucc);
 
-	void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget);
+	//void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget);
+
+	boolean hasTrigger();
+
+	IwNodeConnection getTriggerSucc();
+
+	IwNodeConnection getWaitingSucc();
+
+	void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget,
+			IwWorkflow iwWorkflow);
 
 	//void linkTriggerPath();
 

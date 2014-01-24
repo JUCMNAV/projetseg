@@ -8,6 +8,8 @@ package urncore;
 
 import org.eclipse.emf.ecore.EObject;
 
+import ucm.map.PathNode;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>IURN Connection</b></em>'.
@@ -28,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface IURNConnection extends EObject {
+	
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link urncore.IURNNode#getSucc <em>Succ</em>}'.

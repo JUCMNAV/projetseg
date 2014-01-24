@@ -21,11 +21,11 @@ public class Waiting_place_with_trigger_at_end_pointWorkflowInstantiator extends
 
     public void linkNodesToNextNodes(){
         _SP.addNextNode(_TheInput);
-        _TheInput.addNextNode(_Wp);
+        _TheInput.addNextNode(_Wp,"waiting");
         _TheOuput.addNextNode(_EP);
         _Wp.addNextNode("",_TheOuput);
         _Sp2.addNextNode(_Ep2);
-        _Ep2.addNextNode(_Wp);
+        _Ep2.addNextNode(_Wp,"trigger");
     }
 
     public void linkNodesToWorkflow(){

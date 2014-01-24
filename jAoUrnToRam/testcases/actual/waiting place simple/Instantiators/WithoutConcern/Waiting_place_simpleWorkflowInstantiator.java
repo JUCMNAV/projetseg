@@ -18,9 +18,9 @@ public class Waiting_place_simpleWorkflowInstantiator extends WorkflowInstantiat
     }
 
     public void linkNodesToNextNodes(){
-        _Wp.addNextNode("",_TheOuput);
+        _Wp.addNextNode("cond",_TheOuput);
         _TheOuput.addNextNode(_EP);
-        _TheInput.addNextNode(_Wp);
+        _TheInput.addNextNode(_Wp,"waiting");
         _SP.addNextNode(_TheInput);
     }
 

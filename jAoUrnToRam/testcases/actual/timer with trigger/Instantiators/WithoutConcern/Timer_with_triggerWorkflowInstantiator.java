@@ -24,7 +24,7 @@ public class Timer_with_triggerWorkflowInstantiator extends WorkflowInstantiator
         _TheInput.addNextNode(_Timer);
         _SP.addNextNode(_TheInput);
         _Timer.addNextNode("cond1",_TheOuput);
-        _Timer.addNextNode(_Ep2);
+        _Timer.addNextNode(_Ep2,"release");
         _Sp2.addNextNode(_Timer);
     }
 

@@ -4,8 +4,9 @@ import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 
 public abstract class NodeInstantiationStrategy {
-	private IwNode node;
-
+	//private IwNode node;
+	protected IwNode node;
+	
 	public IwNode getNode() {
 		return node;
 	}

@@ -11,6 +11,7 @@ import intermediateWorkflow.IntermediateWorkflowPackage;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwTimer;
+import intermediateWorkflow.IwWorkflow;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
 import org.eclipse.emf.ecore.EClass;
@@ -27,7 +28,7 @@ import org.eclipse.emf.ecore.EClass;
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
 	@Override
-	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget) {
+	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget, IwWorkflow workflow) {
 		addPred(iwPred);
 		
 		IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();

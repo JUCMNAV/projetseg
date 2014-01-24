@@ -6,7 +6,6 @@
  */
 package ucm.map;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Connect</b></em>'.
@@ -19,9 +18,6 @@ package ucm.map;
  */
 public interface Connect extends PathNode {
 
-	WaitingPlace getWaitingPlace();
-
-	Timer getTimer();
-
 	void linkTriggerPath(NodeConnection pred, NodeConnection succ);
+
 } // Connect

@@ -10,10 +10,12 @@ import java.util.List;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IntermediateWorkflowPackage;
+import intermediateWorkflow.IwAndFork;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwWaitingPlace;
+import intermediateWorkflow.IwWorkflow;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
 import iwToJavaInstantiator.WorkflowNodeInstantiationStrategy;
@@ -41,15 +43,52 @@ import ucm.map.NodeConnection;
  * @generated
  */
 public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
+	@Override
+	public boolean hasTrigger() {
+		for(IwNodeConnection nodeConnection : getSuccs()) {
+			return nodeConnection.hasTriggerLabel();
+		}
+		return false;
+	}
 	
 	@Override
-	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget) {
-		addPred(iwPred);
+	public IwNodeConnection getTriggerSucc() {
+		for(IwNodeConnection nodeConnection : getSuccs()) {
+			if(nodeConnection.hasTriggerLabel()) {
+				return nodeConnection;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public IwNodeConnection getWaitingSucc() {
+		for(IwNodeConnection nodeConnection : getSuccs()) {
+			if(!nodeConnection.hasLabel()) {
+				return nodeConnection;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget, IwWorkflow iwWorkflow) {
+		IwAndFork implicitAndFork = IntermediateWorkflowFactory.eINSTANCE.createIwAndFork();
+		implicitAndFork.setName("ImplicitAndFork");
 		
-		IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
-		iwSucc.setLabel("trigger");
-		iwSucc.setTarget(iwTarget);
-		addSucc(iwSucc);
+		iwPred.setTarget(implicitAndFork);
+		iwWorkflow.addNode(implicitAndFork);
+		
+		//as mentioned by Dr. Mussbacher in email on 17 Jan, this succ should be first
+		IwNodeConnection impAfSuccToWp = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		impAfSuccToWp.setSource(implicitAndFork);
+		impAfSuccToWp.setLabel("trigger");
+		impAfSuccToWp.setTarget(this);
+		
+		
+		IwNodeConnection impAfSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
+		impAfSucc.setSource(implicitAndFork);
+		impAfSucc.setTarget(iwTarget);
 	}
 	
 	@Override
@@ -59,7 +98,6 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	
 	@Override
 	public NodeInstantiationStrategy createStrategy() {
-		//return new WorkflowNodeInstantiationStrategy(this, "ConditionalSynchronizationNode");
 		return new WaitingplaceNodeInstantiatorStrategy(this, "ConditionalSynchronizationNode", getTransient());
 	}
 	
@@ -67,81 +105,6 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 	public String getImageName(){
 		return "Wait16.gif";
 	}
-	
-	//protected boolean visited = false;
-	
-	/*protected boolean stepViewVisit = false;
-	@Override
-	public boolean getStepViewVisit() {
-		return stepViewVisit;
-	}
-	@Override
-	public void setStepViewVisit(boolean stepViewVisit) {
-		this.stepViewVisit = stepViewVisit;
-	}*/
-
-	/*protected IwNode getNextNodeToExplore(){
-		IwNode nextNode = null;
-		IwNodeConnection nextSucc = null;
-		
-		if(!visited) {
-			nextSucc = getSucc(0);
-			nextNode = nextSucc.getTarget();
-			visited = true;
-		}
-		else {
-			nextSucc = getSucc(1);
-			nextNode = nextSucc.getTarget();
-		}
-		return nextNode;
-	}*/
-	
-	/*@Override
-	public void step_DeepFirstSearch(IwStep currentStep) {
-		IwNode nextNode = getNextNodeToExplore();
-		nextNode.explore(currentStep);
-	}*/
-	
-	/*@Override
-	public void appendFirstVerticesFromNextStep(StepView stepView) {
-	}*/
-	
-	/*@Override
-	public void appendEdges(StepView stepView) {
-	}*/
-	
-	/*@Override
-	public void appendVertex_NextStep(StepView stepView) {
-	}*/
-	
-	/*@Override
-	public boolean isFromCurrentStep(StepView stepView) {
-		return false;
-	}*/
-	
-	/*protected IwNodeConnection chooseSucc(){
-		IwNodeConnection succ = null;
-		if(!stepViewVisit){
-			succ = getSucc(0);
-			stepViewVisit = true;
-		}
-		else {
-			succ = getSucc(1);
-		}
-		return succ;
-	}*/
-	
-	/*@Override
-	public String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex) {
-		IwNodeConnection succ = chooseSucc();
-		String result = succ.getTargetPortDotEscaped(stepView);
-		return result;
-	}*/
-	
-	/*@Override
-	public IwNodeConnection getSecondSucc() {
-		return this.getSucc(1);
-	}*/
 	
 	/**
 	 * The default value of the '{@link #getTransient() <em>Transient</em>}' attribute.

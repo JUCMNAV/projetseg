@@ -24,7 +24,7 @@
         <succs target="//@concerns.0/@workflows.0/@nodes.8"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="Ep3" preds="//@concerns.0/@workflows.0/@nodes.7/@succs.0" step="//@concerns.0/@steps.1">
-        <succs target="//@concerns.0/@workflows.0/@nodes.4" trigger="true"/>
+        <succs target="//@concerns.0/@workflows.0/@nodes.4" label="trigger"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="ProcesstimerInput" preds="//@concerns.0/@workflows.0/@nodes.5/@succs.0" step="//@concerns.0/@steps.0">
         <succs target="//@concerns.0/@workflows.0/@nodes.6"/>

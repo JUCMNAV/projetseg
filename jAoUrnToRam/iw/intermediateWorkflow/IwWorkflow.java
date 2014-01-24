@@ -37,7 +37,8 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface IwWorkflow extends EObject {
-	void linkSteps(IwConcern concern);
+	 void addNode(IwNode node);
+	 void linkSteps(IwConcern concern);
 	 IwModel getModel();
 	 Set<IwWorkflow> getPlugins();
 	 Set<IwStub> getStubs();

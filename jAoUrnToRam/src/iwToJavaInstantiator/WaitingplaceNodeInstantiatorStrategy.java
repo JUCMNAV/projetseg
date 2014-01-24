@@ -1,6 +1,8 @@
 package iwToJavaInstantiator;
 
 import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwNodeConnection;
+import intermediateWorkflow.IwWaitingPlace;
 
 public class WaitingplaceNodeInstantiatorStrategy extends WorkflowNodeInstantiationStrategy {
 	
@@ -21,4 +23,19 @@ public class WaitingplaceNodeInstantiatorStrategy extends WorkflowNodeInstantiat
 		
 		workflowInstantiator.appendPublicMember_1Param(workflowNodeType, getNode().jiMemberName(), isTransientToString());
 	}
+	
+	/*@Override
+	public void jiAppendLinkNodesToNextNodesStatement(WorkflowInstantiator workflowInstantiator) {
+		//node.succs.each{succ|succ.jiAppendAddNextNodeStatements(workflowInstantiator)}
+		
+		IwWaitingPlace waitingPlace = (IwWaitingPlace)node;
+		
+		IwNodeConnection waitingSucc = waitingPlace.getWaitingSucc();
+		IwNodeConnection triggerSucc = waitingPlace.getTriggerSucc();
+		
+		waitingSucc.jiAppendAddNextNodeStatement_WaitingPlaceToNode(workflowInstantiator, "waiting");
+		
+		if(triggerSucc != null)
+			triggerSucc.jiAppendAddNextNodeStatement_WaitingPlaceToNode(workflowInstantiator, "trigger");
+	}*/
 }

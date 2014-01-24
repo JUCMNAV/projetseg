@@ -28,7 +28,7 @@ public class Timer_with_timeoutpathWorkflowInstantiator extends WorkflowInstanti
         _SP.addNextNode(_TheInput);
         _Timer.addNextNode("cond1",_TheOuput);
         _Timer.addNextNode("cond2",_timerInput);
-        _Timer.addNextNode(_Ep3);
+        _Timer.addNextNode(_Ep3,"release");
         _timerInput.addNextNode(_ProcesstimerInput);
         _Sp3.addNextNode(_Timer);
         _ProcesstimerInput.addNextNode(_Ep2);

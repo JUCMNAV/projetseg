@@ -321,6 +321,12 @@ public interface IwNodeConnection extends EObject {
 	boolean isSourceEndPoint();
 	boolean hasLabel();
 	void appendLabel(StepView stepView, String label);
+	boolean hasTriggerLabel();
+	void jiAppendAddNextNodeStatement_WaitingPlaceToNode(
+			WorkflowInstantiator workflowInstantiator, String inPathName);
+	
+	void jiAppendAddNextNodeStatementWithLabel(
+			WorkflowInstantiator workflowInstantiator);
 
 
 } // IwNodeConnection

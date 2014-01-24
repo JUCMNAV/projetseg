@@ -7,6 +7,7 @@
 package ucm.map.impl;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 import ucm.map.Timer;
 import ucm.map.WaitKind;
 

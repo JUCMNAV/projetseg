@@ -89,10 +89,10 @@ digraph "TheInput"{
             </table>>
         ]
         "Timer_with_trigger_at_endpoint_Sp2"->"Timer_with_trigger_at_endpoint_Ep2"
-        "Timer_with_trigger_at_endpoint_Ep2"->"Timer_with_trigger_at_endpoint_Timer"
+        "Timer_with_trigger_at_endpoint_Ep2"->"Timer_with_trigger_at_endpoint_Timer"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0"><tr><td>trigger</td></tr></table>>]
         "Timer_with_trigger_at_endpoint_SP"->"Timer_with_trigger_at_endpoint_TheInput"
         "Timer_with_trigger_at_endpoint_TheInput"->"Timer_with_trigger_at_endpoint_Timer"
-        "Timer_with_trigger_at_endpoint_Timer"->"Timer_with_trigger_at_endpoint_TheOuput"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>cond1</td></tr></table>>]
+        "Timer_with_trigger_at_endpoint_Timer"->"Timer_with_trigger_at_endpoint_TheOuput"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0"><tr><td>cond1</td></tr></table>>]
         "Timer_with_trigger_at_endpoint_TheOuput"->"Timer_with_trigger_at_endpoint_EP"
     }
 }

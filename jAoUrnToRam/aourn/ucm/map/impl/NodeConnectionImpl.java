@@ -74,6 +74,45 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 	public void build() {
 		iwNodeConnection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		iwNodeConnection.setConditionName(conditionLabel());
+		
+		if(isTargetWaitingPlace()) 
+			setWaitingPlaceSuccLabel();
+	}
+	
+	private boolean isTargetWaitingPlace() {
+		return target.getClass() == WaitingPlaceImpl.class;
+	}
+	
+	private boolean isTargetConnect() {
+		return target.getClass() == ConnectImpl.class;
+	}
+	
+	private void setWaitingPlaceSuccLabel() {
+		if(onWaitingPath()) {
+			iwNodeConnection.setLabel("waiting");
+		}
+		else if(onTriggerPath()) {
+			iwNodeConnection.setLabel("trigger");
+		}
+	}
+	
+	private boolean onWaitingPath() {
+		PathNode target = targetAsPathNode();
+		NodeConnection targetFirstPred = target.getPred(0);
+		
+		if(targetFirstPred == null) 
+			return false;
+		
+		return this == targetFirstPred;
+	}
+	
+	private boolean onTriggerPath() {
+		PathNode target = targetAsPathNode();
+		NodeConnection targetSecondPred = target.getPred(1);
+		
+		if(targetSecondPred == null) return false;
+		
+		return this == targetSecondPred;
 	}
 	
 	@Override
@@ -89,7 +128,11 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 		
 		iwNodeConnection.setSource(sourceExitNode);		
 		iwNodeConnection.setTarget(iwSingleTarget());
-		iwNodeConnection.setTrigger(iwIsTrigger());
+		
+		if(isTargetConnect()) {
+			iwNodeConnection.setLabel("trigger");
+		}
+		//iwNodeConnection.setTrigger(iwIsTrigger());
 	}
 	
 	@Override
@@ -99,7 +142,11 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 		
 		iwNodeConnection.setSource(iwSource);		
 		iwNodeConnection.setTarget(iwSingleTarget());
-		iwNodeConnection.setTrigger(iwIsTrigger());
+		
+		if(isTargetConnect()) {
+			iwNodeConnection.setLabel("trigger");
+		}
+		//iwNodeConnection.setTrigger(iwIsTrigger());
 	}
 
 	@Override
@@ -142,7 +189,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 
 	@Override
 	public Boolean iwIsTrigger() {
-		if(getTarget() instanceof Connect) 
+		if(getTarget().getClass() == ConnectImpl.class) 
 			return true;
 		else {
 			if(targetAsPathNode().iwHasNodes()) 
@@ -170,7 +217,10 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 
 	@Override
 	public PathNode targetAsPathNode() {
-		return (PathNode)target;
+		if(target instanceof PathNode)
+			return (PathNode)target;
+		else
+			return null;
 	}
 
 	@Override

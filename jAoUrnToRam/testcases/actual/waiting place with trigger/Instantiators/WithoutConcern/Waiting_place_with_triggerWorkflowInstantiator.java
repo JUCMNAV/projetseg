@@ -11,6 +11,7 @@ public class Waiting_place_with_triggerWorkflowInstantiator extends WorkflowInst
     public CustomizableNode _TheOuput=createCustomizableNode("waiting place with trigger.Steps.WithoutConcern.TheInput.TheOuput");
     public ConditionalSynchronizationNode _Wp=new ConditionalSynchronizationNode(true);
     public StartupNode _Sp2=new StartupNode();
+    public ParallelExecutionNode _ImplicitAndFork=new ParallelExecutionNode();
     public EndNode _Ep2=new EndNode();
 
     public void link(){
@@ -21,11 +22,12 @@ public class Waiting_place_with_triggerWorkflowInstantiator extends WorkflowInst
 
     public void linkNodesToNextNodes(){
         _SP.addNextNode(_TheInput);
-        _TheInput.addNextNode(_Wp);
+        _TheInput.addNextNode(_Wp,"waiting");
         _TheOuput.addNextNode(_EP);
         _Wp.addNextNode("",_TheOuput);
-        _Wp.addNextNode(_Ep2);
-        _Sp2.addNextNode(_Wp);
+        _Sp2.addNextNode(_ImplicitAndFork);
+        _ImplicitAndFork.addNextNode(_Wp,"trigger");
+        _ImplicitAndFork.addNextNode(_Ep2);
     }
 
     public void linkNodesToWorkflow(){
@@ -35,6 +37,7 @@ public class Waiting_place_with_triggerWorkflowInstantiator extends WorkflowInst
         workflow.addNode(_TheOuput);
         workflow.addNode(_Wp);
         workflow.addNode(_Sp2);
+        workflow.addNode(_ImplicitAndFork);
         workflow.addNode(_Ep2);
     }
 

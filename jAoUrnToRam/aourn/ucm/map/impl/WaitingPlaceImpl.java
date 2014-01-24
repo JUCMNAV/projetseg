@@ -6,22 +6,20 @@
  */
 package ucm.map.impl;
 
-import java.util.List;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwWaitingPlace;
+import intermediateWorkflow.IwWorkflow;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 import ucm.map.WaitKind;
 import ucm.map.WaitingPlace;
 
@@ -57,48 +55,18 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
 	@Override
 	public void linkTriggerPath(NodeConnection pred, NodeConnection succ) {
 		IwNodeConnection iwPred = pred.getIwNodeConnection();
-		//IwNodeConnection iwSucc = succ.getIwNodeConnection();
 		
-		PathNode target = (PathNode)succ.getTarget();
+		PathNode target = succ.targetAsPathNode();
+		if(target == null) return;
+		
 		IwNode iwTarget = target.getIwEquivalentNode();
 		
-		iwWaitingPlace.linkTriggerPath(iwPred, iwTarget);
-	}
-	
-	/*@Override
-	public void invokeBuildOnNodeConnections() {
-		//for(NodeConnection nodeConnection: succAsNodeConnection()){
-			//nodeConnection.build();
-		//}
-		if(hasTriggerPathAtEmptyPoint()) {
-			NodeConnection waitingPathSucc = getWaitingPathSucc();
-			waitingPathSucc.build();
+		UCMmap map = getUCMmap();
+		IwWorkflow iwWorkflow = map.getIwWorkflow();
 		
-			NodeConnection triggerPathSucc = getTriggerPathSucc();
-			triggerPathSucc.build("trigger");
-		} else {
-			super.invokeBuildOnNodeConnections();
-		}
-	}*/
-	
-	/*public boolean hasTriggerPathAtEmptyPoint(){
-		return false;
+		iwWaitingPlace.linkTriggerPath(iwPred, iwTarget, iwWorkflow);
 	}
-	
-	
-	public NodeConnection getWaitingPathSucc() {
-		List<NodeConnection> nodeConnection = succAsNodeConnection();
-		NodeConnection succ = nodeConnection.get(0);
-		return succ;
-	}
-	
-	public NodeConnection getTriggerPathSucc() {
-		List<NodeConnection> nodeConnection = succAsNodeConnection();
-		NodeConnection succ = nodeConnection.get(1);
-		return succ;
-	}*/
-	
-	
+		
 	/**
 	 * The default value of the '{@link #getWaitType() <em>Wait Type</em>}' attribute.
 	 * <!-- begin-user-doc -->

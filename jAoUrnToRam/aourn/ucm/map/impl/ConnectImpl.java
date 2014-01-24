@@ -9,6 +9,7 @@ package ucm.map.impl;
 import java.util.List;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwAndFork;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwWaitingPlace;
 import intermediateWorkflow.IwNodeConnection;
@@ -36,76 +37,15 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
 	
 	@Override
 	public void linkTriggerPath(NodeConnection pred, NodeConnection succ) {
-		WaitingPlace waitingPlace = getWaitingPlace();
+		PathNode nextNode = getNext(0);
 		
-		if(waitingPlace != null)
+		if(nextNode == null) return;
+		
+		if(nextNode instanceof  WaitingPlace) {
+			WaitingPlace waitingPlace = (WaitingPlace)nextNode;
 			waitingPlace.linkTriggerPath(pred, succ);
+		} 
 	}
-	
-	/*@Override
-	public void link(){
-		WaitingPlace waitingPlace = getWaitingPlace();
-		if(waitingPlace != null){
-			waitingPlace.linkTriggerPath();
-			
-			
-			/*IwWaitingPlace iwWaitingPlace = waitingPlace.getIwWaitingPlace();
-			IwNodeConnection iwPred = getIwNodConnection();
-			
-			List<IwNodeConnection> iwWaitingPlacePreds = iwWaitingPlace.getPreds();
-			iwWaitingPlacePreds.add(iwPred);
-			
-			IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
-			
-			PathNode target = nextNode();
-			IwNode iwTarget = target.getIwEquivalentNode();
-			
-			iwSucc.setTarget(iwTarget);
-			iwWaitingPlace.addSucc(iwSucc);
-		} else {
-			super.link();
-		}
-	}*/
-	
-	/*private PathNode nextNode(){
-		NodeConnection succ = getFirstSucc();
-		PathNode target = (PathNode)succ.getTarget();
-		
-		return target;
-	}
-	
-	private IwNodeConnection getIwNodConnection(){
-		NodeConnection pred = getFirstPred();
-		IwNodeConnection iwPred = pred.getIwNodeConnection();
-		
-		return iwPred;
-	}*/
-	
-	
-	@Override
-	public WaitingPlace getWaitingPlace() {
-		IURNConnection firstSucc = getFirstSucc();
-		IURNNode target = firstSucc.getTarget();
-		
-		WaitingPlace waitingPlace = null;
-		if(target instanceof WaitingPlace){
-			waitingPlace = (WaitingPlace)target;
-		}
-		return waitingPlace;
-	}
-	
-	@Override
-	public Timer getTimer() {
-		IURNConnection firstSucc = this.getFirstSucc();
-		IURNNode target = firstSucc.getTarget();
-		
-		Timer timer = null;
-		if(target instanceof Timer){
-			timer = (Timer)target;
-		}
-		return timer;
-	}
-	
 	
 	/**
 	 * <!-- begin-user-doc -->

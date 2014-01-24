@@ -71,16 +71,62 @@ import urncore.impl.UCMmodelElementImpl;
 public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNode {
 	
 	@Override
+	public boolean isConnect(){
+		return getClass() == ConnectImpl.class;
+	}
+	
+	@Override
 	public int getNumSucc(){
-		List<IURNConnection> succs = getSucc();
-		int size = succs.size();
-		
+		EList<IURNConnection> allSuccs = getSucc();
+		int size = allSuccs.size();
+		return size;
+	}
+	
+	@Override
+	public int getNumPred(){
+		EList<IURNConnection> allPreds = getPred();
+		int size = allPreds.size();
 		return size;
 	}
 	
 	@Override
 	public NodeConnection getSucc(int index){
-		return (NodeConnection)getSucc().get(index);
+		int numSuccs = getNumSucc();
+		if(index >= numSuccs)
+			return null;
+		
+		EList<IURNConnection> allSuccs = getSucc();
+		IURNConnection succAtIndex = allSuccs.get(index);
+		
+		if(succAtIndex instanceof NodeConnection) 
+			return (NodeConnection)succAtIndex;
+		else
+			return null;
+	}
+	
+	@Override
+	public PathNode getNext(int index) {
+		NodeConnection succ = getSucc(index);
+		if(succ == null)
+			return null;
+		
+		PathNode nextNode = succ.targetAsPathNode();
+		return nextNode;
+	}
+	
+	@Override
+	public NodeConnection getPred(int index) {
+		int numPreds = getNumPred();
+		if(index >= numPreds)
+			return null;
+		
+		EList<IURNConnection> allPreds = getPred();
+		IURNConnection predAtIndex = allPreds.get(index);
+		
+		if(predAtIndex instanceof NodeConnection) 
+			return (NodeConnection)predAtIndex;
+		else
+			return null;
 	}
 	
 	@Override

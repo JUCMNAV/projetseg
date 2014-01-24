@@ -210,5 +210,8 @@ public interface NodeConnection extends IURNConnection {
 	EList<InBinding> getInBindingsPlugin();
 	void linkTimerSource();
 	void build(String label);
+	//boolean isTargetWaitingPlace();
+	//boolean onWaitingPath();
+	//boolean onTriggerPath();
 
 } // NodeConnection

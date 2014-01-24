@@ -681,6 +681,11 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		return result.toString();
 	}
 
+	@Override
+	public void addNode(IwNode node) {
+		getNodes().add(node);
+	}
+
 	
 
 } //IwWorkflowImpl
