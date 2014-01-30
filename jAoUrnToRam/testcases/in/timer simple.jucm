@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="January 13, 2014 1:41:49 PM EST" specVersion="27" urnVersion="0.925" nextGlobalID="64">
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="January 26, 2014 5:07:07 PM EST" specVersion="28" urnVersion="0.925" nextGlobalID="64">
   <ucmspec>
     <scenarioGroups id="5" name="ScenarioGroup5">
       <scenarios id="6" name="ScenarioDef6"/>
@@ -42,7 +42,7 @@
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.2" target="//@urndef/@specDiagrams.0/@nodes.4"/>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.1" target="//@urndef/@specDiagrams.0/@nodes.0"/>
       <connections xsi:type="ucm.map:NodeConnection" source="//@urndef/@specDiagrams.0/@nodes.4" target="//@urndef/@specDiagrams.0/@nodes.1">
-        <condition deltaX="19" deltaY="-6" label="cond" expression="true" description=""/>
+        <condition deltaX="33" deltaY="-10" label="cond" expression="true" description=""/>
       </connections>
     </specDiagrams>
   </urndef>
