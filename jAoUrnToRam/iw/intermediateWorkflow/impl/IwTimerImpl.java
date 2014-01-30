@@ -6,14 +6,15 @@
  */
 package intermediateWorkflow.impl;
 
-import intermediateWorkflow.IntermediateWorkflowFactory;
+import java.util.List;
+
 import intermediateWorkflow.IntermediateWorkflowPackage;
-import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwTimer;
-import intermediateWorkflow.IwWorkflow;
 import iwToJavaInstantiator.NodeInstantiationStrategy;
-import iwToJavaInstantiator.WaitingplaceNodeInstantiatorStrategy;
+import iwToJavaInstantiator.TimedSynchronizationNodeInstantiatorStrategy;
+import iwToStepView.StepView;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -28,13 +29,21 @@ import org.eclipse.emf.ecore.EClass;
 public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
 	@Override
-	public void linkTriggerPath(IwNodeConnection iwPred, IwNode iwTarget, IwWorkflow workflow) {
-		addPred(iwPred);
+	public void appendEdges(StepView stepView) {
+		List<IwNodeConnection> nodeConnections = getNodeConnectionFromCurrentStep(stepView);
 		
-		IwNodeConnection iwSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
-		iwSucc.setLabel("release");
-		iwSucc.setTarget(iwTarget);
-		addSucc(iwSucc);
+		IwNodeConnection regularSucc = nodeConnections.get(0);
+		regularSucc.appendTimerSucc(stepView);
+		
+		if(hasTimeoutPath()) {
+			IwNodeConnection timeoutSucc = nodeConnections.get(1);
+			timeoutSucc.appendTimeoutpathSucc(stepView);
+		}
+	}
+	
+	@Override
+	public boolean hasTimeoutPath() {
+		return this.succs.size() == 2;
 	}
 	
 	@Override
@@ -44,8 +53,7 @@ public class IwTimerImpl extends IwWaitingPlaceImpl implements IwTimer {
 	
 	@Override
 	public  NodeInstantiationStrategy createStrategy() {
-		//return new WorkflowNodeInstantiationStrategy(this, "TimedSynchronizationNode");
-		return new WaitingplaceNodeInstantiatorStrategy(this, "TimedSynchronizationNode", getTransient());
+		return new TimedSynchronizationNodeInstantiatorStrategy(this, "TimedSynchronizationNode", getTransient());
 	}
 	
 	/*@Override
