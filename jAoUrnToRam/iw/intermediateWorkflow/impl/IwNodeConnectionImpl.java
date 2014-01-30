@@ -21,20 +21,14 @@ import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwOutBinding;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwStub;
-import intermediateWorkflow.IwTimer;
-import intermediateWorkflow.IwWaitingPlace;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -81,27 +75,48 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		
 		stepView.append("        ");
 		stepView.append(getSourcePortDotEscaped(stepView));
+		stepView.append("->");
+		stepView.append(getTargetPortDotEscaped(stepView));
+
+		if(hasLabel()) {
+			appendLabel(stepView);
+		}
+		else if(hasCondition()){
+			appendCondition(stepView);
+		}
+	}
+	
+	@Override
+	public void appendTimerSucc(StepView stepView) {
+		stepView.append("        ");
+		stepView.append(getSourcePortDotEscaped(stepView));
+		
+		stepView.append("->");
+	
+		stepView.append(getTargetPortDotEscaped(stepView));
+		
+		if(hasCondition()){
+			appendCondition(stepView);
+		}
+	}
+	
+	@Override 
+	public void appendTimeoutpathSucc(StepView stepView){
+		stepView.append("        ");
+		stepView.append(getSourcePortDotEscaped(stepView));
 		
 		stepView.append("->");
 	
 		stepView.append(getTargetPortDotEscaped(stepView));
 
-		//if(hasCondition()) 
-			//appendConnectionLabel(stepView);
-		
-		if(hasCondition()) {
-			String condition = getConditionName();
-			appendLabel(stepView, condition);
-		}
-		if(hasLabel()){
-			String label = getLabel();
-			appendLabel(stepView, label);
+		if(hasLabel()) {
+			appendLabel(stepView);
 		}
 	}
 	
 	@Override
 	public boolean isSourceEndPoint() {
-		return getSource() instanceof IwEndPoint;
+		return getSource().getClass() == IwEndPointImpl.class;
 	}
 	
 	@Override
@@ -110,17 +125,17 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	}
 	
 	@Override
-	public void appendLabel(StepView stepView, String label) {
+	public void appendLabel(StepView stepView) {
 		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
 		//stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"");
 		//stepView.append(" bgcolor=\""+stepView.getCustomizableClassColor()+"\">");
 		stepView.append("<tr><td>");
-		stepView.append(label);
+		stepView.append(getLabel());
 		stepView.append("</td></tr></table>>]");
 	}
 	
 	@Override
-	public void appendConnectionLabel(StepView stepView) {
+	public void appendCondition(StepView stepView) {
 		stepView.append("[label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\"");
 		stepView.append(" bgcolor=\""+stepView.getCustomizableClassColor()+"\">");
 		stepView.append("<tr><td>");
@@ -178,10 +193,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	/*********** iw to java instantiator ***********************/
 	@Override
 	public void jiAppendAddNextNodeStatements(WorkflowInstantiator workflowInstantiator) {
-		if(hasCondition()) {
-			jiAppendAddNextNodeStatementWithCondition(workflowInstantiator);
-		} else if(hasLabel()) {
+		if(hasLabel()) {
 			jiAppendAddNextNodeStatementWithLabel(workflowInstantiator);
+		} 
+		else if(hasCondition()) {
+			jiAppendAddNextNodeStatementWithCondition(workflowInstantiator);
 		}
 		else {
 			jiAppendAddNextNodeStatementWithoutCondition(workflowInstantiator);
@@ -195,7 +211,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	public void jiAppendAddNextNodeStatementWithCondition(WorkflowInstantiator workflowInstantiator) {
 		if(hasStubEntryIndex()) {
 			jiAppendAddNextNodeStatement_OrForkToStub(workflowInstantiator);
-		} else {
+		} 
+		else {
 			jiAppendAddNextNodeStatement_OrForkToNode(workflowInstantiator);
 		}
 	}
@@ -268,6 +285,16 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				jiAddNextNodeMethodName(),
 				getTarget().jiMemberName(),
 				quote(getLabel())
+		);
+	}	
+	
+	@Override
+	public void jiAppendAddNextNodeStatementWithOutPathAndLabel(WorkflowInstantiator workflowInstantiator) {
+		workflowInstantiator.appendMethodInvocationOn_2Params(
+				getSource().jiMemberName(),
+				jiAddNextNodeMethodName(),
+				quote(getLabel()),
+				getTarget().jiMemberName()
 		);
 	}	
 	
