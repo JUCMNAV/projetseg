@@ -41,7 +41,7 @@ public interface IwNodeConnection extends EObject {
 	/*********** Step View Transformation ***********************/
 	void appendNodeConnection(StepView stepView);
 	boolean isFromCurrentStep(StepView stepView);
-	void appendConnectionLabel(StepView stepView);
+	void appendCondition(StepView stepView);
 	String getSourcePortDotEscaped(StepView stepView);
 	String getTargetPortDotEscaped(StepView stepView);
 	boolean isTargetAnAspectMarker();
@@ -320,13 +320,19 @@ public interface IwNodeConnection extends EObject {
 	void setLabel(String value);
 	boolean isSourceEndPoint();
 	boolean hasLabel();
-	void appendLabel(StepView stepView, String label);
+	//void appendConnectionWithLabel(StepView stepView, String label);
 	boolean hasTriggerLabel();
 	void jiAppendAddNextNodeStatement_WaitingPlaceToNode(
 			WorkflowInstantiator workflowInstantiator, String inPathName);
 	
 	void jiAppendAddNextNodeStatementWithLabel(
 			WorkflowInstantiator workflowInstantiator);
+	void appendLabel(StepView stepView);
+	void jiAppendAddNextNodeStatementWithOutPathAndLabel(
+			WorkflowInstantiator workflowInstantiator);
+	void appendTimerSucc(StepView stepView);
+	void appendTimeoutpathSucc(StepView stepView);
+
 
 
 } // IwNodeConnection
