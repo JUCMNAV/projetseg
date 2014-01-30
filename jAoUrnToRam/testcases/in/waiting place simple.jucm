@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="January 24, 2014 2:11:40 AM EST" specVersion="23" urnVersion="0.925" nextGlobalID="60">
+<urn:URNspec xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ucm.map="http:///ucm/map.ecore" xmlns:urn="http:///urn.ecore" name="URNspec" author="Administrator" created="December 18, 2013 4:19:25 AM EST" modified="January 24, 2014 9:23:42 AM EST" specVersion="24" urnVersion="0.925" nextGlobalID="62">
   <ucmspec>
     <scenarioGroups id="5" name="ScenarioGroup5">
-      <scenarios id="6" name="ScenarioDef6"/>
+      <scenarios id="6" name="ScenarioDef6">
+        <initializations value="false" variable="//@ucmspec/@variables.0"/>
+        <initializations value="0" variable="//@ucmspec/@variables.1"/>
+      </scenarios>
     </scenarioGroups>
+    <variables id="61" name="x"/>
+    <variables id="62" name="y" type="integer"/>
   </ucmspec>
   <grlspec>
     <groups id="3" name="StrategiesGroup3" strategies="//@grlspec/@strategies.0"/>
