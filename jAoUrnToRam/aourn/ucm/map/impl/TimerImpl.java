@@ -107,6 +107,7 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 			if(i==0) { //node at i is the IwTimer and node at i+1 is first node of timeoutpath. 
 				String label = getTimeoupathConditionLabel();
 				connection.setConditionName(label);
+				connection.setLabel("timeout");
 			}
 			connection.setSource(_iwNodes.get(i));
 			connection.setTarget(_iwNodes.get(i+1));
