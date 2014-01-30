@@ -16,7 +16,7 @@ public class AoUrnToRamTestCases {
 	private static final String TIMER_WITH_TRIGGER = "testcases\\in\\timer with trigger.jucm";
 	private static final String TIMER_WITH_TRIGGER_AT_ENDPOINT = "testcases\\in\\timer with trigger at endpoint.jucm";
 	private static final String TIMER_TIMEOUTPATH = "testcases\\in\\timer with timeoutpath.jucm";
-	private static final String TIMER_WITH_TRIGGER_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger and timeoutpath.jucm";
+	private static final String TIMER_WITH_TRIGGER_AND_TIMEOUTPATH = "testcases\\in\\TimerWithAsyncTriggerAndTimeout.jucm";
 	private static final String TIMER_WITH_TRIGGER_AT_ENDPOINT_AND_TIMEOUTPATH = "testcases\\in\\timer with trigger at endpoint and timeoutpath.jucm";
 	private static final String AND_JOIN = "testcases\\in\\andjoin.jucm";
 	
