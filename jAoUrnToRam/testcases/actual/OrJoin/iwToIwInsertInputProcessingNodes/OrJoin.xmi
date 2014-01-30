@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="OrJoin">
+  <concerns name="WithoutConcern">
+    <workflows name="Base" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.2 //@concerns.0/@workflows.0/@nodes.6 //@concerns.0/@workflows.0/@nodes.8">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S1" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="I1" preds="//@concerns.0/@workflows.0/@nodes.0/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.10"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S4" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.3"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="I4" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.11"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="E1" preds="//@concerns.0/@workflows.0/@nodes.5/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwStub" name="TheStub" preds="//@concerns.0/@workflows.0/@nodes.10/@succs.0 //@concerns.0/@workflows.0/@nodes.11/@succs.0 //@concerns.0/@workflows.0/@nodes.12/@succs.0 //@concerns.0/@workflows.0/@nodes.13/@succs.0" stubType="static">
+        <succs target="//@concerns.0/@workflows.0/@nodes.4" outBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@outBindings.0" stubExitIndexAsString="1"/>
+        <pluginBindings>
+          <inBindings disjunctiveStubEntries="//@concerns.0/@workflows.0/@nodes.10/@succs.0 //@concerns.0/@workflows.0/@nodes.12/@succs.0 //@concerns.0/@workflows.0/@nodes.13/@succs.0" pluginStartPoint="//@concerns.0/@workflows.1/@nodes.0"/>
+          <inBindings disjunctiveStubEntries="//@concerns.0/@workflows.0/@nodes.11/@succs.0" pluginStartPoint="//@concerns.0/@workflows.1/@nodes.2"/>
+          <outBindings stubExit="//@concerns.0/@workflows.0/@nodes.5/@succs.0" pluginEndPoint="//@concerns.0/@workflows.1/@nodes.1"/>
+        </pluginBindings>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S2" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.7"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="I2" preds="//@concerns.0/@workflows.0/@nodes.6/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.12"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S3" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.9"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwInput" name="I3" preds="//@concerns.0/@workflows.0/@nodes.8/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.13"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="ProcessI1" preds="//@concerns.0/@workflows.0/@nodes.1/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.5" inBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="ProcessI4" preds="//@concerns.0/@workflows.0/@nodes.3/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.5" inBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.1" stubEntryIndexAsString="1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="ProcessI2" preds="//@concerns.0/@workflows.0/@nodes.7/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.5" inBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="ProcessI3" preds="//@concerns.0/@workflows.0/@nodes.9/@succs.0">
+        <succs target="//@concerns.0/@workflows.0/@nodes.5" inBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="2"/>
+      </nodes>
+    </workflows>
+    <workflows name="Plugin" startPoints="//@concerns.0/@workflows.1/@nodes.0 //@concerns.0/@workflows.1/@nodes.2">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S10" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0">
+        <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="E10" preds="//@concerns.0/@workflows.1/@nodes.0/@succs.0 //@concerns.0/@workflows.1/@nodes.2/@succs.0" outBindings="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@outBindings.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S11" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.1">
+        <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
+      </nodes>
+    </workflows>
+  </concerns>
+</intermediateWorkflow:IwModel>

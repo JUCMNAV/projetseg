@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_4uaqAIn0EeOP_JMHvivE2g" name="S1">
+  <structuralView xmi:id="_4uaqAYn0EeOP_JMHvivE2g">
+    <classes xsi:type="ram:Class" xmi:id="_4uaqAon0EeOP_JMHvivE2g" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_4uaqA4n0EeOP_JMHvivE2g" name="R1">
+      <operations xmi:id="_4uaqBIn0EeOP_JMHvivE2g" name="execute" returnType="_4uaqBon0EeOP_JMHvivE2g">
+        <parameters xmi:id="_4uaqBYn0EeOP_JMHvivE2g" name="c" type="_4uaqAon0EeOP_JMHvivE2g"/>
+      </operations>
+    </classes>
+    <types xsi:type="ram:RVoid" xmi:id="_4uaqBon0EeOP_JMHvivE2g"/>
+  </structuralView>
+  <instantiations xmi:id="_4uaqB4n0EeOP_JMHvivE2g" type="Extends">
+    <mappings xmi:id="_4uaqCIn0EeOP_JMHvivE2g" toElement="_4uaqA4n0EeOP_JMHvivE2g">
+      <operationMappings xmi:id="_4uaqCYn0EeOP_JMHvivE2g" toElement="_4uaqBIn0EeOP_JMHvivE2g">
+        <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/StartupNodeAndSharedResp/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
+      </operationMappings>
+      <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/StartupNodeAndSharedResp/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
+    </mappings>
+    <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/StartupNodeAndSharedResp/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
+  </instantiations>
+</ram:Aspect>

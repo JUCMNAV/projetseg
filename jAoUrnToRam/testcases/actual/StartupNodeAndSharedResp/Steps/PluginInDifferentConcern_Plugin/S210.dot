@@ -1,0 +1,43 @@
+digraph "S210"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Plugin_StepWillHaveStartPointName"{
+        label="Plugin_StepWillHaveStartPointName"
+
+        "Plugin_StepWillHaveStartPointName_R210"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R210</td>
+                </tr>
+            </table>>
+        ]
+
+        "Plugin_StepWillHaveStartPointName_E210"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E210</td>
+                </tr>
+            </table>>
+        ]
+        "Plugin_StepWillHaveStartPointName_R210"->"Plugin_StepWillHaveStartPointName_E210"
+    }
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442->"Plugin_StepWillHaveStartPointName_R210"[style=dashed,arrowhead=onormal]
+    "Plugin_StepWillHaveStartPointName_E210"->StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[style=dashed,arrowhead=onormal]
+
+    StubsFromOtherConcernsPlaceholder_80C8D3AF_486D_4EB9_8A4A_B63B09537442[label="*",style=dashed]
+}
+

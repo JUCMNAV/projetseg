@@ -1,0 +1,51 @@
+digraph "SecondIn"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_AllFeatures"{
+        label="AllFeatures"
+
+        "AllFeatures_SecondIn"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">SecondIn</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_ProcessSecondIn"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessSecondIn</td>
+                </tr>
+            </table>>
+        ]
+
+        "AllFeatures_NoInputUntilTheEnd"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">NoInputUntilTheEnd</td>
+                </tr>
+            </table>>
+        ]
+        "AllFeatures_SecondIn"->"AllFeatures_ProcessSecondIn"
+        "AllFeatures_ProcessSecondIn"->"AllFeatures_NoInputUntilTheEnd"
+    }
+}
+

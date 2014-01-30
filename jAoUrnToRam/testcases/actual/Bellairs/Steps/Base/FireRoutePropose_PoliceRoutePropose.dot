@@ -1,0 +1,132 @@
+digraph "FireRoutePropose_PoliceRoutePropose"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_ProposeRoute"{
+        label="ProposeRoute"
+
+        "ProposeRoute_FireRoutePropose"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">FireRoutePropose</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_ProcessFireRoutePropose"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessFireRoutePropose</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_PoliceRoutePropose"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Input16.gif"></img></td>
+                    <td align="center" width="0">PoliceRoutePropose</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_ProcessPoliceRoutePropose"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">ProcessPoliceRoutePropose</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_OrJoin115953"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\AndJoin16.gif"></img></td>
+                    <td align="center" width="0">OrJoin115953</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_OrFork117115"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">OrFork117115</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_ProposedRouteToFSC"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">ProposedRouteToFSC</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_AlertFSCNotCoordinated"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Output16.gif"></img></td>
+                    <td align="center" width="0">AlertFSCNotCoordinated</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_RoutesNotCoordinated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">RoutesNotCoordinated</td>
+                </tr>
+            </table>>
+        ]
+
+        "ProposeRoute_FSCDidntAgree"[label="FSCDidntAgree_RequestFireRoute_RequestPoliceRoute\nFSCDidntAgree",style=dashed]
+        "ProposeRoute_FireRoutePropose"->"ProposeRoute_ProcessFireRoutePropose"
+        "ProposeRoute_ProcessFireRoutePropose"->"ProposeRoute_OrJoin115953"
+        "ProposeRoute_PoliceRoutePropose"->"ProposeRoute_ProcessPoliceRoutePropose"
+        "ProposeRoute_ProcessPoliceRoutePropose"->"ProposeRoute_OrJoin115953"
+        "ProposeRoute_OrJoin115953"->"ProposeRoute_OrFork117115"
+        "ProposeRoute_OrFork117115"->"ProposeRoute_ProposedRouteToFSC"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>else</td></tr></table>>]
+        "ProposeRoute_OrFork117115"->"ProposeRoute_AlertFSCNotCoordinated"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>noRouteProposed</td></tr></table>>]
+        "ProposeRoute_ProposedRouteToFSC"->"ProposeRoute_FSCDidntAgree"
+        "ProposeRoute_AlertFSCNotCoordinated"->"ProposeRoute_RoutesNotCoordinated"
+    }
+}
+
