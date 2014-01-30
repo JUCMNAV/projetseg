@@ -85,7 +85,6 @@ public class IwWaitingPlaceImpl extends IwNodeImpl implements IwWaitingPlace {
 		impAfSuccToWp.setLabel("trigger");
 		impAfSuccToWp.setTarget(this);
 		
-		
 		IwNodeConnection impAfSucc = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		impAfSucc.setSource(implicitAndFork);
 		impAfSucc.setTarget(iwTarget);
