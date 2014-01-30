@@ -23,6 +23,8 @@ import ucm.map.NodeConnection;
  */
 public interface IwTimer extends IwWaitingPlace {
 
+	boolean hasTimeoutPath();
+
 	//boolean hasTimeoutPath();
 
 	//NodeConnection getTimeoutSucc();
