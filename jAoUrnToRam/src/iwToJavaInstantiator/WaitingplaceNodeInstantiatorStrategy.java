@@ -6,7 +6,7 @@ import intermediateWorkflow.IwWaitingPlace;
 
 public class WaitingplaceNodeInstantiatorStrategy extends WorkflowNodeInstantiationStrategy {
 	
-	private Boolean _isTransient;
+	protected Boolean _isTransient;
 	
 	public WaitingplaceNodeInstantiatorStrategy(IwNode node, String workflowNodeType, Boolean isTransient) {
 		super(node, workflowNodeType);
@@ -24,18 +24,21 @@ public class WaitingplaceNodeInstantiatorStrategy extends WorkflowNodeInstantiat
 		workflowInstantiator.appendPublicMember_1Param(workflowNodeType, getNode().jiMemberName(), isTransientToString());
 	}
 	
-	/*@Override
+	@Override
 	public void jiAppendLinkNodesToNextNodesStatement(WorkflowInstantiator workflowInstantiator) {
-		//node.succs.each{succ|succ.jiAppendAddNextNodeStatements(workflowInstantiator)}
+		IwNodeConnection succ = node.getSucc(0); //waitingplace has only one succ
 		
-		IwWaitingPlace waitingPlace = (IwWaitingPlace)node;
+		succ.jiAppendAddNextNodeStatementWithoutCondition(workflowInstantiator);
 		
-		IwNodeConnection waitingSucc = waitingPlace.getWaitingSucc();
-		IwNodeConnection triggerSucc = waitingPlace.getTriggerSucc();
+		/*if(succ.hasLabel()) {
+			succ.jiAppendAddNextNodeStatementWithLabel(workflowInstantiator);
+		}
+		else {
+			
+		}*/
 		
-		waitingSucc.jiAppendAddNextNodeStatement_WaitingPlaceToNode(workflowInstantiator, "waiting");
-		
-		if(triggerSucc != null)
-			triggerSucc.jiAppendAddNextNodeStatement_WaitingPlaceToNode(workflowInstantiator, "trigger");
-	}*/
+		/*for(IwNodeConnection succ : node.getSuccs()) {
+			succ.jiAppendAddNextNodeStatements(workflowInstantiator);
+		}*/
+	}
 }
