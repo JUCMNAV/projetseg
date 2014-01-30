@@ -21,22 +21,18 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import ucm.map.Connect;
 import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
-
+import ucm.map.WaitingPlace;
 import urncore.Condition;
 import urncore.ConnectionLabel;
 import urncore.IURNDiagram;
@@ -75,19 +71,31 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 		iwNodeConnection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		iwNodeConnection.setConditionName(conditionLabel());
 		
+		if(isSourceTimer()) 
+			setTimerSuccLabel();
+		
 		if(isTargetWaitingPlace()) 
-			setWaitingPlaceSuccLabel();
+			setWaitingPlacePredLabel();
+	}
+	
+	private void setTimerSuccLabel() {
+		iwNodeConnection.setLabel("regular");
+	}
+	
+	private boolean isSourceTimer() {
+		return source.getClass() == TimerImpl.class;
 	}
 	
 	private boolean isTargetWaitingPlace() {
-		return target.getClass() == WaitingPlaceImpl.class;
+		//return target.getClass() == WaitingPlaceImpl.class;
+		return target instanceof WaitingPlace;
 	}
 	
 	private boolean isTargetConnect() {
 		return target.getClass() == ConnectImpl.class;
 	}
 	
-	private void setWaitingPlaceSuccLabel() {
+	private void setWaitingPlacePredLabel() {
 		if(onWaitingPath()) {
 			iwNodeConnection.setLabel("waiting");
 		}
