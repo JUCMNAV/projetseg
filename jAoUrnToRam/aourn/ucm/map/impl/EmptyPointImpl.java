@@ -6,17 +6,12 @@
  */
 package ucm.map.impl;
 
-import intermediateWorkflow.IntermediateWorkflowFactory;
-import intermediateWorkflow.IwAndFork;
-
 import org.eclipse.emf.ecore.EClass;
 import ucm.map.Connect;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
-import urncore.IURNConnection;
-import urncore.IURNNode;
 
 /**
  * <!-- begin-user-doc -->
