@@ -32,10 +32,10 @@ public class ExplicitAspectMarker_BaseWorkflowInstantiator extends WorkflowInsta
 
     public void bind(Demo2_Sp4_WithAutAspect.Instantiators.ExplicitAspectMarker.ExplicitAspectMarker_AspectWorkflowInstantiator p_ExplicitAspectMarker_Aspect){
 
-        Binding l_AspectMarker1148_PluginBinding=new Binding(p_ExplicitAspectMarker_Aspect.workflow);
-        _AspectMarker1148.addBinding(l_AspectMarker1148_PluginBinding);
-        _AspectMarker1148.addInBinding(l_AspectMarker1148_PluginBinding,"1",p_ExplicitAspectMarker_Aspect._TheOrFork);
-        _AspectMarker1148.addOutBinding(l_AspectMarker1148_PluginBinding,p_ExplicitAspectMarker_Aspect._E10,"1");
+        Binding AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding=new Binding(p_ExplicitAspectMarker_Aspect.workflow);
+        _AspectMarker1148.addBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding);
+        _AspectMarker1148.addInBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,"1",p_ExplicitAspectMarker_Aspect._TheOrFork);
+        _AspectMarker1148.addOutBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,p_ExplicitAspectMarker_Aspect._E10,"1");
     }
 }
 

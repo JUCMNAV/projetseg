@@ -42,15 +42,15 @@ public class PluginInDifferentConcern_BaseWorkflowInstantiator extends WorkflowI
     public void bind(StartupNodeAndSharedResp.Instantiators.PluginInDifferentConcern_Plugin.Plugin_StepWillHaveStartPointNameWorkflowInstantiator p_Plugin_StepWillHaveStartPointName,
                      StartupNodeAndSharedResp.Instantiators.PluginInDifferentConcern_Plugin.Plugin_StepWillNotHaveStartPointNameWorkflowInstantiator p_Plugin_StepWillNotHaveStartPointName){
 
-        Binding l_Invoke_StepWillHaveStartPointName_PluginBinding=new Binding(p_Plugin_StepWillHaveStartPointName.workflow);
-        _Invoke_StepWillHaveStartPointName.addBinding(l_Invoke_StepWillHaveStartPointName_PluginBinding);
-        _Invoke_StepWillHaveStartPointName.addInBinding(l_Invoke_StepWillHaveStartPointName_PluginBinding,"1",p_Plugin_StepWillHaveStartPointName._R210);
-        _Invoke_StepWillHaveStartPointName.addOutBinding(l_Invoke_StepWillHaveStartPointName_PluginBinding,p_Plugin_StepWillHaveStartPointName._E210,"1");
+        Binding Invoke_StepWillHaveStartPointName_Plugin_StepWillHaveStartPointName_PluginBinding=new Binding(p_Plugin_StepWillHaveStartPointName.workflow);
+        _Invoke_StepWillHaveStartPointName.addBinding(Invoke_StepWillHaveStartPointName_Plugin_StepWillHaveStartPointName_PluginBinding);
+        _Invoke_StepWillHaveStartPointName.addInBinding(Invoke_StepWillHaveStartPointName_Plugin_StepWillHaveStartPointName_PluginBinding,"1",p_Plugin_StepWillHaveStartPointName._R210);
+        _Invoke_StepWillHaveStartPointName.addOutBinding(Invoke_StepWillHaveStartPointName_Plugin_StepWillHaveStartPointName_PluginBinding,p_Plugin_StepWillHaveStartPointName._E210,"1");
 
-        Binding l_Invoke_StepWillNotHaveStartPointName_PluginBinding=new Binding(p_Plugin_StepWillNotHaveStartPointName.workflow);
-        _Invoke_StepWillNotHaveStartPointName.addBinding(l_Invoke_StepWillNotHaveStartPointName_PluginBinding);
-        _Invoke_StepWillNotHaveStartPointName.addInBinding(l_Invoke_StepWillNotHaveStartPointName_PluginBinding,"1",p_Plugin_StepWillNotHaveStartPointName._R220);
-        _Invoke_StepWillNotHaveStartPointName.addOutBinding(l_Invoke_StepWillNotHaveStartPointName_PluginBinding,p_Plugin_StepWillNotHaveStartPointName._E220,"1");
+        Binding Invoke_StepWillNotHaveStartPointName_Plugin_StepWillNotHaveStartPointName_PluginBinding=new Binding(p_Plugin_StepWillNotHaveStartPointName.workflow);
+        _Invoke_StepWillNotHaveStartPointName.addBinding(Invoke_StepWillNotHaveStartPointName_Plugin_StepWillNotHaveStartPointName_PluginBinding);
+        _Invoke_StepWillNotHaveStartPointName.addInBinding(Invoke_StepWillNotHaveStartPointName_Plugin_StepWillNotHaveStartPointName_PluginBinding,"1",p_Plugin_StepWillNotHaveStartPointName._R220);
+        _Invoke_StepWillNotHaveStartPointName.addOutBinding(Invoke_StepWillNotHaveStartPointName_Plugin_StepWillNotHaveStartPointName_PluginBinding,p_Plugin_StepWillNotHaveStartPointName._E220,"1");
     }
 }
 

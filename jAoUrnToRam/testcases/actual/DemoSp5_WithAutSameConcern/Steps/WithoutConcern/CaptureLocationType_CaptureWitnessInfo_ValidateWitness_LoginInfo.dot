@@ -52,7 +52,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
+                            <td port="in1" height="10">in1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -67,7 +67,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
+                            <td port="out1" height="10">out1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -105,7 +105,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
+                            <td port="in1" height="10">in1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -120,7 +120,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
+                            <td port="out1" height="10">out1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -158,7 +158,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
+                            <td port="in1" height="10">in1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -173,7 +173,7 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
+                            <td port="out1" height="10">out1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -295,64 +295,6 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
         "Capture_CrisisInfoRequest"->"Capture_CaptureLocationType"
     }
 
-    subgraph "cluster_Authentication"{
-        label="Authentication"
-
-        "Authentication_IsAlreadyAuthenticated"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
-                    <td align="center" width="0">IsAlreadyAuthenticated</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authentication_AuthenticationVerified"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">AuthenticationVerified</td>
-                </tr>
-            </table>>
-        ]
-
-        "Authentication_AuthenticateStub"[
-            shape=plaintext,
-            label=
-            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="in1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
-                    <td align="center" width="15">AuthenticateStub</td>
-                </tr>
-                    </table>
-                </td></tr>
-                <tr><td>
-                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
-                        <tr>
-                            <td port="out1" height="10"></td>
-                        </tr>
-                    </table>
-                </td></tr>
-            </table>>
-        ]
-        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
-        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticateStub":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
-        "Authentication_AuthenticateStub":out1->"Authentication_AuthenticationVerified"
-    }
-
     subgraph "cluster_Authenticate"{
         label="Authenticate"
 
@@ -419,6 +361,64 @@ digraph "CaptureLocationType_CaptureWitnessInfo_ValidateWitness_LoginInfo"{
         "Authenticate_IsAuthenticated"->"Authenticate_LoginRequest"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
         "Authenticate_IsAuthenticated"->"Authenticate_Authenticated"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
         "Authenticate_LoginRequest"->"Authenticate_LoginInfo"
+    }
+
+    subgraph "cluster_Authentication"{
+        label="Authentication"
+
+        "Authentication_IsAlreadyAuthenticated"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\OrFork16.gif"></img></td>
+                    <td align="center" width="0">IsAlreadyAuthenticated</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticationVerified"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">AuthenticationVerified</td>
+                </tr>
+            </table>>
+        ]
+
+        "Authentication_AuthenticateStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10">in1</td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Stub24.gif"></img></td>
+                    <td align="center" width="15">AuthenticateStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10">out1</td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticationVerified"[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>yes</td></tr></table>>]
+        "Authentication_IsAlreadyAuthenticated"->"Authentication_AuthenticateStub":in1[label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>no</td></tr></table>>]
+        "Authentication_AuthenticateStub":out1->"Authentication_AuthenticationVerified"
     }
     "Capture_Aut3":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]
     "Capture_Aut2":in1->"Authentication_IsAlreadyAuthenticated"[style=dashed,arrowhead=onormal]

@@ -9,6 +9,7 @@ package ucm.map.impl;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwPluginBinding;
 import intermediateWorkflow.IwStub;
+import jAoUrnToIw.DynamicStubStrategy;
 import jAoUrnToIw.PointcutStubStrategy;
 import jAoUrnToIw.RegularStubStrategy;
 import jAoUrnToIw.StubStrategy;
@@ -60,15 +61,32 @@ public class StubImpl extends PathNodeImpl implements Stub {
 	
 	private StubStrategy strategy;
 	
+	public IwStub getIwStub() {
+		return strategy.getIwStub();
+	}
+	
 	@Override
 	public StubStrategy getStrategy() {
 		if(strategy ==  null) {
-			if(isRegularStub()) 
+			if(isRegularStub()) {
 				strategy = new RegularStubStrategy(this);
-			else
+			}
+			else if(isDynamicAndNotPointcut()) {
+				System.out.println("iz dynamic stub");
+				strategy = new DynamicStubStrategy(this);
+			}
+			else {
 				strategy = new PointcutStubStrategy(this);
+			}
 		}
 		return strategy;
+	}
+	
+	public boolean isDynamicAndNotPointcut() {
+		if(aopointcut != null)
+			return dynamic && !aopointcut.equals(PointcutKind.REGULAR) && !aopointcut.equals(PointcutKind.REPLACEMENT);
+		else 
+			return dynamic;
 	}
 	
 	@Override
@@ -109,9 +127,24 @@ public class StubImpl extends PathNodeImpl implements Stub {
 
 	@Override
 	public boolean isRegularStub() {
-		return isPointcutStub()==false;
+		if(isDynamicAndNotPointcut()) {
+			return false;
+		}
+		else {
+			return isPointcutStub()==false;
+		}
 	}
 
+	@Override
+	public boolean isBlockingStub() {
+		return dynamic && synchronization && blocking;
+	}
+	
+	@Override
+	public boolean isSynchronizingStub() {
+		return dynamic && synchronization && !blocking;
+	}
+	
 	@Override
 	public boolean isPointcutStub() {
 		return isRegularPointcutStub() || isReplacementPointcutStub();

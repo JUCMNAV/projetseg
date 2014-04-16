@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="Bellairs">
   <concerns name="Base">
-    <workflows name="DevelopRoutePlanSimple" startPoints="//@concerns.0/@workflows.0/@nodes.0">
+    <workflows name="DevelopRoutePlanSimple" startPoints="//@concerns.0/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="EstablishRoutes" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.3"/>
       </nodes>
@@ -23,7 +23,7 @@
         </pluginBindings>
       </nodes>
     </workflows>
-    <workflows name="DevelopRoutePlanMedium" startPoints="//@concerns.0/@workflows.1/@nodes.3">
+    <workflows name="DevelopRoutePlanMedium" startPoints="//@concerns.0/@workflows.1/@nodes.3" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOrFork" name="OrFork117333" preds="//@concerns.0/@workflows.1/@nodes.9/@succs.0">
         <succs conditionName="else" target="//@concerns.0/@workflows.1/@nodes.2"/>
         <succs conditionName="accepted" target="//@concerns.0/@workflows.1/@nodes.1"/>
@@ -62,7 +62,7 @@
         <succs target="//@concerns.0/@workflows.1/@nodes.0"/>
       </nodes>
     </workflows>
-    <workflows name="DevelopRoutePlanComplex" startPoints="//@concerns.0/@workflows.2/@nodes.2">
+    <workflows name="DevelopRoutePlanComplex" startPoints="//@concerns.0/@workflows.2/@nodes.2" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOutput" name="EnterNumPoliceVehicle" preds="//@concerns.0/@workflows.2/@nodes.6/@succs.1">
         <succs target="//@concerns.0/@workflows.2/@nodes.1"/>
       </nodes>
@@ -97,7 +97,7 @@
         <succs target="//@concerns.0/@workflows.2/@nodes.5"/>
       </nodes>
     </workflows>
-    <workflows name="ProposeRoute" startPoints="//@concerns.0/@workflows.3/@nodes.13">
+    <workflows name="ProposeRoute" startPoints="//@concerns.0/@workflows.3/@nodes.13" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOutput" name="AlertFSCNotCoordinated" preds="//@concerns.0/@workflows.3/@nodes.6/@succs.1">
         <succs target="//@concerns.0/@workflows.3/@nodes.1"/>
       </nodes>
@@ -151,7 +151,7 @@
     </workflows>
   </concerns>
   <concerns name="Authentication">
-    <workflows name="Authentication" startPoints="//@concerns.1/@workflows.0/@nodes.11">
+    <workflows name="Authentication" startPoints="//@concerns.1/@workflows.0/@nodes.11" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOrFork" name="CheckAuthenticated" preds="//@concerns.1/@workflows.0/@nodes.6/@succs.0">
         <succs conditionName="fail" target="//@concerns.1/@workflows.0/@nodes.5"/>
         <succs conditionName="success" target="//@concerns.1/@workflows.0/@nodes.2"/>

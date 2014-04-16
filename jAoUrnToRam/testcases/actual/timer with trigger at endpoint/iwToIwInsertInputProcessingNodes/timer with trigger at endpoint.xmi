@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="timer with trigger at endpoint">
   <concerns name="WithoutConcern">
-    <workflows name="Timer_with_trigger_at_endpoint" startPoints="//@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.5">
+    <workflows name="Timer_with_trigger_at_endpoint" startPoints="//@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.5" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EP" preds="//@concerns.0/@workflows.0/@nodes.1/@succs.0"/>
       <nodes xsi:type="intermediateWorkflow:IwOutput" name="TheOuput" preds="//@concerns.0/@workflows.0/@nodes.4/@succs.0">
         <succs target="//@concerns.0/@workflows.0/@nodes.0"/>

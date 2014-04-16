@@ -100,4 +100,8 @@ public interface IwPluginBinding extends EObject {
 	 */
 	void setStub(IwStub value);
 
+	String jiLocalVarName(String entryIndex);
+
+	
+
 } // IwPluginBinding

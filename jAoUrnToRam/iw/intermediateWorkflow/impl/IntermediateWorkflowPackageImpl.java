@@ -433,6 +433,15 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIwWorkflow_IsParentDynStub() {
+		return (EAttribute)iwWorkflowEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIwNode() {
 		return iwNodeEClass;
 	}
@@ -570,6 +579,15 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 */
 	public EAttribute getIwNodeConnection_Label() {
 		return (EAttribute)iwNodeConnectionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIwNodeConnection_Threshold() {
+		return (EAttribute)iwNodeConnectionEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -927,6 +945,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		createEReference(iwWorkflowEClass, IW_WORKFLOW__NODES);
 		createEReference(iwWorkflowEClass, IW_WORKFLOW__START_POINTS);
 		createEReference(iwWorkflowEClass, IW_WORKFLOW__CONCERN);
+		createEAttribute(iwWorkflowEClass, IW_WORKFLOW__IS_PARENT_DYN_STUB);
 
 		iwNodeEClass = createEClass(IW_NODE);
 		createEAttribute(iwNodeEClass, IW_NODE__NAME);
@@ -945,6 +964,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING);
 		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__TRIGGER);
 		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__LABEL);
+		createEAttribute(iwNodeConnectionEClass, IW_NODE_CONNECTION__THRESHOLD);
 
 		iwInputEClass = createEClass(IW_INPUT);
 
@@ -1059,6 +1079,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEReference(getIwWorkflow_Nodes(), this.getIwNode(), this.getIwNode_Workflow(), "nodes", null, 1, -1, IwWorkflow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwWorkflow_StartPoints(), this.getIwStartPoint(), null, "startPoints", null, 1, -1, IwWorkflow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwWorkflow_Concern(), this.getIwConcern(), this.getIwConcern_Workflows(), "concern", null, 0, 1, IwWorkflow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIwWorkflow_IsParentDynStub(), this.getBoolean(), "isParentDynStub", null, 0, 1, IwWorkflow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iwNodeEClass, IwNode.class, "IwNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIwNode_Name(), this.getString(), "name", null, 0, 1, IwNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1077,6 +1098,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEAttribute(getIwNodeConnection_StubExitIndexAsString(), this.getString(), "stubExitIndexAsString", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_Trigger(), this.getBoolean(), "trigger", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_Label(), this.getString(), "label", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIwNodeConnection_Threshold(), ecorePackage.getEString(), "threshold", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iwInputEClass, IwInput.class, "IwInput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

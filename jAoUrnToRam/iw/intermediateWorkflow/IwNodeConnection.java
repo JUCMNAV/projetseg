@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getStubExitIndexAsString <em>Stub Exit Index As String</em>}</li>
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getTrigger <em>Trigger</em>}</li>
  *   <li>{@link intermediateWorkflow.IwNodeConnection#getLabel <em>Label</em>}</li>
+ *   <li>{@link intermediateWorkflow.IwNodeConnection#getThreshold <em>Threshold</em>}</li>
  * </ul>
  * </p>
  *
@@ -318,6 +319,30 @@ public interface IwNodeConnection extends EObject {
 	 * @generated
 	 */
 	void setLabel(String value);
+	/**
+	 * Returns the value of the '<em><b>Threshold</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Threshold</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Threshold</em>' attribute.
+	 * @see #setThreshold(String)
+	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwNodeConnection_Threshold()
+	 * @model
+	 * @generated
+	 */
+	String getThreshold();
+	/**
+	 * Sets the value of the '{@link intermediateWorkflow.IwNodeConnection#getThreshold <em>Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Threshold</em>' attribute.
+	 * @see #getThreshold()
+	 * @generated
+	 */
+	void setThreshold(String value);
 	boolean isSourceEndPoint();
 	boolean hasLabel();
 	//void appendConnectionWithLabel(StepView stepView, String label);
@@ -332,6 +357,7 @@ public interface IwNodeConnection extends EObject {
 			WorkflowInstantiator workflowInstantiator);
 	void appendTimerSucc(StepView stepView);
 	void appendTimeoutpathSucc(StepView stepView);
+	String jiAddNextNodeWithThresholdMethodName();
 
 
 

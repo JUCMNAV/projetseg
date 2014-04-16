@@ -32,10 +32,10 @@ public class AuthenticationWorkflowInstantiator extends WorkflowInstantiator{
 
     public void bind(DemoSp5_WithAutDifferentConcern.Instantiators.AuthenticationConcern.AuthenticateWorkflowInstantiator p_Authenticate){
 
-        Binding l_AuthenticateStub_PluginBinding=new Binding(p_Authenticate.workflow);
-        _AuthenticateStub.addBinding(l_AuthenticateStub_PluginBinding);
-        _AuthenticateStub.addInBinding(l_AuthenticateStub_PluginBinding,"1",p_Authenticate._LoginRequest);
-        _AuthenticateStub.addOutBinding(l_AuthenticateStub_PluginBinding,p_Authenticate._Authenticated,"1");
+        Binding AuthenticateStub_Authenticate_PluginBinding=new Binding(p_Authenticate.workflow);
+        _AuthenticateStub.addBinding(AuthenticateStub_Authenticate_PluginBinding);
+        _AuthenticateStub.addInBinding(AuthenticateStub_Authenticate_PluginBinding,"1",p_Authenticate._LoginRequest);
+        _AuthenticateStub.addOutBinding(AuthenticateStub_Authenticate_PluginBinding,p_Authenticate._Authenticated,"1");
     }
 }
 

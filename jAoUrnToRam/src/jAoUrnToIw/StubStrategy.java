@@ -1,14 +1,20 @@
 package jAoUrnToIw;
 
 import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwStub;
 import ucm.map.NodeConnection;
 import ucm.map.Stub;
 
 public abstract class StubStrategy {
 	protected Stub stub;
+	protected IwStub iwStub; 
 	
 	public Stub getStub() {
 		return stub;
+	}
+	
+	public IwStub getIwStub() {
+		return iwStub;
 	}
 	
 	public StubStrategy initialize(Stub stub) {

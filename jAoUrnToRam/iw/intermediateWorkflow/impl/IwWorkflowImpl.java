@@ -11,33 +11,26 @@ import intermediateWorkflow.IwConcern;
 import intermediateWorkflow.IwEndPoint;
 import intermediateWorkflow.IwModel;
 import intermediateWorkflow.IwNode;
+import intermediateWorkflow.IwPluginBinding;
 import intermediateWorkflow.IwStartPoint;
 import intermediateWorkflow.IwStub;
 import intermediateWorkflow.IwWorkflow;
 import iwToJavaInstantiator.JavaView;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
-
 import jAoUrnToRam.util.StringExtensions;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-
 import java.util.Set;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -54,6 +47,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link intermediateWorkflow.impl.IwWorkflowImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwWorkflowImpl#getStartPoints <em>Start Points</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwWorkflowImpl#getConcern <em>Concern</em>}</li>
+ *   <li>{@link intermediateWorkflow.impl.IwWorkflowImpl#getIsParentDynStub <em>Is Parent Dyn Stub</em>}</li>
  * </ul>
  * </p>
  *
@@ -223,7 +217,14 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		workflowInstantiator.append("){\n");
 		
 		for(IwStub stub : getStubs()) {
-			stub.getStaticPluginBinding().jiAppendBindStatement(workflowInstantiator);
+			if(stub.isSynchStub() || stub.isBlockingStub()) {
+				for(IwPluginBinding iwPluginBinding : stub.getPluginBindings()) {
+					iwPluginBinding.jiAppendBindStatement(workflowInstantiator);
+				}
+			}
+			else {
+				stub.getStaticPluginBinding().jiAppendBindStatement(workflowInstantiator);
+			}
 		}
 		workflowInstantiator.appendMethod_Post();
 	}
@@ -268,6 +269,9 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		stepView.appendLine("{");
 		stepView.append("        label=");
 		stepView.append(stepView.dotEscape(name)); 
+		if(getIsParentDynStub()) {
+			stepView.append("         fontcolor=gray");
+		}	
 		stepView.appendLine("");
 	}
 	
@@ -364,10 +368,18 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		//OrderedSet does not have duplicate
 		Set<IwWorkflow> plugins = new LinkedHashSet<IwWorkflow>();
 		for(IwStub stub : getStubs()){
-			plugins.add(stub.getStaticPlugin());
+			if(stub.isSynchStub() || stub.isBlockingStub()) {
+				for(IwWorkflow dynamicPlugin : stub.getDynamicPlugins()) {
+					plugins.add(dynamicPlugin);
+				}
+			} else {
+				plugins.add(stub.getStaticPlugin());
+			}
 		}
 		return plugins;
 	}
+	
+	
 
 	@Override
 	public Set<IwStub> getStubs() {
@@ -419,6 +431,26 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 	 * @ordered
 	 */
 	protected EList<IwStartPoint> startPoints;
+
+	/**
+	 * The default value of the '{@link #getIsParentDynStub() <em>Is Parent Dyn Stub</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIsParentDynStub()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean IS_PARENT_DYN_STUB_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getIsParentDynStub() <em>Is Parent Dyn Stub</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIsParentDynStub()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean isParentDynStub = IS_PARENT_DYN_STUB_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -530,6 +562,27 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getIsParentDynStub() {
+		return isParentDynStub;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsParentDynStub(Boolean newIsParentDynStub) {
+		Boolean oldIsParentDynStub = isParentDynStub;
+		isParentDynStub = newIsParentDynStub;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_WORKFLOW__IS_PARENT_DYN_STUB, oldIsParentDynStub, isParentDynStub));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -590,6 +643,8 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 				return getStartPoints();
 			case IntermediateWorkflowPackage.IW_WORKFLOW__CONCERN:
 				return getConcern();
+			case IntermediateWorkflowPackage.IW_WORKFLOW__IS_PARENT_DYN_STUB:
+				return getIsParentDynStub();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -617,6 +672,9 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 			case IntermediateWorkflowPackage.IW_WORKFLOW__CONCERN:
 				setConcern((IwConcern)newValue);
 				return;
+			case IntermediateWorkflowPackage.IW_WORKFLOW__IS_PARENT_DYN_STUB:
+				setIsParentDynStub((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -641,6 +699,9 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 			case IntermediateWorkflowPackage.IW_WORKFLOW__CONCERN:
 				setConcern((IwConcern)null);
 				return;
+			case IntermediateWorkflowPackage.IW_WORKFLOW__IS_PARENT_DYN_STUB:
+				setIsParentDynStub(IS_PARENT_DYN_STUB_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -661,6 +722,8 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 				return startPoints != null && !startPoints.isEmpty();
 			case IntermediateWorkflowPackage.IW_WORKFLOW__CONCERN:
 				return getConcern() != null;
+			case IntermediateWorkflowPackage.IW_WORKFLOW__IS_PARENT_DYN_STUB:
+				return IS_PARENT_DYN_STUB_EDEFAULT == null ? isParentDynStub != null : !IS_PARENT_DYN_STUB_EDEFAULT.equals(isParentDynStub);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -677,6 +740,8 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", isParentDynStub: ");
+		result.append(isParentDynStub);
 		result.append(')');
 		return result.toString();
 	}

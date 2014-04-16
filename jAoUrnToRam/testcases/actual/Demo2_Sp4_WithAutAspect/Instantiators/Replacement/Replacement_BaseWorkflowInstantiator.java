@@ -38,13 +38,13 @@ public class Replacement_BaseWorkflowInstantiator extends WorkflowInstantiator{
 
     public void bind(Demo2_Sp4_WithAutAspect.Instantiators.Replacement.Replacement_AspectWorkflowInstantiator p_Replacement_Aspect){
 
-        Binding l_AspectMarker1039_PluginBinding=new Binding(p_Replacement_Aspect.workflow);
-        _AspectMarker1039.addBinding(l_AspectMarker1039_PluginBinding);
-        _AspectMarker1039.addInBinding(l_AspectMarker1039_PluginBinding,"1",p_Replacement_Aspect._ReplAspect1);
+        Binding AspectMarker1039_Replacement_Aspect_PluginBinding=new Binding(p_Replacement_Aspect.workflow);
+        _AspectMarker1039.addBinding(AspectMarker1039_Replacement_Aspect_PluginBinding);
+        _AspectMarker1039.addInBinding(AspectMarker1039_Replacement_Aspect_PluginBinding,"1",p_Replacement_Aspect._ReplAspect1);
 
-        Binding l_AspectMarker1040_PluginBinding=new Binding(p_Replacement_Aspect.workflow);
-        _AspectMarker1040.addBinding(l_AspectMarker1040_PluginBinding);
-        _AspectMarker1040.addOutBinding(l_AspectMarker1040_PluginBinding,p_Replacement_Aspect._E10,"1");
+        Binding AspectMarker1040_Replacement_Aspect_PluginBinding=new Binding(p_Replacement_Aspect.workflow);
+        _AspectMarker1040.addBinding(AspectMarker1040_Replacement_Aspect_PluginBinding);
+        _AspectMarker1040.addOutBinding(AspectMarker1040_Replacement_Aspect_PluginBinding,p_Replacement_Aspect._E10,"1");
     }
 }
 

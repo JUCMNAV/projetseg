@@ -7,6 +7,7 @@
 package ucm.map.impl;
 
 import intermediateWorkflow.IntermediateWorkflowFactory;
+import intermediateWorkflow.IwStub;
 import intermediateWorkflow.IwWorkflow;
 
 import java.util.ArrayList;
@@ -85,16 +86,48 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				pn.build();
 			iwWorkflow = IntermediateWorkflowFactory.eINSTANCE.createIwWorkflow();
 			iwWorkflow.setName(nameOrPrefixId(getName()));
-		}	
+		}
 	}
 
+	private boolean hasParentStub() {
+		return getParentStub().size() > 0;
+	}
+	
+	private PluginBinding getParentPluginBinding() {
+		return getParentStub().get(0);
+	}
+	
+	private Stub getEnclosingStub() {
+		return getParentPluginBinding().getStub();
+	}
+	
 	@Override
 	public void link() {
-		if(isPointcutExpression()==false) {
-			linkWorkflowToConcern();
-			for(PathNode pn : pathNodes()){
-				pn.link();
-			}
+		if(isPointcutExpression())
+			return;
+		
+		//if(isPointcutExpression()==false) {
+		linkWorkflowToConcern();
+		for(PathNode pn : pathNodes()){
+			pn.link();
+		}
+			    
+		if(isParentStubDynamic()) {
+			//IwStub iwParentStub = parentStub.getIwStub();	
+			//if(iwParentStub != null) {
+			iwWorkflow.setIsParentDynStub(true);
+		} else {
+			iwWorkflow.setIsParentDynStub(false);
+		}
+	}
+	
+	private boolean isParentStubDynamic() {
+		if(!hasParentStub()) {
+			return false;
+		}
+		else {
+			Stub parentStub = getEnclosingStub();
+			return parentStub.isDynamic();
 		}
 	}
 

@@ -1,0 +1,155 @@
+digraph "SpA_SpB"{
+    rankdir=TD;
+    node[
+        shape=box,
+        width=0.1,
+        height=.45,
+        fontsize=12
+    ];
+
+    subgraph "cluster_Map"{
+        label="Map"
+
+        "Map_BlockingStub"[
+            shape=plaintext,
+            label=
+            <<table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="in1" height="10">in1</td>
+                            <td port="in2" height="10">in2</td>
+                        </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="1" cellborder="0" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\BlockStub24.gif"></img></td>
+                    <td align="center" width="30">BlockingStub</td>
+                </tr>
+                    </table>
+                </td></tr>
+                <tr><td>
+                    <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td port="out1" height="10">out1 (2)</td>
+                            <td port="out2" height="10">out2 (3)</td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>>
+        ]
+
+        "Map_SpB"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">SpB</td>
+                </tr>
+            </table>>
+        ]
+
+        "Map_SpA"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\GlobalStartPoint24.gif"></img></td>
+                    <td align="center" width="0">SpA</td>
+                </tr>
+            </table>>
+        ]
+
+        "Map_EpB"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">EpB</td>
+                </tr>
+            </table>>
+        ]
+
+        "Map_EpA"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">EpA</td>
+                </tr>
+            </table>>
+        ]
+        "Map_SpB"->"Map_BlockingStub":in2
+        "Map_SpA"->"Map_BlockingStub":in1
+        "Map_BlockingStub":out1->"Map_EpA"
+        "Map_BlockingStub":out2->"Map_EpB"
+    }
+
+    subgraph "cluster_Pm2"{
+        label="Pm2"         fontcolor=gray
+
+        "Pm2_R2"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R2</td>
+                </tr>
+            </table>>
+        ]
+
+        "Pm2_Ep2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Ep2</td>
+                </tr>
+            </table>>
+        ]
+        "Pm2_R2"->"Pm2_Ep2"
+    }
+
+    subgraph "cluster_Pm1"{
+        label="Pm1"         fontcolor=gray
+
+        "Pm1_R1"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R1</td>
+                </tr>
+            </table>>
+        ]
+
+        "Pm1_Ep1"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Ep1</td>
+                </tr>
+            </table>>
+        ]
+        "Pm1_R1"->"Pm1_Ep1"
+    }
+    "Map_BlockingStub":in2->"Pm2_R2"[style=dashed,arrowhead=onormal]
+    "Pm2_Ep2"->"Map_BlockingStub":out2[style=dashed,arrowhead=onormal]
+    "Map_BlockingStub":in1->"Pm1_R1"[style=dashed,arrowhead=onormal]
+    "Pm1_Ep1"->"Map_BlockingStub":out1[style=dashed,arrowhead=onormal]
+}
+

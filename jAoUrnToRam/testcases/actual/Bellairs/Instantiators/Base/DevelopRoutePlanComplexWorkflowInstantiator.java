@@ -54,9 +54,9 @@ public class DevelopRoutePlanComplexWorkflowInstantiator extends WorkflowInstant
 
     public void bind(Bellairs.Instantiators.Base.ProposeRouteWorkflowInstantiator p_ProposeRoute){
 
-        Binding l_ProposeRouteStub_PluginBinding=new Binding(p_ProposeRoute.workflow);
-        _ProposeRouteStub.addBinding(l_ProposeRouteStub_PluginBinding);
-        _ProposeRouteStub.addInBinding(l_ProposeRouteStub_PluginBinding,"1",p_ProposeRoute._AndFork115939);
+        Binding ProposeRouteStub_ProposeRoute_PluginBinding=new Binding(p_ProposeRoute.workflow);
+        _ProposeRouteStub.addBinding(ProposeRouteStub_ProposeRoute_PluginBinding);
+        _ProposeRouteStub.addInBinding(ProposeRouteStub_ProposeRoute_PluginBinding,"1",p_ProposeRoute._AndFork115939);
     }
 }
 

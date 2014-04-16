@@ -20,6 +20,7 @@ import iwToStepView.StepView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,10 +70,17 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 		return result;
 	}
 	
-	
 	@Override
 	public String getImageName() {
-		return "Stub24.gif";
+		if(isSynchStub()) {
+			return "SyncStub24.gif";
+		}
+		else if(isBlockingStub()) {
+			return "BlockStub24.gif";
+		}
+		else  {
+			return "Stub24.gif";
+		}
 	}
 	@Override
 	public void appendVertex(StepView stepView) {
@@ -99,7 +107,8 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 		stepView.appendLine("                <tr><td>");
 		stepView.appendLine("                    <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >");
 		stepView.appendLine("                        <tr>");
-		appendStubPorts(stepView,"in",numOfStubEntries());
+		appendStubPortsEntry(stepView,"in",numOfStubEntries());
+		
 		stepView.appendLine("                        </tr>");
 		stepView.appendLine("                    </table>");
 		stepView.appendLine("                </td></tr>");
@@ -112,13 +121,26 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 		stepView.appendLine("                    </table>");
 		stepView.appendLine("                </td></tr>");
 	}
-	@Override
+	/*@Override
 	public void appendStubExit(StepView stepView) {
 		if(numOfStubExits()>0) {
 			stepView.appendLine("                <tr><td>");
 			stepView.appendLine("                    <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >");
 			stepView.appendLine("                        <tr>");
 			appendStubPorts(stepView,"out",numOfStubExits())	;
+			stepView.appendLine("                        </tr>");
+			stepView.appendLine("                    </table>");
+			stepView.appendLine("                </td></tr>");
+		}
+	}*/
+	
+	@Override
+	public void appendStubExit(StepView stepView) {
+		if(numOfStubExits()>0) {
+			stepView.appendLine("                <tr><td>");
+			stepView.appendLine("                    <table border=\"0\" cellborder=\"1\" cellpadding=\"0\" cellspacing=\"0\" >");
+			stepView.appendLine("                        <tr>");
+			appendStubPortsExit(stepView,"out",numOfStubExits());
 			stepView.appendLine("                        </tr>");
 			stepView.appendLine("                    </table>");
 			stepView.appendLine("                </td></tr>");
@@ -130,16 +152,12 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	public int getMinWidth() {
     	int stubEntries = numOfStubEntries();
     	int stubExits = numOfStubExits();
-		if(stubEntries > stubExits)
+		if(stubEntries > stubExits) {
     		return stubEntries*15;
-    	else
+		}
+    	else {
     		return stubExits*15;
-    			
-		/*var maxOf:Set<Integer> init Set<Integer>.new
-			maxOf.add(numOfStubEntries)
-	    	maxOf.add(numOfStubExits)
-			var maxNumOfPorts:Integer init colExtMax(maxOf) 
-			result:=maxNumOfPorts*15*/
+    	}
 	}
 	
 	@Override
@@ -177,12 +195,46 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	}
 	
 	@Override
-	public void appendStubPorts(StepView stepView,String prefix,Integer maxIndex) {
+	public void appendStubPortsEntry(StepView stepView,String prefix,Integer maxIndex) {
 		for(int i=0; i<maxIndex; i++){
 			stepView.append("                            <td port=\"");
-			stepView.append(prefix);
-			stepView.append(Integer.toString(i+1));
-			stepView.appendLine("\" height=\"10\"></td>");
+			
+			String portLabel = prefix + Integer.toString(i+1);
+			
+			//stepView.append(prefix);
+			//stepView.append(Integer.toString(i+1));
+			stepView.append(portLabel);
+			//stepView.appendLine("\" height=\"10\"></td>");
+			stepView.append("\" height=\"10\">");
+			
+			stepView.append(portLabel);
+			stepView.appendLine("</td>");
+		}
+		/*maxIndex.times{i|
+			stepView.append("                            <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
+		}*/
+	}
+	
+	//@Override
+	public void appendStubPortsExit(StepView stepView,String prefix,Integer maxIndex) {
+		for(int i=0; i<maxIndex; i++){
+			stepView.append("                            <td port=\"");
+			
+			String portLabel = prefix + Integer.toString(i+1);
+			
+			//stepView.append(prefix);
+			//stepView.append(Integer.toString(i+1));
+			stepView.append(portLabel);
+			//stepView.appendLine("\" height=\"10\"></td>");
+			stepView.append("\" height=\"10\">");
+			
+			if(isSynchStub() || isBlockingStub()) {
+				String threshold = thresholds.get(Integer.toString(i+1));
+				portLabel += " (" + threshold + ")";
+			}
+			
+			stepView.append(portLabel);
+			stepView.appendLine("</td>");
 		}
 		/*maxIndex.times{i|
 			stepView.append("                            <td port=\"") stepView.append(prefix) stepView.append((i+1).toString) stepView.appendLine("\" height=\"10\"></td>")
@@ -214,15 +266,67 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	}
 	
 	/**********************************************/
+	private HashMap<String, String> thresholds;
+	
 	public void explore(IwStep currentStep){
+		if(isSynchStub() || isBlockingStub()) {
+			exploreDynamicStub(currentStep);
+			thresholds = new HashMap<String, String>();
+			
+			for(IwNodeConnection nodeConnection : getSuccs()) {
+				String stubExitIndex = nodeConnection.getStubExitIndexAsString();
+				String threshold = nodeConnection.getThreshold();
+				thresholds.put(stubExitIndex, threshold);
+			}
+		}
+		else {
+			exploreStaticStub(currentStep);
+		}
+		/*if(isStaticPluginInSameStep()) {
+			setStep(currentStep); 
+			for(IwInBinding inBinding : getStaticPluginBinding().getInBindings()){
+				inBinding.getPluginStartPoint().step_DeepFirstSearch(getStep());
+			}
+			//staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
+		} 
+		else {
+			super.explore(currentStep);
+		}*/
+	}
+	
+	private void exploreDynamicStub(IwStep currentStep) {
+		for(IwPluginBinding pluginBinding : getPluginBindings()) {
+			IwWorkflow workflow = pluginBinding.getPlugin();
+			
+			if(isDynamicPluginInSameStep(workflow)) {
+				setStep(currentStep); 
+				for(IwInBinding inBinding : pluginBinding.getInBindings()){
+					inBinding.getPluginStartPoint().step_DeepFirstSearch(getStep());
+				}
+			}
+		}
+	}
+	
+
+	private void exploreStaticStub(IwStep currentStep) {
 		if(isStaticPluginInSameStep()) {
 			setStep(currentStep); 
 			for(IwInBinding inBinding : getStaticPluginBinding().getInBindings()){
 				inBinding.getPluginStartPoint().step_DeepFirstSearch(getStep());
 			}
 			//staticPluginBinding.inBindings.each{inBinding|inBinding.pluginStartPoint.step_DeepFirstSearch(step)}
-		} else {
+		} 
+		else {
 			super.explore(currentStep);
+		}
+	}
+	
+	public boolean isDynamicPluginInSameStep(IwWorkflow workflow) {
+		if(getConcern() != workflow.getConcern()) {
+				return false;
+		}
+		else {
+			return true;
 		}
 	}
 	
@@ -243,6 +347,20 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	}
 	
 	@Override
+	public boolean isSynchStub() {
+		return getStubType().equals("dynamicSync");
+	}
+	
+	@Override
+	public boolean isBlockingStub() {
+		return getStubType().equals("dynamicBlocking");
+	}
+	
+	private boolean isDynStub() {
+		return getStubType().equals("dynamic");
+	}
+	
+	@Override
 	public String getInputProcessingNodeAction(){
 		if(isAspectMarker())	
 			return "continue";
@@ -259,13 +377,31 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	public IwWorkflow getStaticPlugin() {
 		return getStaticPluginBinding().getPlugin();
 	}
+	
+	@Override
+	public Set<IwWorkflow> getDynamicPlugins() {
+		Set<IwWorkflow> dynamicPlugins = new LinkedHashSet<IwWorkflow>();
+		for(IwPluginBinding iwPluginBinding : getPluginBindings()) {
+			IwWorkflow dynamicPlugin = iwPluginBinding.getPlugin();
+			dynamicPlugins.add(dynamicPlugin);
+		}
+		return dynamicPlugins;	
+	}
+	
+	@Override
+	public Set<IwWorkflow> getPlugins() {
+		Set<IwWorkflow> plugins = new LinkedHashSet<IwWorkflow>();
+		for(IwPluginBinding iwPluginBinding : getPluginBindings()) {
+			IwWorkflow dynamicPlugin = iwPluginBinding.getPlugin();
+			plugins.add(dynamicPlugin);
+		}
+		return plugins;	
+	}
 
 	@Override
 	public boolean isAspectMarker() {
 		return getStubType().equals("aspectMarker");
 	}
-	
-	
 	
 	/**
 	 * The default value of the '{@link #getStubType() <em>Stub Type</em>}' attribute.

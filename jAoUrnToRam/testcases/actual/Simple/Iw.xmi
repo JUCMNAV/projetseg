@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="Simple">
   <concerns name="WithoutConcern">
-    <workflows name="Simple" startPoints="//@concerns.0/@workflows.0/@nodes.0">
+    <workflows name="Simple" startPoints="//@concerns.0/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint21" step="//@concerns.0/@steps.0" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.2"/>
       </nodes>
@@ -16,13 +16,13 @@
         <succs target="//@concerns.0/@workflows.0/@nodes.1"/>
       </nodes>
     </workflows>
-    <workflows name="ToBeIgnoredInStepClassDiagram" startPoints="//@concerns.0/@workflows.1/@nodes.0">
+    <workflows name="ToBeIgnoredInStepClassDiagram" startPoints="//@concerns.0/@workflows.1/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint37" step="//@concerns.0/@steps.1" startPointType="global">
         <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
       </nodes>
       <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="EndPoint39" preds="//@concerns.0/@workflows.1/@nodes.0/@succs.0" step="//@concerns.0/@steps.1"/>
     </workflows>
-    <workflows name="AllFeatures" startPoints="//@concerns.0/@workflows.2/@nodes.0 //@concerns.0/@workflows.2/@nodes.8 //@concerns.0/@workflows.2/@nodes.14">
+    <workflows name="AllFeatures" startPoints="//@concerns.0/@workflows.2/@nodes.0 //@concerns.0/@workflows.2/@nodes.8 //@concerns.0/@workflows.2/@nodes.14" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S1" step="//@concerns.0/@steps.2" startPointType="global">
         <succs target="//@concerns.0/@workflows.2/@nodes.7"/>
       </nodes>

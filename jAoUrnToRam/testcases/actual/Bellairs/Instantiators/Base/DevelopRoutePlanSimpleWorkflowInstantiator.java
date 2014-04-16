@@ -41,10 +41,10 @@ public class DevelopRoutePlanSimpleWorkflowInstantiator extends WorkflowInstanti
 
     public void bind(Bellairs.Instantiators.Authentication.AuthenticationWorkflowInstantiator p_Authentication){
 
-        Binding l_AspectMarker117512_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker117512.addBinding(l_AspectMarker117512_PluginBinding);
-        _AspectMarker117512.addInBinding(l_AspectMarker117512_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117512.addOutBinding(l_AspectMarker117512_PluginBinding,p_Authentication._Authenticated,"1");
+        Binding AspectMarker117512_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker117512.addBinding(AspectMarker117512_Authentication_PluginBinding);
+        _AspectMarker117512.addInBinding(AspectMarker117512_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
+        _AspectMarker117512.addOutBinding(AspectMarker117512_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
     }
 }
 

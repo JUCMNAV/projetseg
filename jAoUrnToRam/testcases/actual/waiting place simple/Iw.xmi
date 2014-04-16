@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="waiting place simple">
   <concerns name="WithoutConcern">
-    <workflows name="Waiting_place_simple" startPoints="//@concerns.0/@workflows.0/@nodes.4">
+    <workflows name="Waiting_place_simple" startPoints="//@concerns.0/@workflows.0/@nodes.4" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwWaitingPlace" name="Wp" preds="//@concerns.0/@workflows.0/@nodes.3/@succs.0" step="//@concerns.0/@steps.0" transient="true">
         <succs conditionName="cond" target="//@concerns.0/@workflows.0/@nodes.2"/>
       </nodes>

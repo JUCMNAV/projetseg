@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="StartupNodeAndSharedResp">
   <concerns name="StartupStepsAndSharedResp">
-    <workflows name="StartupNodeAndSharedRespBase" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.6">
+    <workflows name="StartupNodeAndSharedRespBase" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.3 //@concerns.0/@workflows.0/@nodes.6" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S1" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.9"/>
       </nodes>
@@ -40,7 +40,7 @@
         <succs target="//@concerns.0/@workflows.0/@nodes.2" inBinding="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1"/>
       </nodes>
     </workflows>
-    <workflows name="Plugin" startPoints="//@concerns.0/@workflows.1/@nodes.0 //@concerns.0/@workflows.1/@nodes.4 //@concerns.0/@workflows.1/@nodes.5 //@concerns.0/@workflows.1/@nodes.7 //@concerns.0/@workflows.1/@nodes.8">
+    <workflows name="Plugin" startPoints="//@concerns.0/@workflows.1/@nodes.0 //@concerns.0/@workflows.1/@nodes.4 //@concerns.0/@workflows.1/@nodes.5 //@concerns.0/@workflows.1/@nodes.7 //@concerns.0/@workflows.1/@nodes.8" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="Bound10" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.0/@workflows.1/@nodes.10"/>
       </nodes>
@@ -77,7 +77,7 @@
     </workflows>
   </concerns>
   <concerns name="RecursiveStubs">
-    <workflows name="RecursiveStubBase" startPoints="//@concerns.1/@workflows.0/@nodes.0 //@concerns.1/@workflows.0/@nodes.3 //@concerns.1/@workflows.0/@nodes.5 //@concerns.1/@workflows.0/@nodes.8">
+    <workflows name="RecursiveStubBase" startPoints="//@concerns.1/@workflows.0/@nodes.0 //@concerns.1/@workflows.0/@nodes.3 //@concerns.1/@workflows.0/@nodes.5 //@concerns.1/@workflows.0/@nodes.8" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartRecursion" startPointType="global">
         <succs target="//@concerns.1/@workflows.0/@nodes.1"/>
       </nodes>
@@ -117,7 +117,7 @@
         <succs target="//@concerns.1/@workflows.0/@nodes.7" inBinding="//@concerns.1/@workflows.0/@nodes.7/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1"/>
       </nodes>
     </workflows>
-    <workflows name="RecursivePluginSameConcern" startPoints="//@concerns.1/@workflows.1/@nodes.0">
+    <workflows name="RecursivePluginSameConcern" startPoints="//@concerns.1/@workflows.1/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint440" startPointType="bound" inBindings="//@concerns.1/@workflows.0/@nodes.4/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.1/@workflows.1/@nodes.1" inBinding="//@concerns.1/@workflows.1/@nodes.1/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1"/>
       </nodes>
@@ -129,7 +129,7 @@
     </workflows>
   </concerns>
   <concerns name="RecusiveStubDifferentConcern">
-    <workflows name="RecursivePluginDifferenctConcern" startPoints="//@concerns.2/@workflows.0/@nodes.0">
+    <workflows name="RecursivePluginDifferenctConcern" startPoints="//@concerns.2/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="StartPoint449" startPointType="bound" inBindings="//@concerns.1/@workflows.0/@nodes.7/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.2/@workflows.0/@nodes.1" inBinding="//@concerns.2/@workflows.0/@nodes.1/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1"/>
       </nodes>
@@ -141,7 +141,7 @@
     </workflows>
   </concerns>
   <concerns name="PluginInDifferentConcern_Base">
-    <workflows name="PluginInDifferentConcern_Base" startPoints="//@concerns.3/@workflows.0/@nodes.0">
+    <workflows name="PluginInDifferentConcern_Base" startPoints="//@concerns.3/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S200" startPointType="global">
         <succs target="//@concerns.3/@workflows.0/@nodes.1"/>
       </nodes>
@@ -166,7 +166,7 @@
     </workflows>
   </concerns>
   <concerns name="PluginInDifferentConcern_Plugin">
-    <workflows name="Plugin_StepWillHaveStartPointName" startPoints="//@concerns.4/@workflows.0/@nodes.0">
+    <workflows name="Plugin_StepWillHaveStartPointName" startPoints="//@concerns.4/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S210" startPointType="bound" inBindings="//@concerns.3/@workflows.0/@nodes.3/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.4/@workflows.0/@nodes.2"/>
       </nodes>
@@ -175,7 +175,7 @@
         <succs target="//@concerns.4/@workflows.0/@nodes.1"/>
       </nodes>
     </workflows>
-    <workflows name="Plugin_StepWillNotHaveStartPointName" startPoints="//@concerns.4/@workflows.1/@nodes.0 //@concerns.4/@workflows.1/@nodes.4">
+    <workflows name="Plugin_StepWillNotHaveStartPointName" startPoints="//@concerns.4/@workflows.1/@nodes.0 //@concerns.4/@workflows.1/@nodes.4" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S220" startPointType="bound" inBindings="//@concerns.3/@workflows.0/@nodes.4/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.4/@workflows.1/@nodes.2"/>
       </nodes>

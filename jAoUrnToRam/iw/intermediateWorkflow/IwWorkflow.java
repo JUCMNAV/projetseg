@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link intermediateWorkflow.IwWorkflow#getNodes <em>Nodes</em>}</li>
  *   <li>{@link intermediateWorkflow.IwWorkflow#getStartPoints <em>Start Points</em>}</li>
  *   <li>{@link intermediateWorkflow.IwWorkflow#getConcern <em>Concern</em>}</li>
+ *   <li>{@link intermediateWorkflow.IwWorkflow#getIsParentDynStub <em>Is Parent Dyn Stub</em>}</li>
  * </ul>
  * </p>
  *
@@ -131,6 +132,30 @@ public interface IwWorkflow extends EObject {
 	 */
 	/*********** Step View Transformation ***********************/
 	void setConcern(IwConcern value);
+	/**
+	 * Returns the value of the '<em><b>Is Parent Dyn Stub</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Parent Dyn Stub</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is Parent Dyn Stub</em>' attribute.
+	 * @see #setIsParentDynStub(Boolean)
+	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwWorkflow_IsParentDynStub()
+	 * @model dataType="intermediateWorkflow.Boolean"
+	 * @generated
+	 */
+	Boolean getIsParentDynStub();
+	/**
+	 * Sets the value of the '{@link intermediateWorkflow.IwWorkflow#getIsParentDynStub <em>Is Parent Dyn Stub</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is Parent Dyn Stub</em>' attribute.
+	 * @see #getIsParentDynStub()
+	 * @generated
+	 */
+	void setIsParentDynStub(Boolean value);
 	void appendStepViewPre(StepView stepView);
 	void appendStepViewPost(StepView stepView);
 	void appendWorkflow_DifferentConcern(StepView stepView);

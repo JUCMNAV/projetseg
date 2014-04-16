@@ -6,6 +6,9 @@
  */
 package intermediateWorkflow;
 
+import java.util.List;
+import java.util.Set;
+
 import iwToJavaInstantiator.NodeInstantiationStrategy;
 import iwToStepView.StepView;
 
@@ -31,11 +34,12 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface IwStub extends IwNode {
 	/*********** Step View Transformation ***********************/
+	boolean isSynchStub();
 	void appendStub(StepView stepView);
 	void appendStubExit(StepView stepView);
 	Integer numOfStubEntries();
 	Integer numOfStubExits();
-	void appendStubPorts(StepView stepView, String prefix, Integer maxIndex);
+	void appendStubPortsEntry(StepView stepView, String prefix, Integer maxIndex);
 	boolean isExplicitlyBoundAccrosConcerns();
 	void appendAccrosConcernBindings(StepView stepView);
 	/*********** iw to java ***********************/
@@ -109,6 +113,9 @@ public interface IwStub extends IwNode {
 	 * @generated
 	 */
 	EList<IwStep> getOutboundInSteps();void appendStubEntry(StepView stepView);
+	Set<IwWorkflow> getDynamicPlugins();
+	Set<IwWorkflow> getPlugins();
+	boolean isBlockingStub();
 	
 	
 	

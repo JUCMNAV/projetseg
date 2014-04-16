@@ -25,9 +25,9 @@ public class RecursivePluginSameConcernWorkflowInstantiator extends WorkflowInst
 
     public void bind(StartupNodeAndSharedResp.Instantiators.RecursiveStubs.RecursiveStubBaseWorkflowInstantiator p_RecursiveStubBase){
 
-        Binding l_InvokeBaseSameConcern_PluginBinding=new Binding(p_RecursiveStubBase.workflow);
-        _InvokeBaseSameConcern.addBinding(l_InvokeBaseSameConcern_PluginBinding);
-        _InvokeBaseSameConcern.addInBinding(l_InvokeBaseSameConcern_PluginBinding,"1",p_RecursiveStubBase._DoThisAgain);
+        Binding InvokeBaseSameConcern_RecursiveStubBase_PluginBinding=new Binding(p_RecursiveStubBase.workflow);
+        _InvokeBaseSameConcern.addBinding(InvokeBaseSameConcern_RecursiveStubBase_PluginBinding);
+        _InvokeBaseSameConcern.addInBinding(InvokeBaseSameConcern_RecursiveStubBase_PluginBinding,"1",p_RecursiveStubBase._DoThisAgain);
     }
 }
 

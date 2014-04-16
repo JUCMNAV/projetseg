@@ -47,9 +47,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding {
+	
+	private static Integer localVarName = 1;
 	@Override
 	public String jiLocalVarName() {
-		return "l_"+getStub().getName() + "_PluginBinding";
+		//return "l_"+getStub().getName() + "_PluginBinding";
+		return getStub().getName() + getPlugin().jiBindMethod_PluginParamName().substring(1) + "_PluginBinding";
+	}
+	
+	@Override
+	public String jiLocalVarName(String entryIndex) {
+		return entryIndex + "_" + getStub().getName() + "_PluginBinding";
+		//return (localVarName++).toString() + "_" +getStub().getName() + "_PluginBinding";
 	}
 	
 	@Override
@@ -72,6 +81,7 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 			outBinding.jiAppendBindStatement(workflowInstantiator);
 		}
 	}
+	
 	/**
 	 * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

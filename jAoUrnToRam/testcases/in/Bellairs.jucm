@@ -57,7 +57,10 @@
       <nodes xsi:type="ucm.map:RespRef" id="117294" name="RespRef117294" x="675" y="119" contRef="//@urndef/@specDiagrams.0/@contRefs.2" succ="//@urndef/@specDiagrams.0/@connections.3" pred="//@urndef/@specDiagrams.0/@connections.4" respDef="//@urndef/@responsibilities.2">
         <label/>
       </nodes>
-      <nodes xsi:type="ucm.map:Stub" id="117512" name="AUT" description="in to pointcut stub RequiresAuthentication   -----   out from authenticated[117489]" x="552" y="119" contRef="//@urndef/@specDiagrams.0/@contRefs.1" succ="//@urndef/@specDiagrams.0/@connections.4" pred="//@urndef/@specDiagrams.0/@connections.1" aspect="Regular">
+      <nodes xsi:type="ucm.map:Stub" id="117512" name="AUT" 
+      description="in to pointcut stub RequiresAuthentication   -----   out from authenticated[117489]" 
+      x="552" y="119" contRef="//@urndef/@specDiagrams.0/@contRefs.1" 
+      succ="//@urndef/@specDiagrams.0/@connections.4" pred="//@urndef/@specDiagrams.0/@connections.1" aspect="Regular">
         <label/>
         <bindings plugin="//@urndef/@specDiagrams.3">
           <in stubEntry="//@urndef/@specDiagrams.0/@connections.1" pointcutExit="//@urndef/@specDiagrams.3/@connections.23"/>
@@ -212,7 +215,10 @@
       <nodes xsi:type="ucm.map:RespRef" id="117484" name="RespRef" x="575" y="279" contRef="//@urndef/@specDiagrams.3/@contRefs.2" succ="//@urndef/@specDiagrams.3/@connections.16" pred="//@urndef/@specDiagrams.3/@connections.21" respDef="//@urndef/@responsibilities.5">
         <label deltaX="12" deltaY="-47"/>
       </nodes>
-      <nodes xsi:type="ucm.map:Stub" id="117504" name="RequiresAuthentication" x="128" y="170" contRef="//@urndef/@specDiagrams.3/@contRefs.1" succ="//@urndef/@specDiagrams.3/@connections.23" dynamic="true" aopointcut="Regular">
+      <nodes xsi:type="ucm.map:Stub" id="117504" name="RequiresAuthentication" 
+      x="128" y="170" contRef="//@urndef/@specDiagrams.3/@contRefs.1" 
+      succ="//@urndef/@specDiagrams.3/@connections.23" 
+      dynamic="true" aopointcut="Regular">
         <label/>
         <bindings plugin="//@urndef/@specDiagrams.4">
           <out endPoint="//@urndef/@specDiagrams.4/@nodes.1" stubExit="//@urndef/@specDiagrams.3/@connections.23"/>

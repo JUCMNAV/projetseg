@@ -78,20 +78,20 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
 
     public void bind(DemoSp5_WithAutDifferentConcern.Instantiators.AuthenticationConcern.AuthenticationWorkflowInstantiator p_Authentication){
 
-        Binding l_Aut3_PluginBinding=new Binding(p_Authentication.workflow);
-        _Aut3.addBinding(l_Aut3_PluginBinding);
-        _Aut3.addInBinding(l_Aut3_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut3.addOutBinding(l_Aut3_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding Aut3_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _Aut3.addBinding(Aut3_Authentication_PluginBinding);
+        _Aut3.addInBinding(Aut3_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut3.addOutBinding(Aut3_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
 
-        Binding l_Aut2_PluginBinding=new Binding(p_Authentication.workflow);
-        _Aut2.addBinding(l_Aut2_PluginBinding);
-        _Aut2.addInBinding(l_Aut2_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut2.addOutBinding(l_Aut2_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding Aut2_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _Aut2.addBinding(Aut2_Authentication_PluginBinding);
+        _Aut2.addInBinding(Aut2_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut2.addOutBinding(Aut2_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
 
-        Binding l_Aut1_PluginBinding=new Binding(p_Authentication.workflow);
-        _Aut1.addBinding(l_Aut1_PluginBinding);
-        _Aut1.addInBinding(l_Aut1_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut1.addOutBinding(l_Aut1_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding Aut1_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _Aut1.addBinding(Aut1_Authentication_PluginBinding);
+        _Aut1.addInBinding(Aut1_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut1.addOutBinding(Aut1_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
     }
 }
 

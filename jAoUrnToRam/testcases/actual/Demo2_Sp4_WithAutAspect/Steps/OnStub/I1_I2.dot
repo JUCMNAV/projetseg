@@ -7,60 +7,6 @@ digraph "I1_I2"{
         fontsize=12
     ];
 
-    subgraph "cluster_OnStub_Plugin"{
-        label="OnStub_Plugin"
-
-        "OnStub_Plugin_R10"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">R10</td>
-                </tr>
-            </table>>
-        ]
-
-        "OnStub_Plugin_R11"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">R11</td>
-                </tr>
-            </table>>
-        ]
-
-        "OnStub_Plugin_E10"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">E10</td>
-                </tr>
-            </table>>
-        ]
-
-        "OnStub_Plugin_E11"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">E11</td>
-                </tr>
-            </table>>
-        ]
-        "OnStub_Plugin_R10"->"OnStub_Plugin_E10"
-        "OnStub_Plugin_R11"->"OnStub_Plugin_E11"
-    }
-
     subgraph "cluster_OnStub_Base"{
         label="OnStub_Base"
 
@@ -141,8 +87,8 @@ digraph "I1_I2"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
-                            <td port="in2" height="10"></td>
+                            <td port="in1" height="10">in1</td>
+                            <td port="in2" height="10">in2</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -157,8 +103,8 @@ digraph "I1_I2"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
-                            <td port="out2" height="10"></td>
+                            <td port="out1" height="10">out1</td>
+                            <td port="out2" height="10">out2</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -194,6 +140,60 @@ digraph "I1_I2"{
         "OnStub_Base_ProcessI1"->"OnStub_Base_TheStub":in1
         "OnStub_Base_TheStub":out1->"OnStub_Base_E1"
         "OnStub_Base_TheStub":out2->"OnStub_Base_E2"
+    }
+
+    subgraph "cluster_OnStub_Plugin"{
+        label="OnStub_Plugin"
+
+        "OnStub_Plugin_R10"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R10</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_R11"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R11</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_E10"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E10</td>
+                </tr>
+            </table>>
+        ]
+
+        "OnStub_Plugin_E11"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E11</td>
+                </tr>
+            </table>>
+        ]
+        "OnStub_Plugin_R10"->"OnStub_Plugin_E10"
+        "OnStub_Plugin_R11"->"OnStub_Plugin_E11"
     }
     "OnStub_Base_TheStub":in1->"OnStub_Plugin_R10"[style=dashed,arrowhead=onormal]
     "OnStub_Plugin_E10"->"OnStub_Base_TheStub":out1[style=dashed,arrowhead=onormal]

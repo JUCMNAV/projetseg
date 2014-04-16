@@ -78,20 +78,20 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
 
     public void bind(Demo2_Sp4_WithAutAspect.Instantiators.WithoutConcern.AuthenticationWorkflowInstantiator p_Authentication){
 
-        Binding l_AspectMarker812_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker812.addBinding(l_AspectMarker812_PluginBinding);
-        _AspectMarker812.addInBinding(l_AspectMarker812_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker812.addOutBinding(l_AspectMarker812_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding AspectMarker812_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker812.addBinding(AspectMarker812_Authentication_PluginBinding);
+        _AspectMarker812.addInBinding(AspectMarker812_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker812.addOutBinding(AspectMarker812_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
 
-        Binding l_AspectMarker813_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker813.addBinding(l_AspectMarker813_PluginBinding);
-        _AspectMarker813.addInBinding(l_AspectMarker813_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker813.addOutBinding(l_AspectMarker813_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding AspectMarker813_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker813.addBinding(AspectMarker813_Authentication_PluginBinding);
+        _AspectMarker813.addInBinding(AspectMarker813_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker813.addOutBinding(AspectMarker813_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
 
-        Binding l_AspectMarker814_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker814.addBinding(l_AspectMarker814_PluginBinding);
-        _AspectMarker814.addInBinding(l_AspectMarker814_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker814.addOutBinding(l_AspectMarker814_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        Binding AspectMarker814_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker814.addBinding(AspectMarker814_Authentication_PluginBinding);
+        _AspectMarker814.addInBinding(AspectMarker814_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker814.addOutBinding(AspectMarker814_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
     }
 }
 

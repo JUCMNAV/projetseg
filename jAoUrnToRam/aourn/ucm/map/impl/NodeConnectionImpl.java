@@ -70,6 +70,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 	public void build() {
 		iwNodeConnection = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		iwNodeConnection.setConditionName(conditionLabel());
+		iwNodeConnection.setThreshold(getThreshold());
 		
 		if(isSourceTimer()) 
 			setTimerSuccLabel();

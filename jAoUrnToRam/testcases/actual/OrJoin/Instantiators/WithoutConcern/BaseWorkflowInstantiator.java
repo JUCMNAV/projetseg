@@ -68,11 +68,11 @@ public class BaseWorkflowInstantiator extends WorkflowInstantiator{
 
     public void bind(OrJoin.Instantiators.WithoutConcern.PluginWorkflowInstantiator p_Plugin){
 
-        Binding l_TheStub_PluginBinding=new Binding(p_Plugin.workflow);
-        _TheStub.addBinding(l_TheStub_PluginBinding);
-        _TheStub.addInBinding(l_TheStub_PluginBinding,"2",p_Plugin._E10);
-        _TheStub.addInBinding(l_TheStub_PluginBinding,"1",p_Plugin._E10);
-        _TheStub.addOutBinding(l_TheStub_PluginBinding,p_Plugin._E10,"1");
+        Binding TheStub_Plugin_PluginBinding=new Binding(p_Plugin.workflow);
+        _TheStub.addBinding(TheStub_Plugin_PluginBinding);
+        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"2",p_Plugin._E10);
+        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"1",p_Plugin._E10);
+        _TheStub.addOutBinding(TheStub_Plugin_PluginBinding,p_Plugin._E10,"1");
     }
 }
 

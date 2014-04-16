@@ -54,15 +54,15 @@ public class DevelopRoutePlanMediumWorkflowInstantiator extends WorkflowInstanti
 
     public void bind(Bellairs.Instantiators.Authentication.AuthenticationWorkflowInstantiator p_Authentication){
 
-        Binding l_AspectMarker117542_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker117542.addBinding(l_AspectMarker117542_PluginBinding);
-        _AspectMarker117542.addInBinding(l_AspectMarker117542_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117542.addOutBinding(l_AspectMarker117542_PluginBinding,p_Authentication._Authenticated,"1");
+        Binding AspectMarker117542_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker117542.addBinding(AspectMarker117542_Authentication_PluginBinding);
+        _AspectMarker117542.addInBinding(AspectMarker117542_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
+        _AspectMarker117542.addOutBinding(AspectMarker117542_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
 
-        Binding l_AspectMarker117545_PluginBinding=new Binding(p_Authentication.workflow);
-        _AspectMarker117545.addBinding(l_AspectMarker117545_PluginBinding);
-        _AspectMarker117545.addInBinding(l_AspectMarker117545_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117545.addOutBinding(l_AspectMarker117545_PluginBinding,p_Authentication._Authenticated,"1");
+        Binding AspectMarker117545_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
+        _AspectMarker117545.addBinding(AspectMarker117545_Authentication_PluginBinding);
+        _AspectMarker117545.addInBinding(AspectMarker117545_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
+        _AspectMarker117545.addOutBinding(AspectMarker117545_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
     }
 }
 

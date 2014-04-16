@@ -30,6 +30,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/nodes"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/startPoints"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference intermediateWorkflow.ecore#/1/IwWorkflow/concern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwWorkflow/isParentDynStub"/>
     </genClasses>
     <genClasses image="false" ecoreClass="intermediateWorkflow.ecore#/1/IwNode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNode/name"/>
@@ -48,6 +49,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/stubExitIndexAsString"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/trigger"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute intermediateWorkflow.ecore#/1/IwNodeConnection/threshold"/>
     </genClasses>
     <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwInput"/>
     <genClasses ecoreClass="intermediateWorkflow.ecore#/1/IwCustomizableNode">

@@ -52,7 +52,7 @@ digraph "I200"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
+                            <td port="in1" height="10">in1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -67,7 +67,7 @@ digraph "I200"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
+                            <td port="out1" height="10">out1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -81,7 +81,7 @@ digraph "I200"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="in1" height="10"></td>
+                            <td port="in1" height="10">in1</td>
                         </tr>
                     </table>
                 </td></tr>
@@ -96,7 +96,7 @@ digraph "I200"{
                 <tr><td>
                     <table border="0" cellborder="1" cellpadding="0" cellspacing="0" >
                         <tr>
-                            <td port="out1" height="10"></td>
+                            <td port="out1" height="10">out1</td>
                         </tr>
                     </table>
                 </td></tr>

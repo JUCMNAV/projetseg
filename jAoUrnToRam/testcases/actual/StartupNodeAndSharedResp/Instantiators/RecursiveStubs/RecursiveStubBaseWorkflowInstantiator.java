@@ -55,13 +55,13 @@ public class RecursiveStubBaseWorkflowInstantiator extends WorkflowInstantiator{
     public void bind(StartupNodeAndSharedResp.Instantiators.RecursiveStubs.RecursivePluginSameConcernWorkflowInstantiator p_RecursivePluginSameConcern,
                      StartupNodeAndSharedResp.Instantiators.RecusiveStubDifferentConcern.RecursivePluginDifferenctConcernWorkflowInstantiator p_RecursivePluginDifferenctConcern){
 
-        Binding l_InvokePluginSameConcern_PluginBinding=new Binding(p_RecursivePluginSameConcern.workflow);
-        _InvokePluginSameConcern.addBinding(l_InvokePluginSameConcern_PluginBinding);
-        _InvokePluginSameConcern.addInBinding(l_InvokePluginSameConcern_PluginBinding,"1",p_RecursivePluginSameConcern._InvokeBaseSameConcern);
+        Binding InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding=new Binding(p_RecursivePluginSameConcern.workflow);
+        _InvokePluginSameConcern.addBinding(InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding);
+        _InvokePluginSameConcern.addInBinding(InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding,"1",p_RecursivePluginSameConcern._InvokeBaseSameConcern);
 
-        Binding l_InvokePluginDifferentConcern_PluginBinding=new Binding(p_RecursivePluginDifferenctConcern.workflow);
-        _InvokePluginDifferentConcern.addBinding(l_InvokePluginDifferentConcern_PluginBinding);
-        _InvokePluginDifferentConcern.addInBinding(l_InvokePluginDifferentConcern_PluginBinding,"1",p_RecursivePluginDifferenctConcern._InvokeBaseDifferentConcern);
+        Binding InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding=new Binding(p_RecursivePluginDifferenctConcern.workflow);
+        _InvokePluginDifferentConcern.addBinding(InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding);
+        _InvokePluginDifferentConcern.addInBinding(InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding,"1",p_RecursivePluginDifferenctConcern._InvokeBaseDifferentConcern);
     }
 }
 

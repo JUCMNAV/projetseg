@@ -9,7 +9,8 @@ import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwStub;
 
 public class RegularStubStrategy extends StubStrategy  {
-	private IwStub iwStub; 
+	
+	
 	public IwStub getIwStub() {
 		return iwStub;
 	}

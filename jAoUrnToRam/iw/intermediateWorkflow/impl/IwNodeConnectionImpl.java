@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getStubExitIndexAsString <em>Stub Exit Index As String</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getTrigger <em>Trigger</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link intermediateWorkflow.impl.IwNodeConnectionImpl#getThreshold <em>Threshold</em>}</li>
  * </ul>
  * </p>
  *
@@ -310,12 +311,24 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	
 	@Override
 	public void jiAppendAddNextNodeStatement_StubToNode(WorkflowInstantiator workflowInstantiator) {
-		workflowInstantiator.appendMethodInvocationOn_2Params(
-			getSource().jiMemberName(),
-			jiAddNextNodeMethodName(),
-			quote(getStubExitIndex()),
-			getTarget().jiMemberName()
-		);
+		IwStub iwStub = (IwStub)getSource();
+		if(iwStub.isSynchStub() || iwStub.isBlockingStub()) {
+			workflowInstantiator.appendMethodInvocationOn_3Params(
+					getSource().jiMemberName(),
+					jiAddNextNodeWithThresholdMethodName(),
+					quote("_OUT"+getStubExitIndex()),
+					getTarget().jiMemberName(),
+					getThreshold()
+			);
+		}
+		else {
+			workflowInstantiator.appendMethodInvocationOn_2Params(
+					getSource().jiMemberName(),
+					jiAddNextNodeMethodName(),
+					quote(getStubExitIndex()),
+					getTarget().jiMemberName()
+					);
+		}
 	}
 	
 	@Override
@@ -333,6 +346,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	@Override
 	public String jiAddNextNodeMethodName() {
 		return "addNextNode";
+	}
+	
+	@Override
+	public String jiAddNextNodeWithThresholdMethodName() {
+		return "addNextNodeWithThreshold";
 	}
 	
 	@Override
@@ -619,6 +637,26 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * @ordered
 	 */
 	protected String label = LABEL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getThreshold() <em>Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getThreshold()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String THRESHOLD_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getThreshold() <em>Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getThreshold()
+	 * @generated
+	 * @ordered
+	 */
+	protected String threshold = THRESHOLD_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -970,6 +1008,27 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getThreshold() {
+		return threshold;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setThreshold(String newThreshold) {
+		String oldThreshold = threshold;
+		threshold = newThreshold;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__THRESHOLD, oldThreshold, threshold));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -1056,6 +1115,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return getTrigger();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
 				return getLabel();
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__THRESHOLD:
+				return getThreshold();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1094,6 +1155,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
 				setLabel((String)newValue);
+				return;
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__THRESHOLD:
+				setThreshold((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1134,6 +1198,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__THRESHOLD:
+				setThreshold(THRESHOLD_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1164,6 +1231,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				return TRIGGER_EDEFAULT == null ? trigger != null : !TRIGGER_EDEFAULT.equals(trigger);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__THRESHOLD:
+				return THRESHOLD_EDEFAULT == null ? threshold != null : !THRESHOLD_EDEFAULT.equals(threshold);
 		}
 		return super.eIsSet(featureID);
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="AssignVehicleBasic">
   <concerns name="AssignVehicle">
-    <workflows name="AssignVehicle" startPoints="//@concerns.0/@workflows.0/@nodes.0">
+    <workflows name="AssignVehicle" startPoints="//@concerns.0/@workflows.0/@nodes.0" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="AssignVehicle" step="//@concerns.0/@steps.0" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.3"/>
       </nodes>

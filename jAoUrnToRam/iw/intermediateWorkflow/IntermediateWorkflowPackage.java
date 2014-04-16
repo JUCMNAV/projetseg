@@ -254,13 +254,22 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_WORKFLOW__CONCERN = 3;
 
 	/**
+	 * The feature id for the '<em><b>Is Parent Dyn Stub</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_WORKFLOW__IS_PARENT_DYN_STUB = 4;
+
+	/**
 	 * The number of structural features of the '<em>Iw Workflow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IW_WORKFLOW_FEATURE_COUNT = 4;
+	int IW_WORKFLOW_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link intermediateWorkflow.impl.IwNodeImpl <em>Iw Node</em>}' class.
@@ -418,13 +427,22 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_NODE_CONNECTION__LABEL = 8;
 
 	/**
+	 * The feature id for the '<em><b>Threshold</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_NODE_CONNECTION__THRESHOLD = 9;
+
+	/**
 	 * The number of structural features of the '<em>Iw Node Connection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IW_NODE_CONNECTION_FEATURE_COUNT = 9;
+	int IW_NODE_CONNECTION_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link intermediateWorkflow.impl.IwInputImpl <em>Iw Input</em>}' class.
@@ -1575,6 +1593,17 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	EReference getIwWorkflow_Concern();
 
 	/**
+	 * Returns the meta object for the attribute '{@link intermediateWorkflow.IwWorkflow#getIsParentDynStub <em>Is Parent Dyn Stub</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Parent Dyn Stub</em>'.
+	 * @see intermediateWorkflow.IwWorkflow#getIsParentDynStub()
+	 * @see #getIwWorkflow()
+	 * @generated
+	 */
+	EAttribute getIwWorkflow_IsParentDynStub();
+
+	/**
 	 * Returns the meta object for class '{@link intermediateWorkflow.IwNode <em>Iw Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1747,6 +1776,17 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIwNodeConnection_Label();
+
+	/**
+	 * Returns the meta object for the attribute '{@link intermediateWorkflow.IwNodeConnection#getThreshold <em>Threshold</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Threshold</em>'.
+	 * @see intermediateWorkflow.IwNodeConnection#getThreshold()
+	 * @see #getIwNodeConnection()
+	 * @generated
+	 */
+	EAttribute getIwNodeConnection_Threshold();
 
 	/**
 	 * Returns the meta object for class '{@link intermediateWorkflow.IwInput <em>Iw Input</em>}'.
@@ -2283,6 +2323,14 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		EReference IW_WORKFLOW__CONCERN = eINSTANCE.getIwWorkflow_Concern();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Parent Dyn Stub</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IW_WORKFLOW__IS_PARENT_DYN_STUB = eINSTANCE.getIwWorkflow_IsParentDynStub();
+
+		/**
 		 * The meta object literal for the '{@link intermediateWorkflow.impl.IwNodeImpl <em>Iw Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2413,6 +2461,14 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IW_NODE_CONNECTION__LABEL = eINSTANCE.getIwNodeConnection_Label();
+
+		/**
+		 * The meta object literal for the '<em><b>Threshold</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IW_NODE_CONNECTION__THRESHOLD = eINSTANCE.getIwNodeConnection_Threshold();
 
 		/**
 		 * The meta object literal for the '{@link intermediateWorkflow.impl.IwInputImpl <em>Iw Input</em>}' class.

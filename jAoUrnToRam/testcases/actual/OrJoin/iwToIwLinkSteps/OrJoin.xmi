@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="OrJoin">
   <concerns name="WithoutConcern">
-    <workflows name="Base" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.2 //@concerns.0/@workflows.0/@nodes.6 //@concerns.0/@workflows.0/@nodes.8">
+    <workflows name="Base" startPoints="//@concerns.0/@workflows.0/@nodes.0 //@concerns.0/@workflows.0/@nodes.2 //@concerns.0/@workflows.0/@nodes.6 //@concerns.0/@workflows.0/@nodes.8" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S1" step="//@concerns.0/@steps.0" startPointType="global">
         <succs target="//@concerns.0/@workflows.0/@nodes.1"/>
       </nodes>
@@ -48,7 +48,7 @@
         <succs target="//@concerns.0/@workflows.0/@nodes.5" inBinding="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="2"/>
       </nodes>
     </workflows>
-    <workflows name="Plugin" startPoints="//@concerns.0/@workflows.1/@nodes.0 //@concerns.0/@workflows.1/@nodes.2">
+    <workflows name="Plugin" startPoints="//@concerns.0/@workflows.1/@nodes.0 //@concerns.0/@workflows.1/@nodes.2" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="S10" step="//@concerns.0/@steps.0" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.5/@pluginBindings.0/@inBindings.0">
         <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
       </nodes>

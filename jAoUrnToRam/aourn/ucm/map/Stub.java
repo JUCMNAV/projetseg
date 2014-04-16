@@ -7,6 +7,7 @@
 package ucm.map;
 
 import intermediateWorkflow.IwPluginBinding;
+import intermediateWorkflow.IwStub;
 import jAoUrnToIw.StubStrategy;
 
 import org.eclipse.emf.common.util.EList;
@@ -45,6 +46,7 @@ public interface Stub extends PathNode {
 	boolean isRegularPointcutStub();
 	boolean isReplacementPointcutStub();
 	String stubNameOrPrefixId();
+	IwStub getIwStub();
 	/********************************************************************************/
 	
 	
@@ -287,5 +289,7 @@ public interface Stub extends PathNode {
 	 * @generated
 	 */
 	EList<PluginBinding> getBindings();
+	boolean isBlockingStub();
+	boolean isSynchronizingStub();
 
 } // Stub

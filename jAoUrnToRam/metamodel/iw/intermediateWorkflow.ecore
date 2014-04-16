@@ -55,6 +55,7 @@
           upperBound="-1" eType="#/1/IwStartPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#/1/IwConcern"
           eOpposite="#/1/IwConcern/workflows"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isParentDynStub" eType="#/1/Boolean"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwNode" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#/1/String">
@@ -103,6 +104,7 @@
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInput" eSuperTypes="#/1/IwNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="IwCustomizableNode" eSuperTypes="#/1/IwNode">

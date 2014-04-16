@@ -210,6 +210,7 @@ public interface IwNode extends EObject {
 	String getTargetPortDotEscaped(StepView stepView, Integer stubEntryIndex);
 	IwNodeConnection getSucc(int index);
 	void addPred(IwNodeConnection pred);
+	//void appendStubPortsExit(StepView stepView, String prefix, Integer maxIndex);
 	
 	
 	

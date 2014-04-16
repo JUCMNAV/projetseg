@@ -67,13 +67,13 @@ public class StartupNodeAndSharedRespBaseWorkflowInstantiator extends WorkflowIn
 
     public void bind(StartupNodeAndSharedResp.Instantiators.StartupStepsAndSharedResp.PluginWorkflowInstantiator p_Plugin){
 
-        Binding l_AStub_PluginBinding=new Binding(p_Plugin.workflow);
-        _AStub.addBinding(l_AStub_PluginBinding);
-        _AStub.addInBinding(l_AStub_PluginBinding,"1",p_Plugin._Shared1_221);
-        _AStub.addInBinding(l_AStub_PluginBinding,"3",p_Plugin._IsCondition);
-        _AStub.addInBinding(l_AStub_PluginBinding,"2",p_Plugin._Shared1_221);
-        _AStub.addOutBinding(l_AStub_PluginBinding,p_Plugin._E10,"1");
-        _AStub.addOutBinding(l_AStub_PluginBinding,p_Plugin._E11,"2");
+        Binding AStub_Plugin_PluginBinding=new Binding(p_Plugin.workflow);
+        _AStub.addBinding(AStub_Plugin_PluginBinding);
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"1",p_Plugin._Shared1_221);
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"3",p_Plugin._IsCondition);
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"2",p_Plugin._Shared1_221);
+        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E10,"1");
+        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E11,"2");
     }
 }
 

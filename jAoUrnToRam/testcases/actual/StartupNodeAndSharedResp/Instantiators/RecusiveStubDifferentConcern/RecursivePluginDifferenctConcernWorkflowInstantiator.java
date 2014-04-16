@@ -25,9 +25,9 @@ public class RecursivePluginDifferenctConcernWorkflowInstantiator extends Workfl
 
     public void bind(StartupNodeAndSharedResp.Instantiators.RecursiveStubs.RecursiveStubBaseWorkflowInstantiator p_RecursiveStubBase){
 
-        Binding l_InvokeBaseDifferentConcern_PluginBinding=new Binding(p_RecursiveStubBase.workflow);
-        _InvokeBaseDifferentConcern.addBinding(l_InvokeBaseDifferentConcern_PluginBinding);
-        _InvokeBaseDifferentConcern.addInBinding(l_InvokeBaseDifferentConcern_PluginBinding,"1",p_RecursiveStubBase._DoThatAgain);
+        Binding InvokeBaseDifferentConcern_RecursiveStubBase_PluginBinding=new Binding(p_RecursiveStubBase.workflow);
+        _InvokeBaseDifferentConcern.addBinding(InvokeBaseDifferentConcern_RecursiveStubBase_PluginBinding);
+        _InvokeBaseDifferentConcern.addInBinding(InvokeBaseDifferentConcern_RecursiveStubBase_PluginBinding,"1",p_RecursiveStubBase._DoThatAgain);
     }
 }
 

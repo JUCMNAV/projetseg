@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="DemoSp5_WithAutSameConcern">
   <concerns name="WithoutConcern">
-    <workflows name="Capture" startPoints="//@concerns.0/@workflows.0/@nodes.3">
+    <workflows name="Capture" startPoints="//@concerns.0/@workflows.0/@nodes.3" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOrFork" name="OrFork70" preds="//@concerns.0/@workflows.0/@nodes.1/@succs.0 //@concerns.0/@workflows.0/@nodes.4/@succs.0">
         <succs conditionName="witnessInfoNotVerified" target="//@concerns.0/@workflows.0/@nodes.8"/>
         <succs conditionName="else" target="//@concerns.0/@workflows.0/@nodes.2"/>
@@ -58,7 +58,7 @@
         <succs conditionName="no" target="//@concerns.0/@workflows.0/@nodes.12"/>
       </nodes>
     </workflows>
-    <workflows name="Authentication" startPoints="//@concerns.0/@workflows.1/@nodes.1">
+    <workflows name="Authentication" startPoints="//@concerns.0/@workflows.1/@nodes.1" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOrFork" name="IsAlreadyAuthenticated" preds="//@concerns.0/@workflows.1/@nodes.1/@succs.0">
         <succs conditionName="yes" target="//@concerns.0/@workflows.1/@nodes.2"/>
         <succs conditionName="no" target="//@concerns.0/@workflows.1/@nodes.3" inBinding="//@concerns.0/@workflows.1/@nodes.3/@pluginBindings.0/@inBindings.0" stubEntryIndexAsString="1"/>
@@ -75,7 +75,7 @@
         </pluginBindings>
       </nodes>
     </workflows>
-    <workflows name="Authenticate" startPoints="//@concerns.0/@workflows.2/@nodes.1">
+    <workflows name="Authenticate" startPoints="//@concerns.0/@workflows.2/@nodes.1" isParentDynStub="false">
       <nodes xsi:type="intermediateWorkflow:IwOrFork" name="IsAuthenticated" preds="//@concerns.0/@workflows.2/@nodes.4/@succs.0">
         <succs conditionName="no" target="//@concerns.0/@workflows.2/@nodes.2"/>
         <succs conditionName="yes" target="//@concerns.0/@workflows.2/@nodes.5"/>
