@@ -116,6 +116,8 @@ public interface IwStub extends IwNode {
 	Set<IwWorkflow> getDynamicPlugins();
 	Set<IwWorkflow> getPlugins();
 	boolean isBlockingStub();
+	boolean isDynamicStub();
+	void appendStubPortsExit(StepView stepView, String prefix, Integer maxIndex);
 	
 	
 	

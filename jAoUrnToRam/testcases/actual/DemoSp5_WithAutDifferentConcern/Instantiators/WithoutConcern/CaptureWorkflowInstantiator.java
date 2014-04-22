@@ -33,22 +33,22 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
     public void linkNodesToNextNodes(){
         _OrFork70.addNextNode("witnessInfoNotVerified",_FakeCrisisNotification);
         _OrFork70.addNextNode("else",_Captured);
-        _Aut3.addNextNode("1",_OrFork70);
+        _Aut3.addNextNode("_OUT1",_OrFork70);
         _Capture.addNextNode(_CaptureWitnessInfo);
         _ValidateWitnessInfo.addNextNode(_OrFork70);
-        _Aut2.addNextNode("1",_ValidateWitnessInfo);
+        _Aut2.addNextNode("_OUT1",_ValidateWitnessInfo);
         _PhoneDataRequest.addNextNode(_ValidateWitness);
         _ValidateWitness.addNextNode(_ProcessValidateWitness);
         _FakeCrisisNotification.addNextNode(_FakeCrisis);
         _CaptureWitnessInfo.addNextNode(_ProcessCaptureWitnessInfo);
-        _Aut1.addNextNode("1",_IsPhoneCompanyAvailable);
+        _Aut1.addNextNode("_OUT1",_IsPhoneCompanyAvailable);
         _CrisisInfoRequest.addNextNode(_CaptureLocationType);
         _CaptureLocationType.addNextNode(_ProcessCaptureLocationType);
         _IsPhoneCompanyAvailable.addNextNode("yes",_PhoneDataRequest);
         _IsPhoneCompanyAvailable.addNextNode("no",_CrisisInfoRequest);
-        _ProcessValidateWitness.addNextNode(_Aut2,"1");
-        _ProcessCaptureWitnessInfo.addNextNode(_Aut1,"1");
-        _ProcessCaptureLocationType.addNextNode(_Aut3,"1");
+        _ProcessValidateWitness.addNextNode(_Aut2,"Aut2_IN1");
+        _ProcessCaptureWitnessInfo.addNextNode(_Aut1,"Aut1_IN1");
+        _ProcessCaptureLocationType.addNextNode(_Aut3,"Aut3_IN1");
     }
 
     public void linkNodesToWorkflow(){
@@ -80,18 +80,18 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding Aut3_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _Aut3.addBinding(Aut3_Authentication_PluginBinding);
-        _Aut3.addInBinding(Aut3_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut3.addOutBinding(Aut3_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _Aut3.addInBinding(Aut3_Authentication_PluginBinding,"Aut3_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut3.addOutBinding(Aut3_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"Aut3_OUT1");
 
         Binding Aut2_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _Aut2.addBinding(Aut2_Authentication_PluginBinding);
-        _Aut2.addInBinding(Aut2_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut2.addOutBinding(Aut2_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _Aut2.addInBinding(Aut2_Authentication_PluginBinding,"Aut2_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut2.addOutBinding(Aut2_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"Aut2_OUT1");
 
         Binding Aut1_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _Aut1.addBinding(Aut1_Authentication_PluginBinding);
-        _Aut1.addInBinding(Aut1_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _Aut1.addOutBinding(Aut1_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _Aut1.addInBinding(Aut1_Authentication_PluginBinding,"Aut1_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _Aut1.addOutBinding(Aut1_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"Aut1_OUT1");
     }
 }
 

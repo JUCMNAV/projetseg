@@ -16,8 +16,8 @@ public class ExplicitAspectMarker_BaseWorkflowInstantiator extends WorkflowInsta
     }
 
     public void linkNodesToNextNodes(){
-        _StartPoint1143.addNextNode(_AspectMarker1148,"1");
-        _AspectMarker1148.addNextNode("1",_EndPoint1145);
+        _StartPoint1143.addNextNode(_AspectMarker1148,"AspectMarker1148_IN1");
+        _AspectMarker1148.addNextNode("_OUT1",_EndPoint1145);
     }
 
     public void linkNodesToWorkflow(){
@@ -34,8 +34,8 @@ public class ExplicitAspectMarker_BaseWorkflowInstantiator extends WorkflowInsta
 
         Binding AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding=new Binding(p_ExplicitAspectMarker_Aspect.workflow);
         _AspectMarker1148.addBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding);
-        _AspectMarker1148.addInBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,"1",p_ExplicitAspectMarker_Aspect._TheOrFork);
-        _AspectMarker1148.addOutBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,p_ExplicitAspectMarker_Aspect._E10,"1");
+        _AspectMarker1148.addInBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,"AspectMarker1148_IN1",p_ExplicitAspectMarker_Aspect._TheOrFork);
+        _AspectMarker1148.addOutBinding(AspectMarker1148_ExplicitAspectMarker_Aspect_PluginBinding,p_ExplicitAspectMarker_Aspect._E10,"AspectMarker1148_OUT1");
     }
 }
 

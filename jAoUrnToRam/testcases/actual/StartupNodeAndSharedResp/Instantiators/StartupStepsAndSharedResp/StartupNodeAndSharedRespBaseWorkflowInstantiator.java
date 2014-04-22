@@ -28,18 +28,18 @@ public class StartupNodeAndSharedRespBaseWorkflowInstantiator extends WorkflowIn
 
     public void linkNodesToNextNodes(){
         _S1.addNextNode(_R1);
-        _AStub.addNextNode("1",_E1);
-        _AStub.addNextNode("2",_E2);
+        _AStub.addNextNode("_OUT1",_E1);
+        _AStub.addNextNode("_OUT2",_E2);
         _S2.addNextNode(_I2);
         _I2.addNextNode(_ProcessI2);
         _S3.addNextNode(_I3);
         _I3.addNextNode(_ProcessI3);
-        _Shared1_522.addNextNode(_AStub,"2");
+        _Shared1_522.addNextNode(_AStub,"AStub_IN2");
         _R1.addNextNode(_I1);
         _I1.addNextNode(_ProcessI1);
         _ProcessI2.addNextNode(_Shared1_522);
-        _ProcessI3.addNextNode(_AStub,"3");
-        _ProcessI1.addNextNode(_AStub,"1");
+        _ProcessI3.addNextNode(_AStub,"AStub_IN3");
+        _ProcessI1.addNextNode(_AStub,"AStub_IN1");
     }
 
     public void linkNodesToWorkflow(){
@@ -69,11 +69,11 @@ public class StartupNodeAndSharedRespBaseWorkflowInstantiator extends WorkflowIn
 
         Binding AStub_Plugin_PluginBinding=new Binding(p_Plugin.workflow);
         _AStub.addBinding(AStub_Plugin_PluginBinding);
-        _AStub.addInBinding(AStub_Plugin_PluginBinding,"1",p_Plugin._Shared1_221);
-        _AStub.addInBinding(AStub_Plugin_PluginBinding,"3",p_Plugin._IsCondition);
-        _AStub.addInBinding(AStub_Plugin_PluginBinding,"2",p_Plugin._Shared1_221);
-        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E10,"1");
-        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E11,"2");
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"AStub_IN1",p_Plugin._Shared1_221);
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"AStub_IN3",p_Plugin._IsCondition);
+        _AStub.addInBinding(AStub_Plugin_PluginBinding,"AStub_IN2",p_Plugin._Shared1_221);
+        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E10,"AStub_OUT1");
+        _AStub.addOutBinding(AStub_Plugin_PluginBinding,p_Plugin._E11,"AStub_OUT2");
     }
 }
 

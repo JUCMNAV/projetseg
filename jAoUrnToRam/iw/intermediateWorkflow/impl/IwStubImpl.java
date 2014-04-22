@@ -74,11 +74,11 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 	public String getImageName() {
 		if(isSynchStub()) {
 			return "SyncStub24.gif";
-		}
-		else if(isBlockingStub()) {
+		} else if(isBlockingStub()) {
 			return "BlockStub24.gif";
-		}
-		else  {
+		} else if (isDynamicStub()) {
+			return "DynStub24.gif";
+		} else  {
 			return "Stub24.gif";
 		}
 	}
@@ -215,7 +215,7 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 		}*/
 	}
 	
-	//@Override
+	@Override
 	public void appendStubPortsExit(StepView stepView,String prefix,Integer maxIndex) {
 		for(int i=0; i<maxIndex; i++){
 			stepView.append("                            <td port=\"");
@@ -278,6 +278,9 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 				String threshold = nodeConnection.getThreshold();
 				thresholds.put(stubExitIndex, threshold);
 			}
+		}
+		else if(isDynamicStub()) {
+			exploreDynamicStub(currentStep);
 		}
 		else {
 			exploreStaticStub(currentStep);
@@ -356,7 +359,8 @@ public class IwStubImpl extends IwNodeImpl implements IwStub {
 		return getStubType().equals("dynamicBlocking");
 	}
 	
-	private boolean isDynStub() {
+	@Override
+	public boolean isDynamicStub() {
 		return getStubType().equals("dynamic");
 	}
 	

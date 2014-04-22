@@ -22,6 +22,7 @@ public class AoUrnToRamTestCases {
 	private static final String SYNC_STUB = "testcases\\in\\syncStub.jucm";
 	private static final String SYNC_STUB0 = "testcases\\in\\syncStub0.jucm";
 	private static final String BLCK_STUB = "testcases\\in\\blockingStub.jucm";
+	private static final String DYN_STUB = "testcases\\in\\DynStub.jucm";
 	
 	public static String[] getTestCases(){
 		return new String[] {
@@ -44,7 +45,8 @@ public class AoUrnToRamTestCases {
 				TIMER_WITH_TRIGGER_AND_TIMEOUTPATH,
 				AND_JOIN,
 				SYNC_STUB,
-				BLCK_STUB
+				BLCK_STUB,
+				DYN_STUB
 		};
 	}
 

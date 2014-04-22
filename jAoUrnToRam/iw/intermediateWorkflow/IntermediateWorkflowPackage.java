@@ -373,7 +373,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_NODE_CONNECTION__TARGET = 2;
 
 	/**
-	 * The feature id for the '<em><b>In Binding</b></em>' reference.
+	 * The feature id for the '<em><b>In Binding</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -391,7 +391,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING = 4;
 
 	/**
-	 * The feature id for the '<em><b>Out Binding</b></em>' reference.
+	 * The feature id for the '<em><b>Out Binding</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1194,13 +1194,22 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	int IW_PLUGIN_BINDING__STUB = 2;
 
 	/**
+	 * The feature id for the '<em><b>Condition Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IW_PLUGIN_BINDING__CONDITION_LABEL = 3;
+
+	/**
 	 * The number of structural features of the '<em>Iw Plugin Binding</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IW_PLUGIN_BINDING_FEATURE_COUNT = 3;
+	int IW_PLUGIN_BINDING_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link intermediateWorkflow.impl.IwInBindingImpl <em>Iw In Binding</em>}' class.
@@ -1712,10 +1721,10 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	EReference getIwNodeConnection_Target();
 
 	/**
-	 * Returns the meta object for the reference '{@link intermediateWorkflow.IwNodeConnection#getInBinding <em>In Binding</em>}'.
+	 * Returns the meta object for the reference list '{@link intermediateWorkflow.IwNodeConnection#getInBinding <em>In Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>In Binding</em>'.
+	 * @return the meta object for the reference list '<em>In Binding</em>'.
 	 * @see intermediateWorkflow.IwNodeConnection#getInBinding()
 	 * @see #getIwNodeConnection()
 	 * @generated
@@ -1734,10 +1743,10 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	EAttribute getIwNodeConnection_StubEntryIndexAsString();
 
 	/**
-	 * Returns the meta object for the reference '{@link intermediateWorkflow.IwNodeConnection#getOutBinding <em>Out Binding</em>}'.
+	 * Returns the meta object for the reference list '{@link intermediateWorkflow.IwNodeConnection#getOutBinding <em>Out Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Out Binding</em>'.
+	 * @return the meta object for the reference list '<em>Out Binding</em>'.
 	 * @see intermediateWorkflow.IwNodeConnection#getOutBinding()
 	 * @see #getIwNodeConnection()
 	 * @generated
@@ -2018,6 +2027,17 @@ public interface IntermediateWorkflowPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIwPluginBinding_Stub();
+
+	/**
+	 * Returns the meta object for the attribute '{@link intermediateWorkflow.IwPluginBinding#getConditionLabel <em>Condition Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition Label</em>'.
+	 * @see intermediateWorkflow.IwPluginBinding#getConditionLabel()
+	 * @see #getIwPluginBinding()
+	 * @generated
+	 */
+	EAttribute getIwPluginBinding_ConditionLabel();
 
 	/**
 	 * Returns the meta object for class '{@link intermediateWorkflow.IwInBinding <em>Iw In Binding</em>}'.
@@ -2415,7 +2435,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		EReference IW_NODE_CONNECTION__TARGET = eINSTANCE.getIwNodeConnection_Target();
 
 		/**
-		 * The meta object literal for the '<em><b>In Binding</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>In Binding</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2431,7 +2451,7 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		EAttribute IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING = eINSTANCE.getIwNodeConnection_StubEntryIndexAsString();
 
 		/**
-		 * The meta object literal for the '<em><b>Out Binding</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Out Binding</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2667,6 +2687,14 @@ public interface IntermediateWorkflowPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IW_PLUGIN_BINDING__STUB = eINSTANCE.getIwPluginBinding_Stub();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition Label</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IW_PLUGIN_BINDING__CONDITION_LABEL = eINSTANCE.getIwPluginBinding_ConditionLabel();
 
 		/**
 		 * The meta object literal for the '{@link intermediateWorkflow.impl.IwInBindingImpl <em>Iw In Binding</em>}' class.

@@ -793,6 +793,15 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIwPluginBinding_ConditionLabel() {
+		return (EAttribute)iwPluginBindingEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIwInBinding() {
 		return iwInBindingEClass;
 	}
@@ -998,6 +1007,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		createEReference(iwPluginBindingEClass, IW_PLUGIN_BINDING__IN_BINDINGS);
 		createEReference(iwPluginBindingEClass, IW_PLUGIN_BINDING__OUT_BINDINGS);
 		createEReference(iwPluginBindingEClass, IW_PLUGIN_BINDING__STUB);
+		createEAttribute(iwPluginBindingEClass, IW_PLUGIN_BINDING__CONDITION_LABEL);
 
 		iwInBindingEClass = createEClass(IW_IN_BINDING);
 		createEReference(iwInBindingEClass, IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES);
@@ -1092,9 +1102,9 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEAttribute(getIwNodeConnection_ConditionName(), this.getString(), "conditionName", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwNodeConnection_Source(), this.getIwNode(), this.getIwNode_Succs(), "source", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwNodeConnection_Target(), this.getIwNode(), this.getIwNode_Preds(), "target", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIwNodeConnection_InBinding(), this.getIwInBinding(), this.getIwInBinding_DisjunctiveStubEntries(), "inBinding", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIwNodeConnection_InBinding(), this.getIwInBinding(), this.getIwInBinding_DisjunctiveStubEntries(), "inBinding", null, 0, -1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_StubEntryIndexAsString(), this.getString(), "stubEntryIndexAsString", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIwNodeConnection_OutBinding(), this.getIwOutBinding(), this.getIwOutBinding_StubExit(), "outBinding", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIwNodeConnection_OutBinding(), this.getIwOutBinding(), this.getIwOutBinding_StubExit(), "outBinding", null, 0, -1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_StubExitIndexAsString(), this.getString(), "stubExitIndexAsString", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_Trigger(), this.getBoolean(), "trigger", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIwNodeConnection_Label(), this.getString(), "label", null, 0, 1, IwNodeConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1132,6 +1142,7 @@ public class IntermediateWorkflowPackageImpl extends EPackageImpl implements Int
 		initEReference(getIwPluginBinding_InBindings(), this.getIwInBinding(), this.getIwInBinding_PluginBinding(), "inBindings", null, 0, -1, IwPluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwPluginBinding_OutBindings(), this.getIwOutBinding(), this.getIwOutBinding_PluginBinding(), "outBindings", null, 0, -1, IwPluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIwPluginBinding_Stub(), this.getIwStub(), this.getIwStub_PluginBindings(), "stub", null, 0, 1, IwPluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIwPluginBinding_ConditionLabel(), this.getString(), "conditionLabel", null, 0, 1, IwPluginBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iwInBindingEClass, IwInBinding.class, "IwInBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIwInBinding_DisjunctiveStubEntries(), this.getIwNodeConnection(), this.getIwNodeConnection_InBinding(), "disjunctiveStubEntries", null, 1, -1, IwInBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

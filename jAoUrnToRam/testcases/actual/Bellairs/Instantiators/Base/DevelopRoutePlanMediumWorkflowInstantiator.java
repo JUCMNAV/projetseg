@@ -27,11 +27,11 @@ public class DevelopRoutePlanMediumWorkflowInstantiator extends WorkflowInstanti
         _OrFork117333.addNextNode("accepted",_RoutesEstablished);
         _ShowVehicleList.addNextNode(_RequestDriverConfirmation);
         _EstablishRoutes.addNextNode(_ShowVehicleList);
-        _RequestDriverConfirmation.addNextNode(_AspectMarker117542,"1");
-        _AspectMarker117542.addNextNode("1",_ShowAssignment);
+        _RequestDriverConfirmation.addNextNode(_AspectMarker117542,"AspectMarker117542_IN1");
+        _AspectMarker117542.addNextNode("_OUT1",_ShowAssignment);
         _ShowAssignment.addNextNode(_ConfirmAssignment);
-        _ConfirmAssignment.addNextNode(_AspectMarker117545,"1");
-        _AspectMarker117545.addNextNode("1",_ProcessConfirmAssignment);
+        _ConfirmAssignment.addNextNode(_AspectMarker117545,"AspectMarker117545_IN1");
+        _AspectMarker117545.addNextNode("_OUT1",_ProcessConfirmAssignment);
         _ProcessConfirmAssignment.addNextNode(_OrFork117333);
     }
 
@@ -56,13 +56,13 @@ public class DevelopRoutePlanMediumWorkflowInstantiator extends WorkflowInstanti
 
         Binding AspectMarker117542_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker117542.addBinding(AspectMarker117542_Authentication_PluginBinding);
-        _AspectMarker117542.addInBinding(AspectMarker117542_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117542.addOutBinding(AspectMarker117542_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
+        _AspectMarker117542.addInBinding(AspectMarker117542_Authentication_PluginBinding,"AspectMarker117542_IN1",p_Authentication._CheckAuthentication);
+        _AspectMarker117542.addOutBinding(AspectMarker117542_Authentication_PluginBinding,p_Authentication._Authenticated,"AspectMarker117542_OUT1");
 
         Binding AspectMarker117545_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker117545.addBinding(AspectMarker117545_Authentication_PluginBinding);
-        _AspectMarker117545.addInBinding(AspectMarker117545_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117545.addOutBinding(AspectMarker117545_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
+        _AspectMarker117545.addInBinding(AspectMarker117545_Authentication_PluginBinding,"AspectMarker117545_IN1",p_Authentication._CheckAuthentication);
+        _AspectMarker117545.addOutBinding(AspectMarker117545_Authentication_PluginBinding,p_Authentication._Authenticated,"AspectMarker117545_OUT1");
     }
 }
 

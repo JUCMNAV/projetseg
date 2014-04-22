@@ -291,5 +291,6 @@ public interface Stub extends PathNode {
 	EList<PluginBinding> getBindings();
 	boolean isBlockingStub();
 	boolean isSynchronizingStub();
+	boolean isDynamicStub();
 
 } // Stub

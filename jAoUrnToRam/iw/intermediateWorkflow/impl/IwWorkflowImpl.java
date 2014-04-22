@@ -217,7 +217,7 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		workflowInstantiator.append("){\n");
 		
 		for(IwStub stub : getStubs()) {
-			if(stub.isSynchStub() || stub.isBlockingStub()) {
+			if(stub.isSynchStub() || stub.isBlockingStub() || stub.isDynamicStub()) {
 				for(IwPluginBinding iwPluginBinding : stub.getPluginBindings()) {
 					iwPluginBinding.jiAppendBindStatement(workflowInstantiator);
 				}

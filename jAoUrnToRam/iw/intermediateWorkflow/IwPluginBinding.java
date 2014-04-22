@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link intermediateWorkflow.IwPluginBinding#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link intermediateWorkflow.IwPluginBinding#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link intermediateWorkflow.IwPluginBinding#getStub <em>Stub</em>}</li>
+ *   <li>{@link intermediateWorkflow.IwPluginBinding#getConditionLabel <em>Condition Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -99,6 +100,32 @@ public interface IwPluginBinding extends EObject {
 	 * @generated
 	 */
 	void setStub(IwStub value);
+
+	/**
+	 * Returns the value of the '<em><b>Condition Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Condition Label</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Condition Label</em>' attribute.
+	 * @see #setConditionLabel(String)
+	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwPluginBinding_ConditionLabel()
+	 * @model dataType="intermediateWorkflow.String"
+	 * @generated
+	 */
+	String getConditionLabel();
+
+	/**
+	 * Sets the value of the '{@link intermediateWorkflow.IwPluginBinding#getConditionLabel <em>Condition Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Condition Label</em>' attribute.
+	 * @see #getConditionLabel()
+	 * @generated
+	 */
+	void setConditionLabel(String value);
 
 	String jiLocalVarName(String entryIndex);
 

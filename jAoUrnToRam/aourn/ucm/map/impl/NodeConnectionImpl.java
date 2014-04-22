@@ -31,6 +31,7 @@ import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urncore.Condition;
@@ -79,12 +80,23 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
 			setWaitingPlacePredLabel();
 	}
 	
+	
+	
 	private void setTimerSuccLabel() {
 		iwNodeConnection.setLabel("regular");
 	}
 	
 	private boolean isSourceTimer() {
 		return source.getClass() == TimerImpl.class;
+	}
+	
+	private boolean isSourceDynStub() {
+		if(source.getClass() == StubImpl.class) {
+			Stub stub = (Stub)source;
+			
+			return stub.isDynamicStub();
+		}
+		return false;
 	}
 	
 	private boolean isTargetWaitingPlace() {

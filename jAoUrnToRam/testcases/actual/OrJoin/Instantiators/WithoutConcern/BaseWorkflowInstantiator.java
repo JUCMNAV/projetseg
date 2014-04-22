@@ -31,15 +31,15 @@ public class BaseWorkflowInstantiator extends WorkflowInstantiator{
         _I1.addNextNode(_ProcessI1);
         _S4.addNextNode(_I4);
         _I4.addNextNode(_ProcessI4);
-        _TheStub.addNextNode("1",_E1);
+        _TheStub.addNextNode("_OUT1",_E1);
         _S2.addNextNode(_I2);
         _I2.addNextNode(_ProcessI2);
         _S3.addNextNode(_I3);
         _I3.addNextNode(_ProcessI3);
-        _ProcessI1.addNextNode(_TheStub,"2");
-        _ProcessI4.addNextNode(_TheStub,"1");
-        _ProcessI2.addNextNode(_TheStub,"2");
-        _ProcessI3.addNextNode(_TheStub,"2");
+        _ProcessI1.addNextNode(_TheStub,"TheStub_IN2");
+        _ProcessI4.addNextNode(_TheStub,"TheStub_IN1");
+        _ProcessI2.addNextNode(_TheStub,"TheStub_IN2");
+        _ProcessI3.addNextNode(_TheStub,"TheStub_IN2");
     }
 
     public void linkNodesToWorkflow(){
@@ -70,9 +70,9 @@ public class BaseWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding TheStub_Plugin_PluginBinding=new Binding(p_Plugin.workflow);
         _TheStub.addBinding(TheStub_Plugin_PluginBinding);
-        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"2",p_Plugin._E10);
-        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"1",p_Plugin._E10);
-        _TheStub.addOutBinding(TheStub_Plugin_PluginBinding,p_Plugin._E10,"1");
+        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"TheStub_IN2",p_Plugin._E10);
+        _TheStub.addInBinding(TheStub_Plugin_PluginBinding,"TheStub_IN1",p_Plugin._E10);
+        _TheStub.addOutBinding(TheStub_Plugin_PluginBinding,p_Plugin._E10,"TheStub_OUT1");
     }
 }
 

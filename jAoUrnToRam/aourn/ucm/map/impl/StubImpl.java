@@ -72,7 +72,7 @@ public class StubImpl extends PathNodeImpl implements Stub {
 				strategy = new RegularStubStrategy(this);
 			}
 			else if(isDynamicAndNotPointcut()) {
-				System.out.println("iz dynamic stub");
+				//System.out.println("iz dynamic stub");
 				strategy = new DynamicStubStrategy(this);
 			}
 			else {
@@ -84,7 +84,8 @@ public class StubImpl extends PathNodeImpl implements Stub {
 	
 	public boolean isDynamicAndNotPointcut() {
 		if(aopointcut != null)
-			return dynamic && !aopointcut.equals(PointcutKind.REGULAR) && !aopointcut.equals(PointcutKind.REPLACEMENT);
+			return dynamic && !isPointcutStub();
+			//return dynamic && !aopointcut.equals(PointcutKind.REGULAR) && !aopointcut.equals(PointcutKind.REPLACEMENT);
 		else 
 			return dynamic;
 	}
@@ -144,6 +145,12 @@ public class StubImpl extends PathNodeImpl implements Stub {
 	public boolean isSynchronizingStub() {
 		return dynamic && synchronization && !blocking;
 	}
+	
+	@Override
+	public boolean isDynamicStub() {
+		return dynamic && !synchronization && !blocking && !isPointcutStub();
+	}
+	
 	
 	@Override
 	public boolean isPointcutStub() {

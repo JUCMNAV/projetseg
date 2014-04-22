@@ -29,8 +29,9 @@ public class RegularStubStrategy extends StubStrategy  {
 		else {
 			iwStub.setName(stub.stubNameOrPrefixId());
 		}
-		for(PluginBinding pb : stub.getBindings())
+		for(PluginBinding pb : stub.getBindings()) {
 			pb.build();
+		}
 	}
 	
 	@Override

@@ -18,10 +18,10 @@ public class MapWorkflowInstantiator extends WorkflowInstantiator{
     }
 
     public void linkNodesToNextNodes(){
-        _SpA.addNextNode(_BlockingStub,"1");
-        _BlockingStub.addNextNodeWithThreshold("_OUT1",_EpA,2);
-        _BlockingStub.addNextNodeWithThreshold("_OUT2",_EpB,3);
-        _SpB.addNextNode(_BlockingStub,"2");
+        _SpA.addNextNode(_BlockingStub,"BlockingStub_IN1");
+        _BlockingStub.addNextNodeWithThreshold("BlockingStub_OUT1",_EpA,2);
+        _BlockingStub.addNextNodeWithThreshold("BlockingStub_OUT2",_EpB,3);
+        _SpB.addNextNode(_BlockingStub,"BlockingStub_IN2");
     }
 
     public void linkNodesToWorkflow(){
@@ -42,13 +42,13 @@ public class MapWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding BlockingStub_Pm2_PluginBinding=new Binding(p_Pm2.workflow);
         _BlockingStub.addBinding(BlockingStub_Pm2_PluginBinding);
-        _BlockingStub.addInBinding(BlockingStub_Pm2_PluginBinding,"2",p_Pm2._R2);
-        _BlockingStub.addOutBinding(BlockingStub_Pm2_PluginBinding,p_Pm2._Ep2,"2");
+        _BlockingStub.addInBinding(BlockingStub_Pm2_PluginBinding,"BlockingStub_IN2",p_Pm2._R2);
+        _BlockingStub.addOutBinding(BlockingStub_Pm2_PluginBinding,p_Pm2._Ep2,"BlockingStub_OUT2");
 
         Binding BlockingStub_Pm1_PluginBinding=new Binding(p_Pm1.workflow);
         _BlockingStub.addBinding(BlockingStub_Pm1_PluginBinding);
-        _BlockingStub.addInBinding(BlockingStub_Pm1_PluginBinding,"1",p_Pm1._R1);
-        _BlockingStub.addOutBinding(BlockingStub_Pm1_PluginBinding,p_Pm1._Ep1,"1");
+        _BlockingStub.addInBinding(BlockingStub_Pm1_PluginBinding,"BlockingStub_IN1",p_Pm1._R1);
+        _BlockingStub.addOutBinding(BlockingStub_Pm1_PluginBinding,p_Pm1._Ep1,"BlockingStub_OUT1");
     }
 }
 

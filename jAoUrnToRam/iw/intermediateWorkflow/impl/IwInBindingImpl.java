@@ -55,16 +55,38 @@ public class IwInBindingImpl extends EObjectImpl implements IwInBinding {
 		stepView.append(getAnyOfTheDisjunctiveStubEntries().getTargetPortDotEscaped(stepView));
 		stepView.append("->");
 		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView));
-		stepView.appendLine("[style=dashed,arrowhead=onormal]");
+		//stepView.appendLine("[style=dashed,arrowhead=onormal]");
+		appendStyle(stepView);
 	}
+	
+	private void appendStyle(StepView stepView) {
+		stepView.append("[style=dashed,arrowhead=onormal");
+		if(isStubDynamic()) {
+			stepView.append(",label=<<table border=\"0\" cellborder=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"gray\"><tr><td>");
+			stepView.append(getConditionLabel());
+			stepView.append("</td></tr></table>>");
+		}
+		stepView.appendLine("]");
+	}
+	
 	@Override
 	public void appendBindingToStubsFromOtherConcernsPlaceholder(StepView stepView) {
 		stepView.append("    ");
 		stepView.appendStubsFromOtherConcernsPlaceholder();
 		stepView.append("->");
 		stepView.append(getPluginStartPointTargetPortDotEscaped(stepView));
-		stepView.appendLine("[style=dashed,arrowhead=onormal]");
+		//stepView.appendLine("[style=dashed,arrowhead=onormal]");
+		appendStyle(stepView);
 	}
+	
+	private boolean isStubDynamic() {
+		return getPluginBinding().getStub().isDynamicStub();
+	}
+	
+	private String getConditionLabel() {
+		return getPluginBinding().getConditionLabel();
+	}
+	
 	@Override
 	public String getPluginStartPointTargetPortDotEscaped(StepView stepView) {
 		return getPluginStartPoint().getSuccs().get(0).getTargetPortDotEscaped(stepView);
@@ -73,13 +95,18 @@ public class IwInBindingImpl extends EObjectImpl implements IwInBinding {
 	
 	@Override
 	public void jiAppendBindStatement(WorkflowInstantiator workflowInstantiator) {
+		
 		workflowInstantiator.appendMethodInvocationOn_3Params(
 			getStub().jiMemberName(),
 			"addInBinding",
 			getPluginBinding().jiLocalVarName(),
-			"\"" + Integer.toString(getStubEntryIndex()) + "\"", //stubEntryIndex.toQuotedString
+			"\"" + getStubName() + "_IN"+ Integer.toString(getStubEntryIndex()) + "\"", //stubEntryIndex.toQuotedString
 			getPluginStartPoint().getWorkflow().jiBindMethod_PluginParamName() + "." + getPluginStartPoint().getTarget().jiMemberName()
 		);
+	}
+	
+	private String getStubName() {
+		return getStub().getName();
 	}
 	
 	/************************************************************/
@@ -114,7 +141,7 @@ public class IwInBindingImpl extends EObjectImpl implements IwInBinding {
 
 	@Override
 	public IwNodeConnection getAnyOfTheDisjunctiveStubEntries() {
-		return this.disjunctiveStubEntries.get(0);
+		return disjunctiveStubEntries.get(0);
 	}
 
 	
@@ -164,7 +191,7 @@ public class IwInBindingImpl extends EObjectImpl implements IwInBinding {
 	 */
 	public EList<IwNodeConnection> getDisjunctiveStubEntries() {
 		if (disjunctiveStubEntries == null) {
-			disjunctiveStubEntries = new EObjectWithInverseResolvingEList<IwNodeConnection>(IwNodeConnection.class, this, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING);
+			disjunctiveStubEntries = new EObjectWithInverseResolvingEList.ManyInverse<IwNodeConnection>(IwNodeConnection.class, this, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING);
 		}
 		return disjunctiveStubEntries;
 	}

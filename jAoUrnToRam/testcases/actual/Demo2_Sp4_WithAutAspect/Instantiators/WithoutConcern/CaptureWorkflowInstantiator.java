@@ -36,14 +36,14 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
         _Capture.addNextNode(_CaptureWitnessInfo);
         _ValidateWitnessInfo.addNextNode(_AndJoin1188);
         _PhoneDataRequest.addNextNode(_ValidateWitness);
-        _ValidateWitness.addNextNode(_AspectMarker813,"1");
+        _ValidateWitness.addNextNode(_AspectMarker813,"AspectMarker813_IN1");
         _FakeCrisisNotification.addNextNode(_FakeCrisis);
-        _CaptureWitnessInfo.addNextNode(_AspectMarker812,"1");
+        _CaptureWitnessInfo.addNextNode(_AspectMarker812,"AspectMarker812_IN1");
         _CrisisInfoRequest.addNextNode(_CaptureLocationType);
-        _CaptureLocationType.addNextNode(_AspectMarker814,"1");
-        _AspectMarker812.addNextNode("1",_ProcessCaptureWitnessInfo);
-        _AspectMarker813.addNextNode("1",_ValidateWitnessInfo);
-        _AspectMarker814.addNextNode("1",_ProcessCaptureLocationType);
+        _CaptureLocationType.addNextNode(_AspectMarker814,"AspectMarker814_IN1");
+        _AspectMarker812.addNextNode("_OUT1",_ProcessCaptureWitnessInfo);
+        _AspectMarker813.addNextNode("_OUT1",_ValidateWitnessInfo);
+        _AspectMarker814.addNextNode("_OUT1",_ProcessCaptureLocationType);
         _AndFork1180.addNextNode(_PhoneDataRequest);
         _AndFork1180.addNextNode(_CrisisInfoRequest);
         _AndJoin1188.addNextNode(_OrFork70);
@@ -80,18 +80,18 @@ public class CaptureWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding AspectMarker812_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker812.addBinding(AspectMarker812_Authentication_PluginBinding);
-        _AspectMarker812.addInBinding(AspectMarker812_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker812.addOutBinding(AspectMarker812_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _AspectMarker812.addInBinding(AspectMarker812_Authentication_PluginBinding,"AspectMarker812_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker812.addOutBinding(AspectMarker812_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"AspectMarker812_OUT1");
 
         Binding AspectMarker813_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker813.addBinding(AspectMarker813_Authentication_PluginBinding);
-        _AspectMarker813.addInBinding(AspectMarker813_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker813.addOutBinding(AspectMarker813_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _AspectMarker813.addInBinding(AspectMarker813_Authentication_PluginBinding,"AspectMarker813_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker813.addOutBinding(AspectMarker813_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"AspectMarker813_OUT1");
 
         Binding AspectMarker814_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker814.addBinding(AspectMarker814_Authentication_PluginBinding);
-        _AspectMarker814.addInBinding(AspectMarker814_Authentication_PluginBinding,"1",p_Authentication._IsAlreadyAuthenticated);
-        _AspectMarker814.addOutBinding(AspectMarker814_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"1");
+        _AspectMarker814.addInBinding(AspectMarker814_Authentication_PluginBinding,"AspectMarker814_IN1",p_Authentication._IsAlreadyAuthenticated);
+        _AspectMarker814.addOutBinding(AspectMarker814_Authentication_PluginBinding,p_Authentication._AuthenticationVerified,"AspectMarker814_OUT1");
     }
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediateWorkflow:IwModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediateWorkflow="http:///intermediateWorkflow.ecore" name="DynStub">
+  <concerns name="WithoutConcern">
+    <workflows name="Map" startPoints="//@concerns.0/@workflows.0/@nodes.0" isParentDynStub="false">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="Sp" startPointType="global">
+        <succs target="//@concerns.0/@workflows.0/@nodes.2" inBinding="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@inBindings.0 //@concerns.0/@workflows.0/@nodes.2/@pluginBindings.1/@inBindings.0" stubEntryIndexAsString="1"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="Ep" preds="//@concerns.0/@workflows.0/@nodes.2/@succs.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwStub" name="DynStub" preds="//@concerns.0/@workflows.0/@nodes.0/@succs.0" stubType="dynamic">
+        <succs target="//@concerns.0/@workflows.0/@nodes.1" outBinding="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@outBindings.0 //@concerns.0/@workflows.0/@nodes.2/@pluginBindings.1/@outBindings.0" stubExitIndexAsString="1"/>
+        <pluginBindings conditionLabel="cond1">
+          <inBindings disjunctiveStubEntries="//@concerns.0/@workflows.0/@nodes.0/@succs.0" pluginStartPoint="//@concerns.0/@workflows.1/@nodes.0"/>
+          <outBindings stubExit="//@concerns.0/@workflows.0/@nodes.2/@succs.0" pluginEndPoint="//@concerns.0/@workflows.1/@nodes.1"/>
+        </pluginBindings>
+        <pluginBindings conditionLabel="cond2">
+          <inBindings disjunctiveStubEntries="//@concerns.0/@workflows.0/@nodes.0/@succs.0" pluginStartPoint="//@concerns.0/@workflows.2/@nodes.0"/>
+          <outBindings stubExit="//@concerns.0/@workflows.0/@nodes.2/@succs.0" pluginEndPoint="//@concerns.0/@workflows.2/@nodes.1"/>
+        </pluginBindings>
+      </nodes>
+    </workflows>
+    <workflows name="Pm1" startPoints="//@concerns.0/@workflows.1/@nodes.0" isParentDynStub="true">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="Sp1" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@inBindings.0">
+        <succs target="//@concerns.0/@workflows.1/@nodes.2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="Ep1" preds="//@concerns.0/@workflows.1/@nodes.2/@succs.0" outBindings="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.0/@outBindings.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="R1" preds="//@concerns.0/@workflows.1/@nodes.0/@succs.0">
+        <succs target="//@concerns.0/@workflows.1/@nodes.1"/>
+      </nodes>
+    </workflows>
+    <workflows name="Pm2" startPoints="//@concerns.0/@workflows.2/@nodes.0" isParentDynStub="true">
+      <nodes xsi:type="intermediateWorkflow:IwStartPoint" name="Sp2" startPointType="bound" inBindings="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.1/@inBindings.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.2"/>
+      </nodes>
+      <nodes xsi:type="intermediateWorkflow:IwEndPoint" name="Ep2" preds="//@concerns.0/@workflows.2/@nodes.2/@succs.0" outBindings="//@concerns.0/@workflows.0/@nodes.2/@pluginBindings.1/@outBindings.0"/>
+      <nodes xsi:type="intermediateWorkflow:IwCustomizableNode" name="R2" preds="//@concerns.0/@workflows.2/@nodes.0/@succs.0">
+        <succs target="//@concerns.0/@workflows.2/@nodes.1"/>
+      </nodes>
+    </workflows>
+  </concerns>
+</intermediateWorkflow:IwModel>

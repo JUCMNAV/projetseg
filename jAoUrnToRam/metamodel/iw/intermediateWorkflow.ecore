@@ -82,16 +82,16 @@
           eOpposite="#/1/IwNode/succs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#/1/IwNode"
           eOpposite="#/1/IwNode/preds"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" eType="#/1/IwInBinding"
-          eOpposite="#/1/IwInBinding/disjunctiveStubEntries"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inBinding" upperBound="-1"
+          eType="#/1/IwInBinding" eOpposite="#/1/IwInBinding/disjunctiveStubEntries"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubEntryIndexAsString"
           eType="#/1/String">
         <eAnnotations source="kermeta">
           <details key="isComposite" value="true"/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="outBinding" eType="#/1/IwOutBinding"
-          eOpposite="#/1/IwOutBinding/stubExit"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outBinding" upperBound="-1"
+          eType="#/1/IwOutBinding" eOpposite="#/1/IwOutBinding/stubExit"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="stubExitIndexAsString"
           eType="#/1/String">
         <eAnnotations source="kermeta">
@@ -157,6 +157,7 @@
           eType="#/1/IwOutBinding" containment="true" eOpposite="#/1/IwOutBinding/pluginBinding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="stub" eType="#/1/IwStub"
           eOpposite="#/1/IwStub/pluginBindings"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionLabel" eType="#/1/String"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IwInBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="disjunctiveStubEntries"

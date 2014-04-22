@@ -17,8 +17,8 @@ public class AuthenticationWorkflowInstantiator extends WorkflowInstantiator{
 
     public void linkNodesToNextNodes(){
         _IsAlreadyAuthenticated.addNextNode("yes",_AuthenticationVerified);
-        _IsAlreadyAuthenticated.addNextNode("no",_AuthenticateStub,"1");
-        _AuthenticateStub.addNextNode("1",_AuthenticationVerified);
+        _IsAlreadyAuthenticated.addNextNode("no",_AuthenticateStub,"AuthenticateStub_IN1");
+        _AuthenticateStub.addNextNode("_OUT1",_AuthenticationVerified);
     }
 
     public void linkNodesToWorkflow(){
@@ -34,8 +34,8 @@ public class AuthenticationWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding AuthenticateStub_Authenticate_PluginBinding=new Binding(p_Authenticate.workflow);
         _AuthenticateStub.addBinding(AuthenticateStub_Authenticate_PluginBinding);
-        _AuthenticateStub.addInBinding(AuthenticateStub_Authenticate_PluginBinding,"1",p_Authenticate._LoginRequest);
-        _AuthenticateStub.addOutBinding(AuthenticateStub_Authenticate_PluginBinding,p_Authenticate._Authenticated,"1");
+        _AuthenticateStub.addInBinding(AuthenticateStub_Authenticate_PluginBinding,"AuthenticateStub_IN1",p_Authenticate._LoginRequest);
+        _AuthenticateStub.addOutBinding(AuthenticateStub_Authenticate_PluginBinding,p_Authenticate._Authenticated,"AuthenticateStub_OUT1");
     }
 }
 

@@ -75,6 +75,18 @@ public class PluginBindingImpl extends EObjectImpl implements PluginBinding {
 		
 		for(OutBinding outBinding : getOut())
 			outBinding.build();
+		
+		if(isStubDyanmic()) {
+			iwPluginBinding.setConditionLabel(getLabel());
+		}
+	}
+	
+	private String getLabel() {
+		return getPrecondition().getLabel();
+	}
+	
+	private boolean isStubDyanmic() {
+		return getStub().isDynamicStub();
 	}
 
 	@Override

@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_oECOUMWzEeOFurvuyDT5ig" name="CaptureLocationType_ValidateWitness">
-  <structuralView xmi:id="_oECOUcWzEeOFurvuyDT5ig">
-    <classes xsi:type="ram:Class" xmi:id="_oECOUsWzEeOFurvuyDT5ig" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_oECOU8WzEeOFurvuyDT5ig" name="ProcessCaptureLocationType">
-      <operations xmi:id="_oECOVMWzEeOFurvuyDT5ig" name="execute" returnType="_oEC1ZcWzEeOFurvuyDT5ig">
-        <parameters xmi:id="_oECOVcWzEeOFurvuyDT5ig" name="c" type="_oECOUsWzEeOFurvuyDT5ig"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_antIsMpsEeOQ7pfE3Nsp3Q" name="CaptureLocationType_ValidateWitness">
+  <structuralView xmi:id="_antIscpsEeOQ7pfE3Nsp3Q">
+    <classes xsi:type="ram:Class" xmi:id="_antIsspsEeOQ7pfE3Nsp3Q" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_antIs8psEeOQ7pfE3Nsp3Q" name="ProcessCaptureLocationType">
+      <operations xmi:id="_antItMpsEeOQ7pfE3Nsp3Q" name="execute" returnType="_antIv8psEeOQ7pfE3Nsp3Q">
+        <parameters xmi:id="_antItcpsEeOQ7pfE3Nsp3Q" name="c" type="_antIsspsEeOQ7pfE3Nsp3Q"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_oECOVsWzEeOFurvuyDT5ig" name="ValidateWitnessInfo">
-      <operations xmi:id="_oECOV8WzEeOFurvuyDT5ig" name="execute" returnType="_oEC1ZcWzEeOFurvuyDT5ig">
-        <parameters xmi:id="_oECOWMWzEeOFurvuyDT5ig" name="c" type="_oECOUsWzEeOFurvuyDT5ig"/>
+    <classes xsi:type="ram:Class" xmi:id="_antItspsEeOQ7pfE3Nsp3Q" name="ValidateWitnessInfo">
+      <operations xmi:id="_antIt8psEeOQ7pfE3Nsp3Q" name="execute" returnType="_antIv8psEeOQ7pfE3Nsp3Q">
+        <parameters xmi:id="_antIuMpsEeOQ7pfE3Nsp3Q" name="c" type="_antIsspsEeOQ7pfE3Nsp3Q"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_oECOWcWzEeOFurvuyDT5ig" name="CaptureLocationTypeInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_oEC1YMWzEeOFurvuyDT5ig" name="ValidateWitnessInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_oEC1YcWzEeOFurvuyDT5ig" name="FakeCrisisNotification">
-      <operations xmi:id="_oEC1YsWzEeOFurvuyDT5ig" name="execute" returnType="_oEC1ZcWzEeOFurvuyDT5ig">
-        <parameters xmi:id="_oEC1Y8WzEeOFurvuyDT5ig" name="c" type="_oECOUsWzEeOFurvuyDT5ig"/>
+    <classes xsi:type="ram:Class" xmi:id="_antIucpsEeOQ7pfE3Nsp3Q" name="CaptureLocationTypeInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_antIuspsEeOQ7pfE3Nsp3Q" name="ValidateWitnessInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_antIu8psEeOQ7pfE3Nsp3Q" name="FakeCrisisNotification">
+      <operations xmi:id="_antIvMpsEeOQ7pfE3Nsp3Q" name="execute" returnType="_antIv8psEeOQ7pfE3Nsp3Q">
+        <parameters xmi:id="_antIvcpsEeOQ7pfE3Nsp3Q" name="c" type="_antIsspsEeOQ7pfE3Nsp3Q"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_oEC1ZMWzEeOFurvuyDT5ig" name="FakeCrisisNotificationOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_oEC1ZcWzEeOFurvuyDT5ig"/>
+    <classes xsi:type="ram:Class" xmi:id="_antIvspsEeOQ7pfE3Nsp3Q" name="FakeCrisisNotificationOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_antIv8psEeOQ7pfE3Nsp3Q"/>
   </structuralView>
-  <instantiations xmi:id="_oEC1ZsWzEeOFurvuyDT5ig" type="Extends">
-    <mappings xmi:id="_oEC1Z8WzEeOFurvuyDT5ig" toElement="_oECOU8WzEeOFurvuyDT5ig">
-      <operationMappings xmi:id="_oEC1aMWzEeOFurvuyDT5ig" toElement="_oECOVMWzEeOFurvuyDT5ig">
+  <instantiations xmi:id="_antIwMpsEeOQ7pfE3Nsp3Q" type="Extends">
+    <mappings xmi:id="_antIwcpsEeOQ7pfE3Nsp3Q" toElement="_antIs8psEeOQ7pfE3Nsp3Q">
+      <operationMappings xmi:id="_antIwspsEeOQ7pfE3Nsp3Q" toElement="_antItMpsEeOQ7pfE3Nsp3Q">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_oEC1acWzEeOFurvuyDT5ig" toElement="_oECOVsWzEeOFurvuyDT5ig">
-      <operationMappings xmi:id="_oEC1asWzEeOFurvuyDT5ig" toElement="_oECOV8WzEeOFurvuyDT5ig">
+    <mappings xmi:id="_antIw8psEeOQ7pfE3Nsp3Q" toElement="_antItspsEeOQ7pfE3Nsp3Q">
+      <operationMappings xmi:id="_antIxMpsEeOQ7pfE3Nsp3Q" toElement="_antIt8psEeOQ7pfE3Nsp3Q">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_oEC1a8WzEeOFurvuyDT5ig" toElement="_oEC1YcWzEeOFurvuyDT5ig">
-      <operationMappings xmi:id="_oEC1bMWzEeOFurvuyDT5ig" toElement="_oEC1YsWzEeOFurvuyDT5ig">
+    <mappings xmi:id="_antIxcpsEeOQ7pfE3Nsp3Q" toElement="_antIu8psEeOQ7pfE3Nsp3Q">
+      <operationMappings xmi:id="_antIxspsEeOQ7pfE3Nsp3Q" toElement="_antIvMpsEeOQ7pfE3Nsp3Q">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_oEC1bcWzEeOFurvuyDT5ig" type="Extends">
-    <mappings xmi:id="_oEC1bsWzEeOFurvuyDT5ig" toElement="_oECOWcWzEeOFurvuyDT5ig">
+  <instantiations xmi:id="_antIx8psEeOQ7pfE3Nsp3Q" type="Extends">
+    <mappings xmi:id="_antIyMpsEeOQ7pfE3Nsp3Q" toElement="_antIucpsEeOQ7pfE3Nsp3Q">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
-    <mappings xmi:id="_oEC1b8WzEeOFurvuyDT5ig" toElement="_oEC1YMWzEeOFurvuyDT5ig">
+    <mappings xmi:id="_antIycpsEeOQ7pfE3Nsp3Q" toElement="_antIuspsEeOQ7pfE3Nsp3Q">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_oEC1cMWzEeOFurvuyDT5ig" type="Extends">
-    <mappings xmi:id="_oEC1ccWzEeOFurvuyDT5ig" toElement="_oEC1ZMWzEeOFurvuyDT5ig">
+  <instantiations xmi:id="_antIyspsEeOQ7pfE3Nsp3Q" type="Extends">
+    <mappings xmi:id="_antIy8psEeOQ7pfE3Nsp3Q" toElement="_antIvspsEeOQ7pfE3Nsp3Q">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

@@ -28,7 +28,7 @@ public class DevelopRoutePlanComplexWorkflowInstantiator extends WorkflowInstant
         _Develop.addNextNode(_AndFork115896);
         _EnterNumFireTruck.addNextNode(_RequestFireRoute);
         _RequestFireRoute.addNextNode(_ProcessRequestFireRoute);
-        _OrJoin115936.addNextNode(_ProposeRouteStub,"1");
+        _OrJoin115936.addNextNode(_ProposeRouteStub,"ProposeRouteStub_IN1");
         _AndFork115896.addNextNode(_EnterNumFireTruck);
         _AndFork115896.addNextNode(_EnterNumPoliceVehicle);
         _ProcessRequestPoliceRoute.addNextNode(_OrJoin115936);
@@ -56,7 +56,7 @@ public class DevelopRoutePlanComplexWorkflowInstantiator extends WorkflowInstant
 
         Binding ProposeRouteStub_ProposeRoute_PluginBinding=new Binding(p_ProposeRoute.workflow);
         _ProposeRouteStub.addBinding(ProposeRouteStub_ProposeRoute_PluginBinding);
-        _ProposeRouteStub.addInBinding(ProposeRouteStub_ProposeRoute_PluginBinding,"1",p_ProposeRoute._AndFork115939);
+        _ProposeRouteStub.addInBinding(ProposeRouteStub_ProposeRoute_PluginBinding,"ProposeRouteStub_IN1",p_ProposeRoute._AndFork115939);
     }
 }
 

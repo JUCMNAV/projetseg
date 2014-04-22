@@ -19,17 +19,21 @@ import intermediateWorkflow.IwModel;
 import intermediateWorkflow.IwNode;
 import intermediateWorkflow.IwNodeConnection;
 import intermediateWorkflow.IwOutBinding;
+import java.util.Collection;
 import intermediateWorkflow.IwStep;
 import intermediateWorkflow.IwStub;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -235,7 +239,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			jiAddNextNodeMethodName(),
 			quote(getConditionName()),
 			getTarget().jiMemberName(),
-			quote(getStubEntryIndex())
+			//quote(getStubEntryIndex())
+			quote(getTarget().getName()+"_IN"+getStubEntryIndex())
 		);
 	}
 	
@@ -305,7 +310,8 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			getSource().jiMemberName(),
 			jiAddNextNodeMethodName(),
 			getTarget().jiMemberName(),
-			quote(getStubEntryIndex())
+			//quote(getStubEntryIndex())
+			quote(getTarget().getName()+"_IN"+getStubEntryIndex())
 		);
 	}
 	
@@ -316,16 +322,27 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			workflowInstantiator.appendMethodInvocationOn_3Params(
 					getSource().jiMemberName(),
 					jiAddNextNodeWithThresholdMethodName(),
-					quote("_OUT"+getStubExitIndex()),
+					quote(getSource().getName()+"_OUT"+getStubExitIndex()),
 					getTarget().jiMemberName(),
 					getThreshold()
 			);
+		}
+		else if(iwStub.isDynamicStub()) {
+			//iwStub.getpl
+			workflowInstantiator.appendMethodInvocationOn_2Params(
+					getSource().jiMemberName(),
+					jiAddNextNodeMethodName(),
+					//quote(getStubExitIndex()),
+					quote("_OUT"+getStubExitIndex()),
+					getTarget().jiMemberName()
+					);
 		}
 		else {
 			workflowInstantiator.appendMethodInvocationOn_2Params(
 					getSource().jiMemberName(),
 					jiAddNextNodeMethodName(),
-					quote(getStubExitIndex()),
+					//quote(getStubExitIndex()),
+					quote("_OUT"+getStubExitIndex()),
 					getTarget().jiMemberName()
 					);
 		}
@@ -336,9 +353,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		workflowInstantiator.appendMethodInvocationOn_3Params(
 			getSource().jiMemberName(),
 			jiAddNextNodeMethodName(),
-			quote(getStubExitIndex()),
+			//quote(getStubExitIndex()),
+			quote(getSource().getName()+"_OUT"+getStubExitIndex()),
 			target.jiMemberName(),
-			quote(getStubEntryIndex())
+			//quote(getStubEntryIndex())
+			quote(getTarget().getName()+"_IN"+getStubEntryIndex())
 		);
 	}
 	
@@ -415,19 +434,29 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		//source =  null;
 		setSource(null);
 		setTarget(null);
-		setInBinding(null);
-		setOutBinding(null);
+		//setInBinding(null);
+		inBinding.clear();
+		//setOutBinding(null);
+		outBinding.clear();
 	}
 
 	@Override
 	public IwStep getStep() {
-		if(getOutBinding() ==  null) 
+		if(getOutBinding() ==  null) {
 			return getSource().getStep(); //Source is not a stub
+		}
 		else {
-			if(getOutBinding().getPluginEndPoint().getConcern()==getTarget().getConcern()) 
+			/*if(getOutBinding().getPluginEndPoint().getConcern()==getTarget().getConcern()) 
 				return getOutBinding().getPluginEndPoint().getStep(); //At least one plugin is in the same concern 
 			else
-				return getSource().getStep(); //All plugins are in a different concern
+				return getSource().getStep(); //All plugins are in a different concern*/
+			
+			for(IwOutBinding iwOutBinding : getOutBinding()) {
+				if(iwOutBinding.getPluginEndPoint().getConcern()==getTarget().getConcern()) {
+					return iwOutBinding.getPluginEndPoint().getStep(); //At least one plugin is in the same concern 
+				}
+			}
+			return getSource().getStep(); //All plugins are in a different concern
 		}
 	}
 
@@ -495,7 +524,14 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		IwNodeConnection pred = IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		pred.setSource(getSource());
 		pred.setTarget(input.getIwInputProcessingNode());
-		pred.setOutBinding(getOutBinding());
+		//pred.setOutBinding(getOutBinding());
+		/*Concurrent modification exception for : loop
+		 * for(IwOutBinding iwOutBinding: getOutBinding()) {
+			pred.getOutBinding().add(iwOutBinding);
+		}*/
+		for(int i=0; i < getOutBinding().size(); i++) {
+			pred.getOutBinding().add(getOutBinding().get(i));
+		}
 		pred.setStubExitIndex(getStubExitIndex());
 	}
 
@@ -504,7 +540,14 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 		IwNodeConnection succ= IntermediateWorkflowFactory.eINSTANCE.createIwNodeConnection();
 		succ.setSource(input.getIwInputProcessingNode());
 		succ.setTarget(getTarget());
-		succ.setInBinding(getInBinding());
+		//succ.setInBinding(getInBinding());
+		/*Concurrent modification exception for : loop
+		 * for(IwInBinding iwInBinding : getInBinding()) {
+			succ.getInBinding().add(iwInBinding);
+		}*/
+		for(int i=0; i < getInBinding().size(); i++ ) {
+			succ.getInBinding().add(getInBinding().get(i));
+		}
 		succ.setStubEntryIndex(getStubEntryIndex());
 	}
 	
@@ -539,14 +582,14 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	protected IwNode target;
 
 	/**
-	 * The cached value of the '{@link #getInBinding() <em>In Binding</em>}' reference.
+	 * The cached value of the '{@link #getInBinding() <em>In Binding</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getInBinding()
 	 * @generated
 	 * @ordered
 	 */
-	protected IwInBinding inBinding;
+	protected EList<IwInBinding> inBinding;
 
 	/**
 	 * The default value of the '{@link #getStubEntryIndexAsString() <em>Stub Entry Index As String</em>}' attribute.
@@ -569,14 +612,14 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	protected String stubEntryIndexAsString = STUB_ENTRY_INDEX_AS_STRING_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getOutBinding() <em>Out Binding</em>}' reference.
+	 * The cached value of the '{@link #getOutBinding() <em>Out Binding</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOutBinding()
 	 * @generated
 	 * @ordered
 	 */
-	protected IwOutBinding outBinding;
+	protected EList<IwOutBinding> outBinding;
 
 	/**
 	 * The default value of the '{@link #getStubExitIndexAsString() <em>Stub Exit Index As String</em>}' attribute.
@@ -804,59 +847,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IwInBinding getInBinding() {
-		if (inBinding != null && inBinding.eIsProxy()) {
-			InternalEObject oldInBinding = (InternalEObject)inBinding;
-			inBinding = (IwInBinding)eResolveProxy(oldInBinding);
-			if (inBinding != oldInBinding) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING, oldInBinding, inBinding));
-			}
+	public EList<IwInBinding> getInBinding() {
+		if (inBinding == null) {
+			inBinding = new EObjectWithInverseResolvingEList.ManyInverse<IwInBinding>(IwInBinding.class, this, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES);
 		}
 		return inBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IwInBinding basicGetInBinding() {
-		return inBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetInBinding(IwInBinding newInBinding, NotificationChain msgs) {
-		IwInBinding oldInBinding = inBinding;
-		inBinding = newInBinding;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING, oldInBinding, newInBinding);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setInBinding(IwInBinding newInBinding) {
-		if (newInBinding != inBinding) {
-			NotificationChain msgs = null;
-			if (inBinding != null)
-				msgs = ((InternalEObject)inBinding).eInverseRemove(this, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES, IwInBinding.class, msgs);
-			if (newInBinding != null)
-				msgs = ((InternalEObject)newInBinding).eInverseAdd(this, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES, IwInBinding.class, msgs);
-			msgs = basicSetInBinding(newInBinding, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING, newInBinding, newInBinding));
 	}
 
 	/**
@@ -885,59 +880,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IwOutBinding getOutBinding() {
-		if (outBinding != null && outBinding.eIsProxy()) {
-			InternalEObject oldOutBinding = (InternalEObject)outBinding;
-			outBinding = (IwOutBinding)eResolveProxy(oldOutBinding);
-			if (outBinding != oldOutBinding) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING, oldOutBinding, outBinding));
-			}
+	public EList<IwOutBinding> getOutBinding() {
+		if (outBinding == null) {
+			outBinding = new EObjectWithInverseResolvingEList<IwOutBinding>(IwOutBinding.class, this, IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING, IntermediateWorkflowPackage.IW_OUT_BINDING__STUB_EXIT);
 		}
 		return outBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IwOutBinding basicGetOutBinding() {
-		return outBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetOutBinding(IwOutBinding newOutBinding, NotificationChain msgs) {
-		IwOutBinding oldOutBinding = outBinding;
-		outBinding = newOutBinding;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING, oldOutBinding, newOutBinding);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOutBinding(IwOutBinding newOutBinding) {
-		if (newOutBinding != outBinding) {
-			NotificationChain msgs = null;
-			if (outBinding != null)
-				msgs = ((InternalEObject)outBinding).eInverseRemove(this, IntermediateWorkflowPackage.IW_OUT_BINDING__STUB_EXIT, IwOutBinding.class, msgs);
-			if (newOutBinding != null)
-				msgs = ((InternalEObject)newOutBinding).eInverseAdd(this, IntermediateWorkflowPackage.IW_OUT_BINDING__STUB_EXIT, IwOutBinding.class, msgs);
-			msgs = basicSetOutBinding(newOutBinding, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING, newOutBinding, newOutBinding));
 	}
 
 	/**
@@ -1029,6 +976,7 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -1041,13 +989,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 					msgs = ((InternalEObject)target).eInverseRemove(this, IntermediateWorkflowPackage.IW_NODE__PREDS, IwNode.class, msgs);
 				return basicSetTarget((IwNode)otherEnd, msgs);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				if (inBinding != null)
-					msgs = ((InternalEObject)inBinding).eInverseRemove(this, IntermediateWorkflowPackage.IW_IN_BINDING__DISJUNCTIVE_STUB_ENTRIES, IwInBinding.class, msgs);
-				return basicSetInBinding((IwInBinding)otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getInBinding()).basicAdd(otherEnd, msgs);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				if (outBinding != null)
-					msgs = ((InternalEObject)outBinding).eInverseRemove(this, IntermediateWorkflowPackage.IW_OUT_BINDING__STUB_EXIT, IwOutBinding.class, msgs);
-				return basicSetOutBinding((IwOutBinding)otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutBinding()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -1065,9 +1009,9 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TARGET:
 				return basicSetTarget(null, msgs);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				return basicSetInBinding(null, msgs);
+				return ((InternalEList<?>)getInBinding()).basicRemove(otherEnd, msgs);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				return basicSetOutBinding(null, msgs);
+				return ((InternalEList<?>)getOutBinding()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1102,13 +1046,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				if (resolve) return getTarget();
 				return basicGetTarget();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				if (resolve) return getInBinding();
-				return basicGetInBinding();
+				return getInBinding();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING:
 				return getStubEntryIndexAsString();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				if (resolve) return getOutBinding();
-				return basicGetOutBinding();
+				return getOutBinding();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING:
 				return getStubExitIndexAsString();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:
@@ -1126,6 +1068,7 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -1139,13 +1082,15 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				setTarget((IwNode)newValue);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				setInBinding((IwInBinding)newValue);
+				getInBinding().clear();
+				getInBinding().addAll((Collection<? extends IwInBinding>)newValue);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING:
 				setStubEntryIndexAsString((String)newValue);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				setOutBinding((IwOutBinding)newValue);
+				getOutBinding().clear();
+				getOutBinding().addAll((Collection<? extends IwOutBinding>)newValue);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING:
 				setStubExitIndexAsString((String)newValue);
@@ -1181,13 +1126,13 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 				setTarget((IwNode)null);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				setInBinding((IwInBinding)null);
+				getInBinding().clear();
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING:
 				setStubEntryIndexAsString(STUB_ENTRY_INDEX_AS_STRING_EDEFAULT);
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				setOutBinding((IwOutBinding)null);
+				getOutBinding().clear();
 				return;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING:
 				setStubExitIndexAsString(STUB_EXIT_INDEX_AS_STRING_EDEFAULT);
@@ -1220,11 +1165,11 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TARGET:
 				return target != null;
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__IN_BINDING:
-				return inBinding != null;
+				return inBinding != null && !inBinding.isEmpty();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_ENTRY_INDEX_AS_STRING:
 				return STUB_ENTRY_INDEX_AS_STRING_EDEFAULT == null ? stubEntryIndexAsString != null : !STUB_ENTRY_INDEX_AS_STRING_EDEFAULT.equals(stubEntryIndexAsString);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__OUT_BINDING:
-				return outBinding != null;
+				return outBinding != null && !outBinding.isEmpty();
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__STUB_EXIT_INDEX_AS_STRING:
 				return STUB_EXIT_INDEX_AS_STRING_EDEFAULT == null ? stubExitIndexAsString != null : !STUB_EXIT_INDEX_AS_STRING_EDEFAULT.equals(stubExitIndexAsString);
 			case IntermediateWorkflowPackage.IW_NODE_CONNECTION__TRIGGER:

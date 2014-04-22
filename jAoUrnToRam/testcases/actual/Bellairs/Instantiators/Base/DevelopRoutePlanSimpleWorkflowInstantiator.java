@@ -20,10 +20,10 @@ public class DevelopRoutePlanSimpleWorkflowInstantiator extends WorkflowInstanti
 
     public void linkNodesToNextNodes(){
         _EstablishRoutes.addNextNode(_ShowVehicleList);
-        _RequestDriverConfirmation.addNextNode(_AspectMarker117512,"1");
+        _RequestDriverConfirmation.addNextNode(_AspectMarker117512,"AspectMarker117512_IN1");
         _ShowVehicleList.addNextNode(_RequestDriverConfirmation);
         _ShowAssignment.addNextNode(_RoutesEstablished);
-        _AspectMarker117512.addNextNode("1",_ShowAssignment);
+        _AspectMarker117512.addNextNode("_OUT1",_ShowAssignment);
     }
 
     public void linkNodesToWorkflow(){
@@ -43,8 +43,8 @@ public class DevelopRoutePlanSimpleWorkflowInstantiator extends WorkflowInstanti
 
         Binding AspectMarker117512_Authentication_PluginBinding=new Binding(p_Authentication.workflow);
         _AspectMarker117512.addBinding(AspectMarker117512_Authentication_PluginBinding);
-        _AspectMarker117512.addInBinding(AspectMarker117512_Authentication_PluginBinding,"1",p_Authentication._CheckAuthentication);
-        _AspectMarker117512.addOutBinding(AspectMarker117512_Authentication_PluginBinding,p_Authentication._Authenticated,"1");
+        _AspectMarker117512.addInBinding(AspectMarker117512_Authentication_PluginBinding,"AspectMarker117512_IN1",p_Authentication._CheckAuthentication);
+        _AspectMarker117512.addOutBinding(AspectMarker117512_Authentication_PluginBinding,p_Authentication._Authenticated,"AspectMarker117512_OUT1");
     }
 }
 

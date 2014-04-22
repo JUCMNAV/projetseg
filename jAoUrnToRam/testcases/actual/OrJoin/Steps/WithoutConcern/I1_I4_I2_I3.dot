@@ -7,21 +7,6 @@ digraph "I1_I4_I2_I3"{
         fontsize=12
     ];
 
-    subgraph "cluster_Plugin"{
-        label="Plugin"
-
-        "Plugin_E10"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">E10</td>
-                </tr>
-            </table>>
-        ]
-    }
-
     subgraph "cluster_Base"{
         label="Base"
 
@@ -218,6 +203,21 @@ digraph "I1_I4_I2_I3"{
         "Base_I1"->"Base_ProcessI1"
         "Base_ProcessI1"->"Base_TheStub":in2
         "Base_TheStub":out1->"Base_E1"
+    }
+
+    subgraph "cluster_Plugin"{
+        label="Plugin"
+
+        "Plugin_E10"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">E10</td>
+                </tr>
+            </table>>
+        ]
     }
     "Base_TheStub":in2->"Plugin_E10"[style=dashed,arrowhead=onormal]
     "Plugin_E10"->"Base_TheStub":out1[style=dashed,arrowhead=onormal]

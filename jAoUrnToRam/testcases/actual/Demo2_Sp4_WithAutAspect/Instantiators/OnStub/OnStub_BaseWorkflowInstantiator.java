@@ -27,17 +27,17 @@ public class OnStub_BaseWorkflowInstantiator extends WorkflowInstantiator{
 
     public void linkNodesToNextNodes(){
         _S1.addNextNode(_I1);
-        _I1.addNextNode(_AspectMarker1119,"1");
-        _TheStub.addNextNode("1",_AspectMarker1121,"1");
-        _TheStub.addNextNode("2",_AspectMarker1122,"1");
+        _I1.addNextNode(_AspectMarker1119,"AspectMarker1119_IN1");
+        _TheStub.addNextNode("TheStub_OUT1",_AspectMarker1121,"AspectMarker1121_IN1");
+        _TheStub.addNextNode("TheStub_OUT2",_AspectMarker1122,"AspectMarker1122_IN1");
         _S2.addNextNode(_I2);
-        _I2.addNextNode(_AspectMarker1120,"1");
-        _AspectMarker1119.addNextNode("1",_ProcessI1);
-        _AspectMarker1120.addNextNode("1",_ProcessI2);
-        _AspectMarker1121.addNextNode("1",_E1);
-        _AspectMarker1122.addNextNode("1",_E2);
-        _ProcessI1.addNextNode(_TheStub,"1");
-        _ProcessI2.addNextNode(_TheStub,"2");
+        _I2.addNextNode(_AspectMarker1120,"AspectMarker1120_IN1");
+        _AspectMarker1119.addNextNode("_OUT1",_ProcessI1);
+        _AspectMarker1120.addNextNode("_OUT1",_ProcessI2);
+        _AspectMarker1121.addNextNode("_OUT1",_E1);
+        _AspectMarker1122.addNextNode("_OUT1",_E2);
+        _ProcessI1.addNextNode(_TheStub,"TheStub_IN1");
+        _ProcessI2.addNextNode(_TheStub,"TheStub_IN2");
     }
 
     public void linkNodesToWorkflow(){
@@ -66,30 +66,30 @@ public class OnStub_BaseWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding TheStub_OnStub_Plugin_PluginBinding=new Binding(p_OnStub_Plugin.workflow);
         _TheStub.addBinding(TheStub_OnStub_Plugin_PluginBinding);
-        _TheStub.addInBinding(TheStub_OnStub_Plugin_PluginBinding,"1",p_OnStub_Plugin._R10);
-        _TheStub.addInBinding(TheStub_OnStub_Plugin_PluginBinding,"2",p_OnStub_Plugin._R11);
-        _TheStub.addOutBinding(TheStub_OnStub_Plugin_PluginBinding,p_OnStub_Plugin._E10,"1");
-        _TheStub.addOutBinding(TheStub_OnStub_Plugin_PluginBinding,p_OnStub_Plugin._E11,"2");
+        _TheStub.addInBinding(TheStub_OnStub_Plugin_PluginBinding,"TheStub_IN1",p_OnStub_Plugin._R10);
+        _TheStub.addInBinding(TheStub_OnStub_Plugin_PluginBinding,"TheStub_IN2",p_OnStub_Plugin._R11);
+        _TheStub.addOutBinding(TheStub_OnStub_Plugin_PluginBinding,p_OnStub_Plugin._E10,"TheStub_OUT1");
+        _TheStub.addOutBinding(TheStub_OnStub_Plugin_PluginBinding,p_OnStub_Plugin._E11,"TheStub_OUT2");
 
         Binding AspectMarker1119_OnStub_Aspect_PluginBinding=new Binding(p_OnStub_Aspect.workflow);
         _AspectMarker1119.addBinding(AspectMarker1119_OnStub_Aspect_PluginBinding);
-        _AspectMarker1119.addInBinding(AspectMarker1119_OnStub_Aspect_PluginBinding,"1",p_OnStub_Aspect._AspectBefore100_1072);
-        _AspectMarker1119.addOutBinding(AspectMarker1119_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._ThePointcutStub_In1,"1");
+        _AspectMarker1119.addInBinding(AspectMarker1119_OnStub_Aspect_PluginBinding,"AspectMarker1119_IN1",p_OnStub_Aspect._AspectBefore100_1072);
+        _AspectMarker1119.addOutBinding(AspectMarker1119_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._ThePointcutStub_In1,"AspectMarker1119_OUT1");
 
         Binding AspectMarker1120_OnStub_Aspect_PluginBinding=new Binding(p_OnStub_Aspect.workflow);
         _AspectMarker1120.addBinding(AspectMarker1120_OnStub_Aspect_PluginBinding);
-        _AspectMarker1120.addInBinding(AspectMarker1120_OnStub_Aspect_PluginBinding,"1",p_OnStub_Aspect._AspectBefore101_1089);
-        _AspectMarker1120.addOutBinding(AspectMarker1120_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._ThePointcutStub_In2,"1");
+        _AspectMarker1120.addInBinding(AspectMarker1120_OnStub_Aspect_PluginBinding,"AspectMarker1120_IN1",p_OnStub_Aspect._AspectBefore101_1089);
+        _AspectMarker1120.addOutBinding(AspectMarker1120_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._ThePointcutStub_In2,"AspectMarker1120_OUT1");
 
         Binding AspectMarker1121_OnStub_Aspect_PluginBinding=new Binding(p_OnStub_Aspect.workflow);
         _AspectMarker1121.addBinding(AspectMarker1121_OnStub_Aspect_PluginBinding);
-        _AspectMarker1121.addInBinding(AspectMarker1121_OnStub_Aspect_PluginBinding,"1",p_OnStub_Aspect._AspectAfter100_913);
-        _AspectMarker1121.addOutBinding(AspectMarker1121_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._E100,"1");
+        _AspectMarker1121.addInBinding(AspectMarker1121_OnStub_Aspect_PluginBinding,"AspectMarker1121_IN1",p_OnStub_Aspect._AspectAfter100_913);
+        _AspectMarker1121.addOutBinding(AspectMarker1121_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._E100,"AspectMarker1121_OUT1");
 
         Binding AspectMarker1122_OnStub_Aspect_PluginBinding=new Binding(p_OnStub_Aspect.workflow);
         _AspectMarker1122.addBinding(AspectMarker1122_OnStub_Aspect_PluginBinding);
-        _AspectMarker1122.addInBinding(AspectMarker1122_OnStub_Aspect_PluginBinding,"1",p_OnStub_Aspect._AspectAfter101_1118);
-        _AspectMarker1122.addOutBinding(AspectMarker1122_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._End101,"1");
+        _AspectMarker1122.addInBinding(AspectMarker1122_OnStub_Aspect_PluginBinding,"AspectMarker1122_IN1",p_OnStub_Aspect._AspectAfter101_1118);
+        _AspectMarker1122.addOutBinding(AspectMarker1122_OnStub_Aspect_PluginBinding,p_OnStub_Aspect._End101,"AspectMarker1122_OUT1");
     }
 }
 

@@ -6,6 +6,7 @@
  */
 package intermediateWorkflow;
 
+import org.eclipse.emf.common.util.EList;
 import iwToJavaInstantiator.WorkflowInstantiator;
 import iwToStepView.StepView;
 
@@ -160,7 +161,8 @@ public interface IwNodeConnection extends EObject {
 	void setTarget(IwNode value);
 
 	/**
-	 * Returns the value of the '<em><b>In Binding</b></em>' reference.
+	 * Returns the value of the '<em><b>In Binding</b></em>' reference list.
+	 * The list contents are of type {@link intermediateWorkflow.IwInBinding}.
 	 * It is bidirectional and its opposite is '{@link intermediateWorkflow.IwInBinding#getDisjunctiveStubEntries <em>Disjunctive Stub Entries</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -168,24 +170,13 @@ public interface IwNodeConnection extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>In Binding</em>' reference.
-	 * @see #setInBinding(IwInBinding)
+	 * @return the value of the '<em>In Binding</em>' reference list.
 	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwNodeConnection_InBinding()
 	 * @see intermediateWorkflow.IwInBinding#getDisjunctiveStubEntries
 	 * @model opposite="disjunctiveStubEntries"
 	 * @generated
 	 */
-	IwInBinding getInBinding();
-
-	/**
-	 * Sets the value of the '{@link intermediateWorkflow.IwNodeConnection#getInBinding <em>In Binding</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>In Binding</em>' reference.
-	 * @see #getInBinding()
-	 * @generated
-	 */
-	void setInBinding(IwInBinding value);
+	EList<IwInBinding> getInBinding();
 
 	/**
 	 * Returns the value of the '<em><b>Stub Entry Index As String</b></em>' attribute.
@@ -215,7 +206,8 @@ public interface IwNodeConnection extends EObject {
 	void setStubEntryIndexAsString(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Out Binding</b></em>' reference.
+	 * Returns the value of the '<em><b>Out Binding</b></em>' reference list.
+	 * The list contents are of type {@link intermediateWorkflow.IwOutBinding}.
 	 * It is bidirectional and its opposite is '{@link intermediateWorkflow.IwOutBinding#getStubExit <em>Stub Exit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -223,24 +215,13 @@ public interface IwNodeConnection extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Out Binding</em>' reference.
-	 * @see #setOutBinding(IwOutBinding)
+	 * @return the value of the '<em>Out Binding</em>' reference list.
 	 * @see intermediateWorkflow.IntermediateWorkflowPackage#getIwNodeConnection_OutBinding()
 	 * @see intermediateWorkflow.IwOutBinding#getStubExit
 	 * @model opposite="stubExit"
 	 * @generated
 	 */
-	IwOutBinding getOutBinding();
-
-	/**
-	 * Sets the value of the '{@link intermediateWorkflow.IwNodeConnection#getOutBinding <em>Out Binding</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Out Binding</em>' reference.
-	 * @see #getOutBinding()
-	 * @generated
-	 */
-	void setOutBinding(IwOutBinding value);
+	EList<IwOutBinding> getOutBinding();
 
 	/**
 	 * Returns the value of the '<em><b>Stub Exit Index As String</b></em>' attribute.

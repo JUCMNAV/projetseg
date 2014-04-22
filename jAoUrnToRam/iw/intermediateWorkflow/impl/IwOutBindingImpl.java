@@ -52,6 +52,7 @@ public class IwOutBindingImpl extends EObjectImpl implements IwOutBinding {
 		stepView.append(getStubExit().getSourcePortDotEscaped(stepView));
 		stepView.appendLine("[style=dashed,arrowhead=onormal]");
 	}
+	
 	@Override
 	public void appendBindingToStubsFromOtherConcernsPlaceholder(StepView stepView) {
 		stepView.append("    ");
@@ -68,9 +69,14 @@ public class IwOutBindingImpl extends EObjectImpl implements IwOutBinding {
 			"addOutBinding",
 			getPluginBinding().jiLocalVarName(),
 			getPluginEndPoint().getWorkflow().jiBindMethod_PluginParamName() + "." + getPluginEndPoint().jiMemberName(),
-			"\"" + Integer.toString(getStubExit().getStubExitIndex()) + "\"" //stubExit.stubExitIndex.toQuotedString
+			"\"" + getStubName() + "_OUT" + Integer.toString(getStubExit().getStubExitIndex()) + "\"" //stubExit.stubExitIndex.toQuotedString
 		);
 	}
+	
+	private  String getStubName() {
+		return getStub().getName();
+	}
+	
 	/**********************************************/
 	public void explore(IwStep currentStep){
 		if(isOutboundByAspectMarkerOrInDifferentConcern()==false) {

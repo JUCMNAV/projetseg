@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link intermediateWorkflow.impl.IwPluginBindingImpl#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwPluginBindingImpl#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link intermediateWorkflow.impl.IwPluginBindingImpl#getStub <em>Stub</em>}</li>
+ *   <li>{@link intermediateWorkflow.impl.IwPluginBindingImpl#getConditionLabel <em>Condition Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,7 +49,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding {
 	
-	private static Integer localVarName = 1;
 	@Override
 	public String jiLocalVarName() {
 		//return "l_"+getStub().getName() + "_PluginBinding";
@@ -102,6 +102,25 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 	 */
 	protected EList<IwOutBinding> outBindings;
 
+	/**
+	 * The default value of the '{@link #getConditionLabel() <em>Condition Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConditionLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CONDITION_LABEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getConditionLabel() <em>Condition Label</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConditionLabel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String conditionLabel = CONDITION_LABEL_EDEFAULT;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,6 +210,27 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getConditionLabel() {
+		return conditionLabel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConditionLabel(String newConditionLabel) {
+		String oldConditionLabel = conditionLabel;
+		conditionLabel = newConditionLabel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IntermediateWorkflowPackage.IW_PLUGIN_BINDING__CONDITION_LABEL, oldConditionLabel, conditionLabel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -253,6 +293,8 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 				return getOutBindings();
 			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__STUB:
 				return getStub();
+			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__CONDITION_LABEL:
+				return getConditionLabel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -277,6 +319,9 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__STUB:
 				setStub((IwStub)newValue);
 				return;
+			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__CONDITION_LABEL:
+				setConditionLabel((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -298,6 +343,9 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__STUB:
 				setStub((IwStub)null);
 				return;
+			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__CONDITION_LABEL:
+				setConditionLabel(CONDITION_LABEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -316,8 +364,26 @@ public class IwPluginBindingImpl extends EObjectImpl implements IwPluginBinding 
 				return outBindings != null && !outBindings.isEmpty();
 			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__STUB:
 				return getStub() != null;
+			case IntermediateWorkflowPackage.IW_PLUGIN_BINDING__CONDITION_LABEL:
+				return CONDITION_LABEL_EDEFAULT == null ? conditionLabel != null : !CONDITION_LABEL_EDEFAULT.equals(conditionLabel);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (conditionLabel: ");
+		result.append(conditionLabel);
+		result.append(')');
+		return result.toString();
 	}
 
 	@Override

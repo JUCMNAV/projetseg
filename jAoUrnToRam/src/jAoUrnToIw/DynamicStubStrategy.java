@@ -1,15 +1,14 @@
 package jAoUrnToIw;
 
-import ucm.map.AspectKind;
 import ucm.map.Stub;
 
 public class DynamicStubStrategy extends RegularStubStrategy {
 
 	public DynamicStubStrategy(Stub stub) {
 		super(stub);
-		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
 	public String iwStubType() {	
 		String result = "dynamic";
 		

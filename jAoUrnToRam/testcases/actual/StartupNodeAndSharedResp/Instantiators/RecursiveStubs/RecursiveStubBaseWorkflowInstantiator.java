@@ -25,12 +25,12 @@ public class RecursiveStubBaseWorkflowInstantiator extends WorkflowInstantiator{
     public void linkNodesToNextNodes(){
         _StartRecursion.addNextNode(_StartRecursionInput);
         _StartRecursionInput.addNextNode(_ProcessStartRecursionInput);
-        _IsPluginInvokedInSameConcern.addNextNode("Yes",_InvokePluginSameConcern,"1");
-        _IsPluginInvokedInSameConcern.addNextNode("No",_InvokePluginDifferentConcern,"1");
+        _IsPluginInvokedInSameConcern.addNextNode("Yes",_InvokePluginSameConcern,"InvokePluginSameConcern_IN1");
+        _IsPluginInvokedInSameConcern.addNextNode("No",_InvokePluginDifferentConcern,"InvokePluginDifferentConcern_IN1");
         _UsefulLocalStartPointOnRootMap.addNextNode(_ShouldBeAnAndJoin);
-        _ShouldBeAnAndJoin.addNextNode(_InvokePluginSameConcern,"1");
+        _ShouldBeAnAndJoin.addNextNode(_InvokePluginSameConcern,"InvokePluginSameConcern_IN1");
         _DoThisAgain.addNextNode(_ShouldBeAnAndJoin);
-        _DoThatAgain.addNextNode(_InvokePluginDifferentConcern,"1");
+        _DoThatAgain.addNextNode(_InvokePluginDifferentConcern,"InvokePluginDifferentConcern_IN1");
         _ProcessStartRecursionInput.addNextNode(_IsPluginInvokedInSameConcern);
     }
 
@@ -57,11 +57,11 @@ public class RecursiveStubBaseWorkflowInstantiator extends WorkflowInstantiator{
 
         Binding InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding=new Binding(p_RecursivePluginSameConcern.workflow);
         _InvokePluginSameConcern.addBinding(InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding);
-        _InvokePluginSameConcern.addInBinding(InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding,"1",p_RecursivePluginSameConcern._InvokeBaseSameConcern);
+        _InvokePluginSameConcern.addInBinding(InvokePluginSameConcern_RecursivePluginSameConcern_PluginBinding,"InvokePluginSameConcern_IN1",p_RecursivePluginSameConcern._InvokeBaseSameConcern);
 
         Binding InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding=new Binding(p_RecursivePluginDifferenctConcern.workflow);
         _InvokePluginDifferentConcern.addBinding(InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding);
-        _InvokePluginDifferentConcern.addInBinding(InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding,"1",p_RecursivePluginDifferenctConcern._InvokeBaseDifferentConcern);
+        _InvokePluginDifferentConcern.addInBinding(InvokePluginDifferentConcern_RecursivePluginDifferenctConcern_PluginBinding,"InvokePluginDifferentConcern_IN1",p_RecursivePluginDifferenctConcern._InvokeBaseDifferentConcern);
     }
 }
 

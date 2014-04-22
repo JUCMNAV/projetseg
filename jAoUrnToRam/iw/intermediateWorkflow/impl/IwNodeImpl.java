@@ -72,7 +72,7 @@ public abstract class IwNodeImpl extends EObjectImpl implements IwNode {
 	
 	@Override
 	public void addSucc(IwNodeConnection succ){
-		this.getSuccs().add(succ);
+		getSuccs().add(succ);
 	}
 	
 	@Override
