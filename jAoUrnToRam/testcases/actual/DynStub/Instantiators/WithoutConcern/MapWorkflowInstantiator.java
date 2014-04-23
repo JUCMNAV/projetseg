@@ -17,7 +17,7 @@ public class MapWorkflowInstantiator extends WorkflowInstantiator{
 
     public void linkNodesToNextNodes(){
         _Sp.addNextNode(_DynStub,"DynStub_IN1");
-        _DynStub.addNextNode("_OUT1",_Ep);
+        _DynStub.addNextNode("DynStub_OUT1",_Ep);
     }
 
     public void linkNodesToWorkflow(){

@@ -333,7 +333,7 @@ public class IwNodeConnectionImpl extends EObjectImpl implements IwNodeConnectio
 					getSource().jiMemberName(),
 					jiAddNextNodeMethodName(),
 					//quote(getStubExitIndex()),
-					quote("_OUT"+getStubExitIndex()),
+					quote(getSource().getName()+"_OUT"+getStubExitIndex()),
 					getTarget().jiMemberName()
 					);
 		}
