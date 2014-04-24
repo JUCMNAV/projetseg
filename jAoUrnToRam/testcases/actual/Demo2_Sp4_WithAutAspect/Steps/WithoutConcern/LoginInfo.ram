@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="ASCII"?>
-<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_W6Le4MrsEeOsP4QerEz5Ug" name="LoginInfo">
-  <structuralView xmi:id="_W6Le4crsEeOsP4QerEz5Ug">
-    <classes xsi:type="ram:Class" xmi:id="_W6Le4srsEeOsP4QerEz5Ug" name="LocalContext"/>
-    <classes xsi:type="ram:Class" xmi:id="_W6Le48rsEeOsP4QerEz5Ug" name="PerformAuthentication">
-      <operations xmi:id="_W6Le5MrsEeOsP4QerEz5Ug" name="execute" returnType="_W6Le68rsEeOsP4QerEz5Ug">
-        <parameters xmi:id="_W6Le5crsEeOsP4QerEz5Ug" name="c" type="_W6Le4srsEeOsP4QerEz5Ug"/>
+<ram:Aspect xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ram="http://cs.mcgill.ca/sel/ram/2.1" xmi:id="_DWwYIMvUEeOIMc9NmDURUg" name="LoginInfo">
+  <structuralView xmi:id="_DWwYIcvUEeOIMc9NmDURUg">
+    <classes xsi:type="ram:Class" xmi:id="_DWwYIsvUEeOIMc9NmDURUg" name="LocalContext"/>
+    <classes xsi:type="ram:Class" xmi:id="_DWwYI8vUEeOIMc9NmDURUg" name="PerformAuthentication">
+      <operations xmi:id="_DWwYJMvUEeOIMc9NmDURUg" name="execute" returnType="_DWwYK8vUEeOIMc9NmDURUg">
+        <parameters xmi:id="_DWwYJcvUEeOIMc9NmDURUg" name="c" type="_DWwYIsvUEeOIMc9NmDURUg"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_W6Le5srsEeOsP4QerEz5Ug" name="LoginInfoInput"/>
-    <classes xsi:type="ram:Class" xmi:id="_W6Le58rsEeOsP4QerEz5Ug" name="LoginRequest">
-      <operations xmi:id="_W6Le6MrsEeOsP4QerEz5Ug" name="execute" returnType="_W6Le68rsEeOsP4QerEz5Ug">
-        <parameters xmi:id="_W6Le6crsEeOsP4QerEz5Ug" name="c" type="_W6Le4srsEeOsP4QerEz5Ug"/>
+    <classes xsi:type="ram:Class" xmi:id="_DWwYJsvUEeOIMc9NmDURUg" name="LoginInfoInput"/>
+    <classes xsi:type="ram:Class" xmi:id="_DWwYJ8vUEeOIMc9NmDURUg" name="LoginRequest">
+      <operations xmi:id="_DWwYKMvUEeOIMc9NmDURUg" name="execute" returnType="_DWwYK8vUEeOIMc9NmDURUg">
+        <parameters xmi:id="_DWwYKcvUEeOIMc9NmDURUg" name="c" type="_DWwYIsvUEeOIMc9NmDURUg"/>
       </operations>
     </classes>
-    <classes xsi:type="ram:Class" xmi:id="_W6Le6srsEeOsP4QerEz5Ug" name="LoginRequestOutput"/>
-    <types xsi:type="ram:RVoid" xmi:id="_W6Le68rsEeOsP4QerEz5Ug"/>
+    <classes xsi:type="ram:Class" xmi:id="_DWwYKsvUEeOIMc9NmDURUg" name="LoginRequestOutput"/>
+    <types xsi:type="ram:RVoid" xmi:id="_DWwYK8vUEeOIMc9NmDURUg"/>
   </structuralView>
-  <instantiations xmi:id="_W6Le7MrsEeOsP4QerEz5Ug" type="Extends">
-    <mappings xmi:id="_W6Le7crsEeOsP4QerEz5Ug" toElement="_W6Le48rsEeOsP4QerEz5Ug">
-      <operationMappings xmi:id="_W6Le7srsEeOsP4QerEz5Ug" toElement="_W6Le5MrsEeOsP4QerEz5Ug">
+  <instantiations xmi:id="_DWwYLMvUEeOIMc9NmDURUg" type="Extends">
+    <mappings xmi:id="_DWwYLcvUEeOIMc9NmDURUg" toElement="_DWwYI8vUEeOIMc9NmDURUg">
+      <operationMappings xmi:id="_DWwYLsvUEeOIMc9NmDURUg" toElement="_DWwYJMvUEeOIMc9NmDURUg">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
-    <mappings xmi:id="_W6MF8MrsEeOsP4QerEz5Ug" toElement="_W6Le58rsEeOsP4QerEz5Ug">
-      <operationMappings xmi:id="_W6MF8crsEeOsP4QerEz5Ug" toElement="_W6Le6MrsEeOsP4QerEz5Ug">
+    <mappings xmi:id="_DWwYL8vUEeOIMc9NmDURUg" toElement="_DWwYJ8vUEeOIMc9NmDURUg">
+      <operationMappings xmi:id="_DWwYMMvUEeOIMc9NmDURUg" toElement="_DWwYKMvUEeOIMc9NmDURUg">
         <fromElement href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_Cl0A8IdWEeG0oPAT5BSQFQ"/>
       </operationMappings>
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2HdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Workflow.ram#_stle2XdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_W6MF8srsEeOsP4QerEz5Ug" type="Extends">
-    <mappings xmi:id="_W6MF88rsEeOsP4QerEz5Ug" toElement="_W6Le5srsEeOsP4QerEz5Ug">
+  <instantiations xmi:id="_DWwYMcvUEeOIMc9NmDURUg" type="Extends">
+    <mappings xmi:id="_DWwYMsvUEeOIMc9NmDURUg" toElement="_DWwYJsvUEeOIMc9NmDURUg">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Input.ram#_mhaIQZTNEeGJh_L7_SakMQ"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Input.ram#_stleYXdvEeGm3uH8rYfPgw"/>
   </instantiations>
-  <instantiations xmi:id="_W6MF9MrsEeOsP4QerEz5Ug" type="Extends">
-    <mappings xmi:id="_W6MF9crsEeOsP4QerEz5Ug" toElement="_W6Le6srsEeOsP4QerEz5Ug">
+  <instantiations xmi:id="_DWwYM8vUEeOIMc9NmDURUg" type="Extends">
+    <mappings xmi:id="_DWwYNMvUEeOIMc9NmDURUg" toElement="_DWwYKsvUEeOIMc9NmDURUg">
       <fromElement xsi:type="ram:Class" href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Output.ram#_stleMHdvEeGm3uH8rYfPgx"/>
     </mappings>
     <externalAspect href="file:/C:/Users/Administrator/Dropbox/Eclipse/workspaces/indigo64/jAoUrnToRam/testcases/actual/Demo2_Sp4_WithAutAspect/reusable_model_library/Workflow/Output.ram#_stleYXdvEeGm3uH8rYfPgw"/>

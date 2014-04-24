@@ -15,7 +15,7 @@ public class Program{
         Pm2WorkflowInstantiator l_Pm2WorkflowInstantiator=new Pm2WorkflowInstantiator();
 
         l_MapWorkflowInstantiator.link();
-        l_MapWorkflowInstantiator.bind(l_Pm1WorkflowInstantiator);
+        l_MapWorkflowInstantiator.bind(l_Pm1WorkflowInstantiator,l_Pm2WorkflowInstantiator);
         reactiveWorkflowSystem.addWorkflow(l_MapWorkflowInstantiator.workflow);
 
         l_Pm1WorkflowInstantiator.link();

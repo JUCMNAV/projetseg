@@ -30,7 +30,8 @@ public class MapWorkflowInstantiator extends WorkflowInstantiator{
         workflow.addStartupNode(_Sp,false);
     }
 
-    public void bind(DynStub.Instantiators.WithoutConcern.Pm1WorkflowInstantiator p_Pm1){
+    public void bind(DynStub.Instantiators.WithoutConcern.Pm1WorkflowInstantiator p_Pm1,
+                     DynStub.Instantiators.WithoutConcern.Pm2WorkflowInstantiator p_Pm2){
 
         Binding DynStub_Pm1_PluginBinding=new Binding(p_Pm1.workflow);
         _DynStub.addBinding(DynStub_Pm1_PluginBinding);

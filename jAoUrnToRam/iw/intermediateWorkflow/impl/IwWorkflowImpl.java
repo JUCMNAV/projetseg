@@ -368,7 +368,7 @@ public class IwWorkflowImpl extends EObjectImpl implements IwWorkflow {
 		//OrderedSet does not have duplicate
 		Set<IwWorkflow> plugins = new LinkedHashSet<IwWorkflow>();
 		for(IwStub stub : getStubs()){
-			if(stub.isSynchStub() || stub.isBlockingStub()) {
+			if(stub.isSynchStub() || stub.isBlockingStub() || stub.isDynamicStub()) {
 				for(IwWorkflow dynamicPlugin : stub.getDynamicPlugins()) {
 					plugins.add(dynamicPlugin);
 				}

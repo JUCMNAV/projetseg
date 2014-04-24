@@ -36,35 +36,6 @@ digraph "Sp"{
         "Pm1_R1"->"Pm1_Ep1"
     }
 
-    subgraph "cluster_Pm2"{
-        label="Pm2"         fontcolor=gray
-
-        "Pm2_R2"[
-            style=filled,
-            fillcolor=gray,
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
-                    <td align="center" width="0">R2</td>
-                </tr>
-            </table>>
-        ]
-
-        "Pm2_Ep2"[
-
-            label=
-            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
-                    <td align="center" width="0">Ep2</td>
-                </tr>
-            </table>>
-        ]
-        "Pm2_R2"->"Pm2_Ep2"
-    }
-
     subgraph "cluster_Map"{
         label="Map"
 
@@ -120,6 +91,35 @@ digraph "Sp"{
         ]
         "Map_Sp"->"Map_DynStub":in1
         "Map_DynStub":out1->"Map_Ep"
+    }
+
+    subgraph "cluster_Pm2"{
+        label="Pm2"         fontcolor=gray
+
+        "Pm2_R2"[
+            style=filled,
+            fillcolor=gray,
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\Resp16.gif"></img></td>
+                    <td align="center" width="0">R2</td>
+                </tr>
+            </table>>
+        ]
+
+        "Pm2_Ep2"[
+
+            label=
+            <<table border="0" cellborder="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td cellpadding="3"><img src="C:\Users\Administrator\Dropbox\Eclipse\workspaces\indigo64\jAoUrnToRam\img\End16.gif"></img></td>
+                    <td align="center" width="0">Ep2</td>
+                </tr>
+            </table>>
+        ]
+        "Pm2_R2"->"Pm2_Ep2"
     }
     "Map_DynStub":in1->"Pm1_R1"[style=dashed,arrowhead=onormal,label=<<table border="0" cellborder="0" cellpadding="0" cellspacing="0" bgcolor="gray"><tr><td>cond1</td></tr></table>>]
     "Pm1_Ep1"->"Map_DynStub":out1[style=dashed,arrowhead=onormal]

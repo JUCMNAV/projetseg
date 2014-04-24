@@ -9,8 +9,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
     public CustomizableNode _AspectAfter100_1127=createCustomizableNode("Demo2_Sp4_WithAutAspect.Steps.NotBound.ThePointcutStub_Out1.AspectAfter100");
     public EndNode _ThePointcutStub_In1=new EndNode();
     public EndNode _ThePointcutStub_In2=new EndNode();
-    public StartupNode _ThePointcutStub_Out2=new StartupNode();
     public StartupNode _ThePointcutStub_Out1=new StartupNode();
+    public StartupNode _ThePointcutStub_Out2=new StartupNode();
     public StartupNode _S100=new StartupNode();
     public CustomizableNode _AspectBefore100_1130=createCustomizableNode("Demo2_Sp4_WithAutAspect.Steps.NotBound.S100.AspectBefore100");
     public StartupNode _S101=new StartupNode();
@@ -26,8 +26,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
 
     public void linkNodesToNextNodes(){
         _AspectAfter100_1127.addNextNode(_E100);
-        _ThePointcutStub_Out2.addNextNode(_AspectAfter101_1134);
         _ThePointcutStub_Out1.addNextNode(_AspectAfter100_1127);
+        _ThePointcutStub_Out2.addNextNode(_AspectAfter101_1134);
         _S100.addNextNode(_AspectBefore100_1130);
         _AspectBefore100_1130.addNextNode(_ThePointcutStub_In1);
         _S101.addNextNode(_AspectBefore101_1132);
@@ -40,8 +40,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
         workflow.addNode(_AspectAfter100_1127);
         workflow.addNode(_ThePointcutStub_In1);
         workflow.addNode(_ThePointcutStub_In2);
-        workflow.addNode(_ThePointcutStub_Out2);
         workflow.addNode(_ThePointcutStub_Out1);
+        workflow.addNode(_ThePointcutStub_Out2);
         workflow.addNode(_S100);
         workflow.addNode(_AspectBefore100_1130);
         workflow.addNode(_S101);
@@ -51,8 +51,8 @@ public class NotBound_AspectWorkflowInstantiator extends WorkflowInstantiator{
     }
 
     public void linkStartNodesToWorkflow(){
-        workflow.addStartupNode(_ThePointcutStub_Out2,false);
         workflow.addStartupNode(_ThePointcutStub_Out1,false);
+        workflow.addStartupNode(_ThePointcutStub_Out2,false);
         workflow.addStartupNode(_S100,false);
         workflow.addStartupNode(_S101,false);
     }
