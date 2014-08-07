@@ -2,7 +2,7 @@
 <project name="seg.jUCMNav" default="build.update.jar" basedir=".">
 	<!-- change these values to change the release number -->
 	<!-- if the build  script is not working, ensure you're running this inside the same JRE as Eclipse (Run -> External Tools -> External Tools Configuration -> This Project -> JRE -> Run in same JRE as Eclipse) -->
-	<property name="jUCMNav.Version" value="5.5.0"/>
+	<property name="jUCMNav.Version" value="6.0.0"/>
 	<property name="UCMScenarioViewer.Version" value="1.2.2"/>
 	
 	<target name="init">
