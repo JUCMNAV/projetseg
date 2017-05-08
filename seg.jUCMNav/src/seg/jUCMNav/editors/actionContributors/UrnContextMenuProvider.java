@@ -314,7 +314,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
          
         submenu = new SubmenuAction(actions,
         		Messages.getString("ActionRegistryManager.CIA"),
-        		"Change Impact Analysis", JUCMNavPlugin.getImageDescriptor("icons/StrategyNumImp16.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$		
+        		"Change Impact Analysis", JUCMNavPlugin.getImageDescriptor("icons/cia.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$		
         if(submenu.getActiveOperationCount() > 0)
         	manager.appendToGroup(GEFActionConstants.GROUP_EDIT, submenu);
         
