@@ -39,6 +39,7 @@ import seg.jUCMNav.actions.ChangeComponentTypeAction;
 import seg.jUCMNav.actions.ChangeCorrelationAction;
 import seg.jUCMNav.actions.ChangeDecompositionTypeAction;
 import seg.jUCMNav.actions.ChangeImpactAnalysisAction;
+import seg.jUCMNav.actions.ChangeImpactAnalysisDeletionAction;
 import seg.jUCMNav.actions.ChangeImpactAnalysisModificationAction;
 import seg.jUCMNav.actions.ChangeLinkMandatoryAction;
 import seg.jUCMNav.actions.ChangeLinkORAction;
@@ -308,9 +309,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.add(new Separator(GROUP_UNCOMMON));
 
         //GRL Change Impact Analysis action @hasanKaff
-        actions = new IAction[2];
-        actions[0] = getActionRegistry().getAction(ChangeImpactAnalysisAction.ChangeImpactAnalysis);  
-        actions[1] = getActionRegistry().getAction(ChangeImpactAnalysisModificationAction.ChangeImpactAnalysisModification);
+        actions = new IAction[3];
+        actions[0] = getActionRegistry().getAction(ChangeImpactAnalysisAction.ChangeImpactAnalysis);
+        actions[1] = getActionRegistry().getAction(ChangeImpactAnalysisDeletionAction.ChangeImpactAnalysisDeletion);
+        actions[2] = getActionRegistry().getAction(ChangeImpactAnalysisModificationAction.ChangeImpactAnalysisModification);
          
         submenu = new SubmenuAction(actions,
         		Messages.getString("ActionRegistryManager.CIA"),
