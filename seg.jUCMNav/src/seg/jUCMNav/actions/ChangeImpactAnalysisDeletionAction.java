@@ -19,7 +19,7 @@ import seg.jUCMNav.model.commands.changeImpactAnalysis.ChangeImpactAnalysisComma
  
 public class ChangeImpactAnalysisDeletionAction  extends URNSelectionAction {
 
-	public static final String ChangeImpactAnalysis = "seg.jUCMNav.ChangeImpactAnalysis";
+	public static final String ChangeImpactAnalysisDeletion = "seg.jUCMNav.ChangeImpactAnalysisDeletion";
 	public static EditPartViewer Viewr;
 	private EObject criterion;
 	
@@ -28,7 +28,7 @@ public class ChangeImpactAnalysisDeletionAction  extends URNSelectionAction {
      */
 	public ChangeImpactAnalysisDeletionAction(IWorkbenchPart part) {
 		super(part);
-		setId(ChangeImpactAnalysis);
+		setId(ChangeImpactAnalysisDeletion);
 		//setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/delete16.gif")); //$NON-NLS-1$
 	//icons/StrategyNumImp16.gif
 	}

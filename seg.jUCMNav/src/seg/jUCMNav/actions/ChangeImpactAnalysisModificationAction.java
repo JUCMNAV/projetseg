@@ -16,12 +16,6 @@ import seg.jUCMNav.model.commands.changeImpactAnalysis.ChangeImpactAnalysisComma
 import urn.URNspec;
 import urncore.URNmodelElement;
 
-/**
- * action for GRL chnage impact analysis - Modification
- * 
- * @author hasanKaff
- */
- 
 public class ChangeImpactAnalysisModificationAction  extends URNSelectionAction  {
 	public static final String ChangeImpactAnalysisModification = "seg.jUCMNav.ChangeImpactAnalysisModification";
 	public static EditPartViewer Viewr;

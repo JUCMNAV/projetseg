@@ -22,12 +22,6 @@ import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.URNmodelElement;
 
-/**
- * action for GRL chnage impact analysis - Addition/Deletion
- * 
- * @author hasanKaff
- */
- 
 public class ChangeImpactAnalysisAction  extends URNSelectionAction {
 
 	public static final String ChangeImpactAnalysis = "seg.jUCMNav.ChangeImpactAnalysis";
