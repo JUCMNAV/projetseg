@@ -19,7 +19,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import jdk.nashorn.internal.runtime.arrays.IntElements;
+//import jdk.nashorn.internal.runtime.arrays.IntElements;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -37,7 +37,7 @@ public class NodeGMD{
 	EObject Node; // store the type of Element IER or LinkRef
 	
 	int type;
-	int isInterActor; // 0: Intra-actor 1: Inter-actor -1: non-actor 
+	int isInterActor; 
 	boolean isImpacted;	// check whether it's impacted by change
 	int countDecomp; // whether one leg removed
 	

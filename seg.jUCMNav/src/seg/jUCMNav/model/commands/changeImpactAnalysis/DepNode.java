@@ -8,6 +8,12 @@ import grl.Dependency;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 
+/**
+ * GRL Dependency Node GMDG
+ * 
+ * @author HasanKaff
+ * 
+ */
 public class DepNode {
 
 	LinkRef dependencyNode;

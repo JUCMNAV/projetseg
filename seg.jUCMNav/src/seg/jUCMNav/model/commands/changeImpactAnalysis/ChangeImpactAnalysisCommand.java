@@ -30,6 +30,13 @@ import urncore.IURNDiagram;
 import urncore.URNdefinition;
 import urncore.UrncoreFactory;
 
+
+/**
+ * Command to Change Impact Analysis
+ * 
+ * @author HasanKaff
+ * 
+ */
 public class ChangeImpactAnalysisCommand extends Command implements JUCMNavCommand{
 	private URNspec urnspec;   
     private IntentionalElementRef intRefCrietrion;

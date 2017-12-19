@@ -34,6 +34,12 @@ import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Responsibility;
 
+/**
+ * Change Impact Analysis Algorithm
+ * 
+ * @author HasanKaff
+ * 
+ */
 public class CIADelalgo {
 	private URNspec urnspec;  
 	boolean onceExecutedDestLinks;
@@ -100,12 +106,12 @@ public class CIADelalgo {
 			infoComment ="# Strategies : \n" + infoCommentStrategy +
 					"---------- \n# URN Links : \n" + infoCommentUrlLinks;
 			//infoComment.split("\n").length  * 35 H
-			JOptionPane.showMessageDialog(null,infoComment);
+			//JOptionPane.showMessageDialog(null,infoComment);
 		}else if(foundUrnLinks == true){
 			
-			JOptionPane.showMessageDialog(null,"# URN Links : \n" + infoCommentUrlLinks);
+			//JOptionPane.showMessageDialog(null,"# URN Links : \n" + infoCommentUrlLinks);
 		}else if(foundStrategy == true){
-			JOptionPane.showMessageDialog(null,"# Strategies : \n" + infoCommentStrategy);
+			//JOptionPane.showMessageDialog(null,"# Strategies : \n" + infoCommentStrategy);
 		}
 	}
 	
@@ -400,7 +406,7 @@ public class CIADelalgo {
 											infoCommentUrlLinks += countElement++ + "- Type : " + ((URNlink) urnLink).getType() +
 													"\n     => Source=" + strGetFromElem + " - Name: " + IER.getDef().getName() +
 													" - Graph: " + ((grl.GRLGraph)IER.getDiagram()).getName() +
-													"\n     => Target=" + strGetToElem + " - " + respRef.getName()+ 
+													"\n     => Target=" + strGetToElem + " - " + respRef.getRespDef().getName()+ 
 													" - Graph: " + ((ucm.map.UCMmap)((IURNDiagram)respRef.getDiagram())).getName() +"\n";
 											//print String
 											foundUrnLinks = true;
@@ -600,7 +606,7 @@ public class CIADelalgo {
 										if(respRef.getId() == strGetFromElem){
 											impactedUrnLinksList.add((EObject) elem);
 											infoCommentUrlLinks += countElement++ + "- Type : " + ((URNlink) urnLink).getType() +
-													"\n     => Source=" + strGetFromElem + " - Name: " + respRef.getName() +
+													"\n     => Source=" + strGetFromElem + " - Name: " + respRef.getRespDef().getName() +
 													" - Graph: " + ((ucm.map.UCMmap)((IURNDiagram)respRef.getDiagram())).getName() +
 													"\n     => Target=" + strGetToElem +  " - Name: "  + IER.getDef().getName()+ 
 													" - Graph: " + ((grl.GRLGraph)IER.getDiagram()).getName() +"\n";
@@ -816,7 +822,7 @@ public class CIADelalgo {
 												infoCommentUrlLinks += countElement++ + "- Type : " + ((URNlink) urnLink).getType() +
 														"\n     => Source=" + strGetFromElem + " - Name: " + li.getLink().getName()+
 														" - Graph: " + ((grl.GRLGraph)li.getDiagram()).getName() +
-														"\n     => Target=" + strGetToElem + " - " + respRef.getName()+ 
+														"\n     => Target=" + strGetToElem + " - " + respRef.getRespDef().getName()+ 
 													" - Graph: " + ((ucm.map.UCMmap)((IURNDiagram)respRef.getDiagram())).getName() +"\n";
 												foundUrnLinks = true;
 											}

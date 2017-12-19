@@ -34,7 +34,12 @@ import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Responsibility;
 
-
+/**
+ * Change Impact Analysis Modification Algorithm
+ * 
+ * @author HasanKaff
+ * 
+ */
 public class CIAModificationAlgo {
 
 	private URNspec urnspec;  
