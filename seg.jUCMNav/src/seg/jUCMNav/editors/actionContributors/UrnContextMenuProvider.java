@@ -309,11 +309,24 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.add(new Separator(GROUP_UNCOMMON));
 
         //GRL Change Impact Analysis action @hasanKaff
-        actions = new IAction[3];
-        actions[0] = getActionRegistry().getAction(ChangeImpactAnalysisAction.ChangeImpactAnalysis);
-        actions[1] = getActionRegistry().getAction(ChangeImpactAnalysisDeletionAction.ChangeImpactAnalysisDeletion);
-        actions[2] = getActionRegistry().getAction(ChangeImpactAnalysisModificationAction.ChangeImpactAnalysisModification);
+        actions = new IAction[2];
+        //actions[0] = getActionRegistry().getAction(ChangeImpactAnalysisAction.ChangeImpactAnalysis);
+        actions[0] = getActionRegistry().getAction(ChangeImpactAnalysisDeletionAction.ChangeImpactAnalysisDeletion);
+        actions[1] = getActionRegistry().getAction(ChangeImpactAnalysisModificationAction.ChangeImpactAnalysisModification);
          
+        
+        submenu = new SubmenuAction(actions,
+        		Messages.getString("ActionRegistryManager.CIA"),
+        		"Change Impact Analysis", JUCMNavPlugin.getImageDescriptor("icons/cia.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$		
+        if(submenu.getActiveOperationCount() > 0)
+        	manager.appendToGroup(GEFActionConstants.GROUP_EDIT, submenu);
+        
+        //UCM Change Impact Analysis action @hasanKaff
+        actions = new IAction[2];
+        //actions[0] = getActionRegistry().getAction(UCMChangeImpactAnalysisAction.UCMChangeImpactAnalysis);        
+        actions[0] = getActionRegistry().getAction(UCMChangeImpactAnalysisModificationAction.UCMChangeImpactAnalysisModification);
+        actions[1] = getActionRegistry().getAction(UCMChangeImpactAnalysisDeletionAction.UCMChangeImpactAnalysisDeletion);
+        
         submenu = new SubmenuAction(actions,
         		Messages.getString("ActionRegistryManager.CIA"),
         		"Change Impact Analysis", JUCMNavPlugin.getImageDescriptor("icons/cia.gif"), true); //$NON-NLS-1$ //$NON-NLS-2$		
